@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="commission_01" model="sale.commission">
+        <field name="name">Cálculo de honorarios</field>
+        <field name="commission_type">formula</field>
+        <field name="active">True</field>
+        <field name="formula">if line._name == 'sale.order.line':
+    agent = self.agent
+    procedures = self.env['medical.procedure'].search(
+            [('purchase_partner_id', '=', agent.id),
+             ('procedure_request_id.request_group_id', '=', line.request_group_id.id)])
+    if procedures:
+        variable_fee = sum(procedures.mapped('variable_fee'))
+        fixed_fee = sum(procedures.mapped('fixed_fee'))
+        result = (variable_fee/100 * line.price_subtotal) + fixed_fee
+    else:
+        result = 0
+if line._name == 'account.invoice.line':
+    agent = self.agent
+    if line.sale_line_ids:
+        sale_line = line.sale_line_ids[0]
+        procedures = self.env['medical.procedure'].search(
+            [('purchase_partner_id', '=', agent.id),
+             ('procedure_request_id.request_group_id', '=', sale_line.request_group_id.id)])
+        if procedures:
+            variable_fee = sum(procedures.mapped('variable_fee'))
+            fixed_fee = sum(procedures.mapped('fixed_fee'))
+            result = (variable_fee/100 * line.price_subtotal) + fixed_fee
+        else:
+            result = 0
+    else:
+        result = 0
+        </field>
+      </record>
+
+    </data>
+</odoo>
+
+
