@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="medical_coverage_agreement_item_view_tree" model="ir.ui.view">
+        <field name="name">medical.coverage.agreement.item.tree</field>
+        <field name="model">medical.coverage.agreement.item</field>
+        <field name="arch" type="xml">
+            <tree string="Agreement Items" editable="bottom">
+                <field name="plan_definition_id"/>
+                <field name="product_id"/>
+                <field name="total_price"/>
+                <field name="coverage_percentage"/>
+                <field name="coverage_price" readonly="True"/>
+                <field name="private_price" readonly="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="medical_coverage_agreement_item_action"
+            model="ir.actions.act_window">
+        <field name="name">Agreement Item</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.coverage.agreement.item</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>
