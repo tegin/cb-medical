@@ -13,7 +13,7 @@
         <field name="model">medical.coverage.template</field>
         <field name="inherit_id" ref="medical_financial_coverage.medical_coverage_template_view_form"/>
         <field name="arch" type="xml">
-            <notebook name="coverage" position="inside">
+            <notebook position="inside">
                 <page name="coverage_agreements" string="Agreements">
                     <field name="agreement_ids" nolabel="1"/>
                 </page>
