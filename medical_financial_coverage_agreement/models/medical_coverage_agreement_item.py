@@ -52,6 +52,9 @@ class MedicalCoverageAgreementItem(models.Model):
         string='Private price',
         compute='_compute_price',
     )
+    active = fields.Boolean(
+        default=True
+    )
 
     @api.multi
     def _compute_price(self):
