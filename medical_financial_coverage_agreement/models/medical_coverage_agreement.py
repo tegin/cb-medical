@@ -58,6 +58,16 @@ class MedicalCoverageAgreement(models.Model):
     )
 
     @api.multi
+    def toggle_active(self):
+        res = super(MedicalCoverageAgreement, self).toggle_active()
+        for record in self:
+            # Only deactivating items when inactive
+            if not record.active:
+                record.item_ids.filtered(
+                    lambda r: r.active != record.active).toggle_active()
+        return res
+
+    @api.multi
     def action_search_item(self):
         action = self.env.ref('cb_medical_financial_coverage_agreement.'
                               'medical_coverage_agreement_item_action')
