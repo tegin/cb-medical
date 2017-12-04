@@ -19,7 +19,23 @@
                 <field name="coverage_percentage"/>
                 <field name="coverage_price" readonly="True"/>
                 <field name="private_price" readonly="True"/>
+                <button name="toggle_active" type="object"
+                        class="oe_stat_button" icon="fa-archive">
+                    <field name="active" widget="boolean_button"
+                           options='{"terminology": "archive"}'/>
+                </button>
             </tree>
+        </field>
+    </record>
+
+    <record id="medical_coverage_agreement_item_search_view" model="ir.ui.view">
+        <field name="name">medical.coverage.agreement.item.search</field>
+        <field name="model">medical.coverage.agreement.item</field>
+        <field name="arch" type="xml">
+            <search string="Agreements">
+                <filter string="Archived" name="inactive"
+                        domain="[('active','=',False)]"/>
+            </search>
         </field>
     </record>
 
