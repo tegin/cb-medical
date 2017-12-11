@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 LasLabs Inc.
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="medical_administration_practitioner.res_partner_view_form"/>
+        <field name="arch" type="xml">
+            <field name="practitioner_role_ids"
+                    position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="practitioner_role_ids"
+                    position="after">
+                <field name="practitioner_role_id"
+                       attrs="{'required': [('is_practitioner','=',True)], 'invisible': [('is_practitioner','=',False)],'readonly':[('edit_practitioner', '=', False)]}"
+                       groups="medical_administration_practitioner.group_medical_practitioner_display"/>
+            </field>
+            <field name="specialty_ids"
+                    position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+
+            <field name="specialty_ids"
+                    position="after">
+                <field name="specialty_required" invisible="True"/>
+                <field name="specialty_id"
+                       attrs="{'invisible': [('is_practitioner','=',False)],'readonly':[('edit_practitioner', '=', False)], 'required': [('specialty_required', '=', True)]}"
+                       groups="medical_administration_practitioner.group_medical_practitioner_display"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
