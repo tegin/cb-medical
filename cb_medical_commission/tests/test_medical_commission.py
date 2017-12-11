@@ -18,7 +18,7 @@ class TestMedicalCommission(TransactionCase):
         self.action_model = self.env['workflow.plan.definition.action']
         self.plan_model = self.env['workflow.plan.definition']
         self.role_model = self.env['medical.role']
-        self.practitioner_model = self.env['medical.practitioner']
+        self.practitioner_model = self.env['res.partner']
         self.procedure_request_model = self.env['medical.procedure.request']
         self.procedure_model = self.env['medical.procedure']
         self.sale_order_model = self.env['sale.order']
@@ -100,7 +100,8 @@ class TestMedicalCommission(TransactionCase):
     def _create_practitioner(self, name):
         return self.practitioner_model.create({
             'name': name,
-            'role_ids': [(6, 0, self.role_1.ids)]
+            'practitioner_role_ids': [(6, 0, self.role_1.ids)],
+            'is_practitioner': True,
         })
 
     def _create_customer(self, name):
@@ -113,7 +114,7 @@ class TestMedicalCommission(TransactionCase):
         })
 
     def _create_sale_order(self):
-        self.practitioner_1.partner_id.agent = True
+        self.practitioner_1.agent = True
         so = self.sale_order_model.create({
             'partner_id': self.customer.id,
         })
@@ -163,7 +164,7 @@ class TestMedicalCommission(TransactionCase):
         # add commission agent to practitioner
         agent = self.browse_ref(
             'sale_commission.res_partner_pritesh_sale_agent')
-        self.practitioner_1.commission_agent_ids = [(6, 0, agent.ids)]
+        self.practitioner_1.agents = [(6, 0, agent.ids)]
 
         # create procedure request and procedure
         pr = self.procedure_request_model.create({
@@ -182,7 +183,7 @@ class TestMedicalCommission(TransactionCase):
         p.performer_id = self.practitioner_2.id
         p._onchange_performer_id()
         self.assertEquals(p.commission_agent_id,
-                          self.practitioner_2.partner_id)
+                          self.practitioner_2)
 
     def test_make_settlements(self):
         so = self._create_sale_order()
