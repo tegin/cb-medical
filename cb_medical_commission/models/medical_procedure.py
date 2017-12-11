@@ -29,7 +29,7 @@ class MedicalProcedure(models.Model):
     def _onchange_performer_id(self):
         valid_performer_ids = self.performer_id.commission_agent_ids
         if not valid_performer_ids:
-            valid_performer_ids += self.performer_id.partner_id
+            valid_performer_ids += self.performer_id
         if len(valid_performer_ids) == 1:
             self.commission_agent_id = valid_performer_ids[0]
         else:
