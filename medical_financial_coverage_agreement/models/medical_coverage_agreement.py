@@ -22,7 +22,8 @@ class MedicalCoverageAgreement(models.Model):
     )
     location_ids = fields.Many2many(
         string='Location',
-        comodel_name='medical.location',
+        comodel_name='res.partner',
+        domain=[('is_location', '=', True)],
         required=True,
         index=True,
         help='Responsible Medical Location',
