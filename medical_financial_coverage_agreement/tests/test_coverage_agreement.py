@@ -16,11 +16,11 @@ class TestMedicalCoverageAgreement(TransactionCase):
         self.patient_model = self.env['medical.patient']
         self.coverage_model = self.env['medical.coverage']
         self.coverage_template_model = self.env['medical.coverage.template']
-        self.payor_model = self.env['medical.payor']
+        self.payor_model = self.env['res.partner']
         self.coverage_agreement_model = self.env['medical.coverage.agreement']
         self.coverage_agreement_model_item = \
             self.env['medical.coverage.agreement.item']
-        self.location_model = self.env['medical.location']
+        self.location_model = self.env['res.partner']
         self.product_model = self.env['product.product']
         self.type_model = self.env['workflow.type']
         self.act_def_model = self.env['workflow.activity.definition']
@@ -58,6 +58,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
     def _create_payor(self):
         return self.payor_model.create({
             'name': 'Test payor',
+            'is_payor': True,
         })
 
     def _create_coverage_template(self, state=False):
@@ -95,6 +96,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
     def _create_location(self):
         return self.location_model.create({
             'name': 'Test location',
+            'is_location': True
         })
 
     def _create_product(self, name):
