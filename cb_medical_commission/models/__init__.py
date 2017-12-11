@@ -9,4 +9,4 @@ from . import product_template
 from . import medical_procedure
 from . import medical_procedure_request
 from . import workflow_plan_definition_action
-from . import medical_practitioner
+from . import res_partner
