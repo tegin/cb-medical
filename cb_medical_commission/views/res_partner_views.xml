@@ -15,7 +15,7 @@
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page name="commission" string="Commission Agents"
-                      attrs="{'invisible': [('is_practitioner', '=', True)]}"
+                      attrs="{'invisible': [('is_practitioner', '=', False)]}"
                       groups="medical_administration_practitioner.group_medical_practitioner_display">
                     <field name="commission_agent_ids"
                            nolabel="1"
