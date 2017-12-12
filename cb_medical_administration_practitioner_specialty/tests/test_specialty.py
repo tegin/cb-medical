@@ -26,3 +26,9 @@ class TestMedicalCommission(TransactionCase):
             'specialty_id': self.specialty.id
         })
         self.assertEqual(practitoner.practitioner_identifier, 'TRA021')
+        self.assertEqual(practitoner.specialty_id.id,
+                         practitoner.specialty_ids.ids[0])
+        self.assertEqual(practitoner.practitioner_role_id.id,
+                         practitoner.practitioner_role_ids.ids[0])
+        self.specialty._compute_seq_number_next()
+        self.assertEqual(self.specialty.sequence_number_next, 22)
