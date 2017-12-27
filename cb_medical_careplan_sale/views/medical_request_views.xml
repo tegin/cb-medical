@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="medical_request_form">
+        <field name="name">medical.request.form</field>
+        <field name="model">medical.request</field>
+        <field name="inherit_id"
+               ref="medical_workflow.medical_request_form"/>
+        <field name="arch" type="xml">
+            <group name="inheritance" position="inside">
+                <field name="is_billable" readonly="1"/>
+                <field name="is_breakdown" readonly="1"/>
+                <field name="is_sellable_insurance" readonly="1"/>
+                <field name="is_sellable_private" readonly="1"/>
+            </group>
+        </field>
+    </record>
+</odoo>
