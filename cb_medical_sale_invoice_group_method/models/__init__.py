@@ -5,3 +5,4 @@
 from . import medical_insurance_agreement
 from . import medical_preinvoice_group
 from . import sale_order_line
+from . import sale_order
