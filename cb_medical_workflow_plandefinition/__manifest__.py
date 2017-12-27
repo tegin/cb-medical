@@ -8,6 +8,7 @@
     'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
     'depends': [
         'medical_workflow',
+        'medical_clinical_request_group',
     ],
     'data': [
         'views/workflow_plan_definition_action.xml',
