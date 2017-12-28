@@ -13,6 +13,7 @@
         'sale_commission_formula',
         'medical_workflow',
         'medical_clinical_procedure',
+        'cb_medical_careplan_sale',
     ],
     'data': [
         'data/sale_commission_formula.xml',
@@ -21,6 +22,7 @@
         'views/medical_procedure_request_view.xml',
         'views/medical_procedure_view.xml',
         'views/workflow_plan_definition_action.xml',
+        'views/medical_careplan_views.xml',
     ],
     'website': 'https://github.com/OCA/vertical-medical',
     'license': 'LGPL-3',
