@@ -8,13 +8,24 @@ from odoo import api, fields, models
 class MedicalProcedure(models.Model):
     _inherit = 'medical.procedure'
 
+    sale_order_line_ids = fields.Many2many(
+        'sale.order.line',
+        'sale_order_line_procedure',
+        'procedure_id',
+        'sale_order_line_id',
+        'Sale Order lines for commission'
+    )
+
     variable_fee = fields.Float(
         string='Variable fee (%)',
-        default='0.0',
+        related='procedure_request_id.variable_fee'
     )
     fixed_fee = fields.Float(
         string='Fixed fee',
-        default='0.0',
+        related='procedure_request_id.fixed_fee'
+    )
+    service_id = fields.Many2one(
+        related='procedure_request_id.service_id'
     )
     make_invisible = fields.Boolean(
         default=True,
@@ -40,6 +51,14 @@ class MedicalProcedure(models.Model):
                           self.performer_id.commission_agent_ids.ids)]
                      }
             }
+
+    def compute_commission(self, request):
+        if request.is_billable:
+            self.sale_order_line_ids = request.sale_order_line_ids
+            return
+        if request.parent_model and request.parent_id:
+            self.compute_commission(
+                self.env[request.parent_model].browse(request.parent_id))
 
     @api.depends('service_id')
     def _compute_hide_fee(self):

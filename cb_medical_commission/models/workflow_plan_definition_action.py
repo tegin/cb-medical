@@ -29,11 +29,3 @@ class PlanDefinitionAction(models.Model):
                 rec.make_invisible = False
             else:
                 rec.make_invisible = True
-
-    @api.multi
-    def execute_action(self, vals, parent=False):
-        vals.update({
-            'variable_fee': self.variable_fee,
-            'fixed_fee': self.fixed_fee,
-        })
-        super(PlanDefinitionAction, self).execute_action(vals, parent=False)
