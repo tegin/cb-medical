@@ -4,3 +4,4 @@
 
 from . import medical_request
 from . import medical_coverage_agreement_item
+from . import workflow_activity_definition
