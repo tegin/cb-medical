@@ -18,7 +18,8 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
     )
     agreement_line_id = fields.Many2one(
         'medical.coverage.agreement.item',
-        domain="[('coverage_template_ids', '=', coverage_template_id)]"
+        domain="[('coverage_template_ids', '=', coverage_template_id),"
+               "('plan_definition_id', '!=', False)]"
     )
     product_id = fields.Many2one(
         'product.product',
