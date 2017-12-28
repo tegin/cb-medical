@@ -44,6 +44,7 @@ class MedicalProcedureRequest(models.Model):
         res.update({
             'commission_agent_id': self.commission_agent_id and
             self.commission_agent_id.id,
+            'service_id': self.service_id.id,
             'variable_fee': self.variable_fee,
             'fixed_fee': self.fixed_fee,
         })
