@@ -10,3 +10,7 @@ from . import medical_procedure
 from . import medical_procedure_request
 from . import workflow_plan_definition_action
 from . import res_partner
+from . import workflow_activity_definition
+from . import medical_careplan
+from . import medical_request
+from . import sale_order_line_agent
