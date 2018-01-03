@@ -12,15 +12,14 @@ class SaleOrder(models.Model):
     def _prepare_line_agents_data(self, line):
         if line.product_id.medical_commission:
             agent_lines = {}
-            for procedure in line.procedure_ids:
+            procedures = line.compute_procedure()
+            for procedure in procedures:
                 if procedure.commission_agent_id.id not in agent_lines:
                     agent_lines[procedure.commission_agent_id.id] = []
-                agent_lines[procedure.commission_agent_id.id].append(procedure)
+                agent_lines[procedure.commission_agent_id.id] = \
+                    procedure.commission_agent_id.commission.id
             return [{
                 'agent': x,
-                'commission': agent_lines[x][0].commission_agent_id.commission.id,
-                'procedure_ids': [(6, 0, [
-                    p.id for p in agent_lines[x]
-                ])]
+                'commission': agent_lines[x],
             } for x in agent_lines]
         return super(SaleOrder, self)._prepare_line_agents_data(line)

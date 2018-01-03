@@ -13,4 +13,3 @@ from . import res_partner
 from . import workflow_activity_definition
 from . import medical_careplan
 from . import medical_request
-from . import sale_order_line_agent
