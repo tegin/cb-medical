@@ -14,10 +14,10 @@ class MedicalRequest(models.AbstractModel):
         compute='_compute_sale_order_line_ids',
     )
     is_sellable_insurance = fields.Boolean(
-        compute='_compute_is_sellable'
+        compute='_compute_is_sellable',
     )
     is_sellable_private = fields.Boolean(
-        compute='_compute_is_sellable'
+        compute='_compute_is_sellable',
     )
 
     def _compute_sale_order_line_ids(self):
@@ -39,7 +39,7 @@ class MedicalRequest(models.AbstractModel):
                         r.state != 'cancel' and
                         not r.order_id.coverage_agreement_id)
                 )) == 0 and
-                rec.coverage_agreement_item_id.private_price > 0
+                (rec.coverage_agreement_item_id.private_price > 0)
             )
             rec.is_sellable_insurance = bool(
                 rec.is_billable and
@@ -48,12 +48,20 @@ class MedicalRequest(models.AbstractModel):
                         r.state != 'cancel' and
                         r.order_id.coverage_agreement_id.id == ca.id)
                 )) == 0 and
-                rec.coverage_agreement_item_id.coverage_price > 0
+                (rec.coverage_agreement_item_id.coverage_price > 0 or
+                 self._name == 'medical.medication.request' and
+                 rec.medication_administration_ids)
             )
 
     def compute_price(self, is_insurance):
         cai = self.coverage_agreement_item_id
-        return cai.coverage_price if is_insurance else cai.private_price
+        if not self._name == 'medical.medication.request':
+            return cai.coverage_price if is_insurance else cai.private_price
+        else:
+            medication_price = 0.0
+            for admin in self.medication_administration_ids:
+                medication_price += admin.qty * admin.product_id.list_price
+            return medication_price if is_insurance else cai.private_price
 
     def get_sale_order_line_vals(self, is_insurance):
         return {

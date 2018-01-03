@@ -6,3 +6,4 @@ from . import medical_request
 from . import medical_careplan
 from . import sale_order
 from . import sale_order_line
+from . import medical_request_group
