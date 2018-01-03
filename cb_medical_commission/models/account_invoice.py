@@ -10,16 +10,18 @@ class AccountInvoice(models.Model):
 
     @api.model
     def _prepare_line_agents_data(self, line):
-        rec = super(AccountInvoice, self)._prepare_line_agents_data(line)
         if line.sale_line_ids:
             sale_line = line.sale_line_ids[0]
             if sale_line.product_id.medical_commission:
                 agent_lines = {}
-                for pr in sale_line.request_group_id.procedure_request_ids:
-                    for procedure in pr.procedure_ids:
-                        agent = procedure.commission_agent_id
-                        agent_lines[agent.id] = agent.commission.id
-                rec = [{
-                    'agent': x,
-                    'commission': agent_lines[x]} for x in agent_lines]
-            return rec
+                procedures = sale_line.compute_procedure()
+                for procedure in procedures:
+                    if procedure.commission_agent_id.id not in agent_lines:
+                        agent_lines[procedure.commission_agent_id.id] = []
+                    agent_lines[procedure.commission_agent_id.id] = \
+                        procedure.commission_agent_id.commission.id
+            return [{
+                'agent': x,
+                'commission': agent_lines[x],
+            } for x in agent_lines]
+        return super(AccountInvoice, self)._prepare_line_agents_data(line)

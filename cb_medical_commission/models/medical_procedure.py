@@ -8,14 +8,6 @@ from odoo import api, fields, models
 class MedicalProcedure(models.Model):
     _inherit = 'medical.procedure'
 
-    sale_order_line_ids = fields.Many2many(
-        'sale.order.line',
-        'sale_order_line_procedure',
-        'procedure_id',
-        'sale_order_line_id',
-        'Sale Order lines for commission'
-    )
-
     variable_fee = fields.Float(
         string='Variable fee (%)',
         related='procedure_request_id.variable_fee'
