@@ -12,13 +12,15 @@ class SaleOrderLine(models.AbstractModel):
         'medical.careplan',
         readonly=True,
     )
-
     procedure_request_id = fields.Many2one(
         'medical.procedure.request',
         readonly=True,
     )
-
     request_group_id = fields.Many2one(
         'medical.request.group',
+        readonly=True,
+    )
+    medication_request_id = fields.Many2one(
+        'medical.medication.request',
         readonly=True,
     )
