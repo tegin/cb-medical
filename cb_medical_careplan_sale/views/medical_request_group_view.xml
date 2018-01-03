@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+-->
+
+<odoo>
+
+    <record model="ir.ui.view" id="medical_request_group_form">
+        <field name="name">medical.request.group.form</field>
+        <field name="model">medical.request.group</field>
+        <field name="inherit_id" ref="medical_clinical_request_group.medical_request_group_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button type="object"
+                        name="breakdown_request_group"
+                        string="Breakdown Request Group"
+                        class="oe_stat_button"
+                        icon="fa-bolt"
+                        attrs="{'invisible': [('is_breakdown', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

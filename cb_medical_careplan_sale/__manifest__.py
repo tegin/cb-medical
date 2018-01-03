@@ -10,11 +10,13 @@
     'depends': [
         'medical_clinical_careplan',
         'medical_clinical_procedure',
+        'medical_clinical_request_group',
         'sale',
         'cb_medical_financial_coverage_request',
         'cb_medical_workflow_plandefinition',
     ],
     'data': [
+        'views/medical_request_group_view.xml',
         'views/medical_careplan_views.xml',
         'views/medical_request_views.xml',
     ],
