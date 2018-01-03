@@ -9,9 +9,8 @@ class SaleOrder(models.AbstractModel):
     _inherit = 'sale.order'
 
     careplan_id = fields.Many2one(
-        'medical.careplan'
+        'medical.careplan',
     )
-
     coverage_agreement_id = fields.Many2one(
-        'medical.coverage.agreement'
+        'medical.coverage.agreement',
     )
