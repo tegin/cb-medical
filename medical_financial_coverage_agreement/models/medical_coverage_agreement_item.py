@@ -10,6 +10,16 @@ class MedicalCoverageAgreementItem(models.Model):
     _description = "Medical Coverage Agreement Item"
     _rec_name = 'product_id'
 
+    def _default_coverage_percentage(self):
+        agreement_id = self.env.context.get('default_coverage_agreement_id',
+                                            False)
+        agreement = self.env['medical.coverage.agreement'].browse(agreement_id)
+        if agreement:
+            if agreement.payor == 'coverage':
+                return 100.0
+            else:
+                return 0.0
+
     plan_definition_id = fields.Many2one(
         string='Plan definition',
         comodel_name='workflow.plan.definition',
@@ -27,6 +37,7 @@ class MedicalCoverageAgreementItem(models.Model):
     coverage_percentage = fields.Float(
         string='Coverage %',
         required=True,
+        default=_default_coverage_percentage,
     )
     coverage_agreement_id = fields.Many2one(
         comodel_name='medical.coverage.agreement',
