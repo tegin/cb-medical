@@ -21,6 +21,7 @@ class TestMedicalCareplanSale(TransactionCase):
         self.location = self.env['res.partner'].create({
             'name': 'Location',
             'is_location': True,
+            'stock_location_id': self.browse_ref('stock.warehouse0').id
         })
         self.agreement = self.env['medical.coverage.agreement'].create({
             'name': 'Agreement',
@@ -37,7 +38,16 @@ class TestMedicalCareplanSale(TransactionCase):
         })
         self.product_01 = self.create_product('Medical ressonance')
         self.product_02 = self.create_product('Report')
+        self.product_03 = self.env['product.product'].create({
+            'type': 'consu',
+            'name': 'Clinical material',
+            'is_medication': True,
+            'lst_price': 10.0,
+        })
+        self.product_03.qty_available = 50.0
         self.type = self.browse_ref('medical_workflow.medical_workflow')
+        self.type.model_ids = [(4, self.browse_ref(
+            'medical_medication_request.model_medical_medication_request').id)]
         self.plan_definition = self.env['workflow.plan.definition'].create({
             'name': 'Plan',
             'type_id': self.type.id,
@@ -50,11 +60,24 @@ class TestMedicalCareplanSale(TransactionCase):
                                         'model_medical_procedure_request').id,
             'type_id': self.type.id,
         })
+        self.activity2 = self.env['workflow.activity.definition'].create({
+            'name': 'Activity2',
+            'service_id': self.product_03.id,
+            'model_id': self.browse_ref('medical_medication_request.'
+                                        'model_medical_medication_request').id,
+            'type_id': self.type.id,
+        })
         self.action = self.env['workflow.plan.definition.action'].create({
             'activity_definition_id': self.activity.id,
             'direct_plan_definition_id': self.plan_definition.id,
             'is_billable': True,
-            'name': 'Action'
+            'name': 'Action',
+        })
+        self.action2 = self.env['workflow.plan.definition.action'].create({
+            'activity_definition_id': self.activity2.id,
+            'direct_plan_definition_id': self.plan_definition.id,
+            'is_billable': True,
+            'name': 'Action2',
         })
         self.agreement_line = self.env[
             'medical.coverage.agreement.item'
@@ -64,6 +87,14 @@ class TestMedicalCareplanSale(TransactionCase):
             'plan_definition_id': self.plan_definition.id,
             'total_price': 100,
             'coverage_percentage': 0.5
+        })
+        self.agreement_line2 = self.env[
+            'medical.coverage.agreement.item'
+        ].create({
+            'product_id': self.product_03.id,
+            'coverage_agreement_id': self.agreement.id,
+            'total_price': 0.0,
+            'coverage_percentage': 100.0,
         })
         self.practitioner_01 = self.create_practitioner('Practitioner 01')
         self.practitioner_02 = self.create_practitioner('Practitioner 02')
@@ -148,6 +179,24 @@ class TestMedicalCareplanSale(TransactionCase):
         groups = self.env['medical.request.group'].search([
             ('careplan_id', '=', careplan.id)])
         self.assertTrue(groups)
+        medication_requests = self.env['medical.medication.request'].search([
+            ('careplan_id', '=', careplan.id)
+        ])
+        for request in medication_requests:
+            request.qty = 2
+            request.draft2active()
+            values = request.action_view_medication_administration()['context']
+            admin = self.env[
+                'medical.medication.administration'].with_context(
+                values).create({})
+            admin.location_id = self.location.id
+            admin.preparation2in_progress()
+            admin.in_progress2completed()
+            stock_move = self.env['stock.move.line'].search([
+                ('product_id', '=', self.product_03.id),
+                ('medication_administration_id', '=', admin.id)
+            ])
+            self.assertEqual(stock_move.qty_done, 2.0)
         self.env['wizard.medical.careplan.close'].create({
             'careplan_id': careplan.id,
             'pos_session_id': self.session.id,
@@ -157,9 +206,20 @@ class TestMedicalCareplanSale(TransactionCase):
             ('careplan_id', '=', careplan.id)
         ])
         self.assertGreater(len(procedure_requests), 0)
+        medication_requests = self.env['medical.medication.request'].search([
+            ('careplan_id', '=', careplan.id)
+        ])
+        self.assertGreater(len(medication_requests), 0)
         for sale_order in careplan.sale_order_ids:
             sale_order.recompute_lines_agents()
             self.assertEqual(sale_order.commission_total, 0)
+            medicaments = self.env['sale.order.line'].search([
+                ('order_id', '=', sale_order.id),
+                ('product_id', '=', self.product_03.id),
+            ])
+            for medicament in medicaments:
+                medicament_price = medicament.price_unit
+                self.assertEqual(medicament_price, 20.0)
         procedure_requests = self.env['medical.procedure.request'].search([
             ('careplan_id', '=', careplan.id)
         ])
