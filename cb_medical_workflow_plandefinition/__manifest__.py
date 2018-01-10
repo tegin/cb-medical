@@ -7,7 +7,6 @@
     'version': '11.0.1.0.0',
     'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
     'depends': [
-        'medical_workflow',
         'medical_clinical_request_group',
     ],
     'data': [
