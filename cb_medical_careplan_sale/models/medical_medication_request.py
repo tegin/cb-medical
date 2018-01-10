@@ -19,4 +19,4 @@ class MedicalMedicationRequest(models.Model):
         percentage = cai.coverage_percentage
         if not is_insurance:
             percentage = 1 - percentage
-        return medication_price * percentage
+        return (medication_price * percentage)/100
