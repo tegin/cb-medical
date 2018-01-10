@@ -9,7 +9,7 @@ class MedicalCoverageAgreementItem(models.Model):
     _inherit = 'medical.coverage.agreement.item'
 
     coverage_template_ids = fields.Many2many(
-        string='Insurance Templates',
+        string='Coverage Templates',
         comodel_name='medical.coverage.template',
         related="coverage_agreement_id.coverage_template_ids"
     )
