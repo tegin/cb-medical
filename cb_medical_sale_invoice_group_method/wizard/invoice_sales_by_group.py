@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 
 
 class InvoiceSalesByGroup(models.TransientModel):
@@ -28,12 +28,16 @@ class InvoiceSalesByGroup(models.TransientModel):
     customer_ids = fields.Many2many(
         comodel_name='res.partner',
     )
+    company_ids = fields.Many2many(
+        comodel_name='res.company',
+        string='Companies',
+    )
     merge_draft_invoice = fields.Boolean(
         string='Merge with draft invoices',
         default=_get_default_merge_draft_invoice,
-        help=_('Activate this option in order to merge the resulting '
-               'invoice with existing draft invoices or deactivate it if you '
-               'wish a separate invoice for this sale order.')
+        help='Activate this option in order to merge the resulting '
+             'invoice with existing draft invoices or deactivate it if you '
+             'wish a separate invoice for this sale order.'
     )
 
     @api.multi
@@ -45,6 +49,8 @@ class InvoiceSalesByGroup(models.TransientModel):
             ('invoice_group_method_id', '=', self.invoice_group_method_id.id)]
         if self.customer_ids:
             domain.append(('partner_id', 'in', self.customer_ids.ids))
+        if self.company_ids:
+            domain.append(('company_id', 'in', self.company_ids.ids))
         sales += sales.search(domain)
         invoices = self.env['account.invoice']
         for sale in sales:
