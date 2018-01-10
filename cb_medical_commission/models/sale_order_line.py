@@ -10,10 +10,9 @@ class SaleOrderLine(models.Model):
 
     @api.model
     def compute_procedure(self):
-        procedures = self.procedure_request_id.procedure_ids
-        for pr in self.request_group_id.procedure_request_ids:
-            procedures += pr.procedure_ids
-        return procedures
+        return self.env['medical.procedure'].search([
+            ('sale_order_line_ids', '=', self.id)
+        ])
 
     @api.model
     def prepare_sale_order_line_agent(self, agent):
