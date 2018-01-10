@@ -8,9 +8,9 @@
         <field name="arch" type="xml">
             <group name="inheritance" position="inside">
                 <field name="is_billable" readonly="1"/>
-                <field name="is_breakdown" readonly="1"/>
-                <field name="is_sellable_insurance" readonly="1"/>
-                <field name="is_sellable_private" readonly="1"/>
+                <field name="is_breakdown" invisible="1"/>
+                <field name="is_sellable_insurance" invisible="1"/>
+                <field name="is_sellable_private" invisible="1"/>
             </group>
         </field>
     </record>
