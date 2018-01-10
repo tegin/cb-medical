@@ -16,11 +16,11 @@
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <group name="fees">
-                <field name="make_invisible" invisible="1"/>
+                <field name="medical_commission" invisible="1"/>
                 <field name="variable_fee"
-                       attrs="{'invisible':[('make_invisible', '=', True)]}"/>
+                       attrs="{'invisible':[('medical_commission', '=', False)]}"/>
                 <field name="fixed_fee"
-                       attrs="{'invisible':[('make_invisible', '=', True)]}"/>
+                       attrs="{'invisible':[('medical_commission', '=', False)]}"/>
             </group>
         </field>
     </record>

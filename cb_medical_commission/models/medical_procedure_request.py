@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalProcedureRequest(models.Model):
@@ -20,18 +20,9 @@ class MedicalProcedureRequest(models.Model):
         string='Fixed fee',
         default='0.0',
     )
-    make_invisible = fields.Boolean(
-        default=True,
-        compute='_compute_hide_fee',
+    medical_commission = fields.Boolean(
+        related='service_id.medical_commission'
     )
-
-    @api.depends('service_id')
-    def _compute_hide_fee(self):
-        for rec in self:
-            if self.service_id.medical_commission:
-                rec.make_invisible = False
-            else:
-                rec.make_invisible = True
 
     def _get_procedure_values(self):
         res = super(MedicalProcedureRequest, self)._get_procedure_values()
