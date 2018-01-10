@@ -16,7 +16,7 @@ class TestMedicalCommission(test_careplan_sale.TestMedicalCareplanSale):
                 'cb_medical_commission.commission_01').id,
         })
         self.product.medical_commission = True
-        self.action.variable_fee = 1
+        self.action.fixed_fee = 1
 
     def test_careplan_sale(self):
         careplan = super(TestMedicalCommission, self).test_careplan_sale()
@@ -35,5 +35,4 @@ class TestMedicalCommission(test_careplan_sale.TestMedicalCareplanSale):
         for sale_order in careplan.sale_order_ids:
             sale_order.recompute_lines_agents()
             self.assertGreater(sale_order.commission_total, 0)
-
         return careplan

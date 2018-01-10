@@ -21,9 +21,4 @@ class ActivityDefinition(models.Model):
                 'variable_fee': action.variable_fee,
                 'fixed_fee': action.fixed_fee,
             })
-        if parent:
-            res.update({
-                'parent_id': parent.id,
-                'parent_model': parent._name,
-            })
         return res
