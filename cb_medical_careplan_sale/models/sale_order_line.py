@@ -24,3 +24,7 @@ class SaleOrderLine(models.AbstractModel):
         'medical.medication.request',
         readonly=True,
     )
+    encounter_id = fields.Many2one(
+        'medical.encounter',
+        readonly=True
+    )
