@@ -46,6 +46,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
                         partner_invoice_id
                     ] = self.env['sale.preinvoice.group'].create({
                         'agreement_id': cov_id,
+                        'company_id': sale_order.company_id.id,
                         'partner_id': partner_id,
                         'partner_invoice_id': partner_invoice_id,
                         'current_sequence': 0,
