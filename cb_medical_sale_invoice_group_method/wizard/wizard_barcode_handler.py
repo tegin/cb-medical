@@ -19,6 +19,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
         related='preinvoice_group_id.line_ids'
     )
     status = fields.Char(readonly=1)
+    status_state = fields.Integer(default=0, readonly=1, )
 
     def on_barcode_scanned(self, barcode):
         encounter_id = self.env['medical.encounter'].search([
@@ -26,12 +27,17 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
         ])
         if not encounter_id:
             self.status = 'Encounter not found'
+            self.status_state = 1
+            return
         lines = self.line_ids.filtered(
             lambda r: r.encounter_id.id == encounter_id.id
         )
         if not lines:
             self.status = 'Lines not found'
+            self.status_state = 1
+            return
         for line in lines:
             self.preinvoice_group_id.validate_line(line)
             self.status = 'OK'
+            self.status_state = 0
         self.preinvoice_group_id._compute_lines()

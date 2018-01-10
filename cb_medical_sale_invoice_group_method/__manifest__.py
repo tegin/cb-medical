@@ -20,7 +20,9 @@
     'data': [
         'data/medical_preinvoice_group_sequence.xml',
         'data/medical_invoice_group.xml',
+        'security/medical_security.xml',
         'security/ir.model.access.csv',
+        'views/medical_preinvoice_group_menu.xml',
         'wizard/wizard_sale_preinvoice_group_views.xml',
         'wizard/wizard_barcode_handler_views.xml',
         'wizard/invoice_sales_by_group_view.xml',
