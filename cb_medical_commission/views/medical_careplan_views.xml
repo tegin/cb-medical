@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="medical_careplan_view_form" model="ir.ui.view">
+        <field name="name">medical.careplan.view.form</field>
+        <field name="model">medical.careplan</field>
+        <field name="inherit_id"
+               ref="cb_medical_careplan_sale.medical_careplan_view_form"/>
+        <field name="arch" type="xml">
+            <button name="create_sale_order" position="after">
+                <button name="recompute_commissions"
+                        type="object" string="Recompute commissions"
+                        class="oe_highlight"/>
+            </button>
+        </field>
+    </record>
+</odoo>
