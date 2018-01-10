@@ -75,9 +75,7 @@ class TestWizard(TransactionCase):
         })
         self.assertEqual(wizard.patient_id, self.patient)
         self.assertTrue(wizard.plan_definition_id)
-        import logging
-        logging.info(wizard._get_values())
-        logging.info(wizard.run())
+        wizard.run()
         careplans = self.env['medical.careplan'].search([
             ('careplan_id', '=', self.careplan.id),
         ])
