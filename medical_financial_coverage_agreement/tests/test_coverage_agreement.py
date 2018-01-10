@@ -3,6 +3,8 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo.tests.common import TransactionCase
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 
 class TestMedicalCoverageAgreement(TransactionCase):
@@ -140,6 +142,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
             'location_ids': [(6, 0, [self.location_1.id])],
             'company_id': self.ref('base.main_company'),
             'coverage_template_ids': [(6, 0, [coverage_template.id])],
+            'payor': 'coverage',
         })
 
     def test_security(self):
@@ -167,7 +170,58 @@ class TestMedicalCoverageAgreement(TransactionCase):
             'plan_definition_id': self.plan_1.id,
             'product_id': self.product_1.id,
             'total_price': 100,
-            'coverage_percentage': 100,
         }
         self.coverage_agreement_model_item.create(vals)
         self.assertEquals(len(coverage_agreement.item_ids), 1)
+
+    def test_change_prices(self):
+        # case 1
+        coverage_agreement_vals = {
+            'name': 'test coverage agreement',
+            'location_ids': [(6, 0, [self.location_1.id])],
+            'company_id': self.ref('base.main_company'),
+        }
+        coverage_agreement = self.coverage_agreement_model.create(
+            coverage_agreement_vals)
+        self.assertNotEquals(coverage_agreement, False)
+        item_1 = self.coverage_agreement_model_item.create({
+            'coverage_agreement_id': coverage_agreement.id,
+            'plan_definition_id': self.plan_1.id,
+            'product_id': self.product_1.id,
+            'coverage_percentage': 50.0,
+            'total_price': 200})
+        self.assertEquals(item_1.coverage_price, 100)
+        self.assertEquals(item_1.private_price, 100)
+        wiz = self.env['medical.agreement.change.prices'].create({
+            'difference': 50.0})
+        wiz.with_context(active_ids=[item_1.id]).change_prices()
+        self.assertEquals(item_1.coverage_price, 150)
+        self.assertEquals(item_1.private_price, 150)
+
+    def test_onchange_period(self):
+        # case 1
+        coverage_agreement_vals = {
+            'name': 'test coverage agreement',
+            'location_ids': [(6, 0, [self.location_1.id])],
+            'company_id': self.ref('base.main_company'),
+            'date_from': (datetime.today() + relativedelta(days=5))
+        }
+        coverage_agreement = self.coverage_agreement_model.create(
+            coverage_agreement_vals)
+        coverage_agreement._onchange_date_range()
+        self.assertEquals(coverage_agreement.active, False)
+        # case 2
+        coverage_agreement.date_from = datetime.today() - \
+            relativedelta(days=10)
+        coverage_agreement._onchange_date_range()
+        self.assertEquals(coverage_agreement.active, True)
+        # case 3
+        coverage_agreement.date_to = datetime.today() + relativedelta(
+            days=100)
+        coverage_agreement._onchange_date_range()
+        self.assertEquals(coverage_agreement.active, True)
+        # case 4
+        coverage_agreement.date_to = datetime.today() - relativedelta(
+            days=5)
+        coverage_agreement._onchange_date_range()
+        self.assertEquals(coverage_agreement.active, False)

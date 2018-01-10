@@ -8,6 +8,7 @@ from odoo import api, fields, models
 class MedicalCoverageAgreement(models.Model):
     _name = 'medical.coverage.agreement'
     _description = "Coverage Agreement"
+    _inherit = ['medical.abstract', 'mail.thread', 'mail.activity.mixin']
 
     def _get_default_currency_id(self):
         return self.env.user.company_id.currency_id.id
@@ -36,12 +37,12 @@ class MedicalCoverageAgreement(models.Model):
         help='Responsible Medical Company',
     )
     coverage_template_ids = fields.Many2many(
-        string='Insurance Templates',
+        string='Coverage Templates',
         comodel_name='medical.coverage.template',
         relation='medical_coverage_agreement_medical_coverage_template_rel',
         column1='agreement_id',
         column2='coverage_template_id',
-        help='Insurance templates related to this agreement',
+        help='Coverage templates related to this agreement',
         auto_join=True,
     )
     item_ids = fields.One2many(
@@ -57,6 +58,41 @@ class MedicalCoverageAgreement(models.Model):
         default=_get_default_currency_id,
         required=True,
     )
+    date_from = fields.Date(
+        'From',
+        required=True,
+        default=fields.Date.today(),
+    )
+    date_to = fields.Date(
+        'To',
+    )
+    actual_date = fields.Date(
+        default=fields.Date.today(),
+    )
+    payor = fields.Selection([
+        ('private', 'Private'),
+        ('coverage', 'Coverage')],
+        'Payor',
+    )
+
+    @api.model
+    def _get_internal_identifier(self, vals):
+        return self.env['ir.sequence'].next_by_code(
+            'medical.coverage.agreement') or '/'
+
+    @api.onchange('date_from', 'date_to')
+    def _onchange_date_range(self):
+        if self.date_from and self.date_to:
+            if self.actual_date >= self.date_from and self.actual_date \
+               <= self.date_to:
+                self.active = True
+            else:
+                self.active = False
+        if self.date_from and not self.date_to:
+            if self.actual_date >= self.date_from:
+                self.active = True
+            else:
+                self.active = False
 
     @api.multi
     def toggle_active(self):
