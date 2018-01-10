@@ -15,11 +15,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']//field[@name='layout_category_id']" position="after">
                 <field name="sequence"/>
-                <field name="is_validated"/>
                 <field name="preinvoice_group_id"/>
-            <!--<field name="patient_id"/>
-                <field name="encounter_id"/>
-                <field name="auth_number"/>-->
             </xpath>
         </field>
     </record>
@@ -31,11 +27,7 @@
         <field name="arch" type="xml">
             <field name="product_id" position="before">
                 <field name="sequence"/>
-                <field name="is_validated"/>
                 <field name="preinvoice_group_id"/>
-                <!--<field name="patient_id"/>
-                <field name="encounter_id"/>
-                <field name="auth_number"/>-->
             </field>
         </field>
     </record>

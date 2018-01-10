@@ -19,6 +19,7 @@
                 <group colspan="2">
                     <field name="date_to"/>
                     <field name="invoice_group_method_id"/>
+                    <field name="company_ids" widget="many2many_tags"/>
                     <field name="merge_draft_invoice"
                            groups="sale_merge_draft_invoice.group_sale_merge_draft_invoice"/>
                 </group>
