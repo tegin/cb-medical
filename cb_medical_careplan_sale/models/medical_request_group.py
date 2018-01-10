@@ -15,7 +15,7 @@ class RequestGroup(models.Model):
         if self.is_breakdown:
             for request in self.procedure_request_ids or \
                     self.medication_request_ids:
-                if request.coverage_agreement_item == True:
+                if request.coverage_agreement_item:
                     request.is_billable = True
                     feasible_breakdown = True
         if feasible_breakdown:

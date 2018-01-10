@@ -7,7 +7,7 @@ from odoo import api, fields, models
 SO_OPEN = ['draft']
 
 
-class MedicalCareplan(models.AbstractModel):
+class MedicalCareplan(models.Model):
     _inherit = 'medical.careplan'
 
     sale_order_ids = fields.One2many(
@@ -15,15 +15,32 @@ class MedicalCareplan(models.AbstractModel):
         inverse_name='careplan_id',
         readonly=True,
     )
+    payor_id = fields.Many2one(
+        'res.partner',
+        related='coverage_id.coverage_template_id.payor_id',
+        readonly=True,
+    )
+    partner_invoice_id = fields.Many2one(
+        'res.partner',
+        domain="[('id', 'child_of', payor_id), ('type', '=', 'invoice')]",
+    )
 
-    def get_sale_order_line_vals(self, partner, is_insurance):
-        return {
+    @api.onchange('coverage_id')
+    def _onchange_coverage_id(self):
+        for record in self:
+            record.partner_invoice_id = False
+
+    def get_sale_order_line_vals(self, partner, key, is_insurance):
+        vals = {
             'partner_id': partner.id,
-            'partner_invoice_id': partner.id,
-            'partner_shipping_id': partner.id,
             'careplan_id': self.id,
+            'patient_id': self.patient_id.id,
+            'coverage_agreement_id': key,
             'pricelist_id': self.env.ref('product.list0').id,
         }
+        if self.partner_invoice_id and is_insurance:
+            vals['partner_invoice_id'] = self.partner_invoice_id.id
+        return vals
 
     def get_payor(self, is_insurance):
         if is_insurance:
@@ -37,8 +54,8 @@ class MedicalCareplan(models.AbstractModel):
             (key == r.coverage_agreement_id.id and is_insurance) or
             (not is_insurance and not self.coverage_agreement_id)))
         if not order:
-            order_vals = self.get_sale_order_line_vals(partner, is_insurance)
-            order_vals['coverage_agreement_id'] = key
+            order_vals = self.get_sale_order_line_vals(
+                partner, key, is_insurance)
             order = self.env['sale.order'].create(order_vals)
         for order_line in order_lines:
             order_line['order_id'] = order.id

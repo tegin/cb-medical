@@ -2,7 +2,8 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class MedicalRequest(models.AbstractModel):
@@ -19,13 +20,14 @@ class MedicalRequest(models.AbstractModel):
     is_sellable_private = fields.Boolean(
         compute='_compute_is_sellable',
     )
+    parent_id = fields.Integer()
+    parent_model = fields.Char()
 
     def _compute_sale_order_line_ids(self):
         inverse_field_name = self._get_parent_field_name()
         for rec in self:
-            sale_order_line_ids = self.env['sale.order.line'].search(
+            rec.sale_order_line_ids = self.env['sale.order.line'].search(
                 [(inverse_field_name, '=', rec.id)])
-            rec.sale_order_line_ids = sale_order_line_ids
 
     @api.depends('is_billable', 'sale_order_line_ids',
                  'coverage_agreement_item_id')
@@ -64,7 +66,7 @@ class MedicalRequest(models.AbstractModel):
             return medication_price if is_insurance else cai.private_price
 
     def get_sale_order_line_vals(self, is_insurance):
-        return {
+        vals = {
             'product_id': self.service_id.id,
             'name': self.name,
             self._get_parent_field_name(): self.id,
@@ -72,3 +74,42 @@ class MedicalRequest(models.AbstractModel):
             'product_uom': self.service_id.uom_id.id,
             'price_unit': self.compute_price(is_insurance),
         }
+        if self.encounter_id:
+            vals['encounter_id'] = self.encounter_id.id
+        return vals
+
+    def check_is_billable(self):
+        if self.is_billable:
+            return True
+        # Agreement is researched if it is not billable
+        self.coverage_agreement_item_id = self.env[
+            'medical.coverage.agreement.item'
+        ].search([
+            (
+                'coverage_template_ids', '=',
+                self.coverage_id.coverage_template_id.id),
+            ('product_id', '=', self.service_id.id)
+        ], limit=1)
+        if not self.coverage_agreement_item_id:
+            raise ValidationError(_('Agreement must be defined'))
+        return self.is_billable
+
+    @api.multi
+    def breakdown(self):
+        self.ensure_one()
+        if not self.is_billable or not self.is_breakdown:
+            raise ValidationError(_('Cannot breakdown a not billable line'))
+        if self.sale_order_line_ids:
+            raise ValidationError(_(
+                'Sale order is created. '
+                'It must be deleted in order to breakdown'))
+        self.is_billable = False
+        self.is_breakdown = False
+        for model in self._get_request_models():
+            requests = self.env[model].search([
+                ('parent_model', '=', self._name),
+                ('parent_id', '=', self.id)
+            ])
+            for request in requests:
+                if not request.check_is_billable():
+                    request.is_billable = True
