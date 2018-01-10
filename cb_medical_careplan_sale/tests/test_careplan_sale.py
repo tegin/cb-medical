@@ -85,4 +85,8 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertTrue(groups)
         careplan.create_sale_order()
         self.assertGreater(len(careplan.sale_order_ids), 0)
+        procedure_requests = self.env['medical.procedure.request'].search([
+            ('careplan_id', '=', careplan.id)
+        ])
+        self.assertGreater(len(procedure_requests), 0)
         return careplan
