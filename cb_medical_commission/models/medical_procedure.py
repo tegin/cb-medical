@@ -19,9 +19,8 @@ class MedicalProcedure(models.Model):
     service_id = fields.Many2one(
         related='procedure_request_id.service_id'
     )
-    make_invisible = fields.Boolean(
-        default=True,
-        compute='_compute_hide_fee',
+    medical_commission = fields.Boolean(
+        related='service_id.medical_commission'
     )
     commission_agent_id = fields.Many2one(
         string='Commission Agent',
@@ -34,6 +33,7 @@ class MedicalProcedure(models.Model):
 
     @api.onchange('performer_id')
     def _onchange_performer_id(self):
+        self.commission_agent_id = False
         valid_performer_ids = self.performer_id.commission_agent_ids
         if not valid_performer_ids:
             valid_performer_ids += self.performer_id
@@ -55,11 +55,3 @@ class MedicalProcedure(models.Model):
         if request.parent_model and request.parent_id:
             self.compute_commission(
                 self.env[request.parent_model].browse(request.parent_id))
-
-    @api.depends('service_id')
-    def _compute_hide_fee(self):
-        for rec in self:
-            if self.service_id.medical_commission:
-                rec.make_invisible = False
-            else:
-                rec.make_invisible = True
