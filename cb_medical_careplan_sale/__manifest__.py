@@ -10,7 +10,8 @@
     'depends': [
         'medical_clinical_careplan',
         'medical_clinical_procedure',
-        'medical_clinical_request_group',
+        'medical_medication_request',
+        'medical_administration_encounter_careplan',
         'sale',
         'cb_medical_financial_coverage_request',
         'cb_medical_workflow_plandefinition',

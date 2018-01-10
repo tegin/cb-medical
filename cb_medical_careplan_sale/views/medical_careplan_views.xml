@@ -11,6 +11,10 @@
                         type="object" string="Create Sales Orders"
                         class="oe_highlight"/>
             </button>
+            <field name="coverage_id" position="after">
+                <field name="payor_id"/>
+                <field name="partner_invoice_id"/>
+            </field>
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button type="object"
                         name="action_view_sale_order"
