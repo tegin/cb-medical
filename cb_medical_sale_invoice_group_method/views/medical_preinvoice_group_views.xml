@@ -64,13 +64,17 @@
                     <h1>
                         <field name="internal_identifier"/>
                     </h1>
-                    <h1>
+                    <group colspan="4">
+                    <group>
                         <field name="agreement_id"/>
-                    </h1>
-                    <h1>
                         <field name="partner_id"/>
-                    </h1>
-                    <field name="partner_invoice_id"/>
+                        <field name="partner_invoice_id"/>
+                    </group>
+                    <group>
+                        <field name="company_id"/>
+                        <field name="invoice_id"/>
+                    </group>
+                    </group>
                     <field name="current_sequence" invisible="1"/>
                     <notebook>
                         <page string="Validated Lines">
@@ -100,8 +104,9 @@
 
     <menuitem id="sale_preinvoice_group"
               name="Sales to pre-invoice"
-              parent="sale.menu_sale_invoicing"
+              parent="sale_preinvoice_group_menu"
               sequence="99"
-              action="sale_preinvoice_group_action" />
+              groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_display"
+              action="sale_preinvoice_group_action"/>
 
 </odoo>
