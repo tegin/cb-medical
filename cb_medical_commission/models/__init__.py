@@ -12,4 +12,3 @@ from . import workflow_plan_definition_action
 from . import res_partner
 from . import workflow_activity_definition
 from . import medical_careplan
-from . import medical_request
