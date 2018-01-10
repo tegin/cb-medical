@@ -27,6 +27,10 @@ class MedicalProcedure(models.Model):
         string='Commission Agent',
         comodel_name='res.partner',
     )
+    sale_order_line_ids = fields.Many2many(
+        string='Sale order lines',
+        comodel_name='sale.order.line'
+    )
 
     @api.onchange('performer_id')
     def _onchange_performer_id(self):
