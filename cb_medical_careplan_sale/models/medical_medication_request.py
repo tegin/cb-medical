@@ -10,3 +10,13 @@ class MedicalMedicationRequest(models.Model):
 
     def check_is_billable(self):
         return self.is_billable
+
+    def compute_price(self, is_insurance):
+        cai = self.coverage_agreement_item_id
+        medication_price = 0.0
+        for admin in self.medication_administration_ids:
+            medication_price += admin.qty * admin.product_id.list_price
+        percentage = cai.coverage_percentage
+        if not is_insurance:
+            percentage = 1 - percentage
+        return medication_price * percentage

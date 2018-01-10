@@ -30,14 +30,16 @@ class MedicalCareplan(models.Model):
         for record in self:
             record.partner_invoice_id = False
 
-    def get_sale_order_line_vals(self, partner, key, is_insurance):
+    def get_sale_order_vals(self, partner, key, is_insurance):
         vals = {
             'partner_id': partner.id,
             'careplan_id': self.id,
             'patient_id': self.patient_id.id,
-            'coverage_agreement_id': key,
+            'coverage_agreement_id': key.id,
             'pricelist_id': self.env.ref('product.list0').id,
         }
+        if is_insurance:
+            vals['company_id'] = key.company_id.id
         if self.partner_invoice_id and is_insurance:
             vals['partner_invoice_id'] = self.partner_invoice_id.id
         return vals
@@ -49,20 +51,25 @@ class MedicalCareplan(models.Model):
 
     def generate_sale_order(self, key, order_lines):
         is_insurance = bool(key)
+        agreement = self.env['medical.coverage.agreement']
+        if is_insurance:
+            agreement = agreement.browse(key)
         partner = self.get_payor(is_insurance)
         order = self.sale_order_ids.filtered(lambda r: (
-            (key == r.coverage_agreement_id.id and is_insurance) or
+            (agreement.id == r.coverage_agreement_id.id and is_insurance) or
             (not is_insurance and not self.coverage_agreement_id)))
         if not order:
-            order_vals = self.get_sale_order_line_vals(
-                partner, key, is_insurance)
+            order_vals = self.get_sale_order_vals(
+                partner, agreement, is_insurance)
             order = self.env['sale.order'].create(order_vals)
         for order_line in order_lines:
             order_line['order_id'] = order.id
-            self.env['sale.order.line'].create(order_line)
+            self.env['sale.order.line'].with_context(
+                force_company=order.company_id.id
+            ).create(order_line)
+        return order
 
-    def create_sale_order(self):
-        self.ensure_one()
+    def get_sale_order_lines(self):
         values = dict()
         for model in self._get_request_models():
             for request in self.env[model].search([
@@ -78,15 +85,19 @@ class MedicalCareplan(models.Model):
                         values[0] = []
                     values[0].append(
                         request.get_sale_order_line_vals(False))
+        return values
+
+    def create_sale_order(self):
+        self.ensure_one()
+        values = self.get_sale_order_lines()
         for key in values.keys():
-            self.generate_sale_order(key if key > 0 else False, values[key])
+            self.generate_sale_order(key, values[key])
         return self.action_view_sale_order()
 
     @api.multi
     def action_view_sale_order(self):
         self.ensure_one()
-        action = self.env.ref(
-            'sale.action_orders')
+        action = self.env.ref('sale.action_orders')
         result = action.read()[0]
         result['domain'] = "[('careplan_id', '=', " + str(self.id) + ")]"
         if len(self.sale_order_ids) == 1:
