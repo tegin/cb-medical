@@ -11,15 +11,15 @@
 
         <record model="sale.invoice.group.method" id="by_patient">
             <field name="name">By patient</field>
-            <field name="criteria_fields_ids"></field>
+            <field name="criteria_fields_ids" eval="[(4,ref('cb_medical_careplan_sale.field_sale_order_patient_id'))]"/>
         </record>
         <record model="sale.invoice.group.method" id="by_customer">
             <field name="name">By customer</field>
-            <field name="criteria_fields_ids"></field>
+
         </record>
         <record model="sale.invoice.group.method" id="by_preinvoicing">
             <field name="name">By pre-invoicing</field>
-            <field name="criteria_fields_ids"></field>
+            <field name="criteria_fields_ids" eval="[(4,ref('cb_medical_sale_invoice_group_method.field_sale_order_line_preinvoice_group_id'))]"/>
         </record>
 
     </data>

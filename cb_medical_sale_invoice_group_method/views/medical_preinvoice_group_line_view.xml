@@ -15,20 +15,14 @@
             <tree string="Non validated sale order lines">
                 <button type="object"
                     name="validate_line"
-                    class="oe_stat_button"
                     icon="fa-check-square"
-                    attrs="{'invisible': [('is_validated', '=', True)]}"/>
+                    attrs="{'invisible': ['|', ('is_validated', '=', True)]}"/>
                 <field name="sequence"/>
+                <field name="preinvoice_group_id" invisible="1"/>
                 <field name="is_validated"/>
-                <field name="preinvoice_group_id"/>
-                <!--<field name="patient_id"/>-->
-                <!--<field name="encounter_id"/>-->
-                <!--<field name="auth_number"/>-->
-                <field name="product_id" invisible="1"/>
+                <field name="product_id"/>
                 <field name="order_id"/>
-                <field name="order_partner_id"/>
                 <field name="name"/>
-                <field name="salesman_id"/>
                 <field name="product_uom_qty" string="Qty"/>
                 <field name="qty_delivered"/>
                 <field name="qty_invoiced"/>
@@ -37,25 +31,6 @@
                 <field name="price_subtotal" sum="Total" widget="monetary"/>
             </tree>
         </field>
-    </record>
-
-    <record id="medical_preinvoice_group_line_search" model="ir.ui.view">
-        <field name="name">medical.preinvoice.group.line.search</field>
-        <field name="model">sale.order.line</field>
-        <field name="arch" type="xml">
-            <search string="Sale Order Lines">
-                <filter string="Non validated lines" name="filter_is_validated" domain="[('is_validated', '=', False)]"/>
-            </search>
-        </field>
-    </record>
-
-    <record id="medical_preinvoice_group_line_action" model="ir.actions.act_window">
-        <field name="name">Non validated sale lines</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">sale.order.line</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree</field>
-        <field name="context">{}</field>
     </record>
 
 </odoo>

@@ -11,12 +11,12 @@ class SaleOrderLine(models.Model):
 
     preinvoice_group_id = fields.Many2one(
         string='Pre-invoice Group',
-        comodel_name='medical.preinvoice.group',
+        comodel_name='sale.preinvoice.group',
     )
-    is_validated = fields.Boolean(
-        string='Is validated?',
-        default=False,
+    preinvoice_status = fields.Selection(
+        related='preinvoice_group_id.state'
     )
+    is_validated = fields.Boolean()
     sequence = fields.Integer(
         string='Sequence',
         default='999999',
@@ -31,12 +31,6 @@ class SaleOrderLine(models.Model):
         return super(SaleOrderLine, self).create(vals)
 
     @api.multi
-    def validate_line(self, preinvoice_group):
+    def validate_line(self):
         self.ensure_one()
-        if not preinvoice_group:
-            preinvoice_group_id = self.env.context.get(
-                'preinvoice_group', False)
-            preinvoice_group = self.env['medical.preinvoice.group'].browse(
-                preinvoice_group_id)
-        self.is_validated = True
-        self.preinvoice_group_id = preinvoice_group
+        self.preinvoice_group_id.validate_line(self)

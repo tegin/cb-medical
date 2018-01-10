@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_medical_preinvoice_group_user,access.medical.preinvoice.group.user,model_medical_preinvoice_group,medical_base.group_medical_user,1,0,0,0
-access_medical_preinvoice_group_manager,access.medical.preinvoice.group.manager,model_medical_preinvoice_group,medical_base.group_medical_configurator,1,1,1,1
+access_sale_preinvoice_group_user,access.sale.preinvoice.group.user,model_sale_preinvoice_group,medical_base.group_medical_user,1,0,0,0
+access_sale_preinvoice_group_manager,access.sale.preinvoice.group.manager,model_sale_preinvoice_group,medical_base.group_medical_configurator,1,1,1,1
