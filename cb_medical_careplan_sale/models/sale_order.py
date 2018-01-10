@@ -14,3 +14,6 @@ class SaleOrder(models.AbstractModel):
     coverage_agreement_id = fields.Many2one(
         'medical.coverage.agreement',
     )
+    patient_id = fields.Many2one(
+        'medical.patient'
+    )
