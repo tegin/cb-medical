@@ -17,15 +17,26 @@ class SalePreinvoiceGroup(models.Model):
         required=True,
         readonly=True
     )
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Company',
+        required=True,
+        readonly=True,
+    )
+    invoice_id = fields.Many2one(
+        'account.invoice',
+        'Invoice',
+        readonly=True
+    )
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string='Partner',
         required=True,
-        readonly=True
+        readonly=True,
     )
     partner_invoice_id = fields.Many2one(
         comodel_name='res.partner',
-        string='Partner',
+        string='Invoice Partner',
         required=True,
         readonly=True
     )
@@ -79,26 +90,46 @@ class SalePreinvoiceGroup(models.Model):
                 'is_validated': True,
                 'sequence': self.get_sequence()
             })
+        self._compute_lines()
 
     def get_sequence(self):
         val = self.current_sequence + 1
         self.write({'current_sequence': val})
         return val
 
-    @api.multi
-    @api.depends('internal_identifier')
-    def name_get(self):
-        result = []
-        for record in self:
-            name = '[%s]' % record.internal_identifier
-            result.append((record.id, name))
-        return result
+    def invoice_domain(self):
+        partner_id = self.partner_id.id
+        if self.partner_invoice_id:
+            partner_id = self.partner_invoice_id.id
+        return [
+            ('type', '=', 'out_invoice'),
+            ('partner_id', '=', partner_id),
+            ('agreement_id', '=', self.agreement_id.id),
+            ('state', '=', 'draft'),
+        ]
+
+    def create_invoice_values(self):
+        inv_data = self.validated_line_ids[0].order_id._prepare_invoice()
+        inv_data['agreement_id'] = self.agreement_id.id
+        return inv_data
 
     @api.multi
     def close(self):
         self.ensure_one()
         for line in self.non_validated_line_ids:
             line.preinvoice_group_id = False
+        if self.validated_line_ids:
+            self.invoice_id = self.env['account.invoice'].search(
+                self.invoice_domain(), limit=1
+            )
+            if not self.invoice_id:
+
+                self.invoice_id = self.env['account.invoice'].create(
+                    self.create_invoice_values()
+                )
+            for line in self.validated_line_ids:
+                line.invoice_line_create(
+                    self.invoice_id.id, line.qty_to_invoice)
         self.write({'state': 'closed'})
 
     @api.multi
@@ -116,4 +147,4 @@ class SalePreinvoiceGroup(models.Model):
         self.ensure_one()
         for line in self.line_ids:
             line.preinvoice_group_id = False
-        self.write({'state': 'cancel'})
+        self.write({'state': 'cancelled'})
