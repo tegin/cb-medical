@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<odoo>
+
+    <record id="paperformat_material" model="report.paperformat">
+        <field name="name">Material</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">50</field>
+        <field name="margin_bottom">23</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="action_agreement_report"
+            string="Agreement Report"
+            model="medical.coverage.agreement"
+            report_type="qweb-pdf"
+            name="cb_medical_financial_coverage_agreement.report_agreement_template"
+            paperformat="paperformat_material"
+        />
+
+    <template id="report_agreement_template">
+        <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <t t-set="agreement" t-value="docs[0]"/>
+                        <t t-set="locations" t-value="agreement.location_ids"/>
+                        <t t-set="items" t-value="agreement.item_ids"/>
+                        <div class="page">
+                            <h3 class="text-center">Agreement Report</h3>
+                                <div class="agreement_details">
+                                    <h2>
+                                        <t t-esc="agreement.internal_identifier"/>
+                                    </h2>
+                                    <h3>
+                                        <t t-esc="agreement.name"/>
+                                    </h3>
+                                    <br/>
+                                    <p><b>Location: </b><t
+                                            t-foreach="locations" t-as="o"><span t-field="o.name"/></t></p>
+                                    <p><b>Company: </b><span t-field="agreement.company_id"/></p>
+                                    <p><b>Invoice Group Method: </b><span t-field="agreement.invoice_group_method_id"/></p>
+                                    <p><b>Payor: </b><span t-field="agreement.payor"/></p>
+                                    <p><b>Period: </b><span
+                                            t-field="agreement.date_from"/>
+                                        - <span
+                                            t-field="agreement.date_to"/></p>
+                                </div>
+                                <table class="table table-bordered mt32">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Product</th>
+                                            <th class="text-center">Total Price</th>
+                                            <th class="text-center">Coverage Price</th>
+                                            <th class="text-center">Private Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="items" t-as="o">
+                                            <tr>
+                                                <td><span t-field="o.product_id.name"/></td>
+                                                <td style="text-align:right"><span t-field="o.total_price"/></td>
+                                                <td style="text-align:right"><span t-field="o.coverage_price"/></td>
+                                                <td style="text-align:right"><span t-field="o.private_price"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+    </template>
+
+</odoo>

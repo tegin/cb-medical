@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+-->
+
+<odoo>
+
+    <record model="ir.ui.view" id="medical_agreement_change_prices_form">
+        <field name="name">medical.agreement.change.prices.form</field>
+        <field name="model">medical.agreement.change.prices</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Change prices of this Agreement">
+                <group>
+                    <group>
+                        <field name="difference"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Apply changes" name="change_prices"
+                            type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="medical_agreement_change_prices_action"
+        name="Change prices"
+        src_model="medical.coverage.agreement.item"
+        res_model="medical.agreement.change.prices"
+        view_mode="form"
+        target="new"
+        key2="client_action_multi"/>
+
+</odoo>
