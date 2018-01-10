@@ -17,6 +17,9 @@
     'website': 'https://github.com/OCA/vertical-medical',
     "license": "LGPL-3",
     "data": [
+        'reports/agreement_report.xml',
+        'data/medical_coverage_agreement.xml',
+        'wizard/medical_agreement_change_prices_views.xml',
         'views/medical_coverage_agreement_item_view.xml',
         'views/medical_coverage_agreement_view.xml',
         'views/medical_coverage_template_view.xml',
