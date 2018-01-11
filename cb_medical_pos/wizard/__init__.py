@@ -1,0 +1,6 @@
+# Copyright 2017 Creu Blanca
+# Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+
+from . import wizard_medical_careplan_close
+from . import wizard_medical_careplan_add_amount
