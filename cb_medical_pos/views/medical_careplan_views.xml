@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="medical_careplan_view_form" model="ir.ui.view">
+        <field name="name">medical.careplan.view.form</field>
+        <field name="model">medical.careplan</field>
+        <field name="inherit_id"
+               ref="cb_medical_careplan_sale.medical_careplan_view_form"/>
+        <field name="arch" type="xml">
+            <button name="create_sale_order" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+            <button name="active2completed" position="after">
+                <button name="%(cb_medical_pos.wizard_medical_careplan_add_amount_action)d"
+                        type="action" string="Add Amount"
+                        class="oe_highlight"
+                        context="{'default_careplan_id': active_id}"
+                        attrs="{'invisible': [('state','!=','active')]}"/>
+                <button name="%(cb_medical_pos.wizard_medical_careplan_close_action)d"
+                        type="action" string="Close"
+                        class="oe_highlight"
+                        context="{'default_careplan_id': active_id}"
+                        attrs="{'invisible': [('state','!=','active')]}"/>
+            </button>
+            <button name="active2completed" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+            <field name="partner_invoice_id" position="after">
+                <field name="company_id"/>
+                <field name="pos_session_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>
