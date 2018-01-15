@@ -23,7 +23,6 @@ class SaleOrderLine(models.Model):
     )
 
     @api.model
-    @api.onchange('sequence')
     def create(self, vals):
         if vals.get('sequence', '999999') == '999999':
             vals['name'] = self.env['ir.sequence'].next_by_code(
