@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models, _
+from odoo import fields, models, _
 
 
 class WizardSalePreinvoiceGroup(models.TransientModel):
@@ -39,7 +39,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
         show_lines = _("The following lines have been processed from "
                        "Encounter %s:\n") % self.encounter_id.display_name
         for line in self.processed_lines:
-            show_lines = "%s %s [%s]\n" %(
+            show_lines = "%s %s [%s]\n" % (
                 show_lines, line.product_id.name, line.order_id.name)
         return show_lines + _("Scan the next barcode or press Close to "
                               "finish scanning.")
@@ -51,8 +51,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
         if not self.encounter_id:
             self.status = _("Barcode %s does not correspond to any "
                             "Encounter. Try with another barcode or "
-                            "press Close to finish scanning.") % \
-                          barcode
+                            "press Close to finish scanning.") % barcode
             self.status_state = 1
             return
         self.processed_lines = self.line_ids.filtered(
@@ -60,11 +59,13 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
             r.is_validated
         )
         if not self.processed_lines:
-            self.status = _("The Encounter %s does not belong to this "
-                            "pre-invoice group. Try with another barcode or "
-                            "press Close to finish scanning.")\
-                          % \
-                          self.encounter_id.display_name
+            self.status = (
+                _(
+                    "The Encounter %s does not belong to this pre-invoice "
+                    "group. Try with another barcode or press Close to finish "
+                    "scanning."
+                ) % self.encounter_id.display_name
+            )
             self.status_state = 1
             return
         for line in self.processed_lines:
