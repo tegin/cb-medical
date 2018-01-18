@@ -20,6 +20,9 @@
             <xpath expr="//page[@name='actions']/field[@name='direct_action_ids']/tree/field[@name='execute_plan_definition_id']" position="after">
                 <field name="is_billable"/>
             </xpath>
+            <xpath expr="//page[@name='actions_list']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
         </field>
     </record>
 
