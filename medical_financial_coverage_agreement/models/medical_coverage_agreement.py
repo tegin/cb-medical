@@ -50,7 +50,7 @@ class MedicalCoverageAgreement(models.Model):
         inverse_name='coverage_agreement_id',
         string='Agreement items',
         ondelete='cascade',
-        copy=True
+        copy=True,
     )
     currency_id = fields.Many2one(
         comodel_name='res.currency',
