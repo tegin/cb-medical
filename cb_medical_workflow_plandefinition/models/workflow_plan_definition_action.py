@@ -12,3 +12,9 @@ class PlanDefinitionAction(models.Model):
         string='Is billable?',
         default=True,
     )
+    activity_definition_id = fields.Many2one(
+        string='Activity definition',
+        comodel_name='workflow.activity.definition',
+        domain="[('model_id', 'in', "
+               "['medical.procedure.request', 'medical.medication.request'])]",
+    )   # FHIR field: definition (Activity Definition)
