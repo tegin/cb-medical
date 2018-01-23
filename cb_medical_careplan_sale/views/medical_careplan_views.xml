@@ -10,6 +10,10 @@
                 <button name="create_sale_order"
                         type="object" string="Create Sales Orders"
                         class="oe_highlight"/>
+                <button name="create_sale_order"
+                        type="object" string="Create new Sales Orders"
+                        attrs="{'invisible': [('state', 'not in', ['completed'])]}"
+                        class="oe_highlight"/>
             </button>
             <field name="coverage_id" position="after">
                 <field name="payor_id"/>
