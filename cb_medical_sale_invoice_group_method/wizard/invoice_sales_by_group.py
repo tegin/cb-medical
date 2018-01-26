@@ -60,7 +60,10 @@ class InvoiceSalesByGroup(models.TransientModel):
                 'active_model': 'sale.order',
                 'open_invoices': True,
             }
-            payment = self.env['sale.advance.payment.inv'].create(
+            payment = self.env['sale.advance.payment.inv'].with_context(
+                force_company=sale.company_id.id,
+                company_id=sale.company_id.id,
+            ).create(
                 {'advance_payment_method': 'delivered',
                  'merge_draft_invoice': self.merge_draft_invoice
                  })
