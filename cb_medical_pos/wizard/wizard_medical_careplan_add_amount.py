@@ -67,6 +67,7 @@ class WizardMedicalCareplanAddAmount(models.TransientModel):
             'partner_id': self.careplan_id.patient_id.partner_id.id,
             'patient_id': self.careplan_id.patient_id.id,
             'company_id': self.careplan_id.company_id.id,
+            'pos_session_id': self.pos_session_id.id,
             'is_down_payment': True,
         }
         if self.partner_invoice_id:
