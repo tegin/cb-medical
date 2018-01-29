@@ -11,7 +11,7 @@ class SaleOrderLine(models.Model):
     @api.model
     def compute_procedure(self):
         return self.env['medical.procedure'].search([
-            ('sale_order_line_ids', '=', self.id)
+            ('sale_order_line_ids', 'in', self.ids)
         ])
 
     @api.model
