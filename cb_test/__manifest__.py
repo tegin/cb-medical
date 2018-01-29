@@ -8,8 +8,7 @@
     'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
     'depends': [
         'cb_medical_careplan_sale',
-        'cb_medical_commission',
-        'cb_medical_pos',
+        'pos_validation',
         'cb_medical_sale_invoice_group_method',
     ],
     'data': [

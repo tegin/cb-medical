@@ -202,6 +202,10 @@ class TestMedicalCareplanSale(TransactionCase):
             'pos_session_id': self.session.id,
         }).run()
         self.assertGreater(len(careplan.sale_order_ids), 0)
+        self.session.action_pos_session_closing_control()
+        self.assertTrue(self.session.invoice_ids)
+        self.assertTrue(self.session.down_payment_ids)
+        self.assertEqual(self.session.validation_status, 'in_progress')
         procedure_requests = self.env['medical.procedure.request'].search([
             ('careplan_id', '=', careplan.id)
         ])
