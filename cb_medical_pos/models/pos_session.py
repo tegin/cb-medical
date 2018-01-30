@@ -7,7 +7,12 @@ from odoo import api, fields, models
 
 class PosSession(models.Model):
     _inherit = 'pos.session'
+    _rec_name = 'internal_identifier'
 
+    internal_identifier = fields.Char(
+        required=True,
+        default='/',
+    )
     careplan_ids = fields.One2many(
         comodel_name='medical.careplan',
         inverse_name='pos_session_id',
@@ -36,6 +41,23 @@ class PosSession(models.Model):
     def _compute_sale_order_count(self):
         for record in self:
             record.sale_order_count = len(record.sale_order_ids)
+
+    @api.model
+    def get_internal_identifier(self, vals):
+        config_id = vals.get('config_id') or self.env.context.get(
+            'default_config_id')
+        if config_id:
+            pos_config = self.env['pos.config'].browse(config_id)
+            if pos_config.session_sequence_id:
+                return pos_config.session_sequence_id.next_by_id()
+        return self.env['ir.sequence'].next_by_code(
+            'pos.session.identifier') or '/'
+
+    @api.model
+    def create(self, vals):
+        if vals.get('internal_identifier', '/') == '/':
+            vals['internal_identifier'] = self.get_internal_identifier(vals)
+        return super(PosSession, self).create(vals)
 
     @api.multi
     def action_view_careplans(self):
