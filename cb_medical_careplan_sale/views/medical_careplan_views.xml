@@ -17,7 +17,7 @@
             </button>
             <field name="coverage_id" position="after">
                 <field name="payor_id"/>
-                <field name="partner_invoice_id"/>
+                <field name="sub_payor_id"/>
             </field>
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button type="object"
