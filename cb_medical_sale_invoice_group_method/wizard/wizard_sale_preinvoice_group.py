@@ -12,7 +12,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
         comodel_name='res.company',
         string='Companies',
     )
-    partner_ids = fields.Many2many(
+    payor_ids = fields.Many2many(
         comodel_name='res.partner',
         domain=[('is_payor', '=', True)],
         string='Payors',
@@ -26,8 +26,10 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
         ]
         if self.company_ids:
             domain.append(('company_id', 'in', self.company_ids.ids))
-        if self.partner_ids:
-            domain.append(('partner_id', 'in', self.partner_ids.ids))
+        if self.payor_ids:
+            partners = self.payor_ids.ids
+            partners += self.payor_ids.mapped('sub_payor_ids').ids
+            domain.append(('partner_id', 'in', partners))
         sale_orders = self.env['sale.order'].search(domain)
         agreements = {}
         for sale_order in sale_orders:
