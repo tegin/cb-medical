@@ -24,7 +24,7 @@
             <button name="active2completed" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
-            <field name="partner_invoice_id" position="after">
+            <field name="payor_id" position="after">
                 <field name="company_id"/>
                 <field name="pos_session_id"/>
             </field>
