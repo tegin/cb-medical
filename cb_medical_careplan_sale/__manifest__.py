@@ -17,9 +17,12 @@
         'cb_medical_workflow_plandefinition',
     ],
     'data': [
+        'data/medical_sub_payor_sequence.xml',
+        'security/medical_security.xml',
         'views/medical_request_group_view.xml',
         'views/medical_careplan_views.xml',
         'views/medical_request_views.xml',
+        'views/res_partner_views.xml',
     ],
     'website': 'https://github.com/eficent/cb-addons',
     'license': 'LGPL-3',
