@@ -18,7 +18,7 @@
                 </group>
                 <group string="Customers" colspan="4">
                     <p colspan="4">(keep empty for making the invoices of all the customers)</p>
-                    <field name="partner_ids" nolabel="1"
+                    <field name="payor_ids" nolabel="1"
                            widget="many2many_list"/>
                 </group>
                 <footer>
