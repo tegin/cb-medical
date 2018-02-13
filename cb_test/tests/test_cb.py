@@ -26,7 +26,9 @@ class TestMedicalCareplanSale(TransactionCase):
         self.location = self.env['res.partner'].create({
             'name': 'Location',
             'is_location': True,
-            'stock_location_id': self.browse_ref('stock.warehouse0').id
+            'stock_location_id': self.browse_ref('stock.warehouse0').id,
+            'stock_picking_type_id': self.env['stock.picking.type'].search(
+                [], limit=1).id
         })
         self.agreement = self.env['medical.coverage.agreement'].create({
             'name': 'Agreement',
@@ -41,7 +43,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'patient_id': self.patient_01.id,
             'coverage_template_id': self.coverage_template.id,
         })
-        self.product_01 = self.create_product('Medical ressonance')
+        self.product_01 = self.create_product('Medical resonance')
         self.product_02 = self.create_product('Report')
         self.product_03 = self.env['product.product'].create({
             'type': 'consu',
@@ -198,10 +200,9 @@ class TestMedicalCareplanSale(TransactionCase):
             admin.location_id = self.location.id
             admin.preparation2in_progress()
             admin.in_progress2completed()
-            stock_move = self.env['stock.move.line'].search([
-                ('product_id', '=', self.product_03.id),
+            stock_move = self.env['stock.picking'].search([
                 ('medication_administration_id', '=', admin.id)
-            ])
+            ]).move_lines.move_line_ids
             self.assertEqual(stock_move.qty_done, 2.0)
         self.env['wizard.medical.careplan.close'].create({
             'careplan_id': careplan.id,
