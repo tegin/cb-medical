@@ -80,6 +80,4 @@ class PosSession(models.Model):
         if len(self.sale_order_ids) == 1:
             result['views'] = [(False, 'form')]
             result['res_id'] = self.sale_order_ids.id
-        import logging
-        logging.info(result)
         return result
