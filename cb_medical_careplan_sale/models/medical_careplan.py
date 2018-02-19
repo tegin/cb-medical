@@ -56,9 +56,9 @@ class MedicalCareplan(models.Model):
         partner = self.get_payor(is_insurance)
         order = self.sale_order_ids.filtered(lambda r: (
             (agreement.id == r.coverage_agreement_id.id and is_insurance and
-             not r.state == 'cancel') or
-            (not is_insurance and not self.coverage_agreement_id and not
-             r.state == 'cancel')))
+             r.state == 'draft') or
+            (not is_insurance and not self.coverage_agreement_id and
+             r.state == 'draft')))
         if not order:
             order_vals = self.get_sale_order_vals(
                 partner, agreement, is_insurance)
