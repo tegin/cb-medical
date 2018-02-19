@@ -15,6 +15,7 @@ class ActivityDefinition(models.Model):
             vals, parent, plan, action)
         res['coverage_agreement_item_id'] = False
         res['coverage_agreement_id'] = False
+        res['authorization_method_id'] = False
         if vals.get('coverage_id', False):
             coverage_template = self.env['medical.coverage'].browse(vals.get(
                 'coverage_id')).coverage_template_id
@@ -29,4 +30,9 @@ class ActivityDefinition(models.Model):
             if cai:
                 res['coverage_agreement_item_id'] = cai.id
                 res['coverage_agreement_id'] = cai.coverage_agreement_id.id
+                res['authorization_method_id'] = cai.authorization_method_id.id
+                if cai.authorization_method_id.always_authorized:
+                    res['authorization_status'] = 'authorized'
+                else:
+                    res['authorization_status'] = 'pending'
         return res

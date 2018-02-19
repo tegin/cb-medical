@@ -15,7 +15,14 @@
         'cb_medical_financial_coverage_agreement'
     ],
     'data': [
+        'data/medical_authorization_method_data.xml',
+        'data/medical_authorization_format_data.xml',
+        'security/medical_security.xml',
+        'security/ir.model.access.csv',
         'views/medical_request_views.xml',
+        'views/medical_coverage_agreement_item_view.xml',
+        'views/medical_coverage_agreement_view.xml',
+        'views/medical_authorization_format_view.xml',
         'wizard/medical_careplan_add_plan_definition_views.xml',
     ],
     'demo': [

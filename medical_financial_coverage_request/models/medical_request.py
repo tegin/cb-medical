@@ -23,3 +23,12 @@ class MedicalRequest(models.AbstractModel):
         readonly=True,
         ondelete='restrict'
     )
+    authorization_method_id = fields.Many2one(
+        comodel_name='medical.authorization.method'
+    )
+    authorization_number = fields.Char()
+    authorization_status = fields.Selection([
+        ('pending', 'Pending authorization'),
+        ('not-authorized', 'Not authorized'),
+        ('authorized', 'Authorized'),
+    ], readonly=True,)
