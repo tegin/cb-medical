@@ -184,6 +184,8 @@ class TestMedicalCareplanSale(TransactionCase):
             wizard.run()
         self.action.is_billable = False
         wizard.run()
+
+        self.assertTrue(self.session.action_view_sale_orders()['res_id'])
         groups = self.env['medical.request.group'].search([
             ('careplan_id', '=', careplan.id)])
         self.assertTrue(groups)
@@ -209,6 +211,10 @@ class TestMedicalCareplanSale(TransactionCase):
             'pos_session_id': self.session.id,
         }).run()
         self.assertGreater(len(careplan.sale_order_ids), 0)
+        self.assertGreater(self.session.careplan_count, 0)
+        self.assertGreater(self.session.sale_order_count, 0)
+        self.assertEqual(self.session.action_view_careplans()['res_id'],
+                         careplan.id)
         self.session.action_pos_session_closing_control()
         self.assertTrue(self.session.invoice_ids)
         self.assertTrue(self.session.down_payment_ids)
