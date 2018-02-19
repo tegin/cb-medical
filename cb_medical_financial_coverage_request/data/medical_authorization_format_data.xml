@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="format_anything" model="medical.authorization.format">
+        <field name="code">anything</field>
+        <field name="name">Anything</field>
+        <field name="formula">^.*$</field>
+    </record>
+</odoo>

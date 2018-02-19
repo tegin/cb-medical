@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="medical_authorization_format_form" model="ir.ui.view">
+        <field name="name">medical.authorization.format.form</field>
+        <field name="model">medical.authorization.format</field>
+        <field name="arch" type="xml">
+            <form string="Authorization format">
+                <sheet>
+                    <header/>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="formula"/>
+                        <field name="authorization_information"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="medical_authorization_format_tree" model="ir.ui.view">
+        <field name="name">medical.authorization.format.tree</field>
+        <field name="model">medical.authorization.format</field>
+        <field name="arch" type="xml">
+            <search string="Agreements">
+                <filter string="Archived" name="inactive"
+                        domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="medical_authorization_format_action"
+            model="ir.actions.act_window">
+        <field name="name">Agreement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.authorization.format</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="medical_authorization_format_menu"
+              name="Authorization format"
+              sequence="90"
+              parent="medical_base.medical_root_financial"
+              action="medical_authorization_format_action"/>
+
+
+</odoo>
