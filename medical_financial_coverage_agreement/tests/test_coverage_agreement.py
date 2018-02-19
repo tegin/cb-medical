@@ -142,7 +142,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
             'location_ids': [(6, 0, [self.location_1.id])],
             'company_id': self.ref('base.main_company'),
             'coverage_template_ids': [(6, 0, [coverage_template.id])],
-            'payor': 'coverage',
+            'principal_concept': 'coverage',
         })
 
     def test_security(self):
