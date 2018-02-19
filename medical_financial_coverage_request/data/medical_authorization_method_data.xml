@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="without" model="medical.authorization.method">
+        <field name="code">no need</field>
+        <field name="name">Without</field>
+        <field name="always_authorized" eval="True"/>
+    </record>
+    <record id="only_paper" model="medical.authorization.method">
+        <field name="code">only paper</field>
+        <field name="name">Only paper</field>
+        <field name="always_authorized" eval="True"/>
+    </record>
+    <record id="only_number" model="medical.authorization.method">
+        <field name="code">number</field>
+        <field name="name">Number</field>
+        <field name="number_required" eval="True"/>
+    </record>
+    <record id="web_auth" model="medical.authorization.method">
+        <field name="code">web auth</field>
+        <field name="name">Auth by web</field>
+        <field name="number_required" eval="True"/>
+    </record>
+    <record id="ws_auth" model="medical.authorization.method">
+        <field name="code">ws auth</field>
+        <field name="name">Auth + WS</field>
+        <field name="number_required" eval="True"/>
+        <field name="auxiliary_method_id" ref="web_auth"/>
+    </record>
+    <record id="web_wo_auth" model="medical.authorization.method">
+        <field name="code">web wo auth</field>
+        <field name="name">Web without authorization</field>
+    </record>
+    <record id="ws_wo_auth" model="medical.authorization.method">
+        <field name="code">ws wo auth</field>
+        <field name="name">WS without authorization</field>
+        <field name="auxiliary_method_id" ref="web_wo_auth"/>
+    </record>
+</odoo>
