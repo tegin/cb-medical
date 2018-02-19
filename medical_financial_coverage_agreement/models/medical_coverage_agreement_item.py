@@ -15,7 +15,7 @@ class MedicalCoverageAgreementItem(models.Model):
                                             False)
         agreement = self.env['medical.coverage.agreement'].browse(agreement_id)
         if agreement:
-            if agreement.payor == 'coverage':
+            if agreement.principal_concept == 'coverage':
                 return 100.0
             else:
                 return 0.0

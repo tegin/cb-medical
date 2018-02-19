@@ -69,10 +69,10 @@ class MedicalCoverageAgreement(models.Model):
     actual_date = fields.Date(
         default=fields.Date.today(),
     )
-    payor = fields.Selection([
+    principal_concept = fields.Selection([
         ('private', 'Private'),
         ('coverage', 'Coverage')],
-        'Payor',
+        'Concept',
     )
 
     @api.model
