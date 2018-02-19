@@ -18,6 +18,7 @@
             </field>
             <field name="plan_definition_id" position="after">
                 <field name="agreement_line_id"/>
+                <field name="patient_id" invisible="1"/>
                 <field name="product_id" invisible="1"/>
                 <field name="coverage_id" invisible="1"/>
                 <field name="coverage_template_id" invisible="1"/>
