@@ -18,6 +18,9 @@
                 <field name="coverage_id"/>
                 <field name="coverage_agreement_id"/>
                 <field name="coverage_agreement_item_id"/>
+                <field name="authorization_method_id"/>
+                <field name="authorization_number"/>
+                <field name="authorization_status"/>
                 <field name="careplan_id" readonly="1"
                        attrs="{'invisible': [('careplan_id', '=', False)]}"/>
             </group>
