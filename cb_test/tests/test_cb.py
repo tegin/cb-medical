@@ -36,7 +36,11 @@ class TestMedicalCareplanSale(TransactionCase):
             'coverage_template_ids': [(4, self.coverage_template.id)],
             'company_id': self.company.id,
             'invoice_group_method_id': self.browse_ref(
-                'cb_medical_sale_invoice_group_method.by_preinvoicing').id
+                'cb_medical_sale_invoice_group_method.by_preinvoicing').id,
+            'authorization_method_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.without').id,
+            'authorization_format_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.format_anything').id,
         })
         self.patient_01 = self.create_patient('Patient 01')
         self.coverage_01 = self.env['medical.coverage'].create({
@@ -93,7 +97,11 @@ class TestMedicalCareplanSale(TransactionCase):
             'coverage_agreement_id': self.agreement.id,
             'plan_definition_id': self.plan_definition.id,
             'total_price': 100,
-            'coverage_percentage': 0.5
+            'coverage_percentage': 0.5,
+            'authorization_method_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.without').id,
+            'authorization_format_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.format_anything').id,
         })
         self.agreement_line2 = self.env[
             'medical.coverage.agreement.item'
@@ -102,6 +110,10 @@ class TestMedicalCareplanSale(TransactionCase):
             'coverage_agreement_id': self.agreement.id,
             'total_price': 0.0,
             'coverage_percentage': 100.0,
+            'authorization_method_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.without').id,
+            'authorization_format_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.format_anything').id,
         })
         self.practitioner_01 = self.create_practitioner('Practitioner 01')
         self.practitioner_02 = self.create_practitioner('Practitioner 02')
@@ -250,7 +262,9 @@ class TestMedicalCareplanSale(TransactionCase):
             self.assertEqual(
                 procedure.commission_agent_id, self.practitioner_02)
         careplan.recompute_commissions()
-        for sale_order in careplan.sale_order_ids:
+        for sale_order in careplan.sale_order_ids.filtered(
+            lambda r: not r.is_down_payment
+        ):
             sale_order.recompute_lines_agents()
             self.assertGreater(sale_order.commission_total, 0)
         preinvoice_obj = self.env['sale.preinvoice.group']
@@ -409,7 +423,11 @@ class TestMedicalCareplanSale(TransactionCase):
             'product_id': self.product_02.id,
             'coverage_agreement_id': self.agreement.id,
             'total_price': 110,
-            'coverage_percentage': 0.5
+            'coverage_percentage': 0.5,
+            'authorization_method_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.without').id,
+            'authorization_format_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.format_anything').id,
         })
         group.breakdown()
         self.assertFalse(group.is_billable)
