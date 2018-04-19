@@ -14,7 +14,7 @@
         <field name="res_model">res.partner</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
-        <field name="domain">[('is_sub_payor', '=', True)]</field>
+        <field name="domain">[('is_sub_payor', '=', True), ('payor_id', '=', active_id)]</field>
         <field name="context">{'default_company_type':'company',
             'default_is_company':True, 'default_is_sub_payor': True,
             'default_is_medical': True, 'default_payor_id': active_id}
