@@ -24,6 +24,11 @@ class MedicalCareplan(models.Model):
         domain="[('payor_id', '=', payor_id), ('is_sub_payor', '=', True)]"
     )
 
+    @api.onchange('encounter_id')
+    def _onchange_encounter(self):
+        for record in self:
+            record.center_id = self.encounter_id.center_id
+
     @api.onchange('coverage_id')
     def _onchange_coverage_id(self):
         for record in self:
