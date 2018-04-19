@@ -20,17 +20,23 @@ class TestWizard(TransactionCase):
             'name': 'Template',
             'payor_id': self.payor.id
         })
-        self.location = self.env['res.partner'].create({
+        self.center = self.env['res.partner'].create({
             'name': 'Location',
-            'is_location': True,
+            'is_center': True,
         })
         self.coverage = self.env['medical.coverage'].create({
             'patient_id': self.patient.id,
             'coverage_template_id': self.template.id,
         })
+        self.encounter = self.env['medical.encounter'].create({
+            'patient_id': self.patient.id,
+            'center_id': self.center.id,
+        })
         self.careplan = self.env['medical.careplan'].create({
             'patient_id': self.patient.id,
             'coverage_id': self.coverage.id,
+            'encounter_id': self.encounter.id,
+            'center_id': self.encounter.center_id.id,
         })
         self.format = self.env['medical.authorization.format'].create({
             'code': 'Format',
@@ -39,7 +45,7 @@ class TestWizard(TransactionCase):
         })
         self.agreement = self.env['medical.coverage.agreement'].create({
             'name': 'Agreement',
-            'location_ids': [(6, 0, self.location.ids)],
+            'center_ids': [(6, 0, self.center.ids)],
             'coverage_template_ids': [(6, 0, self.template.ids)],
             'company_id': self.browse_ref('base.main_company').id,
             'authorization_method_id': self.browse_ref(
