@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models, _
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
@@ -13,13 +13,22 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         'medical.coverage',
         related='careplan_id.coverage_id'
     )
+    center_id = fields.Many2one(
+        'res.partner',
+        related='careplan_id.center_id',
+        readonly=True,
+    )
     coverage_template_id = fields.Many2one(
         'medical.coverage.template',
         related='coverage_id.coverage_template_id'
     )
+    agreement_ids = fields.Many2many(
+        'medical.coverage.agreement',
+        compute='_compute_agreements'
+    )
     agreement_line_id = fields.Many2one(
         'medical.coverage.agreement.item',
-        domain="[('coverage_template_ids', '=', coverage_template_id),"
+        domain="[('coverage_agreement_id', 'in', agreement_ids),"
                "('plan_definition_id', '!=', False)]"
     )
     product_id = fields.Many2one(
@@ -48,6 +57,14 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         readonly=True,
     )
 
+    @api.depends()
+    def _compute_agreements(self):
+        for rec in self:
+            rec.agreement_ids = self.env['medical.coverage.agreement'].search([
+                ('coverage_template_id', '=', self.coverage_template_id.ids),
+                ('center_id', '=', self.center_id.id)
+            ])
+
     def _get_values(self):
         values = super(MedicalCareplanAddPlanDefinition, self)._get_values()
         values['coverage_id'] = self.careplan_id.coverage_id.id
@@ -57,6 +74,7 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         values[
             'coverage_agreement_id'
         ] = self.agreement_line_id.coverage_agreement_id.id
+        values['center_id'] = self.center_id.id
         if (
             self.authorization_method_id.number_required and
             not self.authorization_format_id.check_value(
