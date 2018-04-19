@@ -15,3 +15,8 @@ class MedicalRequest(models.AbstractModel):
     is_breakdown = fields.Boolean(
         default=False,
     )
+    center_id = fields.Many2one(
+        'res.partner',
+        domain=[('is_center', '=', True)],
+        required=True,
+    )

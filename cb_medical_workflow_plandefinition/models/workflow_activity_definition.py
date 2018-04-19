@@ -14,4 +14,9 @@ class ActivityDefinition(models.Model):
             vals, parent, plan, action)
         res['is_billable'] = action.is_billable if action else plan.is_billable
         res['is_breakdown'] = plan.is_breakdown if not action else False
+        if parent and not res.get('center_id', False):
+            res['center_id'] = parent.center_id.id
+        elif res.get('careplan_id', False) and not res.get('center_id', False):
+            res['center_id'] = self.env['medical.careplan'].browse(
+                res['careplan_id']).center_id.id
         return res
