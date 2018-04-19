@@ -22,7 +22,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         self.coverage_agreement_model = self.env['medical.coverage.agreement']
         self.coverage_agreement_model_item = \
             self.env['medical.coverage.agreement.item']
-        self.location_model = self.env['res.partner']
+        self.center_model = self.env['res.partner']
         self.product_model = self.env['product.product']
         self.type_model = self.env['workflow.type']
         self.act_def_model = self.env['workflow.activity.definition']
@@ -33,7 +33,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         self.payor_1 = self._create_payor()
         self.coverage_template_1 = self._create_coverage_template()
         self.coverage = self._create_coverage(self.coverage_template_1)
-        self.location_1 = self._create_location()
+        self.center_1 = self._create_center()
         self.product_1 = self._create_product('test 1')
         self.product_2 = self._create_product('test 2')
         self.type_1 = self._create_type()
@@ -95,10 +95,10 @@ class TestMedicalCoverageAgreement(TransactionCase):
             'coverage_percentage': 100,
         })
 
-    def _create_location(self):
-        return self.location_model.create({
+    def _create_center(self):
+        return self.center_model.create({
             'name': 'Test location',
-            'is_location': True
+            'is_center': True
         })
 
     def _create_product(self, name):
@@ -139,7 +139,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
     def _create_coverage_agreement(self, coverage_template):
         return self.coverage_agreement_model.create({
             'name': 'test coverage agreement',
-            'location_ids': [(6, 0, [self.location_1.id])],
+            'center_ids': [(6, 0, [self.center_1.id])],
             'company_id': self.ref('base.main_company'),
             'coverage_template_ids': [(6, 0, [coverage_template.id])],
             'principal_concept': 'coverage',
@@ -149,7 +149,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         coverage_template = self._create_coverage_template()
         coverage_agreement_vals = {
             'name': 'test coverage agreement',
-            'location_ids': [(6, 0, [self.location_1.id])],
+            'center_ids': [(6, 0, [self.center_1.id])],
             'company_id': self.ref('base.main_company'),
             'coverage_template_ids': [(6, 0, [coverage_template.id])],
         }
@@ -178,7 +178,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         # case 1
         coverage_agreement_vals = {
             'name': 'test coverage agreement',
-            'location_ids': [(6, 0, [self.location_1.id])],
+            'center_ids': [(6, 0, [self.center_1.id])],
             'company_id': self.ref('base.main_company'),
         }
         coverage_agreement = self.coverage_agreement_model.create(
@@ -202,7 +202,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         # case 1
         coverage_agreement_vals = {
             'name': 'test coverage agreement',
-            'location_ids': [(6, 0, [self.location_1.id])],
+            'center_ids': [(6, 0, [self.center_1.id])],
             'company_id': self.ref('base.main_company'),
             'date_from': (datetime.today() + relativedelta(days=5))
         }
