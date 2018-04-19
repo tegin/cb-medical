@@ -9,7 +9,7 @@
     'category': 'Medical',
     'depends': [
         'medical_financial_coverage',
-        'medical_administration_location',
+        'cb_medical_administration_center',
         'product',
         'medical_workflow',
         'sale',

@@ -31,7 +31,7 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <t t-set="agreement" t-value="docs[0]"/>
-                        <t t-set="locations" t-value="agreement.location_ids"/>
+                        <t t-set="centers" t-value="agreement.center_ids"/>
                         <t t-set="items" t-value="agreement.item_ids"/>
                         <div class="page">
                             <h3 class="text-center">Agreement Report</h3>
@@ -43,8 +43,8 @@
                                         <t t-esc="agreement.name"/>
                                     </h3>
                                     <br/>
-                                    <p><b>Location: </b><t
-                                            t-foreach="locations" t-as="o"><span t-field="o.name"/></t></p>
+                                    <p><b>Center: </b><t
+                                            t-foreach="centers" t-as="o"><span t-field="o.name"/></t></p>
                                     <p><b>Company: </b><span t-field="agreement.company_id"/></p>
                                     <p><b>Invoice Group Method: </b><span t-field="agreement.invoice_group_method_id"/></p>
                                     <p><b>Payor: </b><span t-field="agreement.payor"/></p>
