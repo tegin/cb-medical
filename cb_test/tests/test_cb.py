@@ -186,7 +186,7 @@ class TestMedicalCareplanSale(TransactionCase):
             ('careplan_id', '=', careplan.id)])
         group.ensure_one()
         self.assertEqual(group.center_id, encounter.center_id)
-        return careplan, group
+        return encounter, careplan, group
 
     def test_careplan_sale(self):
         encounter = self.env['medical.encounter'].create({
@@ -206,8 +206,8 @@ class TestMedicalCareplanSale(TransactionCase):
         careplan._onchange_encounter()
         careplan = careplan.create(careplan._convert_to_write(careplan._cache))
         self.assertEqual(careplan.center_id, encounter.center_id)
-        self.env['wizard.medical.careplan.add.amount'].create({
-            'careplan_id': careplan.id,
+        self.env['wizard.medical.encounter.add.amount'].create({
+            'encounter_id': encounter.id,
             'amount': 10,
             'pos_session_id': self.session.id,
             'journal_id': self.session.journal_ids[0].id,
@@ -243,15 +243,15 @@ class TestMedicalCareplanSale(TransactionCase):
                 ('medication_administration_id', '=', admin.id)
             ]).move_lines.move_line_ids
             self.assertEqual(stock_move.qty_done, 2.0)
-        self.env['wizard.medical.careplan.close'].create({
-            'careplan_id': careplan.id,
+        self.env['wizard.medical.encounter.close'].create({
+            'encounter_id': encounter.id,
             'pos_session_id': self.session.id,
         }).run()
-        self.assertGreater(len(careplan.sale_order_ids), 0)
-        self.assertGreater(self.session.careplan_count, 0)
+        self.assertGreater(len(encounter.sale_order_ids), 0)
+        self.assertGreater(self.session.encounter_count, 0)
         self.assertGreater(self.session.sale_order_count, 0)
-        self.assertEqual(self.session.action_view_careplans()['res_id'],
-                         careplan.id)
+        self.assertEqual(self.session.action_view_encounters()['res_id'],
+                         encounter.id)
         self.session.action_pos_session_closing_control()
         self.assertTrue(self.session.invoice_ids)
         self.assertTrue(self.session.down_payment_ids)
@@ -264,7 +264,7 @@ class TestMedicalCareplanSale(TransactionCase):
             ('careplan_id', '=', careplan.id)
         ])
         self.assertGreater(len(medication_requests), 0)
-        for sale_order in careplan.sale_order_ids:
+        for sale_order in encounter.sale_order_ids:
             sale_order.recompute_lines_agents()
             self.assertEqual(sale_order.commission_total, 0)
             medicaments = self.env['sale.order.line'].search([
@@ -287,8 +287,9 @@ class TestMedicalCareplanSale(TransactionCase):
             procedure._onchange_performer_id()
             self.assertEqual(
                 procedure.commission_agent_id, self.practitioner_02)
-        careplan.recompute_commissions()
-        for sale_order in careplan.sale_order_ids.filtered(
+        encounter.recompute_commissions()
+        self.assertTrue(encounter.sale_order_ids)
+        for sale_order in encounter.sale_order_ids.filtered(
             lambda r: not r.is_down_payment
         ):
             sale_order.recompute_lines_agents()
@@ -302,7 +303,8 @@ class TestMedicalCareplanSale(TransactionCase):
         }).run()
         self.assertFalse(preinvoice_obj.search([
             ('agreement_id', '=', self.agreement.id)]))
-        for sale_order in careplan.sale_order_ids:
+        self.assertTrue(encounter.sale_order_ids)
+        for sale_order in encounter.sale_order_ids:
             sale_order.action_confirm()
         self.env['wizard.sale.preinvoice.group'].create({
             'company_ids': [(6, 0, self.company.ids)],
@@ -383,7 +385,7 @@ class TestMedicalCareplanSale(TransactionCase):
         for invoice in invoices:
             self.assertEqual(invoice.state, 'draft')
             invoice.invoice_line_ids.unlink()
-        for sale_order in careplan.sale_order_ids:
+        for sale_order in encounter.sale_order_ids:
             for line in sale_order.order_line:
                 self.assertFalse(line.preinvoice_group_id)
         # Test manual validation of lines on preinvoices
@@ -422,7 +424,7 @@ class TestMedicalCareplanSale(TransactionCase):
     def test_no_agreement(self):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
-        careplan, group = self.create_careplan_and_group()
+        encounter, careplan, group = self.create_careplan_and_group()
         self.assertTrue(group.is_billable)
         self.assertTrue(group.is_breakdown)
         with self.assertRaises(ValidationError):
@@ -431,7 +433,7 @@ class TestMedicalCareplanSale(TransactionCase):
     def test_no_breakdown(self):
         self.plan_definition.is_billable = True
         self.plan_definition.is_breakdown = False
-        careplan, group = self.create_careplan_and_group()
+        encounter, careplan, group = self.create_careplan_and_group()
         self.assertTrue(group.is_billable)
         self.assertFalse(group.is_breakdown)
         with self.assertRaises(ValidationError):
@@ -440,7 +442,7 @@ class TestMedicalCareplanSale(TransactionCase):
     def test_correct(self):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
-        careplan, group = self.create_careplan_and_group()
+        encounter, careplan, group = self.create_careplan_and_group()
         self.assertTrue(group.is_billable)
         self.assertTrue(group.is_breakdown)
         self.env[
@@ -458,8 +460,8 @@ class TestMedicalCareplanSale(TransactionCase):
         group.breakdown()
         self.assertFalse(group.is_billable)
         self.assertFalse(group.is_breakdown)
-        self.env['wizard.medical.careplan.close'].create({
-            'careplan_id': careplan.id,
+        self.env['wizard.medical.encounter.close'].create({
+            'encounter_id': encounter.id,
             'pos_session_id': self.session.id,
         }).run()
-        self.assertGreater(len(careplan.sale_order_ids), 0)
+        self.assertGreater(len(encounter.sale_order_ids), 0)
