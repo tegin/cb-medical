@@ -8,8 +8,8 @@ from odoo import fields, models
 class SaleOrder(models.AbstractModel):
     _inherit = 'sale.order'
 
-    careplan_id = fields.Many2one(
-        'medical.careplan',
+    encounter_id = fields.Many2one(
+        'medical.encounter',
     )
     coverage_agreement_id = fields.Many2one(
         'medical.coverage.agreement',
