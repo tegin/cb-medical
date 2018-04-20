@@ -13,11 +13,11 @@
             </field>
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button type="object"
-                        name="action_view_careplans"
+                        name="action_view_encounters"
                         class="oe_stat_button" icon="fa-hospital-o">
-                    <field name="careplan_count" widget="statinfo"
-                           string="Care Plans"/>
-                    <field name="careplan_ids" invisible="1"/>
+                    <field name="encounter_count" widget="statinfo"
+                           string="Encounters"/>
+                    <field name="encounter_ids" invisible="1"/>
                 </button>
                 <button type="object"
                         name="action_view_sale_orders"

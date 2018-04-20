@@ -15,9 +15,9 @@
     ],
     'data': [
         'data/ir_sequence_data.xml',
-        'wizard/wizard_medical_careplan_close_view.xml',
-        'wizard/wizard_medical_careplan_add_amount_view.xml',
-        'views/medical_careplan_views.xml',
+        'wizard/wizard_medical_encounter_close_view.xml',
+        'wizard/wizard_medical_encounter_add_amount_view.xml',
+        'views/medical_encounter_views.xml',
         'views/pos_config_views.xml',
         'views/sale_order_views.xml',
         'views/pos_session_views.xml',
