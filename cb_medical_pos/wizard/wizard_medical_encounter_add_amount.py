@@ -6,8 +6,8 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
-class WizardMedicalCareplanAddAmount(models.TransientModel):
-    _name = 'wizard.medical.careplan.add.amount'
+class WizardMedicalEncounterAddAmount(models.TransientModel):
+    _name = 'wizard.medical.encounter.add.amount'
 
     def _default_product(self):
         product_id = self.env['ir.config_parameter'].sudo().get_param(
@@ -49,9 +49,9 @@ class WizardMedicalCareplanAddAmount(models.TransientModel):
         default=_default_product
     )
     amount = fields.Monetary(currency_field='currency_id')
-    careplan_id = fields.Many2one(
-        comodel_name='medical.careplan',
-        string='Careplan',
+    encounter_id = fields.Many2one(
+        comodel_name='medical.encounter',
+        string='encounter',
         readonly=True,
         required=True
     )
@@ -63,10 +63,10 @@ class WizardMedicalCareplanAddAmount(models.TransientModel):
 
     def sale_order_vals(self):
         vals = {
-            'careplan_id': self.careplan_id.id,
-            'partner_id': self.careplan_id.patient_id.partner_id.id,
-            'patient_id': self.careplan_id.patient_id.id,
-            'company_id': self.careplan_id.company_id.id,
+            'encounter_id': self.encounter_id.id,
+            'partner_id': self.encounter_id.patient_id.partner_id.id,
+            'patient_id': self.encounter_id.patient_id.id,
+            'company_id': self.encounter_id.company_id.id,
             'pos_session_id': self.pos_session_id.id,
             'is_down_payment': True,
         }
@@ -89,8 +89,8 @@ class WizardMedicalCareplanAddAmount(models.TransientModel):
         self.ensure_one()
         if self.amount <= 0:
             raise ValidationError(_('Amount must be greater than 0'))
-        if not self.careplan_id.company_id:
-            self.careplan_id.company_id = self.company_id
+        if not self.encounter_id.company_id:
+            self.encounter_id.company_id = self.company_id
         order = self.env['sale.order'].create(self.sale_order_vals())
         self.env['sale.order.line'].with_context(
             force_company=order.company_id.id

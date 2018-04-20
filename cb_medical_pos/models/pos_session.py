@@ -13,14 +13,14 @@ class PosSession(models.Model):
         required=True,
         default='/',
     )
-    careplan_ids = fields.One2many(
-        comodel_name='medical.careplan',
+    encounter_ids = fields.One2many(
+        comodel_name='medical.encounter',
         inverse_name='pos_session_id',
-        string='Careplans',
+        string='Encounters',
         readonly=1,
     )
-    careplan_count = fields.Integer(
-        compute='_compute_careplan_count'
+    encounter_count = fields.Integer(
+        compute='_compute_encounter_count'
     )
     sale_order_ids = fields.One2many(
         comodel_name='sale.order',
@@ -32,10 +32,10 @@ class PosSession(models.Model):
         compute='_compute_sale_order_count'
     )
 
-    @api.depends('careplan_ids')
-    def _compute_careplan_count(self):
+    @api.depends('encounter_ids')
+    def _compute_encounter_count(self):
         for record in self:
-            record.careplan_count = len(record.careplan_ids)
+            record.encounter_count = len(record.encounter_ids)
 
     @api.depends('sale_order_ids')
     def _compute_sale_order_count(self):
@@ -60,15 +60,15 @@ class PosSession(models.Model):
         return super(PosSession, self).create(vals)
 
     @api.multi
-    def action_view_careplans(self):
+    def action_view_encounters(self):
         self.ensure_one()
         action = self.env.ref(
-            'medical_clinical_careplan.medical_careplan_action')
+            'medical_administration_encounter.medical_encounter_action')
         result = action.read()[0]
         result['domain'] = [('pos_session_id', '=', self.id)]
-        if len(self.careplan_ids) == 1:
+        if len(self.encounter_ids) == 1:
             result['views'] = [(False, 'form')]
-            result['res_id'] = self.careplan_ids.id
+            result['res_id'] = self.encounter_ids.id
         return result
 
     @api.multi
