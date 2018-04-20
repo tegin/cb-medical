@@ -5,11 +5,11 @@
 from odoo import models
 
 
-class MedicalCareplan(models.Model):
-    _inherit = 'medical.careplan'
+class MedicalEncounter(models.Model):
+    _inherit = 'medical.encounter'
 
     def get_sale_order_vals(self, partner, key, is_insurance):
-        vals = super(MedicalCareplan, self).get_sale_order_vals(
+        vals = super().get_sale_order_vals(
             partner, key, is_insurance)
         if key:
             vals[
