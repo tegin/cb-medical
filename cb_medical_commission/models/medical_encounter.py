@@ -5,13 +5,13 @@
 from odoo import api, models
 
 
-class MedicalCareplan(models.AbstractModel):
-    _inherit = 'medical.careplan'
+class MedicalEncounter(models.AbstractModel):
+    _inherit = 'medical.encounter'
 
     @api.multi
     def recompute_commissions(self):
         for rec in self:
-            for pr in rec.procedure_request_ids:
+            for pr in rec.careplan_ids.mapped('procedure_request_ids'):
                 for procedure in pr.procedure_ids:
                     procedure.sale_order_line_ids = False
                     procedure.compute_commission(pr)
