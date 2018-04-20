@@ -5,8 +5,8 @@
 from odoo import api, fields, models
 
 
-class WizardMedicalCareplanClose(models.TransientModel):
-    _name = 'wizard.medical.careplan.close'
+class WizardMedicalEncounterClose(models.TransientModel):
+    _name = 'wizard.medical.encounter.close'
 
     pos_session_id = fields.Many2one(
         comodel_name='pos.session',
@@ -14,9 +14,9 @@ class WizardMedicalCareplanClose(models.TransientModel):
         required=True,
         domain=[('state', '=', 'opened')]
     )
-    careplan_id = fields.Many2one(
-        comodel_name='medical.careplan',
-        string='Careplan',
+    encounter_id = fields.Many2one(
+        comodel_name='medical.encounter',
+        string='encounter',
         readonly=True,
         required=True
     )
@@ -24,5 +24,5 @@ class WizardMedicalCareplanClose(models.TransientModel):
     @api.multi
     def run(self):
         self.ensure_one()
-        self.careplan_id.pos_session_id = self.pos_session_id
-        self.careplan_id.active2completed()
+        self.encounter_id.pos_session_id = self.pos_session_id
+        self.encounter_id.onleave2finished()
