@@ -6,8 +6,8 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
-class MedicalCareplan(models.Model):
-    _inherit = 'medical.careplan'
+class MedicalEncounter(models.Model):
+    _inherit = 'medical.encounter'
 
     pos_session_id = fields.Many2one(
         comodel_name='pos.session',
@@ -21,7 +21,7 @@ class MedicalCareplan(models.Model):
     )
 
     def get_sale_order_vals(self, partner, key, is_insurance):
-        vals = super(MedicalCareplan, self).get_sale_order_vals(
+        vals = super().get_sale_order_vals(
             partner, key, is_insurance)
         if self.pos_session_id:
             vals['pos_session_id'] = self.pos_session_id.id
@@ -35,9 +35,9 @@ class MedicalCareplan(models.Model):
         return vals
 
     @api.multi
-    def active2completed(self):
+    def onleave2finished(self):
         self.create_sale_order()
-        return super(MedicalCareplan, self).active2completed()
+        return super().onleave2finished()
 
     def down_payment_inverse_vals(self, order, line):
         return {
@@ -50,17 +50,17 @@ class MedicalCareplan(models.Model):
         }
 
     def get_sale_order_lines(self):
-        values = super(MedicalCareplan, self).get_sale_order_lines()
+        values = super().get_sale_order_lines()
         down_payments = self.sale_order_ids.filtered(
             lambda r: r.is_down_payment and r.coverage_agreement_id is False
         )
         if down_payments and 0 not in values:
-            values[0] = []
+            values[0] = {self.get_patient_partner(): []}
         return values
 
-    def generate_sale_order(self, key, order_lines):
-        order = super(MedicalCareplan, self).generate_sale_order(
-            key, order_lines)
+    def generate_sale_order(self, key, partner, order_lines):
+        order = super().generate_sale_order(
+            key, partner, order_lines)
         if key == 0:
             orders = self.sale_order_ids.filtered(
                 lambda r: (
