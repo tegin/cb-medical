@@ -19,7 +19,7 @@
         'views/medical_procedure_request_view.xml',
         'views/medical_procedure_view.xml',
         'views/workflow_plan_definition_action.xml',
-        'views/medical_careplan_views.xml',
+        'views/medical_encounter_views.xml',
     ],
     'website': 'https://github.com/OCA/vertical-medical',
     'license': 'LGPL-3',
