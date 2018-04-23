@@ -20,9 +20,9 @@
                     <group name="commission_agent">
                         <field name="medical_commission" invisible="1"/>
                         <field name="variable_fee"
-                               attrs="{'invisible':[('medical_commission', '=', False)]}"/>
+                               attrs="{'invisible':[('medical_commission', '=', False)], 'readonly': [('is_editable', '=', False)]}"/>
                         <field name="fixed_fee"
-                               attrs="{'invisible':[('medical_commission', '=', False)]}"/>
+                               attrs="{'invisible':[('medical_commission', '=', False)], 'readonly': [('is_editable', '=', False)]}"/>
                         <field name="commission_agent_id"/>
                     </group>
                 </page>
