@@ -16,7 +16,9 @@ class SaleOrderLine(models.Model):
     preinvoice_status = fields.Selection(
         related='preinvoice_group_id.state'
     )
-    is_validated = fields.Boolean()
+    is_validated = fields.Boolean(
+        track_visibility=True,
+    )
     sequence = fields.Integer(
         string='Sequence',
         default='999999',
