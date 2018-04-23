@@ -11,7 +11,11 @@ class MedicalAuthorizationMethod(models.Model):
 
     code = fields.Char(required=True,)
     name = fields.Char(required=True,)
-    number_required = fields.Boolean(required=True, default=False,)
+    number_required = fields.Boolean(
+        track_visibility=True,
+        required=True,
+        default=False,
+    )
     auxiliary_method_id = fields.Many2one(
         comodel_name='medical.authorization.method',
         required=False,
