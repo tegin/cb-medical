@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+    -->
+
+<odoo>
+    <record model="ir.ui.view" id="medical_request_tree">
+        <field name="name">medical.request.form</field>
+        <field name="model">medical.request</field>
+        <field name="inherit_id"
+               ref="medical_workflow.medical_request_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_request_form">
+        <field name="name">medical.request.form</field>
+        <field name="model">medical.request</field>
+        <field name="inherit_id"
+               ref="medical_workflow.medical_request_form"/>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <field name="patient_id" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </field>
+            <field name="service_id" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </field>
+            <field name="performer_id" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </field>
+            <field name="order_by_id" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>
