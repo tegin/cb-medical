@@ -8,11 +8,13 @@
     'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
     'depends': [
         'medical_clinical_request_group',
+        'medical_administration_encounter_careplan',
         'cb_medical_administration_center',
     ],
     'data': [
         'views/workflow_plan_definition_action.xml',
         'views/workflow_plan_definition.xml',
+        'views/medical_request_views.xml',
     ],
     'website': 'https://github.com/OCA/vertical-medical',
     'license': 'LGPL-3',
