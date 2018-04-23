@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
              <field name="team_id" position="after">
-                 <field name="pos_session_id"/>
+                 <field name="pos_session_id" options="{'no_create': True}"/>
              </field>
         </field>
     </record>
