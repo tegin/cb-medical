@@ -168,13 +168,20 @@ class TestMedicalCareplanSale(TransactionCase):
             'patient_id': self.patient_01.id,
             'center_id': self.center.id,
         })
-        careplan = self.env['medical.careplan'].new({
-            'patient_id': self.patient_01.id,
-            'coverage_id': self.coverage_01.id,
-            'encounter_id': encounter.id,
+        careplan_wizard = self.env[
+            'medical.encounter.add.careplan'
+        ].with_context(default_encounter_id=encounter.id).new({
+            'coverage_id': self.coverage_01.id
         })
-        careplan._onchange_encounter()
-        careplan = careplan.create(careplan._convert_to_write(careplan._cache))
+        careplan_wizard.onchange_coverage()
+        careplan_wizard.onchange_coverage_template()
+        careplan_wizard.onchange_payor()
+        careplan_wizard = careplan_wizard.create(
+            careplan_wizard._convert_to_write(careplan_wizard._cache))
+        self.assertEqual(encounter, careplan_wizard.encounter_id)
+        self.assertEqual(encounter.center_id, careplan_wizard.center_id)
+        careplan_wizard.run()
+        careplan = encounter.careplan_ids
         self.assertEqual(careplan.center_id, encounter.center_id)
         wizard = self.env['medical.careplan.add.plan.definition'].create({
             'careplan_id': careplan.id,
