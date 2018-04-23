@@ -43,5 +43,5 @@ class TestCoverage(TransactionCase):
             'coverage_template_id': self.template.id,
             'subscriber_id': '123456789012'
         })
-        coverage.create(coverage._convert_to_write(coverage._cache))
+        coverage = coverage.create(coverage._convert_to_write(coverage._cache))
         self.assertEqual(coverage.subscriber_id, '123456789012')
