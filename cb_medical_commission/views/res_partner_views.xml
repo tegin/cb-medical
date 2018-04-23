@@ -19,7 +19,7 @@
                       groups="medical_administration_practitioner.group_medical_practitioner_display">
                     <field name="commission_agent_ids"
                            nolabel="1"
-                           attrs="{'readonly': [('edit_practitioner', '=', False)]}"/>
+                           attrs="{'readonly': [('edit_practitioner', '=', False)]}" options="{'no_create': True}"/>
                 </page>
             </notebook>
         </field>
