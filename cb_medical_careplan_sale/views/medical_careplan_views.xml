@@ -7,8 +7,8 @@
                ref="medical_clinical_careplan.medical_procedure_request_view_form"/>
         <field name="arch" type="xml">
             <field name="coverage_id" position="after">
-                <field name="payor_id"/>
-                <field name="sub_payor_id"/>
+                <field name="payor_id" options="{'no_create': True}"/>
+                <field name="sub_payor_id" options="{'no_create': True}"/>
             </field>
         </field>
     </record>

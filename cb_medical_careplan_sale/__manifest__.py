@@ -15,10 +15,12 @@
         'sale',
         'cb_medical_financial_coverage_request',
         'cb_medical_workflow_plandefinition',
+        'cb_medical_coverage_magnetic_str',
     ],
     'data': [
         'data/medical_sub_payor_sequence.xml',
         'security/medical_security.xml',
+        'wizard/medical_encounter_add_careplan.xml',
         'views/medical_request_group_view.xml',
         'views/medical_careplan_views.xml',
         'views/medical_encounter_views.xml',
