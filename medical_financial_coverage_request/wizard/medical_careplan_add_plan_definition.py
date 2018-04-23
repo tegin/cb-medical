@@ -57,12 +57,12 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         readonly=True,
     )
 
-    @api.depends()
+    @api.depends('coverage_template_id', 'center_id')
     def _compute_agreements(self):
         for rec in self:
             rec.agreement_ids = self.env['medical.coverage.agreement'].search([
-                ('coverage_template_id', '=', self.coverage_template_id.ids),
-                ('center_id', '=', self.center_id.id)
+                ('coverage_template_ids', '=', rec.coverage_template_id.id),
+                ('center_ids', '=', rec.center_id.id)
             ])
 
     def _get_values(self):
