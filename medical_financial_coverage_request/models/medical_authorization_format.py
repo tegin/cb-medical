@@ -12,7 +12,10 @@ class MedicalAuthorizationFormat(models.Model):
 
     code = fields.Char(required=True,)
     name = fields.Char(required=True,)
-    formula = fields.Char(required=True,)
+    formula = fields.Char(
+        track_visibility=True,
+        required=True,
+    )
     authorization_information = fields.Text()
 
     def check_value(self, value):
