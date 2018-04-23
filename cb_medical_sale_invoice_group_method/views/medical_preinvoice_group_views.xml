@@ -14,8 +14,8 @@
         <field name="arch" type="xml">
             <tree string="Pre-invoice groups" create="0">
                 <field name="internal_identifier"/>
-                <field name="agreement_id"/>
-                <field name="partner_id"/>
+                <field name="agreement_id" options="{'no_create': True}"/>
+                <field name="partner_id" options="{'no_create': True}"/>
                 <field name="state"/>
             </tree>
         </field>
@@ -66,13 +66,13 @@
                     </h1>
                     <group colspan="4">
                     <group>
-                        <field name="agreement_id"/>
-                        <field name="partner_id"/>
-                        <field name="partner_invoice_id"/>
+                        <field name="agreement_id" options="{'no_create': True}"/>
+                        <field name="partner_id" options="{'no_create': True}"/>
+                        <field name="partner_invoice_id" options="{'no_create': True}"/>
                     </group>
                     <group>
-                        <field name="company_id"/>
-                        <field name="invoice_id"/>
+                        <field name="company_id" options="{'no_create': True}"/>
+                        <field name="invoice_id" options="{'no_create': True}"/>
                     </group>
                     </group>
                     <field name="current_sequence" invisible="1"/>
