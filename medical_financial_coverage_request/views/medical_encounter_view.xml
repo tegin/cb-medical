@@ -28,7 +28,7 @@
         <field name="arch" type="xml">
 
             <field name="location_id" position="after">
-                <field name="center_id"
+                <field name="center_id" options="{'no_create': True}"
                        attrs="{'readonly': [('is_editable', '=', False)]}"/>
             </field>
         </field>
