@@ -18,15 +18,15 @@
                 </group>
                 <group colspan="2">
                     <field name="date_to"/>
-                    <field name="invoice_group_method_id"/>
-                    <field name="company_ids" widget="many2many_tags"/>
+                    <field name="invoice_group_method_id" options="{'no_create': True}"/>
+                    <field name="company_ids" widget="many2many_tags" options="{'no_create': True}"/>
                     <field name="merge_draft_invoice"
                            groups="sale_merge_draft_invoice.group_sale_merge_draft_invoice"/>
                 </group>
                 <group string="Customers" colspan="4">
                     <p colspan="4">(keep empty for making the invoices of all the customers)</p>
                     <field name="customer_ids" nolabel="1"
-                           widget="many2many_list"/>
+                           widget="many2many_list" options="{'no_create': True}"/>
                 </group>
                 <footer>
                     <button name="invoice_sales_by_group"
