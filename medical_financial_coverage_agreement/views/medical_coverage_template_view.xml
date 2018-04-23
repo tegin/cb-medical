@@ -16,7 +16,7 @@
             <notebook position="inside">
                 <page name="coverage_agreements" string="Agreements">
                     <field name="unique_product" invisible="1"/>
-                    <field name="agreement_ids" nolabel="1"/>
+                    <field name="agreement_ids" nolabel="1" options="{'no_create': True}"/>
                 </page>
             </notebook>
         </field>
