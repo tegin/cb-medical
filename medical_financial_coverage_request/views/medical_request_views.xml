@@ -15,10 +15,10 @@
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <group name="inheritance" position="inside">
-                <field name="coverage_id"/>
-                <field name="coverage_agreement_id"/>
-                <field name="coverage_agreement_item_id"/>
-                <field name="authorization_method_id"/>
+                <field name="coverage_id" options="{'no_create': True}"/>
+                <field name="coverage_agreement_id" options="{'no_create': True}"/>
+                <field name="coverage_agreement_item_id" options="{'no_create': True}"/>
+                <field name="authorization_method_id" options="{'no_create': True}"/>
                 <field name="authorization_number"/>
                 <field name="authorization_status"/>
                 <field name="careplan_id" readonly="1"
