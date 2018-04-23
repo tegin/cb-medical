@@ -11,12 +11,15 @@ class MedicalRequest(models.AbstractModel):
     is_billable = fields.Boolean(
         string='Is billable?',
         default=False,
+        track_visibility=True,
     )
     is_breakdown = fields.Boolean(
         default=False,
+        track_visibility=True,
     )
     center_id = fields.Many2one(
         'res.partner',
         domain=[('is_center', '=', True)],
         required=True,
+        track_visibility=True,
     )

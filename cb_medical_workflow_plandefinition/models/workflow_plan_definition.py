@@ -11,10 +11,12 @@ class PlanDefinition(models.Model):
     is_billable = fields.Boolean(
         string='Is billable?',
         default=True,
+        track_visibility=True,
     )
     is_breakdown = fields.Boolean(
         string='Possible breakdown?',
         default=True,
+        track_visibility=True,
     )
 
     def get_request_group_vals(self, vals):
