@@ -13,11 +13,13 @@ class MedicalEncounter(models.Model):
         comodel_name='pos.session',
         string='PoS Session',
         readonly=1,
+        track_visibility=True,
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
         string='Company',
         readonly=1,
+        track_visibility=True,
     )
 
     def get_sale_order_vals(self, partner, key, is_insurance):
