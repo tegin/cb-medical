@@ -7,6 +7,11 @@
                ref="medical_administration_encounter.medical_encounter_view_form"/>
         <field name="arch" type="xml">
             <button name="inprogress2onleave" position="before">
+                <button name="%(medical_encounter_add_careplan_action)s"
+                        type="action"
+                        string="Create careplan"
+                        states="arrived,in-progress,onleave"
+                        />
                 <button name="create_sale_order"
                         type="object" string="Create Sales Orders"
                         class="oe_highlight"/>

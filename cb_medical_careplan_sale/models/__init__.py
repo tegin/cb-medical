@@ -5,6 +5,7 @@
 from . import medical_careplan
 from . import medical_encounter
 from . import medical_medication_request
+from . import medical_patient
 from . import medical_request
 from . import res_partner
 from . import sale_order
