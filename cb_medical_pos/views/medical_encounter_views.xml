@@ -25,8 +25,8 @@
                 <attribute name="invisible">1</attribute>
             </button>
             <field name="location_id" position="after">
-                <field name="company_id"/>
-                <field name="pos_session_id"/>
+                <field name="company_id" options="{'no_create': True}"/>
+                <field name="pos_session_id" options="{'no_create': True}"/>
             </field>
         </field>
     </record>
