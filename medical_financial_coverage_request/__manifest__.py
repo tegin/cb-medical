@@ -24,6 +24,7 @@
         'views/medical_request_views.xml',
         'views/medical_coverage_agreement_item_view.xml',
         'views/medical_coverage_agreement_view.xml',
+        'views/medical_coverage_template_view.xml',
         'views/medical_authorization_format_view.xml',
         'wizard/medical_careplan_add_plan_definition_views.xml',
     ],
