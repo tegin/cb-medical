@@ -4,8 +4,10 @@
 
 from . import medical_authorization_format
 from . import medical_authorization_method
+from . import medical_coverage
 from . import medical_coverage_agreement
 from . import medical_coverage_agreement_item
+from . import medical_coverage_template
 from . import medical_encounter
 from . import medical_request
 from . import res_partner
