@@ -32,7 +32,7 @@
             <field name="specialty_ids"
                     position="after">
                 <field name="specialty_required" invisible="True"/>
-                <field name="specialty_id"
+                <field name="specialty_id" options="{'no_create': True}"
                        attrs="{'invisible': [('is_practitioner','=',False)],'readonly':[('edit_practitioner', '=', False)], 'required': [('specialty_required', '=', True)]}"
                        groups="medical_administration_practitioner.group_medical_practitioner_display"/>
             </field>
