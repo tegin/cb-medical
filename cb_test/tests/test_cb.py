@@ -42,6 +42,13 @@ class TestMedicalCareplanSale(TransactionCase):
             'stock_picking_type_id': self.env['stock.picking.type'].search(
                 [], limit=1).id
         })
+        self.document_type = self.env['medical.document.type'].create({
+            'name': 'CI',
+            'report_action_id': self.browse_ref(
+                'medical_document.action_report_document_report_base').id,
+            'text': '<p>${object.patient_id.name}</p>'
+        })
+        self.document_type.draft2current()
         self.agreement = self.env['medical.coverage.agreement'].create({
             'name': 'Agreement',
             'center_ids': [(4, self.center.id)],
@@ -90,6 +97,13 @@ class TestMedicalCareplanSale(TransactionCase):
                                         'model_medical_medication_request').id,
             'type_id': self.type.id,
         })
+        self.activity3 = self.env['workflow.activity.definition'].create({
+            'name': 'Activity3',
+            'model_id': self.browse_ref(
+                'medical_document.model_medical_document_reference').id,
+            'document_type_id': self.document_type.id,
+            'type_id': self.type.id,
+        })
         self.action = self.env['workflow.plan.definition.action'].create({
             'activity_definition_id': self.activity.id,
             'direct_plan_definition_id': self.plan_definition.id,
@@ -101,6 +115,12 @@ class TestMedicalCareplanSale(TransactionCase):
             'direct_plan_definition_id': self.plan_definition.id,
             'is_billable': True,
             'name': 'Action2',
+        })
+        self.action3 = self.env['workflow.plan.definition.action'].create({
+            'activity_definition_id': self.activity3.id,
+            'direct_plan_definition_id': self.plan_definition.id,
+            'is_billable': False,
+            'name': 'Action3',
         })
         self.agreement_line = self.env[
             'medical.coverage.agreement.item'
@@ -193,6 +213,8 @@ class TestMedicalCareplanSale(TransactionCase):
             ('careplan_id', '=', careplan.id)])
         group.ensure_one()
         self.assertEqual(group.center_id, encounter.center_id)
+        self.assertTrue(careplan.document_reference_ids)
+        self.assertTrue(group.document_reference_ids)
         return encounter, careplan, group
 
     def test_careplan_sale(self):
@@ -450,6 +472,30 @@ class TestMedicalCareplanSale(TransactionCase):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
         encounter, careplan, group = self.create_careplan_and_group()
+        for document in group.document_reference_ids:
+            with self.assertRaises(ValidationError):
+                document.current2superseded()
+            self.assertEqual(document.state, 'draft')
+            self.assertTrue(document.is_editable)
+            self.assertFalse(document.text)
+            document.print()
+            with self.assertRaises(ValidationError):
+                document.draft2current()
+            self.assertEqual(document.state, 'current')
+            self.assertFalse(document.is_editable)
+            self.assertTrue(document.text)
+            self.assertEqual(document.text, '<p>%s</p>' % self.patient_01.name)
+            self.patient_01.name = self.patient_01.name + ' Other name'
+            document.print()
+            self.assertEqual(document.state, 'current')
+            self.assertNotEqual(document.text,
+                                '<p>%s</p>' % self.patient_01.name)
+            document.current2superseded()
+            self.assertEqual(document.state, 'superseded')
+            with self.assertRaises(ValidationError):
+                document.current2superseded()
+            # We must verify that the document print cannot be changed
+
         self.assertTrue(group.is_billable)
         self.assertTrue(group.is_breakdown)
         self.env[
