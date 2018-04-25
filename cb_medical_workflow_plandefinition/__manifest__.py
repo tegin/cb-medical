@@ -9,6 +9,7 @@
     'depends': [
         'medical_clinical_request_group',
         'medical_administration_encounter_careplan',
+        'medical_document',
         'cb_medical_administration_center',
     ],
     'data': [
