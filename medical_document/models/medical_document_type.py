@@ -6,7 +6,7 @@ class MedicalDocumentType(models.Model):
     # FHIR Entity: Document Refernece
     # (https://www.hl7.org/fhir/documentreference.html)
     _name = 'medical.document.type'
-    _description = 'Medical Document Template'
+    _description = 'Medical Document Type'
     _inherit = ['medical.abstract', 'mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(
