@@ -9,6 +9,10 @@
             <form position="attributes">
                 <attribute name="create">0</attribute>
             </form>
+            <field name="coverage_id" position="after">
+                <field name="payor_id" options="{'no_create': True}" attrs="{'readonly': [('is_editable', '=', False)]}"/>
+                <field name="sub_payor_id" options="{'no_create': True}" attrs="{'readonly': [('is_editable', '=', False)]}"/>
+            </field>
             <group name="inheritance" position="inside">
                 <field name="is_billable" readonly="1"/>
                 <field name="is_breakdown" invisible="1"/>

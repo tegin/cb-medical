@@ -22,7 +22,6 @@
         'security/medical_security.xml',
         'wizard/medical_encounter_add_careplan.xml',
         'views/medical_request_group_view.xml',
-        'views/medical_careplan_views.xml',
         'views/medical_encounter_views.xml',
         'views/medical_request_views.xml',
         'views/res_partner_views.xml',
