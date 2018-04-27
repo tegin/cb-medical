@@ -30,7 +30,6 @@
                 <header>
                     <button name="draft2current" states="draft" string="Post" type="object" class="oe_highlight"/>
                     <button name="post" states="current" string="Post" type="object" class="oe_highlight"/>
-                    <button name="print" states="draft,current" string="Print" type="object" class="oe_highlight"/>
                     <button name="current2superseded" states="current" string="Supersed" type="object"/>
                     <field name="state" widget="statusbar"/>
                 </header>
