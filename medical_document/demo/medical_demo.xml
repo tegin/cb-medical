@@ -10,7 +10,7 @@
     <record id="medical_document_type_patient_consent" model="medical.document.type">
         <field name="name">Patient consent</field>
         <field name="text" type="xml">
-            <p>Hello,</p>
+            <p>Dear ${object.patient_id.name}</p>
             <p>We need your consent to perform the agreed procedures.</p>
             <p>Best regards,</p>
             <pre>--
@@ -31,6 +31,12 @@
         <field name="model_id" ref="model_medical_document_reference"/>
         <field name="document_type_id" ref="medical_document_type_patient_consent"/>
         <field name="state">active</field>
+    </record>
+
+    <record id="mr_report_action" model="workflow.plan.definition.action">
+        <field name="name">PTA</field>
+        <field name="activity_definition_id" ref="medical_document_reference_consent_activity"/>
+        <field name="direct_plan_definition_id" ref="medical_workflow.mr_knee"/>
     </record>
 
 </odoo>
