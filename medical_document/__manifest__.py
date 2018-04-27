@@ -8,6 +8,7 @@
     'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
     'depends': [
         'medical_workflow',
+        'medical_clinical',
     ],
     'data': [
         'security/medical_security.xml',
@@ -20,6 +21,9 @@
         'views/medical_document_type_views.xml',
         'views/workflow_activity_definition.xml',
         'report/document_report.xml',
+    ],
+    'demo': [
+        'demo/medical_demo.xml',
     ],
     'website': 'https://github.com/OCA/cb-addons',
     'license': 'LGPL-3',
