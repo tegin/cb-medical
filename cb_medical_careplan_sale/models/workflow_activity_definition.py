@@ -16,5 +16,6 @@ class ActivityDefinition(models.Model):
             res.update({
                 'parent_id': parent.id,
                 'parent_model': parent._name,
+                'sub_payor_id': parent.sub_payor_id.id or False,
             })
         return res
