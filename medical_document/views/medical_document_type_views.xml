@@ -29,7 +29,7 @@
             <form string="Document type">
                 <header>
                     <button name="draft2current" states="draft" string="Post" type="object" class="oe_highlight"/>
-                    <button name="post" states="current" string="Post" type="object" class="oe_highlight"/>
+                    <button name="post" states="current" string="Post new version" type="object" class="oe_highlight"/>
                     <button name="current2superseded" states="current" string="Supersed" type="object"/>
                     <field name="state" widget="statusbar"/>
                 </header>
@@ -46,7 +46,7 @@
                     </group>
                     <field name="text"/>
                     <notebook>
-                        <page name="items" string="Items">
+                        <page name="Versions" string="Items">
                             <field name="template_ids"/>
                         </page>
                     </notebook>
