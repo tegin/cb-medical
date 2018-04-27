@@ -22,12 +22,25 @@ class MedicalRequest(models.AbstractModel):
     )
     parent_id = fields.Integer()
     parent_model = fields.Char()
+    sub_payor_id = fields.Many2one(
+        'res.partner',
+        domain="[('payor_id', '=', payor_id), ('is_sub_payor', '=', True)]"
+    )
+    payor_id = fields.Many2one(
+        'res.partner',
+        related='coverage_id.coverage_template_id.payor_id',
+    )
 
     def _compute_sale_order_line_ids(self):
         inverse_field_name = self._get_parent_field_name()
         for rec in self:
             rec.sale_order_line_ids = self.env['sale.order.line'].search(
                 [(inverse_field_name, '=', rec.id)])
+
+    @api.onchange('coverage_id')
+    def _onchange_coverage_id(self):
+        for record in self:
+            record.sub_payor_id = False
 
     @api.depends('is_billable', 'sale_order_line_ids',
                  'coverage_agreement_item_id', 'state')
