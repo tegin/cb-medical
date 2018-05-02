@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record model="ir.ui.view" id="medical_patient_form">
+        <field name="name">medical.patient.form</field>
+        <field name="model">medical.patient</field>
+
+        <field name="inherit_id"
+               ref="medical_administration_firstname.medical_patient_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='firstname']" position="attributes">
+                <attribute name="attrs">{'required': [('lastname', '=', False),
+                    ('lastname2', '=', False), ('is_company', '=', False)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='lastname']" position="attributes">
+                <attribute name="attrs">{'required': [('firstname', '=',
+                    False), ('lastname2', '=', False), ('is_company', '=',
+                    False)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='lastname']" position="after">
+                <field name="lastname2"
+                       attrs="{'required': [('firstname', '=', False), ('lastname', '=', False), ('is_company', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
