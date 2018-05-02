@@ -57,16 +57,29 @@ class MedicalDocumentReference(models.Model):
 
     @api.multi
     def print(self):
+        return self._print(self.print_action)
+
+    @api.multi
+    def render(self):
+        return self._print(self.render_report)
+
+    def _print(self, action):
         self.ensure_one()
         if self.state == 'draft':
-            return self.draft2current()
-        return self.print_template()
+            return self._draft2current(action)
+        return action()
 
-    def print_template(self):
+    def render_report(self):
+        return self.document_type_id.report_action_id.render(self)
+
+    def print_action(self):
         return self.document_type_id.report_action_id.report_action(self)
 
     @api.multi
     def draft2current(self):
+        return self._draft2current(self.print_action)
+
+    def _draft2current(self, action):
         self.ensure_one()
         if self.state != 'draft':
             raise ValidationError(_('State must be draft'))
@@ -75,7 +88,7 @@ class MedicalDocumentReference(models.Model):
             self._name, self.id
             )
         self.write({'state': 'current'})
-        return self.print_template()
+        return action()
 
     @api.multi
     def current2superseded(self):
