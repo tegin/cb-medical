@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="medical_document_type_view_form" model="ir.ui.view">
+        <field name="name">medical.document.type.view.form</field>
+        <field name="model">medical.document.type</field>
+        <field name="inherit_id" ref="medical_document.medical_document_type_view_form"/>
+        <field name="arch" type="xml">
+            <field name="report_action_id" position="after">
+                <field name="label_zpl2_id"
+                       attrs="{'invisible': [('document_type', '!=', 'zpl2')], 'required': [('document_type', '=', 'zpl2')]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="medical_document_type_zpl2_action">
+        <field name="name">Document Actions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.document.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('document_type', '=', 'zpl2')]</field>
+        <field name="context">{'default_document_type': 'zpl2'}</field>
+    </record>
+
+    <menuitem id="medical_document_type_zpl2_menu"
+              parent="medical_base.medical_root_configuration"
+              action="medical_document_type_zpl2_action"
+              name="Medical ZPL Labels"/>
+</odoo>
