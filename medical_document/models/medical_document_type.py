@@ -9,6 +9,10 @@ class MedicalDocumentType(models.Model):
     _description = 'Medical Document Type'
     _inherit = ['medical.abstract', 'mail.thread', 'mail.activity.mixin']
 
+    document_type = fields.Selection([
+        ('action', 'Report action')
+    ], required=True, default='action')
+
     name = fields.Char(
         string='Name',
         help='Name',
@@ -35,7 +39,6 @@ class MedicalDocumentType(models.Model):
     )
     report_action_id = fields.Many2one(
         'ir.actions.report',
-        required=True,
         domain=[('model', '=', 'medical.document.reference')]
     )
 
@@ -61,7 +64,9 @@ class MedicalDocumentType(models.Model):
             'sequence': self.current_sequence,
         }
 
+    @api.multi
     def post(self):
+        self.ensure_one()
         self.unpost()
         self.current_sequence += 1
         template = self.env['medical.document.template'].create(
