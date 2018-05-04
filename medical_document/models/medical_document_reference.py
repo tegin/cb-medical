@@ -2,7 +2,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 
 class MedicalDocumentReference(models.Model):
@@ -20,8 +20,10 @@ class MedicalDocumentReference(models.Model):
     document_type_id = fields.Many2one(
         'medical.document.type',
         required=True,
-        readonly=True,
         ondelete='restrict',
+    )
+    document_type = fields.Selection(
+        related='document_type_id.document_type'
     )
     document_template_id = fields.Many2one(
         'medical.document.template',
@@ -31,7 +33,7 @@ class MedicalDocumentReference(models.Model):
     is_editable = fields.Boolean(
         compute='_compute_is_editable',
     )
-    text = fields.Html(
+    text = fields.Text(
         string='Document text',
         readonly=True,
         sanitize=True
@@ -70,10 +72,14 @@ class MedicalDocumentReference(models.Model):
         return action()
 
     def render_report(self):
-        return self.document_type_id.report_action_id.render(self)
+        if self.document_type == 'action':
+            return self.document_type_id.report_action_id.render(self)
+        raise UserError(_('Function must be defined'))
 
     def print_action(self):
-        return self.document_type_id.report_action_id.report_action(self)
+        if self.document_type == 'action':
+            return self.document_type_id.report_action_id.report_action(self)
+        raise UserError(_('Function must be defined'))
 
     @api.multi
     def draft2current(self):
@@ -84,11 +90,16 @@ class MedicalDocumentReference(models.Model):
         if self.state != 'draft':
             raise ValidationError(_('State must be draft'))
         self.document_template_id = self.document_type_id.current_template_id
-        self.text = self.document_template_id.render_template(
-            self._name, self.id
-            )
+        self.text = self.render_text()
         self.write({'state': 'current'})
         return action()
+
+    def render_text(self):
+        if self.document_type == 'action':
+            return self.document_template_id.render_template(
+                self._name, self.id
+                )
+        raise UserError(_('Function must be defined'))
 
     @api.multi
     def current2superseded(self):

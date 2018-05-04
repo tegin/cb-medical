@@ -44,7 +44,13 @@
             </xpath>
             <field name="service_id" position="after">
                 <field name="document_type_id"/>
+                <field name="document_type" invisible="1"/>
             </field>
+            <notebook position="inside">
+                <page name="document" string="Document">
+                    <field name="text"/>
+                </page>
+            </notebook>
         </field>
     </record>
 
