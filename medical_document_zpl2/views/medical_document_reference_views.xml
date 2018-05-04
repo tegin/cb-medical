@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="medical_document_reference_view_form" model="ir.ui.view">
+        <field name="name">medical.document.reference.view.form</field>
+        <field name="model">medical.document.reference</field>
+        <field name="inherit_id" ref="medical_document.medical_document_reference_view_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button type="object" name="render" string="Render"/>
+            </header>
+            <button name="print" position="attributes">
+                <attribute name="attrs">{'invisible': [('document_type', '=', 'zpl2')]}</attribute>
+            </button>
+        </field>
+    </record>
+
+</odoo>
