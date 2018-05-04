@@ -2,11 +2,11 @@
    :target: https://www.gnu.org/licenses/lgpl-3.0-standalone.html
    :alt: License: LGPL-3
 
-=======
-CB Test
-=======
+=================
+Medical Documents
+=================
 
-This module test cb-addons workflow in a single test
+This module adds medical documents on medical environment.
 
 Contributors
 ------------

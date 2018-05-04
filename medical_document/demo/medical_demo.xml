@@ -6,9 +6,10 @@
 -->
 
 <odoo>
-
-    <record id="medical_document_type_patient_consent" model="medical.document.type">
+<data noupdate="1">
+<record id="medical_document_type_patient_consent" model="medical.document.type">
         <field name="name">Patient consent</field>
+        <field name="document_type">action</field>
         <field name="text" type="xml">
             <p>Dear ${object.patient_id.name}</p>
             <p>We need your consent to perform the agreed procedures.</p>
@@ -39,4 +40,5 @@
         <field name="direct_plan_definition_id" ref="medical_workflow.mr_knee"/>
     </record>
 
+</data>
 </odoo>
