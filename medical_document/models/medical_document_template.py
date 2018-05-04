@@ -1,7 +1,8 @@
 # Copyright 2018 Creu Blanca
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models
+from odoo import fields, models, _
+from odoo.exceptions import UserError
 
 
 class MedicalDocumentTemplate(models.Model):
@@ -15,6 +16,9 @@ class MedicalDocumentTemplate(models.Model):
         'medical.document.type', required=True, readonly=True,
         ondelete='cascade',
     )
+    document_type = fields.Selection(
+        related='document_type_id.document_type'
+    )
     sequence = fields.Integer()
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -27,6 +31,8 @@ class MedicalDocumentTemplate(models.Model):
         self.state = 'superseded'
 
     def render_template(self, model, res_ids, post_process=False):
-        return self.env['mail.template'].render_template(
-            self.text, model, res_ids, post_process=post_process
-        )
+        if self.document_type == 'action':
+            return self.env['mail.template'].render_template(
+                self.text, model, res_ids, post_process=post_process
+            )
+        raise UserError(_('Function must be defined'))
