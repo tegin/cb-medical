@@ -83,8 +83,10 @@ class MedicalCoverageAgreement(models.Model):
     @api.onchange('date_from', 'date_to')
     def _onchange_date_range(self):
         if self.date_from and self.date_to:
-            if self.actual_date >= self.date_from and self.actual_date \
-               <= self.date_to:
+            if (
+                self.actual_date >= self.date_from and
+                self.actual_date <= self.date_to
+            ):
                 self.active = True
             else:
                 self.active = False

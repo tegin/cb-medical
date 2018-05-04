@@ -38,8 +38,8 @@ class TestMedicalCoverageAgreement(TransactionCase):
         self.product_2 = self._create_product('test 2')
         self.type_1 = self._create_type()
         self.act_def_1 = self._create_act_def()
-        self.action_1 = self._create_action()
         self.plan_1 = self._create_plan()
+        self.action_1 = self._create_action()
 
     def _create_user(self, name, group_ids):
         return self.env['res.users'].with_context(
@@ -125,6 +125,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
     def _create_action(self):
         return self.action_model.create({
             'name': 'Test action',
+            'direct_plan_definition_id': self.plan_1.id,
             'activity_definition_id': self.act_def_1.id,
             'type_id': self.type_1.id,
         })
@@ -132,7 +133,6 @@ class TestMedicalCoverageAgreement(TransactionCase):
     def _create_plan(self):
         return self.plan_model.create({
             'name': 'Test plan',
-            'direct_action_ids': self.action_1,
             'type_id': self.type_1.id,
         })
 
