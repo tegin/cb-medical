@@ -44,6 +44,7 @@ class TestMedicalCareplanSale(TransactionCase):
         })
         self.document_type = self.env['medical.document.type'].create({
             'name': 'CI',
+            'document_type': 'action',
             'report_action_id': self.browse_ref(
                 'medical_document.action_report_document_report_base').id,
             'text': '<p>${object.patient_id.name}</p>'
@@ -478,6 +479,7 @@ class TestMedicalCareplanSale(TransactionCase):
             self.assertEqual(document.state, 'draft')
             self.assertTrue(document.is_editable)
             self.assertFalse(document.text)
+            self.assertEqual(document.document_type, 'action')
             document.print()
             with self.assertRaises(ValidationError):
                 document.draft2current()
