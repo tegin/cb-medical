@@ -10,5 +10,6 @@ from . import medical_coverage_agreement_item
 from . import medical_coverage_template
 from . import medical_encounter
 from . import medical_request
+from . import medical_request_group
 from . import res_partner
 from . import workflow_activity_definition

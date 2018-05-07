@@ -10,7 +10,8 @@
     'website': 'https://github.com/OCA/vertical-medical',
     'license': 'LGPL-3',
     'depends': [
-        'medical_clinical_careplan',
+        'medical_clinical_request_group',
+        'medical_administration_encounter_careplan',
         'cb_medical_workflow_plandefinition',
         'cb_medical_financial_coverage_agreement'
     ],
@@ -20,14 +21,16 @@
         'security/medical_security.xml',
         'security/ir.model.access.csv',
         'views/medical_authorization_method_view.xml',
+        'wizard/medical_careplan_add_plan_definition_views.xml',
+        'wizard/medical_request_group_change_plan_views.xml',
         'views/res_partner_views.xml',
         'views/medical_encounter_view.xml',
         'views/medical_request_views.xml',
+        'views/medical_request_group_views.xml',
         'views/medical_coverage_agreement_item_view.xml',
         'views/medical_coverage_agreement_view.xml',
         'views/medical_coverage_template_view.xml',
         'views/medical_authorization_format_view.xml',
-        'wizard/medical_careplan_add_plan_definition_views.xml',
     ],
     'demo': [
     ],
