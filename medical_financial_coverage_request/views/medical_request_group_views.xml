@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+    -->
+
+<odoo>
+    <record model="ir.ui.view" id="medical_request_group_form">
+        <field name="name">medical.request.group.form</field>
+        <field name="model">medical.request.group</field>
+        <field name="inherit_id"
+               ref="medical_clinical_request_group.medical_request_group_form"/>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <button name="draft2active" position="after">
+                <field name="can_change_plan" invisible="1"/>
+                <button name="%(cb_medical_financial_coverage_request.action_medical_request_group_change_plan)d"
+                        type="action" string="Change plan"
+                        class="oe_highlight"/>
+            </button>
+        </field>
+    </record>
+</odoo>
