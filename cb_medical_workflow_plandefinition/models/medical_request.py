@@ -23,3 +23,6 @@ class MedicalRequest(models.AbstractModel):
         required=True,
         track_visibility=True,
     )
+    active = fields.Boolean(
+        default=True,
+    )
