@@ -2,12 +2,22 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import models, _
+from odoo import api, models, _
 from odoo.exceptions import ValidationError
 
 
 class ActivityDefinition(models.Model):
     _inherit = 'workflow.activity.definition'
+
+    def _get_activity_values(self, vals, parent=False, plan=False, action=False
+                             ):
+        res = super()._get_activity_values(vals, parent, plan, action)
+        if (
+            'relations' in res.keys() and
+            self.type_id == self.env.ref('medical_workflow.medical_workflow')
+        ):
+            del res['relations']
+        return res
 
     def _get_medical_values(self, vals, parent=False, plan=False, action=False
                             ):
@@ -36,3 +46,11 @@ class ActivityDefinition(models.Model):
                 else:
                     res['authorization_status'] = 'pending'
         return res
+
+    @api.multi
+    def execute_activity(self, vals, parent=False, plan=False, action=False):
+        self.ensure_one()
+        if action.id in vals.get('relations', []):
+            return self.env[self.model_id.model].browse(
+                vals['relations'][action.id])
+        return super().execute_activity(vals, parent, plan, action)
