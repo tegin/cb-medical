@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo.tests.common import TransactionCase
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 
 class TestMedicalCareplanSale(TransactionCase):
@@ -49,7 +49,30 @@ class TestMedicalCareplanSale(TransactionCase):
                 'medical_document.action_report_document_report_base').id,
             'text': '<p>${object.patient_id.name}</p>'
         })
+        self.label_zpl2 = self.env['printing.label.zpl2'].create({
+            'name': 'Label',
+            'model_id': self.browse_ref(
+                'medical_document.model_medical_document_reference').id,
+            'component_ids': [(0, 0, {
+                'name': 'text',
+                'component_type': 'text',
+                'data': 'object.encounter_id.internal_identifier',
+                'origin_x': 10,
+                'origin_y': 10,
+                'height': 10,
+                'width': 10,
+                'font': '0',
+                'orientation': 'N',
+
+            })]
+        })
         self.document_type.draft2current()
+        self.document_type_label = self.env['medical.document.type'].create({
+            'name': 'Label for scan',
+            'document_type': 'zpl2',
+            'label_zpl2_id': self.label_zpl2.id,
+        })
+        self.document_type_label.draft2current()
         self.agreement = self.env['medical.coverage.agreement'].create({
             'name': 'Agreement',
             'center_ids': [(4, self.center.id)],
@@ -105,6 +128,13 @@ class TestMedicalCareplanSale(TransactionCase):
             'document_type_id': self.document_type.id,
             'type_id': self.type.id,
         })
+        self.activity4 = self.env['workflow.activity.definition'].create({
+            'name': 'Activity4',
+            'model_id': self.browse_ref(
+                'medical_document.model_medical_document_reference').id,
+            'document_type_id': self.document_type_label.id,
+            'type_id': self.type.id,
+        })
         self.action = self.env['workflow.plan.definition.action'].create({
             'activity_definition_id': self.activity.id,
             'direct_plan_definition_id': self.plan_definition.id,
@@ -122,6 +152,12 @@ class TestMedicalCareplanSale(TransactionCase):
             'direct_plan_definition_id': self.plan_definition.id,
             'is_billable': False,
             'name': 'Action3',
+        })
+        self.action4 = self.env['workflow.plan.definition.action'].create({
+            'activity_definition_id': self.activity4.id,
+            'direct_plan_definition_id': self.plan_definition.id,
+            'is_billable': False,
+            'name': 'Action4',
         })
         self.agreement_line = self.env[
             'medical.coverage.agreement.item'
@@ -473,13 +509,16 @@ class TestMedicalCareplanSale(TransactionCase):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
         encounter, careplan, group = self.create_careplan_and_group()
-        for document in group.document_reference_ids:
+        documents = group.document_reference_ids.filtered(
+            lambda r: r.document_type == 'action'
+        )
+        self.assertTrue(documents)
+        for document in documents:
             with self.assertRaises(ValidationError):
                 document.current2superseded()
             self.assertEqual(document.state, 'draft')
             self.assertTrue(document.is_editable)
             self.assertFalse(document.text)
-            self.assertEqual(document.document_type, 'action')
             document.print()
             with self.assertRaises(ValidationError):
                 document.draft2current()
@@ -494,10 +533,33 @@ class TestMedicalCareplanSale(TransactionCase):
                                 '<p>%s</p>' % self.patient_01.name)
             document.current2superseded()
             self.assertEqual(document.state, 'superseded')
+            self.assertIsInstance(document.render(), bytes)
             with self.assertRaises(ValidationError):
                 document.current2superseded()
             # We must verify that the document print cannot be changed
-
+        documents = group.document_reference_ids.filtered(
+            lambda r: r.document_type == 'zpl2'
+        )
+        self.assertTrue(documents)
+        for document in documents:
+            self.assertEqual(
+                document.render(),
+                # Label start
+                '^XA\n'
+                # Print width
+                '^PW480\n'
+                # UTF-8 encoding
+                '^CI28\n'
+                # Label position
+                '^LH10,10\n'
+                # Pased encounter
+                '^FO10,10^A0N,10,10^FD%s^FS\n'
+                # Recall last saved parameters
+                '^JUR\n'
+                # Label end
+                '^XZ' % encounter.internal_identifier)
+            with self.assertRaises(UserError):
+                document.print()
         self.assertTrue(group.is_billable)
         self.assertTrue(group.is_breakdown)
         self.env[
