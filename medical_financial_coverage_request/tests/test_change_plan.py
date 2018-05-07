@@ -203,11 +203,14 @@ class TestCB(TransactionCase):
         encounter, careplan, group = self.create_careplan_and_group()
         for child in group.procedure_request_ids:
             child.draft2active()
-        self.env['medical.request.group.change.plan'].with_context(
+        self.assertTrue(group.can_change_plan)
+        wizard = self.env['medical.request.group.change.plan'].with_context(
             default_request_group_id=group.id
         ).create({
             'agreement_line_id': self.agreement_line2.id
-        }).run()
+        })
+        self.assertIn(self.agreement, wizard.agreement_ids)
+        wizard.run()
         self.env['medical.request.group.change.plan'].with_context(
             default_request_group_id=group.id
         ).create({
