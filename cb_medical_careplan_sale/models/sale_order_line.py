@@ -28,3 +28,7 @@ class SaleOrderLine(models.AbstractModel):
         'medical.encounter',
         readonly=True,
     )
+    document_reference_id = fields.Many2one(
+        'medical.document.reference',
+        readonly=True,
+    )
