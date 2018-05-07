@@ -74,6 +74,7 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         values[
             'coverage_agreement_id'
         ] = self.agreement_line_id.coverage_agreement_id.id
+        values['plan_definition_id'] = self.plan_definition_id.id
         values['center_id'] = self.center_id.id
         if (
             self.authorization_method_id.number_required and
