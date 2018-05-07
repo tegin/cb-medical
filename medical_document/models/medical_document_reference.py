@@ -39,6 +39,9 @@ class MedicalDocumentReference(models.Model):
         sanitize=True
     )
 
+    def check_is_billable(self):
+        return self.is_billable
+
     def _get_internal_identifier(self, vals):
         return self.env['ir.sequence'].next_by_code(
             'medical.document.reference') or '/'
