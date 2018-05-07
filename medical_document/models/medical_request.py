@@ -33,6 +33,12 @@ class MedicalRequest(models.AbstractModel):
                 'Document reference cannot be parent of other documents.'
             ))
 
+    @api.model
+    def _get_request_models(self):
+        res = super(MedicalRequest, self)._get_request_models()
+        res.append('medical.document.reference')
+        return res
+
     @api.multi
     def _compute_document_reference_ids(self):
         inverse_field_name = self._get_parent_field_name()
