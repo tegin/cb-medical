@@ -76,7 +76,7 @@ class MedicalDocumentReference(models.Model):
 
     def render_report(self):
         if self.document_type == 'action':
-            return self.document_type_id.report_action_id.render(self)
+            return self.document_type_id.report_action_id.render(self.id)[0]
         raise UserError(_('Function must be defined'))
 
     def print_action(self):
