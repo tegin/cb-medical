@@ -20,6 +20,10 @@ class TestWizard(TransactionCase):
             'name': 'Template',
             'payor_id': self.payor.id
         })
+        self.template2 = self.env['medical.coverage.template'].create({
+            'name': 'Template2',
+            'payor_id': self.payor.id
+        })
         self.center = self.env['res.partner'].create({
             'name': 'Location',
             'is_center': True,
@@ -27,6 +31,10 @@ class TestWizard(TransactionCase):
         self.coverage = self.env['medical.coverage'].create({
             'patient_id': self.patient.id,
             'coverage_template_id': self.template.id,
+        })
+        self.coverage2 = self.env['medical.coverage'].create({
+            'patient_id': self.patient.id,
+            'coverage_template_id': self.template2.id,
         })
         self.encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient.id,
@@ -46,7 +54,8 @@ class TestWizard(TransactionCase):
         self.agreement = self.env['medical.coverage.agreement'].create({
             'name': 'Agreement',
             'center_ids': [(6, 0, self.center.ids)],
-            'coverage_template_ids': [(6, 0, self.template.ids)],
+            'coverage_template_ids': [
+                (4, self.template.id), (4, self.template2.id)],
             'company_id': self.browse_ref('base.main_company').id,
             'authorization_method_id': self.browse_ref(
                 'cb_medical_financial_coverage_request.only_number').id,
@@ -102,6 +111,7 @@ class TestWizard(TransactionCase):
             'agreement_line_id': self.agreement_line.id,
             'authorization_number': '22'
         })
+        self.assertFalse(self.patient.last_coverage_id)
         self.assertEqual(wizard.patient_id, self.patient)
         self.assertTrue(wizard.plan_definition_id)
         wizard.run()
@@ -109,3 +119,18 @@ class TestWizard(TransactionCase):
             ('careplan_id', '=', self.careplan.id),
         ])
         self.assertGreater(len(careplans.ids), 0)
+        self.assertEqual(self.patient.last_coverage_id, self.coverage)
+        careplan = self.env['medical.careplan'].create({
+            'patient_id': self.patient.id,
+            'coverage_id': self.coverage2.id,
+            'encounter_id': self.encounter.id,
+            'center_id': self.encounter.center_id.id,
+        })
+
+        self.env['medical.careplan.add.plan.definition'].create({
+            'careplan_id': careplan.id,
+            'agreement_line_id': self.agreement_line.id,
+            'authorization_number': '22'
+        }).run()
+
+        self.assertEqual(self.patient.last_coverage_id, self.coverage2)
