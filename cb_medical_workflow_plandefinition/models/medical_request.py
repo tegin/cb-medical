@@ -17,6 +17,10 @@ class MedicalRequest(models.AbstractModel):
         default=False,
         track_visibility=True,
     )
+    third_party_bill = fields.Boolean(
+        default=False,
+        track_visibility=True,
+    )
     center_id = fields.Many2one(
         'res.partner',
         domain=[('is_center', '=', True)],

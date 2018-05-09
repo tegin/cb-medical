@@ -15,6 +15,7 @@
         <field name="arch" type="xml">
             <group name="medical" position="inside">
                 <field name="is_billable"/>
+                <field name="third_party_bill"/>
                 <field name="is_breakdown"/>
             </group>
             <xpath expr="//page[@name='actions']/field[@name='direct_action_ids']/tree/field[@name='execute_plan_definition_id']" position="after">
