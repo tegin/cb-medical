@@ -12,7 +12,7 @@
         'medical_clinical_procedure',
         'medical_medication_request',
         'medical_administration_encounter_careplan',
-        'sale_third_party_invoice',
+        'sale_third_party',
         'sale',
         'cb_medical_financial_coverage_request',
         'cb_medical_workflow_plandefinition',
