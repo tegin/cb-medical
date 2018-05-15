@@ -99,6 +99,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'lst_price': 10.0,
         })
         self.product_03.qty_available = 50.0
+        self.product_04 = self.create_product('Medical visit')
         self.type = self.browse_ref('medical_workflow.medical_workflow')
         self.type.model_ids = [(4, self.browse_ref(
             'medical_medication_request.model_medical_medication_request').id)]
@@ -106,6 +107,13 @@ class TestMedicalCareplanSale(TransactionCase):
             'name': 'Plan',
             'type_id': self.type.id,
             'is_billable': True,
+        })
+        self.plan_definition2 = self.env['workflow.plan.definition'].create({
+            'name': 'Plan2',
+            'type_id': self.type.id,
+            'is_billable': True,
+            'is_breakdown': False,
+            'third_party_bill': True,
         })
         self.activity = self.env['workflow.activity.definition'].create({
             'name': 'Activity',
@@ -134,6 +142,12 @@ class TestMedicalCareplanSale(TransactionCase):
                 'medical_document.model_medical_document_reference').id,
             'document_type_id': self.document_type_label.id,
             'type_id': self.type.id,
+        })
+        self.env['workflow.plan.definition.action'].create({
+            'activity_definition_id': self.activity.id,
+            'direct_plan_definition_id': self.plan_definition2.id,
+            'is_billable': False,
+            'name': 'Action',
         })
         self.action = self.env['workflow.plan.definition.action'].create({
             'activity_definition_id': self.activity.id,
@@ -184,6 +198,19 @@ class TestMedicalCareplanSale(TransactionCase):
             'authorization_format_id': self.browse_ref(
                 'cb_medical_financial_coverage_request.format_anything').id,
         })
+        self.agreement_line3 = self.env[
+            'medical.coverage.agreement.item'
+        ].create({
+            'product_id': self.product_04.id,
+            'coverage_agreement_id': self.agreement.id,
+            'plan_definition_id': self.plan_definition2.id,
+            'total_price': 100.0,
+            'coverage_percentage': 0.0,
+            'authorization_method_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.without').id,
+            'authorization_format_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.format_anything').id,
+        })
         self.practitioner_01 = self.create_practitioner('Practitioner 01')
         self.practitioner_02 = self.create_practitioner('Practitioner 02')
         self.product_01.medical_commission = True
@@ -211,16 +238,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'name': name,
         })
 
-    def create_practitioner(self, name):
-        return self.env['res.partner'].create({
-            'name': name,
-            'is_practitioner': True,
-            'agent': True,
-            'commission': self.browse_ref(
-                'cb_medical_commission.commission_01').id,
-        })
-
-    def create_careplan_and_group(self):
+    def create_careplan_and_group(self, agreement_line):
         encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient_01.id,
             'center_id': self.center.id,
@@ -242,7 +260,7 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertEqual(careplan.center_id, encounter.center_id)
         wizard = self.env['medical.careplan.add.plan.definition'].create({
             'careplan_id': careplan.id,
-            'agreement_line_id': self.agreement_line.id,
+            'agreement_line_id': agreement_line.id,
         })
         self.action.is_billable = False
         wizard.run()
@@ -250,9 +268,16 @@ class TestMedicalCareplanSale(TransactionCase):
             ('careplan_id', '=', careplan.id)])
         group.ensure_one()
         self.assertEqual(group.center_id, encounter.center_id)
-        self.assertTrue(careplan.document_reference_ids)
-        self.assertTrue(group.document_reference_ids)
         return encounter, careplan, group
+
+    def create_practitioner(self, name):
+        return self.env['res.partner'].create({
+            'name': name,
+            'is_practitioner': True,
+            'agent': True,
+            'commission': self.browse_ref(
+                'cb_medical_commission.commission_01').id,
+        })
 
     def test_careplan_sale(self):
         encounter = self.env['medical.encounter'].create({
@@ -294,6 +319,9 @@ class TestMedicalCareplanSale(TransactionCase):
         medication_requests = self.env['medical.medication.request'].search([
             ('careplan_id', '=', careplan.id)
         ])
+        self.assertTrue(medication_requests.filtered(lambda r: r.is_billable))
+        self.assertTrue(medication_requests.filtered(
+            lambda r: r.is_sellable_insurance or r.is_sellable_private))
         for request in medication_requests:
             self.assertEqual(request.center_id, encounter.center_id)
             request.qty = 2
@@ -313,7 +341,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'encounter_id': encounter.id,
             'pos_session_id': self.session.id,
         }).run()
-        self.assertGreater(len(encounter.sale_order_ids), 0)
+        self.assertTrue(encounter.sale_order_ids)
         self.assertGreater(self.session.encounter_count, 0)
         self.assertGreater(self.session.sale_order_count, 0)
         self.assertEqual(self.session.action_view_encounters()['res_id'],
@@ -372,6 +400,13 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertTrue(encounter.sale_order_ids)
         for sale_order in encounter.sale_order_ids:
             sale_order.action_confirm()
+            self.assertIn(sale_order.state, ['done', 'sale'])
+        self.assertTrue(encounter.sale_order_ids.filtered(
+            lambda r:
+            r.invoice_status == 'to invoice' and
+            r.invoice_group_method_id == self.browse_ref(
+                'cb_medical_sale_invoice_group_method.by_preinvoicing')
+        ))
         self.env['wizard.sale.preinvoice.group'].create({
             'company_ids': [(6, 0, self.company.ids)],
             'payor_ids': [(6, 0, self.payor.ids)]
@@ -490,7 +525,9 @@ class TestMedicalCareplanSale(TransactionCase):
     def test_no_agreement(self):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
-        encounter, careplan, group = self.create_careplan_and_group()
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line
+        )
         self.assertTrue(group.is_billable)
         self.assertTrue(group.is_breakdown)
         with self.assertRaises(ValidationError):
@@ -499,16 +536,57 @@ class TestMedicalCareplanSale(TransactionCase):
     def test_no_breakdown(self):
         self.plan_definition.is_billable = True
         self.plan_definition.is_breakdown = False
-        encounter, careplan, group = self.create_careplan_and_group()
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line
+        )
         self.assertTrue(group.is_billable)
         self.assertFalse(group.is_breakdown)
         with self.assertRaises(ValidationError):
             group.breakdown()
 
+    def test_third_party(self):
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.assertTrue(group.procedure_request_ids)
+        for request in group.procedure_request_ids:
+            request.draft2active()
+            self.assertEqual(request.center_id, encounter.center_id)
+            procedure = request.generate_event()
+            procedure.performer_id = self.practitioner_01
+            procedure.commission_agent_id = self.practitioner_01
+            procedure.performer_id = self.practitioner_02
+            procedure._onchange_performer_id()
+            self.assertEqual(
+                procedure.commission_agent_id, self.practitioner_02)
+        self.practitioner_02.third_party_sequence_id = self.env[
+            'ir.sequence'].create({
+                'name': 'sequence'
+            })
+        self.assertTrue(
+            group.is_sellable_insurance or group.is_sellable_private)
+        self.assertTrue(
+            group.third_party_bill
+        )
+        self.env['wizard.medical.encounter.close'].create({
+            'encounter_id': encounter.id,
+            'pos_session_id': self.session.id,
+        }).run()
+        self.assertTrue(encounter.sale_order_ids)
+        sale_order = encounter.sale_order_ids
+        self.assertTrue(sale_order.third_party_order)
+        self.assertEqual(
+            sale_order.third_party_partner_id, self.practitioner_02)
+
     def test_correct(self):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
-        encounter, careplan, group = self.create_careplan_and_group()
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line)
+        self.assertTrue(careplan.document_reference_ids)
+        self.assertTrue(group.document_reference_ids)
         documents = group.document_reference_ids.filtered(
             lambda r: r.document_type == 'action'
         )
