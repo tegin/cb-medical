@@ -8,11 +8,13 @@ from odoo import models
 class MedicalEncounter(models.Model):
     _inherit = 'medical.encounter'
 
-    def get_sale_order_vals(self, partner, key, is_insurance):
-        vals = super().get_sale_order_vals(
-            partner, key, is_insurance)
-        if key:
+    def _get_sale_order_vals(
+            self, partner, agreement, third_party_partner, is_insurance
+    ):
+        vals = super()._get_sale_order_vals(
+            partner, agreement, third_party_partner, is_insurance)
+        if agreement:
             vals[
                 'invoice_group_method_id'
-            ] = key.invoice_group_method_id.id
+            ] = agreement.invoice_group_method_id.id
         return vals
