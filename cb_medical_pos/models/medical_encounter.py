@@ -22,9 +22,11 @@ class MedicalEncounter(models.Model):
         track_visibility=True,
     )
 
-    def get_sale_order_vals(self, partner, key, is_insurance):
-        vals = super().get_sale_order_vals(
-            partner, key, is_insurance)
+    def _get_sale_order_vals(
+            self, partner, agreement, third_party_partner, is_insurance
+    ):
+        vals = super()._get_sale_order_vals(
+            partner, agreement, third_party_partner, is_insurance)
         if self.pos_session_id:
             vals['pos_session_id'] = self.pos_session_id.id
         if not is_insurance:
@@ -56,13 +58,21 @@ class MedicalEncounter(models.Model):
         down_payments = self.sale_order_ids.filtered(
             lambda r: r.is_down_payment and r.coverage_agreement_id is False
         )
-        if down_payments and 0 not in values:
-            values[0] = {self.get_patient_partner(): []}
+        if down_payments:
+            if 0 not in values:
+                values[0] = {}
+            if self.get_patient_partner() not in values[0]:
+                values[0][self.get_patient_partner()] = {}
+            if 0 not in values[0][self.get_patient_partner()]:
+                values[0][self.get_patient_partner()][0] = []
         return values
 
-    def generate_sale_order(self, key, partner, order_lines):
-        order = super().generate_sale_order(
-            key, partner, order_lines)
+    def _generate_sale_order(
+            self, key, partner, third_party_partner, order_lines
+    ):
+        order = super()._generate_sale_order(
+            key, partner, third_party_partner, order_lines
+        )
         if key == 0:
             orders = self.sale_order_ids.filtered(
                 lambda r: (
