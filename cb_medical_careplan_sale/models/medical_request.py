@@ -31,6 +31,9 @@ class MedicalRequest(models.AbstractModel):
         related='coverage_id.coverage_template_id.payor_id',
     )
 
+    def get_third_party_partner(self):
+        return False
+
     def _compute_sale_order_line_ids(self):
         inverse_field_name = self._get_parent_field_name()
         for rec in self:

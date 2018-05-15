@@ -17,3 +17,8 @@ class SaleOrder(models.AbstractModel):
     patient_id = fields.Many2one(
         'medical.patient'
     )
+
+    def create_third_party_move(self):
+        if self.coverage_agreement_id:
+            return
+        return super().create_third_party_move()
