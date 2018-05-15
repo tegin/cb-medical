@@ -10,7 +10,10 @@ class SaleOrder(models.Model):
 
     @api.model
     def _prepare_line_agents_data(self, line):
-        if line.product_id.medical_commission:
+        if (
+            line.product_id.medical_commission and
+            not line.order_id.third_party_order
+        ):
             agent_lines = {}
             procedures = line.compute_procedure()
             for procedure in procedures:
