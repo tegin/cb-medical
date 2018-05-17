@@ -65,6 +65,8 @@ class MedicalRequest(models.AbstractModel):
         self.coverage_agreement_item_id = coverage_agreement_item_id
         self.coverage_agreement_id = \
             coverage_agreement_item_id.coverage_agreement_id
+        self.service_id = coverage_agreement_item_id.product_id
+        self.name = coverage_agreement_item_id.product_id.name
 
     def check_plan_definition_change(self, plan):
         relations = {}
