@@ -72,5 +72,5 @@ class PlanDefinition(models.Model):
             request_group = self.env['medical.request.group'].create(
                 self.get_request_group_vals(vals)
             )
-        return super(PlanDefinition, self).execute_plan_definition(
-            vals, request_group)
+        res = super().execute_plan_definition(vals, request_group)
+        return request_group or res
