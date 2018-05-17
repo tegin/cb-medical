@@ -42,6 +42,6 @@ class MedicalPatient(models.Model):
                 r.state == 'active'
             )
         ).active2cancelled()
-        if coverage.subscriber_magnetic_str != magnetic_str:
+        if magnetic_str and coverage.subscriber_magnetic_str != magnetic_str:
             coverage.write({'subscriber_magnetic_str': magnetic_str})
         return coverage
