@@ -12,6 +12,5 @@ class AccountInvoiceLine(models.Model):
     def unlink(self):
         sale_lines = self.mapped('sale_line_ids')
         res = super(AccountInvoiceLine, self).unlink()
-        for sale_line in sale_lines:
-            sale_line.preinvoice_group_id = False
+        sale_lines.write({'preinvoice_group_id': False})
         return res
