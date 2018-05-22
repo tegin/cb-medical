@@ -20,7 +20,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
 
     def run(self):
         domain = [
-            ('invoice_status', '=', 'to invoice'),
+            ('invoice_status', '=', 'to preinvoice'),
             ('invoice_group_method_id', '=', self.env.ref(
                 'cb_medical_sale_invoice_group_method.by_preinvoicing').id),
         ]

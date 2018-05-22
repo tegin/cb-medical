@@ -129,7 +129,7 @@ class SalePreinvoiceGroup(models.Model):
                 )
             for line in self.validated_line_ids:
                 line.invoice_line_create(
-                    self.invoice_id.id, line.qty_to_invoice)
+                    self.invoice_id.id, line.product_uom_qty)
         self.write({'state': 'closed'})
 
     @api.multi
