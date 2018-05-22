@@ -21,6 +21,9 @@
             <field name="name">By pre-invoicing</field>
             <field name="criteria_fields_ids" eval="[(4,ref('cb_medical_sale_invoice_group_method.field_sale_order_line_preinvoice_group_id'))]"/>
         </record>
+        <record model="sale.invoice.group.method" id="no_invoice">
+            <field name="name">No invoices</field>
+        </record>
 
     </data>
 </odoo>
