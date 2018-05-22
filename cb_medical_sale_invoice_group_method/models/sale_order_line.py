@@ -35,3 +35,21 @@ class SaleOrderLine(models.Model):
     def validate_line(self):
         self.ensure_one()
         self.preinvoice_group_id.validate_line(self)
+
+    @api.depends('qty_invoiced', 'qty_delivered', 'product_uom_qty',
+                 'order_id.state', 'order_id.invoice_group_method_id')
+    def _get_to_invoice_qty(self):
+        no_invoice = self.env.ref(
+            'cb_medical_sale_invoice_group_method.no_invoice')
+        preinvoicing = self.env.ref(
+            'cb_medical_sale_invoice_group_method.by_preinvoicing')
+        for line in self:
+            if line.order_id.invoice_group_method_id == no_invoice:
+                line.qty_to_invoice = 0
+            elif (
+                line.order_id.invoice_group_method_id == preinvoicing and
+                not line.is_validated
+            ):
+                line.qty_to_invoice = 0
+            else:
+                super(SaleOrderLine, line)._get_to_invoice_qty()
