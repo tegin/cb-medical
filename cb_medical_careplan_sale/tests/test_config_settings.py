@@ -12,12 +12,8 @@ class TestConfigSettings(TransactionCase):
             'name': 'Third Party Product',
             'type': 'service'
         })
-        config = self.env['res.config.settings'].create({
-
-        })
+        config = self.env['res.config.settings'].create({})
         config.default_third_party_product = product
         config.execute()
-        config = self.env['res.config.settings'].create({
-
-        })
+        config = self.env['res.config.settings'].create({})
         self.assertEqual(config.default_third_party_product, product)
