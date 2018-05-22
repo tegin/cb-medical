@@ -580,6 +580,20 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertEqual(
             sale_order.third_party_partner_id, self.practitioner_02)
 
+    def test_cancellation(self):
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line)
+        group.cancel()
+        self.assertEqual(group.state, 'cancelled')
+        encounter.cancel()
+        self.assertEqual(careplan.state, 'cancelled')
+        with self.assertRaises(ValidationError):
+            encounter.cancel()
+        with self.assertRaises(ValidationError):
+            careplan.cancel()
+
     def test_correct(self):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
