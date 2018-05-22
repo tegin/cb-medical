@@ -11,6 +11,7 @@
     'depends': [
         'sale_commission_formula',
         'cb_medical_careplan_sale',
+        'cb_medical_sale_invoice_group_method',
     ],
     'data': [
         'data/sale_commission_formula.xml',
@@ -20,6 +21,7 @@
         'views/medical_procedure_view.xml',
         'views/workflow_plan_definition_action.xml',
         'views/medical_encounter_views.xml',
+        'wizard/wizard_settle.xml',
     ],
     'website': 'https://github.com/OCA/vertical-medical',
     'license': 'LGPL-3',
