@@ -10,5 +10,6 @@ from . import product_template
 from . import res_partner
 from . import sale_order
 from . import sale_order_line
+from . import settlement
 from . import workflow_activity_definition
 from . import workflow_plan_definition_action
