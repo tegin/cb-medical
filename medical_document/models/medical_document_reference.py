@@ -16,6 +16,7 @@ class MedicalDocumentReference(models.Model):
         ('draft', 'Draft'),
         ('current', 'Current'),
         ('superseded', 'Superseded')
+
     ], required=True, track_visibility=True, default='draft')
     document_type_id = fields.Many2one(
         'medical.document.type',
@@ -87,6 +88,10 @@ class MedicalDocumentReference(models.Model):
     @api.multi
     def draft2current(self):
         return self._draft2current(self.print_action)
+
+    @api.multi
+    def cancel(self):
+        pass
 
     def _draft2current(self, action):
         self.ensure_one()
