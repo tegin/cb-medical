@@ -9,6 +9,7 @@
     'depends': [
         'cb_medical_careplan_sale',
         'pos_validation',
+        'cb_medical_identifier',
         'cb_medical_sale_invoice_group_method',
     ],
     'data': [
