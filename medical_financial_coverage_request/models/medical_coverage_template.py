@@ -11,3 +11,6 @@ class MedicalCoverageTemplate(models.Model):
     subscriber_format = fields.Char(
         track_visibility=True,
     )
+    subscriber_information = fields.Char(
+        help="Information useful to find the subscriber value"
+    )

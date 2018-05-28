@@ -21,3 +21,4 @@ class MedicalAuthorizationMethod(models.Model):
         required=False,
     )
     always_authorized = fields.Boolean(default=False)
+    integration_information = fields.Char()
