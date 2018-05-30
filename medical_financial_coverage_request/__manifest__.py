@@ -19,6 +19,7 @@
         'data/medical_authorization_format_data.xml',
         'security/medical_security.xml',
         'security/ir.model.access.csv',
+        'views/medical_authorization_method_view.xml',
         'views/res_partner_views.xml',
         'views/medical_encounter_view.xml',
         'views/medical_request_views.xml',
