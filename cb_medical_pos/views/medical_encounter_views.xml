@@ -14,12 +14,12 @@
                         type="action" string="Add Amount"
                         class="oe_highlight"
                         context="{'default_encounter_id': active_id}"
-                        attrs="{'invisible': [('state','!=','active')]}"/>
+                        attrs="{'invisible': [('state','!=','arrived')]}"/>
                 <button name="%(cb_medical_pos.wizard_medical_encounter_close_action)d"
                         type="action" string="Close"
                         class="oe_highlight"
                         context="{'default_encounter_id': active_id}"
-                        attrs="{'invisible': [('state','!=','active')]}"/>
+                        attrs="{'invisible': [('state','!=','arrived')]}"/>
             </button>
             <button name="onleave2finished" position="attributes">
                 <attribute name="invisible">1</attribute>
