@@ -3,6 +3,6 @@
     <record id="format_anything" model="medical.authorization.format">
         <field name="code">anything</field>
         <field name="name">Anything</field>
-        <field name="formula">^.*$</field>
+        <field name="authorization_format">^.*$</field>
     </record>
 </odoo>
