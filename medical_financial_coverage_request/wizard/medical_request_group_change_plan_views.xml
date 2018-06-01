@@ -24,12 +24,12 @@
                 <field name="agreement_ids" invisible="1"/>
                 <field name="coverage_template_id" invisible="1"/>
                 <field name="authorization_method_id" invisible="1"/>
-                <field name="number_required" invisible="1"/>
+                <field name="authorization_required" invisible="1"/>
                 <field name="authorization_number"
-                       attrs="{'invisible': [('number_required', '=', False)]}"/>
+                       attrs="{'invisible': [('authorization_required', '=', False)]}"/>
                 <field name="authorization_format_id" invisible="1"/>
                 <field name="authorization_information"
-                       attrs="{'invisible': ['|', ('authorization_information', '=', False), ('number_required', '=', False)]}"/>
+                       attrs="{'invisible': ['|', ('authorization_information', '=', False), ('authorization_required', '=', False)]}"/>
 
                 <footer>
                     <button type="object" name="run" string="Change"

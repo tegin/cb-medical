@@ -13,17 +13,17 @@
     <record id="only_number" model="medical.authorization.method">
         <field name="code">number</field>
         <field name="name">Number</field>
-        <field name="number_required" eval="True"/>
+        <field name="authorization_required" eval="True"/>
     </record>
     <record id="web_auth" model="medical.authorization.method">
         <field name="code">web auth</field>
         <field name="name">Auth by web</field>
-        <field name="number_required" eval="True"/>
+        <field name="authorization_required" eval="True"/>
     </record>
     <record id="ws_auth" model="medical.authorization.method">
         <field name="code">ws auth</field>
         <field name="name">Auth + WS</field>
-        <field name="number_required" eval="True"/>
+        <field name="authorization_required" eval="True"/>
         <field name="auxiliary_method_id" ref="web_auth"/>
     </record>
     <record id="web_wo_auth" model="medical.authorization.method">
