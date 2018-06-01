@@ -49,7 +49,7 @@ class TestWizard(TransactionCase):
         self.format = self.env['medical.authorization.format'].create({
             'code': 'Format',
             'name': 'Format test',
-            'formula': '^[0-9]{2}$'
+            'authorization_format': '^[0-9]{2}$'
         })
         self.agreement = self.env['medical.coverage.agreement'].create({
             'name': 'Agreement',
