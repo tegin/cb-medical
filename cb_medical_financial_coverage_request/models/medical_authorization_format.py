@@ -12,14 +12,14 @@ class MedicalAuthorizationFormat(models.Model):
 
     code = fields.Char(required=True,)
     name = fields.Char(required=True,)
-    formula = fields.Char(
+    authorization_format = fields.Char(
         track_visibility=True,
         required=True,
     )
     authorization_information = fields.Text()
 
     def check_value(self, value):
-        match = re.match(self.formula, value)
+        match = re.match(self.authorization_format, value)
         if match:
             return True
         return False
