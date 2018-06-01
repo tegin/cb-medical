@@ -11,14 +11,36 @@ class MedicalAuthorizationMethod(models.Model):
 
     code = fields.Char(required=True,)
     name = fields.Char(required=True,)
-    number_required = fields.Boolean(
+    method_information = fields.Text()
+    vat_required = fields.Boolean(
         track_visibility=True,
         required=True,
         default=False,
+    )
+    subscriber_id_required = fields.Boolean(
+        track_visibility=True,
+        required=True,
+        default=False,
+    )
+    subscriber_magnetic_str_required = fields.Boolean(
+        track_visibility=True,
+        required=True,
+        default=False,
+    )
+    authorization_required = fields.Boolean(
+        track_visibility=True,
+        required=True,
+        default=False,
+        oldname='number_required'
     )
     auxiliary_method_id = fields.Many2one(
         comodel_name='medical.authorization.method',
         required=False,
     )
     always_authorized = fields.Boolean(default=False)
+    integration_system = fields.Selection([
+        ('none', 'None'),
+        ('web', 'Web'),
+        ('ws', 'Web service')
+    ], default='none', required=True, track_visibility=True)
     integration_information = fields.Char()

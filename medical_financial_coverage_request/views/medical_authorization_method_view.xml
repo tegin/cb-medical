@@ -13,15 +13,28 @@
         <field name="model">medical.authorization.method</field>
         <field name="arch" type="xml">
             <form string="Authorization method">
+                <header/>
                 <sheet>
-                    <header/>
                     <group>
                         <field name="code"/>
                         <field name="name"/>
                         <field name="auxiliary_method_id"/>
-                        <field name="number_required"/>
-                        <field name="always_authorized"/>
+                        <field name="integration_system"/>
                         <field name="integration_information"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="vat_required"/>
+                            <field name="subscriber_id_required"/>
+                            <field name="subscriber_magnetic_str_required"/>
+                        </group>
+                        <group>
+                            <field name="authorization_required"/>
+                            <field name="always_authorized"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="method_information"/>
                     </group>
                 </sheet>
             </form>
@@ -30,7 +43,7 @@
 
     <record id="medical_authorization_method_action"
             model="ir.actions.act_window">
-        <field name="name">Agreement</field>
+        <field name="name">Authorization method</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.authorization.method</field>
         <field name="view_type">form</field>
@@ -38,9 +51,9 @@
     </record>
 
     <menuitem id="medical_authorization_method_menu"
-              name="Authorization method"
+              name="Authorization methods"
               sequence="90"
-              parent="medical_base.medical_root_financial"
+              parent="medical_base.medical_root_configuration"
               action="medical_authorization_method_action"/>
 
 
