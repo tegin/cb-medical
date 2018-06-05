@@ -1,6 +1,7 @@
 # Copyright 2018 Creu Blanca
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
+import base64
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 
@@ -77,7 +78,8 @@ class MedicalDocumentReference(models.Model):
 
     def render_report(self):
         if self.document_type == 'action':
-            return self.document_type_id.report_action_id.render(self.id)[0]
+            return base64.b64encode(
+                self.document_type_id.report_action_id.render(self.id)[0])
         raise UserError(_('Function must be defined'))
 
     def print_action(self):
