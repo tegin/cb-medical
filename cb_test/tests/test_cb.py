@@ -2,6 +2,8 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
+from datetime import timedelta
+from odoo import fields
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import UserError, ValidationError
 
@@ -594,7 +596,7 @@ class TestMedicalCareplanSale(TransactionCase):
         with self.assertRaises(ValidationError):
             careplan.cancel()
 
-    def test_correct(self):
+    def test_document(self):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
         encounter, careplan, group = self.create_careplan_and_group(
@@ -674,3 +676,58 @@ class TestMedicalCareplanSale(TransactionCase):
             'pos_session_id': self.session.id,
         }).run()
         self.assertGreater(len(encounter.sale_order_ids), 0)
+
+    def test_monthly_invoice(self):
+        method = self.browse_ref(
+            'cb_medical_sale_invoice_group_method.by_customer')
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        self.company.sale_merge_draft_invoice = True
+        sale_orders = []
+        for i in range(1, 10):
+            encounter, careplan, group = self.create_careplan_and_group(
+                self.agreement_line3
+            )
+            self.assertTrue(group.procedure_request_ids)
+            for request in group.procedure_request_ids:
+                request.draft2active()
+                self.assertEqual(request.center_id, encounter.center_id)
+                procedure = request.generate_event()
+                procedure.performer_id = self.practitioner_01
+                procedure.commission_agent_id = self.practitioner_01
+                procedure.performer_id = self.practitioner_02
+                procedure._onchange_performer_id()
+                self.assertEqual(
+                    procedure.commission_agent_id, self.practitioner_02)
+            self.assertTrue(
+                group.is_sellable_insurance or group.is_sellable_private)
+            self.assertFalse(
+                group.third_party_bill
+            )
+            self.env['wizard.medical.encounter.close'].create({
+                'encounter_id': encounter.id,
+                'pos_session_id': self.session.id,
+            }).run()
+            self.assertTrue(encounter.sale_order_ids)
+            sale_order = encounter.sale_order_ids
+            self.assertFalse(sale_order.third_party_order)
+            sale_orders.append(sale_order)
+        action = self.env['invoice.sales.by.group'].create({
+            'invoice_group_method_id': method.id,
+        }).invoice_sales_by_group()
+        self.assertFalse(action.get('res_id', False))
+        for sale_order in sale_orders:
+            sale_order.action_confirm()
+        action = self.env['invoice.sales.by.group'].create({
+            'invoice_group_method_id': method.id,
+            'date_to': fields.Date.to_string(
+                fields.Date.from_string(fields.Date.today()) +
+                timedelta(days=1)
+            )
+        }).invoice_sales_by_group()
+        self.assertTrue(action.get('res_id', False))
+        for sale_order in sale_orders:
+            self.assertTrue(sale_order.invoice_status == 'invoiced')
