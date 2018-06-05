@@ -10,10 +10,7 @@ class InvoiceSalesByGroup(models.TransientModel):
 
     @api.model
     def _get_default_merge_draft_invoice(self):
-        if self.env.user.company_id.sale_merge_draft_invoice:
-            return True
-        else:
-            return False
+        return bool(self.env.user.company_id.sale_merge_draft_invoice)
 
     date_to = fields.Date(
         'Up to',
@@ -68,7 +65,7 @@ class InvoiceSalesByGroup(models.TransientModel):
                  'merge_draft_invoice': self.merge_draft_invoice
                  })
             payment.with_context(sale_context).create_invoices()
-            invoices += sale.mapped('invoice_ids')
+            invoices |= sale.mapped('invoice_ids')
 
         # view
         action = self.env.ref('account.action_invoice_tree1')
