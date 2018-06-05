@@ -73,7 +73,7 @@ class MedicalDocumentType(models.Model):
             self.get_document_template_vals()
         )
         self.message_post(
-            body='Added template with sequence %s' % template.sequence)
+            body=_('Added template with sequence %s') % template.sequence)
 
     def unpost(self):
         if self.current_template_id:
