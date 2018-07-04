@@ -13,7 +13,8 @@
         'medical_clinical_request_group',
         'medical_administration_encounter_careplan',
         'cb_medical_workflow_plandefinition',
-        'cb_medical_financial_coverage_agreement'
+        'cb_medical_financial_coverage_agreement',
+        'cb_medical_identifier',
     ],
     'data': [
         'data/medical_authorization_method_data.xml',
@@ -24,7 +25,6 @@
         'wizard/medical_careplan_add_plan_definition_views.xml',
         'wizard/medical_request_group_change_plan_views.xml',
         'views/res_partner_views.xml',
-        'views/medical_encounter_view.xml',
         'views/medical_request_views.xml',
         'views/medical_request_group_views.xml',
         'views/medical_coverage_agreement_item_view.xml',
