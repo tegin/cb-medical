@@ -6,4 +6,5 @@ from . import medical_document_reference
 from . import medical_document_template
 from . import medical_document_type
 from . import medical_request
+from . import res_remote_printer
 from . import workflow_activity_definition
