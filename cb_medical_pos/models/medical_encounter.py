@@ -21,12 +21,40 @@ class MedicalEncounter(models.Model):
         readonly=1,
         track_visibility=True,
     )
+    currency_id = fields.Many2one(
+        'res.currency',
+        related='company_id.currency_id', readonly=True,
+    )
+    pending_private_amount = fields.Monetary(
+        currency_field='currency_id',
+        compute='_compute_pending_private_amount'
+    )
+
+    @api.depends(
+        'sale_order_ids.coverage_agreement_id',
+        'sale_order_ids.amount_total',
+        'sale_order_ids.invoice_ids.amount_total',
+        'sale_order_ids.invoice_ids.bank_statement_line_ids')
+    def _compute_pending_private_amount(self):
+        for record in self:
+            inv = record.sale_order_ids.filtered(
+                lambda r: not r.coverage_agreement_id and r.invoice_ids
+            ).mapped('invoice_ids')
+            orders = record.sale_order_ids.filtered(
+                lambda r: not r.coverage_agreement_id and not r.invoice_ids
+            )
+            record.pending_private_amount = (
+                sum(inv.mapped('amount_total')) -
+                sum(inv.mapped('bank_statement_line_ids').mapped('amount')) +
+                sum(orders.mapped('amount_total')) -
+                sum(orders.mapped('bank_statement_line_ids').mapped('amount'))
+            )
 
     def _get_sale_order_vals(
-            self, partner, agreement, third_party_partner, is_insurance
+            self, partner, cov, agreement, third_party_partner, is_insurance
     ):
         vals = super()._get_sale_order_vals(
-            partner, agreement, third_party_partner, is_insurance)
+            partner, cov, agreement, third_party_partner, is_insurance)
         if self.pos_session_id:
             vals['pos_session_id'] = self.pos_session_id.id
         if not is_insurance:
@@ -39,8 +67,50 @@ class MedicalEncounter(models.Model):
         return vals
 
     @api.multi
-    def onleave2finished(self):
+    def inprogress2onleave(self):
         self.create_sale_order()
+        res = super().inprogress2onleave()
+        if not self.sale_order_ids.filtered(
+                lambda r: not r.coverage_agreement_id and not r.is_down_payment
+        ):
+            self.onleave2finished()
+        return res
+
+    def finish_sale_order(self, sale_order, **kwargs):
+        if not kwargs.get('journal_id'):
+            raise ValidationError(_(
+                'Payment journal is necessary in order to finish sale orders'))
+        sale_order.action_confirm()
+        journal_id = kwargs.get('journal_id')
+        cash_vals = {
+            'journal_id': journal_id.id,
+        }
+        if not sale_order.third_party_order:
+            model = 'cash.invoice.out'
+            invoice = self.env['account.invoice'].browse(
+                sale_order.action_invoice_create())
+            invoice.action_invoice_open()
+            cash_vals.update({
+                'invoice_id': invoice.id,
+                'amount': invoice.amount_total,
+            })
+        else:
+            model = 'cash.sale.order.out'
+            cash_vals.update({
+                'sale_order_id': sale_order.id,
+                'amount': sale_order.amount_total,
+            })
+        process = self.env[model].with_context(
+            active_ids=self.pos_session_id.ids, active_model='pos.session'
+        ).create(cash_vals)
+        process.run()
+
+    @api.multi
+    def onleave2finished(self, **kwargs):
+        sale_orders = self.sale_order_ids.filtered(
+            lambda r: not r.coverage_agreement_id and not r.is_down_payment)
+        for sale_order in sale_orders:
+            self.finish_sale_order(sale_order, **kwargs)
         return super().onleave2finished()
 
     def down_payment_inverse_vals(self, order, line):
@@ -68,10 +138,10 @@ class MedicalEncounter(models.Model):
         return values
 
     def _generate_sale_order(
-            self, key, partner, third_party_partner, order_lines
+            self, key, cov, partner, third_party_partner, order_lines
     ):
         order = super()._generate_sale_order(
-            key, partner, third_party_partner, order_lines
+            key, cov, partner, third_party_partner, order_lines
         )
         if key == 0:
             orders = self.sale_order_ids.filtered(
