@@ -7,8 +7,15 @@ class TestSequence(TransactionCase):
         self.patient = self.env['medical.patient'].create({
             'name': 'Patient',
         })
+        self.center = self.env['res.partner'].create({
+            'name': 'Center',
+            'is_medical': True,
+            'is_center': True,
+            'encounter_sequence_prefix': 'S',
+        })
         self.encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient.id,
+            'center_id': self.center.id,
         })
         self.product = self.env['product.product'].create({
             'name': 'Product',
