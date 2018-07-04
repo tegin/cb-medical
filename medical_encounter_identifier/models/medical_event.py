@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalEvent(models.AbstractModel):
@@ -8,7 +8,3 @@ class MedicalEvent(models.AbstractModel):
     encounter_id = fields.Many2one(
         'medical.encounter', readonly=True,
     )
-
-    @api.model
-    def get_request_format(self):
-        return 'EV%02d'
