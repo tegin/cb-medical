@@ -13,6 +13,9 @@
     'data': [
         'views/medical_patient_views.xml',
     ],
+    'demo': [
+        'demo/medical_demo.xml',
+    ],
     'website': 'https://github.com/OCA/cb-addons',
     'license': 'LGPL-3',
     'installable': True,
