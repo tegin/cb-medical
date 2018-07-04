@@ -7,10 +7,15 @@ from odoo import models
 class MedicalDocumentReference(models.Model):
     _inherit = 'medical.document.reference'
 
-    def render_report(self):
+    def _render(self):
         if self.document_type == 'zpl2':
-            return self.text
-        return super().render_report()
+            return self.text.encode('utf-8'), 'text'
+        return super()._render()
+
+    def _get_printer_usage(self):
+        if self.document_type == 'zpl2':
+            return 'label'
+        return super()._get_printer_usage()
 
     def render_text(self):
         if self.document_type == 'zpl2':
