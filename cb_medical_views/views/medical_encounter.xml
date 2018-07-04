@@ -22,4 +22,19 @@
         </field>
     </record>
 
+    <act_window id="encounter_find_by_barcode"
+                name="Find encounter"
+                res_model="barcode.action"
+                view_mode="form"
+                view_type="form"
+                context="{'default_model': 'medical.encounter', 'default_method': 'find_encounter_by_barcode'}"
+                target="new"/>
+
+    <menuitem id="encounter_find_by_barcode_menu"
+              name="Find encounter"
+              parent="medical_base.medical_root_administration"
+              action="encounter_find_by_barcode"
+              sequence="35"/>
+
+
 </odoo>
