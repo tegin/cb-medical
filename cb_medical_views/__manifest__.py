@@ -9,6 +9,7 @@
     'depends': [
         'medical_workflow',
         'medical_administration_encounter',
+        'barcode_action',
     ],
     'data': [
         'views/medical_encounter.xml',
