@@ -10,6 +10,15 @@
             <form position="attributes">
                 <attribute name="edit">false</attribute>
             </form>
+            <div name="button_box" position="inside">
+                <button name="%(barcode_action.barcode_action_action)d"
+                                    type="action"
+                                    icon="fa-barcode"
+                                    string="Scan"
+                                    context="{'default_model': 'pos.session', 'default_session_id': active_id, 'default_method': 'open_validation_encounter'}"
+                                    attrs="{'invisible': [('validation_status', '!=', 'in_progress')]}"
+                            />
+            </div>
             <header position="inside">
                 <field name="validation_status" widget="statusbar"/>
             </header>
