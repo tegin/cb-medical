@@ -45,13 +45,15 @@
                         <sheet>
                             <field name="sale_order_line_ids">
                                 <tree>
-                                    <field name="coverage_agreement_id" widget="many2onebutton"/>
+                                    <field name="is_private" widget="toggle_button" readonly="True"/>
                                     <field name="payor_id"/>
                                     <field name="order_partner_id"/>
                                     <field name="coverage_template_id"/>
                                     <field name="product_id"/>
                                     <field name="product_uom_qty"/>
                                     <field name="price_unit"/>
+                                    <field name="subscriber_id"/>
+                                    <field name="authorization_number"/>
                                     <!---->
                                 </tree>
                             </field>
