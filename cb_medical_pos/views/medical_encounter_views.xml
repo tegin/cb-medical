@@ -9,6 +9,14 @@
             <button name="create_sale_order" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
+            <button name="inprogress2onleave" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+            </button>
+            <button name="onleave2finished" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+            </button>
             <button name="onleave2finished" position="after">
                 <button name="%(cb_medical_pos.wizard_medical_encounter_add_amount_action)d"
                         type="action" string="Add Amount"
@@ -20,6 +28,11 @@
                         class="oe_highlight"
                         context="{'default_encounter_id': active_id}"
                         attrs="{'invisible': [('state','!=','arrived')]}"/>
+                <button name="%(cb_medical_pos.wizard_medical_encounter_finish_action)d"
+                        type="action" string="Finish"
+                        class="oe_highlight"
+                        context="{'default_encounter_id': active_id}"
+                        attrs="{'invisible': [('state','!=','onleave')]}"/>
             </button>
             <button name="onleave2finished" position="attributes">
                 <attribute name="invisible">1</attribute>
