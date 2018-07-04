@@ -15,9 +15,12 @@
     'depends': [
         'cb_medical_pos',
         'pos_safe_box',
+        'barcode_action',
         'cb_medical_commission',
+        'pos_session_pay_invoice',
     ],
     'data': [
+        'views/medical_encounter_view.xml',
         'views/administration_menu.xml',
         'views/pos_session_views.xml',
     ]
