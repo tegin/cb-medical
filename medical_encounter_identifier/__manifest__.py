@@ -13,8 +13,13 @@
         'medical_clinical_procedure',
         'medical_medication_request',
         'medical_document',
+        'sequence_parser',
+        'cb_medical_administration_center',
     ],
     'data': [
+        'data/config_parameter.xml',
+        'views/res_partner_views.xml',
+        'views/medical_encounter_view.xml',
     ],
     'website': 'https://github.com/OCA/vertical-medical',
     'license': 'LGPL-3',

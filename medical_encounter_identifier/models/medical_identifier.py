@@ -6,7 +6,8 @@ class MedicalCBIdentifier(models.AbstractModel):
 
     @api.model
     def get_request_format(self):
-        return 'RQ%02d'
+        return self.env['ir.config_parameter'].sudo().get_param(
+            'medical.identifier')
 
     @api.model
     def _get_cb_internal_identifier(self, vals):
