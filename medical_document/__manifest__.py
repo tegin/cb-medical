@@ -9,6 +9,7 @@
     'depends': [
         'medical_workflow',
         'medical_clinical',
+        'remote_report_to_printer',
     ],
     'data': [
         'security/medical_security.xml',
