@@ -4,6 +4,9 @@ from odoo import api, fields, models
 class SalerOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
+    is_private = fields.Boolean(
+        compute='_compute_is_private'
+    )
     pos_session_id = fields.Many2one(
         comodel_name='pos.session',
         string='PoS Session',
@@ -26,6 +29,11 @@ class SalerOrderLine(models.Model):
         related='order_id.coverage_template_id.payor_id',
         readonly=True,
     )
+
+    @api.depends('order_id.coverage_agreement_id')
+    def _compute_is_private(self):
+        for record in self:
+            record.is_private = not bool(record.order_id.coverage_agreement_id)
 
     @api.depends('order_id.is_down_payment', 'order_id.pos_session_id')
     def _compute_pos_session(self):
