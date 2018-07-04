@@ -15,7 +15,7 @@
                                     type="action"
                                     icon="fa-barcode"
                                     string="Scan"
-                                    context="{'default_model': 'pos.session', 'default_session_id': active_id, 'default_method': 'open_validation_encounter'}"
+                                    context="{'default_model': 'pos.session', 'default_res_id': active_id, 'default_method': 'open_validation_encounter'}"
                                     attrs="{'invisible': [('validation_status', '!=', 'in_progress')]}"
                             />
             </div>
