@@ -10,6 +10,7 @@
         'cb_medical_careplan_sale',
         'medical_document_zpl2',
         'pos_validation',
+        'cb_medical_views',
         'cb_medical_identifier',
         'cb_medical_sale_invoice_group_method',
     ],

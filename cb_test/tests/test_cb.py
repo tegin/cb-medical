@@ -1,16 +1,45 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
-
+import base64
 from datetime import timedelta
 from odoo import fields
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import UserError, ValidationError
+from mock import patch
 
 
 class TestMedicalCareplanSale(TransactionCase):
     def setUp(self):
-        super(TestMedicalCareplanSale, self).setUp()
+        super().setUp()
+        name = 'testing_remote_server'
+        self.remote = self.env['res.remote'].search([('name', '=', name)])
+        if not self.remote:
+            self.remote = self.env['res.remote'].create({
+                'name': name,
+                'ip': '127.0.0.1',
+            })
+        self.server = self.env['printing.server'].create({
+            'name': 'Server',
+            'address': 'localhost',
+            'port': 631,
+        })
+        self.printer = self.env['printing.printer'].create({
+            'name': 'Printer 1',
+            'system_name': 'P1',
+            'server_id': self.server.id,
+        })
+        self.env['res.remote.printer'].create({
+            'remote_id': self.remote.id,
+            'printer_id': self.printer.id,
+            'is_default': True,
+        })
+        self.env['res.remote.printer'].create({
+            'remote_id': self.remote.id,
+            'printer_id': self.printer.id,
+            'is_default': True,
+            'printer_usage': 'label',
+        })
         self.payor = self.env['res.partner'].create({
             'name': 'Payor',
             'is_payor': True,
@@ -27,10 +56,31 @@ class TestMedicalCareplanSale(TransactionCase):
             'name': 'Coverage',
         })
         self.company = self.browse_ref('base.main_company')
+        self.customer_acc = self.env['account.account'].create({
+            'company_id': self.company.id,
+            'code': 'ThirdPartyCust',
+            'name': 'Third party customer account',
+            'user_type_id': self.browse_ref(
+                'account.data_account_type_receivable').id,
+            'reconcile': True,
+        })
+        self.supplier_acc = self.env['account.account'].create({
+            'company_id': self.company.id,
+            'code': 'ThirdPartySupp',
+            'name': 'Third party supplier account',
+            'user_type_id': self.browse_ref(
+                'account.data_account_type_payable').id,
+            'reconcile': True,
+        })
+        self.company.write({
+            'default_third_party_customer_account_id': self.customer_acc.id,
+            'default_third_party_supplier_account_id': self.supplier_acc.id,
+        })
         self.center = self.env['res.partner'].create({
             'name': 'Center',
             'is_medical': True,
             'is_center': True,
+            'encounter_sequence_prefix': 'S',
             'stock_location_id': self.browse_ref('stock.warehouse0').id,
             'stock_picking_type_id': self.env['stock.picking.type'].search(
                 [], limit=1).id
@@ -182,7 +232,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'coverage_agreement_id': self.agreement.id,
             'plan_definition_id': self.plan_definition.id,
             'total_price': 100,
-            'coverage_percentage': 0.5,
+            'coverage_percentage': 50,
             'authorization_method_id': self.browse_ref(
                 'cb_medical_financial_coverage_request.without').id,
             'authorization_format_id': self.browse_ref(
@@ -281,6 +331,33 @@ class TestMedicalCareplanSale(TransactionCase):
                 'cb_medical_commission.commission_01').id,
         })
 
+    def test_careplan_sale_fail(self):
+        encounter = self.env['medical.encounter'].create({
+            'patient_id': self.patient_01.id,
+            'center_id': self.center.id,
+        })
+        careplan = self.env['medical.careplan'].new({
+            'patient_id': self.patient_01.id,
+            'encounter_id': encounter.id,
+            'coverage_id': self.coverage_01.id,
+            'sub_payor_id': self.sub_payor.id,
+        })
+        careplan._onchange_encounter()
+        careplan = careplan.create(careplan._convert_to_write(careplan._cache))
+        self.assertEqual(careplan.center_id, encounter.center_id)
+        self.env['wizard.medical.encounter.add.amount'].create({
+            'encounter_id': encounter.id,
+            'amount': 10,
+            'pos_session_id': self.session.id,
+            'journal_id': self.session.journal_ids[0].id,
+        }).run()
+        wizard = self.env['medical.careplan.add.plan.definition'].create({
+            'careplan_id': careplan.id,
+            'agreement_line_id': self.agreement_line.id,
+        })
+        with self.assertRaises(ValidationError):
+            wizard.run()
+
     def test_careplan_sale(self):
         encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient_01.id,
@@ -309,8 +386,6 @@ class TestMedicalCareplanSale(TransactionCase):
             'careplan_id': careplan.id,
             'agreement_line_id': self.agreement_line.id,
         })
-        with self.assertRaises(ValidationError):
-            wizard.run()
         self.action.is_billable = False
         wizard.run()
 
@@ -348,10 +423,28 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertGreater(self.session.sale_order_count, 0)
         self.assertEqual(self.session.action_view_encounters()['res_id'],
                          encounter.id)
+        journal = self.session.statement_ids.mapped('journal_id')[0]
+        self.assertTrue(journal)
+        lines = len(self.session.statement_ids.filtered(
+            lambda r: r.journal_id == journal).mapped('line_ids'))
+        self.assertGreater(encounter.pending_private_amount, 0)
+        self.env['wizard.medical.encounter.finish'].create({
+            'encounter_id': encounter.id,
+            'pos_session_id': self.session.id,
+            'journal_id': journal.id,
+        }).run()
+        self.assertGreater(len(self.session.statement_ids.filtered(
+            lambda r: r.journal_id == journal).mapped('line_ids')), lines)
+        self.assertEqual(encounter.pending_private_amount, 0)
         self.session.action_pos_session_closing_control()
         self.assertTrue(self.session.invoice_ids)
+        self.assertTrue(self.session.sale_order_line_ids)
+        self.assertTrue(self.session.request_group_ids)
         self.assertTrue(self.session.down_payment_ids)
         self.assertEqual(self.session.validation_status, 'in_progress')
+        self.assertFalse(self.session.open_validation_encounter(
+            'TEST').get('res_id', False))
+
         procedure_requests = self.env['medical.procedure.request'].search([
             ('careplan_id', '=', careplan.id)
         ])
@@ -581,6 +674,16 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertTrue(sale_order.third_party_order)
         self.assertEqual(
             sale_order.third_party_partner_id, self.practitioner_02)
+        self.assertGreater(encounter.pending_private_amount, 0)
+        journal = self.session.statement_ids.mapped('journal_id')[0]
+        self.env['wizard.medical.encounter.finish'].create({
+            'encounter_id': encounter.id,
+            'pos_session_id': self.session.id,
+            'journal_id': journal.id,
+        }).run()
+        self.assertFalse(sale_order.invoice_ids)
+        self.assertEqual(encounter.pending_private_amount, 0)
+        self.session.action_pos_session_approve()
 
     def test_cancellation(self):
         self.plan_definition.is_breakdown = True
@@ -596,11 +699,22 @@ class TestMedicalCareplanSale(TransactionCase):
         with self.assertRaises(ValidationError):
             careplan.cancel()
 
-    def test_document(self):
+    @patch('odoo.addons.base_report_to_printer.models.printing_printer.'
+           'PrintingPrinter.print_file')
+    def test_document(self, mock):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
         encounter, careplan, group = self.create_careplan_and_group(
             self.agreement_line)
+        self.assertEqual(
+            encounter.id,
+            self.env['medical.encounter'].find_encounter_by_barcode(
+                encounter.internal_identifier)['res_id'])
+        identifier = encounter.internal_identifier
+        self.assertFalse(
+            self.env['medical.encounter'].find_encounter_by_barcode(
+                '%s-%s-%s' % (identifier, identifier, identifier)
+            ).get('res_id', False))
         self.assertTrue(careplan.document_reference_ids)
         self.assertTrue(group.document_reference_ids)
         documents = group.document_reference_ids.filtered(
@@ -608,12 +722,16 @@ class TestMedicalCareplanSale(TransactionCase):
         )
         self.assertTrue(documents)
         for document in documents:
+            self.assertEqual(
+                encounter.id,
+                self.env['medical.encounter'].find_encounter_by_barcode(
+                    document.internal_identifier)['res_id'])
             with self.assertRaises(ValidationError):
                 document.current2superseded()
             self.assertEqual(document.state, 'draft')
             self.assertTrue(document.is_editable)
             self.assertFalse(document.text)
-            document.print()
+            document.view()
             with self.assertRaises(ValidationError):
                 document.draft2current()
             self.assertEqual(document.state, 'current')
@@ -621,7 +739,7 @@ class TestMedicalCareplanSale(TransactionCase):
             self.assertTrue(document.text)
             self.assertEqual(document.text, '<p>%s</p>' % self.patient_01.name)
             self.patient_01.name = self.patient_01.name + ' Other name'
-            document.print()
+            document.view()
             self.assertEqual(document.state, 'current')
             self.assertNotEqual(document.text,
                                 '<p>%s</p>' % self.patient_01.name)
@@ -630,6 +748,9 @@ class TestMedicalCareplanSale(TransactionCase):
             self.assertIsInstance(document.render(), bytes)
             with self.assertRaises(ValidationError):
                 document.current2superseded()
+            with patch('odoo.addons.base_remote.models.base.Base.remote',
+                       new=self.remote):
+                document.print()
             # We must verify that the document print cannot be changed
         documents = group.document_reference_ids.filtered(
             lambda r: r.document_type == 'zpl2'
@@ -638,21 +759,25 @@ class TestMedicalCareplanSale(TransactionCase):
         for document in documents:
             self.assertEqual(
                 document.render(),
-                # Label start
-                '^XA\n'
-                # Print width
-                '^PW480\n'
-                # UTF-8 encoding
-                '^CI28\n'
-                # Label position
-                '^LH10,10\n'
-                # Pased encounter
-                '^FO10,10^A0N,10,10^FD%s^FS\n'
-                # Recall last saved parameters
-                '^JUR\n'
-                # Label end
-                '^XZ' % encounter.internal_identifier)
+                base64.b64encode((
+                    # Label start
+                    '^XA\n'
+                    # Print width
+                    '^PW480\n'
+                    # UTF-8 encoding
+                    '^CI28\n'
+                    # Label position
+                    '^LH10,10\n'
+                    # Pased encounter
+                    '^FO10,10^A0N,10,10^FD%s^FS\n'
+                    # Recall last saved parameters
+                    '^JUR\n'
+                    # Label end
+                    '^XZ' % encounter.internal_identifier).encode('utf-8')))
             with self.assertRaises(UserError):
+                document.view()
+            with patch('odoo.addons.base_remote.models.base.Base.remote',
+                       new=self.remote):
                 document.print()
         self.assertTrue(group.is_billable)
         self.assertTrue(group.is_breakdown)
@@ -715,6 +840,13 @@ class TestMedicalCareplanSale(TransactionCase):
             sale_order = encounter.sale_order_ids
             self.assertFalse(sale_order.third_party_order)
             sale_orders.append(sale_order)
+        self.session.action_pos_session_close()
+        self.assertTrue(self.session.request_group_ids)
+        for encounter in self.session.encounter_ids:
+            encounter_aux = self.env['medical.encounter'].browse(
+                self.session.open_validation_encounter(
+                    encounter.internal_identifier)['res_id'])
+            encounter_aux.admin_validate()
         action = self.env['invoice.sales.by.group'].create({
             'invoice_group_method_id': method.id,
         }).invoice_sales_by_group()
