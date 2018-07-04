@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo.tests.common import TransactionCase
+from odoo.exceptions import ValidationError
 
 
 class TestCoverage(TransactionCase):
@@ -11,8 +12,6 @@ class TestCoverage(TransactionCase):
         self.patient = self.env['medical.patient'].create({
             'name': 'Patient',
         })
-        self.sequence = self.browse_ref(
-            'medical_administration_encounter.seq_medical_encounter')
 
     def test_write_sequence(self):
         center = self.env['res.partner'].create({
@@ -20,12 +19,11 @@ class TestCoverage(TransactionCase):
             'is_center': True,
         })
         self.assertFalse(center.encounter_sequence_id)
-        code = self.sequence.get_next_char(self.sequence.number_next_actual)
-        encounter = self.env['medical.encounter'].create({
-            'patient_id': self.patient.id,
-            'center_id': center.id,
-        })
-        self.assertEqual(encounter.internal_identifier, code)
+        with self.assertRaises(ValidationError):
+            self.env['medical.encounter'].create({
+                'patient_id': self.patient.id,
+                'center_id': center.id,
+            })
         center.write({'encounter_sequence_prefix': 'R'})
         self.assertEqual(center.encounter_sequence_id.prefix, 'R')
         self.assertTrue(center.encounter_sequence_id)
