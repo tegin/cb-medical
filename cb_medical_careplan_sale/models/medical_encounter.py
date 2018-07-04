@@ -12,7 +12,7 @@ class MedicalEncounter(models.Model):
     )
 
     def _get_sale_order_vals(
-            self, partner, agreement, third_party_partner, is_insurance
+        self, partner, cov, agreement, third_party_partner, is_insurance
     ):
         vals = {
             'third_party_order': third_party_partner != 0,
@@ -20,6 +20,7 @@ class MedicalEncounter(models.Model):
                 third_party_partner != 0 and third_party_partner,
             'partner_id': partner,
             'encounter_id': self.id,
+            'coverage_id': cov,
             'patient_id': self.patient_id.id,
             'coverage_agreement_id': agreement.id,
             'pricelist_id': self.env.ref('product.list0').id,
@@ -30,7 +31,7 @@ class MedicalEncounter(models.Model):
 
     @api.multi
     def _generate_sale_order(
-            self, key, partner, third_party_partner, order_lines
+            self, key, cov, partner, third_party_partner, order_lines
     ):
         is_insurance = bool(key)
         is_third_party = bool(third_party_partner)
@@ -40,7 +41,8 @@ class MedicalEncounter(models.Model):
         order = self.sale_order_ids.filtered(
             lambda r: (
                 (
-                    agreement == r.coverage_agreement_id and is_insurance
+                    agreement == r.coverage_agreement_id and is_insurance and
+                    r.coverage_id.id == cov
                 ) or (
                     not is_insurance and not r.coverage_agreement_id)
             ) and (
@@ -53,9 +55,8 @@ class MedicalEncounter(models.Model):
             r.partner_id.id == partner
         )
         if not order:
-            order_vals = self._get_sale_order_vals(
-                partner, agreement, third_party_partner, is_insurance)
-            order = self.env['sale.order'].create(order_vals)
+            order = self.env['sale.order'].create(self._get_sale_order_vals(
+                partner, cov, agreement, third_party_partner, is_insurance))
         order.ensure_one()
         for order_line in order_lines:
             order_line['order_id'] = order.id
@@ -78,24 +79,27 @@ class MedicalEncounter(models.Model):
                     query.append((
                         request.coverage_agreement_id.id,
                         request.careplan_id.get_payor(),
+                        request.coverage_id.id,
                         True,
                         request.get_third_party_partner()
                         if request.third_party_bill else 0
                     ))
                 if request.is_sellable_private:
                     query.append((
-                        0, self.get_patient_partner(), False,
+                        0, self.get_patient_partner(), False, False,
                         request.get_third_party_partner()
                         if request.third_party_bill else 0
                     ))
-                for key, partner, is_insurance, third_party in query:
+                for key, partner, cov, is_insurance, third_party in query:
                     if not values.get(key, False):
                         values[key] = {}
                     if not values[key].get(partner, False):
                         values[key][partner] = {}
-                    if not values[key][partner].get(third_party, False):
-                        values[key][partner][third_party] = []
-                    values[key][partner][third_party].append(
+                    if not values[key][partner].get(cov, False):
+                        values[key][partner][cov] = {}
+                    if not values[key][partner][cov].get(third_party, False):
+                        values[key][partner][cov][third_party] = []
+                    values[key][partner][cov][third_party].append(
                         request.get_sale_order_line_vals(is_insurance))
         return values
 
@@ -104,13 +108,15 @@ class MedicalEncounter(models.Model):
         values = self.get_sale_order_lines()
         for key in values.keys():
             for partner in values[key]:
-                for third_party_partner in values[key][partner]:
-                    self._generate_sale_order(
-                        key,
-                        partner,
-                        third_party_partner,
-                        values[key][partner][third_party_partner]
-                    )
+                for cov in values[key][partner]:
+                    for third_party_partner in values[key][partner][cov]:
+                        self._generate_sale_order(
+                            key,
+                            cov,
+                            partner,
+                            third_party_partner,
+                            values[key][partner][cov][third_party_partner]
+                        )
         return self.action_view_sale_order()
 
     @api.multi
