@@ -9,7 +9,7 @@
     'category': 'Medical',
     'depends': [
         'medical_base',
-        'cb_medical_careplan_sale',
+        'cb_medical_sale_invoice',
         'cb_medical_financial_coverage_agreement',
         'sale',
         'barcodes',
