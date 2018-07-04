@@ -67,6 +67,10 @@ class MedicalDocumentReference(models.Model):
         return self._print(self.print_action)
 
     @api.multi
+    def view(self):
+        return self._print(self.view_action)
+
+    @api.multi
     def render(self):
         return self._print(self.render_report)
 
@@ -76,16 +80,29 @@ class MedicalDocumentReference(models.Model):
             return self._draft2current(action)
         return action()
 
-    def render_report(self):
-        if self.document_type == 'action':
-            return base64.b64encode(
-                self.document_type_id.report_action_id.render(self.id)[0])
-        raise UserError(_('Function must be defined'))
+    def _render(self):
+        return self.document_type_id.report_action_id.render(self.id)
 
-    def print_action(self):
+    def render_report(self):
+        return base64.b64encode(self._render()[0])
+
+    def view_action(self):
         if self.document_type == 'action':
             return self.document_type_id.report_action_id.report_action(self)
         raise UserError(_('Function must be defined'))
+
+    def _get_printer_usage(self):
+        return 'standard'
+
+    def print_action(self):
+        content, mime = self._render()
+        printer = self.remote.with_context(
+            printer_usage=self._get_printer_usage()
+        ).get_printer_behaviour().pop('printer')
+        return printer.print_document(
+            report=self.document_type_id.report_action_id,
+            content=content, doc_format=mime
+        )
 
     @api.multi
     def draft2current(self):
