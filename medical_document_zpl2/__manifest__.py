@@ -8,7 +8,7 @@
     'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
     'depends': [
         'medical_document',
-        'label_zpl2',
+        'printer_zpl2',
     ],
     'data': [
         'views/medical_document_type_views.xml',
