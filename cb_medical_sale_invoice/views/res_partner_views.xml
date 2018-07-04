@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="medical_financial_coverage.res_partner_view_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="payor" string="Payor" attrs="{'invisible': [('is_payor','=', False)]}">
+                    <group string="Invoice configuration" name="invoice">
+                        <group>
+                            <field name="show_patient"/>
+                            <field name="show_subscriber"/>
+                        </group>
+                        <group>
+                            <field name="show_authorization"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>
