@@ -26,6 +26,7 @@ class TestWizard(TransactionCase):
         })
         self.center = self.env['res.partner'].create({
             'name': 'Location',
+            'encounter_sequence_prefix': 'S',
             'is_center': True,
         })
         self.coverage = self.env['medical.coverage'].create({
