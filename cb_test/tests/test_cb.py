@@ -56,6 +56,20 @@ class TestMedicalCareplanSale(TransactionCase):
             'name': 'Coverage',
         })
         self.company = self.browse_ref('base.main_company')
+        self.company.patient_journal_id = self.env['account.journal'].create({
+            'name': 'Sale Journal',
+            'code': 'SALES',
+            'company_id': self.company.id,
+            'type': 'sale',
+        })
+        self.company.third_party_journal_id = self.env[
+            'account.journal'
+        ].create({
+            'name': 'Journal',
+            'code': 'THIRD',
+            'company_id': self.company.id,
+            'type': 'general',
+        })
         self.customer_acc = self.env['account.account'].create({
             'company_id': self.company.id,
             'code': 'ThirdPartyCust',
@@ -267,7 +281,75 @@ class TestMedicalCareplanSale(TransactionCase):
         self.practitioner_02 = self.create_practitioner('Practitioner 02')
         self.product_01.medical_commission = True
         self.action.fixed_fee = 1
-        self.pos_config = self.env['pos.config'].create({'name': 'PoS config'})
+
+        self.sb_account = self.env['account.account'].create({
+            'name': 'Safe box account',
+            'code': '5720SBC',
+            'company_id': self.company.id,
+            'currency_id': self.company.currency_id.id,
+            'user_type_id': self.browse_ref(
+                'account.data_account_type_liquidity').id
+        })
+        self.bank_account = self.env['account.account'].create({
+            'name': 'Bank account',
+            'code': '5720BNK',
+            'company_id': self.company.id,
+            'currency_id': self.company.currency_id.id,
+            'user_type_id': self.browse_ref(
+                'account.data_account_type_liquidity').id
+        })
+        self.cash_account = self.env['account.account'].create({
+            'name': 'Safe box account',
+            'code': '572CSH',
+            'company_id': self.company.id,
+            'currency_id': self.company.currency_id.id,
+            'user_type_id': self.browse_ref(
+                'account.data_account_type_liquidity').id
+        })
+        self.safe_box_group = self.env['safe.box.group'].create({
+            'code': 'CB',
+            'name': 'CB',
+            'currency_id': self.company.currency_id.id,
+            'account_ids': [(6, 0, self.sb_account.ids)]
+        })
+        self.reina = self.env['res.partner'].create({
+            'name': 'Reina',
+            'is_medical': True,
+            'is_center': True,
+            'encounter_sequence_prefix': '9',
+        })
+        self.journal_1 = self.env['account.journal'].create({
+            'company_id': self.company.id,
+            'name': 'Bank 01',
+            'type': 'bank',
+            'code': 'BK01',
+            'journal_user': True,
+            'default_debit_account_id': self.bank_account.id,
+            'default_credit_account_id': self.bank_account.id,
+        })
+        self.journal_1 |= self.env['account.journal'].create({
+            'company_id': self.company.id,
+            'name': 'Cash 01',
+            'type': 'cash',
+            'code': 'CASH01',
+            'journal_user': True,
+            'default_debit_account_id': self.cash_account.id,
+            'default_credit_account_id': self.cash_account.id,
+        })
+        pos_vals = self.env['pos.config'].with_context(
+            company_id=self.company.id
+        ).default_get(
+            ['journal_id', 'stock_location_id',
+             'invoice_journal_id', 'pricelist_id'])
+        pos_vals.update({
+            'name': 'Config',
+            'requires_approval': True,
+            'company_id': self.company.id,
+            'safe_box_group_id': self.safe_box_group.id,
+            'crm_team_id': False,
+            'journal_ids': [(6, 0, self.journal_1.ids)],
+        })
+        self.pos_config = self.env['pos.config'].create(pos_vals)
         self.pos_config.open_session_cb()
         self.session = self.pos_config.current_session_id
         self.session.action_pos_session_open()
@@ -441,9 +523,10 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertTrue(self.session.sale_order_line_ids)
         self.assertTrue(self.session.request_group_ids)
         self.assertTrue(self.session.down_payment_ids)
+        self.session.action_pos_session_approve()
         self.assertEqual(self.session.validation_status, 'in_progress')
-        self.assertFalse(self.session.open_validation_encounter(
-            'TEST').get('res_id', False))
+        self.assertFalse(self.session.open_validation_encounter('TEST').get(
+            'res_id'))
 
         procedure_requests = self.env['medical.procedure.request'].search([
             ('careplan_id', '=', careplan.id)
@@ -479,7 +562,7 @@ class TestMedicalCareplanSale(TransactionCase):
         encounter.recompute_commissions()
         self.assertTrue(encounter.sale_order_ids)
         for sale_order in encounter.sale_order_ids.filtered(
-            lambda r: not r.is_down_payment
+                lambda r: not r.is_down_payment
         ):
             sale_order.recompute_lines_agents()
             self.assertGreater(sale_order.commission_total, 0)
@@ -657,14 +740,10 @@ class TestMedicalCareplanSale(TransactionCase):
             self.assertEqual(
                 procedure.commission_agent_id, self.practitioner_02)
         self.practitioner_02.third_party_sequence_id = self.env[
-            'ir.sequence'].create({
-                'name': 'sequence'
-            })
+            'ir.sequence'].create({'name': 'sequence'})
         self.assertTrue(
             group.is_sellable_insurance or group.is_sellable_private)
-        self.assertTrue(
-            group.third_party_bill
-        )
+        self.assertTrue(group.third_party_bill)
         self.env['wizard.medical.encounter.close'].create({
             'encounter_id': encounter.id,
             'pos_session_id': self.session.id,
@@ -751,7 +830,7 @@ class TestMedicalCareplanSale(TransactionCase):
             with patch('odoo.addons.base_remote.models.base.Base.remote',
                        new=self.remote):
                 document.print()
-            # We must verify that the document print cannot be changed
+                # We must verify that the document print cannot be changed
         documents = group.document_reference_ids.filtered(
             lambda r: r.document_type == 'zpl2'
         )
