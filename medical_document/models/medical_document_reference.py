@@ -112,24 +112,36 @@ class MedicalDocumentReference(models.Model):
     def cancel(self):
         pass
 
+    def draft2current_values(self):
+        template_id = self.document_type_id.current_template_id.id
+        return {
+            'state': 'current',
+            'document_template_id': template_id,
+            'text': self.with_context(template_id=template_id).render_text()
+        }
+
     def _draft2current(self, action):
         self.ensure_one()
         if self.state != 'draft':
             raise ValidationError(_('State must be draft'))
-        self.document_template_id = self.document_type_id.current_template_id
-        self.text = self.render_text()
-        self.write({'state': 'current'})
+        self.write(self.draft2current_values())
         return action()
 
     def render_text(self):
         if self.document_type == 'action':
-            return self.document_template_id.render_template(
-                self._name, self.id
-                )
+            template = (
+                self.document_template_id or
+                self.env['medical.document.template'].browse(
+                    self._context.get('template_id', False))
+            )
+            return template.render_template(self._name, self.id)
         raise UserError(_('Function must be defined'))
+
+    def current2superseded_values(self):
+        return {'state': 'superseded'}
 
     @api.multi
     def current2superseded(self):
         if self.filtered(lambda r: r.state != 'current'):
             raise ValidationError(_('State must be Current'))
-        self.write({'state': 'superseded'})
+        self.write(self.current2superseded_values())

@@ -79,20 +79,26 @@ class MedicalDocumentType(models.Model):
         if self.current_template_id:
             self.current_template_id.unpost()
 
+    def draft2current_values(self):
+        return {'state': 'current'}
+
     @api.multi
     def draft2current(self):
         for record in self:
             record.post()
-            record.write({'state': 'current'})
+            record.write(self.draft2current_values())
+
+    def current2superseded_values(self):
+        return {'state': 'superseded'}
 
     @api.multi
     def current2superseded(self):
         for record in self:
             if record.activity_definition_ids.filtered(
-                    lambda r: r.state == 'active'
+                lambda r: r.state == 'active'
             ):
                 raise ValidationError(_(
                     'Cannot supersed if it is used on active definitions'
                 ))
             record.unpost()
-            record.write({'state': 'superseded'})
+            record.write(self.current2superseded_values())
