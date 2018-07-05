@@ -17,10 +17,10 @@ class MedicalEncounter(models.Model):
         readonly=True,
     )
 
-    @api.multi
-    def onleave2finished(self, **kwargs):
-        self.validation_status = 'draft'
-        return super().onleave2finished(**kwargs)
+    def onleave2finished_values(self):
+        res = super().onleave2finished_values()
+        res['validation_status'] = 'draft'
+        return res
 
     @api.multi
     def close_validate_view(self):
