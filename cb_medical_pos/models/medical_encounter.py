@@ -55,16 +55,27 @@ class MedicalEncounter(models.Model):
     ):
         vals = super()._get_sale_order_vals(
             partner, cov, agreement, third_party_partner, is_insurance)
-        if self.pos_session_id:
-            vals['pos_session_id'] = self.pos_session_id.id
+        session = self.pos_session_id.id or self._context.get('pos_session_id')
+        if session:
+            vals['pos_session_id'] = session
         if not is_insurance:
-            if not self.pos_session_id:
+            if not self.company_id.id and not self._context.get('company_id'):
                 raise ValidationError(_(
-                    'Session is required in order to create patient invoice'))
-            if not self.company_id:
-                self.company_id = self.pos_session_id.config_id.company_id
-            vals['company_id'] = self.company_id.id
+                    'Company is required in order to create Sale Orders'))
+            vals['company_id'] = (
+                self.company_id.id or
+                self._context.get('company_id'))
         return vals
+
+    def inprogress2onleave_values(self):
+        res = super().inprogress2onleave_values()
+        if not self.company_id:
+            if not self._context.get('company_id', False):
+                raise ValidationError(_('Company is required'))
+            res['company_id'] = self._context.get('company_id', False)
+        if self._context.get('pos_session_id', False):
+            res['pos_session_id'] = self._context.get('pos_session_id', False)
+        return res
 
     @api.multi
     def inprogress2onleave(self):
@@ -76,19 +87,26 @@ class MedicalEncounter(models.Model):
             self.onleave2finished()
         return res
 
-    def finish_sale_order(self, sale_order, **kwargs):
-        if not kwargs.get('journal_id'):
+    def finish_sale_order(self, sale_order):
+        if not self._context.get('journal_id', False):
+            raise ValidationError(_(
+                'Payment journal is necessary in order to finish sale orders'))
+        if not self._context.get('pos_session_id', False):
             raise ValidationError(_(
                 'Payment journal is necessary in order to finish sale orders'))
         sale_order.action_confirm()
-        journal_id = kwargs.get('journal_id')
+        journal_id = self._context.get('journal_id', False)
+        pos_session_id = self._context.get('pos_session_id', False)
         cash_vals = {
-            'journal_id': journal_id.id,
+            'journal_id': journal_id,
         }
         if not sale_order.third_party_order:
             model = 'cash.invoice.out'
+            patient_journal = sale_order.company_id.patient_journal_id.id
             invoice = self.env['account.invoice'].browse(
-                sale_order.action_invoice_create())
+                sale_order.with_context(
+                    default_journal_id=patient_journal
+                ).action_invoice_create())
             invoice.action_invoice_open()
             cash_vals.update({
                 'invoice_id': invoice.id,
@@ -101,16 +119,22 @@ class MedicalEncounter(models.Model):
                 'amount': sale_order.amount_total,
             })
         process = self.env[model].with_context(
-            active_ids=self.pos_session_id.ids, active_model='pos.session'
+            active_ids=[pos_session_id], active_model='pos.session'
         ).create(cash_vals)
         process.run()
 
+    def onleave2finished_values(self):
+        res = super().onleave2finished_values()
+        if self._context.get('pos_session_id', False):
+            res['pos_session_id'] = self._context.get('pos_session_id', False)
+        return res
+
     @api.multi
-    def onleave2finished(self, **kwargs):
+    def onleave2finished(self):
         sale_orders = self.sale_order_ids.filtered(
             lambda r: not r.coverage_agreement_id and not r.is_down_payment)
         for sale_order in sale_orders:
-            self.finish_sale_order(sale_order, **kwargs)
+            self.finish_sale_order(sale_order)
         return super().onleave2finished()
 
     def down_payment_inverse_vals(self, order, line):
