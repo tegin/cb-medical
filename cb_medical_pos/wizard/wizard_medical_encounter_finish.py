@@ -56,5 +56,7 @@ class WizardMedicalEncounterClose(models.TransientModel):
     @api.multi
     def run(self):
         self.ensure_one()
-        self.encounter_id.pos_session_id = self.pos_session_id
-        self.encounter_id.onleave2finished(journal_id=self.journal_id)
+        self.encounter_id.with_context(
+            pos_session_id=self.pos_session_id.id,
+            journal_id=self.journal_id.id,
+        ).onleave2finished()

@@ -25,5 +25,8 @@ class WizardMedicalEncounterClose(models.TransientModel):
     def run(self):
         self.ensure_one()
         # It could be changed if it need a finished option
-        self.encounter_id.pos_session_id = self.pos_session_id
-        self.encounter_id.inprogress2onleave()
+        # self.encounter_id.pos_session_id = self.pos_session_id
+        self.encounter_id.with_context(
+            pos_session_id=self.pos_session_id.id,
+            company_id=self.pos_session_id.config_id.company_id.id
+        ).inprogress2onleave()
