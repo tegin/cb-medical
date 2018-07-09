@@ -7,6 +7,8 @@ class SaleOrder(models.Model):
     patient_name = fields.Char(
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}
     )
+    subscriber_id = fields.Char(
+        states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
 
     @api.multi
     def _prepare_invoice(self):
@@ -20,12 +22,23 @@ class SaleOrder(models.Model):
                 res['show_authorization'] = p.show_authorization
         return res
 
+    @api.model
+    def sale_shared_fields(self):
+        return ['patient_name', 'subscriber_id']
+
     @api.multi
-    @api.onchange('patient_name')
-    def _onchange_patient_name(self):
-        for rec in self:
-            for line in rec.order_line.filtered(lambda r: r != rec):
-                line.patient_name = rec.patient_name
+    def write(self, vals):
+        res = super().write(vals)
+        if not self.env.context.get('not_sale_share_values', False):
+            shared_vals = {}
+            for key in self.sale_shared_fields():
+                if key in vals:
+                    shared_vals.update({key: vals[key]})
+            if shared_vals:
+                self.mapped('order_line').with_context(
+                    not_sale_share_values=True
+                ).write(shared_vals)
+        return res
 
 
 class SaleOrderLine(models.Model):
@@ -36,12 +49,23 @@ class SaleOrderLine(models.Model):
     patient_name = fields.Char()
 
     @api.multi
-    @api.onchange('patient_name')
-    def _onchange_patient_name(self):
-        for rec in self:
-            rec.order_id.patient_name = rec.patient_name
-            for line in rec.order_id.order_line.filtered(lambda r: r != rec):
-                line.patient_name = rec.patient_name
+    def write(self, vals):
+        res = super().write(vals)
+        if not self.env.context.get('not_sale_share_values', False):
+            shared_vals = {}
+            for key in self.env['sale.order'].sale_shared_fields():
+                if key in vals:
+                    shared_vals.update({key: vals[key]})
+            if shared_vals:
+                self.mapped('order_id').with_context(
+                    not_sale_share_values=True
+                ).write(shared_vals)
+                self.mapped('order_id').mapped('order_line').filtered(
+                    lambda r: r not in self
+                ).with_context(
+                    not_sale_share_values=True
+                ).write(shared_vals)
+        return res
 
     @api.multi
     def _prepare_invoice_line(self, qty):

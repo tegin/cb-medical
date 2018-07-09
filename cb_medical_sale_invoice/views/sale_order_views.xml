@@ -10,6 +10,8 @@
                        attrs="{'invisible': [('encounter_id', '=', False)]}"/>
                 <field name="patient_name"
                        attrs="{'invisible': [('encounter_id', '=', False)]}"/>
+                <field name="subscriber_id"
+                       attrs="{'invisible': [('encounter_id', '=', False)]}"/>
             </field>
 
             <xpath expr="//field[@name='order_line']/form//field[@name='product_id']"

@@ -9,5 +9,5 @@ class MedicalEncounter(models.Model):
     ):
         vals = super()._get_sale_order_vals(
             partner, cov, agreement, third_party_partner, is_insurance)
-        vals['patient_name'] = self.patient_id.name
+        vals['patient_name'] = self.patient_id.display_name
         return vals
