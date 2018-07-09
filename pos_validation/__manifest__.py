@@ -18,6 +18,7 @@
         'barcode_action',
         'cb_medical_commission',
         'pos_session_pay_invoice',
+        'cb_medical_sale_invoice',
     ],
     'data': [
         'security/security.xml',
