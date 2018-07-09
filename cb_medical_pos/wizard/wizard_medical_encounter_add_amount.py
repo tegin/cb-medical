@@ -92,9 +92,10 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
         if not self.encounter_id.company_id:
             self.encounter_id.company_id = self.company_id
         order = self.env['sale.order'].create(self.sale_order_vals())
-        self.env['sale.order.line'].with_context(
+        line = self.env['sale.order.line'].with_context(
             force_company=order.company_id.id
         ).create(self.sale_order_line_vals(order))
+        line.change_company_id()
         order.with_context(force_company=order.company_id.id).action_confirm()
         invoice_ids = order.with_context(
             force_company=order.company_id.id).action_invoice_create()
