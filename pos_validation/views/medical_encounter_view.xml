@@ -8,81 +8,52 @@
 
 <odoo>
 
-    <record id="medical_encounter_validation_form" model="ir.ui.view">
-        <field name="name">medical.encounter.validation.form</field>
+    <record id="medical_encounter_view_form" model="ir.ui.view">
+        <field name="name">medical.encounter.view.form</field>
         <field name="model">medical.encounter</field>
-        <field name="priority">50</field>
+        <field name="inherit_id"
+               ref="medical_administration_encounter.medical_encounter_view_form"/>
         <field name="arch" type="xml">
-            <form string="Medical Encounter">
-                <header/>
-                <sheet>
-                    <div name="button_box" class="oe_button_box">
-                        <button name="admin_validate"
-                                    type="object"
-                                    icon="fa-check"
-                                    string="Validate"
-                            />
-                        <button name="close_validate_view"
-                                    type="object"
-                                    icon="fa-times"
-                                    string="Close"
-                            />
-                    </div>
-                    <h1>
-                        <field name="internal_identifier"/>
-                        <field name="is_editable" invisible="1"/>
-                    </h1>
-                    <h2>
-                        <field name="name" readonly="True"/>
-                    </h2>
-                    <group>
-                        <group name="patient">
-                            <field name="patient_id" readonly="True"/>
-                            <field name="priority_id" readonly="True"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <sheet>
-                            <field name="sale_order_line_ids">
-                                <tree>
-                                    <field name="is_private" widget="toggle_button" readonly="True"/>
-                                    <field name="payor_id"/>
-                                    <field name="order_partner_id"/>
-                                    <field name="coverage_template_id"/>
-                                    <field name="product_id"/>
-                                    <field name="product_uom_qty"/>
-                                    <field name="price_unit"/>
-                                    <field name="subscriber_id"/>
-                                    <field name="authorization_number"/>
-                                    <!---->
-                                </tree>
-                            </field>
-                        </sheet>
-                    </notebook>
-                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids"
-                           widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
-            </form>
+            <xpath expr="//div[@name='button_box']" postion="inside">
+                <field name="validation_status" invisible="1"/>
+                <button name="admin_validate"
+                        type="object"
+                        icon="fa-check"
+                        string="Validate"
+                        group="group_medical_encounter_validation"
+                        attrs="{'invisible': [('validation_status', '!=', 'in_progress')]}"
+                />
+                <button name="close_view"
+                        type="object"
+                        icon="fa-times"
+                        string="Close"
+                />
+            </xpath>
+            <group name="location_id" position="after">
+                <notebook>
+                    <sheet name="sale_order" string="Sale Orders">
+                        <field name="sale_order_line_ids">
+                            <tree create="False"
+                                  decoration-muted="is_private==True"
+                                  decoration-warnging="is_private == False and authorization_status != 'authorized'"
+                            >
+                                <field name="is_private" widget="toggle_button"
+                                       readonly="True"/>
+                                <field name="payor_id"/>
+                                <field name="order_partner_id"/>
+                                <field name="coverage_template_id"/>
+                                <field name="product_id"/>
+                                <field name="product_uom_qty"/>
+                                <field name="price_unit"/>
+                                <field name="subscriber_id"/>
+                                <field name="authorization_number"/>
+                                <field name="authorization_status"/>
+                                <!---->
+                            </tree>
+                        </field>
+                    </sheet>
+                </notebook>
+            </group>
         </field>
     </record>
-
-
-    <record model="ir.actions.act_window"
-            id="medical_encounter_validation_action">
-        <field name="name">Encounters</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">medical.encounter</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">form</field>
-        <field name="view_ids"
-               eval="[(5, 0, 0),
-                      (0, 0, {'view_mode': 'form', 'view_id': ref('medical_encounter_validation_form')})
-                     ]"/>
-        <field name="context">{}</field>
-    </record>
-
 </odoo>
