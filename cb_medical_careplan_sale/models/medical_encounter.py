@@ -60,9 +60,10 @@ class MedicalEncounter(models.Model):
         order.ensure_one()
         for order_line in order_lines:
             order_line['order_id'] = order.id
-            self.env['sale.order.line'].with_context(
+            line = self.env['sale.order.line'].with_context(
                 force_company=order.company_id.id
             ).create(order_line)
+            line.change_company_id()
         return order
 
     def get_patient_partner(self):
