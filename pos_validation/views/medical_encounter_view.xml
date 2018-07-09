@@ -33,7 +33,7 @@
                 <notebook>
                     <sheet name="sale_order" string="Sale Orders">
                         <field name="sale_order_line_ids">
-                            <tree create="False"
+                            <tree create="false"
                                   decoration-muted="is_private==True"
                                   decoration-warnging="is_private == False and authorization_status != 'authorized'"
                             >
