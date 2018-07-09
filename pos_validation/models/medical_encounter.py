@@ -13,8 +13,7 @@ class MedicalEncounter(models.Model):
     )
     sale_order_line_ids = fields.One2many(
         'sale.order.line',
-        related='sale_order_ids.order_line',
-        readonly=True,
+        inverse_name='encounter_id',
     )
 
     def onleave2finished_values(self):
