@@ -90,6 +90,13 @@ class TestMedicalCareplanSale(TransactionCase):
             'default_third_party_customer_account_id': self.customer_acc.id,
             'default_third_party_supplier_account_id': self.supplier_acc.id,
         })
+        self.tax = self.env['account.tax'].create({
+            'name': 'TAX',
+            'amount_type': 'percent',
+            'amount': 0,
+            'type_tax_use': 'sale',
+            'company_id': self.company.id,
+        })
         self.center = self.env['res.partner'].create({
             'name': 'Center',
             'is_medical': True,
@@ -163,6 +170,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'name': 'Clinical material',
             'is_medication': True,
             'lst_price': 10.0,
+            'taxes_id': [(6, 0, self.tax.ids)],
         })
         self.product_03.qty_available = 50.0
         self.product_04 = self.create_product('Medical visit')
@@ -370,6 +378,7 @@ class TestMedicalCareplanSale(TransactionCase):
         return self.env['product.product'].create({
             'type': 'service',
             'name': name,
+            'taxes_id': [(6, 0, self.tax.ids)]
         })
 
     def create_careplan_and_group(self, agreement_line):
@@ -564,8 +573,11 @@ class TestMedicalCareplanSale(TransactionCase):
         for sale_order in encounter.sale_order_ids.filtered(
                 lambda r: not r.is_down_payment
         ):
+            for line in sale_order.order_line:
+                self.assertTrue(line.tax_id)
             sale_order.recompute_lines_agents()
             self.assertGreater(sale_order.commission_total, 0)
+
         preinvoice_obj = self.env['sale.preinvoice.group']
         self.assertFalse(preinvoice_obj.search([
             ('agreement_id', '=', self.agreement.id)]))
