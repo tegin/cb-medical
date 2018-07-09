@@ -33,7 +33,7 @@
                 <notebook>
                     <sheet name="sale_order" string="Sale Orders">
                         <field name="sale_order_line_ids">
-                            <tree create="false"
+                            <tree create="false" delete="false" editable="bottom"
                                   decoration-muted="is_private==True"
                                   decoration-warnging="is_private == False and authorization_status != 'authorized'"
                             >
@@ -42,12 +42,14 @@
                                 <field name="payor_id"/>
                                 <field name="order_partner_id"/>
                                 <field name="coverage_template_id"/>
-                                <field name="product_id"/>
-                                <field name="product_uom_qty"/>
-                                <field name="price_unit"/>
-                                <field name="subscriber_id"/>
-                                <field name="authorization_number"/>
+                                <field name="patient_name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="product_id" readonly="True"/>
+                                <field name="product_uom_qty" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="price_unit" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="subscriber_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="authorization_number" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="authorization_status"/>
+                                <field name="state" invisible="1"/>
                                 <!---->
                             </tree>
                         </field>
