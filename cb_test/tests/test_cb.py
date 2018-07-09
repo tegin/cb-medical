@@ -573,11 +573,19 @@ class TestMedicalCareplanSale(TransactionCase):
         for sale_order in encounter.sale_order_ids.filtered(
                 lambda r: not r.is_down_payment
         ):
+            original_patient_name = sale_order.patient_name
+            patient_name = '%s %s' % (original_patient_name, 'TEST')
+            sale_order.patient_name = patient_name
+            sale_order._onchange_patient_name()
             for line in sale_order.order_line:
                 self.assertTrue(line.tax_id)
+                self.assertEqual(line.patient_name, patient_name)
+            line = sale_order.order_line[0]
+            line.patient_name = original_patient_name
+            line._onchange_patient_name()
+            self.assertEqual(sale_order.patient_name, original_patient_name)
             sale_order.recompute_lines_agents()
             self.assertGreater(sale_order.commission_total, 0)
-
         preinvoice_obj = self.env['sale.preinvoice.group']
         self.assertFalse(preinvoice_obj.search([
             ('agreement_id', '=', self.agreement.id)]))
