@@ -32,3 +32,8 @@ class SaleOrderLine(models.AbstractModel):
         'medical.document.reference',
         readonly=True,
     )
+    authorization_status = fields.Selection([
+        ('pending', 'Pending authorization'),
+        ('not-authorized', 'Not authorized'),
+        ('authorized', 'Authorized'),
+    ], readonly=True,)
