@@ -99,10 +99,9 @@ class PosSession(models.Model):
             }
             return result
         action = self.env.ref(
-            'pos_validation.medical_encounter_validation_action')
+            'medical_administration_encounter.medical_encounter_action')
         result = action.read()[0]
-        res = self.env.ref(
-            'pos_validation.medical_encounter_validation_form', False)
+        res = self.env.ref('medical_encounter.medical_encounter_form', False)
         result['views'] = [(res and res.id or False, 'form')]
         result['res_id'] = encounter.id
         return result
