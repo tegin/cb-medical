@@ -33,6 +33,7 @@ class MedicalEncounter(models.Model):
     @api.depends(
         'sale_order_ids.coverage_agreement_id',
         'sale_order_ids.amount_total',
+        'sale_order_ids.bank_statement_line_ids',
         'sale_order_ids.invoice_ids.amount_total',
         'sale_order_ids.invoice_ids.bank_statement_line_ids')
     def _compute_pending_private_amount(self):
@@ -44,7 +45,10 @@ class MedicalEncounter(models.Model):
                 lambda r: not r.coverage_agreement_id and not r.invoice_ids
             )
             record.pending_private_amount = (
-                sum(inv.mapped('amount_total')) -
+                sum(inv.filtered(lambda r: r.type == 'out_invoice').mapped(
+                    'amount_total')) -
+                sum(inv.filtered(lambda r: r.type == 'out_refund').mapped(
+                    'amount_total')) -
                 sum(inv.mapped('bank_statement_line_ids').mapped('amount')) +
                 sum(orders.mapped('amount_total')) -
                 sum(orders.mapped('bank_statement_line_ids').mapped('amount'))
@@ -108,9 +112,12 @@ class MedicalEncounter(models.Model):
                     default_journal_id=patient_journal
                 ).action_invoice_create())
             invoice.action_invoice_open()
+            amount = invoice.amount_total
+            if invoice.type == 'out_refund':
+                amount = -amount
             cash_vals.update({
                 'invoice_id': invoice.id,
-                'amount': invoice.amount_total,
+                'amount': amount,
             })
         else:
             model = 'cash.sale.order.out'
@@ -150,7 +157,7 @@ class MedicalEncounter(models.Model):
     def get_sale_order_lines(self):
         values = super().get_sale_order_lines()
         down_payments = self.sale_order_ids.filtered(
-            lambda r: r.is_down_payment and r.coverage_agreement_id is False
+            lambda r: r.is_down_payment
         )
         if down_payments:
             if 0 not in values:
@@ -158,7 +165,9 @@ class MedicalEncounter(models.Model):
             if self.get_patient_partner() not in values[0]:
                 values[0][self.get_patient_partner()] = {}
             if 0 not in values[0][self.get_patient_partner()]:
-                values[0][self.get_patient_partner()][0] = []
+                values[0][self.get_patient_partner()][0] = {}
+            if 0 not in values[0][self.get_patient_partner()][0]:
+                values[0][self.get_patient_partner()][0][0] = []
         return values
 
     def _generate_sale_order(
@@ -167,15 +176,14 @@ class MedicalEncounter(models.Model):
         order = super()._generate_sale_order(
             key, cov, partner, third_party_partner, order_lines
         )
-        if key == 0:
+        if key == 0 and not third_party_partner:
             orders = self.sale_order_ids.filtered(
-                lambda r: (
-                    r.is_down_payment and r.coverage_agreement_id is False
-                )
+                lambda r: r.is_down_payment
             )
             for pay in orders:
                 for line in pay.order_line:
-                    self.env['sale.order.line'].create(
+                    inverse_line = self.env['sale.order.line'].create(
                         self.down_payment_inverse_vals(order, line)
                     )
+                    inverse_line.change_company_id()
         return order
