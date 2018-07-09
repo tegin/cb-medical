@@ -41,17 +41,13 @@ class WizardMedicalEncounterClose(models.TransientModel):
         readonly=True
     )
     amount = fields.Monetary(
-        compute='_compute_payment_amount'
+        related='encounter_id.pending_private_amount',
+        readonly=True,
     )
 
     @api.onchange('pos_session_id')
     def _onchange_session(self):
         self.journal_id = False
-
-    @api.depends('encounter_id')
-    def _compute_payment_amount(self):
-        for record in self:
-            record.amount = self.encounter_id.pending_private_amount
 
     @api.multi
     def run(self):
