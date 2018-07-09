@@ -20,6 +20,7 @@
         'pos_session_pay_invoice',
     ],
     'data': [
+        'security/security.xml',
         'views/medical_encounter_view.xml',
         'views/administration_menu.xml',
         'views/pos_session_views.xml',
