@@ -23,7 +23,7 @@ class MedicalEncounter(models.Model):
         return res
 
     @api.multi
-    def close_validate_view(self):
+    def close_view(self):
         return {'type': 'ir.actions.client', 'tag': 'history_back'}
 
     @api.multi
@@ -45,7 +45,7 @@ class MedicalEncounter(models.Model):
             lambda r: r.validation_status == 'in_progress'
         ):
             self.pos_session_id.action_validation_finish()
-        return self.close_validate_view()
+        return self.close_view()
 
     def create_invoice(self, sale_order):
         """Hook in order to add more functionality (automatic printing)"""
