@@ -749,6 +749,7 @@ class TestMedicalCareplanSale(TransactionCase):
         encounter, careplan, group = self.create_careplan_and_group(
             self.agreement_line3
         )
+        self.assertEqual(encounter.sale_order_count, 0)
         self.assertTrue(group.procedure_request_ids)
         for request in group.procedure_request_ids:
             request.draft2active()
@@ -769,6 +770,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'encounter_id': encounter.id,
             'pos_session_id': self.session.id,
         }).run()
+        self.assertGreater(encounter.sale_order_count, 0)
         self.assertTrue(encounter.sale_order_ids)
         sale_order = encounter.sale_order_ids
         self.assertTrue(sale_order.third_party_order)
