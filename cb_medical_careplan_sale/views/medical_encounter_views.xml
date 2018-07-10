@@ -11,7 +11,7 @@
                         type="action"
                         string="Create careplan"
                         states="arrived,in-progress,onleave"
-                        />
+                />
                 <button name="create_sale_order"
                         type="object" string="Create Sales Orders"
                         class="oe_highlight"/>
@@ -23,9 +23,11 @@
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button type="object"
                         name="action_view_sale_order"
-                        string="Sale Orders"
-                        class="oe_stat_button"  icon="fa-usd"
+                        class="oe_stat_button" icon="fa-usd"
                         attrs="{'readonly':[('is_editable', '=', False)]}">
+                    <field name="sale_order_count" widget="statinfo"
+                           string="Sale Orders"/>
+                    <field name='sale_order_ids' invisible="1"/>
                 </button>
             </xpath>
         </field>
