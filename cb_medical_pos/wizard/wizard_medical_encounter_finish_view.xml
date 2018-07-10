@@ -5,12 +5,14 @@
         <field name="model">wizard.medical.encounter.finish</field>
         <field name="arch" type="xml">
             <form string="finish encounter">
-                <field name="encounter_id" invisible="1"/>
-                <field name="pos_session_id"/>
-                <field name="journal_id"/>
-                <field name="journal_ids" invisible="1"/>
-                <field name="amount"/>
-                <field name="currency_id" invisible="1"/>
+                <group>
+                    <field name="encounter_id" invisible="1"/>
+                    <field name="pos_session_id"/>
+                    <field name="journal_id"/>
+                    <field name="journal_ids" invisible="1"/>
+                    <field name="amount"/>
+                    <field name="currency_id" invisible="1"/>
+                </group>
                 <footer>
                     <button type="object" name="run" string="Create"
                             class="oe_highlight"/>
