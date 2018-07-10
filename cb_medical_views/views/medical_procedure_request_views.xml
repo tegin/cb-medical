@@ -14,7 +14,7 @@
         <field name="inherit_id" ref="medical_clinical_procedure.medical_procedure_request_view_form"/>
         <field name="arch" type="xml">
             <button name="draft2active" position="after">
-                <button name="generate_event" type="object" attrs="{'invisible': [('state', '!=', 'active'), ('procedure_ids', '=', False)]}"/>
+                <button name="generate_event" type="object" attrs="{'invisible': ['|', ('state', '!=', 'active'), ('procedure_ids', '!=', False)]}" string="Generate Procedure"/>
                 <field name="procedure_ids" invisible="1"/>
             </button>
         </field>
