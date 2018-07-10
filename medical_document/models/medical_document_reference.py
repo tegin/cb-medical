@@ -13,6 +13,9 @@ class MedicalDocumentReference(models.Model):
     _description = 'Medical Document Reference'
     _inherit = 'medical.request'
 
+    internal_identifier = fields.Char(
+        string="Document reference"
+    )
     state = fields.Selection([
         ('draft', 'Draft'),
         ('current', 'Current'),
