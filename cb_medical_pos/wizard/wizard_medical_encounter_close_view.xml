@@ -5,8 +5,10 @@
         <field name="model">wizard.medical.encounter.close</field>
         <field name="arch" type="xml">
             <form string="Close encounter">
-                <field name="encounter_id" invisible="1"/>
-                <field name="pos_session_id"/>
+                <group>
+                    <field name="encounter_id" invisible="1"/>
+                    <field name="pos_session_id"/>
+                </group>
                 <footer>
                     <button type="object" name="run" string="Create"
                             class="oe_highlight"/>
