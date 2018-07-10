@@ -11,6 +11,15 @@ class MedicalEncounter(models.Model):
         readonly=True,
     )
 
+    sale_order_count = fields.Integer(
+        compute='_compute_sale_order_count'
+    )
+
+    @api.depends('sale_order_ids')
+    def _compute_sale_order_count(self):
+        for record in self:
+            record.sale_order_count = len(record.sale_order_ids)
+
     def _get_sale_order_vals(
         self, partner, cov, agreement, third_party_partner, is_insurance
     ):
