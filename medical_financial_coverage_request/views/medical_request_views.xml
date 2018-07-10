@@ -14,16 +14,26 @@
                ref="medical_workflow.medical_request_form"/>
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
-            <group name="inheritance" position="inside">
-                <field name="coverage_id" options="{'no_create': True}" attrs="{'readonly': [('is_editable', '=', False)]}"/>
-                <field name="coverage_agreement_id" options="{'no_create': True}"/>
-                <field name="coverage_agreement_item_id" options="{'no_create': True}"/>
-                <field name="authorization_method_id" options="{'no_create': True}" attrs="{'readonly': [('is_editable', '=', False)]}"/>
-                <field name="authorization_number" attrs="{'readonly': [('is_editable', '=', False)]}"/>
-                <field name="authorization_status"/>
-                <field name="careplan_id" readonly="1"
-                       attrs="{'invisible': [('careplan_id', '=', False)]}"/>
-            </group>
+            <notebook position="inside">
+                <page name="payor" string="Payor">
+                    <group>
+                        <group>
+                            <field name="coverage_id"
+                                   options="{'no_create': True}"
+                                   attrs="{'readonly': [('is_editable', '=', False)]}"
+                            />
+                        </group>
+                        <group>
+                            <field name="authorization_method_id"
+                                   options="{'no_create': True}"
+                                   attrs="{'readonly': [('is_editable', '=', False)]}"/>
+                            <field name="authorization_number"
+                                   attrs="{'readonly': [('is_editable', '=', False)]}"/>
+                            <field name="authorization_status"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
         </field>
     </record>
 </odoo>
