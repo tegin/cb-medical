@@ -15,7 +15,10 @@
                ref="medical_administration_encounter.medical_encounter_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="before">
-                <flagbox>
+                <flagbox
+                        group="pos_validation.group_medical_encounter_validation"
+                        attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                >
                     <flag icon="fa-archive"
                           name="preinvoicing"
                           help="Preinvoicing is generated. Documents must be stored"
@@ -57,8 +60,8 @@
                         type="object"
                         icon="fa-check"
                         string="Validate"
-                        group="group_medical_encounter_validation"
-                        attrs="{'invisible': [('validation_status', '!=', 'in_progress')]}"
+                        group="pos_validation.group_medical_encounter_validation"
+                        attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
                 />
                 <button name="close_view"
                         type="object"
@@ -66,6 +69,9 @@
                         string="Close"
                 />
             </xpath>
+            <field name="pos_session_id" position="after">
+                <field name="validation_status"/>
+            </field>
             <group name="location_id" position="after">
                 <notebook>
                     <sheet name="sale_order" string="Sale Orders">
