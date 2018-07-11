@@ -1,3 +1,4 @@
+import re
 from odoo import api, fields, models
 
 
@@ -50,11 +51,12 @@ class MedicalEncounter(models.Model):
             rec.has_patient_invoice = bool(rec.sale_order_ids.filtered(
                 lambda r: r.invoice_group_method_id == by_patient
             ))
-            #FIXME: Check format
             rec.missing_subscriber_id = bool(
                 rec.sale_order_ids.mapped('order_line').filtered(
                     lambda r: r.coverage_template_id.subscriber_required and
-                    not r.subscriber_id
+                    not re.match(
+                        r.coverage_template_id.subscriber_format or '.+',
+                        r.subscriber_id or '')
                 )
             )
             rec.unauthorized_elements = bool(rec.sale_order_ids.filtered(
