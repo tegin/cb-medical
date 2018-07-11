@@ -15,7 +15,15 @@
         <field name="arch" type="xml">
             <xpath expr="//tree" position="attributes">
                 <attribute name="create">0</attribute>
+                <attribute name="decoration-success">state=='active'</attribute>
+                <attribute name="decoration-info">state=='suspended'</attribute>
+                <attribute name="decoration-muted">state=='completed'</attribute>
+                <attribute name="decoration-danger">state=='entered-in-error'</attribute>
+                <attribute name="decoration-warning">state=='cancelled'</attribute>
             </xpath>
+            <field name="service_id" position="after">
+                <field name="state"/>
+            </field>
         </field>
     </record>
 
