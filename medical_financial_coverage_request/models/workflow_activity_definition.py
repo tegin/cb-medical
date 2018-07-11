@@ -21,11 +21,13 @@ class ActivityDefinition(models.Model):
 
     def _get_medical_values(self, vals, parent=False, plan=False, action=False
                             ):
-        res = super(ActivityDefinition, self)._get_medical_values(
-            vals, parent, plan, action)
+        res = super()._get_medical_values(vals, parent, plan, action)
+
         res['coverage_agreement_item_id'] = False
         res['coverage_agreement_id'] = False
         res['authorization_method_id'] = False
+        if not res.get('is_billable', False):
+            return res
         if vals.get('coverage_id', False):
             coverage_template = self.env['medical.coverage'].browse(vals.get(
                 'coverage_id')).coverage_template_id
@@ -33,18 +35,17 @@ class ActivityDefinition(models.Model):
                 ('coverage_template_ids', '=', coverage_template.id),
                 ('product_id', '=', self.service_id.id)
             ], limit=1)
-            if res.get('is_billable', False) and not cai:
+            if not cai:
                 raise ValidationError(_(
                     'An element should exist on an agreement if it is billable'
                 ))
-            if cai:
-                res['coverage_agreement_item_id'] = cai.id
-                res['coverage_agreement_id'] = cai.coverage_agreement_id.id
-                res['authorization_method_id'] = cai.authorization_method_id.id
-                if cai.authorization_method_id.always_authorized:
-                    res['authorization_status'] = 'authorized'
-                else:
-                    res['authorization_status'] = 'pending'
+            res['coverage_agreement_item_id'] = cai.id
+            res['coverage_agreement_id'] = cai.coverage_agreement_id.id
+            res['authorization_method_id'] = cai.authorization_method_id.id
+            if cai.authorization_method_id.always_authorized:
+                res['authorization_status'] = 'authorized'
+            else:
+                res['authorization_status'] = 'pending'
         return res
 
     @api.multi
