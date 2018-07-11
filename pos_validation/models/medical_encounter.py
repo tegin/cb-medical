@@ -10,7 +10,7 @@ class MedicalEncounter(models.Model):
         ('draft', 'Draft'),
         ('in_progress', 'In progress'),
         ('finished', 'Finished')
-    ], default='none', required=True,
+    ], default='none', required=True, readonly=True,
     )
     sale_order_line_ids = fields.One2many(
         'sale.order.line',
