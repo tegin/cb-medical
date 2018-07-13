@@ -1,0 +1,63 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* medical_document_zpl2
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-13 09:49+0000\n"
+"PO-Revision-Date: 2018-07-13 09:49+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: medical_document_zpl2
+#: model:ir.actions.act_window,name:medical_document_zpl2.medical_document_type_zpl2_action
+msgid "Document Actions"
+msgstr "Document Actions"
+
+#. module: medical_document_zpl2
+#: model:ir.model.fields,field_description:medical_document_zpl2.field_medical_document_type_label_zpl2_id
+msgid "Label Zpl2"
+msgstr "Label Zpl2"
+
+#. module: medical_document_zpl2
+#: model:ir.model,name:medical_document_zpl2.model_medical_document_reference
+msgid "Medical Document Reference"
+msgstr "Medical Document Reference"
+
+#. module: medical_document_zpl2
+#: model:ir.model,name:medical_document_zpl2.model_medical_document_type
+msgid "Medical Document Type"
+msgstr "Medical Document Type"
+
+#. module: medical_document_zpl2
+#: model:ir.ui.menu,name:medical_document_zpl2.medical_document_type_zpl2_menu
+msgid "Medical ZPL Labels"
+msgstr "Medical ZPL Labels"
+
+#. module: medical_document_zpl2
+#: model:ir.ui.view,arch_db:medical_document_zpl2.medical_document_reference_view_form
+msgid "Render"
+msgstr "Render"
+
+#. module: medical_document_zpl2
+#: code:addons/medical_document_zpl2/models/printing_label_zpl2.py:12
+#, python-format
+msgid "This label cannot be used on {model}"
+msgstr "This label cannot be used on {model}"
+
+#. module: medical_document_zpl2
+#: model:ir.model,name:medical_document_zpl2.model_printing_label_zpl2
+msgid "ZPL II Label"
+msgstr "ZPL II Label"
+
+#. module: medical_document_zpl2
+#: model:ir.model,name:medical_document_zpl2.model_res_remote_printer
+msgid "res.remote.printer"
+msgstr "res.remote.printer"
+
