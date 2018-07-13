@@ -1,0 +1,399 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* medical_document
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-13 09:49+0000\n"
+"PO-Revision-Date: 2018-07-13 09:49+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_careplan_document_reference_count
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_reference_count
+#: model:ir.model.fields,field_description:medical_document.field_medical_medication_request_document_reference_count
+#: model:ir.model.fields,field_description:medical_document.field_medical_procedure_request_document_reference_count
+#: model:ir.model.fields,field_description:medical_document.field_medical_request_document_reference_count
+#: model:ir.model.fields,field_description:medical_document.field_medical_request_group_document_reference_count
+msgid "# of Document References"
+msgstr "# de Documentos"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_workflow_activity_definition
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_activity_definition_ids
+msgid "Activity Definition"
+msgstr "Actividad"
+
+#. module: medical_document
+#: code:addons/medical_document/models/medical_document_type.py:76
+#, python-format
+msgid "Added template with sequence %s"
+msgstr "Añadida la plantilla con la secuencia %s"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_careplan_document_reference_ids
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_reference_ids
+#: model:ir.model.fields,field_description:medical_document.field_medical_medication_request_document_reference_ids
+#: model:ir.model.fields,field_description:medical_document.field_medical_procedure_request_document_reference_ids
+#: model:ir.model.fields,field_description:medical_document.field_medical_request_document_reference_ids
+#: model:ir.model.fields,field_description:medical_document.field_medical_request_group_document_reference_ids
+msgid "Associated Documents"
+msgstr "Documentos asociados"
+
+#. module: medical_document
+#: code:addons/medical_document/models/medical_document_type.py:100
+#, python-format
+msgid "Cannot supersed if it is used on active definitions"
+msgstr "No se puede marcar como reemplazada si tiene definiciones activas"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_create_uid
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_create_uid
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_create_date
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_create_date
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: medical_document
+#: selection:medical.document.reference,state:0
+#: selection:medical.document.template,state:0
+#: selection:medical.document.type,state:0
+msgid "Current"
+msgstr "Actual"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_current_sequence
+msgid "Current Sequence"
+msgstr "Current Sequence"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_current_template_id
+msgid "Current Template"
+msgstr "Plantilla actual"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_display_name
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_display_name
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_form
+msgid "Document"
+msgstr "Documento"
+
+#. module: medical_document
+#: model:ir.actions.act_window,name:medical_document.medical_document_type_action
+msgid "Document Actions"
+msgstr "Document Actions"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_careplan_document_reference_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_reference_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_medication_request_document_reference_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_procedure_request_document_reference_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_request_document_reference_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_request_group_document_reference_id
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_form
+msgid "Document Reference"
+msgstr "Documento"
+
+#. module: medical_document
+#: model:res.groups,name:medical_document.group_medical_document_reference_display
+msgid "Document Reference Display"
+msgstr "Mostrar documentos"
+
+#. module: medical_document
+#: model:res.groups,name:medical_document.group_medical_document_reference_manager
+msgid "Document Reference Manager"
+msgstr "Gestionar documentos"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_template_id
+msgid "Document Template"
+msgstr "Plantilla del documento"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_type
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_type_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_document_type
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_document_type_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_document_type
+#: model:ir.model.fields,field_description:medical_document.field_workflow_activity_definition_document_type_id
+msgid "Document Type"
+msgstr "Tipo de documento"
+
+#. module: medical_document
+#: model:res.groups,name:medical_document.group_medical_document_type_display
+msgid "Document Type Display"
+msgstr "Mostrar tipos de documentos"
+
+#. module: medical_document
+#: model:res.groups,name:medical_document.group_medical_document_type_manager
+msgid "Document Type Manager"
+msgstr "Gestionar Tipos de documentos"
+
+#. module: medical_document
+#: model:ir.ui.menu,name:medical_document.medical_document_type_menu
+msgid "Document actions"
+msgstr "Acciones de documento"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_search
+msgid "Document reference ID"
+msgstr "ID del documento"
+
+#. module: medical_document
+#: code:addons/medical_document/models/medical_request.py:32
+#, python-format
+msgid "Document reference cannot be parent of other documents."
+msgstr "Un documento no puede ser padre de otros elmentos."
+
+#. module: medical_document
+#: model:ir.actions.act_window,name:medical_document.medical_document_reference_action
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_tree
+msgid "Document references"
+msgstr "Documentos"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_template_view_form
+msgid "Document template"
+msgstr "Plantilla"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_template_view_tree
+msgid "Document templates"
+msgstr "Plantillas"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_text
+msgid "Document text"
+msgstr "Texto del documento"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_form
+msgid "Document type"
+msgstr "Tipo de documento"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_search
+msgid "Document type ID"
+msgstr "ID del Tipo de documento"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_tree
+msgid "Document types"
+msgstr "Tipos de documentos"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_request_form
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: medical_document
+#: selection:medical.document.reference,state:0
+#: selection:medical.document.template,state:0
+#: selection:medical.document.type,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: medical_document
+#: code:addons/medical_document/models/medical_document_reference.py:95
+#: code:addons/medical_document/models/medical_document_reference.py:141
+#: code:addons/medical_document/models/medical_document_template.py:38
+#, python-format
+msgid "Function must be defined"
+msgstr "Se debe definir la función"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_search
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_search
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_is_editable
+msgid "Is Editable"
+msgstr "Es Editable"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_form
+msgid "Items"
+msgstr "Elementos"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference___last_update
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template___last_update
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_write_uid
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_write_uid
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_write_date
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_write_date
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_medical_document_reference
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_search
+msgid "Medical Document Reference"
+msgstr "Documento médico"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_medical_document_template
+msgid "Medical Document Template"
+msgstr "Plantilla"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_medical_document_type
+msgid "Medical Document Type"
+msgstr "Medical Document Type"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_search
+msgid "Medical Document type"
+msgstr "Tipo de documento"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_medical_request
+msgid "Medical request"
+msgstr "Medical request"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_name
+#: model:ir.model.fields,help:medical_document.field_medical_document_type_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_search
+msgid "Patient"
+msgstr "Paciente"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_form
+msgid "Post"
+msgstr "Validar"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_form
+msgid "Post new version"
+msgstr "Publicar una nueva versión"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_form
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_report_action_id
+msgid "Report Action"
+msgstr "Acción de informe"
+
+#. module: medical_document
+#: selection:medical.document.type,document_type:0
+msgid "Report action"
+msgstr "Acción de informe"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_workflow_activity_definition_requires_document_template
+msgid "Requires Document Template"
+msgstr "Requiere una plantilla"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_state
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_state
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_state
+msgid "State"
+msgstr "Estado"
+
+#. module: medical_document
+#: code:addons/medical_document/models/medical_document_reference.py:149
+#, python-format
+msgid "State must be Current"
+msgstr "El estado debe ser actual"
+
+#. module: medical_document
+#: code:addons/medical_document/models/medical_document_reference.py:129
+#, python-format
+msgid "State must be draft"
+msgstr "El estado debe ser borrador"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_form
+msgid "Supersed"
+msgstr "Reemplazar"
+
+#. module: medical_document
+#: selection:medical.document.reference,state:0
+#: selection:medical.document.template,state:0
+#: selection:medical.document.type,state:0
+msgid "Superseded"
+msgstr "Reemplazado"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_template_ids
+msgid "Template"
+msgstr "Plantilla"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_text
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_text
+msgid "Text"
+msgstr "Texto"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_form
+msgid "View"
+msgstr "Ver"
+
+#. module: medical_document
+#: selection:medical.document.type,document_type:0
+msgid "ZPL2 Label"
+msgstr "Etiqueta ZPL2"
+
+#. module: medical_document
+#: model:ir.actions.report,name:medical_document.action_report_document_report_base
+msgid "default document external"
+msgstr "documento externo"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_res_remote_printer
+msgid "res.remote.printer"
+msgstr "res.remote.printer"
+
