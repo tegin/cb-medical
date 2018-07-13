@@ -1,0 +1,159 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* cb_medical_identifier
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-13 09:49+0000\n"
+"PO-Revision-Date: 2018-07-13 09:49+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_encounter_center_id
+#: model:ir.ui.view,arch_db:cb_medical_identifier.res_partner_view_form
+msgid "Center"
+msgstr "Center"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_patient_center_alias
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_res_partner_center_alias
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_res_users_center_alias
+msgid "Center Alias"
+msgstr "Center Alias"
+
+#. module: cb_medical_identifier
+#: code:addons/cb_medical_identifier/models/medical_encounter.py:42
+#, python-format
+msgid "Center and center sequence are required"
+msgstr "Center and center sequence are required"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_cb_identifier_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_event_encounter_id
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_medication_administration_encounter_id
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_procedure_encounter_id
+msgid "Encounter"
+msgstr "Afiliación"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_patient_encounter_sequence_id
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_res_partner_encounter_sequence_id
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_res_users_encounter_sequence_id
+msgid "Encounter sequence"
+msgstr "Encounter sequence"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_cb_identifier_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_encounter_internal_identifier_prefix
+msgid "Internal Identifier Prefix"
+msgstr "Internal Identifier Prefix"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_encounter_internal_identifier_suffix
+msgid "Internal Identifier Suffix"
+msgstr "Internal Identifier Suffix"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_encounter_internal_identifier_value
+msgid "Internal Identifier Value"
+msgstr "Internal Identifier Value"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_cb_identifier___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_careplan
+msgid "Medical Care Plan"
+msgstr "Proceso"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_document_reference
+msgid "Medical Document Reference"
+msgstr "Medical Document Reference"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_encounter
+msgid "Medical Encounter"
+msgstr "Afiliación"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_medication_request
+msgid "Medical Medication request"
+msgstr "Peticion de medicación"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_procedure
+msgid "Medical Procedure"
+msgstr "Procedimiento"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_event
+msgid "Medical event"
+msgstr "Evento Médico"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_request
+msgid "Medical request"
+msgstr "Medical request"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_encounter_number_next
+msgid "Number Next"
+msgstr "Number Next"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_patient_encounter_sequence_prefix
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_res_partner_encounter_sequence_prefix
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_res_users_encounter_sequence_prefix
+msgid "Prefix for Encounter sequence"
+msgstr "Prefix for Encounter sequence"
+
+#. module: cb_medical_identifier
+#: model:ir.model.fields,help:cb_medical_identifier.field_medical_patient_encounter_sequence_prefix
+#: model:ir.model.fields,help:cb_medical_identifier.field_res_partner_encounter_sequence_prefix
+#: model:ir.model.fields,help:cb_medical_identifier.field_res_users_encounter_sequence_prefix
+msgid "Prefix used to generate the internal identifier of encounters"
+msgstr "Prefix used to generate the internal identifier of encounters"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_procedure_request
+msgid "Procedure Request"
+msgstr "Petición"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_request_group
+msgid "Request Group"
+msgstr "Servicio"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_cb_identifier
+msgid "medical.cb.identifier"
+msgstr "medical.cb.identifier"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_medication_administration
+msgid "medical.medication.administration"
+msgstr "medical.medication.administration"
+
