@@ -1,0 +1,129 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* cb_medical_sale_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-13 09:49+0000\n"
+"PO-Revision-Date: 2018-07-13 09:49+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document
+msgid "Authorization"
+msgstr "Authorization"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line_authorization_number
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_sale_order_line_authorization_number
+msgid "Authorization Number"
+msgstr "Authorization Number"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model,name:cb_medical_sale_invoice.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line_encounter_id
+msgid "Encounter"
+msgstr "Afiliación"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model,name:cb_medical_sale_invoice.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model,name:cb_medical_sale_invoice.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Línea de factura"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.ui.view,arch_db:cb_medical_sale_invoice.res_partner_view_form
+msgid "Invoice configuration"
+msgstr "Invoice configuration"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_is_medical
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line_is_medical
+msgid "Is Medical"
+msgstr "Es Médico"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model,name:cb_medical_sale_invoice.model_medical_encounter
+msgid "Medical Encounter"
+msgstr "Afiliación"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model,name:cb_medical_sale_invoice.model_medical_request
+msgid "Medical request"
+msgstr "Medical request"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line_patient_id
+#: model:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document
+msgid "Patient"
+msgstr "Paciente"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line_patient_name
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_sale_order_line_patient_name
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_sale_order_patient_name
+msgid "Patient Name"
+msgstr "Patient Name"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.ui.view,arch_db:cb_medical_sale_invoice.res_partner_view_form
+msgid "Payor"
+msgstr "Payor"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model,name:cb_medical_sale_invoice.model_sale_order
+msgid "Quotation"
+msgstr "Presupuesto"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model,name:cb_medical_sale_invoice.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de orden de ventas"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_show_authorization
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_patient_show_authorization
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_partner_show_authorization
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_users_show_authorization
+msgid "Show Authorization"
+msgstr "Show Authorization"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_show_patient
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_patient_show_patient
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_partner_show_patient
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_users_show_patient
+msgid "Show Patient"
+msgstr "Show Patient"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_show_subscriber
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_patient_show_subscriber
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_partner_show_subscriber
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_users_show_subscriber
+msgid "Show Subscriber"
+msgstr "Show Subscriber"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line_subscriber_id
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_sale_order_line_subscriber_id
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_sale_order_subscriber_id
+#: model:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document
+msgid "Subscriber"
+msgstr "Subscriber"
+
