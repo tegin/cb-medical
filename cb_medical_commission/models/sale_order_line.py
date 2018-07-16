@@ -8,23 +8,32 @@ from odoo import api, fields, models
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    @api.model
-    def compute_procedure(self):
-        return self.env['medical.procedure'].search([
-            ('sale_order_line_ids', 'in', self.ids)
-        ])
+    procedure_ids = fields.Many2many(
+        'medical.procedure',
+        relation='sale_order_line_medical_procedure',
+        column1='sale_order_line_id',
+        column2='procedure_id',
+    )
 
-    @api.model
-    def prepare_sale_order_line_agent(self, agent):
-        return [{
-            'agent': agent.id,
-            'commission': agent.commission.id,
-        }]
+    @api.multi
+    def _prepare_invoice_line(self, qty):
+        vals = super()._prepare_invoice_line(qty)
+        if self.encounter_id:
+            vals['agents'] = [
+                (0, 0, {'agent': x.agent.id,
+                        'commission': x.commission.id,
+                        'procedure_id': x.procedure_id.id,
+                        }) for x in self.agents]
+        return vals
 
 
 class SaleOrderLineAgent(models.Model):
     _inherit = "sale.order.line.agent"
 
+    procedure_id = fields.Many2one(
+        'medical.procedure',
+        string='Procedure'
+    )
     agent_sale_line = fields.Many2many(
         comodel_name='sale.commission.settlement.line',
         relation='settlement_agent_sale_line_rel',
@@ -52,6 +61,13 @@ class SaleOrderLineAgent(models.Model):
         readonly=True,
         copy=False
     )
+    # TODO: Pending to add the change of no_invoice following the code
+    # of sale_commission_cancel
+    _sql_constraints = [
+        ('unique_agent',
+         'UNIQUE(sale_line, agent, procedure_id)',
+         'You can only add one time each agent.')
+    ]
 
     @api.depends('agent_sale_line', 'agent_sale_line.settlement.state',
                  'invoice_group_method_id', 'sale_line.order_id.state')
