@@ -15,7 +15,7 @@
             <field name="active">True</field>
             <field name="formula">if line._name == 'sale.order.line':
     agent = self.agent
-    procedures = line.compute_procedure()
+    procedures = line.procedure_ids
     procedures = procedures.filtered(lambda p: p.commission_agent_id.id == agent.id)
     if procedures:
         variable_fee = sum(procedures.mapped('variable_fee'))
@@ -27,7 +27,7 @@ if line._name == 'account.invoice.line':
     agent = self.agent
     if line.sale_line_ids:
         sale_line = line.sale_line_ids[0]
-        procedures = sale_line.compute_procedure()
+        procedures = sale_line.procedure_ids
         procedures = procedures.filtered(lambda p: p.commission_agent_id.id == agent.id)
         if procedures:
             variable_fee = sum(procedures.mapped('variable_fee'))
