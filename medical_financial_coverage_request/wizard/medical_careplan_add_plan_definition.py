@@ -85,3 +85,10 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         ):
             raise ValidationError(_('Authorization number is not valid'))
         return values
+
+    @api.multi
+    def _run(self):
+        res = super()._run()
+        if res and not self.careplan_id.service_id:
+            self.careplan_id.write({'service_id': self.product_id.id})
+        return res
