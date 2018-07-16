@@ -113,6 +113,7 @@ class MedicalEncounter(models.Model):
                         request.get_sale_order_line_vals(is_insurance))
         return values
 
+    @api.multi
     def create_sale_order(self):
         self.ensure_one()
         values = self.get_sale_order_lines()
