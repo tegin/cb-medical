@@ -62,8 +62,8 @@ class PosSession(models.Model):
                 'request_group_id')
             record.procedure_request_ids = record.sale_order_line_ids.mapped(
                 'procedure_request_id')
-            record.procedure_ids = \
-                record.sale_order_line_ids.compute_procedure()
+            record.procedure_ids = record.sale_order_line_ids.mapped(
+                'procedure_ids')
 
     @api.multi
     def action_pos_session_close(self):
