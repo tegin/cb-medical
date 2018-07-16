@@ -10,19 +10,13 @@ class SaleOrder(models.Model):
 
     @api.model
     def _prepare_line_agents_data(self, line):
-        if (
-            line.product_id.medical_commission and
-            not line.order_id.third_party_order
-        ):
-            agent_lines = {}
-            procedures = line.compute_procedure()
-            for procedure in procedures:
-                if procedure.commission_agent_id.id not in agent_lines:
-                    agent_lines[procedure.commission_agent_id.id] = []
-                agent_lines[procedure.commission_agent_id.id] = \
-                    procedure.commission_agent_id.commission.id
-            return [{
-                'agent': x,
-                'commission': agent_lines[x],
-            } for x in agent_lines]
+        if self.encounter_id and not self.third_party_order:
+            res = []
+            for procedure in line.procedure_ids:
+                res.append({
+                    'agent': procedure.commission_agent_id.id,
+                    'commission': procedure.commission_agent_id.commission.id,
+                    'procedure_id': procedure.id,
+                })
+            return res
         return super(SaleOrder, self)._prepare_line_agents_data(line)
