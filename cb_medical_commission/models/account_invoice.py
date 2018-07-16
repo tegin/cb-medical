@@ -34,7 +34,8 @@ class AccountInvoiceLineAgent(models.Model):
 
     _sql_constraints = [
         ('unique_agent',
-         'UNIQUE(invoice_line, agent, parent_agent_line_id, procedure_id, is_cancel)',
+         'UNIQUE(invoice_line, agent, parent_agent_line_id, '
+         'procedure_id, is_cancel)',
          'You can only add one time each agent.')
     ]
 
