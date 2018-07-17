@@ -14,11 +14,17 @@ class MedicalAuthorizationFormat(models.Model):
     name = fields.Char(required=True,)
     authorization_format = fields.Char(
         track_visibility=True,
-        required=True,
     )
     authorization_information = fields.Text()
+    always_authorized = fields.Boolean(
+        default=False,
+        track_visibility=True,
+        required=True,
+    )
 
     def check_value(self, value):
+        if self.always_authorized:
+            return True
         match = re.match(self.authorization_format, value)
         if match:
             return True

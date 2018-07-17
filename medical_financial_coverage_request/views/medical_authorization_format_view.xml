@@ -18,7 +18,9 @@
                     <group>
                         <field name="code"/>
                         <field name="name"/>
-                        <field name="authorization_format"/>
+                        <field name="always_authorized"/>
+                        <field name="authorization_format"
+                               attrs="{'invisible': [('always_authorized', '=', True)], 'required': [('always_authorized', '=', False)]}"/>
                         <field name="authorization_information"/>
                     </group>
                 </sheet>
