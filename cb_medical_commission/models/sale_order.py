@@ -15,16 +15,3 @@ class SaleOrder(models.Model):
         return super(
             SaleOrder, self.filtered(lambda r: not r.encounter_id)
         ).recompute_lines_agents()
-
-    @api.model
-    def _prepare_line_agents_data(self, line):
-        if self.encounter_id and not self.third_party_order:
-            res = []
-            for procedure in line.procedure_ids:
-                res.append({
-                    'agent': procedure.commission_agent_id.id,
-                    'commission': procedure.commission_agent_id.commission.id,
-                    'procedure_id': procedure.id,
-                })
-            return res
-        return super()._prepare_line_agents_data(line)
