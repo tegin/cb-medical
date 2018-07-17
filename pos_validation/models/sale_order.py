@@ -19,6 +19,15 @@ class SalerOrderLine(models.Model):
         related='order_id.coverage_agreement_id',
         readonly=True,
     )
+    coverage_agreement_item_id = fields.Many2one(
+        'medical.coverage.agreement.item',
+        readonly=True,
+    )
+    authorization_format_id = fields.Many2one(
+        'medical.authorization.format',
+        related='coverage_agreement_item_id.authorization_format_id',
+        readonly=True,
+    )
     coverage_template_id = fields.Many2one(
         'medical.coverage.template',
         related='order_id.coverage_template_id',
@@ -47,8 +56,9 @@ class SalerOrderLine(models.Model):
     def _compute_invoice_status(self):
         res = super()._compute_invoice_status()
         for line in self.filtered(
-            lambda r: r.order_id.coverage_agreement_id
-            and r.order_id.encounter_id.validation_status != 'finished'
+            lambda r:
+                r.order_id.coverage_agreement_id and
+                r.order_id.encounter_id.validation_status != 'finished'
         ):
             # We cannot invoice a sale order if we have not validated the so.
             line.invoice_status = 'no'
