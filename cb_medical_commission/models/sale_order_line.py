@@ -127,6 +127,7 @@ class SaleOrderLineAgent(models.Model):
             'commission': self.commission.id,
             'agent_sale_line': False,
             'agent': agent.id if agent else self.agent.id,
+            'procedure_id': self.procedure_id.id or False,
             'is_cancel': self.is_cancel if agent else not self.is_cancel,
         }
 
