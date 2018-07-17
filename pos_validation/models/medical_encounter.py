@@ -40,6 +40,7 @@ class MedicalEncounter(models.Model):
         'sale_order_ids.coverage_agreement_id',
         'sale_order_ids.order_line.coverage_template_id.subscriber_required',
         'sale_order_ids.order_line.subscriber_id',
+        'sale_order_ids.order_line.authorization_number',
         'sale_order_ids.order_line.authorization_status',
     )
     def _compute_validation_values(self):
@@ -48,26 +49,28 @@ class MedicalEncounter(models.Model):
         by_patient = self.env.ref(
             'cb_medical_sale_invoice_group_method.by_patient')
         for rec in self:
-
+            lines = rec.sale_order_ids.filtered(
+                lambda r: r.coverage_agreement_id
+            ).mapped('order_line')
             rec.has_preinvoicing = bool(rec.sale_order_ids.filtered(
                 lambda r: r.invoice_group_method_id == preinvoicing
             ))
             rec.has_patient_invoice = bool(rec.sale_order_ids.filtered(
                 lambda r: r.invoice_group_method_id == by_patient
             ))
-            rec.missing_subscriber_id = bool(
-                rec.sale_order_ids.mapped('order_line').filtered(
-                    lambda r: r.coverage_template_id.subscriber_required and
+            rec.missing_subscriber_id = bool(lines.filtered(
+                lambda r:
+                    r.coverage_template_id.subscriber_required and
                     not re.match(
                         r.coverage_template_id.subscriber_format or '.+',
-                        r.subscriber_id or '')
+                        r.subscriber_id or ''
+                    )))
+            rec.unauthorized_elements = bool(lines.filtered(
+                lambda r: r.authorization_status != 'authorized'))
+            rec.missing_authorization_number = bool(lines.filtered(
+                lambda r: not r.authorization_format_id.check_value(
+                    r.authorization_number
                 )
-            )
-            # TODO: check authorization number format
-            rec.unauthorized_elements = bool(rec.sale_order_ids.filtered(
-                lambda r: r.coverage_agreement_id
-            ).mapped('order_line').filtered(
-                lambda r: r.authorization_status != 'authorized'
             ))
 
     def onleave2finished_values(self):
