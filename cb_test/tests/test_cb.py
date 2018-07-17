@@ -1,6 +1,7 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+from dateutil.relativedelta import relativedelta
 import base64
 from datetime import timedelta
 from odoo import fields
@@ -422,7 +423,7 @@ class TestMedicalCareplanSale(TransactionCase):
                 'cb_medical_commission.commission_01').id,
         })
 
-    def atest_careplan_sale_fail(self):
+    def test_careplan_sale_fail(self):
         encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient_01.id,
             'center_id': self.center.id,
@@ -722,7 +723,7 @@ class TestMedicalCareplanSale(TransactionCase):
             invoice.recompute_lines_agents()
             self.assertGreater(invoice.commission_total, 0)
 
-    def atest_no_agreement(self):
+    def test_no_agreement(self):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
         encounter, careplan, group = self.create_careplan_and_group(
@@ -906,31 +907,21 @@ class TestMedicalCareplanSale(TransactionCase):
         }).run()
         self.assertGreater(len(encounter.sale_order_ids), 0)
 
-    def test_monthly_invoice(self):
+    def test_no_invoice(self):
         method = self.browse_ref(
-            'cb_medical_sale_invoice_group_method.by_customer')
+            'cb_medical_sale_invoice_group_method.no_invoice')
         self.plan_definition2.third_party_bill = False
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
         self.company.sale_merge_draft_invoice = True
-        sale_orders = []
+        sale_orders = self.env['sale.order']
         for i in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
                 self.agreement_line3
             )
             self.assertTrue(group.procedure_request_ids)
-            for request in group.procedure_request_ids:
-                request.draft2active()
-                self.assertEqual(request.center_id, encounter.center_id)
-                procedure = request.generate_event()
-                procedure.performer_id = self.practitioner_01
-                procedure.commission_agent_id = self.practitioner_01
-                procedure.performer_id = self.practitioner_02
-                procedure._onchange_performer_id()
-                self.assertEqual(
-                    procedure.commission_agent_id, self.practitioner_02)
             self.assertTrue(
                 group.is_sellable_insurance or group.is_sellable_private)
             self.assertFalse(
@@ -943,7 +934,86 @@ class TestMedicalCareplanSale(TransactionCase):
             self.assertTrue(encounter.sale_order_ids)
             sale_order = encounter.sale_order_ids
             self.assertFalse(sale_order.third_party_order)
-            sale_orders.append(sale_order)
+            for line in sale_order.order_line:
+                self.assertFalse(line.agents)
+            sale_orders |= sale_order
+        self.session.action_pos_session_close()
+        self.assertTrue(self.session.request_group_ids)
+        for encounter in self.session.encounter_ids:
+            encounter_aux = self.env['medical.encounter'].browse(
+                self.session.open_validation_encounter(
+                    encounter.internal_identifier)['res_id'])
+            encounter_aux.admin_validate()
+        for line in sale_orders.mapped('order_line'):
+            self.assertEqual(line.qty_to_invoice, 0)
+        for encounter in self.session.encounter_ids:
+            for request in encounter.careplan_ids.mapped(
+                    'procedure_request_ids'
+            ):
+                request.draft2active()
+                self.assertEqual(request.center_id, encounter.center_id)
+                procedure = request.generate_event()
+                procedure.performer_id = self.practitioner_01
+                procedure.commission_agent_id = self.practitioner_01
+                procedure.performer_id = self.practitioner_02
+                procedure._onchange_performer_id()
+                self.assertEqual(
+                    procedure.commission_agent_id, self.practitioner_02)
+            encounter.recompute_commissions()
+            for line in encounter.sale_order_ids.mapped('order_line'):
+                self.assertTrue(line.agents)
+        # Settle the payments
+        wizard = self.env['sale.commission.no.invoice.make.settle'].create({
+            'date_to': (
+                fields.Datetime.from_string(fields.Datetime.now()) +
+                relativedelta(months=1))
+        })
+        settlements = self.env['sale.commission.settlement'].browse(
+            wizard.action_settle()['domain'][0][2])
+        self.assertTrue(settlements)
+        for encounter in self.session.encounter_ids:
+            for request in encounter.careplan_ids.mapped(
+                    'procedure_request_ids'
+            ):
+                procedure = request.procedure_ids
+                self.assertEqual(len(procedure.sale_agent_ids), 1)
+                self.assertEqual(len(procedure.invoice_agent_ids), 0)
+                procedure.performer_id = self.practitioner_01
+                procedure.commission_agent_id = self.practitioner_01
+                procedure.check_commission()
+                self.assertEqual(len(procedure.sale_agent_ids), 3)
+                self.assertEqual(len(procedure.invoice_agent_ids), 0)
+
+    def test_monthly_invoice(self):
+        method = self.browse_ref(
+            'cb_medical_sale_invoice_group_method.by_customer')
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        self.company.sale_merge_draft_invoice = True
+        sale_orders = self.env['sale.order']
+        for i in range(1, 10):
+            encounter, careplan, group = self.create_careplan_and_group(
+                self.agreement_line3
+            )
+            self.assertTrue(group.procedure_request_ids)
+            self.assertTrue(
+                group.is_sellable_insurance or group.is_sellable_private)
+            self.assertFalse(
+                group.third_party_bill
+            )
+            self.env['wizard.medical.encounter.close'].create({
+                'encounter_id': encounter.id,
+                'pos_session_id': self.session.id,
+            }).run()
+            self.assertTrue(encounter.sale_order_ids)
+            sale_order = encounter.sale_order_ids
+            self.assertFalse(sale_order.third_party_order)
+            for line in sale_order.order_line:
+                self.assertFalse(line.agents)
+            sale_orders |= sale_order
         self.session.action_pos_session_close()
         self.assertTrue(self.session.request_group_ids)
         for encounter in self.session.encounter_ids:
@@ -955,8 +1025,6 @@ class TestMedicalCareplanSale(TransactionCase):
             'invoice_group_method_id': method.id,
         }).invoice_sales_by_group()
         self.assertFalse(action.get('res_id', False))
-        for sale_order in sale_orders:
-            sale_order.action_confirm()
         action = self.env['invoice.sales.by.group'].create({
             'invoice_group_method_id': method.id,
             'date_to': fields.Date.to_string(
@@ -965,8 +1033,48 @@ class TestMedicalCareplanSale(TransactionCase):
             )
         }).invoice_sales_by_group()
         self.assertTrue(action.get('res_id', False))
+        invoice = self.env['account.invoice'].browse(
+            action.get('res_id', False))
+        invoice.action_invoice_open()
         for sale_order in sale_orders:
             self.assertTrue(sale_order.invoice_status == 'invoiced')
+        for encounter in self.session.encounter_ids:
+            for request in encounter.careplan_ids.mapped(
+                'procedure_request_ids'
+            ):
+                request.draft2active()
+                self.assertEqual(request.center_id, encounter.center_id)
+                procedure = request.generate_event()
+                procedure.performer_id = self.practitioner_01
+                procedure.commission_agent_id = self.practitioner_01
+                procedure.performer_id = self.practitioner_02
+                procedure._onchange_performer_id()
+                self.assertEqual(
+                    procedure.commission_agent_id, self.practitioner_02)
+            encounter.recompute_commissions()
+            for line in encounter.sale_order_ids.mapped('order_line'):
+                self.assertTrue(line.agents)
+        # Settle the payments
+        wizard = self.env['sale.commission.make.settle'].create({
+            'date_to': (
+                fields.Datetime.from_string(fields.Datetime.now()) +
+                relativedelta(months=1))
+        })
+        settlements = self.env['sale.commission.settlement'].browse(
+            wizard.action_settle()['domain'][0][2])
+        self.assertTrue(settlements)
+        for encounter in self.session.encounter_ids:
+            for request in encounter.careplan_ids.mapped(
+                'procedure_request_ids'
+            ):
+                procedure = request.procedure_ids
+                self.assertEqual(len(procedure.sale_agent_ids), 1)
+                self.assertEqual(len(procedure.invoice_agent_ids), 1)
+                procedure.performer_id = self.practitioner_01
+                procedure.commission_agent_id = self.practitioner_01
+                procedure.check_commission()
+                self.assertEqual(len(procedure.sale_agent_ids), 1)
+                self.assertEqual(len(procedure.invoice_agent_ids), 3)
 
     def test_down_payments(self):
         self.plan_definition2.third_party_bill = False
