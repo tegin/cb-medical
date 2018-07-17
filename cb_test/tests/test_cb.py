@@ -907,6 +907,58 @@ class TestMedicalCareplanSale(TransactionCase):
         }).run()
         self.assertGreater(len(encounter.sale_order_ids), 0)
 
+    def test_validation(self):
+        method = self.browse_ref(
+            'cb_medical_sale_invoice_group_method.by_preinvoicing')
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        self.company.sale_merge_draft_invoice = True
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.assertTrue(group.procedure_request_ids)
+        self.assertTrue(
+            group.is_sellable_insurance or group.is_sellable_private)
+        self.assertFalse(
+            group.third_party_bill
+        )
+        self.env['wizard.medical.encounter.close'].create({
+            'encounter_id': encounter.id,
+            'pos_session_id': self.session.id,
+        }).run()
+        self.assertTrue(encounter.sale_order_ids)
+        self.session.action_pos_session_close()
+        self.assertTrue(self.session.request_group_ids)
+        self.assertFalse(encounter.is_preinvoiced)
+        line = encounter.sale_order_ids.order_line
+        with self.assertRaises(ValidationError):
+            encounter.admin_validate()
+        encounter.toggle_is_preinvoiced()
+        self.assertTrue(encounter.is_preinvoiced)
+        self.coverage_template.write({
+            'subscriber_required': True,
+            'subscriber_format': '^1.*$'
+        })
+        with self.assertRaises(ValidationError):
+            encounter.admin_validate()
+        line.write({'subscriber_id': '23'})
+        with self.assertRaises(ValidationError):
+            encounter.admin_validate()
+        line.write({
+            'subscriber_id': '123',
+            'authorization_status': 'not-authorized',
+        })
+        with self.assertRaises(ValidationError):
+            encounter.admin_validate()
+        line.write({
+            'authorization_status': 'authorized',
+        })
+        # TODO: check authorization number format
+        encounter.admin_validate()
+
     def test_no_invoice(self):
         method = self.browse_ref(
             'cb_medical_sale_invoice_group_method.no_invoice')
