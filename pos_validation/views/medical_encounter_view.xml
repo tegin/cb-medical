@@ -19,11 +19,18 @@
                         group="pos_validation.group_medical_encounter_validation"
                         attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
                 >
+                    <button icon="fa-archive"
+                            name="toggle_is_preinvoiced"
+                            help="Preinvoicing is generated. Documents must be stored"
+                            class="flag-warning"
+                            attrs="{'invisible': ['|', ('is_preinvoiced', '=', True), ('has_preinvoicing', '=', False)]}"
+                            />
+
                     <flag icon="fa-archive"
                           name="preinvoicing"
                           help="Preinvoicing is generated. Documents must be stored"
-                          decoration-warning="has_preinvoicing"
-                          decoration-light="not has_preinvoicing"
+                          decoration-light="True"
+                          attrs="{'invisible': [('is_preinvoiced', '=', False), ('has_preinvoicing', '=', True)]}"
                     />
                     <flag icon="fa-exclamation-triangle "
                           name="unauthorized"
@@ -47,6 +54,7 @@
                     <flag icon="fa-user" help="Patient invoice"
                           decoration-light="not has_patient_invoice"
                     />
+                    <field name="is_preinvoiced" invisible="1"/>
                     <field name="has_preinvoicing" invisible="1"/>
                     <field name="missing_authorization_number" invisible="1"/>
                     <field name="missing_subscriber_id" invisible="1"/>
