@@ -8,20 +8,13 @@ from odoo import api, fields, models
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    @api.model
-    def _prepare_line_agents_data(self, line):
-        if line.sale_line_ids and line.encounter_id:
-            sale_line = line.sale_line_ids[0]
-            procedures = sale_line.procedure_ids
-            res = []
-            for procedure in procedures:
-                res.append({
-                    'agent': procedure.commission_agent_id.id,
-                    'commission': procedure.commission_agent_id.commission.id,
-                    'procedure_id': procedure.id,
-                })
-            return res
-        return super()._prepare_line_agents_data(line)
+    @api.multi
+    def recompute_lines_agents(self):
+        # Commission on medical sale orders will not be managed by the
+        # recompute function
+        return super(
+            AccountInvoice, self.filtered(lambda r: not r.is_medical)
+        ).recompute_lines_agents()
 
 
 class AccountInvoiceLineAgent(models.Model):
