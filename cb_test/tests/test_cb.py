@@ -159,6 +159,11 @@ class TestMedicalCareplanSale(TransactionCase):
             'authorization_format_id': self.browse_ref(
                 'cb_medical_financial_coverage_request.format_anything').id,
         })
+        self.format = self.env['medical.authorization.format'].create({
+            'code': 'TEST',
+            'name': 'test',
+            'authorization_format': '^1.*$'
+        })
         self.patient_01 = self.create_patient('Patient 01')
         self.coverage_01 = self.env['medical.coverage'].create({
             'patient_id': self.patient_01.id,
@@ -955,9 +960,55 @@ class TestMedicalCareplanSale(TransactionCase):
             encounter.admin_validate()
         line.write({
             'authorization_status': 'authorized',
+            'authorization_number': '222'
         })
-        # TODO: check authorization number format
+        self.agreement_line3.authorization_format_id = self.format
+        with self.assertRaises(ValidationError):
+            encounter.admin_validate()
+        line.write({
+            'authorization_number': '1234',
+        })
         encounter.admin_validate()
+
+    def test_patient_invoice(self):
+        method = self.browse_ref(
+            'cb_medical_sale_invoice_group_method.by_patient')
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        self.company.sale_merge_draft_invoice = True
+        for i in range(1, 10):
+            encounter, careplan, group = self.create_careplan_and_group(
+                self.agreement_line3
+            )
+            self.assertTrue(group.procedure_request_ids)
+            self.assertTrue(
+                group.is_sellable_insurance or group.is_sellable_private)
+            self.assertFalse(
+                group.third_party_bill
+            )
+            self.env['wizard.medical.encounter.close'].create({
+                'encounter_id': encounter.id,
+                'pos_session_id': self.session.id,
+            }).run()
+            self.assertTrue(encounter.sale_order_ids)
+            sale_order = encounter.sale_order_ids
+            self.assertFalse(sale_order.third_party_order)
+            for line in sale_order.order_line:
+                self.assertFalse(line.agents)
+        self.session.action_pos_session_close()
+        self.assertTrue(self.session.request_group_ids)
+        for encounter in self.session.encounter_ids:
+            encounter_aux = self.env['medical.encounter'].browse(
+                self.session.open_validation_encounter(
+                    encounter.internal_identifier)['res_id'])
+            encounter_aux.admin_validate()
+            for sale_order in encounter_aux.sale_order_ids:
+                self.assertTrue(sale_order.invoice_ids)
+                self.assertTrue(all(
+                    i.state == 'open' for i in sale_order.invoice_ids))
 
     def test_no_invoice(self):
         method = self.browse_ref(
