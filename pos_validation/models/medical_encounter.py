@@ -1,5 +1,6 @@
 import re
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class MedicalEncounter(models.Model):
@@ -10,14 +11,16 @@ class MedicalEncounter(models.Model):
         ('draft', 'Draft'),
         ('in_progress', 'In progress'),
         ('finished', 'Finished')
-    ], default='none', required=True, readonly=True,
-    )
+    ], default='none', required=True, readonly=True,)
     sale_order_line_ids = fields.One2many(
         'sale.order.line',
         inverse_name='encounter_id',
     )
     has_preinvoicing = fields.Boolean(
         compute='_compute_validation_values',
+    )
+    is_preinvoiced = fields.Boolean(
+        default=False,
     )
     has_patient_invoice = fields.Boolean(
         compute='_compute_validation_values',
@@ -45,6 +48,7 @@ class MedicalEncounter(models.Model):
         by_patient = self.env.ref(
             'cb_medical_sale_invoice_group_method.by_patient')
         for rec in self:
+
             rec.has_preinvoicing = bool(rec.sale_order_ids.filtered(
                 lambda r: r.invoice_group_method_id == preinvoicing
             ))
@@ -59,6 +63,7 @@ class MedicalEncounter(models.Model):
                         r.subscriber_id or '')
                 )
             )
+            # TODO: check authorization number format
             rec.unauthorized_elements = bool(rec.sale_order_ids.filtered(
                 lambda r: r.coverage_agreement_id
             ).mapped('order_line').filtered(
@@ -74,9 +79,27 @@ class MedicalEncounter(models.Model):
     def close_view(self):
         return {'type': 'ir.actions.client', 'tag': 'history_back'}
 
+    def toggle_is_preinvoiced(self):
+        for record in self:
+            record.is_preinvoiced = not record.is_preinvoiced
+
+    def check_validation(self):
+        if self.has_preinvoicing and not self.is_preinvoiced:
+            raise ValidationError(_('You must check the documentation.'))
+        if self.unauthorized_elements:
+            raise ValidationError(_('Some elements are not authorized'))
+        if self.missing_authorization_number:
+            raise ValidationError(_(
+                'There is missing authorization numbers. Fill them first.'))
+        if self.missing_subscriber_id:
+            raise ValidationError(_(
+                'The subscriber id is required'
+            ))
+
     @api.multi
     def admin_validate(self):
         self.ensure_one()
+        self.check_validation()
         for sale_order in self.sale_order_ids.filtered(
             lambda r: r.coverage_agreement_id
         ):
