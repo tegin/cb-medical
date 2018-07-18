@@ -17,6 +17,7 @@
     ],
     'data': [
         'data/sale_commission_formula.xml',
+        'views/account_invoice_view.xml',
         'views/res_partner_views.xml',
         'views/product_template_view.xml',
         'views/medical_procedure_request_view.xml',
