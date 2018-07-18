@@ -374,6 +374,10 @@ class TestMedicalCareplanSale(TransactionCase):
                 'sale.default_deposit_product_id',
                 self.create_product('Down payment').id
             )
+        self.discount = self.env['medical.sale.discount'].create({
+            'name': 'Discount 01',
+            'percentage': 50,
+        })
 
     def create_patient(self, name):
         return self.env['medical.patient'].create({
@@ -427,6 +431,35 @@ class TestMedicalCareplanSale(TransactionCase):
             'commission': self.browse_ref(
                 'cb_medical_commission.commission_01').id,
         })
+
+    def test_discount(self):
+        method = self.browse_ref(
+            'cb_medical_sale_invoice_group_method.no_invoice')
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        self.company.sale_merge_draft_invoice = True
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.assertFalse(group.medical_sale_discount_id)
+        discount = self.env['medical.request.group.discount'].new({
+            'request_group_id': group.id
+        })
+        discount.medical_sale_discount_id = self.discount
+        discount._onchange_discount()
+        discount.run()
+        self.assertEqual(discount.discount, self.discount.percentage)
+        self.env['wizard.medical.encounter.close'].create({
+            'encounter_id': encounter.id,
+            'pos_session_id': self.session.id,
+        }).run()
+        self.assertTrue(encounter.sale_order_ids)
+        sale_order = encounter.sale_order_ids
+        self.assertEqual(sale_order.amount_total, 50)
+        self.assertEqual(sale_order.order_line.discount, 50)
 
     def test_careplan_sale_fail(self):
         encounter = self.env['medical.encounter'].create({
