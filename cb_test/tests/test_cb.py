@@ -510,6 +510,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'pos_session_id': self.session.id,
         }).run()
         self.assertTrue(encounter.sale_order_ids)
+        self.assertTrue(encounter.has_preinvoicing)
         self.assertGreater(self.session.encounter_count, 0)
         self.assertGreater(self.session.sale_order_count, 0)
         self.assertEqual(self.session.action_view_encounters()['res_id'],
@@ -772,6 +773,7 @@ class TestMedicalCareplanSale(TransactionCase):
         }).run()
         self.assertGreater(encounter.sale_order_count, 0)
         self.assertTrue(encounter.sale_order_ids)
+        self.assertFalse(encounter.has_preinvoicing)
         sale_order = encounter.sale_order_ids
         self.assertTrue(sale_order.third_party_order)
         self.assertEqual(
