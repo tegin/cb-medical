@@ -14,7 +14,44 @@
         <field name="inherit_id"
                ref="medical_administration_encounter.medical_encounter_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']" postion="inside">
+            <xpath expr="//div[@name='button_box']" position="before">
+                <flagbox>
+                    <flag icon="fa-archive"
+                          name="preinvoicing"
+                          help="Preinvoicing is generated. Documents must be stored"
+                          decoration-warning="has_preinvoicing"
+                          decoration-light="not has_preinvoicing"
+                    />
+                    <flag icon="fa-exclamation-triangle "
+                          name="unauthorized"
+                          help="Unauthorized elements"
+                          decoration-danger="unauthorized_elements"
+                          decoration-light="not unauthorized_elements"
+                    />
+                    <flag icon="fa-terminal"
+                          name="authorization_number"
+                          help="Missing authorization number"
+                          decoration-primary="missing_authorization_number"
+                          decoration-light="not missing_authorization_number"
+                    />
+                    <flag icon="fa-credit-card"
+                          name="subscriber_id"
+                          help="Missing subscriber"
+                          decoration-info="missing_subscriber_id"
+                          decoration-light="not missing_subscriber_id"
+                    />
+                    <emptyflag/>
+                    <flag icon="fa-user" help="Patient invoice"
+                          decoration-light="not has_patient_invoice"
+                    />
+                    <field name="has_preinvoicing" invisible="1"/>
+                    <field name="missing_authorization_number" invisible="1"/>
+                    <field name="missing_subscriber_id" invisible="1"/>
+                    <field name="unauthorized_elements" invisible="1"/>
+                    <field name="has_patient_invoice" invisible="1"/>
+                </flagbox>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
                 <field name="validation_status" invisible="1"/>
                 <button name="admin_validate"
                         type="object"
@@ -33,7 +70,8 @@
                 <notebook>
                     <sheet name="sale_order" string="Sale Orders">
                         <field name="sale_order_line_ids">
-                            <tree create="false" delete="false" editable="bottom"
+                            <tree create="false" delete="false"
+                                  editable="bottom"
                                   decoration-muted="is_private==True"
                                   decoration-warnging="is_private == False and authorization_status != 'authorized'"
                             >
@@ -42,16 +80,22 @@
                                 <field name="payor_id"/>
                                 <field name="order_partner_id"/>
                                 <field name="coverage_template_id"/>
-                                <field name="patient_name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="patient_name"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="product_id" readonly="True"/>
-                                <field name="product_uom_qty" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="price_unit" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="price_total" readonly="1" sum="Total"/>
-                                <field name="subscriber_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="authorization_number" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="product_uom_qty"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="price_unit"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="price_total" readonly="1"
+                                       sum="Total"/>
+                                <field name="subscriber_id"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="authorization_number"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="authorization_status"/>
                                 <field name="state" invisible="1"/>
-                                <field name="agents" invisible="1"/>
+                                <field name="agents"/>
                                 <!---->
                             </tree>
                         </field>
