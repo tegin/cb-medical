@@ -15,6 +15,53 @@ class MedicalEncounter(models.Model):
         'sale.order.line',
         inverse_name='encounter_id',
     )
+    has_preinvoicing = fields.Boolean(
+        compute='_compute_validation_values',
+    )
+    has_patient_invoice = fields.Boolean(
+        compute='_compute_validation_values',
+    )
+    unauthorized_elements = fields.Boolean(
+        compute='_compute_validation_values',
+    )
+    missing_authorization_number = fields.Boolean(
+        compute='_compute_validation_values',
+    )
+    missing_subscriber_id = fields.Boolean(
+        compute='_compute_validation_values',
+    )
+
+    @api.depends(
+        'sale_order_ids.invoice_group_method_id',
+        'sale_order_ids.coverage_agreement_id',
+        'sale_order_ids.order_line.coverage_template_id.subscriber_required',
+        'sale_order_ids.order_line.subscriber_id',
+        'sale_order_ids.order_line.authorization_status',
+    )
+    def _compute_validation_values(self):
+        preinvoicing = self.env.ref(
+            'cb_medical_sale_invoice_group_method.by_preinvoicing')
+        by_patient = self.env.ref(
+            'cb_medical_sale_invoice_group_method.by_patient')
+        for rec in self:
+            rec.has_preinvoicing = bool(rec.sale_order_ids.filtered(
+                lambda r: r.invoice_group_method_id == preinvoicing
+            ))
+            rec.has_patient_invoice = bool(rec.sale_order_ids.filtered(
+                lambda r: r.invoice_group_method_id == by_patient
+            ))
+            #FIXME: Check format
+            rec.missing_subscriber_id = bool(
+                rec.sale_order_ids.mapped('order_line').filtered(
+                    lambda r: r.coverage_template_id.subscriber_required and
+                    not r.subscriber_id
+                )
+            )
+            rec.unauthorized_elements = bool(rec.sale_order_ids.filtered(
+                lambda r: r.coverage_agreement_id
+            ).mapped('order_line').filtered(
+                lambda r: r.authorization_status != 'authorized'
+            ))
 
     def onleave2finished_values(self):
         res = super().onleave2finished_values()
