@@ -13,7 +13,7 @@
     "license": "LGPL-3",
     "depends": [
         'cb_medical_careplan_sale',
-        'account',
+        'cb_medical_sale_discount',
     ],
     "data": [
         'views/account_invoice_views.xml',
