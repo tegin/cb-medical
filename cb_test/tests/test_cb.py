@@ -378,6 +378,20 @@ class TestMedicalCareplanSale(TransactionCase):
             'name': 'Discount 01',
             'percentage': 50,
         })
+        self.service = self.env['product.product'].create({
+            'name': 'Service',
+            'type': 'service',
+        })
+        self.category = self.env['product.category'].create({
+            'name': 'Category',
+            'category_product_id': self.service.id,
+        })
+        self.product = self.env['product.product'].create({
+            'name': 'Product',
+            'type': 'consu',
+            # We don't want to check if there is enough material
+            'categ_id': self.category.id,
+        })
 
     def create_patient(self, name):
         return self.env['medical.patient'].create({
@@ -1286,3 +1300,36 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertTrue(payments)
         self.assertEqual(100, payments.amount)
         self.assertEqual(sale_order.amount_total, 100)
+
+    def test_01_medication_process(self):
+        encounter = self.env['medical.encounter'].create({
+            'patient_id': self.patient_01.id,
+            'center_id': self.center.id,
+        })
+        careplan_wizard = self.env[
+            'medical.encounter.add.careplan'
+        ].with_context(default_encounter_id=encounter.id).new({
+            'coverage_id': self.coverage_01.id
+        })
+        careplan_wizard.onchange_coverage()
+        careplan_wizard.onchange_coverage_template()
+        careplan_wizard.onchange_payor()
+        careplan_wizard = careplan_wizard.create(
+            careplan_wizard._convert_to_write(careplan_wizard._cache))
+        self.assertEqual(encounter, careplan_wizard.encounter_id)
+        self.assertEqual(encounter.center_id, careplan_wizard.center_id)
+        careplan_wizard.run()
+        careplan = encounter.careplan_ids
+        with self.assertRaises(ValidationError):
+            careplan.add_medication(self.location, self.product, 1)
+        self.env['medical.medication.request'].create({
+            'product_id': self.service.id,
+            'patient_id': self.patient_01.id,
+            'careplan_id': careplan.id,
+            'center_id': self.center.id,
+            'encounter_id': encounter.id,
+            'product_uom_id': self.service.uom_id.id,
+        })
+        med_adm = careplan.add_medication(self.location, self.product, 1)
+        self.assertEqual(med_adm._name, 'medical.medication.administration')
+        self.assertTrue(med_adm)

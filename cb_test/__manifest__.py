@@ -13,6 +13,7 @@
         'cb_medical_views',
         'cb_medical_identifier',
         'cb_medical_sale_invoice_group_method',
+        'cb_medical_medication',
     ],
     'data': [
     ],
