@@ -429,6 +429,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'careplan_id': careplan.id,
             'agreement_line_id': agreement_line.id,
         })
+        self.assertIn(self.agreement, wizard.agreement_ids)
         self.action.is_billable = False
         wizard.run()
         group = self.env['medical.request.group'].search([
