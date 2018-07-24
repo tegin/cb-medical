@@ -3,7 +3,6 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo.tests.common import TransactionCase
-from odoo.exceptions import ValidationError
 
 
 class TestWizard(TransactionCase):
@@ -94,17 +93,6 @@ class TestWizard(TransactionCase):
             'total_price': 100,
             'coverage_percentage': 0,
         })
-
-    def test_wizard_failure(self):
-        wizard = self.env['medical.careplan.add.plan.definition'].create({
-            'careplan_id': self.careplan.id,
-            'agreement_line_id': self.agreement_line.id,
-            'authorization_number': '222'
-        })
-        self.assertEqual(wizard.patient_id, self.patient)
-        self.assertTrue(wizard.plan_definition_id)
-        with self.assertRaises(ValidationError):
-            wizard.run()
 
     def test_wizard(self):
         wizard = self.env['medical.careplan.add.plan.definition'].create({
