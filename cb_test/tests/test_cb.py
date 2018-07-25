@@ -41,10 +41,15 @@ class TestMedicalCareplanSale(TransactionCase):
             'is_default': True,
             'printer_usage': 'label',
         })
+        self.nomenclature = self.env['product.nomenclature'].create({
+            'name': 'Nomenclature',
+            'code': 'nomenc',
+        })
         self.payor = self.env['res.partner'].create({
             'name': 'Payor',
             'is_payor': True,
             'is_medical': True,
+            'invoice_nomenclature_id': self.nomenclature.id,
         })
         self.sub_payor = self.env['res.partner'].create({
             'name': 'Sub Payor',
@@ -1143,6 +1148,13 @@ class TestMedicalCareplanSale(TransactionCase):
         self.plan_definition.is_billable = True
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
+        nomenclature_product = self.env['product.nomenclature.product'].create({
+            'nomenclature_id': self.nomenclature.id,
+            'product_template_id':
+                self.agreement_line3.product_id.product_tmpl_id.id,
+            'name': 'nomenclature_name',
+            'code': 'nomenclature_code',
+        })
         self.company.sale_merge_draft_invoice = True
         sale_orders = self.env['sale.order']
         for i in range(1, 10):
@@ -1187,6 +1199,8 @@ class TestMedicalCareplanSale(TransactionCase):
         invoice = self.env['account.invoice'].browse(
             action.get('res_id', False))
         invoice.action_invoice_open()
+        for line in invoice.invoice_line_ids:
+            self.assertEqual(line.name, nomenclature_product.name)
         for sale_order in sale_orders:
             self.assertTrue(sale_order.invoice_status == 'invoiced')
         for encounter in self.session.encounter_ids:
@@ -1302,7 +1316,7 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertEqual(100, payments.amount)
         self.assertEqual(sale_order.amount_total, 100)
 
-    def test_01_medication_process(self):
+    def test_medication_process(self):
         encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient_01.id,
             'center_id': self.center.id,
