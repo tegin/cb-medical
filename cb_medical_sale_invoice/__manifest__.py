@@ -14,10 +14,13 @@
     "depends": [
         'cb_medical_careplan_sale',
         'cb_medical_sale_discount',
+        'product_nomenclature',
     ],
     "data": [
+        'security/ir.model.access.csv',
         'views/account_invoice_views.xml',
         'views/report_invoice.xml',
+        'views/nomenclature_menu.xml',
         'views/res_partner_views.xml',
         'views/sale_order_views.xml',
     ],

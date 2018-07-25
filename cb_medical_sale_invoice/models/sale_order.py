@@ -75,4 +75,14 @@ class SaleOrderLine(models.Model):
             res['subscriber_id'] = self.subscriber_id
             res['encounter_id'] = self.encounter_id.id
             res['authorization_number'] = self.authorization_number
+        if self.coverage_template_id:
+            nomenc = self.coverage_template_id.payor_id.invoice_nomenclature_id
+            if nomenc:
+                item = nomenc.item_ids.filtered(
+                    lambda r:
+                    r.product_template_id == self.product_id.product_tmpl_id
+                )
+                if item:
+                    res['name'] = item.name
+
         return res
