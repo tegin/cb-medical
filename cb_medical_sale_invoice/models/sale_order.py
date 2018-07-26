@@ -79,8 +79,7 @@ class SaleOrderLine(models.Model):
             nomenc = self.coverage_template_id.payor_id.invoice_nomenclature_id
             if nomenc:
                 item = nomenc.item_ids.filtered(
-                    lambda r:
-                    r.product_template_id == self.product_id.product_tmpl_id
+                    lambda r: r.product_id == self.product_id
                 )
                 if item:
                     res['name'] = item.name
