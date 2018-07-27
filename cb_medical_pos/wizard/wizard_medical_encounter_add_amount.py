@@ -86,6 +86,9 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
 
     @api.multi
     def run(self):
+        self._run()
+
+    def _run(self):
         self.ensure_one()
         if self.amount <= 0:
             raise ValidationError(_('Amount must be greater than 0'))
@@ -110,3 +113,4 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
             'amount': self.amount,
         })
         process.run()
+        return invoice
