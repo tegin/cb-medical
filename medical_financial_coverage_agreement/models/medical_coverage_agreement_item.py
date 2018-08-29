@@ -28,6 +28,7 @@ class MedicalCoverageAgreementItem(models.Model):
         comodel_name='product.product',
         string='Product',
         ondelete='cascade',
+        domain=[('type', '=', 'service'), ('sale_ok', '=', True)],
         required=True,
     )
     total_price = fields.Float(
