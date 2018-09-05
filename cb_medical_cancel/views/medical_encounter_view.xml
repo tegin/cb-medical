@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+-->
+
+<odoo>
+
+    <record model="ir.ui.view" id="medical_encounter_view_form">
+        <field name="name">medical.encounter.form</field>
+        <field name="model">medical.encounter</field>
+        <field name="inherit_id" ref="medical_administration_encounter.medical_encounter_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='planned2cancelled']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='arrived2cancelled']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='inprogress2cancelled']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='onleave2cancelled']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='onleave2cancelled']" position="after">
+                <button name="%(cb_medical_cancel.medical_encounter_cancel_action)s"
+                        string="Cancel"
+                        states="planned,arrived,in-progress"
+                        type="action"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
