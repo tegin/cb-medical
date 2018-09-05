@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+-->
+
+<odoo>
+
+    <record model="ir.ui.view" id="medical_encounter_cancel_form">
+        <field name="name">medical.encounter.cancel</field>
+        <field name="model">medical.encounter.cancel</field>
+        <field name="type">form</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Cancel encounter">
+                <group>
+                    <field name="encounter_id" options="{'no_create': True}"/>
+                    <field name="pos_session_id" options="{'no_create': True}"/>
+                    <field name="cancel_reason_id" options="{'no_create': True}"/>
+                    <field name="cancel_reason"/>
+                </group>
+                <footer>
+                    <button string="Cancel" name="run"
+                            type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="medical_encounter_cancel_action"
+            model="ir.actions.act_window">
+        <field name="name">Cancel Encounter</field>
+        <field name="res_model">medical.encounter.cancel</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_encounter_id': active_id}</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
