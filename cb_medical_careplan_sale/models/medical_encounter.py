@@ -1,5 +1,4 @@
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
 
 class MedicalEncounter(models.Model):
@@ -140,23 +139,3 @@ class MedicalEncounter(models.Model):
             result['views'] = [(False, 'form')]
             result['res_id'] = self.sale_order_ids.id
         return result
-
-    @api.multi
-    def cancel(self):
-        models = [self.env[model] for model in
-                  self.env['medical.request']._get_request_models()]
-        error_states = ['completed', 'entered-in-error', 'cancelled']
-        for encounter in self:
-            if encounter.state in error_states:
-                raise ValidationError(_(
-                    "Request %s can't be cancelled" % encounter.display_name
-                ))
-            for model in models:
-                childs = model.search([
-                    ('encounter_id', '=', encounter.id),
-                    ('parent_id', '=', False),
-                    ('parent_model', '=', False),
-                    ('state', '!=', 'cancelled')
-                ])
-                childs.cancel()
-        self.write({'state': 'cancelled'})
