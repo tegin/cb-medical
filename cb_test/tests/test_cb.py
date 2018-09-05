@@ -397,6 +397,10 @@ class TestMedicalCareplanSale(TransactionCase):
             # We don't want to check if there is enough material
             'categ_id': self.category.id,
         })
+        self.reason = self.env['medical.cancel.reason'].create({
+            'name': 'Cancel reason',
+            'description': 'Cancel reason'
+        })
 
     def create_patient(self, name):
         return self.env['medical.patient'].create({
@@ -451,6 +455,38 @@ class TestMedicalCareplanSale(TransactionCase):
             'commission': self.browse_ref(
                 'cb_medical_commission.commission_01').id,
         })
+
+    def test_cancel_encounter(self):
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.env['medical.encounter.cancel'].create({
+            'encounter_id': encounter.id,
+            'cancel_reason_id': self.reason.id,
+            'cancel_reason': 'testing purposes',
+            'pos_session_id': self.session.id,
+        }).run()
+        careplan.refresh()
+        self.assertEqual(careplan.state, 'cancelled')
+        self.assertIn(encounter.state, ['onleave', 'finished'])
+
+    def test_cancel_encounter_failure(self):
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        careplan.draft2active()
+        careplan.active2completed()
+        with self.assertRaises(ValidationError):
+            self.env['medical.encounter.cancel'].create({
+                'encounter_id': encounter.id,
+                'cancel_reason_id': self.reason.id,
+                'cancel_reason': 'testing purposes',
+                'pos_session_id': self.session.id,
+            }).run()
 
     def test_discount(self):
         method = self.browse_ref(
@@ -847,20 +883,6 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertFalse(sale_order.invoice_ids)
         self.assertEqual(encounter.pending_private_amount, 0)
         self.session.action_pos_session_approve()
-
-    def test_cancellation(self):
-        self.plan_definition.is_breakdown = True
-        self.plan_definition.is_billable = True
-        encounter, careplan, group = self.create_careplan_and_group(
-            self.agreement_line)
-        group.cancel()
-        self.assertEqual(group.state, 'cancelled')
-        encounter.cancel()
-        self.assertEqual(careplan.state, 'cancelled')
-        with self.assertRaises(ValidationError):
-            encounter.cancel()
-        with self.assertRaises(ValidationError):
-            careplan.cancel()
 
     @patch('odoo.addons.base_report_to_printer.models.printing_printer.'
            'PrintingPrinter.print_file')
@@ -1325,7 +1347,7 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertEqual(100, payments.amount)
         self.assertEqual(sale_order.amount_total, 100)
 
-    def atest_medication_process(self):
+    def test_medication_process(self):
         encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient_01.id,
             'center_id': self.center.id,
