@@ -67,5 +67,6 @@ class MedicalRequest(models.AbstractModel):
         res = super().cancel()
         cancel_reason = self.env.context.get('cancel_reason', False)
         if not self.env.context.get('cancel_child', False) and cancel_reason:
-            self.message_post(subtype=False, body=cancel_reason)
+            for r in self:
+                r.message_post(subtype=False, body=cancel_reason)
         return res
