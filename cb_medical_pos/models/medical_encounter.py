@@ -138,10 +138,12 @@ class MedicalEncounter(models.Model):
 
     @api.multi
     def onleave2finished(self):
-        sale_orders = self.sale_order_ids.filtered(
-            lambda r: not r.coverage_agreement_id and not r.is_down_payment)
-        for sale_order in sale_orders:
-            self.finish_sale_order(sale_order)
+        for res in self:
+            sale_orders = res.sale_order_ids.filtered(
+                lambda r: not r.coverage_agreement_id and not r.is_down_payment
+            )
+            for sale_order in sale_orders:
+                res.finish_sale_order(sale_order)
         return super().onleave2finished()
 
     def down_payment_inverse_vals(self, order, line):
