@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+medical_guard_access,medical_guard_access,model_medical_guard,group_medical_guard_display,1,0,0,0
+medical_guard_manager,medical_guard_manager,model_medical_guard,group_medical_guard_manager,1,1,1,1
+medical_guard_plan_access,medical_guard_plan_access,model_medical_guard_plan,group_medical_guard_display,1,0,0,0
+medical_guard_plan_manager,medical_guard_plan_manager,model_medical_guard_plan,group_medical_guard_manager,1,1,1,0
