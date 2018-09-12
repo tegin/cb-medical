@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="medical_guard_plan_apply_form" model="ir.ui.view">
+        <field name="name">medical.guard.plan.apply.form</field>
+        <field name="model">medical.guard.plan.apply</field>
+        <field name="arch" type="xml">
+            <form string="Apply Guard plans">
+                <group>
+                    <group>
+                    <field name="start_date"/>
+                    </group>
+                    <group>
+                    <field name="end_date"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="run"
+                            string="Create"
+                            type="object"
+                            class="oe_highlight" />
+                    or
+                    <button
+                        name="action_cancel"
+                        string="Cancel"
+                        class="oe_link"
+                        special="cancel"
+                        />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="medical_guard_plan_apply_action"
+                name="Apply Guard plans"
+                res_model="medical.guard.plan.apply"
+                view_mode="form"
+                view_type="form"
+                target="new" />
+
+    <menuitem id="medical_guard_plan_apply_menu"
+              parent="cb_medical_guard.medical_guard_root"
+              groups="cb_medical_guard.group_medical_guard_manager"
+              action="medical_guard_plan_apply_action"
+              sequence="60"
+    />
+
+</odoo>
