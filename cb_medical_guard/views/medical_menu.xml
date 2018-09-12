@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2016 LasLabs Inc.
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+-->
+
+<odoo>
+
+    <menuitem id="medical_guard_root"
+              name="Guards"
+              parent="medical_base.medical_root"
+              sequence="40"
+              groups="cb_medical_guard.group_medical_guard_display"/>
+
+</odoo>
