@@ -81,7 +81,8 @@ class MedicalEncounter(models.Model):
         values = dict()
         for model in self.env['medical.request']._get_request_models():
             for request in self.env[model].search([
-                ('encounter_id', '=', self.id)
+                ('encounter_id', '=', self.id),
+                ('state', '!=', 'cancelled'),
             ]):
                 query = []
                 if request.is_sellable_insurance:
