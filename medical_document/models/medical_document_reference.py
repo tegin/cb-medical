@@ -11,7 +11,7 @@ class MedicalDocumentReference(models.Model):
     # (https://www.hl7.org/fhir/documentreference.html)
     _name = 'medical.document.reference'
     _description = 'Medical Document Reference'
-    _inherit = 'medical.request'
+    _inherit = ['medical.request', 'medical.document.language']
 
     internal_identifier = fields.Char(
         string="Document reference"
@@ -43,6 +43,13 @@ class MedicalDocumentReference(models.Model):
         readonly=True,
         sanitize=True
     )
+    lang = fields.Selection(
+        required=False, readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+
+    def _get_language(self):
+        return self.lang or self.patient_id.lang
 
     def check_is_billable(self):
         return self.is_billable
@@ -120,7 +127,10 @@ class MedicalDocumentReference(models.Model):
         return {
             'state': 'current',
             'document_template_id': template_id,
-            'text': self.with_context(template_id=template_id).render_text()
+            'text': self.with_context(
+                template_id=template_id,
+                render_language=self._get_language()
+            ).render_text()
         }
 
     def _draft2current(self, action):
