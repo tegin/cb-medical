@@ -116,11 +116,15 @@ class TestSequence(TransactionCase):
             'name': 'CI',
             'report_action_id': self.browse_ref(
                 'medical_document.action_report_document_report_base').id,
+        })
+        self.env['medical.document.type.lang'].create({
+            'lang': 'en_US',
+            'document_type_id': document_type.id,
             'text': '<p>I, ${object.patient_id.name}, recognize the protocol'
                     ' ${object.name} and sign this document.</p>'
                     '<p>Signed:${object.patient_id.name}<br></p>'
         })
         document_type.post()
         self.check_model('medical.document.reference', {
-            'document_type_id': document_type.id
+            'document_type_id': document_type.id,
         })
