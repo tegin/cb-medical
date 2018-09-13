@@ -126,6 +126,10 @@ class TestMedicalCareplanSale(TransactionCase):
             'document_type': 'action',
             'report_action_id': self.browse_ref(
                 'medical_document.action_report_document_report_base').id,
+        })
+        self.env['medical.document.type.lang'].create({
+            'lang': 'en_US',
+            'document_type_id': self.document_type.id,
             'text': '<p>${object.patient_id.name}</p>'
         })
         self.label_zpl2 = self.env['printing.label.zpl2'].create({
