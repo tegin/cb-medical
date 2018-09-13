@@ -68,7 +68,9 @@ class MedicalEncounter(models.Model):
             rec.unauthorized_elements = bool(lines.filtered(
                 lambda r: r.authorization_status != 'authorized'))
             rec.missing_authorization_number = bool(lines.filtered(
-                lambda r: not r.authorization_format_id.check_value(
+                lambda r:
+                r.authorization_format_id and
+                not r.authorization_format_id.check_value(
                     r.authorization_number
                 )
             ))
