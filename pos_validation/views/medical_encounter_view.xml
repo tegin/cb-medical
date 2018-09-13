@@ -21,11 +21,11 @@
                 >
                     <button icon="fa-archive"
                             name="toggle_is_preinvoiced"
+                            type="object"
                             help="Preinvoicing is generated. Documents must be stored"
                             class="flag-warning"
                             attrs="{'invisible': ['|', ('is_preinvoiced', '=', True), ('has_preinvoicing', '=', False)]}"
                             />
-
                     <flag icon="fa-archive"
                           name="preinvoicing"
                           help="Preinvoicing is generated. Documents must be stored"
