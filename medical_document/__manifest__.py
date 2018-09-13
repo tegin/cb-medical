@@ -16,6 +16,7 @@
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
         'data/medical_workflow.xml',
+        'wizard/medical_document_type_add_language_views.xml',
         'views/medical_request_views.xml',
         'views/medical_document_reference_views.xml',
         'views/medical_document_template_views.xml',

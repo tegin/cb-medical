@@ -8,6 +8,37 @@
 
 <odoo>
 
+    <record id="medical_document_type_lang_view_tree" model="ir.ui.view">
+        <field name="name">medical.document.type.lang.view.tree</field>
+        <field name="model">medical.document.type.lang</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree string="Document types Language" create="false">
+                <field name="lang"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="medical_document_type_lang_view_form" model="ir.ui.view">
+        <field name="name">medical.document.type.lang.view.form</field>
+        <field name="model">medical.document.type.lang</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Document type">
+                <header/>
+                <sheet>
+                    <div name="button_box" class="oe_button_box"/>
+                    <h2>
+                        <field name="lang" readonly="1"/>
+                    </h2>
+                    <field name="text"/>
+                    <field name="document_type_id" invisible="1"/>
+                    <notebook invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="medical_document_type_view_tree" model="ir.ui.view">
         <field name="name">medical.document.type.view.tree</field>
         <field name="model">medical.document.type</field>
@@ -34,7 +65,12 @@
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
-                    <div name="button_box" class="oe_button_box"/>
+                    <div name="button_box" class="oe_button_box">
+                        <button name="%(medical_document.medical_document_type_add_language_action)s"
+                                type="action" class="oe_stat_button" icon="fa-language" string="Add Language"
+                                attrs="{'invisible': [('document_type', '!=', 'action')]}"
+                        />
+                    </div>
                     <h2>
                         <field name="internal_identifier" readonly="1"/>
                     </h2>
@@ -45,9 +81,11 @@
                             <field name="report_action_id" attrs="{'invisible': [('document_type', '!=', 'action')], 'required': [('document_type', '=', 'action')]}"/>
                         </group>
                     </group>
-                    <field name="text"/>
                     <notebook>
-                        <page name="Versions" string="Items">
+                        <page name="translation" string="Translations" attrs="{'invisible': [('document_type', '!=', 'action')]}">
+                            <field name="lang_ids"/>
+                        </page>
+                        <page name="template" string="Items">
                             <field name="template_ids"/>
                         </page>
                     </notebook>
@@ -88,6 +126,7 @@
         <field name="domain">[('document_type', '=', 'action')]</field>
         <field name="context">{'default_document_type': 'action'}</field>
     </record>
+
     <menuitem id="medical_document_type_menu"
               parent="medical_base.medical_root_configuration"
               action="medical_document_type_action"
