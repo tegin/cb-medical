@@ -22,7 +22,6 @@ class MedicalDocumentType(models.Model):
         ('current', 'Current'),
         ('superseded', 'Superseded')
     ], required=True, track_visibility=True, default='draft')
-    text = fields.Html(sanitize=True)
     template_ids = fields.One2many(
         'medical.document.template',
         inverse_name='document_type_id',
@@ -40,6 +39,10 @@ class MedicalDocumentType(models.Model):
     report_action_id = fields.Many2one(
         'ir.actions.report',
         domain=[('model', '=', 'medical.document.reference')]
+    )
+    lang_ids = fields.One2many(
+        'medical.document.type.lang',
+        inverse_name='document_type_id'
     )
 
     @api.depends('current_sequence')
@@ -60,7 +63,10 @@ class MedicalDocumentType(models.Model):
         return {
             'document_type_id': self.id,
             'state': 'current',
-            'text': self.text,
+            'lang_ids': [
+                (0, 0, lang.get_document_template_lang_vals())
+                for lang in self.lang_ids
+            ],
             'sequence': self.current_sequence,
         }
 
@@ -102,3 +108,27 @@ class MedicalDocumentType(models.Model):
                 ))
             record.unpost()
             record.write(self.current2superseded_values())
+
+
+class MedicalDocumentTypeLang(models.Model):
+    _name = 'medical.document.type.lang'
+    _inherit = 'medical.document.language'
+    _rec_name = 'lang'
+
+    document_type_id = fields.Many2one(
+        'medical.document.type',
+        required=True
+    )
+    text = fields.Html(sanitize=True)
+
+    _sql_constraints = [
+        ('unique_language',
+         'UNIQUE(lang, document_type_id)',
+         'The language is allowed only once on a type.')
+    ]
+
+    def get_document_template_lang_vals(self):
+        return {
+            'text': self.text,
+            'lang': self.lang,
+        }
