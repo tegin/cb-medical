@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo.tests.common import TransactionCase
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 
 class TestMedicalDocumentType(TransactionCase):
@@ -13,13 +13,35 @@ class TestMedicalDocumentType(TransactionCase):
             'name': 'CI',
             'report_action_id': self.browse_ref(
                 'medical_document.action_report_document_report_base').id,
-            'text': '<p>I, ${object.patient_id.name}, recognize the protocol'
-                    ' ${object.name} and sign this document.</p>'
-                    '<p>Signed:${object.patient_id.name}<br></p>'
         })
         self.type = self.browse_ref('medical_workflow.medical_workflow')
 
+    def add_language(self):
+        self.assertFalse(self.document_type.lang_ids)
+        lang = self.env['res.lang'].search([('active', '=', True)], limit=1)
+        add_language = self.env['medical.document.type.add.language'].create({
+            'document_type_id': self.document_type.id,
+            'lang_id': lang.id,
+        })
+        self.assertTrue(add_language.lang_id.filtered(
+            lambda r: r.code == lang.code))
+        add_language.run()
+        self.assertTrue(self.document_type.lang_ids)
+        self.document_type.lang_ids.filtered(
+            lambda r: r.lang == lang.code
+        ).write({
+            'text': '<p>I, ${object.patient_id.name}, recognize the protocol'
+                    ' ${object.name} and sign this document.</p>'
+                    '<p>Signed:${object.patient_id.name}<br></p>',
+        })
+        add_language = self.env['medical.document.type.add.language'].new({
+            'document_type_id': self.document_type.id,
+        })
+        self.assertFalse(add_language.lang_id.filtered(
+            lambda r: r.code == lang.code))
+
     def test_document_type(self):
+        self.add_language()
         self.assertEqual(self.document_type.state, 'draft')
         self.document_type.draft2current()
         self.assertEqual(self.document_type.state, 'current')
@@ -29,7 +51,16 @@ class TestMedicalDocumentType(TransactionCase):
         self.document_type.current2superseded()
         self.assertEqual(self.document_type.state, 'superseded')
 
+    def test_failure(self):
+        self.assertEqual(self.document_type.state, 'draft')
+        self.document_type.draft2current()
+        self.assertEqual(self.document_type.state, 'current')
+        template = self.document_type.current_template_id
+        with self.assertRaises(UserError):
+            template.render_template(template._name, template.id)
+
     def test_activity_definition(self):
+        self.add_language()
         self.document_type.draft2current()
         activity_def = self.env['workflow.activity.definition'].new({
             'name': 'Activity3',
