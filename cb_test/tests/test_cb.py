@@ -232,6 +232,13 @@ class TestMedicalCareplanSale(TransactionCase):
             'document_type_id': self.document_type_label.id,
             'type_id': self.type.id,
         })
+        self.activity5 = self.env['workflow.activity.definition'].create({
+            'name': 'Activity 2',
+            'service_id': self.product_02.id,
+            'model_id': self.browse_ref('medical_clinical_procedure.'
+                                        'model_medical_procedure_request').id,
+            'type_id': self.type.id,
+        })
         self.env['workflow.plan.definition.action'].create({
             'activity_definition_id': self.activity.id,
             'direct_plan_definition_id': self.plan_definition2.id,
@@ -1383,3 +1390,55 @@ class TestMedicalCareplanSale(TransactionCase):
         med_adm = careplan.add_medication(self.location, self.product, 1)
         self.assertEqual(med_adm._name, 'medical.medication.administration')
         self.assertTrue(med_adm)
+
+    def test_performer(self):
+        self.plan_definition2.write({
+            'third_party_bill': True,
+            'performer_required': True,
+        })
+        self.env['workflow.plan.definition.action'].create({
+            'activity_definition_id': self.activity5.id,
+            'direct_plan_definition_id': self.plan_definition2.id,
+            'is_billable': False,
+            'name': 'Action',
+        })
+        self.activity5.performer_id = self.practitioner_02
+        encounter = self.env['medical.encounter'].create({
+            'patient_id': self.patient_01.id,
+            'center_id': self.center.id,
+        })
+        careplan_wizard = self.env[
+            'medical.encounter.add.careplan'
+        ].with_context(default_encounter_id=encounter.id).new({
+            'coverage_id': self.coverage_01.id
+        })
+        careplan_wizard.onchange_coverage()
+        careplan_wizard.onchange_coverage_template()
+        careplan_wizard.onchange_payor()
+        careplan_wizard = careplan_wizard.create(
+            careplan_wizard._convert_to_write(careplan_wizard._cache))
+        self.assertEqual(encounter, careplan_wizard.encounter_id)
+        self.assertEqual(encounter.center_id, careplan_wizard.center_id)
+        careplan_wizard.run()
+        careplan = encounter.careplan_ids
+        self.assertEqual(careplan.center_id, encounter.center_id)
+        wizard = self.env['medical.careplan.add.plan.definition'].create({
+            'careplan_id': careplan.id,
+            'agreement_line_id': self.agreement_line3.id,
+            'performer_id': self.practitioner_01.id
+        })
+        self.assertIn(self.agreement, wizard.agreement_ids)
+        self.action.is_billable = False
+        wizard.run()
+        group = self.env['medical.request.group'].search([
+            ('careplan_id', '=', careplan.id)])
+        group.ensure_one()
+        self.assertEqual(group.center_id, encounter.center_id)
+        self.assertEqual(group.performer_id, self.practitioner_01)
+        self.assertGreaterEqual(len(group.procedure_request_ids.ids), 2)
+        self.assertTrue(group.procedure_request_ids.filtered(
+            lambda r: r.performer_id == self.practitioner_01
+        ))
+        self.assertTrue(group.procedure_request_ids.filtered(
+            lambda r: r.performer_id == self.practitioner_02
+        ))
