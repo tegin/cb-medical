@@ -40,4 +40,3 @@ class MedicalEncounter(models.Model):
         for record in self:
             result.append((record.id, record.internal_identifier))
         return result
-
