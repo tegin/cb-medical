@@ -29,6 +29,8 @@
                 <field name="authorization_number" attrs="{'invisible': [('authorization_required', '=', False)]}"/>
                 <field name="authorization_format_id" invisible="1"/>
                 <field name="authorization_information" attrs="{'invisible': ['|', ('authorization_information', '=', False), ('authorization_required', '=', False)]}"/>
+                <field name="performer_required" invisible="1"/>
+                <field name="performer_id" attrs="{'invisible': [('performer_required', '=', False)], 'required': [('performer_required','=',True)]}"/>
             </field>
 
         </field>
