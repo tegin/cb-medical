@@ -23,6 +23,9 @@ class PlanDefinition(models.Model):
         default=True,
         track_visibility=True,
     )
+    performer_required = fields.Boolean(
+        default=False
+    )
 
     @api.multi
     @api.constrains('is_billable', 'third_party_bill', 'direct_action_ids')

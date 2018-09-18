@@ -5,4 +5,6 @@
 from . import workflow_plan_definition
 from . import workflow_plan_definition_action
 from . import medical_request
+from . import medical_procedure_request
+from . import medical_request_group
 from . import workflow_activity_definition
