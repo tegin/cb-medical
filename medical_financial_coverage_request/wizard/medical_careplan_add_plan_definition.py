@@ -10,7 +10,8 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
 
     coverage_id = fields.Many2one(
         'medical.coverage',
-        related='careplan_id.coverage_id'
+        related='careplan_id.coverage_id',
+        readonly=True,
     )
     center_id = fields.Many2one(
         'res.partner',
@@ -19,7 +20,8 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
     )
     coverage_template_id = fields.Many2one(
         'medical.coverage.template',
-        related='coverage_id.coverage_template_id'
+        related='coverage_id.coverage_template_id',
+        readonly=True,
     )
     agreement_ids = fields.Many2many(
         'medical.coverage.agreement',
@@ -32,28 +34,42 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
     )
     product_id = fields.Many2one(
         'product.product',
-        related="agreement_line_id.product_id"
+        related="agreement_line_id.product_id",
+        readonly=True,
     )
     plan_definition_id = fields.Many2one(
         comodel_name='workflow.plan.definition',
-        related='agreement_line_id.plan_definition_id'
+        related='agreement_line_id.plan_definition_id',
+        readonly=True,
     )
     authorization_method_id = fields.Many2one(
         'medical.authorization.method',
-        related='agreement_line_id.authorization_method_id'
+        related='agreement_line_id.authorization_method_id',
+        readonly=True,
     )
     authorization_format_id = fields.Many2one(
         'medical.authorization.format',
-        related='agreement_line_id.authorization_format_id'
+        related='agreement_line_id.authorization_format_id',
+        readonly=True,
     )
     authorization_required = fields.Boolean(
         related='agreement_line_id.authorization_method_id.'
-                'authorization_required'
+                'authorization_required',
+        readonly=True,
     )
     authorization_number = fields.Char()
     authorization_information = fields.Text(
         related='agreement_line_id.authorization_format_id.'
                 'authorization_information',
+        readonly=True,
+    )
+    performer_id = fields.Many2one(
+        'res.partner',
+        domain=[('is_practitioner', '=', True)]
+    )
+    performer_required = fields.Boolean(
+        default=False,
+        related='agreement_line_id.plan_definition_id.performer_required',
         readonly=True,
     )
 
@@ -76,6 +92,8 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         ] = self.agreement_line_id.coverage_agreement_id.id
         values['plan_definition_id'] = self.plan_definition_id.id
         values['center_id'] = self.center_id.id
+        if self.performer_required:
+            values['performer_id'] = self.performer_id.id
         return values
 
     @api.multi
