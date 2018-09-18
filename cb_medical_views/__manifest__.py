@@ -11,6 +11,7 @@
         'medical_administration_encounter',
         'barcode_action',
         'medical_clinical_procedure',
+        'l10n_es_partner',
     ],
     'data': [
         'views/medical_encounter.xml',
