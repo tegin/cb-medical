@@ -31,7 +31,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="complete" states="draft" string="Complete" class="oe_highlight"/>
+                    <button name="complete" type="object" states="draft" string="Complete" class="oe_highlight"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -43,6 +43,7 @@
                     <group>
                         <group>
                             <field name="date"/>
+                            <field name="delay"/>
                             <field name="practitioner_id" options="{'no_create': True}"/>
                         </group>
                         <group>
@@ -59,7 +60,7 @@
         <field name="name">medical.guard.view.calendar</field>
         <field name="model">medical.guard</field>
         <field name="arch" type="xml">
-            <calendar date_start="date" date_stop="end_date" color="state" quick_add="0">
+            <calendar date_start="date" date_delay="delay" color="state" quick_add="0">
                 <field name="practitioner_id"/>
                 <field name="product_id"/>
                 <field name="location_id"/>

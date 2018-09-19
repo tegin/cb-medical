@@ -1,5 +1,5 @@
 from datetime import timedelta
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 
 class MedicalGuardPlanApply(models.TransientModel):
@@ -33,3 +33,16 @@ class MedicalGuardPlanApply(models.TransientModel):
         guards = self.env['medical.guard'].search(self.get_guard_domain())
         for guard in guards:
             guard.make_invoice()
+        invoices = guards.mapped('invoice_line_ids').mapped('invoice_id')
+        if len(invoices):
+            return {
+                'name': _('Created Invoices'),
+                'type': 'ir.actions.act_window',
+                'views': [[False, 'list'], [False, 'form']],
+                'res_model': 'account.invoice',
+                'domain': [
+                    ['id', 'in', invoices.ids],
+                ],
+            }
+        else:
+            return {'type': 'ir.actions.act_window_close'}
