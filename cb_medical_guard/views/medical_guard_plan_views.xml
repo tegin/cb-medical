@@ -14,8 +14,8 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="start_time"/>
-                <field name="end_time"/>
+                <field name="start_time" widget="float_time"/>
+                <field name="delay"/>
                 <field name="location_id"/>
                 <field name="product_id"/>
             </tree>
@@ -39,7 +39,7 @@
                     <group>
                         <group>
                             <field name="start_time" widget="float_time"/>
-                            <field name="end_time" widget="float_time"/>
+                            <field name="delay"/>
                         </group>
                         <group>
                             <field name="location_id" options="{'no_create': True}"/>
