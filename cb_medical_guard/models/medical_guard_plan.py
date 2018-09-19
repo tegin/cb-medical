@@ -50,7 +50,7 @@ class MedicalGuardPlan(models.Model):
     _name = 'medical.guard.plan'
 
     start_time = fields.Float(required=True)
-    end_time = fields.Float(required=True)
+    delay = fields.Integer(required=True)
     location_id = fields.Many2one(
         'res.partner',
         domain=[('is_center', '=', True), ('guard_journal_id', '!=', False)],
@@ -115,9 +115,7 @@ class MedicalGuardPlan(models.Model):
             'date': fields.Datetime.to_string(
                 (datetime_date + timedelta(hours=self.start_time)).astimezone(
                     tz=None)),
-            'end_date': fields.Datetime.to_string(
-                (datetime_date + timedelta(hours=self.end_time)).astimezone(
-                    tz=None)),
+            'delay': self.delay,
             'location_id': self.location_id.id,
             'product_id': self.product_id.id,
             'plan_guard_id': self.id,

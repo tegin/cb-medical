@@ -32,7 +32,7 @@ class TestMedicalGuard(TransactionCase):
             'location_id': self.center.id,
             'product_id': self.product.id,
             'start_time': 0,
-            'end_time': 1,
+            'delay': 1,
             'weekday': '*',
             'monthday': '*',
             'month': '*'
@@ -89,7 +89,7 @@ class TestMedicalGuard(TransactionCase):
             'location_id': self.center.id,
             'product_id': self.product.id,
             'start_time': 0,
-            'end_time': 1,
+            'delay': 1,
             'weekday': '*',
             'monthday': '*',
             'month': '*'
@@ -133,7 +133,7 @@ class TestMedicalGuard(TransactionCase):
             'product_id': self.product.id,
             'location_id': self.center.id,
             'date': Datetime.now(),
-            'end_date': Datetime.now(),
+            'delay': 1,
         })
         self.assertEqual(guard.state, 'draft')
         with self.assertRaises(ValidationError):
