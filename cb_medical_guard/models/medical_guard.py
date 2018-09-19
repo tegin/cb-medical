@@ -12,7 +12,7 @@ class MedicalGuard(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
-    end_date = fields.Datetime(
+    delay = fields.Integer(
         required=True,
         track_visibility='onchange',
         readonly=True,
@@ -34,6 +34,7 @@ class MedicalGuard(models.Model):
         domain=[('is_center', '=', True), ('guard_journal_id', '!=', False)],
         track_visibility='onchange',
         readonly=True,
+        required=True,
         states={'draft': [('readonly', False)]},
     )
     product_id = fields.Many2one(
@@ -87,7 +88,7 @@ class MedicalGuard(models.Model):
         invoice_line = self.env['account.invoice.line'].new({
             'invoice_id': invoice.id,
             'product_id': self.product_id.id,
-            'quantity': 1,
+            'quantity': self.delay,
             'guard_id': self.id,
         })
         # Get other invoice line values from product onchange
