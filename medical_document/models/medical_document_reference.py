@@ -25,10 +25,13 @@ class MedicalDocumentReference(models.Model):
     document_type_id = fields.Many2one(
         'medical.document.type',
         required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
         ondelete='restrict',
     )
     document_type = fields.Selection(
-        related='document_type_id.document_type'
+        related='document_type_id.document_type',
+        readonly=True,
     )
     document_template_id = fields.Many2one(
         'medical.document.template',
