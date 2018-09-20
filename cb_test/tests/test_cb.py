@@ -593,6 +593,7 @@ class TestMedicalCareplanSale(TransactionCase):
         medication_requests = self.env['medical.medication.request'].search([
             ('careplan_id', '=', careplan.id)
         ])
+        self.assertEqual(careplan.state, 'draft')
         self.assertTrue(medication_requests.filtered(lambda r: r.is_billable))
         self.assertTrue(medication_requests.filtered(
             lambda r: r.is_sellable_insurance or r.is_sellable_private))
@@ -600,6 +601,7 @@ class TestMedicalCareplanSale(TransactionCase):
             self.assertEqual(request.center_id, encounter.center_id)
             request.qty = 2
             request.draft2active()
+            self.assertEqual(careplan.state, 'active')
             values = request.action_view_medication_administration()['context']
             admin = self.env[
                 'medical.medication.administration'].with_context(
@@ -611,6 +613,7 @@ class TestMedicalCareplanSale(TransactionCase):
                 ('medication_administration_id', '=', admin.id)
             ]).move_lines.move_line_ids
             self.assertEqual(stock_move.qty_done, 2.0)
+            request.active2completed()
         self.env['wizard.medical.encounter.close'].create({
             'encounter_id': encounter.id,
             'pos_session_id': self.session.id,
@@ -668,13 +671,21 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertGreater(len(procedure_requests), 0)
         for request in procedure_requests:
             self.assertEqual(request.center_id, encounter.center_id)
+            self.assertEqual(request.state, 'draft')
             procedure = request.generate_event()
+            self.assertEqual(request.state, 'active')
             procedure.performer_id = self.practitioner_01
             procedure.commission_agent_id = self.practitioner_01
             procedure.performer_id = self.practitioner_02
             procedure._onchange_performer_id()
             self.assertEqual(
                 procedure.commission_agent_id, self.practitioner_02)
+            procedure.preparation2in_progress()
+            procedure.in_progress2completed()
+            self.assertEqual(request.state, 'completed')
+        for group in careplan.request_group_ids:
+            self.assertEqual(group.state, 'completed')
+        self.assertEqual(careplan.state, 'completed')
         encounter.recompute_commissions()
         self.assertTrue(encounter.sale_order_ids)
         for sale_order in encounter.sale_order_ids.filtered(

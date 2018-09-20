@@ -15,6 +15,7 @@
         'cb_medical_sale_invoice_group_method',
         'cb_medical_medication',
         'cb_medical_cancel',
+        'cb_medical_state_update',
     ],
     'data': [
     ],
