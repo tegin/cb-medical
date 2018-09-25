@@ -23,7 +23,7 @@ class TestMedicalDocumentType(TransactionCase):
             'document_type_id': self.document_type.id,
             'lang_id': lang.id,
         })
-        self.assertTrue(add_language.lang_id.filtered(
+        self.assertTrue(add_language.lang_ids.filtered(
             lambda r: r.code == lang.code))
         add_language.run()
         self.assertTrue(self.document_type.lang_ids)
