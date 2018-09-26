@@ -467,6 +467,22 @@ class TestMedicalCareplanSale(TransactionCase):
                 'cb_medical_commission.commission_01').id,
         })
 
+    def test_01_trigger(self):
+        self.plan_definition.is_billable = True
+        self.plan_definition.is_breakdown = False
+        self.action2.write({
+            'trigger_action_ids': [(4, self.action.id)]
+        })
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line
+        )
+        self.assertTrue(group.procedure_request_ids.filtered(
+            lambda r: r.trigger_ids
+        ))
+        self.assertTrue(group.medication_request_ids.filtered(
+            lambda r: r.triggerer_ids
+        ))
+
     def test_cancel_encounter(self):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
