@@ -15,6 +15,7 @@
         'medical_document',
         'medical_medication_request',
         'cb_medical_careplan_sale',
+        'cb_medical_workflow_trigger',
     ],
     'data': [
     ],
