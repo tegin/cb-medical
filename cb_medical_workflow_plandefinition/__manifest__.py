@@ -11,6 +11,7 @@
         'medical_clinical_procedure',
         'medical_administration_encounter_careplan',
         'medical_document',
+        'medical_clinical_laboratory',
         'cb_medical_administration_center',
     ],
     'data': [
