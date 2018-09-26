@@ -10,6 +10,8 @@
         'cb_medical_workflow_plandefinition',
     ],
     'data': [
+        'security/medical_security.xml',
+        'security/ir.model.access.csv',
         'views/workflow_plan_definition_action.xml',
     ],
     'website': 'https://github.com/OCA/vertical-medical',
