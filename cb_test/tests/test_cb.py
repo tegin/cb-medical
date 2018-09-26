@@ -204,6 +204,13 @@ class TestMedicalCareplanSale(TransactionCase):
             'is_breakdown': False,
             'third_party_bill': True,
         })
+        self.plan_definition3 = self.env['workflow.plan.definition'].create({
+            'name': 'Plan2',
+            'type_id': self.type.id,
+            'is_billable': True,
+            'is_breakdown': False,
+            'third_party_bill': False,
+        })
         self.activity = self.env['workflow.activity.definition'].create({
             'name': 'Activity',
             'service_id': self.product_02.id,
@@ -233,10 +240,17 @@ class TestMedicalCareplanSale(TransactionCase):
             'type_id': self.type.id,
         })
         self.activity5 = self.env['workflow.activity.definition'].create({
-            'name': 'Activity 2',
+            'name': 'Activity 5',
             'service_id': self.product_02.id,
             'model_id': self.browse_ref('medical_clinical_procedure.'
                                         'model_medical_procedure_request').id,
+            'type_id': self.type.id,
+        })
+        self.lab_activity = self.env['workflow.activity.definition'].create({
+            'name': 'Laboratory activity',
+            'service_id': self.product_02.id,
+            'model_id': self.browse_ref('medical_clinical_laboratory.'
+                                        'model_medical_laboratory_request').id,
             'type_id': self.type.id,
         })
         self.env['workflow.plan.definition.action'].create({
