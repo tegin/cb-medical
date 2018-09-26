@@ -13,6 +13,7 @@
         'medical_clinical_procedure',
         'medical_medication_request',
         'medical_document',
+        'medical_clinical_laboratory',
         'sequence_parser',
         'cb_medical_administration_center',
     ],
