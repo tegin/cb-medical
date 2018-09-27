@@ -502,7 +502,10 @@ class TestMedicalCareplanSale(TransactionCase):
             self.env['medical.laboratory.request'].search(action['domain']))
         for lab_req in group.laboratory_request_ids:
             self.assertEqual(lab_req.laboratory_event_count, 0)
-            event = lab_req.generate_event()
+            event = lab_req.generate_event({
+                'private_amount': 0,
+                'coverage_amount': 10,
+            })
             self.assertEqual(lab_req.laboratory_event_count, 1)
             self.assertEqual(
                 event.id, lab_req.action_view_laboratory_events()['res_id'])
