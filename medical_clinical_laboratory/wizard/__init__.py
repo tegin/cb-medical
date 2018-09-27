@@ -1,1 +1,0 @@
-from . import medical_document_type_add_language
