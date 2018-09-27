@@ -20,6 +20,7 @@
         'views/account_invoice_view.xml',
         'views/res_partner_views.xml',
         'views/product_template_view.xml',
+        'views/medical_laboratory_event_view.xml',
         'views/medical_procedure_request_view.xml',
         'views/medical_procedure_view.xml',
         'views/workflow_plan_definition_action.xml',
