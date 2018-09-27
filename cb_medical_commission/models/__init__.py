@@ -4,6 +4,7 @@
 
 from . import account_invoice
 from . import medical_encounter
+from . import medical_laboratory_event
 from . import medical_procedure
 from . import medical_procedure_request
 from . import product_template
