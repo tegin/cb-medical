@@ -32,6 +32,12 @@ class SaleOrderLine(models.AbstractModel):
         'medical.document.reference',
         readonly=True,
     )
+    laboratory_request_id = fields.Many2one(
+        'medical.laboratory.request', readonly=True,
+    )
+    laboratory_event_id = fields.Many2one(
+        'medical.laboratory.event', readonly=True,
+    )
     authorization_status = fields.Selection([
         ('pending', 'Pending authorization'),
         ('not-authorized', 'Not authorized'),
