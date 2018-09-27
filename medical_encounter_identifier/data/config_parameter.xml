@@ -7,7 +7,7 @@
             <field name="value">CP%02d</field>
         </record>
         <record id="medical_document_refernece_identifier_format"
-                model="ir.config_parameter"forcecreate="True">
+                model="ir.config_parameter" forcecreate="True">
             <field name="key">medical.document.reference.identifier</field>
             <field name="value">DR%02d</field>
         </record>
