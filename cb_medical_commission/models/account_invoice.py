@@ -24,6 +24,10 @@ class AccountInvoiceLineAgent(models.Model):
         'medical.procedure',
         readonly=True,
     )
+    laboratory_event_id = fields.Many2one(
+        'medical.laboratory.event',
+        string='Laboratory Event',
+    )
 
     _sql_constraints = [
         ('unique_agent',

@@ -15,6 +15,12 @@ class SaleOrderLine(models.Model):
         column1='sale_order_line_id',
         column2='procedure_id',
     )
+    laboratory_event_ids = fields.Many2many(
+        'medical.laboratory.event',
+        relation='sale_order_line_commission_medical_laboratory_event',
+        column1='sale_order_line_id',
+        column2='laboratory_event_id',
+    )
 
     @api.multi
     def _prepare_invoice_line(self, qty):
@@ -34,6 +40,10 @@ class SaleOrderLineAgent(models.Model):
     procedure_id = fields.Many2one(
         'medical.procedure',
         string='Procedure',
+    )
+    laboratory_event_id = fields.Many2one(
+        'medical.laboratory.event',
+        string='Laboratory Event',
     )
     parent_agent_line_id = fields.Many2one(
         'sale.order.line.agent',
