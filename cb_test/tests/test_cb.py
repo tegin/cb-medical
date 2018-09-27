@@ -481,7 +481,33 @@ class TestMedicalCareplanSale(TransactionCase):
                 'cb_medical_commission.commission_01').id,
         })
 
-    def test_01_trigger(self):
+    def test_laboratory(self):
+        self.plan_definition.is_billable = True
+        self.plan_definition.is_breakdown = False
+        self.action4 = self.env['workflow.plan.definition.action'].create({
+            'activity_definition_id': self.lab_activity.id,
+            'direct_plan_definition_id': self.plan_definition.id,
+            'is_billable': False,
+            'name': 'Action4',
+        })
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line
+        )
+        self.assertTrue(group.laboratory_request_ids)
+        action = group.with_context(
+            model_name='medical.laboratory.request'
+        ).action_view_request()
+        self.assertEqual(
+            group.laboratory_request_ids,
+            self.env['medical.laboratory.request'].search(action['domain']))
+        for lab_req in group.laboratory_request_ids:
+            self.assertEqual(lab_req.laboratory_event_count, 0)
+            event = lab_req.generate_event()
+            self.assertEqual(lab_req.laboratory_event_count, 1)
+            self.assertEqual(
+                event.id, lab_req.action_view_laboratory_events()['res_id'])
+
+    def test_trigger(self):
         self.plan_definition.is_billable = True
         self.plan_definition.is_breakdown = False
         self.action2.write({
