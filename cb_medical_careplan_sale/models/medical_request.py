@@ -76,7 +76,7 @@ class MedicalRequest(models.AbstractModel):
         return cai.coverage_price if is_insurance else cai.private_price
 
     def get_sale_order_line_vals(self, is_insurance):
-        vals = {
+        return {
             'product_id': self.service_id.id,
             'name': self.name,
             self._get_parent_field_name(): self.id,
@@ -84,10 +84,8 @@ class MedicalRequest(models.AbstractModel):
             'product_uom': self.service_id.uom_id.id,
             'price_unit': self.compute_price(is_insurance),
             'authorization_status': self.authorization_status,
+            'encounter_id': self.encounter_id.id or False,
         }
-        if self.encounter_id:
-            vals['encounter_id'] = self.encounter_id.id
-        return vals
 
     def check_is_billable(self):
         if self.is_billable:
@@ -124,3 +122,39 @@ class MedicalRequest(models.AbstractModel):
             for request in requests:
                 if not request.check_is_billable():
                     request.is_billable = True
+
+    @api.multi
+    def get_sale_order_query(self):
+        query = []
+        fieldname = self._get_parent_field_name()
+        request_models = self._get_request_models()
+        for request in self:
+            if request.is_sellable_insurance:
+                query.append((
+                    request.coverage_agreement_id.id,
+                    request.careplan_id.get_payor(),
+                    request.coverage_id.id,
+                    True,
+                    request.get_third_party_partner()
+                    if request.third_party_bill else 0,
+                    request
+                ))
+            if request.is_sellable_private:
+                query.append((
+                    0,
+                    request.encounter_id.get_patient_partner(),
+                    False,
+                    False,
+                    request.get_third_party_partner()
+                    if request.third_party_bill else 0,
+                    request
+                ))
+            for model in request_models:
+                childs = self.env[model].search([
+                    (fieldname, '=', request.id),
+                    ('parent_id', '=', request.id),
+                    ('parent_model', '=', request._name),
+                    ('state', '!=', 'cancelled')
+                    ])
+                query += childs.get_sale_order_query()
+        return query
