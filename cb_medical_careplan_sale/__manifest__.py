@@ -26,6 +26,7 @@
         'views/medical_request_group_view.xml',
         'views/medical_encounter_views.xml',
         'views/medical_request_views.xml',
+        'views/medical_laboratory_event_view.xml',
         'views/res_partner_views.xml',
         'views/res_config_settings_views.xml',
     ],
