@@ -500,6 +500,11 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertEqual(
             group.laboratory_request_ids,
             self.env['medical.laboratory.request'].search(action['domain']))
+        with self.assertRaises(ValidationError):
+            self.env['wizard.medical.encounter.close'].create({
+                'encounter_id': encounter.id,
+                'pos_session_id': self.session.id,
+            }).run()
         for lab_req in group.laboratory_request_ids:
             self.assertEqual(lab_req.laboratory_event_count, 0)
             event = lab_req.generate_event({
@@ -510,6 +515,11 @@ class TestMedicalCareplanSale(TransactionCase):
             self.assertEqual(lab_req.laboratory_event_count, 1)
             self.assertEqual(
                 event.id, lab_req.action_view_laboratory_events()['res_id'])
+        self.env['wizard.medical.encounter.close'].create({
+            'encounter_id': encounter.id,
+            'pos_session_id': self.session.id,
+        }).run()
+        self.assertIn(encounter.state, ['finished', 'onleave'])
 
     def test_trigger(self):
         self.plan_definition.is_billable = True
