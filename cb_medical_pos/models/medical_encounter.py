@@ -29,6 +29,10 @@ class MedicalEncounter(models.Model):
         currency_field='currency_id',
         compute='_compute_pending_private_amount'
     )
+    laboratory_request_ids = fields.One2many(
+        'medical.laboratory.request',
+        inverse_name='encounter_id',
+    )
 
     @api.depends(
         'sale_order_ids.coverage_agreement_id',
@@ -83,6 +87,11 @@ class MedicalEncounter(models.Model):
 
     @api.multi
     def inprogress2onleave(self):
+        if self.laboratory_request_ids.filtered(
+            lambda r: not r.laboratory_event_ids
+        ):
+            raise ValidationError(_(
+                'Laboratory requests are not fulfilled.'))
         self.create_sale_order()
         res = super().inprogress2onleave()
         if not self.sale_order_ids.filtered(
