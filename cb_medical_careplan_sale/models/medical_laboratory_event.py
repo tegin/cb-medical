@@ -8,6 +8,11 @@ from odoo import api, fields, models
 class LaboratoryEvent(models.Model):
     _inherit = 'medical.laboratory.event'
 
+    sale_order_line_ids = fields.One2many(
+        string='Sale order lines',
+        comodel_name='sale.order.line',
+        inverse_name='laboratory_event_id'
+    )
     coverage_amount = fields.Float(required=True, default=0)
     private_amount = fields.Float(required=True, default=0)
     is_sellable_insurance = fields.Boolean(required=True, default=False)
