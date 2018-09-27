@@ -505,6 +505,7 @@ class TestMedicalCareplanSale(TransactionCase):
             event = lab_req.generate_event({
                 'private_amount': 0,
                 'coverage_amount': 10,
+                'cost': 9,
             })
             self.assertEqual(lab_req.laboratory_event_count, 1)
             self.assertEqual(
