@@ -13,7 +13,7 @@ class TestClinicalLaboratory(TransactionCase):
             'patient_id': self.patient.id,
         })
         self.assertEqual(request.laboratory_event_count, 0)
-        event = request.generate()
+        event = request.generate_event()
         self.assertEqual(request.laboratory_event_count, 1)
         self.assertEqual(
             event.id,
