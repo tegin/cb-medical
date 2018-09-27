@@ -189,6 +189,7 @@ class TestMedicalCareplanSale(TransactionCase):
         })
         self.product_03.qty_available = 50.0
         self.product_04 = self.create_product('Medical visit')
+        self.lab_product = self.create_product('Laboratory Product')
         self.type = self.browse_ref('medical_workflow.medical_workflow')
         self.type.model_ids = [(4, self.browse_ref(
             'medical_medication_request.model_medical_medication_request').id)]
@@ -315,6 +316,18 @@ class TestMedicalCareplanSale(TransactionCase):
             'coverage_agreement_id': self.agreement.id,
             'plan_definition_id': self.plan_definition2.id,
             'total_price': 100.0,
+            'coverage_percentage': 0.0,
+            'authorization_method_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.without').id,
+            'authorization_format_id': self.browse_ref(
+                'cb_medical_financial_coverage_request.format_anything').id,
+        })
+        self.lab_agreement_line = self.env[
+            'medical.coverage.agreement.item'
+        ].create({
+            'product_id': self.lab_product.id,
+            'coverage_agreement_id': self.agreement.id,
+            'total_price': 0.0,
             'coverage_percentage': 0.0,
             'authorization_method_id': self.browse_ref(
                 'cb_medical_financial_coverage_request.without').id,
@@ -508,7 +521,9 @@ class TestMedicalCareplanSale(TransactionCase):
         for lab_req in group.laboratory_request_ids:
             self.assertEqual(lab_req.laboratory_event_count, 0)
             event = lab_req.generate_event({
-                'private_amount': 0,
+                'is_sellable_insurance': True,
+                'is_sellable_private': True,
+                'private_amount': 2,
                 'coverage_amount': 10,
                 'cost': 9,
             })
@@ -520,6 +535,11 @@ class TestMedicalCareplanSale(TransactionCase):
             'pos_session_id': self.session.id,
         }).run()
         self.assertIn(encounter.state, ['finished', 'onleave'])
+        self.assertTrue(
+            encounter.sale_order_ids.mapped('order_line').filtered(
+                lambda r: r.laboratory_event_id
+            )
+        )
 
     def test_trigger(self):
         self.plan_definition.is_billable = True
