@@ -46,6 +46,25 @@ class MedicalLaboratoryRequest(models.Model):
                 'medical_laboratory_request_action',
             'view_form': 'medical.procedure.request.view.form', }
 
+    def _get_event_values(self, vals=False):
+        result = {
+            'performer_id': self.performer_id.id or False,
+            'service_id': self.service_id.id or False,
+        }
+        result.update(vals or {})
+        result.update({
+            'laboratory_request_id': self.id,
+            'patient_id': self.patient_id.id,
+            'encounter_id': self.encounter_id.id or False,
+        })
+        return result
+
+    @api.multi
+    def generate_event(self, vals=False):
+        self.ensure_one()
+        return self.env['medical.laboratory.event'].create(
+            self._get_event_values(vals))
+
     @api.multi
     def action_view_laboratory_events(self):
         self.ensure_one()
@@ -61,8 +80,8 @@ class MedicalLaboratoryRequest(models.Model):
         }
         result['domain'] = "[('laboratory_request_id', '=', " + \
                            str(self.id) + ")]"
-        if len(self.procedure_ids) == 1:
+        if len(self.laboratory_event_ids) == 1:
             res = self.env.ref('medical.laboratory.event.view.form', False)
             result['views'] = [(res and res.id or False, 'form')]
-            result['res_id'] = self.procedure_ids.id
+            result['res_id'] = self.laboratory_event_ids.id
         return result
