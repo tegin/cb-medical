@@ -12,3 +12,8 @@ class LaboratoryRequest(models.Model):
         if is_insurance:
             return sum(e.coverage_amount for e in self.laboratory_event_ids)
         return sum(e.private_amount for e in self.laboratory_event_ids)
+
+    def get_sale_order_query(self):
+        query = super().get_sale_order_query()
+        query += self.mapped('laboratory_event_ids').get_sale_order_query()
+        return query

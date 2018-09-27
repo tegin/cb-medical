@@ -79,38 +79,19 @@ class MedicalEncounter(models.Model):
 
     def get_sale_order_lines(self):
         values = dict()
-        for model in self.env['medical.request']._get_request_models():
-            for request in self.env[model].search([
-                ('encounter_id', '=', self.id),
-                ('state', '!=', 'cancelled'),
-            ]):
-                query = []
-                if request.is_sellable_insurance:
-                    query.append((
-                        request.coverage_agreement_id.id,
-                        request.careplan_id.get_payor(),
-                        request.coverage_id.id,
-                        True,
-                        request.get_third_party_partner()
-                        if request.third_party_bill else 0
-                    ))
-                if request.is_sellable_private:
-                    query.append((
-                        0, self.get_patient_partner(), False, False,
-                        request.get_third_party_partner()
-                        if request.third_party_bill else 0
-                    ))
-                for key, partner, cov, is_insurance, third_party in query:
-                    if not values.get(key, False):
-                        values[key] = {}
-                    if not values[key].get(partner, False):
-                        values[key][partner] = {}
-                    if not values[key][partner].get(cov, False):
-                        values[key][partner][cov] = {}
-                    if not values[key][partner][cov].get(third_party, False):
-                        values[key][partner][cov][third_party] = []
-                    values[key][partner][cov][third_party].append(
-                        request.get_sale_order_line_vals(is_insurance))
+        for careplan in self.careplan_ids:
+            query = careplan.get_sale_order_query()
+            for key, partner, cov, is_insurance, third_party, request in query:
+                if not values.get(key, False):
+                    values[key] = {}
+                if not values[key].get(partner, False):
+                    values[key][partner] = {}
+                if not values[key][partner].get(cov, False):
+                    values[key][partner][cov] = {}
+                if not values[key][partner][cov].get(third_party, False):
+                    values[key][partner][cov][third_party] = []
+                values[key][partner][cov][third_party].append(
+                    request.get_sale_order_line_vals(is_insurance))
         return values
 
     @api.multi
