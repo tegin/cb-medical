@@ -11,6 +11,7 @@
         'medical_clinical_careplan',
         'medical_clinical_procedure',
         'medical_medication_request',
+        'medical_clinical_laboratory',
         'medical_administration_encounter_careplan',
         'sale_third_party',
         'mcfix_sale',

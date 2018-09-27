@@ -4,6 +4,8 @@
 
 from . import medical_careplan
 from . import medical_encounter
+from . import medical_laboratory_event
+from . import medical_laboratory_request
 from . import medical_patient
 from . import medical_request
 from . import medical_request_group
