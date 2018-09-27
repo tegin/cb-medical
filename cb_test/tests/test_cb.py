@@ -523,9 +523,11 @@ class TestMedicalCareplanSale(TransactionCase):
             event = lab_req.generate_event({
                 'is_sellable_insurance': True,
                 'is_sellable_private': True,
-                'private_amount': 2,
+                'private_amount': 20,
+                'commission_agent_id': self.practitioner_01.id,
                 'coverage_amount': 10,
-                'cost': 9,
+                'private_cost': 18,
+                'coverage_cost': 9,
             })
             self.assertEqual(lab_req.laboratory_event_count, 1)
             self.assertEqual(
@@ -540,6 +542,11 @@ class TestMedicalCareplanSale(TransactionCase):
                 lambda r: r.laboratory_event_id
             )
         )
+        self.assertGreater(
+            sum(a.amount for a in encounter.sale_order_ids.mapped(
+                'order_line').filtered(
+                    lambda r: r.laboratory_event_id
+                ).mapped('agents')), 0)
 
     def test_trigger(self):
         self.plan_definition.is_billable = True
