@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 LasLabs Inc.
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//h1" position="before">
+                <h1>
+                    <field name="is_healthcare_service" invisible="1"/>
+                    <field name="edit_healthcare_service" invisible="1"/>
+                    <field name="healthcare_service_identifier"
+                           attrs="{'invisible': [('is_healthcare_service','=',False)]}"
+                           groups="medical_administration_healthcare_service.group_medical_healthcare_service_display"
+                    />
+                </h1>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="medical_healthcare_service_action">
+        <field name="name">Healthcare Services</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('is_healthcare_service', '=', True)]</field>
+        <field name="context">{'default_company_type':'company', 'default_is_company':True, 'default_is_healthcare_service': True, 'default_is_medical': True}</field>
+    </record>
+
+</odoo>
