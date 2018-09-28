@@ -17,3 +17,9 @@ class LaboratoryRequest(models.Model):
         query = super().get_sale_order_query()
         query += self.mapped('laboratory_event_ids').get_sale_order_query()
         return query
+
+    def _get_event_values(self, vals=False):
+        res = super()._get_event_values(vals)
+        if not res.get('authorization_status', False):
+            res['authorization_status'] = self.authorization_status
+        return res
