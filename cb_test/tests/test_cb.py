@@ -529,9 +529,19 @@ class TestMedicalCareplanSale(TransactionCase):
                 'private_cost': 18,
                 'coverage_cost': 9,
             })
-            self.assertEqual(lab_req.laboratory_event_count, 1)
             self.assertEqual(
                 event.id, lab_req.action_view_laboratory_events()['res_id'])
+            self.assertEqual(lab_req.laboratory_event_count, 1)
+            lab_req.generate_event({
+                'is_sellable_insurance': False,
+                'is_sellable_private': False,
+                'private_amount': 20,
+                'commission_agent_id': self.practitioner_01.id,
+                'coverage_amount': 10,
+                'private_cost': 18,
+                'coverage_cost': 9,
+            })
+            self.assertEqual(lab_req.laboratory_event_count, 2)
         self.env['wizard.medical.encounter.close'].create({
             'encounter_id': encounter.id,
             'pos_session_id': self.session.id,
