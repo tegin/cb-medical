@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 LasLabs Inc.
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id"
+               ref="cb_medical_administration_practitioner_specialty.res_partner_view_form"/>
+        <field name="arch" type="xml">
+            <field name="practitioner_role_id" position="attributes">
+                <attribute name="attrs">{'required': [('is_practitioner','=',True), ('is_healthcare_service', '=', False)], 'invisible': ['|', ('is_practitioner','=',False), ('is_healthcare_service', '=', True)],'readonly':[('edit_practitioner', '=', False)]}</attribute>
+            </field>
+
+            <field name="specialty_id" options="{'no_create': True}" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('is_practitioner','=',False), ('is_healthcare_service', '=', True)],'readonly':[('edit_practitioner', '=', False)], 'required': [('specialty_required', '=', True)]}</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window"
+            id="medical_administration_healthcare_service.medical_healthcare_service_action">
+        <field name="context">
+            {'default_company_type':'company', 'default_is_company':True,
+            'default_is_healthcare_service': True, 'default_is_practitioner':
+            True, 'default_is_medical': True}
+        </field>
+    </record>
+
+</odoo>
