@@ -29,3 +29,6 @@ class TestMedicalAdministrationFlag(TransactionCase):
         flag.close()
         self.assertFalse(flag.active)
         self.assertTrue(flag.closure_date)
+        self.assertEqual(
+            flag.display_name,
+            '[%s] %s' % (flag.internal_identifier, category.name))
