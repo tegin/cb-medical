@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="medical_flag_view_tree" model="ir.ui.view">
+        <field name="name">medical.flag.view.tree</field>
+        <field name="model">medical.flag</field>
+        <field name="inherit_id" ref="medical_administration_flag.medical_flag_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="internal_identifier" position="before">
+                <field name="flag" widget="icon"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="medical_flag_view_form" model="ir.ui.view">
+        <field name="name">medical.flag.view.form</field>
+        <field name="model">medical.flag</field>
+        <field name="inherit_id" ref="medical_administration_flag.medical_flag_view_form"/>
+        <field name="arch" type="xml">
+            <field name="internal_identifier" position="before">
+                <field name="flag" widget="icon"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
