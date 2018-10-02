@@ -6,3 +6,4 @@ class MedicalFlag(models.Model):
     _inherit = 'medical.flag'
 
     flag = fields.Char(related='category_id.flag', readonly=True)
+    level = fields.Selection(related='category_id.level', readonly=True)
