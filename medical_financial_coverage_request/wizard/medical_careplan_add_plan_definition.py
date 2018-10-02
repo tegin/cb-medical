@@ -85,7 +85,6 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         values = super(MedicalCareplanAddPlanDefinition, self)._get_values()
         values['coverage_id'] = self.careplan_id.coverage_id.id
         values['coverage_agreement_item_id'] = self.agreement_line_id.id
-        values['sub_payor_id'] = self.careplan_id.sub_payor_id.id or False
         values['authorization_method_id'] = self.authorization_method_id.id
         values['authorization_number'] = self.authorization_number
         values[
