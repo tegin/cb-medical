@@ -407,6 +407,12 @@ class TestMedicalCareplanSale(TransactionCase):
             'journal_ids': [(6, 0, self.journal_1.ids)],
         })
         self.pos_config = self.env['pos.config'].create(pos_vals)
+        self.pos_config.write({'session_sequence_prefix': 'POS'})
+        self.assertTrue(self.pos_config.session_sequence_id)
+        self.assertEqual(self.pos_config.session_sequence_id.prefix, 'POS')
+        self.pos_config.write({'session_sequence_prefix': 'PS'})
+        self.assertTrue(self.pos_config.session_sequence_id)
+        self.assertEqual(self.pos_config.session_sequence_id.prefix, 'PS')
         self.pos_config.open_session_cb()
         self.session = self.pos_config.current_session_id
         self.session.action_pos_session_open()
@@ -1140,6 +1146,13 @@ class TestMedicalCareplanSale(TransactionCase):
         }).run()
         self.assertTrue(encounter.sale_order_ids)
         self.session.action_pos_session_close()
+        self.pos_config.write({'session_sequence_prefix': 'POS'})
+        self.assertTrue(self.pos_config.session_sequence_id)
+        self.assertEqual(self.pos_config.session_sequence_id.prefix, 'POS')
+        self.pos_config.write({'session_sequence_prefix': 'PS'})
+        self.assertTrue(self.pos_config.session_sequence_id)
+        self.assertEqual(self.pos_config.session_sequence_id.prefix, 'PS')
+        self.pos_config.open_session_cb()
         self.assertTrue(self.session.request_group_ids)
         self.assertFalse(encounter.is_preinvoiced)
         line = encounter.sale_order_ids.order_line
