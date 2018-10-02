@@ -15,7 +15,14 @@
         <field name="arch" type="xml">
             <field name="internal_identifier" position="before">
                 <field name="flag" widget="icon"/>
+                <field name="level" invisible="1"/>
             </field>
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-success">level=='1'</attribute>
+                <attribute name="decoration-muted">level=='2'</attribute>
+                <attribute name="decoration-warning">level=='3'</attribute>
+                <attribute name="decoration-danger">level=='4'</attribute>
+            </xpath>
         </field>
     </record>
 
