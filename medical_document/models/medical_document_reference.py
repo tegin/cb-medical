@@ -128,7 +128,6 @@ class MedicalDocumentReference(models.Model):
     def draft2current_values(self):
         template_id = self.document_type_id.current_template_id.id
         return {
-            'state': 'current',
             'document_template_id': template_id,
             'text': self.with_context(
                 template_id=template_id,
@@ -140,9 +139,10 @@ class MedicalDocumentReference(models.Model):
         self.ensure_one()
         if self.state != 'draft':
             raise ValidationError(_('State must be draft'))
+        self.write(self.draft2current_values())
         res = action()
         if res:
-            self.write(self.draft2current_values())
+            self.write({'state': 'current'})
         return action()
 
     def render_text(self):
