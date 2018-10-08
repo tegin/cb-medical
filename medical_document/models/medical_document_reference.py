@@ -140,7 +140,9 @@ class MedicalDocumentReference(models.Model):
         self.ensure_one()
         if self.state != 'draft':
             raise ValidationError(_('State must be draft'))
-        self.write(self.draft2current_values())
+        res = action()
+        if res:
+            self.write(self.draft2current_values())
         return action()
 
     def render_text(self):
