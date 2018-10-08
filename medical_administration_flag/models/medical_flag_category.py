@@ -8,3 +8,4 @@ class MedicalFlag(models.Model):
 
     name = fields.Char(required=True)
     description = fields.Text()
+    active = fields.Boolean(required=True, default=True)
