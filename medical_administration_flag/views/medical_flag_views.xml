@@ -42,8 +42,9 @@
                             <field name="category_id" options="{'no_create': True}"/>
                             <field name="patient_id"/>
                         </group>
-                        <group>
+                        <group attrs="{'invisible': [('active', '=', True)]}">
                             <field name="closure_date"/>
+                            <field name="closure_uid"/>
                         </group>
                     </group>
                     <field name="description"/>
