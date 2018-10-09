@@ -87,8 +87,8 @@ class MedicalEncounterAddCareplan(models.TransientModel):
     def onchange_coverage_template(self):
         if self.coverage_template_id:
             if (
-                        self.coverage_template_id !=
-                        self.coverage_id.coverage_template_id
+                self.coverage_template_id !=
+                self.coverage_id.coverage_template_id
             ):
                 self.coverage_id = False
                 self.subscriber_id = False
