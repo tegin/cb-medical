@@ -94,7 +94,9 @@ class MedicalDocumentReference(models.Model):
         return action()
 
     def _render(self):
-        return self.document_type_id.report_action_id.render(self.id)
+        return self.with_context(
+            lang=self.lang
+        ).document_type_id.report_action_id.render(self.id)
 
     def render_report(self):
         return base64.b64encode(self._render()[0])
@@ -109,9 +111,12 @@ class MedicalDocumentReference(models.Model):
 
     def print_action(self):
         content, mime = self._render()
-        printer = self.remote.with_context(
+        behaviour = self.remote.with_context(
             printer_usage=self._get_printer_usage()
-        ).get_printer_behaviour().pop('printer')
+        ).get_printer_behaviour()
+        if 'printer' not in behaviour:
+            return False
+        printer = behaviour.pop('printer')
         return printer.print_document(
             report=self.document_type_id.report_action_id,
             content=content, doc_format=mime
@@ -128,12 +133,24 @@ class MedicalDocumentReference(models.Model):
     def draft2current_values(self):
         template_id = self.document_type_id.current_template_id.id
         return {
+            'lang': self._get_language(),
             'document_template_id': template_id,
             'text': self.with_context(
                 template_id=template_id,
                 render_language=self._get_language()
             ).render_text()
         }
+
+    @api.multi
+    def change_lang(self, lang):
+        text = self.with_context(
+            template_id=self.document_template_id.id,
+            render_language=lang
+        ).render_text()
+        return self.write({
+            'lang': lang,
+            'text': text,
+        })
 
     def _draft2current(self, action):
         self.ensure_one()
