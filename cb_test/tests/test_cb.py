@@ -61,6 +61,12 @@ class TestMedicalCareplanSale(TransactionCase):
             'payor_id': self.payor.id,
             'name': 'Coverage',
         })
+        self.coverage_template_2 = self.env[
+            'medical.coverage.template'
+        ].create({
+            'payor_id': self.payor.id,
+            'name': 'Coverage 2',
+        })
         self.company = self.browse_ref('base.main_company')
         self.company.patient_journal_id = self.env['account.journal'].create({
             'name': 'Sale Journal',
@@ -177,6 +183,10 @@ class TestMedicalCareplanSale(TransactionCase):
         self.coverage_01 = self.env['medical.coverage'].create({
             'patient_id': self.patient_01.id,
             'coverage_template_id': self.coverage_template.id,
+        })
+        self.coverage_02 = self.env['medical.coverage'].create({
+            'patient_id': self.patient_01.id,
+            'coverage_template_id': self.coverage_template_2.id,
         })
         self.product_01 = self.create_product('Medical resonance')
         self.product_02 = self.create_product('Report')
@@ -1521,6 +1531,54 @@ class TestMedicalCareplanSale(TransactionCase):
         med_adm = careplan.add_medication(self.location, self.product, 1)
         self.assertEqual(med_adm._name, 'medical.medication.administration')
         self.assertTrue(med_adm)
+
+    def test_careplan_add_wizard(self):
+        encounter = self.env['medical.encounter'].create({
+            'patient_id': self.patient_01.id,
+            'center_id': self.center.id,
+        })
+        careplan_wizard = self.env[
+            'medical.encounter.add.careplan'
+        ].with_context(default_encounter_id=encounter.id).new({
+            'coverage_id': self.coverage_01.id
+        })
+        careplan_wizard.onchange_coverage()
+        careplan_wizard.onchange_coverage_template()
+        careplan_wizard.onchange_payor()
+        careplan_wizard = careplan_wizard.create(
+            careplan_wizard._convert_to_write(careplan_wizard._cache))
+        self.assertEqual(encounter, careplan_wizard.encounter_id)
+        self.assertEqual(encounter.center_id, careplan_wizard.center_id)
+        careplan_wizard.run()
+        careplan = encounter.careplan_ids
+        careplan_wizard_2 = self.env[
+            'medical.encounter.add.careplan'
+        ].with_context(default_encounter_id=encounter.id).new({
+            'coverage_id': self.coverage_01.id
+        })
+        careplan_wizard_2.onchange_coverage()
+        careplan_wizard_2.onchange_coverage_template()
+        careplan_wizard_2.onchange_payor()
+        careplan_wizard_2 = careplan_wizard_2.create(
+            careplan_wizard_2._convert_to_write(careplan_wizard_2._cache))
+        self.assertEqual(encounter, careplan_wizard_2.encounter_id)
+        self.assertEqual(encounter.center_id, careplan_wizard_2.center_id)
+        cp_2 = careplan_wizard_2.run()
+        self.assertEqual(cp_2, careplan)
+        careplan_wizard_3 = self.env[
+            'medical.encounter.add.careplan'
+        ].with_context(default_encounter_id=encounter.id).new({
+            'coverage_id': self.coverage_02.id
+        })
+        careplan_wizard_3.onchange_coverage()
+        careplan_wizard_3.onchange_coverage_template()
+        careplan_wizard_3.onchange_payor()
+        careplan_wizard_3 = careplan_wizard_2.create(
+            careplan_wizard_3._convert_to_write(careplan_wizard_3._cache))
+        self.assertEqual(encounter, careplan_wizard_3.encounter_id)
+        self.assertEqual(encounter.center_id, careplan_wizard_3.center_id)
+        cp_3 = careplan_wizard_3.run()
+        self.assertNotEqual(cp_3, careplan)
 
     def test_performer(self):
         self.plan_definition2.write({
