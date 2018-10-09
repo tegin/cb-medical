@@ -133,10 +133,23 @@ class TestMedicalCareplanSale(TransactionCase):
             'report_action_id': self.browse_ref(
                 'medical_document.action_report_document_report_base').id,
         })
+        self.lang_es = self.browse_ref('base.lang_es')
+        if not self.lang_es.active:
+            self.lang_es.toggle_active()
+        self.lang_en = self.browse_ref('base.lang_en')
+        if not self.lang_en.active:
+            self.lang_en.toggle_active()
         self.env['medical.document.type.lang'].create({
-            'lang': 'en_US',
+            'lang': self.lang_es.code,
             'document_type_id': self.document_type.id,
-            'text': '<p>${object.patient_id.name}</p>'
+            'text': '<p>%s</p><p>${object.patient_id.name}'
+                    '</p>' % self.lang_es.code
+        })
+        self.env['medical.document.type.lang'].create({
+            'lang': self.lang_en.code,
+            'document_type_id': self.document_type.id,
+            'text': '<p>%s</p><p>${object.patient_id.name}'
+                    '</p>' % self.lang_en.code
         })
         self.label_zpl2 = self.env['printing.label.zpl2'].create({
             'name': 'Label',
@@ -1034,6 +1047,7 @@ class TestMedicalCareplanSale(TransactionCase):
     def test_document(self, mock):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
+        self.patient_01.lang = self.lang_en.code
         encounter, careplan, group = self.create_careplan_and_group(
             self.agreement_line)
         self.assertEqual(
@@ -1067,12 +1081,35 @@ class TestMedicalCareplanSale(TransactionCase):
             self.assertEqual(document.state, 'current')
             self.assertFalse(document.is_editable)
             self.assertTrue(document.text)
-            self.assertEqual(document.text, '<p>%s</p>' % self.patient_01.name)
+            self.assertEqual(
+                document.text,
+                '<p>%s</p><p>%s</p>' % (
+                    self.patient_01.lang, self.patient_01.name))
             self.patient_01.name = self.patient_01.name + ' Other name'
             document.view()
             self.assertEqual(document.state, 'current')
-            self.assertNotEqual(document.text,
-                                '<p>%s</p>' % self.patient_01.name)
+            self.assertEqual(document.lang, self.patient_01.lang)
+            self.assertNotEqual(
+                document.text,
+                '<p>%s</p><p>%s</p>' % (
+                    self.patient_01.lang, self.patient_01.name))
+            language_change = self.env[
+                'medical.document.reference.change.language'
+            ].new({
+                'document_reference_id': document.id,
+            })
+            self.assertEqual(language_change.lang_ids, self.lang_es)
+            self.env[
+                'medical.document.reference.change.language'
+            ].new({
+                'document_reference_id': document.id,
+                'lang_id': self.lang_es.id
+            }).run()
+            self.assertEqual(document.lang, self.lang_es.code)
+            self.assertEqual(
+                document.text,
+                '<p>%s</p><p>%s</p>' % (
+                    self.lang_es.code, self.patient_01.name))
             document.current2superseded()
             self.assertEqual(document.state, 'superseded')
             self.assertIsInstance(document.render(), bytes)
