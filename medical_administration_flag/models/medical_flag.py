@@ -55,7 +55,7 @@ class MedicalFlag(models.Model):
 
     @api.multi
     def close(self):
-        self.write({
+        return self.write({
             'closure_date': fields.Datetime.now(),
             'closure_uid': self.env.user.id,
         })
