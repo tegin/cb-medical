@@ -14,6 +14,10 @@ class MedicalEncounterAddCareplan(models.TransientModel):
         return ['arrived', 'in-progress', 'on-leave']
 
     @api.model
+    def get_careplan_states(self):
+        return ['draft', 'active']
+
+    @api.model
     def default_center(self):
         if self._context.get('default_encounter_id', False):
             return self.env['medical.encounter'].browse(
@@ -83,8 +87,8 @@ class MedicalEncounterAddCareplan(models.TransientModel):
     def onchange_coverage_template(self):
         if self.coverage_template_id:
             if (
-                self.coverage_template_id !=
-                self.coverage_id.coverage_template_id
+                        self.coverage_template_id !=
+                        self.coverage_id.coverage_template_id
             ):
                 self.coverage_id = False
                 self.subscriber_id = False
@@ -107,4 +111,19 @@ class MedicalEncounterAddCareplan(models.TransientModel):
             raise ValidationError(_(
                 'Encounter is not valid'
             ))
-        return self.env['medical.careplan'].create(self.get_careplan_values())
+        vals = self.get_careplan_values()
+        cp = self.encounter_id.careplan_ids.filtered(
+            lambda r: (
+                r.coverage_id.id == vals.get('coverage_id', False) and
+                ((
+                    r.sub_payor_id
+                    and r.sub_payor_id.id == vals.get('sub_payor_id', False)
+                ) or (
+                    not r.sub_payor_id and not vals.get('sub_payor_id', False)
+                )) and
+                r.state in self.get_careplan_states()
+            )
+        )
+        if cp:
+            return cp[0]
+        return self.env['medical.careplan'].create(vals)
