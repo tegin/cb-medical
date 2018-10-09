@@ -42,6 +42,15 @@
             <xpath expr="//div[@name='button_box']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//div[@name='button_box']" position="after">
+                <div name="language_button_box" class="oe_button_box">
+                    <button name="%(medical_document.medical_document_reference_change_language_action)s"
+                            type="action" class="oe_stat_button"
+                            icon="fa-language" string="Change Language"
+                            attrs="{'invisible': [('state', '!=', 'current')]}"
+                    />
+                </div>
+            </xpath>
             <field name="service_id" position="after">
                 <field name="document_type_id"/>
                 <field name="document_type" invisible="1"/>
