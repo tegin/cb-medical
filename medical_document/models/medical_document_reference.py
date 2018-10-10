@@ -160,7 +160,7 @@ class MedicalDocumentReference(models.Model):
         res = action()
         if res:
             self.write({'state': 'current'})
-        return action()
+        return res
 
     def render_text(self):
         if self.document_type == 'action':
