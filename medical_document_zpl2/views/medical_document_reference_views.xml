@@ -16,7 +16,7 @@
             <header position="inside">
                 <button type="object" name="render" string="Render"/>
             </header>
-            <button name="print" position="attributes">
+            <button name="view" position="attributes">
                 <attribute name="attrs">{'invisible': [('document_type', '=', 'zpl2')]}</attribute>
             </button>
         </field>
