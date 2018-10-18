@@ -1,8 +1,7 @@
-from odoo import api, models, _
-from odoo.exceptions import ValidationError
+from odoo import api, models
 
 
-class MedicalEncounter(models.AbstractModel):
+class MedicalEncounter(models.Model):
     _inherit = 'medical.encounter'
 
     @api.multi
