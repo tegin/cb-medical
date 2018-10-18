@@ -709,19 +709,20 @@ class TestMedicalCareplanSale(TransactionCase):
         careplan._onchange_encounter()
         careplan = careplan.create(careplan._convert_to_write(careplan._cache))
         self.assertEqual(careplan.center_id, encounter.center_id)
-        self.env['wizard.medical.encounter.add.amount'].create({
+        invoice = self.env['wizard.medical.encounter.add.amount'].create({
             'encounter_id': encounter.id,
             'amount': 10,
             'pos_session_id': self.session.id,
             'journal_id': self.session.journal_ids[0].id,
-        }).run()
+        })._run()
+        for line in invoice.invoice_line_ids:
+            self.assertNotEqual(line.name, '/')
         wizard = self.env['medical.careplan.add.plan.definition'].create({
             'careplan_id': careplan.id,
             'agreement_line_id': self.agreement_line.id,
         })
         self.action.is_billable = False
         wizard.run()
-
         self.assertTrue(self.session.action_view_sale_orders()['res_id'])
         groups = self.env['medical.request.group'].search([
             ('careplan_id', '=', careplan.id)])
@@ -762,14 +763,19 @@ class TestMedicalCareplanSale(TransactionCase):
                          encounter.id)
         journal = self.session.statement_ids.mapped('journal_id')[0]
         self.assertTrue(journal)
+        self.assertGreater(encounter.pending_private_amount, 0)
         lines = len(self.session.statement_ids.filtered(
             lambda r: r.journal_id == journal).mapped('line_ids'))
-        self.assertGreater(encounter.pending_private_amount, 0)
         self.env['wizard.medical.encounter.finish'].create({
             'encounter_id': encounter.id,
             'pos_session_id': self.session.id,
             'journal_id': journal.id,
         }).run()
+        invoice = encounter.sale_order_ids.filtered(
+            lambda r: not r.coverage_agreement_id and not r.is_down_payment
+        ).mapped('invoice_ids')
+        for line in invoice.invoice_line_ids:
+            self.assertNotEqual(line.name, '/')
         self.assertGreater(len(self.session.statement_ids.filtered(
             lambda r: r.journal_id == journal).mapped('line_ids')), lines)
         self.assertEqual(encounter.pending_private_amount, 0)
