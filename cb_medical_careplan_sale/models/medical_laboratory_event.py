@@ -57,7 +57,7 @@ class LaboratoryEvent(models.Model):
     def get_sale_order_line_vals(self, is_insurance):
         return {
             'product_id': self.service_id.id,
-            'name': self.name,
+            'name': self.name or self.service_id.name,
             'laboratory_event_id': self.id,
             'product_uom_qty': 1,
             'product_uom': self.service_id.uom_id.id,
