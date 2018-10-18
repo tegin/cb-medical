@@ -48,3 +48,4 @@ class PosConfig(models.Model):
                         "ir.sequence"
                     ].create(
                         self._prepare_ir_session_sequence(prefix))
+        return super().write(vals)
