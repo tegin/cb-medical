@@ -78,7 +78,7 @@ class MedicalRequest(models.AbstractModel):
     def get_sale_order_line_vals(self, is_insurance):
         return {
             'product_id': self.service_id.id,
-            'name': self.name,
+            'name': self.service_id.name or self.name,
             self._get_parent_field_name(): self.id,
             'product_uom_qty': 1,
             'product_uom': self.service_id.uom_id.id,
