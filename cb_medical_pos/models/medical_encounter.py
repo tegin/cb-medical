@@ -51,7 +51,7 @@ class MedicalEncounter(models.Model):
             record.pending_private_amount = (
                 sum(inv.filtered(lambda r: r.type == 'out_invoice').mapped(
                     'amount_total')) -
-                sum(inv.filtered(lambda r: r.type == 'out_refund').mapped(
+                sum(inv.filtered(lambda r: r.type != 'out_invoice').mapped(
                     'amount_total')) -
                 sum(inv.mapped('bank_statement_line_ids').mapped('amount')) +
                 sum(orders.mapped('amount_total')) -
