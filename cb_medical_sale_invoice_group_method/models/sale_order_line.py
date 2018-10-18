@@ -24,13 +24,6 @@ class SaleOrderLine(models.Model):
         default='999999',
     )
 
-    @api.model
-    def create(self, vals):
-        if vals.get('sequence', '999999') == '999999':
-            vals['name'] = self.env['ir.sequence'].next_by_code(
-                'sale.order.line') or '/'
-        return super(SaleOrderLine, self).create(vals)
-
     @api.multi
     def validate_line(self):
         self.ensure_one()
