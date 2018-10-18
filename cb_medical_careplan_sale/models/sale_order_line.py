@@ -5,7 +5,7 @@
 from odoo import fields, models
 
 
-class SaleOrderLine(models.AbstractModel):
+class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     careplan_id = fields.Many2one(
