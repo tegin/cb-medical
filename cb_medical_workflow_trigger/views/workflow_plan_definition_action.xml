@@ -18,8 +18,7 @@
                 <page name="trigger" string="Trigger Actions">
                     <group>
                         <field name="trigger_action_ids"
-                               widget="many2many_checkboxes"
-                               options="{'no_create': True}"/>
+                               widget="many2many_tags" options="{'no_create': True}"/>
                     </group>
                 </page>
             </notebook>

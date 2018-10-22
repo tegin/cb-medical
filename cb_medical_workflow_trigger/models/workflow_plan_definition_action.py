@@ -15,7 +15,7 @@ class PlanDefinitionAction(models.Model):
         'triggered_action_id',
         'trigger_action_id',
         'Actions that will be triggered',
-        domain="[('plan_definition_id', '=', plan_definition_id), "
+        domain="[('plan_definition_id', '=', parent.id), "
                "('id', '!=', active_id), "
                "('execute_plan_definition_id', '=', False)]",
     )
