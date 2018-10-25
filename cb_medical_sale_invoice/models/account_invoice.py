@@ -8,6 +8,7 @@ class AccountInvoice(models.Model):
     show_patient = fields.Boolean(default=False, readonly=True)
     show_subscriber = fields.Boolean(default=False, readonly=True)
     show_authorization = fields.Boolean(default=False, readonly=True)
+    encounter_id = fields.Many2one('medical.encounter', readonly=True)
 
 
 class AccountInvoiceLine(models.Model):

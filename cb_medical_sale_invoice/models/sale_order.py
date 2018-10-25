@@ -20,6 +20,8 @@ class SaleOrder(models.Model):
                 res['show_patient'] = p.show_patient
                 res['show_subscriber'] = p.show_subscriber
                 res['show_authorization'] = p.show_authorization
+            else:
+                res['encounter_id'] = self.encounter_id.id
         return res
 
     @api.model
