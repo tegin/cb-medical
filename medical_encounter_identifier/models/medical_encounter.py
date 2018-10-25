@@ -19,6 +19,7 @@ class MedicalEncounter(models.Model):
     internal_identifier_prefix = fields.Char(readonly=True)
     internal_identifier_value = fields.Integer(default=0, readonly=True)
     internal_identifier_suffix = fields.Char(readonly=True)
+    internal_identifier_dc = fields.Char(readonly=True)
 
     number_next = fields.Integer(default=1)
     # We must keep this name in order to use _update_nogap function
@@ -26,11 +27,12 @@ class MedicalEncounter(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('internal_identifier_value', 0) == 0:
-            pf, val, suf, identifier = self._get_internal_identifier_values(
+            pf, val, suf, dc, identifier = self._get_internal_identifier_values(
                 vals)
             vals['internal_identifier_prefix'] = pf
             vals['internal_identifier_value'] = val
             vals['internal_identifier_suffix'] = suf
+            vals['internal_identifier_dc'] = dc
             vals['internal_identifier'] = identifier
         return super().create(vals)
 
