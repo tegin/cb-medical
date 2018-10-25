@@ -134,10 +134,11 @@ class MedicalEncounter(models.Model):
                 'sale_order_id': sale_order.id,
                 'amount': sale_order.amount_total,
             })
-        process = self.env[model].with_context(
-            active_ids=[pos_session_id], active_model='pos.session'
-        ).create(cash_vals)
-        process.run()
+        if cash_vals['amount'] != 0:
+            process = self.env[model].with_context(
+                active_ids=[pos_session_id], active_model='pos.session'
+            ).create(cash_vals)
+            process.run()
 
     def onleave2finished_values(self):
         res = super().onleave2finished_values()
