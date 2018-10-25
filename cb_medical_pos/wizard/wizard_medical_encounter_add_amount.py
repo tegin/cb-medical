@@ -2,7 +2,8 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class WizardMedicalEncounterAddAmount(models.TransientModel):
@@ -89,6 +90,8 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
 
     def _run(self):
         self.ensure_one()
+        if self.amount == 0:
+            raise ValidationError(_('Amount cannot be zero'))
         if not self.encounter_id.company_id:
             self.encounter_id.company_id = self.company_id
         order = self.env['sale.order'].create(self.sale_order_vals())
