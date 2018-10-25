@@ -29,6 +29,7 @@ class MedicalRequest(models.AbstractModel):
     payor_id = fields.Many2one(
         'res.partner',
         related='coverage_id.coverage_template_id.payor_id',
+        readonly=True,
     )
 
     def get_third_party_partner(self):
