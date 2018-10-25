@@ -29,10 +29,12 @@ class AccountBankStatementLine(models.Model):
                 move_line = sale_order.third_party_move_id.line_ids.filtered(
                     lambda r: r.account_id.id == sale_order.account_id.id
                 )
-                vals = {
-                    'name': st_line.name,
-                    'debit': st_line.amount < 0 and -st_line.amount or 0.0,
-                    'credit': st_line.amount > 0 and st_line.amount or 0.0,
-                    'move_line': move_line
-                }
-                st_line.process_reconciliation(counterpart_aml_dicts=[vals])
+                if move_line.amount != 0:
+                    vals = {
+                        'name': st_line.name,
+                        'debit': st_line.amount < 0 and -st_line.amount or 0.0,
+                        'credit': st_line.amount > 0 and st_line.amount or 0.0,
+                        'move_line': move_line
+                    }
+                    st_line.process_reconciliation(
+                        counterpart_aml_dicts=[vals])
