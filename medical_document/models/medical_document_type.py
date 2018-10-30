@@ -132,3 +132,9 @@ class MedicalDocumentTypeLang(models.Model):
             'text': self.text,
             'lang': self.lang,
         }
+
+    @api.multi
+    def preview(self):
+        return self.env.ref(
+            'medical_document.action_report_document_report_type'
+        ).report_action(self)
