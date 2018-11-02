@@ -5,8 +5,8 @@
 from odoo import api, fields, models
 
 
-class MedicalRequestGroupCheckAgreement(models.TransientModel):
-    _name = 'medical.request.group.check.agreement'
+class MedicalRequestGroupCheckAuthorization(models.TransientModel):
+    _name = 'medical.request.group.check.authorization'
 
     request_group_id = fields.Many2one(
         'medical.request.group',
