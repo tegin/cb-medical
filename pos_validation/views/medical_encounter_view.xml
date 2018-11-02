@@ -105,13 +105,15 @@
                                        sum="Total"/>
                                 <field name="subscriber_id"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="authorization_number"
-                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="authorization_number"/>
+                                <button name="check_authorization_action" type="object" icon="fa-cogs"
+                                         attrs="{'invisible': [('is_private', '=', True)]}"
+                                />
                                 <field name="authorization_status"/>
                                 <field name="state" invisible="1"/>
                                 <field name="agents"/>
-                                <!---->
                             </tree>
+                            <!-- TODO: Form-->
                         </field>
                     </sheet>
                 </notebook>
