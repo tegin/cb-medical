@@ -25,6 +25,8 @@ class MedicalAuthorizationFormat(models.Model):
     def check_value(self, value):
         if self.always_authorized:
             return True
+        if not value:
+            return False
         match = re.match(self.authorization_format, value)
         if match:
             return True
