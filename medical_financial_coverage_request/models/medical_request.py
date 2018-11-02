@@ -39,6 +39,8 @@ class MedicalRequest(models.AbstractModel):
     can_deactivate = fields.Boolean(
         compute='_compute_can_deactivate'
     )
+    parent_id = fields.Integer()
+    parent_model = fields.Char()
 
     @api.depends('state')
     def _compute_can_deactivate(self):
@@ -112,3 +114,20 @@ class MedicalRequest(models.AbstractModel):
         self.plan_definition_id.execute_plan_definition(
             self.update_plan_vals(relations), self
         )
+
+    def change_authorization(self, **kwargs):
+        self.ensure_one()
+        vals = self.coverage_agreement_item_id._check_authorization(**kwargs)
+        self._change_authorization(vals, **kwargs)
+
+    def _change_authorization(self, vals, **kwargs):
+        self.filtered(lambda r: r.is_billable).write(vals)
+        fieldname = self._get_parent_field_name()
+        for request in self:
+            for model in self._get_request_models():
+                self.env[model].search([
+                    (fieldname, '=', request.id),
+                    ('parent_id', '=', request.id),
+                    ('parent_model', '=', request._name),
+                    ('state', '!=', 'cancelled')
+                ])._change_authorization(vals, **kwargs)
