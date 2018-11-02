@@ -4,3 +4,4 @@
 
 from . import medical_careplan_add_plan_definition
 from . import medical_request_group_change_plan
+from . import medical_request_group_check_authorization
