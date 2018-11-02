@@ -24,6 +24,7 @@
         'views/medical_authorization_method_view.xml',
         'wizard/medical_careplan_add_plan_definition_views.xml',
         'wizard/medical_request_group_change_plan_views.xml',
+        'wizard/medical_request_group_check_authorization_views.xml',
         'views/res_partner_views.xml',
         'views/medical_request_views.xml',
         'views/medical_request_group_views.xml',
