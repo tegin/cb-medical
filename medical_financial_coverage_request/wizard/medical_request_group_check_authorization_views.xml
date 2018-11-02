@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+    -->
+
+<odoo>
+    <record model="ir.ui.view"
+            id="medical_request_group_check_authorization_form">
+        <field name="name">medical.request.group.check.authorization.form
+        </field>
+        <field name="model">medical.request.group.check.authorization</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="request_group_id" invisible="1"/>
+                <group>
+                    <field name="authorization_number"/>
+                </group>
+                <footer>
+                    <button type="object" name="run" string="Change"
+                            class="oe_highlight"/>
+                    <button special="cancel" string="Cancel" class="oe_link"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="medical_request_group_check_authorization_action"
+            model="ir.actions.act_window">
+        <field name="name">Check authorization</field>
+        <field name="res_model">medical.request.group.check.authorization</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
