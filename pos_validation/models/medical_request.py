@@ -15,3 +15,11 @@ class MedicalRequest(models.AbstractModel):
                 'coverage_agreement_item_id'
             ] = self.coverage_agreement_item_id.id or False
         return vals
+
+    def _change_authorization(self, vals, **kwargs):
+        res = super()._change_authorization(vals, **kwargs)
+        if self.mapped('sale_order_line_ids'):
+            self.mapped('sale_order_line_ids').filtered(
+                lambda r: not r.is_private
+            ).write(vals)
+        return res
