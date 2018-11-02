@@ -38,6 +38,7 @@ class SalerOrderLine(models.Model):
         related='order_id.coverage_template_id.payor_id',
         readonly=True,
     )
+    authorization_number = fields.Char(readonly=True)
 
     @api.depends('order_id.coverage_agreement_id')
     def _compute_is_private(self):
@@ -63,3 +64,22 @@ class SalerOrderLine(models.Model):
             # We cannot invoice a sale order if we have not validated the so.
             line.invoice_status = 'no'
         return res
+
+    @api.multi
+    def check_authorization_action(self):
+        self.ensure_one()
+        group = False
+        if self.request_group_id:
+            group = self.request_group_id
+        elif self.procedure_request_id:
+            group = self.procedure_request_id.request_group_id
+        elif self.medication_request_id:
+            group = self.medication_request_id.request_group_id
+        elif self.document_reference_id:
+            group = self.document_reference_id.request_group_id
+        elif self.laboratory_request_id:
+            group = self.laboratory_request_id.request_group_id
+        elif self.laboratory_event_id:
+            group = self.laboratory_event_id.laboratory_request_id.\
+                request_group_id
+        return group.check_authorization_action()
