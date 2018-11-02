@@ -10,6 +10,8 @@ class PlanDefinition(models.Model):
 
     def get_request_group_vals(self, vals):
         res = super().get_request_group_vals(vals)
+        res['parent_model'] = self.env.context.get('origin_model', False)
+        res['parent_id'] = self.env.context.get('origin_id', False)
         if not res.get('is_billable', False):
             return res
         if vals.get('coverage_agreement_item_id', False):
@@ -18,6 +20,10 @@ class PlanDefinition(models.Model):
             )
             res['authorization_method_id'] = cai.authorization_method_id.id
             if cai.authorization_method_id.always_authorized:
+                res['authorization_status'] = 'authorized'
+            elif cai.authorization_format_id.check_value(vals.get(
+                'authorization_number', ''
+            )) and vals.get('authorization_number', False):
                 res['authorization_status'] = 'authorized'
             else:
                 res['authorization_status'] = 'pending'

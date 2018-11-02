@@ -26,6 +26,9 @@ class ActivityDefinition(models.Model):
         res['coverage_agreement_item_id'] = False
         res['coverage_agreement_id'] = False
         res['authorization_method_id'] = False
+        if parent:
+            res['parent_model'] = parent._name
+            res['parent_id'] = parent.id
         if not res.get('is_billable', False):
             return res
         if vals.get('coverage_id', False):
@@ -42,10 +45,13 @@ class ActivityDefinition(models.Model):
             res['coverage_agreement_item_id'] = cai.id
             res['coverage_agreement_id'] = cai.coverage_agreement_id.id
             res['authorization_method_id'] = cai.authorization_method_id.id
-            if cai.authorization_method_id.always_authorized:
-                res['authorization_status'] = 'authorized'
-            else:
-                res['authorization_status'] = 'pending'
+            vals = cai._check_authorization(**res)
+            res.update(vals)
+        if parent:
+            res.update({
+                'parent_id': parent.id,
+                'parent_model': parent._name,
+            })
         return res
 
     @api.multi
