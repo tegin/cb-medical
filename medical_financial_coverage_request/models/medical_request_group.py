@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo import api, fields, models
+from odoo.tools.safe_eval import safe_eval
 
 
 class MedicalRequestGroup(models.Model):
@@ -17,3 +18,21 @@ class MedicalRequestGroup(models.Model):
         for record in self:
             record.can_change_plan = (record.state not in [
                 'cancelled', 'completed'])
+
+    def _get_authorization_context(self):
+        return {
+            'default_request_group_id': self.id,
+            'default_authorization_number': self.authorization_number
+        }
+
+    @api.multi
+    def check_authorization_action(self):
+        self.ensure_one()
+        action = self.env.ref(
+            'cb_medical_financial_coverage_request.'
+            'medical_request_group_check_authorization_action')
+        result = action.read()[0]
+        ctx = safe_eval(result['context']) or {}
+        ctx.update(self._get_authorization_context())
+        result['context'] = ctx
+        return result
