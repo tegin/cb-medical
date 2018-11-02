@@ -20,8 +20,6 @@ class MedicalRequest(models.AbstractModel):
     is_sellable_private = fields.Boolean(
         compute='_compute_is_sellable',
     )
-    parent_id = fields.Integer()
-    parent_model = fields.Char()
     sub_payor_id = fields.Many2one(
         'res.partner',
         domain="[('payor_id', '=', payor_id), ('is_sub_payor', '=', True)]"
