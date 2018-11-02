@@ -320,6 +320,21 @@ class TestMedicalCareplanSale(TransactionCase):
             'authorization_format_id': self.browse_ref(
                 'cb_medical_financial_coverage_request.format_anything').id,
         })
+        self.method = self.browse_ref(
+            'cb_medical_financial_coverage_request.only_number'
+        )
+        self.format = self.env['medical.authorization.format'].create({
+            'name': 'Number',
+            'code': 'testing_number',
+            'always_authorized': False,
+            'authorization_format': '^[0-9]*$'
+        })
+        self.format_letter = self.env['medical.authorization.format'].create({
+            'name': 'Number',
+            'code': 'testing_number',
+            'always_authorized': False,
+            'authorization_format': '^[a-zA-Z]*$'
+        })
         self.agreement_line2 = self.env[
             'medical.coverage.agreement.item'
         ].create({
@@ -1224,19 +1239,36 @@ class TestMedicalCareplanSale(TransactionCase):
             encounter.admin_validate()
         line.write({
             'subscriber_id': '123',
-            'authorization_status': 'not-authorized',
+        })
+        self.agreement_line3.write({
+            'authorization_format_id': self.format.id,
+            'authorization_method_id': self.method.id,
+        })
+        action = self.env[
+            'medical.request.group.check.authorization'
+        ].with_context(
+            line.check_authorization_action()['context']
+        ).create({'authorization_number': '1234A'})
+        action.run()
+        self.assertNotEqual(line.authorization_status, 'authorized')
+        self.assertEqual(line.authorization_number, '1234A')
+        with self.assertRaises(ValidationError):
+            encounter.admin_validate()
+        action = self.env[
+            'medical.request.group.check.authorization'
+        ].with_context(
+            line.check_authorization_action()['context']
+        ).create({'authorization_number': '1234'})
+        action.run()
+        self.assertEqual(line.authorization_status, 'authorized')
+        self.assertEqual(line.authorization_number, '1234')
+        self.agreement_line3.write({
+            'authorization_format_id': self.format_letter.id,
         })
         with self.assertRaises(ValidationError):
             encounter.admin_validate()
-        line.write({
-            'authorization_status': 'authorized',
-            'authorization_number': '222'
-        })
-        self.agreement_line3.authorization_format_id = self.format
-        with self.assertRaises(ValidationError):
-            encounter.admin_validate()
-        line.write({
-            'authorization_number': '1234',
+        self.agreement_line3.write({
+            'authorization_format_id': self.format.id,
         })
         encounter.admin_validate()
 
