@@ -25,6 +25,7 @@ class MedicalRequestGroupChangePlan(models.TransientModel):
     )
     coverage_id = fields.Many2one(
         'medical.coverage',
+        readonly=True,
         related='careplan_id.coverage_id'
     )
     center_id = fields.Many2one(
@@ -34,6 +35,7 @@ class MedicalRequestGroupChangePlan(models.TransientModel):
     )
     coverage_template_id = fields.Many2one(
         'medical.coverage.template',
+        readonly=True,
         related='coverage_id.coverage_template_id'
     )
     agreement_ids = fields.Many2many(
@@ -47,21 +49,26 @@ class MedicalRequestGroupChangePlan(models.TransientModel):
     )
     product_id = fields.Many2one(
         'product.product',
+        readonly=True,
         related="agreement_line_id.product_id"
     )
     plan_definition_id = fields.Many2one(
         comodel_name='workflow.plan.definition',
+        readonly=True,
         related='agreement_line_id.plan_definition_id'
     )
     authorization_method_id = fields.Many2one(
         'medical.authorization.method',
+        readonly=True,
         related='agreement_line_id.authorization_method_id'
     )
     authorization_format_id = fields.Many2one(
         'medical.authorization.format',
+        readonly=True,
         related='agreement_line_id.authorization_format_id'
     )
     authorization_required = fields.Boolean(
+        readonly=True,
         related='agreement_line_id.authorization_method_id.'
                 'authorization_required'
     )
