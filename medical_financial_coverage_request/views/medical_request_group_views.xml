@@ -19,6 +19,9 @@
                 <button name="%(cb_medical_financial_coverage_request.action_medical_request_group_change_plan)d"
                         type="action" string="Change plan"
                         class="oe_highlight"/>
+                <button name="check_authorization_action" type="object" string="Check authorization"
+                        states="draft,active"
+                />
             </button>
         </field>
     </record>
