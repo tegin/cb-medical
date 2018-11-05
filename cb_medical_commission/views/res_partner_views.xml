@@ -15,11 +15,18 @@
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page name="commission" string="Commission Agents"
-                      attrs="{'invisible': [('is_practitioner', '=', False)]}"
-                      groups="medical_administration_practitioner.group_medical_practitioner_display">
+                      attrs="{'invisible': ['|', ('is_practitioner', '=', False), ('agent', '=', False)]}"
+                      groups="medical_administration_practitioner.group_medical_practitioner_manager">
                     <field name="commission_agent_ids"
                            nolabel="1"
                            attrs="{'readonly': [('edit_practitioner', '=', False)]}" options="{'no_create': True}"/>
+                </page>
+                <page name="practitoner_condition" string="Practitioner conditions"
+                      attrs="{'invisible': ['|', ('is_practitioner', '=', False), ('agent', '=', False)]}"
+                      groups="medical_administration_practitioner.group_medical_practitioner_manager">
+                    <field name="practitioner_condition_ids"
+                           nolabel="1"
+                           attrs="{'readonly': [('edit_practitioner', '=', False)]}"/>
                 </page>
             </notebook>
         </field>

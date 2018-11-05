@@ -16,3 +16,8 @@ class ResPartner(models.Model):
         comodel_name='res.partner',
         domain="[('agent', '=', True)]"
     )
+    practitioner_condition_ids = fields.One2many(
+        'medical.practitioner.condition',
+        inverse_name='practitioner_id',
+        copy=False
+    )
