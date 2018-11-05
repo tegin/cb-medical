@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class MedicalProcedure(models.Model):
@@ -10,14 +10,27 @@ class MedicalProcedure(models.Model):
 
     variable_fee = fields.Float(
         string='Variable fee (%)',
-        related='procedure_request_id.variable_fee'
+        store=True,
+        compute='_compute_fees',
     )
     fixed_fee = fields.Float(
         string='Fixed fee',
-        related='procedure_request_id.fixed_fee'
+        store=True,
+        compute='_compute_fees',
+    )
+    practitioner_condition_id = fields.Many2one(
+        'medical.practitioner.condition',
+        readonly=True,
     )
     service_id = fields.Many2one(
-        related='procedure_request_id.service_id'
+        related='procedure_request_id.request_group_id.service_id',
+        store=True,
+        readonly=True,
+    )
+    procedure_service_id = fields.Many2one(
+        related='procedure_request_id.service_id',
+        store=True,
+        readonly=True,
     )
     medical_commission = fields.Boolean(
         related='service_id.medical_commission'
@@ -35,6 +48,24 @@ class MedicalProcedure(models.Model):
     invoice_agent_ids = fields.One2many(
         inverse_name='procedure_id',
     )
+
+    @api.onchange('performer_id', 'service_id',
+                  'procedure_service_id')
+    def _onchange_check_condition(self):
+        for rec in self:
+            rec.practitioner_condition_id = rec.performer_id.\
+                practitioner_condition_ids.get_condition(rec)
+
+    @api.depends('procedure_request_id.variable_fee',
+                 'procedure_request_id.fixed_fee', 'practitioner_condition_id')
+    def _compute_fees(self):
+        for rec in self:
+            if rec.practitioner_condition_id:
+                rec.variable_fee = rec.practitioner_condition_id.variable_fee
+                rec.fixed_fee = rec.practitioner_condition_id.fixed_fee
+            else:
+                rec.variable_fee = rec.procedure_request_id.variable_fee
+                rec.fixed_fee = rec.procedure_request_id.fixed_fee
 
     def check_agents(self, agent):
         return agent.procedure_id == self
