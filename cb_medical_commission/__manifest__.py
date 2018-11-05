@@ -16,6 +16,7 @@
         'cb_medical_sale_invoice_group_method',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'data/sale_commission_formula.xml',
         'views/account_invoice_view.xml',
         'views/res_partner_views.xml',
@@ -25,6 +26,7 @@
         'views/medical_procedure_view.xml',
         'views/workflow_plan_definition_action.xml',
         'views/medical_encounter_views.xml',
+        'views/medical_practitioner_condition_views.xml',
         'wizard/wizard_settle.xml',
     ],
     'website': 'https://github.com/OCA/vertical-medical',
