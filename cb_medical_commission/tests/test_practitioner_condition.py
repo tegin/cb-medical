@@ -3,7 +3,6 @@ from odoo.exceptions import ValidationError
 
 
 class TestPractitionerCondition(TransactionCase):
-
     def test_condition(self):
         practitioner = self.env['res.partner'].create({
             'name': 'Practitioner',
@@ -67,3 +66,61 @@ class TestPractitionerCondition(TransactionCase):
             'practitioner_id': practitioner.id,
             'procedure_service_id': service.id,
         })
+
+    def test_condition_center_1(self):
+        practitioner = self.env['res.partner'].create({
+            'name': 'Practitioner',
+            'is_medical': True,
+            'is_practitioner': True
+        })
+        center_01 = self.env['res.partner'].create({
+            'name': 'Practitioner',
+            'is_medical': True,
+            'is_center': True
+        })
+        center_02 = self.env['res.partner'].create({
+            'name': 'Practitioner',
+            'is_medical': True,
+            'is_center': True
+        })
+        self.env['medical.practitioner.condition'].create({
+            'practitioner_id': practitioner.id,
+        })
+        self.env['medical.practitioner.condition'].create({
+            'practitioner_id': practitioner.id,
+            'center_ids': [(4, center_01.id), (4, center_02.id)],
+        })
+        with self.assertRaises(ValidationError):
+            self.env['medical.practitioner.condition'].create({
+                'practitioner_id': practitioner.id,
+                'center_ids': [(4, center_01.id)],
+            })
+
+    def test_condition_center_2(self):
+        practitioner = self.env['res.partner'].create({
+            'name': 'Practitioner',
+            'is_medical': True,
+            'is_practitioner': True
+        })
+        center_01 = self.env['res.partner'].create({
+            'name': 'Practitioner',
+            'is_medical': True,
+            'is_center': True
+        })
+        center_02 = self.env['res.partner'].create({
+            'name': 'Practitioner',
+            'is_medical': True,
+            'is_center': True
+        })
+        self.env['medical.practitioner.condition'].create({
+            'practitioner_id': practitioner.id,
+        })
+        self.env['medical.practitioner.condition'].create({
+            'practitioner_id': practitioner.id,
+            'center_ids': [(4, center_01.id)],
+        })
+        with self.assertRaises(ValidationError):
+            self.env['medical.practitioner.condition'].create({
+                'practitioner_id': practitioner.id,
+                'center_ids': [(4, center_01.id), (4, center_02.id)],
+            })
