@@ -15,6 +15,7 @@
             <tree editable="bottom" delete="0">
                 <field name="service_id"/>
                 <field name="procedure_service_id"/>
+                <field name="center_ids" widget="many2many_tags" options="{'no_create': True}"/>
                 <field name="fixed_fee"/>
                 <field name="variable_fee"/>
                 <button name="toggle_active" icon="fa-archive" type="object"/>
@@ -40,7 +41,7 @@
                         <group>
                             <field name="service_id"/>
                             <field name="procedure_service_id"/>
-
+                            <field name="center_ids" widget="many2many_tags" options="{'no_create': True}"/>
                         </group>
                         <group>
                             <field name="fixed_fee"/>
