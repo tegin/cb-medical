@@ -21,6 +21,14 @@
                                    options='{"terminology": "archive"}'/>
                         </button>
                         <button
+                                type="action"
+                                name="%(cb_medical_financial_coverage_agreement.set_medical_coverage_agreement_template_action)s"
+                                class="oe_stat_button"
+                                icon="fa-clone"
+                                context="{'default_agreement_id': active_id, 'default_template_id': template_id}"
+                                attrs="{'invisible': [('is_template', '=', True)]}"
+                                string="Set template"/>
+                        <button
                                 type="object"
                                 name="action_search_item"
                                 class="oe_stat_button"
@@ -37,6 +45,8 @@
                     </div>
                     <group>
                         <group>
+                            <field name="is_template" invisible="1"/>
+                            <field name="template_id" attrs="{'invisible': [('is_template','=', True)]}"/>
                             <field name="center_ids" widget="many2many_tags"
                                    options="{'no_create': True}"/>
                             <field name="company_id" options="{'no_create': True}"/>
@@ -52,7 +62,7 @@
                         <field name="actual_date" invisible="1"/>
                     </group>
                     <notebook>
-                        <page name="templates" string="Coverage Templates">
+                        <page name="templates" string="Coverage Templates" attrs="{'invisible': [('is_template','=', True)]}">
                             <group>
                                 <field name="coverage_template_ids" nolabel="1" options="{'no_create': True}"/>
                             </group>
@@ -86,6 +96,7 @@
         <field name="res_model">medical.coverage.agreement</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_template', '=', False)]</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Click to create an agreement.
@@ -100,6 +111,17 @@
                 helps to achieve any kind of pricing.
             </p>
         </field>
+    </record>
+
+    <record id="medical_coverage_agreement_template_action"
+            model="ir.actions.act_window">
+        <field name="name">Agreement Templates</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.coverage.agreement</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_template', '=', True)]</field>
+        <field name="context">{'default_is_template': True}</field>
     </record>
 
 </odoo>

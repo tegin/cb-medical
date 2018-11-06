@@ -2,7 +2,8 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class MedicalCoverageAgreement(models.Model):
@@ -75,6 +76,28 @@ class MedicalCoverageAgreement(models.Model):
         ('coverage', 'Coverage')],
         'Concept',
     )
+    is_template = fields.Boolean(
+        default=False,
+        readonly=True,
+    )
+    template_id = fields.Many2one(
+        'medical.coverage.agreement',
+        domain=[('is_template', '=', True)],
+        readonly=True,
+        track_visibility='onchange',
+    )
+
+    @api.constrains('is_template', 'template_id', 'coverage_template_ids')
+    def _check_template(self):
+        for rec in self.filtered(lambda r: r.is_template):
+            if rec.coverage_template_ids:
+                raise ValidationError(_(
+                    'Coverage cannot be defined on templates'
+                ))
+            if rec.template_id:
+                raise ValidationError(_(
+                    'Template cannot be defined on templates'
+                ))
 
     @api.model
     def _get_internal_identifier(self, vals):
@@ -99,12 +122,10 @@ class MedicalCoverageAgreement(models.Model):
 
     @api.multi
     def toggle_active(self):
-        res = super(MedicalCoverageAgreement, self).toggle_active()
-        for record in self:
-            # Only deactivating items when inactive
-            if not record.active:
-                record.item_ids.filtered(
-                    lambda r: r.active != record.active).toggle_active()
+        res = super().toggle_active()
+        for record in self.filtered(lambda r: not r.active):
+            # Only set as unactive
+            record.item_ids.write({'active': False})
         return res
 
     @api.multi
@@ -115,3 +136,17 @@ class MedicalCoverageAgreement(models.Model):
         result['context'] = {'default_coverage_agreement_id': self.id}
         result['domain'] = [('coverage_agreement_id', '=', self.id)]
         return result
+
+    @api.multi
+    def set_template(self, template, set_items):
+        self.ensure_one()
+        self.write({'template_id': template.id})
+        if not set_items:
+            return
+        for item in template.item_ids:
+            if not self.item_ids.filtered(
+                lambda r: r.product_id == item.product_id
+            ):
+                self.env['medical.coverage.agreement.item'].create(
+                    item._copy_agreement_vals(self)
+                )
