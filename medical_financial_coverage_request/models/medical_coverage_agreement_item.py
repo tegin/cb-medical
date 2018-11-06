@@ -50,3 +50,9 @@ class MedicalCoverageAgreementItem(models.Model):
         ):
             vals['authorization_status'] = 'pending'
         return vals
+
+    def _copy_agreement_vals(self, agreement):
+        res = super()._copy_agreement_vals(agreement)
+        res['authorization_method_id'] = self.authorization_method_id.id
+        res['authorization_format_id'] = self.authorization_format_id.id
+        return res
