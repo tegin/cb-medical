@@ -19,12 +19,6 @@ class PlanDefinition(models.Model):
                 res['coverage_agreement_item_id']
             )
             res['authorization_method_id'] = cai.authorization_method_id.id
-            if cai.authorization_method_id.always_authorized:
-                res['authorization_status'] = 'authorized'
-            elif cai.authorization_format_id.check_value(vals.get(
-                'authorization_number', ''
-            )) and vals.get('authorization_number', False):
-                res['authorization_status'] = 'authorized'
-            else:
-                res['authorization_status'] = 'pending'
+            vals = cai._check_authorization(**res)
+            res.update(vals)
         return res
