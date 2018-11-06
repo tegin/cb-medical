@@ -17,6 +17,7 @@
         'cb_medical_cancel',
         'cb_medical_state_update',
         'cb_medical_block_request',
+        'cb_medical_authorization',
     ],
     'data': [
     ],
