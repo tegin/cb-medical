@@ -137,14 +137,16 @@ class TestCB(TransactionCase):
         number = 'AAA'
         encounter, careplan, group = self.create_careplan_and_group(number)
         self.assertEqual(group.authorization_status, 'pending')
-        self.env['medical.request.group.check.authorization'].create({
-            'request_group_id': group.id,
-            'authorization_number': '1234'
+        self.env['medical.request.group.check.authorization'].with_context(
+            default_request_group_id=group.id
+        ).create({
+            'authorization_number': '1234',
         }).run()
         group.refresh()
         self.assertEqual(group.authorization_status, 'authorized')
-        self.env['medical.request.group.check.authorization'].create({
-            'request_group_id': group.id,
+        self.env['medical.request.group.check.authorization'].with_context(
+            default_request_group_id=group.id
+        ).create({
             'authorization_number': '1234a'
         }).run()
         group.refresh()
