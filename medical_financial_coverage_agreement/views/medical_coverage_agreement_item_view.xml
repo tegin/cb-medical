@@ -13,8 +13,8 @@
         <field name="model">medical.coverage.agreement.item</field>
         <field name="arch" type="xml">
             <tree string="Agreement Items" editable="bottom">
-                <field name="plan_definition_id"/>
                 <field name="product_id"/>
+                <field name="plan_definition_id"/>
                 <field name="total_price"/>
                 <field name="coverage_percentage"/>
                 <field name="coverage_price" readonly="True"/>
