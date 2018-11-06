@@ -8,6 +8,12 @@ from odoo import api, fields, models
 class MedicalRequestGroupCheckAuthorization(models.TransientModel):
     _name = 'medical.request.group.check.authorization'
 
+    @api.model
+    def _default_request(self):
+        return self.env['medical.request.group'].browse(
+            self.env.context.get('default_request_group_id', False)
+        )
+
     request_group_id = fields.Many2one(
         'medical.request.group',
         requierd=True,
