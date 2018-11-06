@@ -48,6 +48,10 @@ class MedicalCoverageAgreementItem(models.Model):
         index=True,
         ondelete='cascade',
     )
+    template_id = fields.Many2one(
+        'medical.coverage.agreement', readonly=True,
+        related='coverage_agreement_id.template_id',
+    )
     currency_id = fields.Many2one(
         related='coverage_agreement_id.currency_id',
     )
@@ -72,16 +76,19 @@ class MedicalCoverageAgreementItem(models.Model):
 
     @api.onchange('product_id')
     def _onchange_product(self):
-        related = self.coverage_agreement_id.template_id.item_ids.filtered(
+        related = self.template_id.item_ids.filtered(
             lambda r: r.product_id == self.product_id
         )
         if related:
             self._update_by_related(related)
 
     def _update_by_related(self, related):
+        rounding = self.currency_id.rounding
         if not self.plan_definition_id:
             self.plan_definition_id = related.plan_definition_id
-        if not float_compare(self.total_price, 0):
+        if not float_compare(
+            self.total_price, 0, precision_rounding=rounding
+        ):
             self.total_price = related.total_price
 
     @api.multi
