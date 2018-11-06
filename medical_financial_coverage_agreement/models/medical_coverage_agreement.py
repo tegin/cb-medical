@@ -44,6 +44,7 @@ class MedicalCoverageAgreement(models.Model):
         column2='coverage_template_id',
         help='Coverage templates related to this agreement',
         auto_join=True,
+        copy=False,
     )
     item_ids = fields.One2many(
         comodel_name='medical.coverage.agreement.item',
