@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-13 09:49+0000\n"
-"PO-Revision-Date: 2018-07-13 09:49+0000\n"
+"POT-Creation-Date: 2018-11-07 10:18+0000\n"
+"PO-Revision-Date: 2018-11-07 10:18+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_encounter_center_id
 #: model:ir.ui.view,arch_db:cb_medical_identifier.res_partner_view_form
 msgid "Center"
-msgstr "Center"
+msgstr "Centro"
 
 #. module: cb_medical_identifier
 #: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_patient_center_alias
@@ -29,7 +29,7 @@ msgid "Center Alias"
 msgstr "Center Alias"
 
 #. module: cb_medical_identifier
-#: code:addons/cb_medical_identifier/models/medical_encounter.py:42
+#: code:addons/cb_medical_identifier/models/medical_encounter.py:44
 #, python-format
 msgid "Center and center sequence are required"
 msgstr "Center and center sequence are required"
@@ -46,6 +46,7 @@ msgstr "Nombre mostrado"
 
 #. module: cb_medical_identifier
 #: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_event_encounter_id
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_laboratory_event_encounter_id
 #: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_medication_administration_encounter_id
 #: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_procedure_encounter_id
 msgid "Encounter"
@@ -64,6 +65,11 @@ msgid "ID"
 msgstr "ID (identificación)"
 
 #. module: cb_medical_identifier
+#: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_encounter_internal_identifier_dc
+msgid "Internal Identifier Dc"
+msgstr "Internal Identifier Dc"
+
+#. module: cb_medical_identifier
 #: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_encounter_internal_identifier_prefix
 msgid "Internal Identifier Prefix"
 msgstr "Internal Identifier Prefix"
@@ -79,9 +85,14 @@ msgid "Internal Identifier Value"
 msgstr "Internal Identifier Value"
 
 #. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_laboratory_request
+msgid "Laboratory Request"
+msgstr "Laboratory Request"
+
+#. module: cb_medical_identifier
 #: model:ir.model.fields,field_description:cb_medical_identifier.field_medical_cb_identifier___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr "Última modificación el"
 
 #. module: cb_medical_identifier
 #: model:ir.model,name:cb_medical_identifier.model_medical_careplan
@@ -97,6 +108,11 @@ msgstr "Medical Document Reference"
 #: model:ir.model,name:cb_medical_identifier.model_medical_encounter
 msgid "Medical Encounter"
 msgstr "Afiliación"
+
+#. module: cb_medical_identifier
+#: model:ir.model,name:cb_medical_identifier.model_medical_laboratory_event
+msgid "Medical Laboratory Event"
+msgstr "Medical Laboratory Event"
 
 #. module: cb_medical_identifier
 #: model:ir.model,name:cb_medical_identifier.model_medical_medication_request
