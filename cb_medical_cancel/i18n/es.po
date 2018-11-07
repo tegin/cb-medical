@@ -1,0 +1,269 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* cb_medical_cancel
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-07 10:18+0000\n"
+"PO-Revision-Date: 2018-11-07 10:18+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cb_medical_cancel
+#: code:addons/cb_medical_cancel/models/medical_request.py:18
+#, python-format
+msgid "A cancellation reason is only allowed on cancelled requests"
+msgstr "A cancellation reason is only allowed on cancelled requests"
+
+#. module: cb_medical_cancel
+#: code:addons/cb_medical_cancel/models/medical_request.py:14
+#, python-format
+msgid "A cancellation reason is required for cancelled requests"
+msgstr "A cancellation reason is required for cancelled requests"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_cancel_reason_active
+msgid "Active"
+msgstr "Activo"
+
+#. module: cb_medical_cancel
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_cancel_reason_search
+msgid "Archived"
+msgstr "Archivado"
+
+#. module: cb_medical_cancel
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_careplan_form
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_encounter_cancel_form
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_encounter_view_form
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_procedure_request_view_form
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_request_cancel_form
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_request_group_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: cb_medical_cancel
+#: model:ir.actions.act_window,name:cb_medical_cancel.medical_careplan_cancel_action
+#: model:ir.actions.act_window,name:cb_medical_cancel.medical_procedure_request_cancel_action
+msgid "Cancel Careplan"
+msgstr "Cancel Careplan"
+
+#. module: cb_medical_cancel
+#: model:ir.actions.act_window,name:cb_medical_cancel.medical_encounter_cancel_action
+msgid "Cancel Encounter"
+msgstr "Cancel Encounter"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel_cancel_reason
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_document_reference_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel_cancel_reason
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_laboratory_request_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_medication_request_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel_cancel_reason
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_cancel_cancel_reason
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_cancel_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel_cancel_reason
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel_reason_id
+msgid "Cancel Reason"
+msgstr "Cancel Reason"
+
+#. module: cb_medical_cancel
+#: model:res.groups,name:cb_medical_cancel.group_medical_cancel_reason_manager
+msgid "Cancel Reason manager"
+msgstr "Cancel Reason manager"
+
+#. module: cb_medical_cancel
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_encounter_cancel_form
+msgid "Cancel encounter"
+msgstr "Cancel encounter"
+
+#. module: cb_medical_cancel
+#: model:ir.ui.menu,name:cb_medical_cancel.medical_cancel_reason_menu
+msgid "Cancel reasons"
+msgstr "Cancel reasons"
+
+#. module: cb_medical_cancel
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_request_cancel_form
+msgid "Cancel request"
+msgstr "Cancel request"
+
+#. module: cb_medical_cancel
+#: model:ir.actions.act_window,name:cb_medical_cancel.medical_request_group_cancel_action
+msgid "Cancel request_group"
+msgstr "Cancel request_group"
+
+#. module: cb_medical_cancel
+#: model:ir.model,name:cb_medical_cancel.model_medical_cancel_reason
+msgid "Cancellation reason"
+msgstr "Cancellation reason"
+
+#. module: cb_medical_cancel
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_cancel_reason_form
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_cancel_reason_search
+#: model:ir.ui.view,arch_db:cb_medical_cancel.medical_cancel_reason_tree
+msgid "Cancellation reasons"
+msgstr "Cancellation reasons"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_cancel_reason_create_uid
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel_create_uid
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel_create_uid
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel_create_uid
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_cancel_reason_create_date
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel_create_date
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel_create_date
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel_create_date
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_cancel_reason_description
+msgid "Description"
+msgstr "Descripción"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_cancel_reason_display_name
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel_display_name
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel_display_name
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel_display_name
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_cancel_display_name
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel_encounter_id
+msgid "Encounter"
+msgstr "Afiliación"
+
+#. module: cb_medical_cancel
+#: code:addons/cb_medical_cancel/models/medical_encounter.py:15
+#, python-format
+msgid "Encounter %s can't be cancelled"
+msgstr "Encounter %s can't be cancelled"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_cancel_reason_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_cancel_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: cb_medical_cancel
+#: code:addons/cb_medical_cancel/models/medical_request.py:56
+#, python-format
+msgid "It is not cancelable"
+msgstr "It is not cancelable"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_cancel_reason___last_update
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel___last_update
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel___last_update
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel___last_update
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_cancel___last_update
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel___last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_cancel_reason_write_uid
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel_write_uid
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel_write_uid
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel_write_uid
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_cancel_reason_write_date
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel_write_date
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel_write_date
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel_write_date
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: cb_medical_cancel
+#: model:ir.actions.act_window,name:cb_medical_cancel.medical_cancel_reason_action
+msgid "Medical Cancel Reasons"
+msgstr "Medical Cancel Reasons"
+
+#. module: cb_medical_cancel
+#: model:ir.model,name:cb_medical_cancel.model_medical_document_reference
+msgid "Medical Document Reference"
+msgstr "Medical Document Reference"
+
+#. module: cb_medical_cancel
+#: model:ir.model,name:cb_medical_cancel.model_medical_encounter
+msgid "Medical Encounter"
+msgstr "Afiliación"
+
+#. module: cb_medical_cancel
+#: model:ir.model,name:cb_medical_cancel.model_medical_request
+msgid "Medical request"
+msgstr "Medical request"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_cancel_reason_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_encounter_cancel_pos_session_id
+msgid "Pos Session"
+msgstr "Pos Session"
+
+#. module: cb_medical_cancel
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_careplan_cancel_request_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_procedure_request_cancel_request_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_cancel_request_id
+#: model:ir.model.fields,field_description:cb_medical_cancel.field_medical_request_group_cancel_request_id
+msgid "Request"
+msgstr "Request"
+
+#. module: cb_medical_cancel
+#: model:ir.model,name:cb_medical_cancel.model_medical_careplan_cancel
+msgid "medical.careplan.cancel"
+msgstr "medical.careplan.cancel"
+
+#. module: cb_medical_cancel
+#: model:ir.model,name:cb_medical_cancel.model_medical_encounter_cancel
+msgid "medical.encounter.cancel"
+msgstr "medical.encounter.cancel"
+
+#. module: cb_medical_cancel
+#: model:ir.model,name:cb_medical_cancel.model_medical_procedure_request_cancel
+msgid "medical.procedure.request.cancel"
+msgstr "medical.procedure.request.cancel"
+
+#. module: cb_medical_cancel
+#: model:ir.model,name:cb_medical_cancel.model_medical_request_cancel
+msgid "medical.request.cancel"
+msgstr "medical.request.cancel"
+
+#. module: cb_medical_cancel
+#: model:ir.model,name:cb_medical_cancel.model_medical_request_group_cancel
+msgid "medical.request.group.cancel"
+msgstr "medical.request.group.cancel"
+
