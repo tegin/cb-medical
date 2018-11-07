@@ -7,6 +7,20 @@
 -->
 
 <odoo>
+    <record id="medical_coverage_agreement_tree" model="ir.ui.view">
+        <field name="name">medical.coverage.agreement.tree</field>
+        <field name="model">medical.coverage.agreement</field>
+        <field name="arch" type="xml">
+            <tree string="Agreements">
+                <field name="internal_identifier"/>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="coverage_template_ids" string="Coverage templates"/>
+            </tree>
+        </field>
+    </record>
 
     <record id="medical_coverage_agreement_view" model="ir.ui.view">
         <field name="name">medical.coverage.agreement.form</field>
@@ -83,6 +97,9 @@
         <field name="model">medical.coverage.agreement</field>
         <field name="arch" type="xml">
             <search string="Agreements">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="coverage_template_ids"/>
                 <filter string="Archived" name="inactive"
                         domain="[('active','=',False)]"/>
             </search>
@@ -91,7 +108,7 @@
 
     <record id="medical_coverage_agreement_action"
             model="ir.actions.act_window">
-        <field name="name">Agreement</field>
+        <field name="name">Agreements</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement</field>
         <field name="view_type">form</field>
