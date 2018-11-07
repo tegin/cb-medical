@@ -1,0 +1,248 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* medical_clinical_laboratory
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-07 10:18+0000\n"
+"PO-Revision-Date: 2018-11-07 10:18+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_laboratory_event_count
+msgid "# of Events"
+msgstr "# of Events"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_careplan_laboratory_request_count
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_document_reference_laboratory_request_count
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_laboratory_request_count
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_medication_request_laboratory_request_count
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_procedure_request_laboratory_request_count
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_request_group_laboratory_request_count
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_request_laboratory_request_count
+msgid "# of Laboratory requests"
+msgstr "# of Laboratory requests"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+msgid "Aborted"
+msgstr "Aborted"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Active"
+msgstr "Activo"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_careplan_laboratory_request_ids
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_document_reference_laboratory_request_ids
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_laboratory_request_ids
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_medication_request_laboratory_request_ids
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_procedure_request_laboratory_request_ids
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_request_group_laboratory_request_ids
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_request_laboratory_request_ids
+msgid "Associated Documents"
+msgstr "Documentos asociados"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Cancelled"
+msgstr "Cancelada"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Completed"
+msgstr "Completed"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_create_uid
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_create_date
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_display_name
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Error"
+msgstr "Error"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Group By..."
+msgstr "Agrupar Por..."
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_id
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+msgid "In progress"
+msgstr "In progress"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,help:medical_clinical_laboratory.field_medical_laboratory_event_internal_identifier
+#: model:ir.model.fields,help:medical_clinical_laboratory.field_medical_laboratory_request_internal_identifier
+msgid "Internal identifier used to identify this record"
+msgstr "Internal identifier used to identify this record"
+
+#. module: medical_clinical_laboratory
+#: model:res.groups,name:medical_clinical_laboratory.group_medical_laboratory_display
+msgid "Laboratory Display"
+msgstr "Laboratory Display"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_internal_identifier
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_form
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_tree
+msgid "Laboratory Event"
+msgstr "Laboratory Event"
+
+#. module: medical_clinical_laboratory
+#: model:ir.actions.act_window,name:medical_clinical_laboratory.medical_laboratory_event_action
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_form
+msgid "Laboratory Events"
+msgstr "Laboratory Events"
+
+#. module: medical_clinical_laboratory
+#: model:res.groups,name:medical_clinical_laboratory.group_medical_laboratory_manager
+msgid "Laboratory Manager"
+msgstr "Laboratory Manager"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model,name:medical_clinical_laboratory.model_medical_laboratory_request
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_careplan_laboratory_request_id
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_document_reference_laboratory_request_id
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_laboratory_request_id
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_medication_request_laboratory_request_id
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_procedure_request_laboratory_request_id
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_request_group_laboratory_request_id
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_request_laboratory_request_id
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_form
+msgid "Laboratory Request"
+msgstr "Laboratory Request"
+
+#. module: medical_clinical_laboratory
+#: model:ir.actions.act_window,name:medical_clinical_laboratory.medical_laboratory_request_action
+#: model:ir.ui.menu,name:medical_clinical_laboratory.medical_laboratory_request
+msgid "Laboratory Requests"
+msgstr "Laboratory Requests"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.menu,name:medical_clinical_laboratory.medical_laboratory_event
+msgid "Laboratory events"
+msgstr "Laboratory events"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_laboratory_request_id
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_internal_identifier
+msgid "Laboratory request"
+msgstr "Laboratory request"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_procedure_request_view_tree
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_request_form
+msgid "Laboratory requests"
+msgstr "Laboratory requests"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event___last_update
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request___last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_write_uid
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_write_date
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model,name:medical_clinical_laboratory.model_medical_laboratory_event
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+msgid "Medical Laboratory Event"
+msgstr "Medical Laboratory Event"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Medical Laboratory Request"
+msgstr "Medical Laboratory Request"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model,name:medical_clinical_laboratory.model_medical_request
+msgid "Medical request"
+msgstr "Medical request"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Patient"
+msgstr "Paciente"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Performer"
+msgstr "Performer"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+msgid "Preparation"
+msgstr "Preparation"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Priority"
+msgstr "Priority"
+
+#. module: medical_clinical_laboratory
+#: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_laboratory_event_ids
+msgid "Related Procedure"
+msgstr "Related Procedure"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
+msgid "Suspended"
+msgstr "Suspended"
+
+#. module: medical_clinical_laboratory
+#: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
+msgid "Unknown"
+msgstr "Unknown"
+
