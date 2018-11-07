@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-13 09:49+0000\n"
-"PO-Revision-Date: 2018-07-13 09:49+0000\n"
+"POT-Creation-Date: 2018-11-07 10:18+0000\n"
+"PO-Revision-Date: 2018-11-07 10:18+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -42,10 +42,10 @@ msgid "Amount"
 msgstr "Importe"
 
 #. module: cb_medical_pos
-#: code:addons/cb_medical_pos/wizard/wizard_medical_encounter_add_amount.py:91
+#: code:addons/cb_medical_pos/wizard/wizard_medical_encounter_add_amount.py:94
 #, python-format
-msgid "Amount must be greater than 0"
-msgstr "Amount must be greater than 0"
+msgid "Amount cannot be zero"
+msgstr "Amount cannot be zero"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_add_amount_journal_ids
@@ -97,13 +97,13 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: cb_medical_pos
-#: code:addons/cb_medical_pos/models/medical_encounter.py:78
+#: code:addons/cb_medical_pos/models/medical_encounter.py:82
 #, python-format
 msgid "Company is required"
 msgstr "Company is required"
 
 #. module: cb_medical_pos
-#: code:addons/cb_medical_pos/models/medical_encounter.py:67
+#: code:addons/cb_medical_pos/models/medical_encounter.py:71
 #, python-format
 msgid "Company is required in order to create Sale Orders"
 msgstr "Company is required in order to create Sale Orders"
@@ -205,12 +205,23 @@ msgid "Journal for patient invoices"
 msgstr "Journal for patient invoices"
 
 #. module: cb_medical_pos
+#: model:ir.model.fields,field_description:cb_medical_pos.field_medical_encounter_laboratory_request_ids
+msgid "Laboratory Request"
+msgstr "Laboratory Request"
+
+#. module: cb_medical_pos
+#: code:addons/cb_medical_pos/models/medical_encounter.py:93
+#, python-format
+msgid "Laboratory requests are not fulfilled."
+msgstr "Laboratory requests are not fulfilled."
+
+#. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out___last_update
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_add_amount___last_update
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_close___last_update
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_finish___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr "Última modificación el"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out_write_uid
@@ -218,7 +229,7 @@ msgstr "Última modificación en"
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_close_write_uid
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_finish_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out_write_date
@@ -239,8 +250,8 @@ msgid "Partner invoice"
 msgstr "Partner invoice"
 
 #. module: cb_medical_pos
-#: code:addons/cb_medical_pos/models/medical_encounter.py:96
-#: code:addons/cb_medical_pos/models/medical_encounter.py:99
+#: code:addons/cb_medical_pos/models/medical_encounter.py:105
+#: code:addons/cb_medical_pos/models/medical_encounter.py:108
 #, python-format
 msgid "Payment journal is necessary in order to finish sale orders"
 msgstr "Payment journal is necessary in order to finish sale orders"
@@ -316,6 +327,11 @@ msgstr "Sale orders"
 #: model:ir.model.fields,field_description:cb_medical_pos.field_pos_config_session_sequence_id
 msgid "Sequence for sessions"
 msgstr "Sequence for sessions"
+
+#. module: cb_medical_pos
+#: model:ir.model.fields,field_description:cb_medical_pos.field_pos_config_session_sequence_prefix
+msgid "Session Sequence Prefix"
+msgstr "Session Sequence Prefix"
 
 #. module: cb_medical_pos
 #: model:ir.ui.view,arch_db:cb_medical_pos.view_pos_config_form
