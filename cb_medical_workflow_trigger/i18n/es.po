@@ -1,0 +1,145 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* cb_medical_workflow_trigger
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-07 10:18+0000\n"
+"PO-Revision-Date: 2018-11-07 10:18+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_workflow_plan_definition_action_trigger_action_ids
+msgid "Actions that will be triggered"
+msgstr "Actions that will be triggered"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_workflow_plan_definition_action_triggerer_action_ids
+msgid "Actions that will trigger this action"
+msgstr "Actions that will trigger this action"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_careplan_trigger_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_document_reference_trigger_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_laboratory_request_trigger_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_medication_request_trigger_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_procedure_request_trigger_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_group_trigger_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_ids
+msgid "Elements that will be triggered"
+msgstr "Elements that will be triggered"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_careplan_triggerer_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_document_reference_triggerer_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_laboratory_request_triggerer_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_medication_request_triggerer_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_procedure_request_triggerer_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_group_triggerer_ids
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_triggerer_ids
+msgid "Elements that will trigger the request"
+msgstr "Elements that will trigger the request"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger___last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model,name:cb_medical_workflow_trigger.model_workflow_plan_definition_action
+msgid "Medical Plan Definition Action"
+msgstr "Acción"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model,name:cb_medical_workflow_trigger.model_medical_request
+msgid "Medical request"
+msgstr "Medical request"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model,name:cb_medical_workflow_trigger.model_workflow_plan_definition
+msgid "Plan Definition"
+msgstr "Plan"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_request_id
+msgid "Request"
+msgstr "Request"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_request_model
+msgid "Request Model"
+msgstr "Request Model"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_trigger_id
+msgid "Trigger"
+msgstr "Trigger"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.ui.view,arch_db:cb_medical_workflow_trigger.workflow_plan_definition_action_form
+msgid "Trigger Actions"
+msgstr "Trigger Actions"
+
+#. module: cb_medical_workflow_trigger
+#: model:res.groups,name:cb_medical_workflow_trigger.group_medical_trigger_display
+msgid "Trigger Display"
+msgstr "Trigger Display"
+
+#. module: cb_medical_workflow_trigger
+#: model:res.groups,name:cb_medical_workflow_trigger.group_medical_trigger_manager
+msgid "Trigger Manager"
+msgstr "Trigger Manager"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_trigger_model
+msgid "Trigger Model"
+msgstr "Trigger Model"
+
+#. module: cb_medical_workflow_trigger
+#: code:addons/cb_medical_workflow_trigger/models/workflow_plan_definition_action.py:44
+#, python-format
+msgid "Trigger entered on a loop"
+msgstr "Trigger entered on a loop"
+
+#. module: cb_medical_workflow_trigger
+#: model:ir.model,name:cb_medical_workflow_trigger.model_medical_request_trigger
+msgid "medical.request.trigger"
+msgstr "medical.request.trigger"
+
