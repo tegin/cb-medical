@@ -1,0 +1,176 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* cb_medical_sale_discount
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-07 10:18+0000\n"
+"PO-Revision-Date: 2018-11-07 10:18+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_active
+msgid "Active"
+msgstr "Activo"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model,name:cb_medical_sale_discount.model_medical_request_group_discount
+msgid "Add discount on a request group"
+msgstr "Add discount on a request group"
+
+#. module: cb_medical_sale_discount
+#: model:ir.ui.view,arch_db:cb_medical_sale_discount.medical_request_group_discount_form
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: cb_medical_sale_discount
+#: model:ir.actions.act_window,name:cb_medical_sale_discount.medical_request_group_discount_action
+#: model:ir.ui.view,arch_db:cb_medical_sale_discount.medical_request_group_discount_form
+#: model:ir.ui.view,arch_db:cb_medical_sale_discount.medical_request_group_form
+msgid "Apply discount"
+msgstr "Apply discount"
+
+#. module: cb_medical_sale_discount
+#: model:ir.ui.view,arch_db:cb_medical_sale_discount.medical_sale_discount_search
+msgid "Archived"
+msgstr "Archivado"
+
+#. module: cb_medical_sale_discount
+#: model:ir.ui.view,arch_db:cb_medical_sale_discount.medical_request_group_discount_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_create_uid
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_create_date
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_description
+msgid "Description"
+msgstr "Descripción"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_careplan_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_document_reference_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_laboratory_request_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_medication_request_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_procedure_request_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_discount
+msgid "Discount"
+msgstr "Discount"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_display_name
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_id
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_is_fixed
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_is_fixed
+msgid "Is Fixed"
+msgstr "Is Fixed"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount___last_update
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount___last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_write_uid
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_write_date
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: cb_medical_sale_discount
+#: model:ir.actions.act_window,name:cb_medical_sale_discount.medical_sale_discount_action
+#: model:ir.model,name:cb_medical_sale_discount.model_medical_sale_discount
+#: model:ir.ui.menu,name:cb_medical_sale_discount.medical_sale_discount_menu
+msgid "Medical Discounts"
+msgstr "Medical Discounts"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_careplan_medical_sale_discount_id
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_document_reference_medical_sale_discount_id
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_laboratory_request_medical_sale_discount_id
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_medication_request_medical_sale_discount_id
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_procedure_request_medical_sale_discount_id
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_medical_sale_discount_id
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_medical_sale_discount_id
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_medical_sale_discount_id
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_sale_order_line_medical_sale_discount_id
+msgid "Medical Sale Discount"
+msgstr "Medical Sale Discount"
+
+#. module: cb_medical_sale_discount
+#: model:ir.ui.view,arch_db:cb_medical_sale_discount.medical_sale_discount_form
+msgid "Medical discount"
+msgstr "Medical discount"
+
+#. module: cb_medical_sale_discount
+#: model:ir.ui.view,arch_db:cb_medical_sale_discount.medical_sale_discount_search
+#: model:ir.ui.view,arch_db:cb_medical_sale_discount.medical_sale_discount_tree
+msgid "Medical discounts"
+msgstr "Medical discounts"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model,name:cb_medical_sale_discount.model_medical_request
+msgid "Medical request"
+msgstr "Medical request"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_percentage
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_sale_discount_percentage
+msgid "Percentage"
+msgstr "Percentage"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model.fields,field_description:cb_medical_sale_discount.field_medical_request_group_discount_request_group_id
+msgid "Request Group"
+msgstr "Servicio"
+
+#. module: cb_medical_sale_discount
+#: model:res.groups,name:cb_medical_sale_discount.group_medical_sale_discount_manager
+msgid "Sale discount manager"
+msgstr "Sale discount manager"
+
+#. module: cb_medical_sale_discount
+#: model:ir.model,name:cb_medical_sale_discount.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de orden de ventas"
+
