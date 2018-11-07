@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-13 09:49+0000\n"
-"PO-Revision-Date: 2018-07-13 09:49+0000\n"
+"POT-Creation-Date: 2018-11-07 10:18+0000\n"
+"PO-Revision-Date: 2018-11-07 10:18+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -53,6 +53,8 @@ msgstr "Actual Date"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.actions.act_window,name:cb_medical_financial_coverage_agreement.medical_coverage_agreement_action
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template_agreement_id
+#: model:ir.ui.menu,name:cb_medical_financial_coverage_agreement.menu_medical_coverage_agreement_root
 #: model:ir.ui.view,arch_db:cb_medical_financial_coverage_agreement.medical_coverage_agreement_view
 msgid "Agreement"
 msgstr "Agreement"
@@ -79,6 +81,16 @@ msgid "Agreement Report"
 msgstr "Agreement Report"
 
 #. module: cb_medical_financial_coverage_agreement
+#: model:ir.ui.menu,name:cb_medical_financial_coverage_agreement.menu_medical_coverage_agreement_template_root
+msgid "Agreement Template"
+msgstr "Agreement Template"
+
+#. module: cb_medical_financial_coverage_agreement
+#: model:ir.actions.act_window,name:cb_medical_financial_coverage_agreement.medical_coverage_agreement_template_action
+msgid "Agreement Templates"
+msgstr "Agreement Templates"
+
+#. module: cb_medical_financial_coverage_agreement
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_item_ids
 msgid "Agreement items"
 msgstr "Agreement items"
@@ -99,6 +111,7 @@ msgstr "An agreement contains rules to be evaluated in order to\n"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.ui.view,arch_db:cb_medical_financial_coverage_agreement.medical_agreement_change_prices_form
+#: model:ir.ui.view,arch_db:cb_medical_financial_coverage_agreement.medical_coverage_agreement_template_form
 msgid "Apply changes"
 msgstr "Apply changes"
 
@@ -110,6 +123,7 @@ msgstr "Archivado"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.ui.view,arch_db:cb_medical_financial_coverage_agreement.medical_agreement_change_prices_form
+#: model:ir.ui.view,arch_db:cb_medical_financial_coverage_agreement.medical_coverage_agreement_template_form
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -120,6 +134,7 @@ msgstr "Centers"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.actions.act_window,name:cb_medical_financial_coverage_agreement.medical_agreement_change_prices_action
+#: model:ir.actions.act_window,name:cb_medical_financial_coverage_agreement.set_medical_coverage_agreement_template_action
 msgid "Change prices"
 msgstr "Change prices"
 
@@ -156,7 +171,6 @@ msgstr "Coverage %"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.model,name:cb_medical_financial_coverage_agreement.model_medical_coverage_agreement
-#: model:ir.ui.menu,name:cb_medical_financial_coverage_agreement.menu_medical_coverage_agreement_root
 msgid "Coverage Agreement"
 msgstr "Coverage Agreement"
 
@@ -173,6 +187,12 @@ msgid "Coverage Templates"
 msgstr "Coberturas"
 
 #. module: cb_medical_financial_coverage_agreement
+#: code:addons/cb_medical_financial_coverage_agreement/models/medical_coverage_agreement.py:94
+#, python-format
+msgid "Coverage cannot be defined on templates"
+msgstr "Coverage cannot be defined on templates"
+
+#. module: cb_medical_financial_coverage_agreement
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_item_coverage_price
 msgid "Coverage price"
 msgstr "Coverage price"
@@ -187,6 +207,7 @@ msgstr "Coverage templates related to this agreement"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_agreement_change_prices_create_uid
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_create_uid
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_item_create_uid
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template_create_uid
 msgid "Created by"
 msgstr "Creado por"
 
@@ -194,6 +215,7 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_agreement_change_prices_create_date
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_create_date
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_item_create_date
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template_create_date
 msgid "Created on"
 msgstr "Creado en"
 
@@ -207,6 +229,7 @@ msgstr "Moneda"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_agreement_change_prices_display_name
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_display_name
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_item_display_name
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template_display_name
 msgid "Display Name"
 msgstr "Nombre mostrado"
 
@@ -222,12 +245,13 @@ msgstr "Each rule include a set of applicability criteria (date\n"
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_date_from
 msgid "From"
-msgstr "De"
+msgstr "Desde"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_agreement_change_prices_id
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_id
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_item_id
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template_id_11735
 msgid "ID"
 msgstr "ID (identificación)"
 
@@ -235,6 +259,11 @@ msgstr "ID (identificación)"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_agreement_change_prices_difference
 msgid "Indicate the percentage to apply to the selected item(s):"
 msgstr "Indicate the percentage to apply to the selected item(s):"
+
+#. module: cb_medical_financial_coverage_agreement
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_is_template
+msgid "Is Template"
+msgstr "Is Template"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.ui.view,arch_db:cb_medical_financial_coverage_agreement.medical_coverage_agreement_view
@@ -245,19 +274,22 @@ msgstr "Elementos"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_agreement_change_prices___last_update
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement___last_update
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_item___last_update
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr "Última modificación el"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_agreement_change_prices_write_uid
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_item_write_uid
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template_write_uid
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_agreement_change_prices_write_date
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_item_write_date
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template_write_date
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_write_date
 msgid "Last Updated on"
 msgstr "Última actualización en"
@@ -330,11 +362,10 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: cb_medical_financial_coverage_agreement
-#: code:addons/cb_medical_financial_coverage_agreement/models/medical_coverage_agreement_item.py:81
-#: sql_constraint:medical.coverage.agreement.item:0
+#: code:addons/cb_medical_financial_coverage_agreement/models/medical_coverage_agreement_item.py:111
 #, python-format
-msgid "Product has to be unique in each agreement!"
-msgstr "Product has to be unique in each agreement!"
+msgid "Product must be unique for an agreement"
+msgstr "Product must be unique for an agreement"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.model.fields,help:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_company_id
@@ -343,9 +374,36 @@ msgid "Responsible Medical Company"
 msgstr "Responsible Medical Company"
 
 #. module: cb_medical_financial_coverage_agreement
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template_set_items
+msgid "Set Items"
+msgstr "Set Items"
+
+#. module: cb_medical_financial_coverage_agreement
+#: model:ir.ui.view,arch_db:cb_medical_financial_coverage_agreement.medical_coverage_agreement_template_form
+msgid "Set a template for an Agreement"
+msgstr "Set a template for an Agreement"
+
+#. module: cb_medical_financial_coverage_agreement
+#: model:ir.ui.view,arch_db:cb_medical_financial_coverage_agreement.medical_coverage_agreement_view
+msgid "Set template"
+msgstr "Set template"
+
+#. module: cb_medical_financial_coverage_agreement
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template_id
+#: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_template_template_id
+msgid "Template"
+msgstr "Plantilla"
+
+#. module: cb_medical_financial_coverage_agreement
+#: code:addons/cb_medical_financial_coverage_agreement/models/medical_coverage_agreement.py:98
+#, python-format
+msgid "Template cannot be defined on templates"
+msgstr "Template cannot be defined on templates"
+
+#. module: cb_medical_financial_coverage_agreement
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_date_to
 msgid "To"
-msgstr "Para"
+msgstr "Hasta"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.ui.view,arch_db:cb_medical_financial_coverage_agreement.report_agreement_template
@@ -372,4 +430,9 @@ msgstr "and "
 #: model:ir.model,name:cb_medical_financial_coverage_agreement.model_medical_agreement_change_prices
 msgid "medical.agreement.change.prices"
 msgstr "medical.agreement.change.prices"
+
+#. module: cb_medical_financial_coverage_agreement
+#: model:ir.model,name:cb_medical_financial_coverage_agreement.model_medical_coverage_agreement_template
+msgid "medical.coverage.agreement.template"
+msgstr "medical.coverage.agreement.template"
 
