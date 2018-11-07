@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-13 09:49+0000\n"
-"PO-Revision-Date: 2018-07-13 09:49+0000\n"
+"POT-Creation-Date: 2018-11-07 10:18+0000\n"
+"PO-Revision-Date: 2018-11-07 10:18+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,7 @@ msgstr ""
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_careplan_document_reference_count
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_reference_count
+#: model:ir.model.fields,field_description:medical_document.field_medical_laboratory_request_document_reference_count
 #: model:ir.model.fields,field_description:medical_document.field_medical_medication_request_document_reference_count
 #: model:ir.model.fields,field_description:medical_document.field_medical_procedure_request_document_reference_count
 #: model:ir.model.fields,field_description:medical_document.field_medical_request_document_reference_count
@@ -32,7 +33,14 @@ msgid "Activity Definition"
 msgstr "Actividad"
 
 #. module: medical_document
-#: code:addons/medical_document/models/medical_document_type.py:76
+#: model:ir.actions.act_window,name:medical_document.medical_document_type_add_language_action
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_add_language_form
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_form
+msgid "Add Language"
+msgstr "Add Language"
+
+#. module: medical_document
+#: code:addons/medical_document/models/medical_document_type.py:82
 #, python-format
 msgid "Added template with sequence %s"
 msgstr "Añadida la plantilla con la secuencia %s"
@@ -40,6 +48,7 @@ msgstr "Añadida la plantilla con la secuencia %s"
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_careplan_document_reference_ids
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_reference_ids
+#: model:ir.model.fields,field_description:medical_document.field_medical_laboratory_request_document_reference_ids
 #: model:ir.model.fields,field_description:medical_document.field_medical_medication_request_document_reference_ids
 #: model:ir.model.fields,field_description:medical_document.field_medical_procedure_request_document_reference_ids
 #: model:ir.model.fields,field_description:medical_document.field_medical_request_document_reference_ids
@@ -48,22 +57,49 @@ msgid "Associated Documents"
 msgstr "Documentos asociados"
 
 #. module: medical_document
-#: code:addons/medical_document/models/medical_document_type.py:100
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_change_language_form
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_add_language_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: medical_document
+#: code:addons/medical_document/models/medical_document_type.py:108
 #, python-format
 msgid "Cannot supersed if it is used on active definitions"
 msgstr "No se puede marcar como reemplazada si tiene definiciones activas"
 
 #. module: medical_document
+#: model:ir.actions.act_window,name:medical_document.medical_document_reference_change_language_action
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_change_language_form
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_form
+msgid "Change Language"
+msgstr "Change Language"
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_reference_change_language_form
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_add_language_form
+msgid "Create"
+msgstr "Crear"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_create_uid
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_create_uid
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_template_create_uid
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_create_uid
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language_create_uid
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_create_uid
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_create_uid
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_create_date
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_create_date
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_template_create_date
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_create_date
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language_create_date
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_create_date
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_create_date
 msgid "Created on"
 msgstr "Creado en"
 
@@ -85,9 +121,14 @@ msgid "Current Template"
 msgstr "Plantilla actual"
 
 #. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_language_display_name
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_display_name
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_display_name
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_template_display_name
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_display_name
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language_display_name
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_display_name
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_display_name
 msgid "Display Name"
 msgstr "Nombre mostrado"
 
@@ -103,7 +144,9 @@ msgstr "Document Actions"
 
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_careplan_document_reference_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_document_reference_id
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_reference_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_laboratory_request_document_reference_id
 #: model:ir.model.fields,field_description:medical_document.field_medical_medication_request_document_reference_id
 #: model:ir.model.fields,field_description:medical_document.field_medical_procedure_request_document_reference_id
 #: model:ir.model.fields,field_description:medical_document.field_medical_request_document_reference_id
@@ -124,15 +167,19 @@ msgstr "Gestionar documentos"
 
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_template_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_document_template_id
 msgid "Document Template"
 msgstr "Plantilla del documento"
 
 #. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_document_type_id
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_type
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_document_type_id
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_template_document_type
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_template_document_type_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language_document_type_id
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_document_type
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_document_type_id
 #: model:ir.model.fields,field_description:medical_document.field_workflow_activity_definition_document_type_id
 msgid "Document Type"
 msgstr "Tipo de documento"
@@ -151,6 +198,11 @@ msgstr "Gestionar Tipos de documentos"
 #: model:ir.ui.menu,name:medical_document.medical_document_type_menu
 msgid "Document actions"
 msgstr "Acciones de documento"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_internal_identifier
+msgid "Document reference"
+msgstr "Document reference"
 
 #. module: medical_document
 #: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_search
@@ -185,6 +237,7 @@ msgid "Document text"
 msgstr "Texto del documento"
 
 #. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_lang_view_form
 #: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_form
 msgid "Document type"
 msgstr "Tipo de documento"
@@ -200,6 +253,11 @@ msgid "Document types"
 msgstr "Tipos de documentos"
 
 #. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_lang_view_tree
+msgid "Document types Language"
+msgstr "Document types Language"
+
+#. module: medical_document
 #: model:ir.ui.view,arch_db:medical_document.medical_request_form
 msgid "Documents"
 msgstr "Documentos"
@@ -212,9 +270,9 @@ msgid "Draft"
 msgstr "Borrador"
 
 #. module: medical_document
-#: code:addons/medical_document/models/medical_document_reference.py:95
-#: code:addons/medical_document/models/medical_document_reference.py:141
-#: code:addons/medical_document/models/medical_document_template.py:38
+#: code:addons/medical_document/models/medical_document_reference.py:107
+#: code:addons/medical_document/models/medical_document_reference.py:173
+#: code:addons/medical_document/models/medical_document_template.py:51
 #, python-format
 msgid "Function must be defined"
 msgstr "Se debe definir la función"
@@ -223,14 +281,24 @@ msgstr "Se debe definir la función"
 #: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_search
 #: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_search
 msgid "Group By..."
-msgstr "Agrupar por..."
+msgstr "Agrupar Por..."
 
 #. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_language_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_id
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_id
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_template_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language_id
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_id
 msgid "ID"
 msgstr "ID (identificación)"
+
+#. module: medical_document
+#: model:ir.model.fields,help:medical_document.field_medical_document_reference_internal_identifier
+msgid "Internal identifier used to identify this record"
+msgstr "Internal identifier used to identify this record"
 
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_is_editable
@@ -243,22 +311,53 @@ msgid "Items"
 msgstr "Elementos"
 
 #. module: medical_document
-#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference___last_update
-#: model:ir.model.fields,field_description:medical_document.field_medical_document_template___last_update
-#: model:ir.model.fields,field_description:medical_document.field_medical_document_type___last_update
-msgid "Last Modified on"
-msgstr "Última modificación en"
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_lang_ids
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_ids
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language_lang_ids
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_ids
+msgid "Lang"
+msgstr "Lang"
 
 #. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_language_lang
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_lang_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_lang
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_lang
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language_lang_id
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_lang
+msgid "Language"
+msgstr "Idioma"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_language___last_update
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference___last_update
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language___last_update
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template___last_update
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang___last_update
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type___last_update
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language___last_update
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang___last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_write_uid
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_write_uid
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_write_uid
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_template_write_uid
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language_write_uid
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_write_uid
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: medical_document
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_write_date
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_write_date
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_write_date
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_template_write_date
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language_write_date
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_write_date
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_write_date
 msgid "Last Updated on"
 msgstr "Última actualización en"
@@ -311,6 +410,16 @@ msgid "Post new version"
 msgstr "Publicar una nueva versión"
 
 #. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_lang_view_form
+msgid "Preview"
+msgstr "Previsualizar"
+
+#. module: medical_document
+#: model:ir.actions.report,name:medical_document.action_report_document_report_type
+msgid "Preview without headers"
+msgstr "Preview without headers"
+
+#. module: medical_document
 #: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_form
 msgid "Print"
 msgstr "Imprimir"
@@ -343,13 +452,13 @@ msgid "State"
 msgstr "Estado"
 
 #. module: medical_document
-#: code:addons/medical_document/models/medical_document_reference.py:149
+#: code:addons/medical_document/models/medical_document_reference.py:181
 #, python-format
 msgid "State must be Current"
 msgstr "El estado debe ser actual"
 
 #. module: medical_document
-#: code:addons/medical_document/models/medical_document_reference.py:129
+#: code:addons/medical_document/models/medical_document_reference.py:158
 #, python-format
 msgid "State must be draft"
 msgstr "El estado debe ser borrador"
@@ -372,10 +481,25 @@ msgid "Template"
 msgstr "Plantilla"
 
 #. module: medical_document
-#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_text
-#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_text
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_text
+#: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_text
 msgid "Text"
-msgstr "Texto"
+msgstr "Text"
+
+#. module: medical_document
+#: sql_constraint:medical.document.template.lang:0
+msgid "The language is allowed only once on a template."
+msgstr "The language is allowed only once on a template."
+
+#. module: medical_document
+#: sql_constraint:medical.document.type.lang:0
+msgid "The language is allowed only once on a type."
+msgstr "The language is allowed only once on a type."
+
+#. module: medical_document
+#: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_form
+msgid "Translations"
+msgstr "Traducciones"
 
 #. module: medical_document
 #: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_form
@@ -391,6 +515,31 @@ msgstr "Etiqueta ZPL2"
 #: model:ir.actions.report,name:medical_document.action_report_document_report_base
 msgid "default document external"
 msgstr "documento externo"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_medical_document_language
+msgid "medical.document.language"
+msgstr "medical.document.language"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_medical_document_reference_change_language
+msgid "medical.document.reference.change.language"
+msgstr "medical.document.reference.change.language"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_medical_document_template_lang
+msgid "medical.document.template.lang"
+msgstr "medical.document.template.lang"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_medical_document_type_add_language
+msgid "medical.document.type.add.language"
+msgstr "medical.document.type.add.language"
+
+#. module: medical_document
+#: model:ir.model,name:medical_document.model_medical_document_type_lang
+msgid "medical.document.type.lang"
+msgstr "medical.document.type.lang"
 
 #. module: medical_document
 #: model:ir.model,name:medical_document.model_res_remote_printer
