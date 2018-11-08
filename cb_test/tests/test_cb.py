@@ -203,8 +203,18 @@ class TestMedicalCareplanSale(TransactionCase):
         })
         self.product_01 = self.create_product('Medical resonance')
         self.product_02 = self.create_product('Report')
+        self.service = self.env['product.product'].create({
+            'name': 'Service',
+            'type': 'service',
+            'taxes_id': [(6, 0, self.tax.ids)],
+        })
+        self.category = self.env['product.category'].create({
+            'name': 'Category',
+            'category_product_id': self.service.id,
+        })
         self.product_03 = self.env['product.product'].create({
             'type': 'consu',
+            'categ_id': self.category.id,
             'name': 'Clinical material',
             'is_medication': True,
             'lst_price': 10.0,
@@ -244,7 +254,7 @@ class TestMedicalCareplanSale(TransactionCase):
         })
         self.activity2 = self.env['workflow.activity.definition'].create({
             'name': 'Activity2',
-            'service_id': self.product_03.id,
+            'service_id': self.service.id,
             'model_id': self.browse_ref('medical_medication_request.'
                                         'model_medical_medication_request').id,
             'type_id': self.type.id,
@@ -338,7 +348,7 @@ class TestMedicalCareplanSale(TransactionCase):
         self.agreement_line2 = self.env[
             'medical.coverage.agreement.item'
         ].create({
-            'product_id': self.product_03.id,
+            'product_id': self.service.id,
             'coverage_agreement_id': self.agreement.id,
             'total_price': 0.0,
             'coverage_percentage': 100.0,
@@ -464,14 +474,6 @@ class TestMedicalCareplanSale(TransactionCase):
         self.discount = self.env['medical.sale.discount'].create({
             'name': 'Discount 01',
             'percentage': 50,
-        })
-        self.service = self.env['product.product'].create({
-            'name': 'Service',
-            'type': 'service',
-        })
-        self.category = self.env['product.category'].create({
-            'name': 'Category',
-            'category_product_id': self.service.id,
         })
         self.product = self.env['product.product'].create({
             'name': 'Product',
@@ -749,22 +751,8 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertTrue(medication_requests.filtered(lambda r: r.is_billable))
         self.assertTrue(medication_requests.filtered(
             lambda r: r.is_sellable_insurance or r.is_sellable_private))
+        careplan.add_medication(self.location, self.product_03, 2)
         for request in medication_requests:
-            self.assertEqual(request.center_id, encounter.center_id)
-            request.qty = 2
-            request.draft2active()
-            self.assertEqual(careplan.state, 'active')
-            values = request.action_view_medication_administration()['context']
-            admin = self.env[
-                'medical.medication.administration'].with_context(
-                values).create({})
-            admin.location_id = self.location.id
-            admin.preparation2in_progress()
-            admin.in_progress2completed()
-            stock_move = self.env['stock.picking'].search([
-                ('medication_administration_id', '=', admin.id)
-            ]).move_lines.move_line_ids
-            self.assertEqual(stock_move.qty_done, 2.0)
             request.active2completed()
         self.env['wizard.medical.encounter.close'].create({
             'encounter_id': encounter.id,
@@ -817,7 +805,7 @@ class TestMedicalCareplanSale(TransactionCase):
             self.assertEqual(sale_order.commission_total, 0)
             medicaments = self.env['sale.order.line'].search([
                 ('order_id', '=', sale_order.id),
-                ('product_id', '=', self.product_03.id),
+                ('product_id', '=', self.service.id),
             ])
             for medicament in medicaments:
                 medicament_price = medicament.price_unit

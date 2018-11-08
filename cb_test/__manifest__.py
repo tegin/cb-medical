@@ -18,6 +18,7 @@
         'cb_medical_state_update',
         'cb_medical_block_request',
         'cb_medical_authorization',
+        'cb_medical_medication',
     ],
     'data': [
     ],
