@@ -12,6 +12,7 @@
         'pos_session_pay_invoice',
         'pos_close_approval',
         'pos_multiple_sessions',
+        'cb_medical_commission',
     ],
     'data': [
         'data/ir_sequence_data.xml',
