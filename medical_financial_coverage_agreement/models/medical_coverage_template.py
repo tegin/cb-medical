@@ -15,6 +15,7 @@ class MedicalCoverageTemplate(models.Model):
         relation='medical_coverage_agreement_medical_coverage_template_rel',
         column1='coverage_template_id',
         column2='agreement_id',
+        domain=[('is_template', '=', False)],
         help='Coverage templates related to this agreement',
     )
     unique_product = fields.Boolean(
