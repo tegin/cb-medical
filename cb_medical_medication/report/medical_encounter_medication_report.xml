@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<odoo>
+    <report id="action_encounter_material_report"
+            string="Material Report"
+            model="medical.encounter"
+            report_type="qweb-pdf"
+            name="cb_medical_medication.report_medical_encounter_material"
+    />
+
+    <template id="report_medical_encounter_material">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <h3 class="text-center">Consumed material</h3>
+                            <h2><span t-field="o.internal_identifier"/></h2>
+                            <table class="table table-bordered mt32">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Product</th>
+                                        <th class="text-center">Date</th>
+                                        <th class="text-center">Quantity</th>
+                                        <th class="text-center">Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.careplan_ids.mapped('medication_request_ids')" t-as="item">
+                                        <tr>
+                                            <td>
+                                                <span t-field="item.product_id.name"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-field="item.create_date"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-field="item.coverage_price"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-field="item.location_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
