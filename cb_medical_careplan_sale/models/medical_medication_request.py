@@ -15,7 +15,7 @@ class MedicalMedicationRequest(models.Model):
         cai = self.coverage_agreement_item_id
         medication_price = 0.0
         for admin in self.medication_administration_ids:
-            medication_price += admin.qty * admin.product_id.list_price
+            medication_price += admin.price
         percentage = cai.coverage_percentage
         if not is_insurance:
             percentage = 1 - percentage
