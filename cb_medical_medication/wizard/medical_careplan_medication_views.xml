@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<!--
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    Copyright 2017 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="medical_careplan_medication_form" model="ir.ui.view">
+        <field name="name">medical.careplan.medication</field>
+        <field name="model">medical.careplan.medication</field>
+        <field name="arch" type="xml">
+            <form string="Add Medication">
+                <group>
+                    <field name="medical_id" invisible="1"/>
+                    <field name="location_id" options="{'no_create': True}"/>
+                    <field name="product_id" options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="run"
+                            string="Create"
+                            type="object"
+                            class="oe_highlight" />
+                    or
+                    <button
+                        name="action_cancel"
+                        string="Cancel"
+                        class="oe_link"
+                        special="cancel"
+                        />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="medical_careplan_medication_action"
+            model="ir.actions.act_window">
+        <field name="name">Add Medication</field>
+        <field name="res_model">medical.careplan.medication</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_medical_id': active_id}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
