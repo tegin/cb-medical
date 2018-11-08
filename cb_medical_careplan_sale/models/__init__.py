@@ -9,6 +9,7 @@ from . import medical_laboratory_request
 from . import medical_patient
 from . import medical_request
 from . import medical_request_group
+from . import medical_medication_administration
 from . import medical_medication_request
 from . import res_config_settings
 from . import res_partner
