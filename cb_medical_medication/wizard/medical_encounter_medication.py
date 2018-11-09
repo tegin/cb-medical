@@ -2,10 +2,10 @@ from odoo import api, fields, models
 
 
 class MedicalCareplanMedication(models.TransientModel):
-    _name = 'medical.careplan.medication'
+    _name = 'medical.encounter.medication'
 
     medical_id = fields.Many2one(
-        'medical.careplan',
+        'medical.encounter',
         required=True,
         readonly=True,
     )
@@ -18,6 +18,7 @@ class MedicalCareplanMedication(models.TransientModel):
         'res.partner',
         domain=[('stock_location_id', '!=', False),
                 ('is_location', '=', True)],
+        required=True,
     )
 
     @api.multi
