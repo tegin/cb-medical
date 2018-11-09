@@ -30,4 +30,3 @@ class MedicalMedicationRequest(models.Model):
         administration.preparation2in_progress()
         administration.in_progress2completed()
         return administration
-
