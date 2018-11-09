@@ -117,7 +117,9 @@ class MedicalDocumentReference(models.Model):
         if 'printer' not in behaviour:
             return False
         printer = behaviour.pop('printer')
-        return printer.print_document(
+        return printer.with_context(
+            print_report_name='doc_' + self.internal_identifier
+        ).print_document(
             report=self.document_type_id.report_action_id,
             content=content, doc_format=mime
         )
