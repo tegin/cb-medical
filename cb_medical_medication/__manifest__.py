@@ -9,11 +9,13 @@
     'depends': [
         'cb_medical_careplan_sale',
         'mrp',
+        'pos_validation',
+        'cb_medical_block_request',
     ],
     'data': [
-        'wizard/medical_careplan_medication_views.xml',
+        'wizard/medical_encounter_medication_views.xml',
         'views/product_category_views.xml',
-        'views/medical_careplan_views.xml',
+        'views/medical_encounter_views.xml',
         'report/medical_encounter_medication_report.xml',
     ],
     'website': 'https://github.com/OCA/vertical-medical',
