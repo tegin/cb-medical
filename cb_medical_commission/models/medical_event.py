@@ -61,7 +61,10 @@ class MedicalEvent(models.AbstractModel):
     def check_commission(self):
         # We First check that all the line have been created
         for line in self.get_sale_order_lines():
-            if not line.agents.filtered(lambda r: self.check_agents(r)):
+            if (
+                not line.agents.filtered(lambda r: self.check_agents(r)) and
+                self.commission_agent_id.agent
+            ):
                 self.env['sale.order.line.agent'].create(
                     self._get_sale_order_line_agent_vals(line)
                 )
