@@ -10,8 +10,24 @@ class MedicalMedicationRequest(models.Model):
 
     def _get_event_values(self):
         res = super()._get_event_values()
-        if self._context.get('product_id', False):
-            res['product_id'] = self._context.get('product_id')
-            res['product_uom_id'] = self._context.get('product_uom_id')
-            res['qty'] = self._context.get('qty', 1)
+        if self.env.context.get('product_id', False):
+            res['product_id'] = self.env.context.get('product_id')
+            res['product_uom_id'] = self.env.context.get('product_uom_id')
+            res['qty'] = self.env.context.get('qty', 1)
+            res['amount'] = self.env.context.get('amount', 0)
         return res
+
+    def _add_medication_item(self, item):
+        if self.state == 'draft':
+            self.draft2active()
+        administration = self.with_context(
+            product_id=item.product_id.id,
+            product_uom_id=item.product_id.uom_id.id,
+            qty=item.qty,
+            amount=item.price * item.qty
+        ).generate_event()
+        administration.location_id = item.location_id
+        administration.preparation2in_progress()
+        administration.in_progress2completed()
+        return administration
+
