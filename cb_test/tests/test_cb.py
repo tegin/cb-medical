@@ -751,9 +751,14 @@ class TestMedicalCareplanSale(TransactionCase):
         self.assertTrue(medication_requests.filtered(lambda r: r.is_billable))
         self.assertTrue(medication_requests.filtered(
             lambda r: r.is_sellable_insurance or r.is_sellable_private))
-        careplan.add_medication(self.location, self.product_03, 2)
-        for request in medication_requests:
-            request.active2completed()
+        self.assertFalse(encounter.medication_item_ids)
+        self.env['medical.encounter.medication'].create({
+            'encounter_id': encounter.id,
+            'product_id': self.product_03.id,
+            'location_id': self.location,
+            'qty': 1,
+        }).run()
+        self.assertTrue(encounter.medication_item_ids)
         self.env['wizard.medical.encounter.close'].create({
             'encounter_id': encounter.id,
             'pos_session_id': self.session.id,
@@ -1721,6 +1726,7 @@ class TestMedicalCareplanSale(TransactionCase):
             self.agreement_line3
         )
         self.assertEqual(len(group.procedure_request_ids), 1)
+        self.assertTrue(group.procedure_request_ids.is_blocking)
         self.assertTrue(group.procedure_request_ids.is_blocking)
         with self.assertRaises(ValidationError):
             self.env['wizard.medical.encounter.close'].create({
