@@ -25,7 +25,7 @@
                             help="Preinvoicing is generated. Documents must be stored"
                             class="flag-warning"
                             attrs="{'invisible': ['|', ('is_preinvoiced', '=', True), ('has_preinvoicing', '=', False)]}"
-                            />
+                    />
                     <flag icon="fa-archive"
                           name="preinvoicing"
                           help="Preinvoicing is generated. Documents must be stored"
@@ -85,7 +85,6 @@
                     <sheet name="sale_order" string="Sale Orders">
                         <field name="sale_order_line_ids">
                             <tree create="false" delete="false"
-                                  editable="bottom"
                                   decoration-muted="is_private==True"
                                   decoration-warnging="is_private == False and authorization_status != 'authorized'"
                             >
@@ -106,14 +105,53 @@
                                 <field name="subscriber_id"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="authorization_number"/>
-                                <button name="check_authorization_action" type="object" icon="fa-cogs"
-                                         attrs="{'invisible': [('is_private', '=', True)]}"
+                                <button name="check_authorization_action"
+                                        type="object" icon="fa-cogs"
+                                        attrs="{'invisible': [('is_private', '=', True)]}"
                                 />
                                 <field name="authorization_status"/>
                                 <field name="state" invisible="1"/>
                                 <field name="agents"/>
                             </tree>
-                            <!-- TODO: Form-->
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <field name="product_id"/>
+                                        <field name="product_uom_qty"
+                                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="price_unit"
+                                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="price_total" readonly="1"
+                                               sum="Total"/>
+
+                                        <field name="subscriber_id"
+                                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="authorization_number"/>
+                                        <button name="check_authorization_action"
+                                                type="object" icon="fa-cogs"
+                                                attrs="{'invisible': [('is_private', '=', True)]}"
+                                        />
+                                        <field name="authorization_status"/>
+                                        <field name="state" invisible="1"/>
+                                        <field name="is_private"
+                                               invisible="1"/>
+                                    </group>
+                                    <notebook>
+                                        <page name="procedure" string="Procedures">
+                                            <field name="procedure_ids"/>
+                                        </page>
+                                        <page name="agent" string="Commissions">
+                                            <field name="agents">
+                                                <tree>
+                                                    <field name="agent"/>
+                                                    <field name="procedure_id"/>
+                                                    <field name="amount"/>
+                                                </tree>
+                                            </field>
+                                        </page>
+                                    </notebook>
+                                </sheet>
+                            </form>
                         </field>
                     </sheet>
                 </notebook>
