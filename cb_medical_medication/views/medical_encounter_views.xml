@@ -12,7 +12,7 @@
                         name="%(medical_encounter_medication_action)s"
                         context="{'default_medical_id': active_id}"
                         class="oe_stat_button" icon="fa-pills"
-                        string="Add Medication"/>
+                        string="Add Medication" states="draft,arrived,in-progress"/>
             </xpath>
             <notebook position="inside">
                 <page name="medication" string="Medication">
