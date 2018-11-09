@@ -8,6 +8,7 @@ class MedicalEncounter(models.Model):
         'medical.medication.item',
         inverse_name='encounter_id',
         states={
+            'onleave': [('readonly', True)],
             'finished': [('readonly', True)],
             'cancelled': [('readonly', True)]
         },

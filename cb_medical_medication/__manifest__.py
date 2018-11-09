@@ -13,6 +13,8 @@
         'cb_medical_block_request',
     ],
     'data': [
+        'security/medical_security.xml',
+        'security/ir.model.access.csv',
         'wizard/medical_encounter_medication_views.xml',
         'views/product_category_views.xml',
         'views/medical_encounter_views.xml',
