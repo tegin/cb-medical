@@ -31,6 +31,9 @@
                         states="planned,arrived,in-progress"
                         type="action"/>
             </xpath>
+            <field name="priority_id" position="after">
+                <field name="cancel_reason_id" attrs="{'invisible': [('cancel_reason_id', '=', False)]}"/>
+            </field>
         </field>
     </record>
 
