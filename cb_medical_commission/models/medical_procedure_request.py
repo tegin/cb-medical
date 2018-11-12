@@ -40,3 +40,8 @@ class MedicalProcedureRequest(models.Model):
             'fixed_fee': self.fixed_fee,
         })
         return res
+
+    def generate_event(self, *args, **kwargs):
+        res = super().generate_event(*args, **kwargs)
+        res.compute_commission(res)
+        return res
