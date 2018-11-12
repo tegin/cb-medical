@@ -1,24 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* pos_validation
+# 	* pos_validation
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:19+0000\n"
-"PO-Revision-Date: 2018-11-07 10:19+0000\n"
+"POT-Creation-Date: 2018-11-07 10:28+0000\n"
+"PO-Revision-Date: 2018-11-07 17:18+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.2\n"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_sale_order_line_authorization_format_id
 msgid "Authorization Format"
-msgstr "Authorization Format"
+msgstr "Formato de autorización"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.medical_encounter_view_form
@@ -28,12 +30,12 @@ msgstr "Cerrar"
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_sale_order_line_coverage_agreement_id
 msgid "Coverage Agreement"
-msgstr "Coverage Agreement"
+msgstr "Oferta Poliza"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_sale_order_line_coverage_agreement_item_id
 msgid "Coverage Agreement Item"
-msgstr "Coverage Agreement Item"
+msgstr "Oferta Poliza"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_sale_order_line_coverage_template_id
@@ -44,51 +46,51 @@ msgstr "Cobertura"
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_pos_session_down_payment_ids
 msgid "Down Payment"
-msgstr "Down Payment"
+msgstr "Pago inicial"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.view_pos_session_validation_form
 msgid "Down payments"
-msgstr "Down payments"
+msgstr "Bajo pago"
 
 #. module: pos_validation
 #: selection:medical.encounter,validation_status:0
 #: selection:pos.session,validation_status:0
 msgid "Draft"
-msgstr "Draft"
+msgstr "Borrador"
 
 #. module: pos_validation
 #: code:addons/pos_validation/models/pos_session.py:97
 #, python-format
 msgid "Encounter %s cannot be found"
-msgstr "Encounter %s cannot be found"
+msgstr "Afiliación%s no pudo ser encontrada"
 
 #. module: pos_validation
 #: model:res.groups,name:pos_validation.group_medical_encounter_validation
 msgid "Encounter Validation"
-msgstr "Encounter Validation"
+msgstr "Validación de Afiliacion"
 
 #. module: pos_validation
 #: selection:medical.encounter,validation_status:0
 #: selection:pos.session,validation_status:0
 msgid "Finished"
-msgstr "Finished"
+msgstr "Terminado"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_medical_encounter_has_patient_invoice
 msgid "Has Patient Invoice"
-msgstr "Has Patient Invoice"
+msgstr "Tiene factura de paciente"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_medical_encounter_has_preinvoicing
 msgid "Has Preinvoicing"
-msgstr "Has Preinvoicing"
+msgstr "Tiene pre-facturación"
 
 #. module: pos_validation
 #: selection:medical.encounter,validation_status:0
 #: selection:pos.session,validation_status:0
 msgid "In progress"
-msgstr "In progress"
+msgstr "En progreso"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_pos_session_invoice_ids
@@ -103,12 +105,12 @@ msgstr "Facturas"
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_medical_encounter_is_preinvoiced
 msgid "Is Preinvoiced"
-msgstr "Is Preinvoiced"
+msgstr "Es pre-factura"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_sale_order_line_is_private
 msgid "Is Private"
-msgstr "Is Private"
+msgstr "Es privado"
 
 #. module: pos_validation
 #: model:ir.ui.menu,name:pos_validation.medical_sale
@@ -123,32 +125,32 @@ msgstr "Afiliación"
 #. module: pos_validation
 #: model:ir.model,name:pos_validation.model_medical_request
 msgid "Medical request"
-msgstr "Medical request"
+msgstr "Petición"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_medical_encounter_missing_authorization_number
 msgid "Missing Authorization Number"
-msgstr "Missing Authorization Number"
+msgstr "Falta numero de autorización"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_medical_encounter_missing_subscriber_id
 msgid "Missing Subscriber"
-msgstr "Missing Subscriber"
+msgstr "Falta suscriptor"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.medical_encounter_view_form
 msgid "Missing authorization number"
-msgstr "Missing authorization number"
+msgstr "Falta el número de autorización"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.medical_encounter_view_form
 msgid "Missing subscriber"
-msgstr "Missing subscriber"
+msgstr "Falta suscriptor"
 
 #. module: pos_validation
 #: selection:medical.encounter,validation_status:0
 msgid "None"
-msgstr "None"
+msgstr "Ninguna"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.view_pos_session_validation_form
@@ -158,7 +160,7 @@ msgstr "Líneas de venta"
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.medical_encounter_view_form
 msgid "Patient invoice"
-msgstr "Patient invoice"
+msgstr "Factura paciente"
 
 #. module: pos_validation
 #: model:ir.model.fields,help:pos_validation.field_sale_order_line_payor_id
@@ -173,12 +175,12 @@ msgstr "Mutua"
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_sale_order_line_pos_session_id
 msgid "PoS Session"
-msgstr "PoS Session"
+msgstr "Sesión"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.medical_encounter_view_form
 msgid "Preinvoicing is generated. Documents must be stored"
-msgstr "Preinvoicing is generated. Documents must be stored"
+msgstr "Se genera pre-facturación. Los documentos deben ser almacenados"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_pos_session_procedure_ids
@@ -188,12 +190,12 @@ msgstr "Procedimiento"
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_pos_session_procedure_request_ids
 msgid "Procedure Request"
-msgstr "Procedure Request"
+msgstr "Petición Procedimiento"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.view_pos_session_validation_form
 msgid "Procedure requests"
-msgstr "Procedure requests"
+msgstr "Petición Procedimientos"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.view_pos_session_validation_form
@@ -203,23 +205,23 @@ msgstr "Procedimientos"
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_pos_session_request_group_ids
 msgid "Request Group"
-msgstr "Servicio"
+msgstr "Acto Médico"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.view_pos_session_validation_form
 msgid "Request groups"
-msgstr "Request groups"
+msgstr "Actos Médicos"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_medical_encounter_sale_order_line_ids
 #: model:ir.model.fields,field_description:pos_validation.field_pos_session_sale_order_line_ids
 msgid "Sale Order Line"
-msgstr "Sale Order Line"
+msgstr "Línea de orden de venta"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.medical_encounter_view_form
 msgid "Sale Orders"
-msgstr "Sale Orders"
+msgstr "Órdenes de venta"
 
 #. module: pos_validation
 #: model:ir.model,name:pos_validation.model_sale_order_line
@@ -229,30 +231,30 @@ msgstr "Línea de orden de ventas"
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.view_pos_session_validation_form
 msgid "Scan"
-msgstr "Scan"
+msgstr "Escanear"
 
 #. module: pos_validation
 #: model:ir.ui.menu,name:pos_validation.pos_session_validation
 msgid "Sessions to validate"
-msgstr "Sessions to validate"
+msgstr "Sesiones para validar"
 
 #. module: pos_validation
 #: code:addons/pos_validation/models/medical_encounter.py:95
 #, python-format
 msgid "Some elements are not authorized"
-msgstr "Some elements are not authorized"
+msgstr "Algunos elementos no están autorizados"
 
 #. module: pos_validation
 #: code:addons/pos_validation/models/medical_encounter.py:100
 #, python-format
 msgid "The subscriber id is required"
-msgstr "The subscriber id is required"
+msgstr "Se requiere la identificación del suscriptor"
 
 #. module: pos_validation
 #: code:addons/pos_validation/models/medical_encounter.py:97
 #, python-format
 msgid "There is missing authorization numbers. Fill them first."
-msgstr "There is missing authorization numbers. Fill them first."
+msgstr "Faltan números de autorización.Rellenalos primero."
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.medical_encounter_view_form
@@ -262,12 +264,12 @@ msgstr "Total"
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_medical_encounter_unauthorized_elements
 msgid "Unauthorized Elements"
-msgstr "Unauthorized Elements"
+msgstr "Elementos no autorizados"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.medical_encounter_view_form
 msgid "Unauthorized elements"
-msgstr "Unauthorized elements"
+msgstr "Elementos no autorizados"
 
 #. module: pos_validation
 #: model:ir.ui.view,arch_db:pos_validation.medical_encounter_view_form
@@ -277,7 +279,7 @@ msgstr "Validar"
 #. module: pos_validation
 #: model:ir.actions.act_window,name:pos_validation.session_to_validate_action
 msgid "Validation"
-msgstr "Validation"
+msgstr "Validación"
 
 #. module: pos_validation
 #: model:ir.model.fields,field_description:pos_validation.field_medical_encounter_validation_status
@@ -295,4 +297,3 @@ msgstr "You must check the documentation."
 #: model:ir.model,name:pos_validation.model_pos_session
 msgid "pos.session"
 msgstr "pos.session"
-
