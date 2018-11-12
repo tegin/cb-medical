@@ -1,24 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* medical_document_zpl2
+# 	* medical_document_zpl2
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:19+0000\n"
-"PO-Revision-Date: 2018-11-07 10:19+0000\n"
+"POT-Creation-Date: 2018-11-07 10:27+0000\n"
+"PO-Revision-Date: 2018-11-09 13:52+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.2\n"
 
 #. module: medical_document_zpl2
 #: model:ir.actions.act_window,name:medical_document_zpl2.medical_document_type_zpl2_action
 msgid "Document Actions"
-msgstr "Document Actions"
+msgstr "Acciones de documentos"
 
 #. module: medical_document_zpl2
 #: model:ir.model.fields,field_description:medical_document_zpl2.field_medical_document_type_label_zpl2_id
@@ -28,17 +30,17 @@ msgstr "Label Zpl2"
 #. module: medical_document_zpl2
 #: model:ir.model,name:medical_document_zpl2.model_medical_document_reference
 msgid "Medical Document Reference"
-msgstr "Medical Document Reference"
+msgstr "Referencia de documentos"
 
 #. module: medical_document_zpl2
 #: model:ir.model,name:medical_document_zpl2.model_medical_document_type
 msgid "Medical Document Type"
-msgstr "Medical Document Type"
+msgstr "Tipo de documento"
 
 #. module: medical_document_zpl2
 #: model:ir.ui.menu,name:medical_document_zpl2.medical_document_type_zpl2_menu
 msgid "Medical ZPL Labels"
-msgstr "Medical ZPL Labels"
+msgstr "Medical ZPL etiquetas"
 
 #. module: medical_document_zpl2
 #: model:ir.ui.view,arch_db:medical_document_zpl2.medical_document_reference_view_form
@@ -49,7 +51,7 @@ msgstr "Render"
 #: code:addons/medical_document_zpl2/models/printing_label_zpl2.py:12
 #, python-format
 msgid "This label cannot be used on {model}"
-msgstr "This label cannot be used on {model}"
+msgstr "Esta etiqueta no se puede utilizar en {modelo}"
 
 #. module: medical_document_zpl2
 #: model:ir.model,name:medical_document_zpl2.model_printing_label_zpl2
@@ -60,4 +62,3 @@ msgstr "ZPL II Label"
 #: model:ir.model,name:medical_document_zpl2.model_res_remote_printer
 msgid "res.remote.printer"
 msgstr "res.remote.printer"
-
