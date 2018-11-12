@@ -51,7 +51,7 @@
     <menuitem id="medical_authorization_format_menu"
               name="Authorization format"
               sequence="90"
-              parent="medical_base.medical_root_financial"
+              parent="medical_base.medical_root_configuration"
               action="medical_authorization_format_action"/>
 
 
