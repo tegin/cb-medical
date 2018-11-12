@@ -1,9 +1,15 @@
-from odoo import api, models, _
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
 class MedicalEncounter(models.AbstractModel):
     _inherit = 'medical.encounter'
+
+    cancel_reason_id = fields.Many2one(
+        'medical.cancel.reason',
+        readonly=True,
+        track_visibility='onchange',
+    )
 
     @api.multi
     def cancel(self, cancel_reason_id, session, cancel_reason=False):
@@ -28,7 +34,13 @@ class MedicalEncounter(models.AbstractModel):
             }).cancel()
         self.with_context(
             pos_session_id=session.id,
-            company_id=session.config_id.company_id.id
+            company_id=session.config_id.company_id.id,
+            cancel_reason_id=cancel_reason_id.id,
         ).inprogress2onleave()
-        if cancel_reason:
-            self.message_post(subtype=False, body=cancel_reason)
+
+    def inprogress2onleave_values(self):
+        res = super().inprogress2onleave_values()
+        if self._context.get('cancel_reason_id', False):
+            res['cancel_reason_id'] = self._context.get(
+                'cancel_reason_id', False)
+        return res
