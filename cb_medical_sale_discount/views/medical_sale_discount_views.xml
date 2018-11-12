@@ -75,7 +75,7 @@
     <menuitem id="medical_sale_discount_menu"
               name="Medical Discounts"
               sequence="90"
-              parent="medical_base.medical_root_financial"
+              parent="medical_base.medical_root_configuration"
               action="medical_sale_discount_action"/>
 
 
