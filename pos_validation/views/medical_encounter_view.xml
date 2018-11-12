@@ -138,7 +138,15 @@
                                     </group>
                                     <notebook>
                                         <page name="procedure" string="Procedures">
-                                            <field name="procedure_ids"/>
+                                            <field name="procedure_ids">
+                                                <tree>
+                                                    <field name="service_id"/>
+                                                    <field name="performer_id"/>
+                                                    <field name="variable_fee"/>
+                                                    <field name="fixed_fee"/>
+                                                    <field name="commission_agent_id"/>
+                                                </tree>
+                                            </field>
                                         </page>
                                         <page name="agent" string="Commissions">
                                             <field name="agents">
