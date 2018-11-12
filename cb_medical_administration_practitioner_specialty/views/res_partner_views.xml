@@ -21,6 +21,7 @@
             <field name="practitioner_role_ids"
                     position="after">
                 <field name="practitioner_role_id"
+                       options="{'no_create': True}"
                        attrs="{'required': [('is_practitioner','=',True)], 'invisible': [('is_practitioner','=',False)],'readonly':[('edit_practitioner', '=', False)]}"
                        groups="medical_administration_practitioner.group_medical_practitioner_display"/>
             </field>
