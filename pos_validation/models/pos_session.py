@@ -67,8 +67,11 @@ class PosSession(models.Model):
 
     @api.multi
     def action_pos_session_close(self):
+        #  Unfinished encounter should be taken of the session
+        self.encounter_ids.filtered(lambda r: r.state != 'finished').write({
+            'pos_session_id': False
+        })
         res = super(PosSession, self).action_pos_session_close()
-
         self.write({'validation_status': 'in_progress'})
         if not self.encounter_ids:
             self.action_validation_finish()
