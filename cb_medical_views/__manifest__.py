@@ -17,6 +17,7 @@
         'views/medical_encounter.xml',
         'views/medical_event_view.xml',
         'views/medical_request_views.xml',
+        'views/medical_menu.xml',
     ],
     'website': 'https://github.com/OCA/vertical-medical',
     'license': 'LGPL-3',
