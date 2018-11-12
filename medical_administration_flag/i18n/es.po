@@ -1,19 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* medical_administration_flag
+# 	* medical_administration_flag
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:18+0000\n"
-"PO-Revision-Date: 2018-11-07 10:18+0000\n"
+"POT-Creation-Date: 2018-11-07 10:27+0000\n"
+"PO-Revision-Date: 2018-11-12 10:07+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.2\n"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_active
@@ -34,12 +36,12 @@ msgstr "Categoría"
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_closure_date
 msgid "Closure Date"
-msgstr "Closure Date"
+msgstr "Fecha de cierre"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_closure_uid
 msgid "Closure user"
-msgstr "Closure user"
+msgstr "Usuario de cierre"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category_create_uid
@@ -68,52 +70,52 @@ msgstr "Nombre mostrado"
 #. module: medical_administration_flag
 #: model:res.groups,name:medical_administration_flag.group_medical_flag_display
 msgid "Flag Display"
-msgstr "Flag Display"
+msgstr "Bandera"
 
 #. module: medical_administration_flag
 #: model:res.groups,name:medical_administration_flag.group_medical_flag_manager
 msgid "Flag Manager"
-msgstr "Flag Manager"
+msgstr "Gerente de Bandera"
 
 #. module: medical_administration_flag
 #: model:ir.actions.act_window,name:medical_administration_flag.medical_flag_category_action
 #: model:ir.ui.menu,name:medical_administration_flag.menu_medical_flag_category_root
 msgid "Flag categories"
-msgstr "Flag categories"
+msgstr "Categorías de la bandera"
 
 #. module: medical_administration_flag
 #: model:res.groups,name:medical_administration_flag.group_medical_flag_category_display
 msgid "Flag category Display"
-msgstr "Flag category Display"
+msgstr "Categoría de la bandera"
 
 #. module: medical_administration_flag
 #: model:res.groups,name:medical_administration_flag.group_medical_flag_category_manager
 msgid "Flag category Manager"
-msgstr "Flag category Manager"
+msgstr "Marca categoria gerente"
 
 #. module: medical_administration_flag
 #: model:ir.actions.act_window,name:medical_administration_flag.medical_flag_action
 #: model:ir.ui.view,arch_db:medical_administration_flag.medical_patient_view_form
 msgid "Flags"
-msgstr "Flags"
+msgstr "Banderas"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category_id_5800
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_id
 msgid "ID"
-msgstr "ID (identificación)"
+msgstr "ID"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag___last_update
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category___last_update
 msgid "Last Modified on"
-msgstr "Última modificación el"
+msgstr "Última modificación en"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category_write_uid
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización por"
+msgstr "Última actualización de"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category_write_date
@@ -124,35 +126,35 @@ msgstr "Última actualización en"
 #. module: medical_administration_flag
 #: model:ir.model,name:medical_administration_flag.model_medical_flag_category
 msgid "Medical Category Flag"
-msgstr "Medical Category Flag"
+msgstr "Bandera Categoria"
 
 #. module: medical_administration_flag
 #: model:ir.model,name:medical_administration_flag.model_medical_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_patient_medical_flag_ids
 #: model:ir.ui.view,arch_db:medical_administration_flag.view_medical_flag_search
 msgid "Medical Flag"
-msgstr "Medical Flag"
+msgstr "Bandera"
 
 #. module: medical_administration_flag
 #: model:ir.ui.view,arch_db:medical_administration_flag.medical_flag_category_view_tree
 msgid "Medical Flag Categories"
-msgstr "Medical Flag Categories"
+msgstr "Categorías de la bandera"
 
 #. module: medical_administration_flag
 #: model:ir.ui.view,arch_db:medical_administration_flag.medical_flag_category_view_form
 msgid "Medical Flag Category"
-msgstr "Medical Flag Category"
+msgstr "Bandera Categoria"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_patient_medical_flag_count
 msgid "Medical Flag Count"
-msgstr "Medical Flag Count"
+msgstr "Recuento Bandera"
 
 #. module: medical_administration_flag
 #: model:ir.ui.view,arch_db:medical_administration_flag.medical_flag_view_form
 #: model:ir.ui.view,arch_db:medical_administration_flag.medical_flag_view_tree
 msgid "Medical Flags"
-msgstr "Medical Flags"
+msgstr "Banderas"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category_name
@@ -174,4 +176,3 @@ msgstr "Nombre del paciente"
 #: model:ir.model,name:medical_administration_flag.model_medical_patient
 msgid "medical.patient"
 msgstr "medical.patient"
-
