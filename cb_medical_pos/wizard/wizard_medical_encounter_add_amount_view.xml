@@ -8,7 +8,7 @@
             <form string="Add amount encounter">
                 <group>
                     <field name="pos_session_id"/>
-                    <field name="journal_id"/>
+                    <field name="journal_id" options="{'no_create': True}"/>
                     <field name="partner_invoice_id"/>
                     <field name="amount"/>
                     <field name="product_id" invisible="1"/>

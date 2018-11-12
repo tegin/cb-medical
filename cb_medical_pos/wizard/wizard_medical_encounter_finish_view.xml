@@ -7,8 +7,8 @@
             <form string="finish encounter">
                 <group>
                     <field name="encounter_id" invisible="1"/>
-                    <field name="pos_session_id"/>
-                    <field name="journal_id"/>
+                    <field name="pos_session_id" options="{'no_create': True}"/>
+                    <field name="journal_id" options="{'no_create': True}"/>
                     <field name="journal_ids" invisible="1"/>
                     <field name="amount"/>
                     <field name="currency_id" invisible="1"/>
