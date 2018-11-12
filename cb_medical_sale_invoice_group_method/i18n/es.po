@@ -1,41 +1,43 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* cb_medical_sale_invoice_group_method
+# 	* cb_medical_sale_invoice_group_method
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:18+0000\n"
-"PO-Revision-Date: 2018-11-07 10:18+0000\n"
+"POT-Creation-Date: 2018-11-07 10:26+0000\n"
+"PO-Revision-Date: 2018-11-09 11:59+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.2\n"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.invoice_sale_by_group_wizard
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.wizard_sale_preinvoice_group
 msgid "(keep empty for making the invoices of all the customers)"
-msgstr "(keep empty for making the invoices of all the customers)"
+msgstr "(mantener vacío para realizar las facturas de todos los clientes)"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,help:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_merge_draft_invoice
 msgid "Activate this option in order to merge the resulting invoice with existing draft invoices or deactivate it if you wish a separate invoice for this sale order."
-msgstr "Activate this option in order to merge the resulting invoice with existing draft invoices or deactivate it if you wish a separate invoice for this sale order."
+msgstr "Active esta opción para fusionar la factura resultante con las facturas de giro existentes o desactívela si desea una factura por separado para esta orden de venta."
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_account_invoice_agreement_id
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_preinvoice_group_agreement_id
 msgid "Agreement"
-msgstr "Agreement"
+msgstr "Oferta"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.view_sale_preinvoice_group_form
 msgid "All lines"
-msgstr "All lines"
+msgstr "Todas las lineas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.wizard_sale_preinvoice_group_barcode
@@ -46,7 +48,7 @@ msgstr "Código de barras"
 #: code:addons/cb_medical_sale_invoice_group_method/wizard/wizard_barcode_handler.py:52
 #, python-format
 msgid "Barcode %s does not correspond to any Encounter. Try with another barcode or press Close to finish scanning."
-msgstr "Barcode %s does not correspond to any Encounter. Try with another barcode or press Close to finish scanning."
+msgstr "El código de barras% s no corresponde a ninguna afiliación. Pruebe con otro código de barras o presione Cerrar para finalizar el escaneo."
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.invoice_sale_by_group_wizard
@@ -58,7 +60,7 @@ msgstr "Cancelar"
 #. module: cb_medical_sale_invoice_group_method
 #: selection:sale.preinvoice.group,state:0
 msgid "Cancelled"
-msgstr "Cancelled"
+msgstr "Cancelado"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.view_sale_preinvoice_group_form
@@ -69,7 +71,7 @@ msgstr "Cerrar"
 #. module: cb_medical_sale_invoice_group_method
 #: selection:sale.preinvoice.group,state:0
 msgid "Closed"
-msgstr "Closed"
+msgstr "Cerrado"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_company_ids
@@ -85,7 +87,7 @@ msgstr "Compañía"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_medical_coverage_agreement
 msgid "Coverage Agreement"
-msgstr "Coverage Agreement"
+msgstr "Oferta Poliza"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.invoice_sale_by_group_wizard
@@ -95,7 +97,7 @@ msgstr "Crear facturas"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.wizard_sale_preinvoice_group
 msgid "Create preinvoices"
-msgstr "Create preinvoices"
+msgstr "Crear prefacturas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_create_uid
@@ -116,13 +118,13 @@ msgstr "Creado en"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_preinvoice_group_current_sequence
 msgid "Current Sequence"
-msgstr "Current Sequence"
+msgstr "Secuencia actual"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,help:cb_medical_sale_invoice_group_method.field_sale_order_line_preinvoice_status
 #: model:ir.model.fields,help:cb_medical_sale_invoice_group_method.field_sale_preinvoice_group_state
 msgid "Current state of the pre-invoice group."
-msgstr "Current state of the pre-invoice group."
+msgstr "Estado actual del grupo de pre-factura."
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_customer_ids
@@ -146,7 +148,7 @@ msgstr "Nombre mostrado"
 #. module: cb_medical_sale_invoice_group_method
 #: selection:sale.preinvoice.group,state:0
 msgid "Draft"
-msgstr "Draft"
+msgstr "Borrador"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_barcode_encounter_id
@@ -158,7 +160,7 @@ msgstr "Afiliación"
 #: model:ir.ui.menu,name:cb_medical_sale_invoice_group_method.menu_wizard_sale_preinvoice_group
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.wizard_sale_preinvoice_group
 msgid "Generate preinvoices"
-msgstr "Generate preinvoices"
+msgstr "Generar pre-facturas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_id
@@ -166,12 +168,12 @@ msgstr "Generate preinvoices"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_barcode_id
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_id
 msgid "ID"
-msgstr "ID (identificación)"
+msgstr "ID"
 
 #. module: cb_medical_sale_invoice_group_method
 #: selection:sale.preinvoice.group,state:0
 msgid "In progress"
-msgstr "In progress"
+msgstr "En progreso"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_account_invoice
@@ -183,7 +185,7 @@ msgstr "Factura"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_invoice_group_method_id
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_medical_coverage_agreement_invoice_group_method_id
 msgid "Invoice Group Method"
-msgstr "Invoice Group Method"
+msgstr "Método de grupo de factura"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_account_invoice_line
@@ -193,12 +195,12 @@ msgstr "Linea de Factura"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_preinvoice_group_partner_invoice_id
 msgid "Invoice Partner"
-msgstr "Invoice Partner"
+msgstr "Socio de factura"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.invoice_sale_by_group_wizard
 msgid "Invoice sales"
-msgstr "Invoice sales"
+msgstr "Ventas de facturas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_order_line_is_validated
@@ -211,7 +213,7 @@ msgstr "Is Validated"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group___last_update
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_barcode___last_update
 msgid "Last Modified on"
-msgstr "Última modificación el"
+msgstr "Última modificación en"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_write_uid
@@ -219,7 +221,7 @@ msgstr "Última modificación el"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_barcode_write_uid
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización por"
+msgstr "Última actualización de"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_write_date
@@ -237,23 +239,23 @@ msgstr "Afiliación"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.actions.act_window,name:cb_medical_sale_invoice_group_method.sale_preinvoice_group_action
 msgid "Medical Pre-invoice Group"
-msgstr "Medical Pre-invoice Group"
+msgstr "Grupo de pre-facturación"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_merge_draft_invoice
 msgid "Merge with draft invoices"
-msgstr "Merge with draft invoices"
+msgstr "Fusionar con proyectos de facturas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_preinvoice_group_non_validated_line_ids
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.view_sale_preinvoice_group_form
 msgid "Non validated lines"
-msgstr "Non validated lines"
+msgstr "Líneas no validadas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.medical_preinvoice_group_line_tree
 msgid "Non validated sale order lines"
-msgstr "Non validated sale order lines"
+msgstr "Líneas de orden de venta no validadas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_preinvoice_group_partner_id
@@ -263,47 +265,47 @@ msgstr "Empresa"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_payor_ids
 msgid "Payors"
-msgstr "Payors"
+msgstr "Mutuas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: selection:sale.preinvoice.group,state:0
 msgid "Pending validation"
-msgstr "Pending validation"
+msgstr "Validación pendiente"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_order_line_preinvoice_group_id
 msgid "Pre-invoice Group"
-msgstr "Pre-invoice Group"
+msgstr "Grupo de Pre-factura"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.view_sale_preinvoice_group_form
 msgid "Pre-invoice group"
-msgstr "Pre-invoice group"
+msgstr "Grupo de pre-factura"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.view_sale_preinvoice_group_tree
 msgid "Pre-invoice groups"
-msgstr "Pre-invoice groups"
+msgstr "Grupos de pre-factura"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.menu,name:cb_medical_sale_invoice_group_method.sale_preinvoice_group_menu
 msgid "Pre-invoice management"
-msgstr "Pre-invoice management"
+msgstr "Gestión de pre-facturas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_barcode_preinvoice_group_id
 msgid "Preinvoice Group"
-msgstr "Preinvoice Group"
+msgstr "Grupo de pre-facturas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_barcode_processed_lines
 msgid "Processed Lines"
-msgstr "Processed Lines"
+msgstr "Lineas Procesadas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.medical_preinvoice_group_line_tree
 msgid "Qty"
-msgstr "Cant."
+msgstr "Cant"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_sale_order
@@ -313,17 +315,17 @@ msgstr "Presupuesto"
 #. module: cb_medical_sale_invoice_group_method
 #: model:res.groups,name:cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_display
 msgid "Sale Preinvoice Display"
-msgstr "Sale Preinvoice Display"
+msgstr "Venta Pre-factura Display"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_sale_preinvoice_group
 msgid "Sale Preinvoice Group"
-msgstr "Sale Preinvoice Group"
+msgstr "Venta Pre-factura Grupo"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:res.groups,name:cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager
 msgid "Sale Preinvoice Manager"
-msgstr "Sale Preinvoice Manager"
+msgstr "Gerente de Pre-factura de Venta"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_sale_order_line
@@ -334,43 +336,43 @@ msgstr "Línea de orden de ventas"
 #: model:ir.actions.act_window,name:cb_medical_sale_invoice_group_method.action_invoice_by_group
 #: model:ir.ui.menu,name:cb_medical_sale_invoice_group_method.menu_invoice_by_group
 msgid "Sales to Invoice by group"
-msgstr "Sales to Invoice by group"
+msgstr "Venta a factura por grupo"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.menu,name:cb_medical_sale_invoice_group_method.sale_preinvoice_group
 msgid "Sales to pre-invoice"
-msgstr "Sales to pre-invoice"
+msgstr "Venta a pre-factura"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.view_sale_preinvoice_group_form
 msgid "Scan"
-msgstr "Scan"
+msgstr "Escanear"
 
 #. module: cb_medical_sale_invoice_group_method
 #: code:addons/cb_medical_sale_invoice_group_method/wizard/wizard_barcode_handler.py:44
 #, python-format
 msgid "Scan the next barcode or press Close to finish scanning."
-msgstr "Scan the next barcode or press Close to finish scanning."
+msgstr "Escanee el siguiente código de barras o presione Cerrar para terminar de escanear."
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.invoice_sale_by_group_wizard
 msgid "Select the date up to which you want to invoice the sales orders:"
-msgstr "Select the date up to which you want to invoice the sales orders:"
+msgstr "Seleccione la fecha hasta la que desea facturar los pedidos de venta:"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.wizard_sale_preinvoice_group_barcode
 msgid "Sort"
-msgstr "Sort"
+msgstr "Ordenar"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.actions.act_window,name:cb_medical_sale_invoice_group_method.action_wizard_sale_preinvoice_group_barcode
 msgid "Sort preinvoice"
-msgstr "Sort preinvoice"
+msgstr "Ordenar la pre-factura"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.view_sale_preinvoice_group_form
 msgid "Start"
-msgstr "Start"
+msgstr "Comienzo"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_order_line_preinvoice_status
@@ -388,15 +390,13 @@ msgstr "Estado del Status"
 #: code:addons/cb_medical_sale_invoice_group_method/wizard/wizard_barcode_handler.py:63
 #, python-format
 msgid "The Encounter %s does not belong to this pre-invoice group. Try with another barcode or press Close to finish scanning."
-msgstr "The Encounter %s does not belong to this pre-invoice group. Try with another barcode or press Close to finish scanning."
+msgstr "El Encuentro% s no pertenece a este grupo de pre-facturación. Pruebe con otro código de barras o presione Cerrar para finalizar el escaneo."
 
 #. module: cb_medical_sale_invoice_group_method
 #: code:addons/cb_medical_sale_invoice_group_method/wizard/wizard_barcode_handler.py:39
 #, python-format
 msgid "The following lines have been processed from Encounter %s:\n"
-""
-msgstr "The following lines have been processed from Encounter %s:\n"
-""
+msgstr "Las siguientes líneas han sido procesadas desde la afiliación%s:\n"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.medical_preinvoice_group_line_tree
@@ -416,19 +416,19 @@ msgstr "Hasta"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.view_sale_preinvoice_group_form
 msgid "Validated Lines"
-msgstr "Validated Lines"
+msgstr "Lineas Validadas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_preinvoice_group_line_ids
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_preinvoice_group_validated_line_ids
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_barcode_line_ids
 msgid "Validated lines"
-msgstr "Validated lines"
+msgstr "Lineas validadas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_invoice_sales_by_group
 msgid "invoice.sales.by.group"
-msgstr "invoice.sales.by.group"
+msgstr "factura.sales.by.group"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.invoice_sale_by_group_wizard
@@ -445,4 +445,3 @@ msgstr "wizard.sale.preinvoice.group"
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_wizard_sale_preinvoice_group_barcode
 msgid "wizard.sale.preinvoice.group.barcode"
 msgstr "wizard.sale.preinvoice.group.barcode"
-
