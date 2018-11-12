@@ -1,19 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* cb_medical_views
+# 	* cb_medical_views
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:18+0000\n"
-"PO-Revision-Date: 2018-11-07 10:18+0000\n"
+"POT-Creation-Date: 2018-11-07 10:26+0000\n"
+"PO-Revision-Date: 2018-11-07 16:19+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.2\n"
 
 #. module: cb_medical_views
 #: model:ir.model,name:cb_medical_views.model_res_partner
@@ -24,13 +26,13 @@ msgstr "Contacto"
 #: code:addons/cb_medical_views/models/medical_encounter.py:24
 #, python-format
 msgid "Encounter %s cannot be found"
-msgstr "Encounter %s cannot be found"
+msgstr "Afilicación %s no encontrada"
 
 #. module: cb_medical_views
 #: model:ir.actions.act_window,name:cb_medical_views.encounter_find_by_barcode
 #: model:ir.ui.menu,name:cb_medical_views.encounter_find_by_barcode_menu
 msgid "Find encounter"
-msgstr "Find encounter"
+msgstr "Encontrar Afiliación"
 
 #. module: cb_medical_views
 #: model:ir.model,name:cb_medical_views.model_medical_coverage
@@ -50,10 +52,9 @@ msgstr "Afiliación"
 #. module: cb_medical_views
 #: model:ir.model,name:cb_medical_views.model_medical_event
 msgid "Medical event"
-msgstr "Evento Médico"
+msgstr "Evento"
 
 #. module: cb_medical_views
 #: model:ir.model,name:cb_medical_views.model_medical_request
 msgid "Medical request"
-msgstr "Medical request"
-
+msgstr "Peticionario"
