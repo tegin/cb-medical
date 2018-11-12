@@ -43,5 +43,5 @@ class MedicalProcedureRequest(models.Model):
 
     def generate_event(self, *args, **kwargs):
         res = super().generate_event(*args, **kwargs)
-        res.compute_commission(res)
+        res.compute_commission(res.procedure_request_id)
         return res
