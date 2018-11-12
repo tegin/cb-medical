@@ -15,8 +15,8 @@
             <tree string="Agreement Items" editable="bottom">
                 <field name="coverage_agreement_id" invisible="1"/>
                 <field name="template_id" invisible="1"/>
-                <field name="product_id"/>
-                <field name="plan_definition_id"/>
+                <field name="product_id" options="{'no_create': True}"/>
+                <field name="plan_definition_id" options="{'no_create': True}"/>
                 <field name="total_price"/>
                 <field name="coverage_percentage"/>
                 <field name="coverage_price" readonly="True"/>
