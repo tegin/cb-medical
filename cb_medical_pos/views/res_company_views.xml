@@ -7,7 +7,9 @@
                ref="multicompany_property_account.view_company_form"/>
         <field name="arch" type="xml">
             <field name="categ_account_expense_id" position="after">
-                <field name="patient_journal_id"/>
+                <field name="patient_journal_id"
+                       domain="[('company_id', '=', active_id)]"
+                       context="{'default_company_id': active_id}"/>
             </field>
         </field>
     </record>
