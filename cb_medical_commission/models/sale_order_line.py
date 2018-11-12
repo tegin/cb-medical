@@ -14,6 +14,7 @@ class SaleOrderLine(models.Model):
         relation='sale_order_line_medical_procedure',
         column1='sale_order_line_id',
         column2='procedure_id',
+        readonly=True,
     )
     laboratory_event_ids = fields.Many2many(
         'medical.laboratory.event',
