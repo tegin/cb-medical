@@ -7,7 +7,7 @@
             <form string="Close encounter">
                 <group>
                     <field name="encounter_id" invisible="1"/>
-                    <field name="pos_session_id"/>
+                    <field name="pos_session_id" options="{'no_create': True}"/>
                 </group>
                 <footer>
                     <button type="object" name="run" string="Create"
