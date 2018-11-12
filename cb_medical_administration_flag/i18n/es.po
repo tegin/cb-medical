@@ -1,35 +1,37 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* cb_medical_administration_flag
+# 	* cb_medical_administration_flag
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:18+0000\n"
-"PO-Revision-Date: 2018-11-07 10:18+0000\n"
+"POT-Creation-Date: 2018-11-07 10:23+0000\n"
+"PO-Revision-Date: 2018-11-07 16:11+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.2\n"
 
 #. module: cb_medical_administration_flag
 #: selection:medical.flag.category,level:0
 msgid "Critical"
-msgstr "Critical"
+msgstr "Critico"
 
 #. module: cb_medical_administration_flag
 #: model:ir.model.fields,field_description:cb_medical_administration_flag.field_medical_flag_category_flag
 #: model:ir.model.fields,field_description:cb_medical_administration_flag.field_medical_flag_flag
 msgid "Flag"
-msgstr "Flag"
+msgstr "Bandera"
 
 #. module: cb_medical_administration_flag
 #: selection:medical.flag.category,level:0
 msgid "High"
-msgstr "High"
+msgstr "Alto"
 
 #. module: cb_medical_administration_flag
 #: model:ir.model.fields,field_description:cb_medical_administration_flag.field_medical_flag_category_icon
@@ -45,20 +47,19 @@ msgstr "Nivel"
 #. module: cb_medical_administration_flag
 #: selection:medical.flag.category,level:0
 msgid "Low"
-msgstr "Low"
+msgstr "Bajo"
 
 #. module: cb_medical_administration_flag
 #: model:ir.model,name:cb_medical_administration_flag.model_medical_flag_category
 msgid "Medical Category Flag"
-msgstr "Medical Category Flag"
+msgstr "Bandera Categoria"
 
 #. module: cb_medical_administration_flag
 #: model:ir.model,name:cb_medical_administration_flag.model_medical_flag
 msgid "Medical Flag"
-msgstr "Medical Flag"
+msgstr "Bandera"
 
 #. module: cb_medical_administration_flag
 #: selection:medical.flag.category,level:0
 msgid "Moderate"
-msgstr "Moderate"
-
+msgstr "Moderar"
