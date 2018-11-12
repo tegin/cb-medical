@@ -14,7 +14,7 @@
         <field name="inherit_id" ref="medical_workflow.workflow_activity_definition_form"/>
         <field name="arch" type="xml">
             <field name="service_id" position="after">
-                <field name="performer_id"/>
+                <field name="performer_id" options="{'no_create': True}"/>
             </field>
         </field>
     </record>
