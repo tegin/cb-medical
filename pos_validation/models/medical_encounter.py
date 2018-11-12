@@ -121,7 +121,7 @@ class MedicalEncounter(models.Model):
             self.create_invoice(sale_order)
         self.write(self._admin_validation_values())
         if not self.pos_session_id.encounter_ids.filtered(
-            lambda r: r.validation_status == 'in_progress'
+            lambda r: r.validation_status not in 'finished'
         ):
             self.pos_session_id.action_validation_finish()
         return self.close_view()
