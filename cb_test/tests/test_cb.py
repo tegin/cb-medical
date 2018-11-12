@@ -114,9 +114,6 @@ class TestMedicalCareplanSale(TransactionCase):
             'is_medical': True,
             'is_center': True,
             'encounter_sequence_prefix': 'S',
-            'stock_location_id': self.browse_ref('stock.warehouse0').id,
-            'stock_picking_type_id': self.env['stock.picking.type'].search(
-                [], limit=1).id
         })
         self.location = self.env['res.partner'].create({
             'name': 'Location',
@@ -231,6 +228,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'type_id': self.type.id,
             'is_billable': True,
         })
+        self.plan_definition.activate()
         self.plan_definition2 = self.env['workflow.plan.definition'].create({
             'name': 'Plan2',
             'type_id': self.type.id,
@@ -238,6 +236,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'is_breakdown': False,
             'third_party_bill': True,
         })
+        self.plan_definition2.activate()
         self.plan_definition3 = self.env['workflow.plan.definition'].create({
             'name': 'Plan2',
             'type_id': self.type.id,
@@ -245,6 +244,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'is_breakdown': False,
             'third_party_bill': False,
         })
+        self.plan_definition3.activate()
         self.activity = self.env['workflow.activity.definition'].create({
             'name': 'Activity',
             'service_id': self.product_02.id,
@@ -252,6 +252,7 @@ class TestMedicalCareplanSale(TransactionCase):
                                         'model_medical_procedure_request').id,
             'type_id': self.type.id,
         })
+        self.activity.activate()
         self.activity2 = self.env['workflow.activity.definition'].create({
             'name': 'Activity2',
             'service_id': self.service.id,
@@ -259,6 +260,7 @@ class TestMedicalCareplanSale(TransactionCase):
                                         'model_medical_medication_request').id,
             'type_id': self.type.id,
         })
+        self.activity2.activate()
         self.activity3 = self.env['workflow.activity.definition'].create({
             'name': 'Activity3',
             'model_id': self.browse_ref(
@@ -266,6 +268,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'document_type_id': self.document_type.id,
             'type_id': self.type.id,
         })
+        self.activity3.activate()
         self.activity4 = self.env['workflow.activity.definition'].create({
             'name': 'Activity4',
             'model_id': self.browse_ref(
@@ -273,6 +276,7 @@ class TestMedicalCareplanSale(TransactionCase):
             'document_type_id': self.document_type_label.id,
             'type_id': self.type.id,
         })
+        self.activity4.activate()
         self.activity5 = self.env['workflow.activity.definition'].create({
             'name': 'Activity 5',
             'service_id': self.product_02.id,
@@ -280,6 +284,7 @@ class TestMedicalCareplanSale(TransactionCase):
                                         'model_medical_procedure_request').id,
             'type_id': self.type.id,
         })
+        self.activity5.activate()
         self.lab_activity = self.env['workflow.activity.definition'].create({
             'name': 'Laboratory activity',
             'service_id': self.product_02.id,
@@ -287,6 +292,7 @@ class TestMedicalCareplanSale(TransactionCase):
                                         'model_medical_laboratory_request').id,
             'type_id': self.type.id,
         })
+        self.lab_activity.activate()
         self.env['workflow.plan.definition.action'].create({
             'activity_definition_id': self.activity.id,
             'direct_plan_definition_id': self.plan_definition2.id,
