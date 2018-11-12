@@ -753,12 +753,16 @@ class TestMedicalCareplanSale(TransactionCase):
             lambda r: r.is_sellable_insurance or r.is_sellable_private))
         self.assertFalse(encounter.medication_item_ids)
         self.env['medical.encounter.medication'].create({
-            'encounter_id': encounter.id,
+            'medical_id': encounter.id,
             'product_id': self.product_03.id,
-            'location_id': self.location,
-            'qty': 1,
+            'location_id': self.location.id,
         }).run()
         self.assertTrue(encounter.medication_item_ids)
+        self.env['medical.encounter.medication'].create({
+            'medical_id': encounter.id,
+            'product_id': self.product_03.id,
+            'location_id': self.location.id,
+        }).run()
         self.env['wizard.medical.encounter.close'].create({
             'encounter_id': encounter.id,
             'pos_session_id': self.session.id,
