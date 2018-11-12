@@ -7,6 +7,6 @@ class MedicalLaboratoryRequest(models.Model):
     @api.multi
     def generate_event(self, vals=False):
         res = super().generate_event(vals=vals)
-        for r in self:
-            r.compute_commission(r)
+        for r in res:
+            r.compute_commission()
         return res
