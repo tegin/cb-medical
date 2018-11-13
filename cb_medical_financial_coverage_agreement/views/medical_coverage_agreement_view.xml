@@ -78,7 +78,8 @@
                     <notebook>
                         <page name="templates" string="Coverage Templates" attrs="{'invisible': [('is_template','=', True)]}">
                             <group>
-                                <field name="coverage_template_ids" nolabel="1" options="{'no_create': True}"/>
+                                <field name="coverage_template_ids" nolabel="1" options="{'no_create': True}"
+                                       context="{'tree_view_ref': 'cb_medical_financial_coverage_agreement.medical_coverage_template_view_tree_delete'}"/>
                             </group>
                         </page>
                     </notebook>
