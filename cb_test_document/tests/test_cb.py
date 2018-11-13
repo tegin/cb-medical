@@ -38,14 +38,18 @@ class TestCBSale(TestCB):
                 self.env['medical.encounter'].find_encounter_by_barcode(
                     document.internal_identifier)['res_id'])
             with self.assertRaises(ValidationError):
+                # Raises: State must be Current
                 document.current2superseded()
             self.assertEqual(document.state, 'draft')
             self.assertTrue(document.is_editable)
             self.assertFalse(document.text)
+            # Print the document. Status of the document changes to 'current'
             document.view()
             with self.assertRaises(ValidationError):
+                # Raises: State must be draft
                 document.draft2current()
             self.assertEqual(document.state, 'current')
+            # Once the document has been printed is not editable anymore.
             self.assertFalse(document.is_editable)
             self.assertTrue(document.text)
             self.assertEqual(
@@ -56,6 +60,8 @@ class TestCBSale(TestCB):
             document.view()
             self.assertEqual(document.state, 'current')
             self.assertEqual(document.lang, self.patient_01.lang)
+            # Subsequent changes to the patient or other master data
+            # Are not reflected in the document.
             self.assertNotEqual(
                 document.text,
                 '<p>%s</p><p>%s</p>' % (
