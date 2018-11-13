@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-07 10:24+0000\n"
-"PO-Revision-Date: 2018-11-09 09:33+0100\n"
+"PO-Revision-Date: 2018-11-13 16:25+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: cb_medical_commission
 #: model:ir.ui.view,arch_db:cb_medical_commission.view_settled_no_invoice_wizard
@@ -67,7 +67,7 @@ msgstr "Centro"
 #. module: cb_medical_commission
 #: model:ir.model.fields,field_description:cb_medical_commission.field_sale_order_line_agent_child_agent_line_ids
 msgid "Child Agent Line"
-msgstr "Línea de agente infantil"
+msgstr "Hijos de línea de agente"
 
 #. module: cb_medical_commission
 #: model:ir.model.fields,field_description:cb_medical_commission.field_medical_event_commission_agent_id
@@ -113,7 +113,7 @@ msgstr "Contacto"
 #. module: cb_medical_commission
 #: model:ir.model.fields,field_description:cb_medical_commission.field_medical_laboratory_event_coverage_cost
 msgid "Coverage Cost"
-msgstr "Coste de la poliza"
+msgstr "Coste de la mutua"
 
 #. module: cb_medical_commission
 #: code:addons/cb_medical_commission/wizard/wizard_settle.py:60
@@ -254,17 +254,17 @@ msgstr "Evento Médico"
 #: code:addons/cb_medical_commission/models/medical_practitioner_condition.py:39
 #, python-format
 msgid "Only one condition is allowed for practitioner, service and procedure service"
-msgstr "Sólo se permite una condición para el profesional,y el servicio de procedimiento"
+msgstr "Sólo se permite una condición para el profesional, servicio del acto y servicio del procedimiento"
 
 #. module: cb_medical_commission
 #: model:ir.model.fields,field_description:cb_medical_commission.field_sale_order_line_agent_parent_agent_line_id
 msgid "Parent Agent Line"
-msgstr "Línea de agente principal"
+msgstr "Línea de agente padre"
 
 #. module: cb_medical_commission
 #: model:ir.model.fields,field_description:cb_medical_commission.field_medical_practitioner_condition_practitioner_id
 msgid "Practitioner"
-msgstr "Facultativo"
+msgstr "Profesional"
 
 #. module: cb_medical_commission
 #: model:ir.model.fields,field_description:cb_medical_commission.field_medical_patient_practitioner_condition_ids
@@ -272,22 +272,22 @@ msgstr "Facultativo"
 #: model:ir.model.fields,field_description:cb_medical_commission.field_res_partner_practitioner_condition_ids
 #: model:ir.model.fields,field_description:cb_medical_commission.field_res_users_practitioner_condition_ids
 msgid "Practitioner Condition"
-msgstr "Condición del practicante"
+msgstr "Condición del profesional"
 
 #. module: cb_medical_commission
 #: model:ir.model,name:cb_medical_commission.model_medical_practitioner_condition
 msgid "Practitioner condition"
-msgstr "Condición del practicante"
+msgstr "Condición del profesional"
 
 #. module: cb_medical_commission
 #: model:ir.ui.view,arch_db:cb_medical_commission.res_partner_view_form
 msgid "Practitioner conditions"
-msgstr "Condiciones del practicante"
+msgstr "Condiciones del profesional"
 
 #. module: cb_medical_commission
 #: model:ir.model.fields,field_description:cb_medical_commission.field_medical_laboratory_event_private_cost
 msgid "Private Cost"
-msgstr "Importe privado"
+msgstr "Coste privado"
 
 #. module: cb_medical_commission
 #: model:ir.model.fields,field_description:cb_medical_commission.field_account_invoice_line_agent_procedure_id
@@ -319,7 +319,7 @@ msgstr "Presupuesto"
 #. module: cb_medical_commission
 #: model:ir.ui.view,arch_db:cb_medical_commission.medical_encounter_view_form
 msgid "Recompute commissions"
-msgstr "Comisiones de cómputo"
+msgstr "Recalcular comisiones"
 
 #. module: cb_medical_commission
 #: model:ir.model.fields,field_description:cb_medical_commission.field_medical_event_sale_agent_ids
@@ -348,14 +348,14 @@ msgstr "Seleccione la fecha hasta la que quiere realizar las liquidaciones:"
 #: model:ir.model.fields,field_description:cb_medical_commission.field_medical_practitioner_condition_service_id
 #: model:ir.model.fields,field_description:cb_medical_commission.field_medical_procedure_procedure_service_id
 msgid "Service"
-msgstr "Service"
+msgstr "Servicio"
 
 #. module: cb_medical_commission
 #: model:ir.actions.act_window,name:cb_medical_commission.action_agents_no_invoice_settlement
 #: model:ir.ui.menu,name:cb_medical_commission.menu_agents_no_invoice_settlement
 #: model:ir.ui.view,arch_db:cb_medical_commission.view_settled_no_invoice_wizard
 msgid "Settle commissions"
-msgstr "Comisiones de liquidaciones"
+msgstr "Liquidar comisiones"
 
 #. module: cb_medical_commission
 #: model:ir.model.fields,field_description:cb_medical_commission.field_sale_order_line_agent_settled
@@ -379,7 +379,7 @@ msgstr "Sólo puede añadir una vez cada agente."
 #. module: cb_medical_commission
 #: model:ir.model,name:cb_medical_commission.model_account_invoice_line_agent
 msgid "account.invoice.line.agent"
-msgstr "account.factura.line.agent"
+msgstr ""
 
 #. module: cb_medical_commission
 #: model:ir.ui.view,arch_db:cb_medical_commission.view_settled_no_invoice_wizard
@@ -389,14 +389,14 @@ msgstr "o"
 #. module: cb_medical_commission
 #: model:ir.model,name:cb_medical_commission.model_sale_commission_no_invoice_make_settle
 msgid "sale.commission.no.invoice.make.settle"
-msgstr "sale.commission.no.factura.make.settle"
+msgstr ""
 
 #. module: cb_medical_commission
 #: model:ir.model,name:cb_medical_commission.model_sale_commission_settlement_line
 msgid "sale.commission.settlement.line"
-msgstr "venta.comisión.liquidaciones.linea"
+msgstr ""
 
 #. module: cb_medical_commission
 #: model:ir.model,name:cb_medical_commission.model_sale_order_line_agent
 msgid "sale.order.line.agent"
-msgstr "venta.orden.linea.agente"
+msgstr ""
