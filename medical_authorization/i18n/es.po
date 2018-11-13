@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-07 10:24+0000\n"
-"PO-Revision-Date: 2018-11-08 13:07+0100\n"
+"PO-Revision-Date: 2018-11-13 16:12+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: cb_medical_authorization
 #: model:ir.model.fields,field_description:cb_medical_authorization.field_medical_careplan_authorization_checked
@@ -27,22 +27,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:cb_medical_authorization.field_medical_request_group_authorization_checked
 #: model:ir.model.fields,field_description:cb_medical_authorization.field_medical_request_group_check_authorization_authorization_checked
 msgid "Authorization Checked"
-msgstr "Autorización Comprovada"
+msgstr "Autorización Comprobada"
 
 #. module: cb_medical_authorization
 #: model:ir.model,name:cb_medical_authorization.model_medical_authorization_method
 msgid "Authorization method"
-msgstr "Metodo de autorización"
+msgstr "Método de autorización"
 
 #. module: cb_medical_authorization
 #: model:ir.model.fields,field_description:cb_medical_authorization.field_medical_authorization_method_check_required
 msgid "Check Required"
-msgstr "Cheque requerido"
+msgstr "Comprobación obligatoria"
 
 #. module: cb_medical_authorization
 #: model:ir.model,name:cb_medical_authorization.model_medical_coverage_agreement_item
 msgid "Medical Coverage Agreement Item"
-msgstr "Poliza i oferta"
+msgstr "Elemento de acuerdo"
 
 #. module: cb_medical_authorization
 #: model:ir.model,name:cb_medical_authorization.model_medical_request
@@ -52,4 +52,4 @@ msgstr "Petición"
 #. module: cb_medical_authorization
 #: model:ir.model,name:cb_medical_authorization.model_medical_request_group_check_authorization
 msgid "medical.request.group.check.authorization"
-msgstr "medical.solicitud.grupo.comprovar.autorización"
+msgstr ""
