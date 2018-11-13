@@ -16,6 +16,7 @@
             <field name="model_id" position="after">
                 <field name="requires_document_template" invisible="1"/>
                 <field name="document_type_id"
+                       options="{'no_create': True}"
                        attrs="{ 'invisible': [('requires_document_template', '=', False)],
                                 'required': [('requires_document_template', '=', True)]}"/>
             </field>
