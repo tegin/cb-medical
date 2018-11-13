@@ -16,6 +16,7 @@ class TestCBConstrains(TestCB):
         self.assertTrue(group.is_billable)
         self.assertTrue(group.is_breakdown)
         with self.assertRaises(ValidationError):
+            # Raises 'Agreement must be defined'
             group.breakdown()
 
     def test_no_breakdown(self):
@@ -27,6 +28,7 @@ class TestCBConstrains(TestCB):
         self.assertTrue(group.is_billable)
         self.assertFalse(group.is_breakdown)
         with self.assertRaises(ValidationError):
+            # Raises 'Cannot breakdown a not billable line'
             group.breakdown()
 
     def test_cancel_encounter_failure(self):
@@ -38,6 +40,7 @@ class TestCBConstrains(TestCB):
         careplan.draft2active()
         careplan.active2completed()
         with self.assertRaises(ValidationError):
+            # Raises 'It is not cancelable' relating to the care plan
             self.env['medical.encounter.cancel'].create({
                 'encounter_id': encounter.id,
                 'cancel_reason_id': self.reason.id,
