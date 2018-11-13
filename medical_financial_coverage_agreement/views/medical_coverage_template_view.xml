@@ -22,4 +22,17 @@
         </field>
     </record>
 
+    <record id="medical_coverage_template_view_tree_delete" model="ir.ui.view">
+        <field name="name">medical.coverage.template.form</field>
+        <field name="model">medical.coverage.template</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="medical_financial_coverage.medical_coverage_template_view_tree"/>
+        <field name="priority" eval="100"/>
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="delete">1</attribute>
+            </tree>
+        </field>
+    </record>
+
 </odoo>
