@@ -16,12 +16,22 @@ class MedicalEncounter(models.Model):
         required=False, default=False, invisible=1
     )
 
-    internal_identifier_prefix = fields.Char(readonly=True)
-    internal_identifier_value = fields.Integer(default=0, readonly=True)
-    internal_identifier_suffix = fields.Char(readonly=True)
-    internal_identifier_dc = fields.Char(readonly=True)
+    internal_identifier_prefix = fields.Char(readonly=True,
+                                             copy=False,)
+    internal_identifier_value = fields.Integer(default=0,
+                                               readonly=True,
+                                               copy=False,
+                                               )
+    internal_identifier_suffix = fields.Char(readonly=True,
+                                             copy=False,
+                                             )
+    internal_identifier_dc = fields.Char(readonly=True,
+                                         copy=False,
+                                         )
 
-    number_next = fields.Integer(default=1)
+    number_next = fields.Integer(default=1,
+                                 copy=False,
+                                 )
     # We must keep this name in order to use _update_nogap function
 
     @api.model
