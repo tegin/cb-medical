@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-07 10:25+0000\n"
-"PO-Revision-Date: 2018-11-09 11:38+0100\n"
+"PO-Revision-Date: 2018-11-13 16:46+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_sale_order_account_id
@@ -25,17 +25,17 @@ msgstr "Cuenta"
 #. module: cb_medical_pos
 #: model:ir.ui.view,arch_db:cb_medical_pos.medical_encounter_view_form
 msgid "Add Amount"
-msgstr "Añadir cantidad"
+msgstr "Añadir importe"
 
 #. module: cb_medical_pos
 #: model:ir.ui.view,arch_db:cb_medical_pos.wizard_medical_encounter_add_amount_view_form
 msgid "Add amount encounter"
-msgstr "Añadir Importe afiliación"
+msgstr "Añadir importe"
 
 #. module: cb_medical_pos
 #: model:ir.actions.act_window,name:cb_medical_pos.wizard_medical_encounter_add_amount_action
 msgid "Add amount to encounter"
-msgstr "Añadir Importe a la afiliación"
+msgstr "Añadir importe"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out_amount
@@ -102,7 +102,7 @@ msgstr "Compañía"
 #: code:addons/cb_medical_pos/models/medical_encounter.py:82
 #, python-format
 msgid "Company is required"
-msgstr "Se requiere compañia"
+msgstr "Se requiere compañía"
 
 #. module: cb_medical_pos
 #: code:addons/cb_medical_pos/models/medical_encounter.py:71
@@ -152,7 +152,7 @@ msgstr "Nombre mostrado"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_pos_session_encounter_count
 msgid "Encounter Count"
-msgstr "Recuento de afiliaciones"
+msgstr "# Afiliaciones"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_pos_session_encounter_ids
@@ -163,7 +163,7 @@ msgstr "Afilaciones"
 #. module: cb_medical_pos
 #: model:ir.ui.view,arch_db:cb_medical_pos.medical_encounter_view_form
 msgid "Finish"
-msgstr "Final"
+msgstr "Finalizar"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out_id
@@ -176,7 +176,7 @@ msgstr "ID"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_pos_session_internal_identifier
 msgid "Internal Identifier"
-msgstr "Identificador interno"
+msgstr "Identificador"
 
 #. module: cb_medical_pos
 #: model:ir.model,name:cb_medical_pos.model_account_invoice
@@ -186,7 +186,7 @@ msgstr "Factura"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_sale_order_is_down_payment
 msgid "Is Down Payment"
-msgstr "Es el pago inicial"
+msgstr "Es pago a cuenta"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out_journal_id
@@ -199,7 +199,7 @@ msgstr "Diario"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out_journal_count
 msgid "Journal Count"
-msgstr "Recuento diario"
+msgstr "# Diarios"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_res_company_patient_journal_id
@@ -209,13 +209,13 @@ msgstr "Diario de facturas de pacientes"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_medical_encounter_laboratory_request_ids
 msgid "Laboratory Request"
-msgstr "Peticion de laboratorio"
+msgstr "Petición de laboratorio"
 
 #. module: cb_medical_pos
 #: code:addons/cb_medical_pos/models/medical_encounter.py:93
 #, python-format
 msgid "Laboratory requests are not fulfilled."
-msgstr "Las peticiones de laboratorio no se cumplen."
+msgstr "Las peticiones de laboratorio deben estar finalizadas."
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out___last_update
@@ -249,14 +249,14 @@ msgstr "Afiliación"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_add_amount_partner_invoice_id
 msgid "Partner invoice"
-msgstr "Factura de socio"
+msgstr "Factura"
 
 #. module: cb_medical_pos
 #: code:addons/cb_medical_pos/models/medical_encounter.py:105
 #: code:addons/cb_medical_pos/models/medical_encounter.py:108
 #, python-format
 msgid "Payment journal is necessary in order to finish sale orders"
-msgstr "El diario de pago es necesario para terminar los pedidos de venta"
+msgstr "El diario de pago es necesario para finalizar los pedidos de venta"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_medical_encounter_pending_private_amount
@@ -271,7 +271,7 @@ msgstr "Importe privado pendiente"
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_close_pos_session_id
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_finish_pos_session_id
 msgid "PoS Session"
-msgstr "PoS Session"
+msgstr "Sesión"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_finish_pos_config_id
@@ -307,23 +307,23 @@ msgstr "Pedido de venta"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_pos_session_sale_order_count
 msgid "Sale Order Count"
-msgstr "Recuento de órdenes de venta"
+msgstr "# pedidos de venta"
 
 #. module: cb_medical_pos
 #: code:addons/cb_medical_pos/models/account_bank_statement_line.py:27
 #, python-format
 msgid "Sale Order must be a third party order"
-msgstr "La orden de venta debe ser una orden de terceros"
+msgstr "El pedido de venta debe ser un pedido de terceros"
 
 #. module: cb_medical_pos
 #: model:ir.ui.view,arch_db:cb_medical_pos.view_pos_session_form
 msgid "Sale Orders"
-msgstr "Órdenes de venta"
+msgstr "Pedidos de Ventas"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_pos_session_sale_order_ids
 msgid "Sale orders"
-msgstr "Órdenes de venta"
+msgstr "Pedidos de Ventas"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_pos_config_session_sequence_id
@@ -333,12 +333,12 @@ msgstr "Secuencia de sesiones"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_pos_config_session_sequence_prefix
 msgid "Session Sequence Prefix"
-msgstr "Prefijo de secuencia de sesión"
+msgstr "Prefijo para secuencia de sesión"
 
 #. module: cb_medical_pos
 #: model:ir.ui.view,arch_db:cb_medical_pos.view_pos_config_form
 msgid "Session sequence"
-msgstr "Secuencia de sesion"
+msgstr "Secuencia de sesión"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,help:cb_medical_pos.field_wizard_medical_encounter_add_amount_currency_id
@@ -367,7 +367,7 @@ msgstr "afiliación"
 #: model:ir.actions.act_window,name:cb_medical_pos.wizard_medical_encounter_finish_action
 #: model:ir.ui.view,arch_db:cb_medical_pos.wizard_medical_encounter_finish_view_form
 msgid "finish encounter"
-msgstr "terminar afiliación"
+msgstr "Finalizar afiliación"
 
 #. module: cb_medical_pos
 #: model:ir.model,name:cb_medical_pos.model_pos_config
