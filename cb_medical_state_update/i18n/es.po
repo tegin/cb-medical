@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-07 10:26+0000\n"
-"PO-Revision-Date: 2018-11-07 16:25+0100\n"
+"PO-Revision-Date: 2018-11-13 17:29+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: cb_medical_state_update
 #: model:ir.model,name:cb_medical_state_update.model_medical_document_reference
 msgid "Medical Document Reference"
-msgstr "Documento de Referencia"
+msgstr "Documento"
 
 #. module: cb_medical_state_update
 #: model:ir.model,name:cb_medical_state_update.model_medical_procedure
@@ -35,4 +35,4 @@ msgstr "Petición"
 #. module: cb_medical_state_update
 #: model:ir.model,name:cb_medical_state_update.model_medical_procedure_request
 msgid "Procedure Request"
-msgstr "Petición de Procedimiento"
+msgstr "Petición"
