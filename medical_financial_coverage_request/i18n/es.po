@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-07 10:25+0000\n"
-"PO-Revision-Date: 2018-11-09 10:36+0100\n"
+"PO-Revision-Date: 2018-11-13 16:41+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,13 +15,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: cb_medical_financial_coverage_request
 #: code:addons/cb_medical_financial_coverage_request/models/medical_request.py:109
 #, python-format
 msgid "A change of plan definition must be made on headers"
-msgstr "Un cambio de definición de plan debe hacerse en los encabezados"
+msgstr "El cambio de plan debe hacerse desde la cebecera"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_workflow_activity_definition
@@ -32,13 +32,13 @@ msgstr "Actividad"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_careplan_add_plan_definition_agreement_ids
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_change_plan_agreement_ids
 msgid "Agreement"
-msgstr "Oferta"
+msgstr "Acuerdo"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_careplan_add_plan_definition_agreement_line_id
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_change_plan_agreement_line_id
 msgid "Agreement Line"
-msgstr "Línea de oferta"
+msgstr "Elemento de acuerdo"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_format_always_authorized
@@ -50,7 +50,7 @@ msgstr "Siempre autorizado"
 #: code:addons/cb_medical_financial_coverage_request/models/workflow_activity_definition.py:42
 #, python-format
 msgid "An element should exist on an agreement if it is billable"
-msgstr "Un elemento debe existir en una oferta si es facturable"
+msgstr "El elemento debe existir en un acuerdo si es facturable"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.ui.view,arch_db:cb_medical_financial_coverage_request.medical_authorization_format_tree
@@ -104,7 +104,7 @@ msgstr "Método de autorización"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_change_plan_authorization_number
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_check_authorization_authorization_number
 msgid "Authorization Number"
-msgstr "Numero de autorización"
+msgstr "Número de autorización"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_method_authorization_required
@@ -112,7 +112,7 @@ msgstr "Numero de autorización"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_change_plan_authorization_required
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_check_authorization_authorization_required
 msgid "Authorization Required"
-msgstr "Autorización requerida"
+msgstr "Autorización obligatoria"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_careplan_authorization_status
@@ -131,7 +131,7 @@ msgstr "Estado de autorización"
 #: model:ir.ui.view,arch_db:cb_medical_financial_coverage_request.medical_authorization_format_form
 #: model:ir.ui.view,arch_db:cb_medical_financial_coverage_request.medical_authorization_format_tree
 msgid "Authorization format"
-msgstr "Formato de autorizacion"
+msgstr "Formato de autorización"
 
 #. module: cb_medical_financial_coverage_request
 #: model:res.groups,name:cb_medical_financial_coverage_request.group_medical_authorization_format_manager
@@ -169,7 +169,7 @@ msgstr "Método auxiliar"
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_can_change_plan
 msgid "Can Change Plan"
-msgstr "Puede cambiar de plan"
+msgstr "Puede cambiar el plan"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_careplan_can_deactivate
@@ -238,7 +238,7 @@ msgstr "Contacto"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_change_plan_coverage_id
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_coverage_id
 msgid "Coverage"
-msgstr "Póliza"
+msgstr "Cobertura"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_medical_coverage_agreement
@@ -250,7 +250,7 @@ msgstr "Póliza"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_coverage_agreement_id
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_coverage_agreement_id
 msgid "Coverage Agreement"
-msgstr "Oferta de poliza"
+msgstr "Acuerdo"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_careplan_coverage_agreement_item_id
@@ -262,7 +262,7 @@ msgstr "Oferta de poliza"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_check_authorization_coverage_agreement_item_id
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_coverage_agreement_item_id
 msgid "Coverage Agreement Item"
-msgstr "Oferta de Poliza"
+msgstr "Elemento de acuerdo"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_careplan_add_plan_definition_coverage_template_id
@@ -280,7 +280,7 @@ msgstr "Coberturas"
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,help:cb_medical_financial_coverage_request.field_medical_coverage_agreement_item_coverage_template_ids
 msgid "Coverage templates related to this agreement"
-msgstr "Plantillas de póliza relacionadas con la oferta"
+msgstr "Coberturas relacionadas con el acuerdo"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_format_create_uid
@@ -310,7 +310,7 @@ msgstr "Nombre mostrado"
 #: code:addons/cb_medical_financial_coverage_request/models/medical_request.py:102
 #, python-format
 msgid "Element is inactive, your cannot change plan"
-msgstr "El elemento está inactivo, no puedes cambiar de plan"
+msgstr "Elemento archivado, no puede cambiar de plan"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_format_id
@@ -323,14 +323,14 @@ msgstr "ID"
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,help:cb_medical_financial_coverage_request.field_medical_coverage_template_subscriber_information
 msgid "Information useful to find the subscriber value"
-msgstr "Información útil para encontrar el valor del suscriptor"
+msgstr "Información útil para encontrar el número de asegurado"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_patient_integer_center_identifier
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_res_partner_integer_center_identifier
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_res_users_integer_center_identifier
 msgid "Integer Center Identifier"
-msgstr "Identificador de centro entero"
+msgstr "Identificador de centro (Entero)"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_method_integration_information
@@ -340,12 +340,12 @@ msgstr "Información de integración"
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_method_integration_system
 msgid "Integration System"
-msgstr "Sistema de integracion"
+msgstr "Sistema de integración"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_patient_last_coverage_id
 msgid "Last Coverage"
-msgstr "Última póliza"
+msgstr "Última cobertura"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_format___last_update
@@ -374,12 +374,12 @@ msgstr "Última actualización en"
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_medical_coverage
 msgid "Medical Coverage"
-msgstr "Póliza"
+msgstr "Cobertura"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_medical_coverage_agreement_item
 msgid "Medical Coverage Agreement Item"
-msgstr "Oferta de póliza"
+msgstr "Elemento de acuerdo"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_medical_coverage_template
@@ -389,7 +389,7 @@ msgstr "Cobertura"
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_medical_request
 msgid "Medical request"
-msgstr "Peticion"
+msgstr "Petición"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_method_method_information
@@ -416,7 +416,7 @@ msgstr "Ninguna"
 #: selection:medical.request,authorization_status:0
 #: selection:medical.request.group,authorization_status:0
 msgid "Not authorized"
-msgstr "No autorizado"
+msgstr "No Autorizado"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_request_group_change_plan_careplan_id
@@ -452,12 +452,12 @@ msgstr "Autorización pendiente"
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_careplan_add_plan_definition_performer_id
 msgid "Performer"
-msgstr "Ejecutante"
+msgstr "Realizador"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_careplan_add_plan_definition_performer_required
 msgid "Performer Required"
-msgstr "Ejecutante necesario"
+msgstr "Realizador obligatorio"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_workflow_plan_definition
@@ -495,39 +495,39 @@ msgstr "Acto medico"
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_coverage_subscriber_format
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_coverage_template_subscriber_format
 msgid "Subscriber Format"
-msgstr "Formato de suscriptor"
+msgstr "Formato de número de asegurado"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_method_subscriber_id_required
 msgid "Subscriber Id Required"
-msgstr "Se requiere identificación del suscriptor"
+msgstr "Número de asegurado obligatorio"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_coverage_template_subscriber_information
 msgid "Subscriber Information"
-msgstr "Información del suscriptor"
+msgstr "Información del número de asegurado"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_method_subscriber_magnetic_str_required
 msgid "Subscriber Magnetic Str Required"
-msgstr "Suscriptor requerido Banda magnética"
+msgstr "Banda magnética obligatoria"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_coverage_subscriber_required
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_coverage_template_subscriber_required
 msgid "Subscriber Required"
-msgstr "Requiere suscriptor"
+msgstr "Número de asegurado obligatorio"
 
 #. module: cb_medical_financial_coverage_request
 #: code:addons/cb_medical_financial_coverage_request/models/medical_coverage.py:24
 #, python-format
 msgid "Subscriber id is not valid"
-msgstr "La identificación del suscriptor no es válida"
+msgstr "El número de asegurado no es válido"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_request.field_medical_authorization_method_vat_required
 msgid "Vat Required"
-msgstr "IVA requerido"
+msgstr "DNI requerido"
 
 #. module: cb_medical_financial_coverage_request
 #: selection:medical.authorization.method,integration_system:0
@@ -537,24 +537,24 @@ msgstr "Web"
 #. module: cb_medical_financial_coverage_request
 #: selection:medical.authorization.method,integration_system:0
 msgid "Web service"
-msgstr "Servicio web"
+msgstr "Web Service"
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_medical_careplan_add_plan_definition
 msgid "medical.careplan.add.plan.definition"
-msgstr "medical.proceso.add.plan.definicion"
+msgstr ""
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_medical_patient
 msgid "medical.patient"
-msgstr "medical.patient"
+msgstr ""
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_medical_request_group_change_plan
 msgid "medical.request.group.change.plan"
-msgstr "medical.request.group.change.plan"
+msgstr ""
 
 #. module: cb_medical_financial_coverage_request
 #: model:ir.model,name:cb_medical_financial_coverage_request.model_medical_request_group_check_authorization
 msgid "medical.request.group.check.authorization"
-msgstr "medical.peticion.group.check.autorización"
+msgstr ""
