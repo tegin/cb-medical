@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* medical_administration_flag
+#	* medical_administration_flag
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:27+0000\n"
-"PO-Revision-Date: 2018-11-12 10:07+0100\n"
+"POT-Creation-Date: 2018-11-14 08:31+0000\n"
+"PO-Revision-Date: 2018-11-14 08:31+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.2\n"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_active
@@ -100,7 +98,7 @@ msgid "Flags"
 msgstr "Banderas"
 
 #. module: medical_administration_flag
-#: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category_id_5800
+#: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category_id_12779
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_id
 msgid "ID"
 msgstr "ID"
@@ -109,31 +107,31 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag___last_update
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr "Última modificación el"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category_write_uid
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: medical_administration_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_category_write_date
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_flag_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
 
 #. module: medical_administration_flag
 #: model:ir.model,name:medical_administration_flag.model_medical_flag_category
 msgid "Medical Category Flag"
-msgstr "Bandera Categoria"
+msgstr "Categoría de Aviso"
 
 #. module: medical_administration_flag
 #: model:ir.model,name:medical_administration_flag.model_medical_flag
 #: model:ir.model.fields,field_description:medical_administration_flag.field_medical_patient_medical_flag_ids
 #: model:ir.ui.view,arch_db:medical_administration_flag.view_medical_flag_search
 msgid "Medical Flag"
-msgstr "Bandera"
+msgstr "Aviso"
 
 #. module: medical_administration_flag
 #: model:ir.ui.view,arch_db:medical_administration_flag.medical_flag_category_view_tree
@@ -175,4 +173,5 @@ msgstr "Nombre del paciente"
 #. module: medical_administration_flag
 #: model:ir.model,name:medical_administration_flag.model_medical_patient
 msgid "medical.patient"
-msgstr "medical.patient"
+msgstr "medical.pacientes"
+
