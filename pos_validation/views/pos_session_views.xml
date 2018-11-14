@@ -18,6 +18,14 @@
                                     context="{'default_model': 'pos.session', 'default_res_id': active_id, 'default_method': 'open_validation_encounter'}"
                                     attrs="{'invisible': [('validation_status', '!=', 'in_progress')]}"
                             />
+                <button type="object"
+                        name="action_view_non_validated_encounters"
+                        class="oe_stat_button" icon="fa-hospital-o"
+                        attrs="{'invisible': [('validation_status', '!=', 'in_progress')]}"
+                        >
+                    <field name="encounter_non_validated_count" widget="statinfo"
+                           string="Non validated"/>
+                </button>
             </div>
             <header position="inside">
                 <field name="validation_status" widget="statusbar"/>
