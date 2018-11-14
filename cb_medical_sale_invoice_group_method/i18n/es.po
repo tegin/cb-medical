@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* cb_medical_sale_invoice_group_method
+#	* cb_medical_sale_invoice_group_method
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:26+0000\n"
-"PO-Revision-Date: 2018-11-13 17:29+0100\n"
+"POT-Creation-Date: 2018-11-14 08:31+0000\n"
+"PO-Revision-Date: 2018-11-14 08:31+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.0.6\n"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.invoice_sale_by_group_wizard
@@ -32,7 +30,7 @@ msgstr "Active esta opción para fusionar la factura resultante con las facturas
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_account_invoice_agreement_id
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_preinvoice_group_agreement_id
 msgid "Agreement"
-msgstr "Acuerdo"
+msgstr "Oferta"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.view_sale_preinvoice_group_form
@@ -87,12 +85,12 @@ msgstr "Compañía"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_medical_coverage_agreement
 msgid "Coverage Agreement"
-msgstr "Acuerdo"
+msgstr "Oferta"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.invoice_sale_by_group_wizard
 msgid "Create invoices"
-msgstr "Crear Facturas"
+msgstr "Crear facturas"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.wizard_sale_preinvoice_group
@@ -213,7 +211,7 @@ msgstr "Validado"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group___last_update
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_barcode___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr "Última modificación el"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_write_uid
@@ -221,7 +219,7 @@ msgstr "Última modificación en"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_barcode_write_uid
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_invoice_sales_by_group_write_date
@@ -229,7 +227,12 @@ msgstr "Última actualización de"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_barcode_write_date
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
+
+#. module: cb_medical_sale_invoice_group_method
+#: model:ir.model,name:cb_medical_sale_invoice_group_method.model_medical_careplan
+msgid "Medical Care Plan"
+msgstr "Proceso"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_medical_encounter
@@ -260,7 +263,7 @@ msgstr "Líneas de pedido de venta no validadas"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_sale_preinvoice_group_partner_id
 msgid "Partner"
-msgstr "Contacto"
+msgstr "Empresa"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice_group_method.field_wizard_sale_preinvoice_group_payor_ids
@@ -396,7 +399,9 @@ msgstr "La afiliación % s no pertenece a este grupo de pre-facturación. Pruebe
 #: code:addons/cb_medical_sale_invoice_group_method/wizard/wizard_barcode_handler.py:39
 #, python-format
 msgid "The following lines have been processed from Encounter %s:\n"
+""
 msgstr "Las siguientes líneas han sido procesadas desde la afiliación%s:\n"
+""
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.medical_preinvoice_group_line_tree
@@ -428,7 +433,7 @@ msgstr "Líneas Validadas"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_invoice_sales_by_group
 msgid "invoice.sales.by.group"
-msgstr ""
+msgstr "invoice.sales.by.group"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice_group_method.invoice_sale_by_group_wizard
@@ -439,9 +444,10 @@ msgstr "o"
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_wizard_sale_preinvoice_group
 msgid "wizard.sale.preinvoice.group"
-msgstr ""
+msgstr "wizard.sale.preinvoice.group"
 
 #. module: cb_medical_sale_invoice_group_method
 #: model:ir.model,name:cb_medical_sale_invoice_group_method.model_wizard_sale_preinvoice_group_barcode
 msgid "wizard.sale.preinvoice.group.barcode"
-msgstr ""
+msgstr "wizard.sale.preinvoice.group.barcode"
+
