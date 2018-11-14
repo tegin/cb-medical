@@ -72,6 +72,10 @@
                                 type="action" class="oe_stat_button" icon="fa-language" string="Add Language"
                                 attrs="{'invisible': [('document_type', '!=', 'action')]}"
                         />
+                        <button name="generate_activity_definition" type="object"
+                                icon="fa-puzzle-piece" class="oe_stat_button" string="Create activity"
+                                attrs="{'invisible': [('activity_definition_ids', '!=', False)]}"
+                                />
                     </div>
                     <h2>
                         <field name="internal_identifier" readonly="1"/>
@@ -81,6 +85,7 @@
                             <field name="name"/>
                             <field name="document_type" invisible="1"/>
                             <field name="report_action_id" attrs="{'invisible': [('document_type', '!=', 'action')], 'required': [('document_type', '=', 'action')]}"/>
+                            <field name="activity_definition_ids" invisible="1"/>
                         </group>
                     </group>
                     <notebook>

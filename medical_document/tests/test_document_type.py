@@ -59,6 +59,19 @@ class TestMedicalDocumentType(TransactionCase):
         with self.assertRaises(UserError):
             template.render_template(template._name, template.id)
 
+    def test_generate_activity_definition(self):
+        self.add_language()
+        self.document_type.draft2current()
+        action = self.document_type.generate_activity_definition()
+        activity = self.env['workflow.activity.definition'].browse(
+            action['res_id']
+        )
+        self.assertTrue(activity)
+        self.assertEqual(activity.document_type_id, self.document_type)
+        result = self.document_type.generate_activity_definition()
+        self.assertFalse(result.get('res_id'))
+        self.assertFalse(result.get('domain'))
+
     def test_activity_definition(self):
         self.add_language()
         self.document_type.draft2current()
