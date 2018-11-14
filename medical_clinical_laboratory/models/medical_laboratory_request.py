@@ -56,7 +56,6 @@ class MedicalLaboratoryRequest(models.Model):
         result.update({
             'laboratory_request_id': self.id,
             'patient_id': self.patient_id.id,
-            'encounter_id': self.encounter_id.id or False,
         })
         return result
 
