@@ -47,3 +47,8 @@ class MedicalRequest(models.AbstractModel):
                 [(inverse_field_name, '=', rec.id)])
             rec.document_reference_ids = [(6, 0, documents.ids)]
             rec.document_reference_count = len(rec.document_reference_ids)
+
+    def _get_parents(self):
+        res = super()._get_parents()
+        res.append(self.document_reference_id)
+        return res
