@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* medical_clinical_laboratory
+#	* medical_clinical_laboratory
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:27+0000\n"
-"PO-Revision-Date: 2018-11-12 09:58+0100\n"
+"POT-Creation-Date: 2018-11-14 08:31+0000\n"
+"PO-Revision-Date: 2018-11-14 08:31+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.2\n"
 
 #. module: medical_clinical_laboratory
 #: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_laboratory_event_count
@@ -98,7 +96,7 @@ msgstr "Error"
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
 msgid "Group By..."
-msgstr "Agrupar por..."
+msgstr "Agrupar Por..."
 
 #. module: medical_clinical_laboratory
 #: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_id
@@ -127,7 +125,7 @@ msgstr "Laboratorio"
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_form
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_tree
 msgid "Laboratory Event"
-msgstr "Evento Laboratorio"
+msgstr "Evento de Laboratorio"
 
 #. module: medical_clinical_laboratory
 #: model:ir.actions.act_window,name:medical_clinical_laboratory.medical_laboratory_event_action
@@ -151,13 +149,13 @@ msgstr "Gestor laboratorio"
 #: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_request_laboratory_request_id
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_form
 msgid "Laboratory Request"
-msgstr "Peticionario Laboratorio"
+msgstr "Petición de laboratorio"
 
 #. module: medical_clinical_laboratory
 #: model:ir.actions.act_window,name:medical_clinical_laboratory.medical_laboratory_request_action
 #: model:ir.ui.menu,name:medical_clinical_laboratory.medical_laboratory_request
 msgid "Laboratory Requests"
-msgstr "Peticionarios laboratorio"
+msgstr "Peticiones laboratorio"
 
 #. module: medical_clinical_laboratory
 #: model:ir.ui.menu,name:medical_clinical_laboratory.medical_laboratory_event
@@ -174,31 +172,31 @@ msgstr "Peticion laboratorio"
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_procedure_request_view_tree
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_request_form
 msgid "Laboratory requests"
-msgstr "Peticionarios laboratorio"
+msgstr "Peticiones laboratorio"
 
 #. module: medical_clinical_laboratory
 #: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event___last_update
 #: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr "Última modificación el"
 
 #. module: medical_clinical_laboratory
 #: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_write_uid
 #: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: medical_clinical_laboratory
 #: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event_write_date
 #: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_request_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
 
 #. module: medical_clinical_laboratory
 #: model:ir.model,name:medical_clinical_laboratory.model_medical_laboratory_event
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
 msgid "Medical Laboratory Event"
-msgstr "Evento Laboratorio"
+msgstr "Evento de laboratorio"
 
 #. module: medical_clinical_laboratory
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_search
@@ -208,7 +206,7 @@ msgstr "Peticion de laboratorio"
 #. module: medical_clinical_laboratory
 #: model:ir.model,name:medical_clinical_laboratory.model_medical_request
 msgid "Medical request"
-msgstr "Peticion"
+msgstr "Medical request"
 
 #. module: medical_clinical_laboratory
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
@@ -247,3 +245,4 @@ msgstr "Suspendido"
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_event_view_search
 msgid "Unknown"
 msgstr "Desconocido"
+
