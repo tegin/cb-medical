@@ -2,7 +2,8 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class MedicalLaboratoryEvent(models.Model):
@@ -24,3 +25,9 @@ class MedicalLaboratoryEvent(models.Model):
     def _get_internal_identifier(self, vals):
         return self.env['ir.sequence'].next_by_code(
             'medical.laboratory.event') or '/'
+
+    @api.constrains('laboratory_request_id', 'patient_id')
+    def _check_patient_medication(self):
+        if not self.env.context.get('no_check_patient', False):
+            if self.patient_id != self.laboratory_request_id.patient_id:
+                raise ValidationError(_('Patient inconsistency'))
