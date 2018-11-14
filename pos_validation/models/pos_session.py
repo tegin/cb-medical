@@ -38,6 +38,17 @@ class PosSession(models.Model):
         'medical.procedure',
         compute='_compute_lines',
     )
+    encounter_non_validated_count = fields.Integer(
+        compute='_compute_encounter_non_validated_count'
+    )
+
+    @api.depends('encounter_ids', 'encounter_ids.validation_status')
+    def _compute_encounter_non_validated_count(self):
+        for rec in self:
+            rec.encounter_non_validated_count = len(
+                self.encounter_ids.filtered(
+                    lambda r: r.validation_status != 'finished'
+                ))
 
     @api.depends('sale_order_ids.coverage_agreement_id')
     def _compute_invoices(self):
@@ -107,4 +118,22 @@ class PosSession(models.Model):
         res = self.env.ref('medical_encounter.medical_encounter_form', False)
         result['views'] = [(res and res.id or False, 'form')]
         result['res_id'] = encounter.id
+        return result
+
+    @api.multi
+    def action_view_non_validated_encounters(self):
+        self.ensure_one()
+        action = self.env.ref(
+            'medical_administration_encounter.medical_encounter_action')
+        result = action.read()[0]
+        result['domain'] = [
+            ('pos_session_id', '=', self.id),
+            ('validation_status', '!=', 'finished'),
+        ]
+        encounters = self.encounter_ids.filtered(
+            lambda r: r.validation_status != 'finished'
+        )
+        if len(encounters) == 1:
+            result['views'] = [(False, 'form')]
+            result['res_id'] = encounters.id
         return result
