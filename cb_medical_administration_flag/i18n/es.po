@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* cb_medical_administration_flag
+#	* cb_medical_administration_flag
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:23+0000\n"
-"PO-Revision-Date: 2018-11-13 16:10+0100\n"
+"POT-Creation-Date: 2018-11-14 08:30+0000\n"
+"PO-Revision-Date: 2018-11-14 08:30+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.0.6\n"
 
 #. module: cb_medical_administration_flag
 #: selection:medical.flag.category,level:0
@@ -26,7 +24,7 @@ msgstr "Crítico"
 #: model:ir.model.fields,field_description:cb_medical_administration_flag.field_medical_flag_category_flag
 #: model:ir.model.fields,field_description:cb_medical_administration_flag.field_medical_flag_flag
 msgid "Flag"
-msgstr "Aviso"
+msgstr "Bandera"
 
 #. module: cb_medical_administration_flag
 #: selection:medical.flag.category,level:0
@@ -63,3 +61,4 @@ msgstr "Aviso"
 #: selection:medical.flag.category,level:0
 msgid "Moderate"
 msgstr "Moderado"
+
