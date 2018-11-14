@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* cb_medical_views
+#	* cb_medical_views
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:26+0000\n"
-"PO-Revision-Date: 2018-11-13 17:40+0100\n"
+"POT-Creation-Date: 2018-11-14 08:31+0000\n"
+"PO-Revision-Date: 2018-11-14 08:31+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.0.6\n"
 
 #. module: cb_medical_views
 #: model:ir.model,name:cb_medical_views.model_res_partner
@@ -57,4 +55,5 @@ msgstr "Evento"
 #. module: cb_medical_views
 #: model:ir.model,name:cb_medical_views.model_medical_request
 msgid "Medical request"
-msgstr "Petición"
+msgstr "Medical request"
+
