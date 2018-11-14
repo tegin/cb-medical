@@ -39,3 +39,8 @@ class MedicalRequest(models.AbstractModel):
                 [(inverse_field_name, '=', rec.id)])
             rec.laboratory_request_ids = [(6, 0, requests.ids)]
             rec.laboratory_request_count = len(rec.laboratory_request_ids)
+
+    def _get_parents(self):
+        res = super()._get_parents()
+        res.append(self.laboratory_request_id)
+        return res
