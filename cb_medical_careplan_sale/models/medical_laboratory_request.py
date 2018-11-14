@@ -20,6 +20,7 @@ class LaboratoryRequest(models.Model):
 
     def _get_event_values(self, vals=False):
         res = super()._get_event_values(vals)
+        res['encounter_id'] = self.encounter_id.id or False
         if not res.get('authorization_status', False):
             res['authorization_status'] = self.authorization_status
         return res
