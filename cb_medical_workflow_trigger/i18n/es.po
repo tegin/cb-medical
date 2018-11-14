@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:18+0000\n"
-"PO-Revision-Date: 2018-11-07 10:18+0000\n"
+"POT-Creation-Date: 2018-11-14 08:31+0000\n"
+"PO-Revision-Date: 2018-11-14 08:31+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Elements that will trigger the request"
 #. module: cb_medical_workflow_trigger
 #: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_id
 msgid "ID"
-msgstr "ID (identificación)"
+msgstr "ID"
 
 #. module: cb_medical_workflow_trigger
 #: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger___last_update
@@ -80,7 +80,7 @@ msgstr "Última actualización por"
 #. module: cb_medical_workflow_trigger
 #: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
 
 #. module: cb_medical_workflow_trigger
 #: model:ir.model,name:cb_medical_workflow_trigger.model_workflow_plan_definition_action
@@ -100,7 +100,7 @@ msgstr "Plan"
 #. module: cb_medical_workflow_trigger
 #: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_request_id
 msgid "Request"
-msgstr "Request"
+msgstr "Petición"
 
 #. module: cb_medical_workflow_trigger
 #: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_request_model
@@ -110,7 +110,7 @@ msgstr "Request Model"
 #. module: cb_medical_workflow_trigger
 #: model:ir.model.fields,field_description:cb_medical_workflow_trigger.field_medical_request_trigger_trigger_id
 msgid "Trigger"
-msgstr "Trigger"
+msgstr "Disparador"
 
 #. module: cb_medical_workflow_trigger
 #: model:ir.ui.view,arch_db:cb_medical_workflow_trigger.workflow_plan_definition_action_form
