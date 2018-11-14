@@ -122,15 +122,39 @@ class TestCBSale(TestCB):
                 self.assertFalse(line.agents)
         self.session.action_pos_session_close()
         self.assertTrue(self.session.request_group_ids)
+        self.assertEqual(
+            self.session.encounter_ids,
+            self.env['medical.encounter'].search(
+                self.session.action_view_non_validated_encounters()['domain']
+            ))
+        non_validated = len(self.session.encounter_ids)
         for encounter in self.session.encounter_ids:
+            self.assertEqual(
+                non_validated, self.session.encounter_non_validated_count)
             encounter_aux = self.env['medical.encounter'].browse(
                 self.session.open_validation_encounter(
                     encounter.internal_identifier)['res_id'])
+            action = self.session.action_view_non_validated_encounters()
+            if non_validated > 1:
+                self.assertIn(
+                    encounter,
+                    self.env['medical.encounter'].search(action['domain'])
+                )
+            else:
+                self.assertEqual(
+                    encounter,
+                    self.env['medical.encounter'].browse(action['res_id'])
+                )
             encounter_aux.admin_validate()
+            non_validated -= 1
+            self.assertEqual(
+                non_validated, self.session.encounter_non_validated_count)
             for sale_order in encounter_aux.sale_order_ids:
                 self.assertTrue(sale_order.invoice_ids)
                 self.assertTrue(all(
                     i.state == 'open' for i in sale_order.invoice_ids))
+        self.assertEqual(0, non_validated)
+        self.assertEqual(0, self.session.encounter_non_validated_count)
 
     def test_no_invoice(self):
         method = self.browse_ref(
