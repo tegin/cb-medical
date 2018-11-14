@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* medical_document
+#	* medical_document
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:27+0000\n"
-"PO-Revision-Date: 2018-11-12 09:47+0100\n"
+"POT-Creation-Date: 2018-11-14 08:31+0000\n"
+"PO-Revision-Date: 2018-11-14 08:31+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.2\n"
 
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_careplan_document_reference_count
@@ -202,11 +200,6 @@ msgid "Document actions"
 msgstr "Acciones de documento"
 
 #. module: medical_document
-#: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_internal_identifier
-msgid "Document reference"
-msgstr "Documento"
-
-#. module: medical_document
 #: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_search
 msgid "Document reference ID"
 msgstr "ID del documento"
@@ -273,7 +266,7 @@ msgstr "Borrador"
 
 #. module: medical_document
 #: code:addons/medical_document/models/medical_document_reference.py:107
-#: code:addons/medical_document/models/medical_document_reference.py:173
+#: code:addons/medical_document/models/medical_document_reference.py:175
 #: code:addons/medical_document/models/medical_document_template.py:51
 #, python-format
 msgid "Function must be defined"
@@ -283,7 +276,7 @@ msgstr "Se debe definir la función"
 #: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_search
 #: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_search
 msgid "Group By..."
-msgstr "Agrupar por..."
+msgstr "Agrupar Por..."
 
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_language_id
@@ -296,11 +289,6 @@ msgstr "Agrupar por..."
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_id
 msgid "ID"
 msgstr "ID"
-
-#. module: medical_document
-#: model:ir.model.fields,help:medical_document.field_medical_document_reference_internal_identifier
-msgid "Internal identifier used to identify this record"
-msgstr "Identificador interno utilizado para identificar este registro"
 
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_is_editable
@@ -340,7 +328,7 @@ msgstr "Idioma"
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_add_language___last_update
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr "Última modificación el"
 
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_write_uid
@@ -351,7 +339,7 @@ msgstr "Última modificación en"
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_write_uid
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_reference_change_language_write_date
@@ -362,13 +350,13 @@ msgstr "Última actualización de"
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_write_date
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
 
 #. module: medical_document
 #: model:ir.model,name:medical_document.model_medical_document_reference
 #: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_search
 msgid "Medical Document Reference"
-msgstr "Documento médico"
+msgstr "Documento"
 
 #. module: medical_document
 #: model:ir.model,name:medical_document.model_medical_document_template
@@ -378,7 +366,7 @@ msgstr "Plantilla"
 #. module: medical_document
 #: model:ir.model,name:medical_document.model_medical_document_type
 msgid "Medical Document Type"
-msgstr "Tipo de Documento"
+msgstr "Tipo de documento"
 
 #. module: medical_document
 #: model:ir.ui.view,arch_db:medical_document.medical_document_type_view_search
@@ -388,7 +376,7 @@ msgstr "Tipo de documento"
 #. module: medical_document
 #: model:ir.model,name:medical_document.model_medical_request
 msgid "Medical request"
-msgstr "Petición"
+msgstr "Medical request"
 
 #. module: medical_document
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_name
@@ -454,13 +442,13 @@ msgid "State"
 msgstr "Estado"
 
 #. module: medical_document
-#: code:addons/medical_document/models/medical_document_reference.py:181
+#: code:addons/medical_document/models/medical_document_reference.py:183
 #, python-format
 msgid "State must be Current"
 msgstr "El estado debe ser actual"
 
 #. module: medical_document
-#: code:addons/medical_document/models/medical_document_reference.py:158
+#: code:addons/medical_document/models/medical_document_reference.py:160
 #, python-format
 msgid "State must be draft"
 msgstr "El estado debe ser borrador"
@@ -486,7 +474,7 @@ msgstr "Plantilla"
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_template_lang_text
 #: model:ir.model.fields,field_description:medical_document.field_medical_document_type_lang_text
 msgid "Text"
-msgstr "Text"
+msgstr "Texto"
 
 #. module: medical_document
 #: sql_constraint:medical.document.template.lang:0
@@ -506,7 +494,7 @@ msgstr "Traducciones"
 #. module: medical_document
 #: model:ir.ui.view,arch_db:medical_document.medical_document_reference_view_form
 msgid "View"
-msgstr "Vista"
+msgstr "Ver"
 
 #. module: medical_document
 #: selection:medical.document.type,document_type:0
@@ -547,3 +535,4 @@ msgstr "medical.document.type.lang"
 #: model:ir.model,name:medical_document.model_res_remote_printer
 msgid "res.remote.printer"
 msgstr "res.remote.printer"
+
