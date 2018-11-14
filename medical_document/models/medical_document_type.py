@@ -111,6 +111,38 @@ class MedicalDocumentType(models.Model):
             record.unpost()
             record.write(self.current2superseded_values())
 
+    def _generate_activity_definition(self):
+        activity_obj = self.env['workflow.activity.definition']
+        activities = activity_obj
+        for r in self.filtered(lambda r: not r.activity_definition_ids):
+            activity = activity_obj.create(r._activity_definition_vals())
+            activity.activate()
+            activities |= activity
+        return activities
+
+    def _activity_definition_vals(self):
+        return {
+            'type_id': self.env.ref('medical_workflow.medical_workflow').id,
+            'name': self.name,
+            'model_id': self.env.ref(
+                'medical_document.model_medical_document_reference').id,
+            'document_type_id': self.id,
+        }
+
+    @api.multi
+    def generate_activity_definition(self):
+        activites = self._generate_activity_definition()
+        action = self.env.ref(
+            'medical_workflow.workflow_activity_definition_action')
+        result = action.read()[0]
+        if len(activites) > 1:
+            result['domain'] = "[('id', 'in', " + str(activites.ids) + ")]"
+        elif len(activites) == 1:
+            res = self.env.ref('workflow.activity.definition', False)
+            result['views'] = [(res and res.id or False, 'form')]
+            result['res_id'] = activites.id
+        return result
+
 
 class MedicalDocumentTypeLang(models.Model):
     _name = 'medical.document.type.lang'
