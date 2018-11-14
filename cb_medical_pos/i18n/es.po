@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* cb_medical_pos
+#	* cb_medical_pos
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 10:25+0000\n"
-"PO-Revision-Date: 2018-11-13 16:46+0100\n"
+"POT-Creation-Date: 2018-11-14 08:30+0000\n"
+"PO-Revision-Date: 2018-11-14 08:30+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.0.6\n"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_sale_order_account_id
@@ -176,7 +174,7 @@ msgstr "ID"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_pos_session_internal_identifier
 msgid "Internal Identifier"
-msgstr "Identificador"
+msgstr "Identificador interno"
 
 #. module: cb_medical_pos
 #: model:ir.model,name:cb_medical_pos.model_account_invoice
@@ -199,7 +197,7 @@ msgstr "Diario"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out_journal_count
 msgid "Journal Count"
-msgstr "# Diarios"
+msgstr "Recuento diario"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_res_company_patient_journal_id
@@ -209,7 +207,7 @@ msgstr "Diario de facturas de pacientes"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_medical_encounter_laboratory_request_ids
 msgid "Laboratory Request"
-msgstr "Petición de laboratorio"
+msgstr "Petición de Laboratorio"
 
 #. module: cb_medical_pos
 #: code:addons/cb_medical_pos/models/medical_encounter.py:93
@@ -223,7 +221,7 @@ msgstr "Las peticiones de laboratorio deben estar finalizadas."
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_close___last_update
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_finish___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr "Última modificación el"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out_write_uid
@@ -231,7 +229,7 @@ msgstr "Última modificación en"
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_close_write_uid
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_finish_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_cash_sale_order_out_write_date
@@ -239,7 +237,12 @@ msgstr "Última actualización de"
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_close_write_date
 #: model:ir.model.fields,field_description:cb_medical_pos.field_wizard_medical_encounter_finish_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
+
+#. module: cb_medical_pos
+#: model:ir.model,name:cb_medical_pos.model_medical_careplan
+msgid "Medical Care Plan"
+msgstr "Proceso"
 
 #. module: cb_medical_pos
 #: model:ir.model,name:cb_medical_pos.model_medical_encounter
@@ -307,7 +310,7 @@ msgstr "Pedido de venta"
 #. module: cb_medical_pos
 #: model:ir.model.fields,field_description:cb_medical_pos.field_pos_session_sale_order_count
 msgid "Sale Order Count"
-msgstr "# pedidos de venta"
+msgstr "# pedidos de ventas"
 
 #. module: cb_medical_pos
 #: code:addons/cb_medical_pos/models/account_bank_statement_line.py:27
@@ -344,12 +347,17 @@ msgstr "Secuencia de sesión"
 #: model:ir.model.fields,help:cb_medical_pos.field_wizard_medical_encounter_add_amount_currency_id
 #: model:ir.model.fields,help:cb_medical_pos.field_wizard_medical_encounter_finish_currency_id
 msgid "The currency used to enter statement"
-msgstr "La moneda utilizada para introducir en los estados"
+msgstr "La moneda utilizada para introducir en los estados."
 
 #. module: cb_medical_pos
 #: model:ir.model.fields,help:cb_medical_pos.field_wizard_medical_encounter_finish_pos_config_id
 msgid "The physical point of sale you will use."
 msgstr "El punto de venta físico que utilizará."
+
+#. module: cb_medical_pos
+#: model:ir.model,name:cb_medical_pos.model_cash_invoice_journal_out
+msgid "cash.invoice.journal.out"
+msgstr "cash.invoice.journal.out"
 
 #. module: cb_medical_pos
 #: model:ir.model,name:cb_medical_pos.model_cash_sale_order_out
@@ -393,3 +401,4 @@ msgstr "wizard.medical.afiliación.close"
 #: model:ir.model,name:cb_medical_pos.model_wizard_medical_encounter_finish
 msgid "wizard.medical.encounter.finish"
 msgstr "wizard.medical.afiliación.finish"
+
