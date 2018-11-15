@@ -25,6 +25,7 @@
         'views/medical_coverage_agreement_view.xml',
         'views/medical_coverage_template_view.xml',
         'views/medical_menu.xml',
+        'views/product_views.xml',
         'security/ir.model.access.csv',
     ],
     'test': [
