@@ -12,3 +12,8 @@ class PlanDefinitionAction(models.Model):
         string='Is billable?',
         default=False,
     )
+    service_id = fields.Many2one(
+        'product.product',
+        related='activity_definition_id.service_id',
+        readonly=True,
+    )
