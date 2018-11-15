@@ -22,7 +22,7 @@ class ActivityDefinition(models.Model):
 
     @api.constrains('service_id')
     def _check_product(self):
-        for rec in self:
+        for rec in self.filtered(lambda r: r.service_id):
             if rec.service_id.type != 'service':
                 raise ValidationError(_(
                     'Activite are only allowed for services'
