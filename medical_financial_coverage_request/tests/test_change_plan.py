@@ -55,12 +55,11 @@ class TestCB(TransactionCase):
         self.product_01 = self.create_product('Medical resonance')
         self.product_02 = self.create_product('Report')
         self.product_03 = self.env['product.product'].create({
-            'type': 'consu',
+            'type': 'service',
             'name': 'Clinical material',
-            'is_medication': True,
+            'is_medication': False,
             'lst_price': 10.0,
         })
-        self.product_03.qty_available = 50.0
 
         self.product_04 = self.create_product('MR complex')
         self.type = self.browse_ref('medical_workflow.medical_workflow')
@@ -239,4 +238,4 @@ class TestCB(TransactionCase):
                 default_request_group_id=group.id
             ).create({
                 'agreement_line_id': self.agreement_line.id
-            }).run()
+                }).run()
