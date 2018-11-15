@@ -11,7 +11,7 @@ class MedicalEncounter(models.Model):
         ('draft', 'Draft'),
         ('in_progress', 'In progress'),
         ('finished', 'Finished')
-    ], default='none', readonly=True,)
+    ], default='none', readonly=True, track_visibility=True,)
     sale_order_line_ids = fields.One2many(
         'sale.order.line',
         inverse_name='encounter_id',
@@ -20,7 +20,7 @@ class MedicalEncounter(models.Model):
         compute='_compute_validation_values',
     )
     is_preinvoiced = fields.Boolean(
-        default=False,
+        default=False, track_visibility=True,
     )
     has_patient_invoice = fields.Boolean(
         compute='_compute_validation_values',
