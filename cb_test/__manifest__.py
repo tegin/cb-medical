@@ -19,6 +19,7 @@
         'cb_medical_block_request',
         'cb_medical_authorization',
         'cb_medical_medication',
+        'cb_medical_workflow_activity',
     ],
     'data': [
     ],

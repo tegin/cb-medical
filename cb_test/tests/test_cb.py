@@ -194,6 +194,8 @@ class TestCB(SavepointCase):
         })
         self.product_01 = self.create_product('Medical resonance')
         self.product_02 = self.create_product('Report')
+        self.product_04 = self.create_product('Report 04')
+        self.product_05 = self.create_product('Report 05')
         self.service = self.env['product.product'].create({
             'name': 'Service',
             'type': 'service',
@@ -273,7 +275,7 @@ class TestCB(SavepointCase):
         self.activity4.activate()
         self.activity5 = self.env['workflow.activity.definition'].create({
             'name': 'Activity 5',
-            'service_id': self.product_02.id,
+            'service_id': self.product_04.id,
             'model_id': self.browse_ref('medical_clinical_procedure.'
                                         'model_medical_procedure_request').id,
             'type_id': self.type.id,
@@ -281,7 +283,7 @@ class TestCB(SavepointCase):
         self.activity5.activate()
         self.lab_activity = self.env['workflow.activity.definition'].create({
             'name': 'Laboratory activity',
-            'service_id': self.product_02.id,
+            'service_id': self.product_05.id,
             'model_id': self.browse_ref('medical_clinical_laboratory.'
                                         'model_medical_laboratory_request').id,
             'type_id': self.type.id,
