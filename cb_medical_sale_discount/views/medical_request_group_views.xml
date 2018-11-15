@@ -11,7 +11,7 @@
                 <button type="action" name="%(cb_medical_sale_discount.medical_request_group_discount_action)s" string="Apply discount"
                         class="oe_stat_button"
                         icon="fa-percent"
-                        attrs="{'invisible': ['|', ('sale_order_line_ids', '=', False), ('is_billable', '=', False)]}"/>
+                        attrs="{'invisible': ['|', ('sale_order_line_ids', '!=', False), ('is_billable', '=', False)]}"/>
                 <field name="sale_order_line_ids" invisible="1"/>
             </xpath>
         </field>
