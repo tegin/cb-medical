@@ -26,6 +26,12 @@ class MedicalCoverageAgreementItem(models.Model):
         string='Plan definition',
         comodel_name='workflow.plan.definition',
     )
+    product_tmpl_id = fields.Many2one(
+        'product.template',
+        related='product_id.product_tmpl_id',
+        readonly=True,
+        store=True,
+    )
     product_id = fields.Many2one(
         comodel_name='product.product',
         string='Product',
