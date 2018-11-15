@@ -8,7 +8,7 @@ from odoo import api, fields, models
 class SalePreinvoiceGroup(models.Model):
     _name = 'sale.preinvoice.group'
     _description = 'Sale Preinvoice Group'
-    _inherit = ['medical.abstract']
+    _inherit = ['medical.abstract', 'mail.thread', 'mail.activity.mixin']
     _rec_name = 'internal_identifier'
 
     agreement_id = fields.Many2one(
