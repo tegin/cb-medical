@@ -17,6 +17,12 @@
             <xpath expr="//tree" position="attributes">
                 <attribute name="string">Document references</attribute>
             </xpath>
+            <field name="internal_identifier" position="after">
+                <field name="document_type_id"/>
+            </field>
+            <field name="service_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
         </field>
     </record>
 
