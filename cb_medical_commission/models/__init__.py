@@ -10,6 +10,7 @@ from . import medical_laboratory_request
 from . import medical_practitioner_condition
 from . import medical_procedure
 from . import medical_procedure_request
+from . import medical_request
 from . import product_template
 from . import res_partner
 from . import sale_order
