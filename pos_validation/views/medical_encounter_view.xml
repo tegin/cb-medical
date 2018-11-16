@@ -141,7 +141,7 @@
                                         <page name="procedure" string="Procedures">
                                             <field name="procedure_ids">
                                                 <tree>
-                                                    <field name="service_id"/>
+                                                    <field name="procedure_service_id"/>
                                                     <field name="performer_id"/>
                                                     <field name="variable_fee"/>
                                                     <field name="fixed_fee"/>
