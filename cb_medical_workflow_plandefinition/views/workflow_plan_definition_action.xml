@@ -29,7 +29,7 @@
                 <field name="is_billable" />
             </group>
             <field name="name" position="attributes">
-                <attribute name="readonly">1</attribute>
+                <attribute name="invisible">1</attribute>
             </field>
             <field name="parent_id" position="attributes">
                 <attribute name="invisible">1</attribute>
