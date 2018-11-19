@@ -34,10 +34,18 @@ class MedicalCoverageAgreementItem(models.Model):
     )
     product_id = fields.Many2one(
         comodel_name='product.product',
-        string='Product',
-        ondelete='cascade',
+        string='Service',
+        ondelete='restrict',
         domain=[('type', '=', 'service'), ('sale_ok', '=', True)],
         required=True,
+    )
+    categ_id = fields.Many2one(
+        comodel_name='product.category',
+        string='Category',
+        ondelete='restrict',
+        related='product_id.categ_id',
+        store=True,
+        readonly=True,
     )
     total_price = fields.Float(
         string='Total price',
