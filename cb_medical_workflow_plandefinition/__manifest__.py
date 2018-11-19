@@ -15,7 +15,6 @@
         'cb_medical_administration_center',
     ],
     'data': [
-        'views/workflow_activity_definition.xml',
         'views/workflow_plan_definition_action.xml',
         'views/workflow_plan_definition.xml',
         'views/medical_request_views.xml',

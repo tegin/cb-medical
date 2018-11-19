@@ -17,3 +17,7 @@ class PlanDefinitionAction(models.Model):
         related='activity_definition_id.service_id',
         readonly=True,
     )
+    performer_id = fields.Many2one(
+        'res.partner',
+        domain=[('is_practitioner', '=', True)]
+    )
