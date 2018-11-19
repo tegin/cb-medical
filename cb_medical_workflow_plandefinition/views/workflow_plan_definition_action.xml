@@ -15,6 +15,7 @@
         <field name="arch" type="xml">
             <field name="complete_name" position="after">
                 <field name="service_id"/>
+                <field name="performer_id"/>
             </field>
         </field>
     </record>
@@ -26,6 +27,7 @@
         <field name="arch" type="xml">
             <group name="fees" position="inside">
                 <field name="service_id"/>
+                <field name="performer_id" options="{'no_create': True}"/>
                 <field name="is_billable" />
             </group>
             <field name="name" position="attributes">
