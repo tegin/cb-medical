@@ -46,7 +46,7 @@ class PosSession(models.Model):
     def _compute_encounter_non_validated_count(self):
         for rec in self:
             rec.encounter_non_validated_count = len(
-                self.encounter_ids.filtered(
+                rec.encounter_ids.filtered(
                     lambda r: r.validation_status != 'finished'
                 ))
 
