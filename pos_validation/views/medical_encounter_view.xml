@@ -140,11 +140,11 @@
                                     <notebook>
                                         <page name="procedure" string="Procedures">
                                             <field name="procedure_ids">
-                                                <tree>
+                                                <tree create="0">
                                                     <field name="procedure_service_id"/>
                                                     <field name="performer_id"/>
-                                                    <field name="variable_fee"/>
-                                                    <field name="fixed_fee"/>
+                                                    <field name="variable_fee" readonly="1"/>
+                                                    <field name="fixed_fee" readonly="1"/>
                                                     <field name="commission_agent_id"/>
                                                 </tree>
                                             </field>
