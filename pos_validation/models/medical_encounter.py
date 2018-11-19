@@ -111,7 +111,9 @@ class MedicalEncounter(models.Model):
         for sale_order in self.sale_order_ids.filtered(
             lambda r: r.coverage_agreement_id
         ):
-            sale_order.action_confirm()
+            sale_order.with_context(
+                no_third_party_number=True
+            ).action_confirm()
         # We assume that private SO are already confirmed
         by_patient = self.env.ref(
             'cb_medical_sale_invoice_group_method.by_patient')
