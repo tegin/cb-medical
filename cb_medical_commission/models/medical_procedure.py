@@ -49,6 +49,14 @@ class MedicalProcedure(models.Model):
         inverse_name='procedure_id',
     )
 
+    @api.constrains(
+        'commission_agent_id', 'practitioner_condition_id', 'variable_fee',
+        'fixed_fee',
+    )
+    def _launch_recompute_commission(self):
+        for rec in self:
+            rec.compute_commission(rec.procedure_request_id)
+
     @api.onchange('performer_id', 'service_id',
                   'procedure_service_id')
     def _onchange_check_condition(self):
