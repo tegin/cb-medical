@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_sale_preinvoice_group_user,access.sale.preinvoice.group.user,model_sale_preinvoice_group,cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_display,1,0,0,0
+access_sale_preinvoice_group_sorter,access.sale.preinvoice.group.user,model_sale_preinvoice_group,cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_sorter,1,1,0,0
+access_sale_preinvoice_group_manager,access.sale.preinvoice.group.user,model_sale_preinvoice_group,cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager,1,1,1,0
