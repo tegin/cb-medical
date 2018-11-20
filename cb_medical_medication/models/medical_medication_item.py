@@ -12,6 +12,11 @@ class MedicalMedicationItem(models.Model):
         'product.product', required=True,
         domain=[('type', 'in', ['consu', 'product'])],
     )
+    categ_id = fields.Many2one(
+        'product.category',
+        related='product_id.categ_id',
+        readonly=True,
+    )
     location_id = fields.Many2one(
         'res.partner',
         domain=[('stock_location_id', '!=', False),
