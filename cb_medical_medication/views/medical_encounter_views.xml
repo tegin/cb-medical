@@ -12,7 +12,8 @@
                         name="%(medical_encounter_medication_action)s"
                         context="{'default_medical_id': active_id}"
                         class="oe_stat_button" icon="fa-pills"
-                        string="Add Medication" states="draft,arrived,in-progress"/>
+                        string="Add Medication"
+                        states="draft,arrived,in-progress"/>
             </xpath>
             <notebook position="inside">
                 <page name="medication" string="Medication">
@@ -31,6 +32,7 @@
                     <field name="encounter_id"/>
                     <field name="location_id"/>
                     <field name="product_id"/>
+                    <field name="categ_id"/>
                     <field name="qty"/>
                     <field name="price"/>
                 </group>
@@ -43,10 +45,11 @@
         <field name="model">medical.medication.item</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                    <field name="product_id"/>
-                    <field name="qty"/>
-                    <field name="price"/>
-                    <field name="location_id"/>
+                <field name="categ_id"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <field name="price"/>
+                <field name="location_id"/>
             </tree>
         </field>
     </record>
