@@ -14,8 +14,9 @@
         <field name="arch" type="xml">
             <tree string="Pre-invoice groups" create="0">
                 <field name="internal_identifier"/>
-                <field name="agreement_id" options="{'no_create': True}"/>
-                <field name="partner_id" options="{'no_create': True}"/>
+                <field name="company_id"/>
+                <field name="agreement_id"/>
+                <field name="partner_id"/>
                 <field name="state"/>
             </tree>
         </field>
@@ -26,6 +27,7 @@
         <field name="model">sale.preinvoice.group</field>
         <field name="arch" type="xml">
             <search string="Pre-invoice groups">
+                <field name="company_id"/>
                 <field name="internal_identifier"/>
                 <field name="agreement_id"/>
                 <field name="partner_id"/>
@@ -58,24 +60,28 @@
                     <button name="start"
                             string="Start"
                             type="object"
+                            groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_sorter"
                             class="oe_highlight"
                             states="draft"
                     />
                     <button name="close_sorting"
                             string="Close"
                             type="object"
+                            groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_sorter"
                             class="oe_highlight"
                             states="in_progress"
                     />
                     <button name="close"
                             string="Close"
                             type="object"
+                            groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager"
                             class="oe_highlight"
                             states="validation"
                     />
                     <button name="cancel"
                             string="Cancel"
                             type="object"
+                            groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager"
                             states="draft,in_progress,validation"/>
                     <field name="state"
                            widget="statusbar"/>
