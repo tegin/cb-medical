@@ -12,40 +12,59 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
-                    <t t-foreach="docs" t-as="o">
-                        <div class="page">
-                            <h3 class="text-center">Consumed material</h3>
-                            <h2><span t-field="o.internal_identifier"/></h2>
-                            <table class="table table-bordered mt32">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">Product</th>
-                                        <th class="text-center">Date</th>
-                                        <th class="text-center">Quantity</th>
-                                        <th class="text-center">Location</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <t t-foreach="o.careplan_ids.mapped('medication_request_ids')" t-as="item">
-                                        <tr>
-                                            <td>
-                                                <span t-field="item.product_id.name"/>
-                                            </td>
-                                            <td style="text-align:right">
-                                                <span t-field="item.create_date"/>
-                                            </td>
-                                            <td style="text-align:right">
-                                                <span t-field="item.coverage_price"/>
-                                            </td>
-                                            <td style="text-align:right">
-                                                <span t-field="item.location_id.name"/>
-                                            </td>
-                                        </tr>
-                                    </t>
-                                </tbody>
-                            </table>
-                        </div>
-                    </t>
+                    <div class="page">
+                        <h3 class="text-center">Consumed material</h3>
+                        <h2>
+                            <span t-field="o.internal_identifier"/>
+                        </h2>
+                        <t t-foreach="o.medication_item_ids.mapped('location_id')"
+                           t-as="location">
+                            <h3>
+                                <span>Location:</span>
+                                <span t-field="location.name"/>
+                            </h3>
+                            <t t-set="items"
+                               t-value="o.medication_item_ids.filtered(lambda r: r.location_id == location and not r.is_phantom)"/>
+                            <t t-foreach="items.mapped('categ_id')"
+                               t-as="categ">
+                                <h4>
+                                    <span>Category:</span>
+                                    <span t-field="categ.category_product_id.name"/>
+                                </h4>
+                                <div class="row">
+                                    <table class="table table-bordered mt32">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Product
+                                                </th>
+                                                <th class="text-center">
+                                                    Quantity
+                                                </th>
+                                                <th class="text-center">Price
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="items.filtered(lambda r: r.categ_id == categ)"
+                                               t-as="item">
+                                                <tr>
+                                                    <td>
+                                                        <span t-field="item.product_id.name"/>
+                                                    </td>
+                                                    <td style="text-align:right">
+                                                        <span t-field="item.qty"/>
+                                                    </td>
+                                                    <td style="text-align:right">
+                                                        <span t-field="item.price"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
                 </t>
             </t>
         </t>
