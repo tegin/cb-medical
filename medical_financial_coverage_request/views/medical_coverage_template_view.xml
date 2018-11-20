@@ -17,6 +17,7 @@
             <group name="payor" position="after">
                 <group>
                     <field name="subscriber_required"/>
+                    <field name="subscriber_information" attrs="{'invisible': [('subscriber_required', '=', False)]}"/>
                     <field name="subscriber_format" attrs="{'invisible': [('subscriber_required', '=', False)]}"/>
                 </group>
             </group>
