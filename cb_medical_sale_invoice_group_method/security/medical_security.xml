@@ -13,10 +13,16 @@
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
 
+    <record id="group_sale_preinvoice_group_sorter" model="res.groups">
+        <field name="name">Sale Preinvoice Sorter</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_sale_preinvoice_group_display'))]"/>
+    </record>
+
     <record id="group_sale_preinvoice_group_manager" model="res.groups">
         <field name="name">Sale Preinvoice Manager</field>
         <field name="category_id" ref="base.module_category_hidden"/>
-        <field name="implied_ids" eval="[(4, ref('group_sale_preinvoice_group_display')), (4, ref('sales_team.group_sale_manager'))]"/>
+        <field name="implied_ids" eval="[(4, ref('group_sale_preinvoice_group_sorter')), (4, ref('sales_team.group_sale_manager'))]"/>
     </record>
 
     <record id="medical_base.group_medical_configurator" model="res.groups">
