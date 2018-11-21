@@ -45,7 +45,7 @@ class ActivityDefinition(models.Model):
             res['coverage_agreement_item_id'] = cai.id
             res['coverage_agreement_id'] = cai.coverage_agreement_id.id
             res['authorization_method_id'] = cai.authorization_method_id.id
-            vals = cai._check_authorization(**res)
+            vals = cai._check_authorization(cai.authorization_method_id, **res)
             res.update(vals)
         if parent:
             res.update({

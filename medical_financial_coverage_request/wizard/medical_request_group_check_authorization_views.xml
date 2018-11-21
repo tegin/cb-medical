@@ -15,7 +15,9 @@
         <field name="arch" type="xml">
             <form>
                 <field name="request_group_id" invisible="1"/>
+                <field name="authorization_method_ids" invisible="1"/>
                 <group>
+                    <field name="authorization_method_id" widget="selection"/>
                     <field name="authorization_number"/>
                 </group>
                 <footer>
