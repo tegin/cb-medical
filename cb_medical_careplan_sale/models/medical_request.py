@@ -29,9 +29,14 @@ class MedicalRequest(models.AbstractModel):
         related='coverage_id.coverage_template_id.payor_id',
         readonly=True,
     )
+    authorization_method_id = fields.Many2one(
+        'medical.authorization.method',
+        track_visibility=True,
+        readonly=True,
+    )
     invoice_group_method_id = fields.Many2one(
+        'sale.invoice.group.method',
         string='Invoice Group Method',
-        comodel_name='sale.invoice.group.method',
         track_visibility=True,
         readonly=True,
     )
