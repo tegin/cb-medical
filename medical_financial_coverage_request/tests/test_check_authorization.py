@@ -43,7 +43,7 @@ class TestCB(TransactionCase):
             'authorization_format': '^[0-9]*$'
         })
         self.method = self.browse_ref(
-                'cb_medical_financial_coverage_request.only_number')
+            'cb_medical_financial_coverage_request.only_number')
         self.agreement = self.env['medical.coverage.agreement'].create({
             'name': 'Agreement',
             'center_ids': [(4, self.center.id)],
@@ -145,7 +145,9 @@ class TestCB(TransactionCase):
         }).run()
         group.refresh()
         self.assertEqual(group.authorization_status, 'authorized')
-        wizard = self.env['medical.request.group.check.authorization'].with_context(
+        wizard = self.env[
+            'medical.request.group.check.authorization'
+        ].with_context(
             default_request_group_id=group.id
         ).create({
             'authorization_number': '1234a'
