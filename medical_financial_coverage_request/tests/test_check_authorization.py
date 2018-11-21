@@ -42,13 +42,14 @@ class TestCB(TransactionCase):
             'always_authorized': False,
             'authorization_format': '^[0-9]*$'
         })
+        self.method = self.browse_ref(
+                'cb_medical_financial_coverage_request.only_number')
         self.agreement = self.env['medical.coverage.agreement'].create({
             'name': 'Agreement',
             'center_ids': [(4, self.center.id)],
             'coverage_template_ids': [(4, self.coverage_template.id)],
             'company_id': self.company.id,
-            'authorization_method_id': self.browse_ref(
-                'cb_medical_financial_coverage_request.only_number').id,
+            'authorization_method_id': self.method.id,
             'authorization_format_id': self.format.id,
         })
         self.patient_01 = self.create_patient('Patient 01')
@@ -144,11 +145,14 @@ class TestCB(TransactionCase):
         }).run()
         group.refresh()
         self.assertEqual(group.authorization_status, 'authorized')
-        self.env['medical.request.group.check.authorization'].with_context(
+        wizard = self.env['medical.request.group.check.authorization'].with_context(
             default_request_group_id=group.id
         ).create({
             'authorization_number': '1234a'
-        }).run()
+        })
+        self.assertEqual(wizard.authorization_method_id, self.method)
+        self.assertEqual(wizard.authorization_method_ids, self.method)
+        wizard.run()
         group.refresh()
         self.assertEqual(group.authorization_status, 'pending')
 

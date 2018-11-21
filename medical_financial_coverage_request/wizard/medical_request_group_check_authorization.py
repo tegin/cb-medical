@@ -14,6 +14,11 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
             self.env.context.get('default_request_group_id', False)
         )
 
+    @api.model
+    def _default_method(self):
+        return self._default_request().\
+            coverage_agreement_item_id.authorization_method_id
+
     request_group_id = fields.Many2one(
         'medical.request.group',
         requierd=True,
@@ -33,35 +38,36 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
         readonly=True,
         related='coverage_agreement_item_id.plan_definition_id'
     )
+    authorization_number = fields.Char()
     authorization_method_id = fields.Many2one(
         'medical.authorization.method',
-        readonly=True,
-        related='coverage_agreement_item_id.authorization_method_id'
+        default=_default_method,
+        domain="[('id', 'in', authorization_method_ids)]",
     )
-    authorization_format_id = fields.Many2one(
-        'medical.authorization.format',
-        readonly=True,
-        related='coverage_agreement_item_id.authorization_format_id'
+    authorization_method_ids = fields.Many2many(
+        'medical.authorization.method',
+        compute='_compute_authorization_method_ids',
     )
-    authorization_required = fields.Boolean(
-        readonly=True,
-        related='coverage_agreement_item_id.authorization_method_id.'
-                'authorization_required'
-    )
-    authorization_number = fields.Char()
-    authorization_information = fields.Text(
-        related='coverage_agreement_item_id.authorization_format_id.'
-                'authorization_information',
-        readonly=True,
-    )
+
+    @api.depends('coverage_agreement_item_id')
+    def _compute_authorization_method_ids(self):
+        for rec in self:
+            result = self.env['medical.authorization.method']
+            method = self.coverage_agreement_item_id.authorization_method_id
+            while method:
+                result |= method
+                method = method.auxiliary_method_id
+            rec.authorization_method_ids = result
 
     def _get_kwargs(self):
         return {
             'authorization_number': self.authorization_number,
+            'authorization_method_id': self.authorization_method_id.id,
         }
 
     @api.multi
     def run(self):
         self.ensure_one()
-        self.request_group_id.change_authorization(**self._get_kwargs())
+        self.request_group_id.change_authorization(
+            self.authorization_method_id, **self._get_kwargs())
         return {}
