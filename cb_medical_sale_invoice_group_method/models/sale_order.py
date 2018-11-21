@@ -19,10 +19,12 @@ class SaleOrder(models.Model):
         super()._get_invoiced()
         preinvoicing = self.env.ref(
             'cb_medical_sale_invoice_group_method.by_preinvoicing')
+        preinvoicing |= self.env.ref(
+            'cb_medical_sale_invoice_group_method.no_invoice_preinvoice')
         for order in self:
             if (
                 order.state not in ['draft', 'cancel'] and
-                order.invoice_group_method_id == preinvoicing
+                order.invoice_group_method_id in preinvoicing
             ):
                 if all(line.preinvoice_group_id for line in order.order_line):
                     order.invoice_status = 'preinvoiced'
