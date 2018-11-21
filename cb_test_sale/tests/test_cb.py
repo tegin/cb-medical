@@ -202,7 +202,7 @@ class TestCBSale(TestCB):
             self.assertIn(sale_order.state, ['done', 'sale'])
         self.assertTrue(encounter.sale_order_ids.filtered(
             lambda r:
-            r.invoice_status == 'to preinvoice' and
+            r.preinvoice_status == 'to preinvoice' and
             r.invoice_group_method_id == self.browse_ref(
                 'cb_medical_sale_invoice_group_method.by_preinvoicing')
         ))
