@@ -154,8 +154,10 @@ class TestCBSale(TestCB):
             self.assertEqual(request.state, 'draft')
             procedure = request.generate_event()
             self.assertEqual(request.state, 'active')
-            procedure.performer_id = self.practitioner_01
-            procedure.commission_agent_id = self.practitioner_01
+            procedure.write({
+                'performer_id': self.practitioner_01.id,
+                'commission_agent_id': self.practitioner_01.id,
+            })
             procedure.performer_id = self.practitioner_02
             procedure._onchange_performer_id()
             self.assertEqual(
