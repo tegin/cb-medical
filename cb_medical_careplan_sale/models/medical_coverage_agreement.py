@@ -13,3 +13,9 @@ class MedicalCoverageAgreement(models.Model):
         comodel_name='sale.invoice.group.method',
         track_visibility=True,
     )
+
+    def _check_authorization(self, method, **kwargs):
+        res = super()._check_authorization(method, **kwargs)
+        res['invoice_group_method_id'] = (
+            method.invoice_group_method_id.id or False)
+        return res
