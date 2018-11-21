@@ -8,7 +8,7 @@ class TestCBThirdParty(TestCB):
 
     def test_performer(self):
         self.plan_definition2.write({
-            'third_party_bill': True,
+            'third_party_bill': False,
             'performer_required': True,
         })
         self.env['workflow.plan.definition.action'].create({
@@ -16,8 +16,8 @@ class TestCBThirdParty(TestCB):
             'direct_plan_definition_id': self.plan_definition2.id,
             'is_billable': False,
             'name': 'Action',
+            'performer_id': self.practitioner_02.id,
         })
-        self.activity5.performer_id = self.practitioner_02
         encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient_01.id,
             'center_id': self.center.id,
@@ -50,7 +50,7 @@ class TestCBThirdParty(TestCB):
         group.ensure_one()
         self.assertEqual(group.center_id, encounter.center_id)
         self.assertEqual(group.performer_id, self.practitioner_01)
-        self.assertGreaterEqual(len(group.procedure_request_ids.ids), 2)
+        self.assertEqual(len(group.procedure_request_ids.ids), 2)
         self.assertTrue(group.procedure_request_ids.filtered(
             lambda r: r.performer_id == self.practitioner_01
         ))
@@ -91,7 +91,6 @@ class TestCBThirdParty(TestCB):
             'pos_session_id': self.session.id,
             'journal_id': self.journal_1[0].id,
         }).run()
-        self.assertEqual(encounter.pending_private_amount, 0)
         sale_order = encounter.sale_order_ids.filtered(
             lambda r: not r.is_down_payment and not r.third_party_partner_id)
         self.assertTrue(sale_order)
