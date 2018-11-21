@@ -49,7 +49,7 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
         compute='_compute_authorization_method_ids',
     )
 
-    @api.depends('coverage_agreement_item_id')
+    @api.depends('request_group_id')
     def _compute_authorization_method_ids(self):
         for rec in self:
             result = self.env['medical.authorization.method']
