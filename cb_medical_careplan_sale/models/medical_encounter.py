@@ -20,7 +20,7 @@ class MedicalEncounter(models.Model):
             record.sale_order_count = len(record.sale_order_ids)
 
     def _get_sale_order_vals(
-        self, partner, cov, agreement, third_party_partner, is_insurance
+        self, partner, cov, agreement, third_party_partner, is_insurance, group
     ):
         vals = {
             'third_party_order': third_party_partner != 0,
@@ -32,6 +32,7 @@ class MedicalEncounter(models.Model):
             'patient_id': self.patient_id.id,
             'coverage_agreement_id': agreement.id,
             'pricelist_id': self.env.ref('product.list0').id,
+            'invoice_group_method_id': group,
         }
         if is_insurance:
             vals['company_id'] = agreement.company_id.id
@@ -39,7 +40,7 @@ class MedicalEncounter(models.Model):
 
     @api.multi
     def _generate_sale_order(
-            self, key, cov, partner, third_party_partner, order_lines
+            self, key, cov, partner, third_party_partner, group, order_lines
     ):
         is_insurance = bool(key)
         is_third_party = bool(third_party_partner)
@@ -64,7 +65,8 @@ class MedicalEncounter(models.Model):
         )
         if not order:
             order = self.env['sale.order'].create(self._get_sale_order_vals(
-                partner, cov, agreement, third_party_partner, is_insurance))
+                partner, cov, agreement,
+                third_party_partner, is_insurance, group))
         order.ensure_one()
         for order_line in order_lines:
             order_line['order_id'] = order.id
@@ -81,7 +83,8 @@ class MedicalEncounter(models.Model):
         values = dict()
         for careplan in self.careplan_ids:
             query = careplan.get_sale_order_query()
-            for key, partner, cov, is_insurance, third_party, request in query:
+            for el in query:
+                key, partner, cov, grp, is_ins, third_party, request = el
                 if not values.get(key, False):
                     values[key] = {}
                 if not values[key].get(partner, False):
@@ -89,9 +92,11 @@ class MedicalEncounter(models.Model):
                 if not values[key][partner].get(cov, False):
                     values[key][partner][cov] = {}
                 if not values[key][partner][cov].get(third_party, False):
-                    values[key][partner][cov][third_party] = []
-                values[key][partner][cov][third_party].append(
-                    request.get_sale_order_line_vals(is_insurance))
+                    values[key][partner][cov][third_party] = {}
+                if not values[key][partner][cov][third_party].get(grp, False):
+                    values[key][partner][cov][third_party][grp] = []
+                values[key][partner][cov][third_party][grp].append(
+                    request.get_sale_order_line_vals(is_ins))
         return values
 
     @api.multi
@@ -102,13 +107,18 @@ class MedicalEncounter(models.Model):
             for partner in values[key]:
                 for cov in values[key][partner]:
                     for third_party_partner in values[key][partner][cov]:
-                        self._generate_sale_order(
-                            key,
-                            cov,
-                            partner,
-                            third_party_partner,
-                            values[key][partner][cov][third_party_partner]
-                        )
+                        for group in values[key][partner][cov][
+                            third_party_partner
+                        ]:
+                            self._generate_sale_order(
+                                key,
+                                cov,
+                                partner,
+                                third_party_partner,
+                                group,
+                                values[key][partner][cov][
+                                    third_party_partner][group]
+                            )
         return self.action_view_sale_order()
 
     @api.multi
