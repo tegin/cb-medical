@@ -38,6 +38,10 @@ class SaleOrderLine(models.Model):
     laboratory_event_id = fields.Many2one(
         'medical.laboratory.event', readonly=True,
     )
+    invoice_group_method_id = fields.Many2one(
+        'sale.invoice.group.method',
+        readonly=True,
+    )
     authorization_status = fields.Selection([
         ('pending', 'Pending authorization'),
         ('not-authorized', 'Not authorized'),
