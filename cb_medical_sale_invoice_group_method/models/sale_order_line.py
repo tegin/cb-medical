@@ -39,10 +39,10 @@ class SaleOrderLine(models.Model):
         preinvoicing = self.env.ref(
             'cb_medical_sale_invoice_group_method.by_preinvoicing')
         for line in self:
-            if line.order_id.invoice_group_method_id in no_invoice:
+            if line.invoice_group_method_id in no_invoice:
                 line.qty_to_invoice = 0
             elif (
-                line.order_id.invoice_group_method_id == preinvoicing and
+                line.invoice_group_method_id == preinvoicing and
                 not line.is_validated
             ):
                 line.qty_to_invoice = 0
