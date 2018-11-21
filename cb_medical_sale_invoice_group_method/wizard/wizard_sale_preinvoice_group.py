@@ -24,7 +24,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
         group |= self.env.ref(
             'cb_medical_sale_invoice_group_method.no_invoice_preinvoice')
         domain = [
-            ('invoice_status', '=', 'to preinvoice'),
+            ('preinvoice_status', '=', 'to preinvoice'),
             ('invoice_group_method_id', 'in', group.ids),
         ]
         if self.company_ids:
@@ -42,7 +42,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
                 cov_id = sale_order.coverage_agreement_id.id
                 partner_invoice_id = sale_order.partner_invoice_id.id
                 partner_id = sale_order.partner_id.id
-                group = sale_order.invoice_group_method_id.id
+                group = line.invoice_group_method_id.id
                 if cov_id not in agreements:
                     agreements[cov_id] = {}
                 if partner_id not in agreements[cov_id]:
