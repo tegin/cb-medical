@@ -59,10 +59,10 @@ class MedicalEncounter(models.Model):
             )
 
     def _get_sale_order_vals(
-            self, partner, cov, agreement, third_party_partner, is_insurance
+        self, partner, cov, agreement, third_party_partner, is_insurance, group
     ):
         vals = super()._get_sale_order_vals(
-            partner, cov, agreement, third_party_partner, is_insurance)
+            partner, cov, agreement, third_party_partner, is_insurance, group)
         session = self.pos_session_id.id or self._context.get('pos_session_id')
         if session:
             vals['pos_session_id'] = session
@@ -179,14 +179,16 @@ class MedicalEncounter(models.Model):
             if 0 not in values[0][self.get_patient_partner()]:
                 values[0][self.get_patient_partner()][0] = {}
             if 0 not in values[0][self.get_patient_partner()][0]:
-                values[0][self.get_patient_partner()][0][0] = []
+                values[0][self.get_patient_partner()][0][0] = {}
+            if 0 not in values[0][self.get_patient_partner()][0][0]:
+                values[0][self.get_patient_partner()][0][0][0] = []
         return values
 
     def _generate_sale_order(
-            self, key, cov, partner, third_party_partner, order_lines
+            self, key, cov, partner, third_party_partner, group, order_lines
     ):
         order = super()._generate_sale_order(
-            key, cov, partner, third_party_partner, order_lines
+            key, cov, partner, third_party_partner, group, order_lines
         )
         if key == 0 and not third_party_partner:
             orders = self.sale_order_ids.filtered(
