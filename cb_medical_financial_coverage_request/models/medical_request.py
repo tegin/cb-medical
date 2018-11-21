@@ -23,10 +23,13 @@ class MedicalRequest(models.AbstractModel):
     coverage_agreement_id = fields.Many2one(
         'medical.coverage.agreement',
         readonly=True,
-        ondelete='restrict'
+        ondelete='restrict',
     )
     authorization_method_id = fields.Many2one(
-        comodel_name='medical.authorization.method'
+        comodel_name='medical.authorization.method',
+        track_visibility=True,
+        readonly=True,
+        ondelete='restrict',
     )
     authorization_number = fields.Char(
         track_visibility=True,
@@ -115,9 +118,11 @@ class MedicalRequest(models.AbstractModel):
             self.update_plan_vals(relations), self
         )
 
-    def change_authorization(self, **kwargs):
+    def change_authorization(self, method, **kwargs):
         self.ensure_one()
-        vals = self.coverage_agreement_item_id._check_authorization(**kwargs)
+        vals = self.coverage_agreement_item_id._check_authorization(
+            method, **kwargs
+        )
         self._change_authorization(vals, **kwargs)
 
     def _change_authorization(self, vals, **kwargs):
