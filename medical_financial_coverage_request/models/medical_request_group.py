@@ -22,7 +22,11 @@ class MedicalRequestGroup(models.Model):
     def _get_authorization_context(self):
         return {
             'default_request_group_id': self.id,
-            'default_authorization_number': self.authorization_number
+            'default_authorization_number': self.authorization_number,
+            'default_authorization_method_id': (
+                self.authorization_method_id.id or
+                self.coverage_agreement_item_id.authorization_method_id.id
+            ),
         }
 
     @api.multi
