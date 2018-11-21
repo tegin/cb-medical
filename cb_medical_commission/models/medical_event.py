@@ -30,12 +30,13 @@ class MedicalEvent(models.AbstractModel):
 
     @api.onchange('performer_id')
     def _onchange_performer_id(self):
-        self.commission_agent_id = False
         valid_performer_ids = self.performer_id.commission_agent_ids
         if not valid_performer_ids:
-            valid_performer_ids += self.performer_id
-        if len(valid_performer_ids) == 1:
+            self.commission_agent_id = self.performer_id
+        elif len(valid_performer_ids) == 1:
             self.commission_agent_id = valid_performer_ids[0]
+        else:
+            self.commission_agent_id = False
 
     def check_agents(self, agent):
         pass
@@ -63,15 +64,20 @@ class MedicalEvent(models.AbstractModel):
         for line in self.get_sale_order_lines():
             if (
                 not line.agents.filtered(lambda r: self.check_agents(r)) and
+                self.commission_agent_id and
                 self.commission_agent_id.agent
             ):
                 self.env['sale.order.line.agent'].create(
                     self._get_sale_order_line_agent_vals(line)
                 )
             for inv_line in line.invoice_lines:
-                if not inv_line.agents.filtered(
-                    lambda r: self.check_agents(r)
-                ) and self.commission_agent_id.agent:
+                if (
+                    not inv_line.agents.filtered(
+                        lambda r: self.check_agents(r)
+                    ) and
+                    self.commission_agent_id and
+                    self.commission_agent_id.agent
+                ):
                     self.env['account.invoice.line.agent'].create(
                         self._get_invoice_line_agent_vals(inv_line)
                     )
