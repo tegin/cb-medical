@@ -85,12 +85,23 @@ class SaleOrderLineAgent(models.Model):
         readonly=True,
         copy=False
     )
-    _sql_constraints = [
-        ('unique_agent',
-         'UNIQUE(sale_line, agent, parent_agent_line_id, is_cancel, '
-         'procedure_id)',
-         'You can only add one time each agent.')
-    ]
+
+    @classmethod
+    def _build_model_attributes(cls, pool):
+        res = super()._build_model_attributes(pool)
+        constraints = []
+        for (key, definition, message) in cls._sql_constraints:
+            if key in ['unique_agent']:
+                constraints.append((
+                    key,
+                    'UNIQUE(sale_line, agent, parent_agent_line_id, '
+                    'is_cancel, procedure_id)',
+                    message
+                ))
+            else:
+                constraints.append((key, definition, message))
+        cls._sql_constraints = constraints
+        return res
 
     @api.depends('agent_sale_line', 'agent_sale_line.settlement.state',
                  'invoice_group_method_id', 'sale_line.order_id.state')
