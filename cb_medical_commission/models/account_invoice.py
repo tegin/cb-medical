@@ -29,12 +29,22 @@ class AccountInvoiceLineAgent(models.Model):
         string='Laboratory Event',
     )
 
-    _sql_constraints = [
-        ('unique_agent',
-         'UNIQUE(invoice_line, agent, parent_agent_line_id, '
-         'procedure_id, is_cancel)',
-         'You can only add one time each agent.')
-    ]
+    @classmethod
+    def _build_model_attributes(cls, pool):
+        res = super()._build_model_attributes(pool)
+        constraints = []
+        for (key, definition, message) in cls._sql_constraints:
+            if key in ['unique_agent']:
+                constraints.append((
+                    key,
+                    'UNIQUE(invoice_line, agent, parent_agent_line_id, '
+                    'procedure_id, is_cancel)',
+                    message
+                ))
+            else:
+                constraints.append((key, definition, message))
+        cls._sql_constraints = constraints
+        return res
 
     def get_commission_cancel_vals(self, agent=False):
         res = super().get_commission_cancel_vals(agent)
