@@ -19,10 +19,13 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
     )
 
     def run(self):
+        group = self.env.ref(
+            'cb_medical_sale_invoice_group_method.by_preinvoicing')
+        group |= self.env.ref(
+            'cb_medical_sale_invoice_group_method.no_invoice_preinvoice')
         domain = [
             ('invoice_status', '=', 'to preinvoice'),
-            ('invoice_group_method_id', '=', self.env.ref(
-                'cb_medical_sale_invoice_group_method.by_preinvoicing').id),
+            ('invoice_group_method_id', 'in', group.ids),
         ]
         if self.company_ids:
             domain.append(('company_id', 'in', self.company_ids.ids))
@@ -39,24 +42,30 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
                 cov_id = sale_order.coverage_agreement_id.id
                 partner_invoice_id = sale_order.partner_invoice_id.id
                 partner_id = sale_order.partner_id.id
+                group = sale_order.invoice_group_method_id.id
                 if cov_id not in agreements:
                     agreements[cov_id] = {}
                 if partner_id not in agreements[cov_id]:
                     agreements[cov_id][partner_id] = {}
                 if partner_invoice_id not in agreements[cov_id][partner_id]:
-                    agreements[cov_id][partner_id][
-                        partner_invoice_id
+                    agreements[cov_id][partner_id][partner_invoice_id] = {}
+                if group not in agreements[cov_id][partner_id][
+                    partner_invoice_id
+                ]:
+                    agreements[cov_id][partner_id][partner_invoice_id][
+                        group
                     ] = self.env['sale.preinvoice.group'].create({
                         'agreement_id': cov_id,
                         'company_id': sale_order.company_id.id,
                         'partner_id': partner_id,
                         'partner_invoice_id': partner_invoice_id,
                         'current_sequence': 0,
+                        'invoice_group_method_id': group,
                     })
                 line.sequence = 999999
                 line.is_validated = False
                 line.preinvoice_group_id = agreements[cov_id][partner_id][
-                    partner_invoice_id]
+                    partner_invoice_id][group]
         action = self.env.ref(
             'cb_medical_sale_invoice_group_method.sale_preinvoice_group_action'
         )
