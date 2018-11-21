@@ -55,6 +55,11 @@ class SalePreinvoiceGroup(models.Model):
         comodel_name='sale.order.line',
         compute='_compute_lines'
     )
+    invoice_group_method_id = fields.Many2one(
+        string='Invoice Group Method',
+        comodel_name='sale.invoice.group.method',
+        track_visibility='onchange',
+    )
     state = fields.Selection(
         string="Status",
         required="True",
@@ -116,14 +121,15 @@ class SalePreinvoiceGroup(models.Model):
     @api.multi
     def close(self):
         self.ensure_one()
+        group = self.env.ref(
+            'cb_medical_sale_invoice_group_method.by_preinvoicing')
         for line in self.non_validated_line_ids:
             line.preinvoice_group_id = False
-        if self.validated_line_ids:
+        if self.validated_line_ids and self.invoice_group_method_id == group:
             self.invoice_id = self.env['account.invoice'].search(
                 self.invoice_domain(), limit=1
             )
             if not self.invoice_id:
-
                 self.invoice_id = self.env['account.invoice'].create(
                     self.create_invoice_values()
                 )
