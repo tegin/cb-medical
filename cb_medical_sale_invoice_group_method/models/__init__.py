@@ -4,8 +4,6 @@
 
 from . import account_invoice
 from . import account_invoice_line
-from . import medical_encounter
-from . import medical_insurance_agreement
 from . import sale_order
 from . import sale_order_line
 from . import sale_preinvoice_group
