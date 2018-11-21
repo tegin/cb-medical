@@ -43,8 +43,6 @@ class LaboratoryEvent(models.Model):
                     request.coverage_agreement_id.id,
                     request.laboratory_request_id.careplan_id.get_payor(),
                     request.laboratory_request_id.coverage_id.id,
-                    request.laboratory_request_id.invoice_group_method_id.id or
-                    request.coverage_agreement_id.invoice_group_method_id.id,
                     True,
                     request.laboratory_request_id.get_third_party_partner()
                     if request.laboratory_request_id.third_party_bill else 0,
@@ -54,7 +52,6 @@ class LaboratoryEvent(models.Model):
                 query.append((
                     0,
                     request.encounter_id.get_patient_partner(),
-                    False,
                     False,
                     False,
                     request.laboratory_request_id.get_third_party_partner()
