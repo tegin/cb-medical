@@ -38,10 +38,12 @@ class MedicalCoverageAgreementItem(models.Model):
         required=True
     )
 
-    def _check_authorization(self, method, authorization_number=False, **kwargs):
+    def _check_authorization(self, method, **kwargs):
+        authorization_number = kwargs.get('authorization_number', False)
         vals = {
             'authorization_number': authorization_number,
             'authorization_status': 'authorized',
+            'authorization_method_id': method.id,
         }
         format = self.authorization_format_id
         if method.authorization_required and not format.check_value(
