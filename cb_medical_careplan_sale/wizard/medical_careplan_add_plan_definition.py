@@ -9,6 +9,8 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
     _inherit = 'medical.careplan.add.plan.definition'
 
     def _get_values(self):
-        values = super(MedicalCareplanAddPlanDefinition, self)._get_values()
+        values = super()._get_values()
         values['sub_payor_id'] = self.careplan_id.sub_payor_id.id
+        values['invoice_group_method_id'] = self.authorization_method_id.\
+            invoice_group_method_id.id or False
         return values
