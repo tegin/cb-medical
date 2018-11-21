@@ -8,25 +8,31 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    invoice_status = fields.Selection(selection_add=[
+    preinvoice_status = fields.Selection([
+        ('draft', 'Draft'),
         ('to preinvoice', 'To Prenvoice'),
         ('preinvoiced', 'Prenvoiced')
-    ])
+    ], store=True, compute='_compute_preinvoice_status')
 
     @api.depends('state', 'order_line.invoice_status',
-                 'invoice_group_method_id', 'order_line.preinvoice_group_id')
-    def _get_invoiced(self):
-        super()._get_invoiced()
+                 'order_line.invoice_group_method_id',
+                 'order_line.preinvoice_group_id')
+    def _compute_preinvoice_status(self):
         preinvoicing = self.env.ref(
             'cb_medical_sale_invoice_group_method.by_preinvoicing')
         preinvoicing |= self.env.ref(
             'cb_medical_sale_invoice_group_method.no_invoice_preinvoice')
         for order in self:
             if (
-                order.state not in ['draft', 'cancel'] and
-                order.invoice_group_method_id in preinvoicing
+                order.state not in ['draft', 'cancel']
             ):
-                if all(line.preinvoice_group_id for line in order.order_line):
-                    order.invoice_status = 'preinvoiced'
+                if all(
+                    line.preinvoice_group_id for line in
+                    order.order_line.filtered(
+                        lambda r: r.invoice_group_method_id in preinvoicing)
+                ):
+                    order.preinvoice_status = 'preinvoiced'
                 else:
-                    order.invoice_status = 'to preinvoice'
+                    order.preinvoice_status = 'to preinvoice'
+            else:
+                order.preinvoice_status = 'draft'
