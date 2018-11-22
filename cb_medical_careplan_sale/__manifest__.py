@@ -16,6 +16,7 @@
         'sale_third_party',
         'mcfix_sale',
         'sale_order_action_invoice_create_hook',
+        'cb_medical_authorization',
         'cb_medical_financial_coverage_request',
         'cb_medical_workflow_plandefinition',
         'cb_medical_coverage_magnetic_str',
