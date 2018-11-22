@@ -118,7 +118,8 @@ class MedicalEncounter(models.Model):
             patient_journal = sale_order.company_id.patient_journal_id.id
             invoice = self.env['account.invoice'].browse(
                 sale_order.with_context(
-                    default_journal_id=patient_journal
+                    default_journal_id=patient_journal,
+                    no_check_lines=True,
                 ).action_invoice_create())
             invoice.action_invoice_open()
             amount = invoice.amount_total
