@@ -42,6 +42,15 @@ class SaleOrderLine(models.Model):
         'invoice.group.method',
         readonly=True,
     )
+    authorization_method_id = fields.Many2one(
+        'medical.authorization.method',
+        track_visibility=True,
+        readonly=True,
+    )
+    authorization_checked = fields.Boolean(
+        default=False,
+        readonly=True,
+    )
     authorization_status = fields.Selection([
         ('pending', 'Pending authorization'),
         ('not-authorized', 'Not authorized'),
