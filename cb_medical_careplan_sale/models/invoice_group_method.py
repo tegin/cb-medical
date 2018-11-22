@@ -1,0 +1,10 @@
+from odoo import fields, models
+
+
+class InvoiceGroupMethod(models.Model):
+    _name = 'invoice.group.method'
+
+    name = fields.Char(
+        string='Invoice Group',
+        required=True,
+    )
