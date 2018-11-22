@@ -39,7 +39,7 @@ class SaleOrderLine(models.Model):
         'medical.laboratory.event', readonly=True,
     )
     invoice_group_method_id = fields.Many2one(
-        'sale.invoice.group.method',
+        'invoice.group.method',
         readonly=True,
     )
     authorization_status = fields.Selection([
