@@ -14,6 +14,7 @@
         'cb_medical_sale_invoice',
         'cb_medical_careplan_sale',
         'cb_medical_sale_invoice_group_method',
+        'cb_medical_workflow_activity',
     ],
     'data': [
         'security/ir.model.access.csv',
