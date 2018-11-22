@@ -35,7 +35,7 @@ class MedicalRequest(models.AbstractModel):
         readonly=True,
     )
     invoice_group_method_id = fields.Many2one(
-        'sale.invoice.group.method',
+        'invoice.group.method',
         string='Invoice Group Method',
         track_visibility=True,
         readonly=True,
