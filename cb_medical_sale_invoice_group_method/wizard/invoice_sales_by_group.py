@@ -19,7 +19,7 @@ class InvoiceSalesByGroup(models.TransientModel):
     )
     invoice_group_method_id = fields.Many2one(
         string='Invoice Group Method',
-        comodel_name='sale.invoice.group.method',
+        comodel_name='invoice.group.method',
         required=True,
     )
     customer_ids = fields.Many2many(
