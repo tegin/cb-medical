@@ -12,7 +12,7 @@ class TestCBSale(TestCB):
 
     def test_validation(self):
         method = self.browse_ref(
-            'cb_medical_sale_invoice_group_method.by_preinvoicing')
+            'cb_medical_careplan_sale.by_preinvoicing')
         self.plan_definition2.third_party_bill = False
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
@@ -95,7 +95,7 @@ class TestCBSale(TestCB):
 
     def atest_patient_invoice(self):
         method = self.browse_ref(
-            'cb_medical_sale_invoice_group_method.by_patient')
+            'cb_medical_careplan_sale.by_patient')
         self.plan_definition2.third_party_bill = False
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
@@ -159,7 +159,7 @@ class TestCBSale(TestCB):
 
     def atest_no_invoice(self):
         method = self.browse_ref(
-            'cb_medical_sale_invoice_group_method.no_invoice')
+            'cb_medical_careplan_sale.no_invoice')
         self.plan_definition2.third_party_bill = False
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
@@ -236,7 +236,7 @@ class TestCBSale(TestCB):
 
     def atest_monthly_invoice(self):
         method = self.browse_ref(
-            'cb_medical_sale_invoice_group_method.by_customer')
+            'cb_medical_careplan_sale.by_customer')
         self.plan_definition2.third_party_bill = False
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
@@ -338,7 +338,7 @@ class TestCBSale(TestCB):
 
     def atest_preinvoice_no_invoice(self):
         method = self.browse_ref(
-            'cb_medical_sale_invoice_group_method.no_invoice_preinvoice')
+            'cb_medical_careplan_sale.no_invoice_preinvoice')
         self.plan_definition2.third_party_bill = False
         self.plan_definition.is_billable = True
         self.agreement.invoice_group_method_id = method
