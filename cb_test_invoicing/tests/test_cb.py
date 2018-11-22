@@ -10,6 +10,113 @@ from odoo.exceptions import ValidationError
 
 class TestCBSale(TestCB):
 
+    def test_multiple_groups(self):
+        method = self.browse_ref(
+            'cb_medical_careplan_sale.by_patient')
+        method_2 = self.browse_ref(
+            'cb_medical_careplan_sale.by_customer')
+        auth_method = self.env['medical.authorization.method'].create({
+            'name': 'Testing authorization_method',
+            'code': 'none',
+            'invoice_group_method_id': method_2.id,
+            'always_authorized': True,
+        })
+        self.agreement_line.write({
+            'authorization_method_id': auth_method.id,
+            'coverage_percentage': 100,
+        })
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        self.company.sale_merge_draft_invoice = True
+        for i in range(1, 10):
+            encounter, careplan, group = self.create_careplan_and_group(
+                self.agreement_line3
+            )
+            self.assertTrue(group.procedure_request_ids)
+            self.assertTrue(
+                group.is_sellable_insurance or group.is_sellable_private)
+            self.assertEqual(method, group.invoice_group_method_id)
+            self.assertFalse(self.env['medical.request.group'].search([
+                ('encounter_id', '=', encounter.id),
+                ('careplan_id', '=', careplan.id),
+                ('invoice_group_method_id', '=', method_2.id)
+            ]))
+            wizard = self.env['medical.careplan.add.plan.definition'].create({
+                'careplan_id': careplan.id,
+                'agreement_line_id': self.agreement_line.id,
+            })
+            self.assertIn(self.agreement, wizard.agreement_ids)
+            self.action.is_billable = False
+            wizard.run()
+            self.assertFalse(
+                group.third_party_bill
+            )
+            self.assertTrue(self.env['medical.request.group'].search([
+                ('encounter_id', '=', encounter.id),
+                ('careplan_id', '=', careplan.id),
+                ('invoice_group_method_id', '=', method_2.id)
+            ]))
+            self.env['wizard.medical.encounter.close'].create({
+                'encounter_id': encounter.id,
+                'pos_session_id': self.session.id,
+            }).run()
+            self.assertTrue(encounter.sale_order_ids)
+            sale_order = encounter.sale_order_ids
+            self.assertFalse(sale_order.third_party_order)
+            for line in sale_order.order_line:
+                self.assertFalse(line.agents)
+        self.session.action_pos_session_close()
+        self.assertTrue(self.session.request_group_ids)
+        self.assertEqual(
+            self.session.encounter_ids,
+            self.env['medical.encounter'].search(
+                self.session.action_view_non_validated_encounters()['domain']
+            ))
+        non_validated = len(self.session.encounter_ids)
+        for encounter in self.session.encounter_ids:
+            self.assertEqual(
+                non_validated, self.session.encounter_non_validated_count)
+            encounter_aux = self.env['medical.encounter'].browse(
+                self.session.open_validation_encounter(
+                    encounter.internal_identifier)['res_id'])
+            action = self.session.action_view_non_validated_encounters()
+            if non_validated > 1:
+                self.assertIn(
+                    encounter,
+                    self.env['medical.encounter'].search(action['domain'])
+                )
+            else:
+                self.assertEqual(
+                    encounter,
+                    self.env['medical.encounter'].browse(action['res_id'])
+                )
+            encounter_aux.admin_validate()
+            non_validated -= 1
+            self.assertEqual(
+                non_validated, self.session.encounter_non_validated_count)
+            for sale_order in encounter_aux.sale_order_ids:
+                self.assertTrue(sale_order.invoice_ids)
+                self.assertTrue(all(
+                    i.state == 'open' for i in sale_order.invoice_ids))
+                self.assertFalse(all(
+                    line.invoice_lines for line in sale_order.order_line))
+        self.assertEqual(0, non_validated)
+        self.assertEqual(0, self.session.encounter_non_validated_count)
+        wzd = self.env['invoice.sales.by.group'].create({
+            'invoice_group_method_id': method_2.id,
+            'customer_ids': [(4, self.payor.id)],
+            'date_to': fields.Date.to_string(fields.Date.from_string(
+                fields.Date.today()) + relativedelta(days=1))
+        })
+        wzd.invoice_sales_by_group()
+        for encounter in self.session.encounter_ids:
+            for sale_order in encounter.sale_order_ids:
+                self.assertTrue(all(
+                    line.invoice_lines for line in sale_order.order_line))
+
     def test_validation(self):
         method = self.browse_ref(
             'cb_medical_careplan_sale.by_preinvoicing')
@@ -93,7 +200,7 @@ class TestCBSale(TestCB):
         })
         encounter.admin_validate()
 
-    def atest_patient_invoice(self):
+    def test_patient_invoice(self):
         method = self.browse_ref(
             'cb_medical_careplan_sale.by_patient')
         self.plan_definition2.third_party_bill = False
@@ -157,7 +264,7 @@ class TestCBSale(TestCB):
         self.assertEqual(0, non_validated)
         self.assertEqual(0, self.session.encounter_non_validated_count)
 
-    def atest_no_invoice(self):
+    def test_no_invoice(self):
         method = self.browse_ref(
             'cb_medical_careplan_sale.no_invoice')
         self.plan_definition2.third_party_bill = False
@@ -234,7 +341,7 @@ class TestCBSale(TestCB):
                 self.assertEqual(len(procedure.sale_agent_ids), 3)
                 self.assertEqual(len(procedure.invoice_agent_ids), 0)
 
-    def atest_monthly_invoice(self):
+    def test_monthly_invoice(self):
         method = self.browse_ref(
             'cb_medical_careplan_sale.by_customer')
         self.plan_definition2.third_party_bill = False
@@ -285,6 +392,7 @@ class TestCBSale(TestCB):
         self.assertFalse(action.get('res_id', False))
         action = self.env['invoice.sales.by.group'].create({
             'invoice_group_method_id': method.id,
+            'customer_ids': [(4, self.payor.id)],
             'date_to': fields.Date.to_string(
                 fields.Date.from_string(fields.Date.today()) +
                 timedelta(days=1)
@@ -336,7 +444,7 @@ class TestCBSale(TestCB):
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 3)
 
-    def atest_preinvoice_no_invoice(self):
+    def test_preinvoice_no_invoice(self):
         method = self.browse_ref(
             'cb_medical_careplan_sale.no_invoice_preinvoice')
         self.plan_definition2.third_party_bill = False
@@ -383,7 +491,7 @@ class TestCBSale(TestCB):
             encounter_aux.admin_validate()
             self.assertTrue(encounter.sale_order_ids.filtered(
                 lambda r:
-                r.invoice_status == 'to preinvoice' and
+                r.preinvoice_status == 'to preinvoice' and
                 r.invoice_group_method_id == method))
         self.env['wizard.sale.preinvoice.group'].create({
             'company_ids': [(6, 0, self.company.ids)],

@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 {
-    'name': 'CB Testing Sales',
+    'name': 'CB Testing Invooicing',
     'version': '11.0.1.0.0',
     'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
     'depends': [
