@@ -45,9 +45,9 @@ class MedicalEncounter(models.Model):
     )
     def _compute_validation_values(self):
         preinvoicing = self.env.ref(
-            'cb_medical_sale_invoice_group_method.by_preinvoicing')
+            'cb_medical_careplan_sale.by_preinvoicing')
         by_patient = self.env.ref(
-            'cb_medical_sale_invoice_group_method.by_patient')
+            'cb_medical_careplan_sale.by_patient')
         for rec in self:
             lines = rec.sale_order_ids.filtered(
                 lambda r: r.coverage_agreement_id
@@ -116,7 +116,7 @@ class MedicalEncounter(models.Model):
             ).action_confirm()
         # We assume that private SO are already confirmed
         by_patient = self.env.ref(
-            'cb_medical_sale_invoice_group_method.by_patient')
+            'cb_medical_careplan_sale.by_patient')
         for sale_order in self.sale_order_ids.filtered(
             lambda r: r.invoice_group_method_id == by_patient
         ):
