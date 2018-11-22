@@ -21,6 +21,8 @@
         'cb_medical_coverage_magnetic_str',
     ],
     'data': [
+        'security/ir.model.access.csv',
+        'data/medical_invoice_group.xml',
         'data/medical_sub_payor_sequence.xml',
         'security/medical_security.xml',
         'wizard/medical_encounter_add_careplan.xml',
@@ -31,6 +33,7 @@
         'views/res_partner_views.xml',
         'views/res_config_settings_views.xml',
         'views/medical_coverage_agreement_view.xml',
+        'views/medical_authorization_method_view.xml',
     ],
     'website': 'https://github.com/eficent/cb-addons',
     'license': 'LGPL-3',
