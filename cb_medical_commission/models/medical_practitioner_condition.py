@@ -15,8 +15,14 @@ class MedicalPractitionerCondition(models.Model):
         'res.partner',
         domain=[('is_center', '=', True)]
     )
-    service_id = fields.Many2one('product.product', )
-    procedure_service_id = fields.Many2one('product.product', )
+    service_id = fields.Many2one(
+        'product.product',
+        domain=[('type', '=', 'service')],
+    )
+    procedure_service_id = fields.Many2one(
+        'product.product',
+        domain=[('activity_definition_ids', '!=', False)],
+    )
     variable_fee = fields.Float(string='Variable fee (%)', default='0.0', )
     fixed_fee = fields.Float(string='Fixed fee', default='0.0', )
     active = fields.Boolean(default=True, required=True, )
