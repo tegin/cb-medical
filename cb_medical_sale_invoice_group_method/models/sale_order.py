@@ -36,3 +36,49 @@ class SaleOrder(models.Model):
                     order.preinvoice_status = 'to preinvoice'
             else:
                 order.preinvoice_status = 'draft'
+
+    @api.model
+    def _get_invoice_group_key(self, order):
+        if order.coverage_agreement_id:
+            return (
+                order.partner_invoice_id.id,
+                order.currency_id.id,
+                order.company_id.id,
+                order.coverage_agreement_id.id
+            )
+        return super()._get_invoice_group_key(order)
+
+    @api.model
+    def _get_invoice_group_line_key(self, line):
+        if line.invoice_group_method_id:
+            return (
+                line.order_id.partner_invoice_id.id,
+                line.order_id.currency_id.id,
+                line.order_id.company_id.id,
+                line.order_id.coverage_agreement_id.id,
+                line.invoice_group_method_id.id,
+            )
+        return super()._get_invoice_group_line_key(line)
+
+    @api.model
+    def _get_draft_invoices(self, invoices, references):
+        invs, refs = super()._get_draft_invoices(invoices, references)
+        method = self.env.context.get('invoice_group_method_id', False)
+        if method and self.env.context.get('merge_draft_invoice', False):
+            domain = [
+                ('state', '=', 'draft'),
+            ]
+            companies = self.env.context.get('companies')
+            if companies:
+                domain.append(('company_id', 'in', companies))
+            customers = self.env.context.get('customers')
+            if customers:
+                domain.append(('partner_id', 'in', customers))
+            draft_inv = self.env['account.invoice'].search(domain)
+            for inv in draft_inv:
+                for line in inv.invoice_line_ids.mapped('sale_line_ids'):
+                    ref_order = self._get_invoice_group_line_key(line)
+                    group_inv_key = self._get_invoice_group_key(ref_order)
+                    refs[inv] = ref_order
+                    invs[group_inv_key] = inv
+        return invs, refs
