@@ -13,7 +13,6 @@
         'cb_medical_financial_coverage_agreement',
         'sale',
         'barcodes',
-        'sale_invoice_group_method',
         'medical_administration_encounter',
         'sale_merge_draft_invoice',
     ],
