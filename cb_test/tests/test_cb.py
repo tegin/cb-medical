@@ -172,7 +172,7 @@ class TestCB(SavepointCase):
             'coverage_template_ids': [(4, self.coverage_template.id)],
             'company_id': self.company.id,
             'invoice_group_method_id': self.browse_ref(
-                'cb_medical_sale_invoice_group_method.by_preinvoicing').id,
+                'cb_medical_careplan_sale.by_preinvoicing').id,
             'authorization_method_id': self.browse_ref(
                 'cb_medical_financial_coverage_request.without').id,
             'authorization_format_id': self.browse_ref(
