@@ -29,7 +29,7 @@ class LaboratoryEvent(models.Model):
     )
     invoice_group_method_id = fields.Many2one(
         string='Invoice Group Method',
-        comodel_name='sale.invoice.group.method',
+        comodel_name='invoice.group.method',
         track_visibility=True,
         readonly=True,
     )
