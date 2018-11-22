@@ -114,12 +114,7 @@ class MedicalEncounter(models.Model):
             sale_order.with_context(
                 no_third_party_number=True
             ).action_confirm()
-        # We assume that private SO are already confirmed
-        by_patient = self.env.ref(
-            'cb_medical_careplan_sale.by_patient')
-        for sale_order in self.sale_order_ids.filtered(
-            lambda r: r.invoice_group_method_id == by_patient
-        ):
+            # We assume that private SO are already confirmed
             self.create_invoice(sale_order)
         self.write(self._admin_validation_values())
         if not self.pos_session_id.encounter_ids.filtered(
@@ -131,6 +126,11 @@ class MedicalEncounter(models.Model):
     def create_invoice(self, sale_order):
         """Hook in order to add more functionality (automatic printing)"""
         invoice = self.env['account.invoice'].browse(
-            sale_order.action_invoice_create())
-        invoice.action_invoice_open()
+            sale_order.with_context(
+                invoice_group_method_id=self.env.ref(
+                    'cb_medical_careplan_sale.by_patient').id,
+                no_check_lines=True,
+            ).action_invoice_create())
+        if invoice:
+            invoice.action_invoice_open()
         return invoice
