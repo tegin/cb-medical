@@ -21,7 +21,7 @@ class TestNoInvoiceCommission(TransactionCase):
             'type': 'service'
         })
         self.group = self.browse_ref(
-            'cb_medical_sale_invoice_group_method.no_invoice')
+            'cb_medical_careplan_sale.no_invoice')
 
     def create_agent(self, name):
         return self.env['res.partner'].create({
