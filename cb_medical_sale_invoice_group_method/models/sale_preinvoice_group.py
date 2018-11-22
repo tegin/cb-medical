@@ -122,7 +122,7 @@ class SalePreinvoiceGroup(models.Model):
     def close(self):
         self.ensure_one()
         group = self.env.ref(
-            'cb_medical_sale_invoice_group_method.by_preinvoicing')
+            'cb_medical_careplan_sale.by_preinvoicing')
         for line in self.non_validated_line_ids:
             line.preinvoice_group_id = False
         if self.validated_line_ids and self.invoice_group_method_id == group:
