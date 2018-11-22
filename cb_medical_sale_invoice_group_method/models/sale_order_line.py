@@ -33,11 +33,11 @@ class SaleOrderLine(models.Model):
                  'order_id.state', 'order_id.invoice_group_method_id')
     def _get_to_invoice_qty(self):
         no_invoice = self.env.ref(
-            'cb_medical_sale_invoice_group_method.no_invoice')
+            'cb_medical_careplan_sale.no_invoice')
         no_invoice |= self.env.ref(
-            'cb_medical_sale_invoice_group_method.no_invoice_preinvoice')
+            'cb_medical_careplan_sale.no_invoice_preinvoice')
         preinvoicing = self.env.ref(
-            'cb_medical_sale_invoice_group_method.by_preinvoicing')
+            'cb_medical_careplan_sale.by_preinvoicing')
         for line in self:
             if line.invoice_group_method_id in no_invoice:
                 line.qty_to_invoice = 0

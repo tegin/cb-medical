@@ -18,7 +18,6 @@
     ],
     'data': [
         'data/medical_preinvoice_group_sequence.xml',
-        'data/medical_invoice_group.xml',
         'security/medical_security.xml',
         'security/ir.model.access.csv',
         'views/medical_preinvoice_group_menu.xml',
