@@ -204,7 +204,7 @@ class TestCBSale(TestCB):
             lambda r:
             r.preinvoice_status == 'to preinvoice' and
             r.invoice_group_method_id == self.browse_ref(
-                'cb_medical_sale_invoice_group_method.by_preinvoicing')
+                'cb_medical_careplan_sale.by_preinvoicing')
         ))
         self.env['wizard.sale.preinvoice.group'].create({
             'company_ids': [(6, 0, self.company.ids)],
@@ -323,7 +323,7 @@ class TestCBSale(TestCB):
 
     def test_discount(self):
         method = self.browse_ref(
-            'cb_medical_sale_invoice_group_method.no_invoice')
+            'cb_medical_careplan_sale.no_invoice')
         self.plan_definition2.third_party_bill = False
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
