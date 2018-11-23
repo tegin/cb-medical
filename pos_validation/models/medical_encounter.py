@@ -82,7 +82,18 @@ class MedicalEncounter(models.Model):
 
     @api.multi
     def close_view(self):
-        return {'type': 'ir.actions.client', 'tag': 'history_back'}
+        actions = [{'type': 'ir.actions.client', 'tag': 'history_back'}]
+        if self.env.context.get('from_barcode_reader', False):
+            action = self.env.ref(
+                'barcode_action.barcode_action_action')
+            result = action.read()[0]
+            result['context'] = {
+                'default_model': 'pos.session',
+                'default_res_id': self.pos_session_id.id,
+                'default_method': 'open_validation_encounter'
+            }
+            actions.append(result)
+        return {'type': 'ir.actions.act_multi', 'actions': actions}
 
     def toggle_is_preinvoiced(self):
         for record in self:
