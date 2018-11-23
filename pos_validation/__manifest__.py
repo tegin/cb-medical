@@ -20,6 +20,7 @@
         'pos_session_pay_invoice',
         'cb_medical_sale_invoice',
         'web_flagbox',
+        'web_ir_actions_act_multi',
     ],
     'data': [
         'security/security.xml',
