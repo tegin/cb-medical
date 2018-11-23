@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo import api, fields, models, _
+import ast
 
 
 class PosSession(models.Model):
@@ -116,6 +117,9 @@ class PosSession(models.Model):
             'medical_administration_encounter.medical_encounter_action')
         result = action.read()[0]
         res = self.env.ref('medical_encounter.medical_encounter_form', False)
+        if isinstance(result['context'], str):
+            result['context'] = ast.literal_eval(result['context'])
+        result['context']['from_barcode_reader'] = True
         result['views'] = [(res and res.id or False, 'form')]
         result['res_id'] = encounter.id
         return result
