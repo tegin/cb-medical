@@ -9,3 +9,14 @@ class AccountInvoice(models.Model):
         inverse_name='invoice_id',
         readonly=True,
     )
+
+
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.invoice.line'
+
+    down_payment_line_id = fields.Many2one(
+        'account.invoice.line',
+        default=False,
+        readonly=True,
+        copy=False,
+    )
