@@ -120,6 +120,7 @@ class MedicalEncounter(models.Model):
                 sale_order.with_context(
                     default_journal_id=patient_journal,
                     no_check_lines=True,
+                    no_split_invoices=True,
                 ).action_invoice_create())
             invoice.action_invoice_open()
             amount = invoice.amount_total
@@ -161,10 +162,11 @@ class MedicalEncounter(models.Model):
         return {
             'order_id': order.id,
             'product_id': line.product_id.id,
-            'name': line.name,
+            'name': line.name + '-' + line.invoice_lines[0].invoice_id.number,
             'product_uom_qty': line.product_uom_qty,
             'product_uom': line.product_uom.id,
             'price_unit': - line.price_unit,
+            'down_payment_line_id': line.invoice_lines[0].id,
         }
 
     def get_sale_order_lines(self):

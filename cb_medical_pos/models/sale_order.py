@@ -43,3 +43,21 @@ class SaleOrder(models.Model):
             force_company=self.company_id.id
         ).property_third_party_customer_account_id
         return res
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    down_payment_line_id = fields.Many2one(
+        'account.invoice.line',
+        default=False,
+        readonly=True,
+        copy=False,
+    )
+
+    @api.multi
+    def _prepare_invoice_line(self, qty):
+        res = super()._prepare_invoice_line(qty)
+        if self.down_payment_line_id:
+            res['down_payment_line_id'] = self.down_payment_line_id.id
+        return res
