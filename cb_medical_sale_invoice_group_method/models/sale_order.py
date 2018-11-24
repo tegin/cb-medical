@@ -50,7 +50,9 @@ class SaleOrder(models.Model):
 
     @api.model
     def _get_invoice_group_line_key(self, line):
-        if line.invoice_group_method_id:
+        if line.invoice_group_method_id and not self.env.context.get(
+            'no_split_invoices', False
+        ):
             return (
                 line.order_id.partner_invoice_id.id,
                 line.order_id.currency_id.id,
