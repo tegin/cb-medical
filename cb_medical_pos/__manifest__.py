@@ -24,6 +24,7 @@
         'views/pos_config_views.xml',
         'views/sale_order_views.xml',
         'views/pos_session_views.xml',
+        'views/report_invoice.xml',
     ],
     'website': 'https://github.com/OCA/cb-addons',
     'license': 'LGPL-3',
