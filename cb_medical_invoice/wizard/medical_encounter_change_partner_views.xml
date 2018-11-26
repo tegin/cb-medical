@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="medical_encounter_change_partner_form"
+            model="ir.ui.view">
+        <field name="name">medical.encounter.change.partner.form</field>
+        <field name="model">medical.encounter.change.partner</field>
+        <field name="arch" type="xml">
+            <form string="Add amount encounter">
+                <field name="encounter_id" invisible="1"/>
+                <group>
+                    <field name="partner_id"/>
+                </group>
+                <footer>
+                    <button type="object" name="run" string="Create"
+                            class="oe_highlight"/>
+                    <button special="cancel" string="Cancel" class="oe_link"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="medical_encounter_change_partner_action"
+            model="ir.actions.act_window">
+        <field name="name">Change invoice partner on encounter</field>
+        <field name="res_model">medical.encounter.change.partner</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_encounter_id': active_id}</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
