@@ -20,6 +20,7 @@
         'cb_medical_authorization',
         'cb_medical_medication',
         'cb_medical_workflow_activity',
+        'cb_medical_invoice',
     ],
     'data': [
     ],
