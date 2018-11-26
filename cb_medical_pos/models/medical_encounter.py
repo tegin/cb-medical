@@ -162,7 +162,8 @@ class MedicalEncounter(models.Model):
         return {
             'order_id': order.id,
             'product_id': line.product_id.id,
-            'name': line.name + '-' + line.invoice_lines[0].invoice_id.number,
+            'name': '%s (%s)' % (
+                line.invoice_lines[0].invoice_id.number, line.name),
             'product_uom_qty': line.product_uom_qty,
             'product_uom': line.product_uom.id,
             'price_unit': - line.price_unit,
