@@ -36,7 +36,7 @@ class MedicalEncounter(models.Model):
     )
 
     @api.depends(
-        'sale_order_ids.invoice_group_method_id',
+        'sale_order_ids.order_line.invoice_group_method_id',
         'sale_order_ids.coverage_agreement_id',
         'sale_order_ids.order_line.coverage_template_id.subscriber_required',
         'sale_order_ids.order_line.subscriber_id',
@@ -52,10 +52,10 @@ class MedicalEncounter(models.Model):
             lines = rec.sale_order_ids.filtered(
                 lambda r: r.coverage_agreement_id
             ).mapped('order_line')
-            rec.has_preinvoicing = bool(rec.sale_order_ids.filtered(
+            rec.has_preinvoicing = bool(lines.filtered(
                 lambda r: r.invoice_group_method_id == preinvoicing
             ))
-            rec.has_patient_invoice = bool(rec.sale_order_ids.filtered(
+            rec.has_patient_invoice = bool(lines.filtered(
                 lambda r: r.invoice_group_method_id == by_patient
             ))
             rec.missing_subscriber_id = bool(lines.filtered(
