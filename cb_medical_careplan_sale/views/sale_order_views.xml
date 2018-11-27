@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']//field[@name='layout_category_id']" position="after">
+                <field name="careplan_id" options="{'no_create': True}"/>
+                <field name="procedure_request_id" options="{'no_create': True}"/>
+                <field name="request_group_id" options="{'no_create': True}"/>
+                <field name="medication_request_id" options="{'no_create': True}"/>
+                <field name="encounter_id" options="{'no_create': True}"/>
+                <field name="document_reference_id" options="{'no_create': True}"/>
+                <field name="laboratory_request_id" options="{'no_create': True}"/>
+                <field name="laboratory_event_id" options="{'no_create': True}"/>
+                <field name="invoice_group_method_id" options="{'no_create': True}"/>
+                <field name="authorization_method_id" options="{'no_create': True}"/>
+                <field name="authorization_checked" options="{'no_create': True}"/>
+                <field name="authorization_status" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
