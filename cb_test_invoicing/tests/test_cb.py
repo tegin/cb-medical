@@ -492,7 +492,8 @@ class TestCBSale(TestCB):
             self.assertTrue(encounter.sale_order_ids.filtered(
                 lambda r:
                 r.preinvoice_status == 'to preinvoice' and
-                r.invoice_group_method_id == method))
+                any(line.invoice_group_method_id == method
+                    for line in r.order_line)))
         self.env['wizard.sale.preinvoice.group'].create({
             'company_ids': [(6, 0, self.company.ids)],
             'payor_ids': [(6, 0, self.payor.ids)]
