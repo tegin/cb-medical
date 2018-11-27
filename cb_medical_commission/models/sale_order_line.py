@@ -68,7 +68,7 @@ class SaleOrderLineAgent(models.Model):
         store=True, copy=False)
     invoice_group_method_id = fields.Many2one(
         'invoice.group.method',
-        related='sale_line.order_id.invoice_group_method_id',
+        related='sale_line.invoice_group_method_id',
         index=True,
         store=True,
         readonly=True,
