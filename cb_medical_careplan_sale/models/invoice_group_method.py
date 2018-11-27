@@ -7,4 +7,5 @@ class InvoiceGroupMethod(models.Model):
     name = fields.Char(
         string='Invoice Group',
         required=True,
+        translate=True,
     )
