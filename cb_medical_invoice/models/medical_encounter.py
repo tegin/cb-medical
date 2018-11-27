@@ -33,6 +33,7 @@ class MedicalEncounter(models.Model):
                 'company_id': final_inv.company_id.id,
                 'journal_id': final_inv.journal_id.id,
                 'type': 'out_invoice',
+                'origin': final_inv.number,
                 'currency_id': final_inv.currency_id.id,
                 'encounter_final_invoice': True,
             })
@@ -64,6 +65,7 @@ class MedicalEncounter(models.Model):
                 'company_id': final_inv.company_id.id,
                 'journal_id': final_inv.journal_id.id,
                 'type': 'out_refund',
+                'origin': final_inv.number,
                 'currency_id': final_inv.currency_id.id,
             })
             invoice_refund._onchange_partner_id()
