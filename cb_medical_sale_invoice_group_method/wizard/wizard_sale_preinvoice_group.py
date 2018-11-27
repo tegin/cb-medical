@@ -19,13 +19,12 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
     )
 
     def run(self):
-        group = self.env.ref(
+        groups = self.env.ref(
             'cb_medical_careplan_sale.by_preinvoicing')
-        group |= self.env.ref(
+        groups |= self.env.ref(
             'cb_medical_careplan_sale.no_invoice_preinvoice')
         domain = [
             ('preinvoice_status', '=', 'to preinvoice'),
-            ('invoice_group_method_id', 'in', group.ids),
         ]
         if self.company_ids:
             domain.append(('company_id', 'in', self.company_ids.ids))
@@ -37,7 +36,10 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
         agreements = {}
         for sale_order in sale_orders:
             for line in sale_order.order_line.filtered(
-                    lambda r: not r.preinvoice_group_id
+                lambda r: (
+                    not r.preinvoice_group_id and
+                    r.invoice_group_method_id in groups
+                )
             ):
                 cov_id = sale_order.coverage_agreement_id.id
                 partner_invoice_id = sale_order.partner_invoice_id.id
