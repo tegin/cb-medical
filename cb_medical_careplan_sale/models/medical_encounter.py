@@ -32,8 +32,6 @@ class MedicalEncounter(models.Model):
             'patient_id': self.patient_id.id,
             'coverage_agreement_id': agreement.id,
             'pricelist_id': self.env.ref('product.list0').id,
-            'invoice_group_method_id':
-                agreement.invoice_group_method_id.id or False,
         }
         if is_insurance:
             vals['company_id'] = agreement.company_id.id
