@@ -12,6 +12,11 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
     def _default_product(self):
         product_id = self.env['ir.config_parameter'].sudo().get_param(
             'sale.default_deposit_product_id')
+        if not product_id:
+            raise ValidationError(_(
+                'Please define a default deposit product for advance '
+                'payments in the system configuration parameters.'
+            ))
         return self.env['product.product'].browse(product_id)
 
     pos_session_id = fields.Many2one(
