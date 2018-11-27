@@ -56,3 +56,10 @@ class SaleOrderLine(models.Model):
         ('not-authorized', 'Not authorized'),
         ('authorized', 'Authorized'),
     ], readonly=True,)
+
+    def _prepare_third_party_order_line(self):
+        res = super()._prepare_third_party_order_line()
+        res['invoice_group_method_id'] = self.env.ref(
+            'cb_medical_careplan_sale.third_party'
+        ).id
+        return res
