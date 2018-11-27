@@ -86,8 +86,7 @@ class MedicalRequest(models.AbstractModel):
         return cai.coverage_price if is_insurance else cai.private_price
 
     def get_sale_order_line_vals(self, is_insurance):
-        return {
-            'invoice_group_method_id': self.invoice_group_method_id.id,
+        res = {
             'product_id': self.service_id.id,
             'name': self.service_id.name or self.name,
             self._get_parent_field_name(): self.id,
@@ -97,6 +96,9 @@ class MedicalRequest(models.AbstractModel):
             'authorization_status': self.authorization_status,
             'encounter_id': self.encounter_id.id or False,
         }
+        if is_insurance:
+            res['invoice_group_method_id'] = self.invoice_group_method_id.id
+        return res
 
     def check_is_billable(self):
         if self.is_billable:
