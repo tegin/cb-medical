@@ -30,7 +30,7 @@ class SaleOrderLine(models.Model):
         self.preinvoice_group_id.validate_line(self)
 
     @api.depends('qty_invoiced', 'qty_delivered', 'product_uom_qty',
-                 'order_id.state', 'order_id.invoice_group_method_id')
+                 'order_id.state', 'invoice_group_method_id')
     def _get_to_invoice_qty(self):
         no_invoice = self.env.ref(
             'cb_medical_careplan_sale.no_invoice')
