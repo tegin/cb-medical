@@ -35,6 +35,7 @@
         'views/res_config_settings_views.xml',
         'views/medical_coverage_agreement_view.xml',
         'views/medical_authorization_method_view.xml',
+        'views/sale_order_views.xml',
     ],
     'website': 'https://github.com/eficent/cb-addons',
     'license': 'LGPL-3',
