@@ -33,9 +33,9 @@ class TestNoInvoiceCommission(TransactionCase):
     def test_no_invoice_commission(self):
         sale_order = self.env['sale.order'].create({
             'partner_id': self.partner.id,
-            'invoice_group_method_id': self.group.id,
             'order_line': [(0, 0, {
                 'name': self.product.name,
+                'invoice_group_method_id': self.group.id,
                 'product_id': self.product.id,
                 'product_uom_qty': 1.0,
                 'product_uom': self.ref('product.product_uom_unit'),
