@@ -14,6 +14,7 @@
         'sale',
     ],
     'data': [
+        'security/medical_security.xml',
         'wizard/medical_encounter_change_partner_views.xml',
         'views/medical_encounter_views.xml',
         'views/res_company_views.xml',
