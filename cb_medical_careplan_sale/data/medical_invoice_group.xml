@@ -25,6 +25,9 @@
         <record model="invoice.group.method" id="no_invoice_preinvoice" forcecreate="True">
             <field name="name">No invoices w/ Pre-invoice</field>
         </record>
+        <record model="invoice.group.method" id="third_party" forcecreate="True">
+            <field name="name">Third Party</field>
+        </record>
 
     </data>
 </odoo>
