@@ -41,6 +41,8 @@ class MedicalEncounter(models.Model):
         'sale_order_ids.order_line.coverage_template_id.subscriber_required',
         'sale_order_ids.order_line.subscriber_id',
         'sale_order_ids.order_line.authorization_number',
+        'sale_order_ids.order_line.authorization_format_id',
+        'sale_order_ids.order_line.authorization_method_id',
         'sale_order_ids.order_line.authorization_status',
     )
     def _compute_validation_values(self):
@@ -70,6 +72,8 @@ class MedicalEncounter(models.Model):
             rec.missing_authorization_number = bool(lines.filtered(
                 lambda r:
                 r.authorization_format_id and
+                r.authorization_method_id and
+                r.authorization_method_id.authorization_required and
                 not r.authorization_format_id.check_value(
                     r.authorization_number
                 )
