@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="surgical_room" model="medical.location.type">
+        <field name="name">Surgical Room</field>
+    </record>
+    <record id="hospital_room" model="medical.location.type">
+        <field name="name">Hospital Room</field>
+    </record>
+    <record id="reanimation" model="medical.location.type">
+        <field name="name">Reanimation</field>
+    </record>
+    <record id="emergencies" model="medical.location.type">
+        <field name="name">Emergencies</field>
+    </record>
+</odoo>
