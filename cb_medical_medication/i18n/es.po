@@ -1,0 +1,208 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* cb_medical_medication
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-14 08:30+0000\n"
+"PO-Revision-Date: 2018-11-14 08:30+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cb_medical_medication
+#: model:ir.actions.act_window,name:cb_medical_medication.medical_encounter_medication_action
+#: model:ir.ui.view,arch_db:cb_medical_medication.medical_encounter_medication_form
+#: model:ir.ui.view,arch_db:cb_medical_medication.medical_encounter_view_form
+msgid "Add Medication"
+msgstr "Add Medication"
+
+#. module: cb_medical_medication
+#: model:ir.ui.view,arch_db:cb_medical_medication.medical_encounter_medication_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_product_category_category_product_id
+msgid "Category Product"
+msgstr "Category Product"
+
+#. module: cb_medical_medication
+#: code:addons/cb_medical_medication/models/product_category.py:21
+#, python-format
+msgid "Category product must be always a service"
+msgstr "Category product must be always a service"
+
+#. module: cb_medical_medication
+#: model:ir.ui.view,arch_db:cb_medical_medication.report_medical_encounter_material
+msgid "Consumed material"
+msgstr "Consumed material"
+
+#. module: cb_medical_medication
+#: model:ir.ui.view,arch_db:cb_medical_medication.medical_encounter_medication_form
+msgid "Create"
+msgstr "Crear"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication_create_uid
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication_create_date
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: cb_medical_medication
+#: model:ir.ui.view,arch_db:cb_medical_medication.report_medical_encounter_material
+msgid "Date"
+msgstr "Fecha"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication_display_name
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_encounter_id
+msgid "Encounter"
+msgstr "Afiliación"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication_id
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_id
+msgid "ID"
+msgstr "ID"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_is_phantom
+msgid "Is Phantom"
+msgstr "Is Phantom"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication___last_update
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item___last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication_write_uid
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication_write_date
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication_location_id
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_location_id
+#: model:ir.ui.view,arch_db:cb_medical_medication.report_medical_encounter_material
+msgid "Location"
+msgstr "Localización"
+
+#. module: cb_medical_medication
+#: model:ir.actions.report,name:cb_medical_medication.action_encounter_material_report
+msgid "Material Report"
+msgstr "Material Report"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication_medical_id
+msgid "Medical"
+msgstr "Medical"
+
+#. module: cb_medical_medication
+#: model:ir.model,name:cb_medical_medication.model_medical_careplan
+msgid "Medical Care Plan"
+msgstr "Proceso"
+
+#. module: cb_medical_medication
+#: model:ir.model,name:cb_medical_medication.model_medical_encounter
+msgid "Medical Encounter"
+msgstr "Afiliación"
+
+#. module: cb_medical_medication
+#: model:res.groups,name:cb_medical_medication.group_medical_medication_item_manager
+msgid "Medical Item Manager"
+msgstr "Medical Item Manager"
+
+#. module: cb_medical_medication
+#: model:ir.model,name:cb_medical_medication.model_medical_medication_request
+msgid "Medical Medication request"
+msgstr "Petición de medicación"
+
+#. module: cb_medical_medication
+#: model:ir.ui.view,arch_db:cb_medical_medication.medical_encounter_view_form
+msgid "Medication"
+msgstr "Medicación"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication_item_ids
+msgid "Medication Item"
+msgstr "Medication Item"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_price
+msgid "Price"
+msgstr "Precio"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_encounter_medication_product_id
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_product_id
+#: model:ir.ui.view,arch_db:cb_medical_medication.report_medical_encounter_material
+msgid "Product"
+msgstr "Producto"
+
+#. module: cb_medical_medication
+#: model:ir.model,name:cb_medical_medication.model_product_category
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: cb_medical_medication
+#: model:ir.model.fields,field_description:cb_medical_medication.field_medical_medication_item_qty
+msgid "Qty"
+msgstr "Qty"
+
+#. module: cb_medical_medication
+#: model:ir.ui.view,arch_db:cb_medical_medication.report_medical_encounter_material
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: cb_medical_medication
+#: code:addons/cb_medical_medication/models/medical_medication_item.py:49
+#, python-format
+msgid "Request cannot be found for category %s"
+msgstr "Request cannot be found for category %s"
+
+#. module: cb_medical_medication
+#: code:addons/cb_medical_medication/models/product_category.py:26
+#, python-format
+msgid "The category product can only be the product of a single category"
+msgstr "The category product can only be the product of a single category"
+
+#. module: cb_medical_medication
+#: model:ir.model,name:cb_medical_medication.model_medical_encounter_medication
+msgid "medical.encounter.medication"
+msgstr "medical.encounter.medication"
+
+#. module: cb_medical_medication
+#: model:ir.model,name:cb_medical_medication.model_medical_medication_item
+msgid "medical.medication.item"
+msgstr "medical.medication.item"
+
+#. module: cb_medical_medication
+#: model:ir.ui.view,arch_db:cb_medical_medication.medical_encounter_medication_form
+msgid "or"
+msgstr "o"
+
