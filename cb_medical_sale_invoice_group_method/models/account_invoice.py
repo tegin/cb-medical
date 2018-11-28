@@ -13,3 +13,7 @@ class AccountInvoice(models.Model):
         string='Agreement',
         readonly=True,
     )
+    invoice_group_method_id = fields.Many2one(
+        'invoice.group.method',
+        readonly=True,
+    )
