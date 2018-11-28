@@ -108,6 +108,7 @@ class SalePreinvoiceGroup(models.Model):
             partner_id = self.partner_invoice_id.id
         return [
             ('type', '=', 'out_invoice'),
+            ('invoice_group_method_id', '=', self.invoice_group_method_id.id),
             ('partner_id', '=', partner_id),
             ('agreement_id', '=', self.agreement_id.id),
             ('state', '=', 'draft'),
