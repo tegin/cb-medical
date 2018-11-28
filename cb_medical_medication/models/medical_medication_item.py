@@ -39,13 +39,23 @@ class MedicalMedicationItem(models.Model):
 
     @api.multi
     def _to_medication_request(self):
+        product = self.product_id.categ_id.category_product_id
         requests = self.encounter_id.mapped('careplan_ids').mapped(
             'medication_request_ids'
         ).filtered(
             lambda r: (
-                r.product_id == self.product_id.categ_id.category_product_id
+                r.product_id == product
                 and r.state in ['draft', 'active']
+                and r.location_type_id == self.location_id.location_type_id
             ))
+        if not requests:
+            requests = self.encounter_id.mapped('careplan_ids').mapped(
+                'medication_request_ids'
+            ).filtered(
+                lambda r: (
+                    r.product_id == product
+                    and r.state in ['draft', 'active']
+                ))
         # We are adding the information on the first medication request that
         # is not invoicable, that insurance will pay, that private will pay
         for request in requests.filtered(
