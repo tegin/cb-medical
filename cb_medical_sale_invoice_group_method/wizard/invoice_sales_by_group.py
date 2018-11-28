@@ -59,7 +59,7 @@ class InvoiceSalesByGroup(models.TransientModel):
         action = self.env.ref('account.action_invoice_tree1')
         result = action.read()[0]
         if not invoices:
-            result = action.read()[0]
+            return
         if len(invoices) > 1:
             result['domain'] = "[('id', 'in', " + str(invoices) + ")]"
         elif len(invoices) == 1:
