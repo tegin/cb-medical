@@ -2,11 +2,16 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import models
+from odoo import fields, models
 
 
 class MedicalMedicationRequest(models.Model):
     _inherit = 'medical.medication.request'
+
+    location_type_id = fields.Many2one(
+        'medical.location.type',
+        readonly=True,
+    )
 
     def _get_event_values(self):
         res = super()._get_event_values()
