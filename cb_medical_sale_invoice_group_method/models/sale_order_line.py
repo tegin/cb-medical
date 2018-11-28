@@ -54,3 +54,8 @@ class SaleOrderLine(models.Model):
         if group and group != self.invoice_group_method_id.id:
             return True
         return super()._do_not_invoice()
+
+    def _prepare_invoice(self):
+        res = super()._prepare_invoice()
+        res['invoice_group_method_id'] = self.invoice_group_method_id.id
+        return res
