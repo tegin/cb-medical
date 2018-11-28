@@ -26,6 +26,12 @@ class MedicalMedicationItem(models.Model):
     qty = fields.Integer(required=True, default=1)
     price = fields.Float(required=True)
     is_phantom = fields.Integer(default=False)
+    amount = fields.Float(compute='_compute_amount', store=True, )
+
+    @api.depends('qty', 'price')
+    def _compute_amount(self):
+        for rec in self:
+            rec.amount = rec.qty * rec.price
 
     @api.onchange('product_id')
     def _onchange_product(self):
