@@ -69,6 +69,7 @@ class SaleOrder(models.Model):
         if method and self.env.context.get('merge_draft_invoice', False):
             domain = [
                 ('state', '=', 'draft'),
+                ('invoice_group_method_id', '=', method),
             ]
             companies = self.env.context.get('companies')
             if companies:
