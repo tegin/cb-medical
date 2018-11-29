@@ -20,8 +20,6 @@
                     <field name="date_to"/>
                     <field name="invoice_group_method_id" options="{'no_create': True}"/>
                     <field name="company_ids" widget="many2many_tags" options="{'no_create': True}"/>
-                    <field name="merge_draft_invoice"
-                           groups="sale_merge_draft_invoice.group_sale_merge_draft_invoice"/>
                 </group>
                 <group string="Customers" colspan="4">
                     <p colspan="4">(keep empty for making the invoices of all the customers)</p>

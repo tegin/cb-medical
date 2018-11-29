@@ -115,7 +115,7 @@ class SalePreinvoiceGroup(models.Model):
         ]
 
     def create_invoice_values(self):
-        inv_data = self.validated_line_ids[0].order_id._prepare_invoice()
+        inv_data = self.validated_line_ids[0]._prepare_invoice()
         inv_data['agreement_id'] = self.agreement_id.id
         return inv_data
 
