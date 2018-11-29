@@ -81,6 +81,6 @@ class SaleOrder(models.Model):
             for inv in draft_inv:
                 for line in inv.invoice_line_ids.mapped('sale_line_ids'):
                     ref_order = self._get_invoice_group_line_key(line)
-                    refs[inv] = ref_order
+                    refs[inv] = line.order_id
                     invs[ref_order] = inv
         return invs, refs
