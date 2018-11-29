@@ -389,7 +389,7 @@ class TestCBSale(TestCB):
         action = self.env['invoice.sales.by.group'].create({
             'invoice_group_method_id': method.id,
         }).invoice_sales_by_group()
-        self.assertFalse(action.get('res_id', False))
+        self.assertFalse(action)
         action = self.env['invoice.sales.by.group'].create({
             'invoice_group_method_id': method.id,
             'customer_ids': [(4, self.payor.id)],
