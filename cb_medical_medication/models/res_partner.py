@@ -6,5 +6,4 @@ class ResPartner(models.Model):
 
     location_type_id = fields.Many2one(
         'medical.location.type',
-        readonly=True,
     )
