@@ -16,6 +16,7 @@ class MedicalDocumentType(models.Model):
     name = fields.Char(
         string='Name',
         help='Name',
+        translate=True,
     )
     state = fields.Selection([
         ('draft', 'Draft'),
