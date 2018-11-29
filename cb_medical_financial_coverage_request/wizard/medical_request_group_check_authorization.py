@@ -48,6 +48,19 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
         'medical.authorization.method',
         compute='_compute_authorization_method_ids',
     )
+    authorization_format_id = fields.Many2one(
+        'medical.authorization.format',
+        related='coverage_agreement_item_id.authorization_format_id',
+        readonly=True
+    )
+    authorization_information = fields.Text(
+        related='authorization_format_id.authorization_information',
+        readonly=True,
+    )
+    authorization_required = fields.Boolean(
+        related='authorization_method_id.authorization_required',
+        readonly=True,
+    )
 
     @api.depends('request_group_id')
     def _compute_authorization_method_ids(self):
