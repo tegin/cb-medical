@@ -86,8 +86,10 @@ class MedicalEvent(models.AbstractModel):
         invoice_agents = self.invoice_agent_ids.filtered(
             lambda r: not r.child_agent_line_ids and not r.is_cancel)
         for sale_agent in sale_agents:
+            sale_agent._compute_amount()
             if sale_agent.agent != self.commission_agent_id:
                 sale_agent.change_agent(self.commission_agent_id)
         for inv_agent in invoice_agents:
+            inv_agent._compute_amount()
             if inv_agent and inv_agent.agent != self.commission_agent_id:
                 inv_agent.change_agent(self.commission_agent_id)
