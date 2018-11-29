@@ -16,9 +16,12 @@
             <form>
                 <field name="request_group_id" invisible="1"/>
                 <field name="authorization_method_ids" invisible="1"/>
+                <field name="authorization_format_id" invisible="1"/>
+                <field name="authorization_required" invisible="1"/>
                 <group>
                     <field name="authorization_method_id" widget="selection"/>
-                    <field name="authorization_number"/>
+                    <field name="authorization_number" attrs="{'invisible': [('authorization_required', '=', False)]}"/>
+                    <field name="authorization_information" attrs="{'invisible': [('authorization_required', '=', False)]}"/>
                 </group>
                 <footer>
                     <button type="object" name="run" string="Change"
