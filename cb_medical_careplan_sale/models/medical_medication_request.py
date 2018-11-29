@@ -18,7 +18,7 @@ class MedicalMedicationRequest(models.Model):
             medication_price += admin.amount
         percentage = cai.coverage_percentage
         if not is_insurance:
-            percentage = 1 - percentage
+            percentage = 100 - percentage
         return (medication_price * percentage)/100
 
     @api.depends('is_billable', 'sale_order_line_ids',
