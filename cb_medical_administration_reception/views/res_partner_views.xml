@@ -46,7 +46,6 @@
 
                     <field name="reception_count" widget="statinfo"
                            string="Receptions"/>
-                    <field name='reception_ids' invisible="1"/>
                 </button>
             </div>
             <field name="center_id" position="attributes">
