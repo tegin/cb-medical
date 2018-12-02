@@ -17,19 +17,23 @@ class ResPartner(models.Model):
     reception_identifier = fields.Char(
         readonly=True,
     )  # FHIR Field: identifier
-    reception_ids = fields.One2many(
-        'res.partner',
-        inverse_name='center_id',
-    )
     reception_count = fields.Integer(
         compute='_compute_reception_count'
     )
 
     @api.multi
-    @api.depends('reception_ids')
+    @api.depends('location_ids')
     def _compute_reception_count(self):
         for record in self:
-            record.reception_count = len(record.reception_ids)
+            record.reception_count = len(record.location_ids.filtered(
+                lambda r: r.is_reception))
+
+    @api.multi
+    @api.depends('location_ids')
+    def _compute_location_count(self):
+        for record in self:
+            record.location_count = len(record.location_ids.filtered(
+                lambda r: r.is_location))
 
     @api.constrains('is_reception', 'center_id')
     def check_reception_center(self):
