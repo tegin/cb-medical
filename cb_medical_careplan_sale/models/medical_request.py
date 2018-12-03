@@ -171,3 +171,7 @@ class MedicalRequest(models.AbstractModel):
                     ])
                 query += childs.get_sale_order_query()
         return query
+
+    def _update_related_activity(self, vals, parent, plan, action):
+        #TODO: Review
+        pass

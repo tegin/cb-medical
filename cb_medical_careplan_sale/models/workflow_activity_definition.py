@@ -17,3 +17,8 @@ class ActivityDefinition(models.Model):
                 'sub_payor_id': parent.sub_payor_id.id or False,
             })
         return res
+
+    def _find_relation_activity(self, vals, parent, plan, action):
+        res = super()._find_relation_activity(vals, parent, plan, action)
+
+        return res
