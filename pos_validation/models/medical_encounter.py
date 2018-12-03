@@ -34,6 +34,9 @@ class MedicalEncounter(models.Model):
     missing_subscriber_id = fields.Boolean(
         compute='_compute_validation_values',
     )
+    missing_practitioner = fields.Boolean(
+        compute='_compute_validation_values',
+    )
 
     @api.depends(
         'sale_order_ids.order_line.invoice_group_method_id',
@@ -78,6 +81,12 @@ class MedicalEncounter(models.Model):
                     r.authorization_number
                 )
             ))
+            rec.missing_practitioner = bool(lines.mapped(
+                'procedure_ids'
+            ).filtered(lambda r: (
+                r.service_id.medical_commission
+                and not r.performer_id
+            )))
 
     def onleave2finished_values(self):
         res = super().onleave2finished_values()
@@ -114,6 +123,10 @@ class MedicalEncounter(models.Model):
         if self.missing_subscriber_id:
             raise ValidationError(_(
                 'The subscriber id is required'
+            ))
+        if self.missing_practitioner:
+            raise ValidationError(_(
+                'The performer is required in at least a procedure'
             ))
 
     def _admin_validation_values(self):
