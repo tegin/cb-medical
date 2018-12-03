@@ -78,7 +78,7 @@
                                 />
                     </div>
                     <h2>
-                        <field name="internal_identifier" readonly="1"/>
+                        <field name="internal_identifier"/>
                     </h2>
                     <group name="details" cols="4">
                         <group>
