@@ -84,14 +84,14 @@ class MedicalRequest(models.AbstractModel):
             for child in self.env[model].search([
                 (self._get_parent_field_name(), '=', self.id),
                 ('active', '=', True)
-            ]):
-                if child.can_deactivate:
-                    child.toggle_active()
-                elif child.activity_definition_id.id in activities:
+            ]).sorted('can_deactivate'):
+                if child.activity_definition_id.id in activities:
                     action = activities[child.activity_definition_id.id].pop()
                     relations[action] = child.id
                     if len(activities[child.activity_definition_id.id]) == 0:
                         del activities[child.activity_definition_id.id]
+                elif child.can_deactivate:
+                    child.toggle_active()
                 else:
                     raise ValidationError(_(
                         'Plans cannot be interchanged'
@@ -136,3 +136,35 @@ class MedicalRequest(models.AbstractModel):
                     ('parent_model', '=', request._name),
                     ('state', '!=', 'cancelled')
                 ])._change_authorization(vals, **kwargs)
+
+    def _update_related_activity(self, vals, parent, plan, action):
+        res = {}
+        res['coverage_agreement_item_id'] = False
+        res['coverage_agreement_id'] = False
+        res['authorization_method_id'] = False
+        if parent:
+            res['parent_model'] = parent._name
+            res['parent_id'] = parent.id
+        if not res.get('is_billable', False):
+            return res
+        if vals.get('coverage_id', False):
+            coverage_template = self.env['medical.coverage'].browse(vals.get(
+                'coverage_id')).coverage_template_id
+            cai = self.env['medical.coverage.agreement.item'].search([
+                ('coverage_template_ids', '=', coverage_template.id),
+                ('product_id', '=', self.service_id.id)
+            ], limit=1)
+            if not cai:
+                raise ValidationError(_(
+                    'An element should exist on an agreement if it is billable'
+                ))
+            res['coverage_agreement_item_id'] = cai.id
+            res['coverage_agreement_id'] = cai.coverage_agreement_id.id
+            res['authorization_method_id'] = cai.authorization_method_id.id
+            vals = cai._check_authorization(cai.authorization_method_id, **res)
+            res.update(vals)
+        if parent:
+            res.update({
+                'parent_id': parent.id,
+                'parent_model': parent._name,
+            })
