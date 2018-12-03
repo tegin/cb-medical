@@ -67,6 +67,7 @@ class TestNoInvoiceCommission(TransactionCase):
                 'product_uom_qty': 1.0,
                 'product_uom': self.ref('product.product_uom_unit'),
                 'price_unit': self.product.lst_price,
+
                 'agents': [(0, 0, {
                     'agent': self.agent.id,
                     'commission': self.agent.commission.id
