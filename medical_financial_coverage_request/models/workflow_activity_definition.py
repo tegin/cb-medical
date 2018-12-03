@@ -57,7 +57,9 @@ class ActivityDefinition(models.Model):
     @api.multi
     def execute_activity(self, vals, parent=False, plan=False, action=False):
         self.ensure_one()
-        if action.id in vals.get('relations', []):
-            return self.env[self.model_id.model].browse(
+        if action.id in vals.get('relations', {}):
+            activity = self.env[self.model_id.model].browse(
                 vals['relations'][action.id])
+            activity._update_related_activity(vals, parent, plan, action)
+            return activity
         return super().execute_activity(vals, parent, plan, action)
