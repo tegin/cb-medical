@@ -18,8 +18,11 @@
                     icon="fa-check-square"
                     attrs="{'invisible': ['|', ('is_validated', '=', True)]}"/>
                 <field name="sequence"/>
+                <field name="encounter_id"/>
+                <field name="patient_name"/>
+                <field name="authorization_number"/>
                 <field name="preinvoice_group_id" invisible="1"/>
-                <field name="is_validated"/>
+                <field name="is_validated" invisible="1"/>
                 <field name="product_id" options="{'no_create': True}"/>
                 <field name="order_id" options="{'no_create': True}"/>
                 <field name="name"/>
