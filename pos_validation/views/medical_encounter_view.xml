@@ -50,6 +50,12 @@
                           decoration-info="missing_subscriber_id"
                           decoration-light="not missing_subscriber_id"
                     />
+                    <flag icon="fa-stethoscope"
+                          name="missing_practitioner"
+                          help="Missing practitioner"
+                          decoration-danger="missing_practitioner"
+                          decoration-light="not missing_practitioner"
+                          />
                     <emptyflag/>
                     <flag icon="fa-user" help="Patient invoice"
                           decoration-light="not has_patient_invoice"
@@ -60,6 +66,7 @@
                     <field name="missing_subscriber_id" invisible="1"/>
                     <field name="unauthorized_elements" invisible="1"/>
                     <field name="has_patient_invoice" invisible="1"/>
+                    <field name="missing_practitioner" invisible="1"/>
                 </flagbox>
             </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
@@ -120,6 +127,7 @@
                                                attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                         <field name="product_uom_qty"
                                                attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="medical_sale_discount_id"/>
                                         <field name="price_unit"
                                                attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                         <field name="price_total" readonly="1"
