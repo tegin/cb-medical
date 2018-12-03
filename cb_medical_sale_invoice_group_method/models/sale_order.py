@@ -44,7 +44,8 @@ class SaleOrder(models.Model):
                 order.partner_invoice_id.id,
                 order.currency_id.id,
                 order.company_id.id,
-                order.coverage_agreement_id.id
+                order.coverage_agreement_id.id,
+                order.coverage_template_id.id
             )
         return super()._get_invoice_group_key(order)
 
@@ -59,6 +60,7 @@ class SaleOrder(models.Model):
                 line.order_id.company_id.id,
                 line.order_id.coverage_agreement_id.id,
                 line.invoice_group_method_id.id,
+                line.coverage_template_id.id,
             )
         return super()._get_invoice_group_line_key(line)
 

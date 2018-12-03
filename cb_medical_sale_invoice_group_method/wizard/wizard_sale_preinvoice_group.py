@@ -45,6 +45,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
                 partner_invoice_id = sale_order.partner_invoice_id.id
                 partner_id = sale_order.partner_id.id
                 group = line.invoice_group_method_id.id
+                template = line.coverage_template_id.id
                 if cov_id not in agreements:
                     agreements[cov_id] = {}
                 if partner_id not in agreements[cov_id]:
@@ -56,10 +57,17 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
                 ]:
                     agreements[cov_id][partner_id][partner_invoice_id][
                         group
-                    ] = self.env['sale.preinvoice.group'].create({
+                    ] = {}
+                if template not in agreements[cov_id][partner_id][
+                    partner_invoice_id
+                ][group]:
+                    agreements[cov_id][partner_id][partner_invoice_id][
+                        group
+                    ][template] = self.env['sale.preinvoice.group'].create({
                         'agreement_id': cov_id,
                         'company_id': sale_order.company_id.id,
                         'partner_id': partner_id,
+                        'coverage_template_id': template,
                         'partner_invoice_id': partner_invoice_id,
                         'current_sequence': 0,
                         'invoice_group_method_id': group,
@@ -67,7 +75,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
                 line.sequence = 999999
                 line.is_validated = False
                 line.preinvoice_group_id = agreements[cov_id][partner_id][
-                    partner_invoice_id][group]
+                    partner_invoice_id][group][template]
         action = self.env.ref(
             'cb_medical_sale_invoice_group_method.sale_preinvoice_group_action'
         )
