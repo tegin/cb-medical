@@ -108,11 +108,12 @@ class SaleOrderLineAgent(models.Model):
     def _compute_settled(self):
         # Count lines of not open or paid invoices as settled for not
         # being included in settlements
-        no_invoice = self.env.ref(
-            'cb_medical_careplan_sale.no_invoice')
+        no_invoice = self.env.ref('cb_medical_careplan_sale.no_invoice')
+        no_invoice |= self.env.ref(
+            'cb_medical_careplan_sale.no_invoice_preinvoice')
         for line in self:
             line.settled = (
-                line.invoice_group_method_id != no_invoice or
+                line.invoice_group_method_id not in no_invoice or
                 line.sale_line.order_id.state not in ('sale', 'done') or
                 any(x.settlement.state != 'cancel'
                     for x in line.agent_sale_line))
