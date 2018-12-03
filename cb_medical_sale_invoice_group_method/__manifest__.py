@@ -27,6 +27,7 @@
         'views/medical_preinvoice_group_line_view.xml',
         'views/sale_order_view.xml',
         'views/medical_preinvoice_group_views.xml',
+        'report/medical_preinvoice_group.xml',
     ],
     'website': 'https://github.com/OCA/vertical-medical',
     'license': 'LGPL-3',
