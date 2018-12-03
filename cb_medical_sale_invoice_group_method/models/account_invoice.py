@@ -13,6 +13,10 @@ class AccountInvoice(models.Model):
         string='Agreement',
         readonly=True,
     )
+    coverage_template_id = fields.Many2one(
+        'medical.coverage.template',
+        readonly=True
+    )
     invoice_group_method_id = fields.Many2one(
         'invoice.group.method',
         readonly=True,
