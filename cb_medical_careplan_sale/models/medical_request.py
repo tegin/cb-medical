@@ -174,4 +174,12 @@ class MedicalRequest(models.AbstractModel):
 
     def _update_related_activity(self, vals, parent, plan, action):
         #TODO: Review
-        pass
+        res = super()._update_related_activity(vals, parent, plan, action)
+        if self.encounter_id.state in ['onleave', 'finished']:
+            if not self.sale_order_line_ids and self.is_billable:
+                # TODO: What should happen? We should create if possible
+                pass
+            for line in self.sale_order_line_ids:
+                # TODO: Review it according to their configuration (Insurance / Private)
+                pass
+        return res
