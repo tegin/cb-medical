@@ -145,9 +145,7 @@ class MedicalRequest(models.AbstractModel):
         if parent:
             res['parent_model'] = parent._name
             res['parent_id'] = parent.id
-        if not res.get('is_billable', False):
-            return res
-        if vals.get('coverage_id', False):
+        if res.get('is_billable', False) and vals.get('coverage_id', False):
             coverage_template = self.env['medical.coverage'].browse(vals.get(
                 'coverage_id')).coverage_template_id
             cai = self.env['medical.coverage.agreement.item'].search([
@@ -163,8 +161,4 @@ class MedicalRequest(models.AbstractModel):
             res['authorization_method_id'] = cai.authorization_method_id.id
             vals = cai._check_authorization(cai.authorization_method_id, **res)
             res.update(vals)
-        if parent:
-            res.update({
-                'parent_id': parent.id,
-                'parent_model': parent._name,
-            })
+        self.write(res)
