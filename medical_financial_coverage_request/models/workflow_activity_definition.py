@@ -34,10 +34,8 @@ class ActivityDefinition(models.Model):
         if vals.get('coverage_id', False):
             coverage_template = self.env['medical.coverage'].browse(vals.get(
                 'coverage_id')).coverage_template_id
-            cai = self.env['medical.coverage.agreement.item'].search([
-                ('coverage_template_ids', '=', coverage_template.id),
-                ('product_id', '=', self.service_id.id)
-            ], limit=1)
+            cai = self.env['medical.coverage.agreement.item'].get_item(
+                self.service_id, coverage_template)
             if not cai:
                 raise ValidationError(_(
                     'An element should exist on an agreement if it is billable'
