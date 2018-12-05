@@ -18,7 +18,7 @@ class MedicalCoverage(models.Model):
     @api.constrains('subscriber_id')
     def check_subscriber(self):
         for rec in self:
-            if rec.subscriber_required and not self.env.context(
+            if rec.subscriber_required and not self.env.context.get(
                 'no_check_subscriber', False
             ):
                 match = re.match(rec.subscriber_format, rec.subscriber_id)
