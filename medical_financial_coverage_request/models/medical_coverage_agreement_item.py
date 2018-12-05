@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class MedicalCoverageAgreementItem(models.Model):
@@ -37,6 +37,18 @@ class MedicalCoverageAgreementItem(models.Model):
         default=_default_authorization_format,
         required=True
     )
+    date_from = fields.Date(
+        'From',
+        related='coverage_agreement_id.date_from',
+        store=True,
+        readonly=True,
+    )
+    date_to = fields.Date(
+        'To',
+        related='coverage_agreement_id.date_to',
+        store=True,
+        readonly=True,
+    )
 
     def _check_authorization(self, method, **kwargs):
         authorization_number = kwargs.get('authorization_number', False)
@@ -57,3 +69,24 @@ class MedicalCoverageAgreementItem(models.Model):
         res['authorization_method_id'] = self.authorization_method_id.id
         res['authorization_format_id'] = self.authorization_format_id.id
         return res
+
+    def get_item(self, product, coverage_template, date=False, plan=False):
+        if not date:
+            date = fields.Date.today()
+        if isinstance(product, int):
+            product_id = product
+        else:
+            product_id = product.id
+        if isinstance(coverage_template, int):
+            coverage_template_id = coverage_template
+        else:
+            coverage_template_id = coverage_template.id
+        domain = [
+            ('product_id', '=', product_id),
+            ('coverage_template_ids', '=', coverage_template_id),
+            '|', ('date_from', '=', False), ('date_from', '<=', date),
+            '|', ('date_to', '=', False), ('date_to', '>=', date)
+        ]
+        if plan:
+            domain.append(('plan_definition_id', '!=', False))
+        return self.search(domain, limit=1)
