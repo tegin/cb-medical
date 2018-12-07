@@ -106,12 +106,7 @@ class MedicalRequest(models.AbstractModel):
         # Agreement is researched if it is not billable
         self.coverage_agreement_item_id = self.env[
             'medical.coverage.agreement.item'
-        ].search([
-            (
-                'coverage_template_ids', '=',
-                self.coverage_id.coverage_template_id.id),
-            ('product_id', '=', self.service_id.id)
-        ], limit=1)
+        ].get_item(self.service_id, self.coverage_id.coverage_template_id)
         if not self.coverage_agreement_item_id:
             raise ValidationError(_('Agreement must be defined'))
         return self.is_billable
@@ -173,13 +168,14 @@ class MedicalRequest(models.AbstractModel):
         return query
 
     def _update_related_activity(self, vals, parent, plan, action):
-        #TODO: Review
+        # TODO: Review
         res = super()._update_related_activity(vals, parent, plan, action)
         if self.encounter_id.state in ['onleave', 'finished']:
             if not self.sale_order_line_ids and self.is_billable:
                 # TODO: What should happen? We should create if possible
                 pass
             for line in self.sale_order_line_ids:
-                # TODO: Review it according to their configuration (Insurance / Private)
+                # TODO: Review it according to their configuration .
+                # (Insurance / Private)
                 pass
         return res
