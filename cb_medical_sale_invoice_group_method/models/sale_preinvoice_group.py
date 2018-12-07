@@ -116,8 +116,11 @@ class SalePreinvoiceGroup(models.Model):
             ('partner_id', '=', partner_id),
             ('agreement_id', '=', self.agreement_id.id),
             ('state', '=', 'draft'),
-            ('coverage_template_id', '=', 
-             self.coverage_template_id.id or False),
+            (
+                'coverage_template_id',
+                '=',
+                self.coverage_template_id.id or False
+            ),
         ]
 
     def create_invoice_values(self):
