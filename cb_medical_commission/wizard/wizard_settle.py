@@ -26,7 +26,7 @@ class SaleCommissionMakeSettle(models.TransientModel):
                  ('settled', '=', False)], order='date')
             for company in agent_lines.mapped('company_id'):
                 agent_lines_company = agent_lines.filtered(
-                    lambda r: r.sale_line.order_id.company_id == company)
+                    lambda r: r.object_id.order_id.company_id == company)
                 if not agent_lines_company:
                     continue
                 pos = 0
