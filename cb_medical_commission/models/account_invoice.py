@@ -29,6 +29,12 @@ class AccountInvoiceLineAgent(models.Model):
         string='Laboratory Event',
     )
 
+    @api.constrains('agent', 'amount')
+    def _check_settle_integrity(self):
+        if self.env.context.get('check_original_integrity', False):
+            return super()._check_settle_integrity()
+        return
+
     @classmethod
     def _build_model_attributes(cls, pool):
         res = super()._build_model_attributes(pool)
@@ -37,7 +43,7 @@ class AccountInvoiceLineAgent(models.Model):
             if key in ['unique_agent']:
                 constraints.append((
                     key,
-                    'UNIQUE(invoice_line, agent, parent_agent_line_id, '
+                    'UNIQUE(object_id, agent, parent_agent_line_id, '
                     'procedure_id, is_cancel)',
                     message
                 ))

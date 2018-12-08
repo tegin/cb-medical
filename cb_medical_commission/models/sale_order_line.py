@@ -68,19 +68,19 @@ class SaleOrderLineAgent(models.Model):
         store=True, copy=False)
     invoice_group_method_id = fields.Many2one(
         'invoice.group.method',
-        related='sale_line.invoice_group_method_id',
+        related='object_id.invoice_group_method_id',
         index=True,
         store=True,
         readonly=True,
     )
     date = fields.Datetime(
         string="Date",
-        related="sale_line.order_id.confirmation_date",
+        related="object_id.order_id.confirmation_date",
         store=True, readonly=True
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
-        related="sale_line.order_id.company_id",
+        related="object_id.order_id.company_id",
         store=True,
         readonly=True,
         copy=False
@@ -94,7 +94,7 @@ class SaleOrderLineAgent(models.Model):
             if key in ['unique_agent']:
                 constraints.append((
                     key,
-                    'UNIQUE(sale_line, agent, parent_agent_line_id, '
+                    'UNIQUE(object_id, agent, parent_agent_line_id, '
                     'is_cancel, procedure_id)',
                     message
                 ))
@@ -104,7 +104,7 @@ class SaleOrderLineAgent(models.Model):
         return res
 
     @api.depends('agent_sale_line', 'agent_sale_line.settlement.state',
-                 'invoice_group_method_id', 'sale_line.order_id.state')
+                 'invoice_group_method_id', 'object_id.order_id.state')
     def _compute_settled(self):
         # Count lines of not open or paid invoices as settled for not
         # being included in settlements
@@ -114,18 +114,18 @@ class SaleOrderLineAgent(models.Model):
         for line in self:
             line.settled = (
                 line.invoice_group_method_id not in no_invoice or
-                line.sale_line.order_id.state not in ('sale', 'done') or
+                line.object_id.order_id.state not in ('sale', 'done') or
                 any(x.settlement.state != 'cancel'
                     for x in line.agent_sale_line))
 
     @api.depends('child_agent_line_ids', 'is_cancel',
-                 'sale_line.order_id.state')
+                 'object_id.order_id.state')
     def _compute_can_cancel(self):
         for rec in self:
             rec.can_cancel = (
                 not rec.child_agent_line_ids and
                 not rec.is_cancel and
-                rec.sale_line.order_id.state != 'draft'
+                rec.object_id.order_id.state != 'draft'
             )
 
     @api.constrains('parent_agent_line_id', 'is_cancel')
@@ -134,7 +134,8 @@ class SaleOrderLineAgent(models.Model):
             if record.is_cancel and not record.parent_agent_line_id:
                 raise ValidationError(_('Cancelled lines must have a parent.'))
 
-    @api.depends('sale_line.price_subtotal')
+    @api.depends('object_id.price_subtotal', 'is_cancel',
+                 'parent_agent_line_id.amount')
     def _compute_amount(self):
         res = super(SaleOrderLineAgent, self.filtered(
             lambda r: not r.is_cancel))._compute_amount()
@@ -145,7 +146,7 @@ class SaleOrderLineAgent(models.Model):
     def get_commission_cancel_vals(self, agent=False):
         return {
             'parent_agent_line_id': self.id,
-            'sale_line': self.sale_line.id,
+            'object_id': self.object_id.id,
             'commission': self.commission.id,
             'agent_sale_line': False,
             'agent': agent.id if agent else self.agent.id,

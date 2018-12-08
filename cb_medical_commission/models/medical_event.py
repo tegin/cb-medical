@@ -46,14 +46,14 @@ class MedicalEvent(models.AbstractModel):
 
     def _get_sale_order_line_agent_vals(self, line):
         return {
-            'sale_line': line.id,
+            'object_id': line.id,
             'commission': self.commission_agent_id.commission.id,
             'agent': self.commission_agent_id.id,
         }
 
     def _get_invoice_line_agent_vals(self, inv_line):
         return {
-            'invoice_line': inv_line.id,
+            'object_id': inv_line.id,
             'commission': self.commission_agent_id.commission.id,
             'agent': self.commission_agent_id.id,
         }
