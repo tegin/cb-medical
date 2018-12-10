@@ -18,6 +18,7 @@
     "license": "LGPL-3",
     "data": [
         'reports/agreement_report.xml',
+        'reports/agreement_compare_report.xml',
         'data/medical_coverage_agreement.xml',
         'wizard/medical_coverage_agreement_template_views.xml',
         'wizard/medical_agreement_change_prices_views.xml',
