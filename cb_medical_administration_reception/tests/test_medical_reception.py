@@ -30,3 +30,11 @@ class TestMedicalLocation(TransactionCase):
         location = self.env['res.partner'].create(vals)
         self.assertTrue(location.is_reception)
         self.assertEqual(center.reception_count, 1)
+        self.assertEqual(center.location_count, 0)
+        self.env['res.partner'].create({
+            'name': 'Location',
+            'is_location': True,
+            'center_id': center.id,
+        })
+        self.assertEqual(center.reception_count, 1)
+        self.assertEqual(center.location_count, 1)
