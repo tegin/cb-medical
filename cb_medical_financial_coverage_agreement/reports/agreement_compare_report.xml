@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+
+<odoo>
+
+    <report id="action_agreement_compare_report"
+            string="Agreement Comparison Report"
+            model="medical.coverage.agreement"
+            report_type="qweb-pdf"
+            name="cb_medical_financial_coverage_agreement.report_agreement_compare_template"
+    />
+
+    <template id="report_agreement_compare_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <t t-set="o" t-value="docs[0]"/>
+                    <div class="page">
+                        <h3 class="text-center">Agreement Comparison Report
+                        </h3>
+                        <div class="agreement_details">
+                            <h2>
+                                <t t-esc="o.internal_identifier"/>
+                            </h2>
+                            <h3>
+                                <t t-esc="o.name"/>
+                            </h3>
+                            <br/>
+                            <p>
+                                <b>Template:</b>
+                                <span t-field="o.template_id.nameº"/>
+                            </p>
+                        </div>
+                        <table class="table table-bordered mt32">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Product</th>
+                                    <th class="text-center">Agreement Price</th>
+                                    <th class="text-center">Template Price</th>
+                                    <th class="text-center">Agreement Plan</th>
+                                    <th class="text-center">Template Plan</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.item_ids" t-as="i">
+                                    <t t-set="templ_prd" t-value="o.template_id.item_ids.filtered(lambda r: r.product_id== i.product_id)"/>
+                                    <td>
+                                        <span t-field="i.product_id.name"/>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-field="i.total_price"/>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-field="templ_prd.total_price" t-if="templ_prd"/>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-field="i.plan_definition_id.name" t-if="i.plan_definition_id "/>
+                                    </td>
+
+                                    <td style="text-align:right">
+                                        <span t-field="templ_prd.plan_definition_id.name" t-if="templ_prd and templ_prd.plan_definition_id"/>
+                                    </td>
+                                </tr>
+                                <t t-foreach="o.template_id.item_ids" t-as="i">
+                                    <t t-set="prd" t-value="o.item_ids.filtered(lambda r: r.product_id== i.product_id)"/>
+                                    <tr t-if="not prd">
+                                        <td>
+                                            <span t-field="i.product_id.name"/>
+                                        </td>
+                                        <td style="text-align:right"/>
+                                        <td style="text-align:right">
+                                            <span t-field="i.total_price"/>
+                                        </td>
+                                        <td style="text-align:right"/>
+                                        <td style="text-align:right">
+                                            <span t-field="i.plan_definition_id.name" t-if="i.plan_definition_id "/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
