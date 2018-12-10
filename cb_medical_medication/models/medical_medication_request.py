@@ -11,6 +11,7 @@ class MedicalMedicationRequest(models.Model):
     location_type_id = fields.Many2one(
         'medical.location.type',
         readonly=True,
+        track_visibility='onchange',
     )
 
     def _get_event_values(self):
