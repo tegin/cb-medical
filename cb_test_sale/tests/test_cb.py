@@ -325,6 +325,60 @@ class TestCBSale(TestCB):
             invoice.recompute_lines_agents()
             self.assertGreater(invoice.commission_total, 0)
 
+    def test_change_partner(self):
+        self.company.change_partner_journal_id = self.env[
+            'account.journal'
+        ].create({
+            'name': 'Change paChange patient Journal',
+            'code': 'CHANGE',
+            'company_id': self.company.id,
+            'type': 'general',
+        })
+        self.plan_definition2.third_party_bill = False
+        # self.plan_definition.is_billable = True
+        self.agreement_line3.coverage_percentage = 0
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3)
+        self.env['wizard.medical.encounter.close'].create({
+            'encounter_id': encounter.id,
+            'pos_session_id': self.session.id,
+        }).run()
+        journal = self.session.statement_ids.mapped('journal_id')[0]
+        self.env['wizard.medical.encounter.finish'].create({
+            'encounter_id': encounter.id,
+            'pos_session_id': self.session.id,
+            'journal_id': journal.id,
+        }).run()
+        self.assertEqual(
+            1, len(encounter.sale_order_ids.mapped('invoice_ids')))
+        partner = self.env['res.partner'].create({
+            'name': 'New Partner'
+        })
+        self.env['medical.encounter.change.partner'].create({
+            'encounter_id': encounter.id,
+            'partner_id': partner.id,
+        }).run()
+        self.assertEqual(
+            3, len(encounter.sale_order_ids.mapped('invoice_ids')))
+        self.assertTrue(
+            encounter.sale_order_ids.mapped('invoice_ids').filtered(
+                lambda r: r.partner_id == partner))
+        partner_2 = self.env['res.partner'].create({
+            'name': 'New Partner 2'
+        })
+        self.env['medical.encounter.change.partner'].create({
+            'encounter_id': encounter.id,
+            'partner_id': partner_2.id,
+        }).run()
+        self.assertEqual(
+            5, len(encounter.sale_order_ids.mapped('invoice_ids')))
+        self.assertEqual(
+            2, len(encounter.sale_order_ids.mapped('invoice_ids').filtered(
+                lambda r: r.partner_id == partner)))
+        self.assertTrue(
+            encounter.sale_order_ids.mapped('invoice_ids').filtered(
+                lambda r: r.partner_id == partner_2))
+
     def test_discount(self):
         method = self.browse_ref(
             'cb_medical_careplan_sale.no_invoice')
