@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo.tests.common import TransactionCase
+from odoo.exceptions import ValidationError
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -175,6 +176,74 @@ class TestMedicalCoverageAgreement(TransactionCase):
         self.assertEquals(len(coverage_agreement.item_ids), 1)
         coverage_agreement.toggle_active()
         self.assertFalse(coverage_agreement.item_ids.active)
+
+    def test_constrains_01(self):
+        temp_01 = self._create_coverage_template()
+        temp_02 = self._create_coverage_template()
+        cent_01 = self._create_center()
+        agr = self._create_coverage_agreement(temp_01)
+        agr.write({
+            'center_ids': [(4, cent_01.id)],
+            'coverage_template_ids': [(4, temp_02.id)],
+        })
+        agr2 = self._create_coverage_agreement(temp_01)
+        self._create_coverage_agreement_item(agr, self.product_1)
+        with self.assertRaises(ValidationError):
+            self._create_coverage_agreement_item(agr2, self.product_1)
+
+    def test_constrains_02(self):
+        temp_01 = self._create_coverage_template()
+        temp_02 = self._create_coverage_template()
+        cent_01 = self._create_center()
+        agr = self._create_coverage_agreement(temp_01)
+        agr2 = self._create_coverage_agreement(temp_02)
+        self._create_coverage_agreement_item(agr, self.product_1)
+        self._create_coverage_agreement_item(agr2, self.product_1)
+        with self.assertRaises(ValidationError):
+            agr.write({
+                'center_ids': [(4, cent_01.id)],
+                'coverage_template_ids': [(4, temp_02.id)],
+            })
+
+    def test_constrains_03(self):
+        temp_01 = self._create_coverage_template()
+        temp_02 = self._create_coverage_template()
+        cent_01 = self._create_center()
+        agr = self._create_coverage_agreement(temp_01)
+        agr2 = self._create_coverage_agreement(temp_02)
+        agr.write({
+            'date_from': '2018-01-01',
+            'date_to': '2018-01-31',
+        })
+        agr2.write({'date_from': '2018-02-01'})
+        self._create_coverage_agreement_item(agr, self.product_1)
+        self._create_coverage_agreement_item(agr2, self.product_1)
+        agr.write({
+            'center_ids': [(4, cent_01.id)],
+            'coverage_template_ids': [(4, temp_02.id)],
+        })
+        with self.assertRaises(ValidationError):
+            agr2.write({'date_from': '2018-01-31'})
+
+    def test_constrains_04(self):
+        temp_01 = self._create_coverage_template()
+        temp_02 = self._create_coverage_template()
+        cent_01 = self._create_center()
+        agr = self._create_coverage_agreement(temp_01)
+        agr2 = self._create_coverage_agreement(temp_02)
+        agr.write({
+            'date_from': '2018-01-01',
+            'date_to': '2018-01-31',
+        })
+        agr2.write({'date_from': '2018-02-01'})
+        self._create_coverage_agreement_item(agr, self.product_1)
+        self._create_coverage_agreement_item(agr2, self.product_1)
+        agr.write({
+            'center_ids': [(4, cent_01.id)],
+            'coverage_template_ids': [(4, temp_02.id)],
+        })
+        with self.assertRaises(ValidationError):
+            agr.write({'date_to': '2018-02-01'})
 
     def test_change_prices(self):
         # case 1
