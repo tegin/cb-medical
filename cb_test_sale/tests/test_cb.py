@@ -7,7 +7,7 @@ from odoo.exceptions import ValidationError
 
 class TestCBSale(TestCB):
 
-    def atest_careplan_sale_fail(self):
+    def test_careplan_sale_fail(self):
         encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient_01.id,
             'center_id': self.center.id,
@@ -325,7 +325,7 @@ class TestCBSale(TestCB):
             invoice.recompute_lines_agents()
             self.assertGreater(invoice.commission_total, 0)
 
-    def atest_discount(self):
+    def test_discount(self):
         method = self.browse_ref(
             'cb_medical_careplan_sale.no_invoice')
         self.plan_definition2.third_party_bill = False
@@ -354,7 +354,7 @@ class TestCBSale(TestCB):
         self.assertEqual(sale_order.amount_total, 50)
         self.assertEqual(sale_order.order_line.discount, 50)
 
-    def atest_careplan_add_wizard(self):
+    def test_careplan_add_wizard(self):
         encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient_01.id,
             'center_id': self.center.id,
@@ -402,7 +402,7 @@ class TestCBSale(TestCB):
         cp_3 = careplan_wizard_3.run()
         self.assertNotEqual(cp_3, careplan)
 
-    def atest_cancel_encounter(self):
+    def test_cancel_encounter(self):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
         encounter, careplan, group = self.create_careplan_and_group(
