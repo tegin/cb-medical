@@ -54,6 +54,7 @@ class MedicalMedicationItem(models.Model):
             ).filtered(
                 lambda r: (
                     r.product_id == product
+                    and not r.location_type_id
                     and r.state in ['draft', 'active']
                 ))
         # We are adding the information on the first medication request that
