@@ -125,6 +125,31 @@ class MedicalCoverageAgreementItem(models.Model):
                 raise ValidationError(_(
                     'Product must be unique for an agreement'
                 ))
+            aggr = rec.coverage_agreement_id
+            domain = [
+                ('product_id', '=', rec.product_id.id),
+                ('coverage_agreement_id', '!=', aggr.id),
+                ('coverage_agreement_id.center_ids', 'in',
+                 aggr.center_ids.ids),
+                ('coverage_agreement_id.coverage_template_ids', 'in',
+                 aggr.coverage_template_ids.ids),
+                '|', ('coverage_agreement_id.date_to', '=', False),
+                ('coverage_agreement_id.date_to', '>=', aggr.date_from)
+            ]
+            if aggr.date_to:
+                domain += [
+                    ('coverage_agreement_id.date_from', '<=', aggr.date_to)
+                ]
+            if self.search(domain, limit=1):
+                raise ValidationError(_(
+                    "One of this actions cannot be completed:\n- If you are "
+                    "trying to add an agreement to a coverage template then "
+                    "this agreement can't be added as it contains one or more "
+                    "products that already exist in another agreement "
+                    "belonging to this Coverage Template.\n"
+                    "- If you are trying to add a new product to an Agreement "
+                    "that means there is a coverage template that "
+                    "already has this product in another Agreement."))
 
     def _copy_agreement_vals(self, agreement):
         return {

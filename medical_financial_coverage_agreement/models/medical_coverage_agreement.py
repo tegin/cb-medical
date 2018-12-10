@@ -87,6 +87,12 @@ class MedicalCoverageAgreement(models.Model):
         track_visibility='onchange',
     )
 
+    @api.constrains('date_to', 'date_from', 'coverage_template_ids',
+                    'center_ids')
+    def _check_product_unicity(self):
+        for rec in self:
+            rec.item_ids._check_product()
+
     @api.constrains('is_template', 'template_id', 'coverage_template_ids')
     def _check_template(self):
         for rec in self.filtered(lambda r: r.is_template):
