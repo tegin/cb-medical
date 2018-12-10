@@ -16,6 +16,8 @@
             <field name="performer_id" position="after">
                 <field name="coverage_amount"/>
                 <field name="private_amount"/>
+                <field name="is_sellable_private"/>
+                <field name="is_sellable_insurance"/>
             </field>
         </field>
     </record>
