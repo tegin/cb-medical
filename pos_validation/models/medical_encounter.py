@@ -84,7 +84,7 @@ class MedicalEncounter(models.Model):
             rec.missing_practitioner = bool(lines.mapped(
                 'procedure_ids'
             ).filtered(lambda r: (
-                r.service_id.medical_commission
+                r.procedure_service_id.medical_commission
                 and not r.performer_id
             )))
 
