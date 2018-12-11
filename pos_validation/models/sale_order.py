@@ -33,6 +33,10 @@ class SalerOrderLine(models.Model):
         related='order_id.coverage_template_id',
         readonly=True,
     )
+    subscriber_information = fields.Char(
+        readonly=True,
+        related='order_id.coverage_template_id.subscriber_information'
+    )
     payor_id = fields.Many2one(
         'res.partner',
         related='order_id.coverage_template_id.payor_id',
