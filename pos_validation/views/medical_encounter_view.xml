@@ -135,6 +135,7 @@
 
                                         <field name="subscriber_id"
                                                attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                        <field name="subscriber_information" nolabel="1"/>
                                         <field name="authorization_number"/>
                                         <button name="check_authorization_action"
                                                 type="object" icon="fa-cogs"
