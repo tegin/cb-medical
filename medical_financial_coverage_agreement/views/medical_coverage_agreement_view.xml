@@ -43,6 +43,14 @@
                                 attrs="{'invisible': [('is_template', '=', True)]}"
                                 string="Set template"/>
                         <button
+                                type="action"
+                                name="%(cb_medical_financial_coverage_agreement.medical_agreement_change_prices_action)s"
+                                class="oe_stat_button"
+                                icon="fa-percent"
+                                context="{'active_ids': [active_id]}"
+                                attrs="{'invisible': [('is_template', '=', True)]}"
+                                string="Apply percentage"/>
+                        <button
                                 type="object"
                                 name="action_search_item"
                                 class="oe_stat_button"
