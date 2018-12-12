@@ -16,6 +16,7 @@
         'medical_clinical_laboratory',
         'sequence_parser',
         'cb_medical_administration_center',
+        'sequence_safe',
     ],
     'data': [
         'data/config_parameter.xml',
