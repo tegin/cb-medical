@@ -8,9 +8,9 @@
 
 <odoo>
 
-    <record model="ir.ui.view" id="medical_agreement_change_prices_form">
-        <field name="name">medical.agreement.change.prices.form</field>
-        <field name="model">medical.agreement.change.prices</field>
+    <record model="ir.ui.view" id="medical_agreement_item_change_prices_form">
+        <field name="name">medical.agreement.item.change.prices.form</field>
+        <field name="model">medical.agreement.item.change.prices</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Change prices of this Agreement">
@@ -28,11 +28,12 @@
         </field>
     </record>
 
-    <act_window id="medical_agreement_change_prices_action"
+    <act_window id="medical_agreement_item_change_prices_action"
         name="Change prices"
         src_model="medical.coverage.agreement.item"
         res_model="medical.agreement.change.prices"
         view_mode="form"
-        target="new"/>
+        target="new"
+        key2="client_action_multi"/>
 
 </odoo>
