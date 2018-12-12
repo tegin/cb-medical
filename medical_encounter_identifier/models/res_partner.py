@@ -31,7 +31,8 @@ class ResPartner(models.Model):
             "padding": 5,
             "prefix": self._compute_encounter_prefix(prefix),
             "company_id": False,
-            "implementation": 'no_gap'
+            "implementation": 'no_gap',
+            "safe": True,
         }
         return vals
 
