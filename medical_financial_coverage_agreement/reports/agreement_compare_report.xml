@@ -27,7 +27,7 @@
                             <br/>
                             <p>
                                 <b>Template:</b>
-                                <span t-field="o.template_id.nameº"/>
+                                <span t-field="o.template_id.name"/>
                             </p>
                         </div>
                         <table class="table table-bordered mt32">
