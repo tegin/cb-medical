@@ -22,6 +22,19 @@
         </field>
     </record>
 
+    <record id="medical_coverage_agreement_tree_delete" model="ir.ui.view">
+        <field name="name">medical.coverage.agreement.form</field>
+        <field name="model">medical.coverage.agreement</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="medical_coverage_agreement_tree"/>
+        <field name="priority" eval="100"/>
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="delete">1</attribute>
+            </tree>
+        </field>
+    </record>
+
     <record id="medical_coverage_agreement_view" model="ir.ui.view">
         <field name="name">medical.coverage.agreement.form</field>
         <field name="model">medical.coverage.agreement</field>
@@ -86,8 +99,14 @@
                     <notebook>
                         <page name="templates" string="Coverage Templates" attrs="{'invisible': [('is_template','=', True)]}">
                             <group>
-                                <field name="coverage_template_ids" nolabel="1" options="{'no_create': True}"
-                                       context="{'tree_view_ref': 'cb_medical_financial_coverage_agreement.medical_coverage_template_view_tree_delete'}"/>
+                                <field name="coverage_template_ids" nolabel="1" options="{'no_create': True}">
+                                    <tree delete="1">
+                                        <field name="internal_identifier"/>
+                                        <field name="name"/>
+                                        <field name="payor_id"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
                             </group>
                         </page>
                     </notebook>
