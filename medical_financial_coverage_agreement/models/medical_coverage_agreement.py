@@ -153,6 +153,8 @@ class MedicalCoverageAgreement(models.Model):
             if not self.item_ids.filtered(
                 lambda r: r.product_id == item.product_id
             ):
-                self.env['medical.coverage.agreement.item'].create(
+                self.env['medical.coverage.agreement.item'].with_context(
+                    default_coverage_agreement_id=self.id,
+                ).create(
                     item._copy_agreement_vals(self)
                 )
