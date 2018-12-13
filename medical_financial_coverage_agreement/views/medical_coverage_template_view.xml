@@ -15,7 +15,15 @@
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page name="coverage_agreements" string="Agreements">
-                    <field name="agreement_ids" nolabel="1" options="{'no_create': True}"/>
+                    <field name="agreement_ids" nolabel="1" options="{'no_create': True}">
+                        <tree delete="1">
+                            <field name="internal_identifier"/>
+                            <field name="name"/>
+                            <field name="company_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </tree>
+                    </field>
                 </page>
             </notebook>
         </field>
