@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_medical_quote_user,access.medical.quote.user,model_medical_quote,group_medical_quote_display,1,0,0,0
+access_medical_quote_manager,access.medical.quote.manager,model_medical_quote,group_medical_quote_manager,0,1,1,0
+access_medical_quote_line_user,access.medical.quote.line.user,model_medical_quote_line,group_medical_quote_display,1,0,0,0
+access_medical_quote_line_manager,access.medical.quote.line.manager,model_medical_quote_line,group_medical_quote_manager,0,1,1,0
