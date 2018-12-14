@@ -41,6 +41,7 @@ class TestCBSale(TestCB):
                 'coverage_amount': 10,
                 'private_cost': 18,
                 'coverage_cost': 9,
+                'laboratory_code': '1234',
             })
             self.assertEqual(
                 event.id, lab_req.action_view_laboratory_events()['res_id'])
@@ -49,6 +50,7 @@ class TestCBSale(TestCB):
                 'is_sellable_insurance': False,
                 'is_sellable_private': False,
                 'private_amount': 20,
+                'laboratory_code': '12345',
                 'commission_agent_id': self.practitioner_01.id,
                 'coverage_amount': 10,
                 'private_cost': 18,
