@@ -13,6 +13,22 @@ class MedicalEncounter(models.Model):
             'cancelled': [('readonly', True)]
         },
     )
+    procurement_group_id = fields.Many2one(
+        'procurement.group',
+        readonly=True,
+    )
+    picking_ids = fields.One2many(
+        'stock.picking',
+        inverse_name='encounter_id',
+    )
+
+    def _get_procurement_group_values(self):
+        return {
+            'encounter_id': self.id,
+            'name': self.internal_identifier,
+            'move_type': 'one',
+            'partner_id': self.patient_id.partner_id.id,
+        }
 
     def _add_medication_vals(self, location, product, qty, is_phantom):
         return {
@@ -57,4 +73,11 @@ class MedicalEncounter(models.Model):
                     req.draft2active()
                 if req.state == 'active':
                     req.active2completed()
+        self.picking_ids.filtered(
+            lambda r: r.state == 'draft').action_confirm()
+        moves = self.picking_ids.mapped('move_lines').filtered(
+            lambda move: move.state not in ('draft', 'cancel', 'done'))
+        if moves:
+            moves._action_assign()
+        self.picking_ids.action_pack_operation_auto_fill()
         return super().onleave2finished()
