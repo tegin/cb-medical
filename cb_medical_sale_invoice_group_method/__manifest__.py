@@ -18,6 +18,7 @@
         'sale_order_action_invoice_create_hook',
     ],
     'data': [
+        'data/medical_invoice_group.xml',
         'data/medical_preinvoice_group_sequence.xml',
         'security/medical_security.xml',
         'security/ir.model.access.csv',

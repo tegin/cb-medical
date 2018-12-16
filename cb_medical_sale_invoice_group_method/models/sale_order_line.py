@@ -32,17 +32,11 @@ class SaleOrderLine(models.Model):
     @api.depends('qty_invoiced', 'qty_delivered', 'product_uom_qty',
                  'order_id.state', 'invoice_group_method_id')
     def _get_to_invoice_qty(self):
-        no_invoice = self.env.ref(
-            'cb_medical_careplan_sale.no_invoice')
-        no_invoice |= self.env.ref(
-            'cb_medical_careplan_sale.no_invoice_preinvoice')
-        preinvoicing = self.env.ref(
-            'cb_medical_careplan_sale.by_preinvoicing')
         for line in self:
-            if line.invoice_group_method_id in no_invoice:
+            if line.invoice_group_method_id.no_invoice:
                 line.qty_to_invoice = 0
             elif (
-                line.invoice_group_method_id == preinvoicing and
+                line.invoice_group_method_id.invoice_by_preinvoice and
                 not line.is_validated
             ):
                 line.qty_to_invoice = 0

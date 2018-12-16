@@ -131,11 +131,12 @@ class SalePreinvoiceGroup(models.Model):
     @api.multi
     def close(self):
         self.ensure_one()
-        group = self.env.ref(
-            'cb_medical_careplan_sale.by_preinvoicing')
         for line in self.non_validated_line_ids:
             line.preinvoice_group_id = False
-        if self.validated_line_ids and self.invoice_group_method_id == group:
+        if (
+            self.validated_line_ids and
+            not self.invoice_group_method_id.no_invoice
+        ):
             self.invoice_id = self.env['account.invoice'].search(
                 self.invoice_domain(), limit=1
             )
