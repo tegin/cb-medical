@@ -4,6 +4,7 @@
 
 from . import account_invoice
 from . import account_invoice_line
+from . import invoice_group_method
 from . import medical_coverage_agreement_item
 from . import sale_order
 from . import sale_order_line
