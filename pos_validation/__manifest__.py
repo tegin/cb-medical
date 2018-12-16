@@ -24,6 +24,7 @@
         'web_ir_actions_act_multi',
     ],
     'data': [
+        'data/medical_invoice_group.xml',
         'security/security.xml',
         'views/medical_encounter_view.xml',
         'views/administration_menu.xml',
