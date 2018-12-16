@@ -49,19 +49,15 @@ class MedicalEncounter(models.Model):
         'sale_order_ids.order_line.authorization_status',
     )
     def _compute_validation_values(self):
-        preinvoicing = self.env.ref(
-            'cb_medical_careplan_sale.by_preinvoicing')
-        by_patient = self.env.ref(
-            'cb_medical_careplan_sale.by_patient')
         for rec in self:
             lines = rec.sale_order_ids.filtered(
                 lambda r: r.coverage_agreement_id
             ).mapped('order_line')
             rec.has_preinvoicing = bool(lines.filtered(
-                lambda r: r.invoice_group_method_id == preinvoicing
+                lambda r: r.invoice_group_method_id.invoice_by_preinvoice
             ))
             rec.has_patient_invoice = bool(lines.filtered(
-                lambda r: r.invoice_group_method_id == by_patient
+                lambda r: r.invoice_group_method_id.invoice_at_validation
             ))
             rec.missing_subscriber_id = bool(lines.filtered(
                 lambda r:
@@ -152,13 +148,15 @@ class MedicalEncounter(models.Model):
         return self.close_view()
 
     def create_invoice(self, sale_order):
-        """Hook in order to add more functionality (automatic printing)"""
-        invoice = self.env['account.invoice'].browse(
-            sale_order.with_context(
-                invoice_group_method_id=self.env.ref(
-                    'cb_medical_careplan_sale.by_patient').id,
-                no_check_lines=True,
-            ).action_invoice_create())
-        if invoice:
+        """Hook in order to add more functionality"""
+        invoices = self.env['account.invoice']
+        for group in sale_order.order_line.mapped(
+            'invoice_group_method_id'
+        ).filtered(lambda r: r.invoice_at_validation):
+            invoice = self.env['account.invoice'].browse(
+                sale_order.with_context(
+                    invoice_group_method_id=group.id,
+                ).action_invoice_create())
             invoice.action_invoice_open()
-        return invoice
+            invoices |= invoice
+        return invoices
