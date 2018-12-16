@@ -114,7 +114,8 @@ class TestCB(SavepointCase):
             'is_medical': True,
             'is_location': True,
             'center_id': self.center.id,
-            'stock_location_id': self.browse_ref('stock.warehouse0').id,
+            'stock_location_id': self.browse_ref(
+                'stock.warehouse0').lot_stock_id.id,
             'stock_picking_type_id': self.env['stock.picking.type'].search(
                 [], limit=1).id
         })
