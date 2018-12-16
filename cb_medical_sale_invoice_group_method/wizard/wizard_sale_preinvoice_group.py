@@ -19,10 +19,9 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
     )
 
     def run(self):
-        groups = self.env.ref(
-            'cb_medical_careplan_sale.by_preinvoicing')
-        groups |= self.env.ref(
-            'cb_medical_careplan_sale.no_invoice_preinvoice')
+        groups = self.env['invoice.group.method'].search([
+            ('invoice_by_preinvoice', '=', True)
+        ])
         domain = [
             ('preinvoice_status', '=', 'to preinvoice'),
         ]

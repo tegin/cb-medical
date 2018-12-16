@@ -18,10 +18,6 @@ class SaleOrder(models.Model):
                  'order_line.invoice_group_method_id',
                  'order_line.preinvoice_group_id')
     def _compute_preinvoice_status(self):
-        preinvoicing = self.env.ref(
-            'cb_medical_careplan_sale.by_preinvoicing')
-        preinvoicing |= self.env.ref(
-            'cb_medical_careplan_sale.no_invoice_preinvoice')
         for order in self:
             if (
                 order.state not in ['draft', 'cancel']
@@ -29,7 +25,8 @@ class SaleOrder(models.Model):
                 if all(
                     line.preinvoice_group_id for line in
                     order.order_line.filtered(
-                        lambda r: r.invoice_group_method_id in preinvoicing)
+                        lambda r:
+                        r.invoice_group_method_id.invoice_by_preinvoice)
                 ):
                     order.preinvoice_status = 'preinvoiced'
                 else:
