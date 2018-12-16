@@ -1,4 +1,5 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class SettlementLine(models.Model):
@@ -19,3 +20,13 @@ class SettlementLine(models.Model):
                 record.agent_line.mapped('amount') +
                 record.agent_sale_line.mapped('amount')
             )
+
+    @api.constrains('settlement', 'agent_line', 'agent_sale_line')
+    def _check_company(self):
+        super(SettlementLine, self.filtered(
+            lambda r: r.agent_line))._check_company()
+        for rec in self.filtered(lambda r: r.agent_sale_line):
+            if rec.agent_sale_line.company_id != rec.company_id:
+                raise UserError(_(
+                    'Company must be the same'
+                ))
