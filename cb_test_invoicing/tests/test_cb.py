@@ -488,6 +488,9 @@ class TestCBSale(TestCB):
             encounter_aux = self.env['medical.encounter'].browse(
                 self.session.open_validation_encounter(
                     encounter.internal_identifier)['res_id'])
+            with self.assertRaises(ValidationError):
+                encounter_aux.admin_validate()
+            encounter.toggle_is_preinvoiced()
             encounter_aux.admin_validate()
             self.assertTrue(encounter.sale_order_ids.filtered(
                 lambda r:
