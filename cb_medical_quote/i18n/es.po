@@ -1,0 +1,481 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* cb_medical_quote
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-17 17:07+0000\n"
+"PO-Revision-Date: 2018-12-17 18:19+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 2.2\n"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "<span>Quotation # </span>"
+msgstr "<span>Presupuesto # </span>"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "<strong>Confirmation Date:</strong>"
+msgstr "<strong>Fecha de Confirmación:</strong>"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "<strong>Expiration Date:</strong>"
+msgstr "<strong>Fecha de caducidad:</strong>"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "<strong>Patient:</strong>"
+msgstr "<strong>Paciente:</strong>"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "<strong>Payor:</strong>"
+msgstr "<strong>Pagador:</strong>"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "<strong>Quotation Date:</strong>"
+msgstr "<strong>Fecha del presupuesto:</strong>"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "<strong>Salesperson:</strong>"
+msgstr "<strong>Comercial</strong>"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "<strong>Total</strong>"
+msgstr "<strong>Total</strong>"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_add_quantity
+msgid "Add Quantity"
+msgstr "Añadir Cantidad"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_form
+msgid "Add line"
+msgstr "Añadir línea"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_add_agreement_line_id
+msgid "Add service"
+msgstr "Añadir servicio"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_form
+msgid "Add terms and conditions here."
+msgstr "Añada cláusulas aquí."
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_agreement_ids
+msgid "Agreement"
+msgstr "Oferta"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_agreement_line_id
+msgid "Agreement Line"
+msgstr "Producto"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: cb_medical_quote
+#: selection:medical.quote,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_categ_id
+msgid "Category"
+msgstr "Categoría"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_center_id
+msgid "Center"
+msgstr "Centro"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_company_id
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_form
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_confirmation_date
+msgid "Confirmation Date"
+msgstr "Fecha de confirmación"
+
+#. module: cb_medical_quote
+#: selection:medical.quote,state:0
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_line_form
+msgid "Coverage"
+msgstr "Mútua"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_coverage_percentage
+msgid "Coverage %"
+msgstr "Cobertura %"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_coverage_amount
+msgid "Coverage Amount"
+msgstr "Importe Mútua"
+
+#. module: cb_medical_quote
+#: model:ir.actions.report,name:cb_medical_quote.action_report_medical_quote_coverage
+msgid "Coverage Quote"
+msgstr "Presupuesto de Mútua"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_coverage_template_id
+msgid "Coverage Template"
+msgstr "Cobertura"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_coverage_amount
+msgid "Coverage amount"
+msgstr "Importe Mútua"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_coverage_price
+msgid "Coverage price"
+msgstr "Precio Mútua"
+
+#. module: cb_medical_quote
+#: model:ir.actions.act_window,help:cb_medical_quote.action_quotes
+msgid "Create a Medical Quote"
+msgstr "Crear un Presupuesto"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_create_uid
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_create_date
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_currency_id
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_quote_date
+msgid "Date"
+msgstr "Fecha"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_display_name
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: cb_medical_quote
+#: selection:medical.quote,state:0
+msgid "Draft"
+msgstr "Draft"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_validity_date
+msgid "Expiry Date"
+msgstr "Fecha de Caducidad"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "Future Activities"
+msgstr "Actividades futuras"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_id
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote___last_update
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_write_uid
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_write_date
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "Late Activities"
+msgstr "Actividades tardías"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_form
+msgid "Mark as sent"
+msgstr "Marcar como enviado"
+
+#. module: cb_medical_quote
+#: model:ir.model,name:cb_medical_quote.model_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_quote_id
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_form
+msgid "Medical Quote"
+msgstr "Presupuesto"
+
+#. module: cb_medical_quote
+#: model:ir.model,name:cb_medical_quote.model_medical_quote_line
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_line_form
+msgid "Medical Quote Line"
+msgstr "Línea de Presupuesto"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_line_tree
+msgid "Medical Quote Lines"
+msgstr "Líneas de Presupuesto"
+
+#. module: cb_medical_quote
+#: model:ir.actions.act_window,name:cb_medical_quote.action_quotes
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_tree
+msgid "Medical Quotes"
+msgstr "Presupuestos"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_coverage_agreement_id
+msgid "Medical agreement"
+msgstr "Oferta"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "My Activities"
+msgstr "Mis actividades"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "My Quotes"
+msgstr "Mis Presupuestos"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: cb_medical_quote
+#: code:addons/cb_medical_quote/models/medical_quote.py:10
+#: code:addons/cb_medical_quote/models/medical_quote.py:252
+#: code:addons/cb_medical_quote/models/medical_quote.py:255
+#, python-format
+msgid "New"
+msgstr "Nuevo"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_form
+msgid "Other Information"
+msgstr "Otra información"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_patient_id
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "Patient"
+msgstr "Paciente"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_payor_id
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "Payor"
+msgstr "Mútua"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_plan_definition_id
+msgid "Plan definition"
+msgstr "Plan"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_line_form
+msgid "Private"
+msgstr "Privado"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_private_amount
+msgid "Private Amount"
+msgstr "Importe Privado"
+
+#. module: cb_medical_quote
+#: model:ir.actions.report,name:cb_medical_quote.action_report_medical_quote_private
+msgid "Private Quote"
+msgstr "Presupuesto Privado"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_private_amount
+msgid "Private amount"
+msgstr "Importe Privado"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_private_price
+msgid "Private price"
+msgstr "Precio Privado"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_product_tmpl_id
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_quantity
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: cb_medical_quote
+#: model:res.groups,name:cb_medical_quote.group_medical_quote_display
+msgid "Quote Display"
+msgstr "Mostrar Presupuesto"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_quote_line_ids
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_form
+msgid "Quote Lines"
+msgstr "Líneas de Presupuesto"
+
+#. module: cb_medical_quote
+#: model:res.groups,name:cb_medical_quote.group_medical_quote_manager
+msgid "Quote Manager"
+msgstr "Gestor de Presupuestos"
+
+#. module: cb_medical_quote
+#: model:ir.ui.menu,name:cb_medical_quote.menu_medical_quote
+msgid "Quotes"
+msgstr "Presupuestos"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_form
+msgid "Re-open"
+msgstr "Re-abrir"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_form
+msgid "Sales Information"
+msgstr "Información de ventas"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_user_id
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "Salesperson"
+msgstr "Comercial"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,help:cb_medical_quote.field_medical_quote_line_categ_id
+msgid "Select category for the current product"
+msgstr "Seleccione la categoría para el producto actual."
+
+#. module: cb_medical_quote
+#: selection:medical.quote,state:0
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_product_id
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "Service"
+msgstr "Servicio"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "Show all records which has next action date is before today"
+msgstr "Mostrar todos los registros que tienen la próxima fecha de acción antes de hoy"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_state
+msgid "Status"
+msgstr "Estado"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_template_id
+msgid "Template"
+msgstr "Plantilla"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_note
+msgid "Terms and conditions"
+msgstr "Términos y condiciones"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "Today Activities"
+msgstr "Actividades de Hoy"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_line_form
+msgid "Total"
+msgstr "Total"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_total_amount
+msgid "Total Amount"
+msgstr "Importe Total"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "Total Price"
+msgstr "Precio Total"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_total_amount
+msgid "Total amount"
+msgstr "Importe total"
+
+#. module: cb_medical_quote
+#: model:ir.model.fields,field_description:cb_medical_quote.field_medical_quote_line_total_price
+msgid "Total price"
+msgstr "Precio Total"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.report_medical_quote_document
+msgid "Unit Price"
+msgstr "Precio unitario"
+
+#. module: cb_medical_quote
+#: model:ir.ui.view,arch_db:cb_medical_quote.medical_quote_search
+msgid "Unread Messages"
+msgstr "Mensajes sin leer"
