@@ -88,26 +88,29 @@ class MedicalEncounter(models.Model):
     @api.multi
     def inprogress2onleave(self):
         if self.laboratory_request_ids.filtered(
-            lambda r: not r.laboratory_event_ids
+            lambda r: not r.laboratory_event_ids and r.state != 'cancelled'
         ):
             raise ValidationError(_(
                 'Laboratory requests are not fulfilled.'))
         self.create_sale_order()
         res = super().inprogress2onleave()
-        if not self.sale_order_ids.filtered(
-                lambda r: not r.coverage_agreement_id and not r.is_down_payment
-        ):
+        sos = self.sale_order_ids.filtered(
+            lambda r: not r.coverage_agreement_id and not r.is_down_payment
+        )
+        if not sos or all(so.amount_total == 0 for so in sos):
             self.onleave2finished()
         return res
 
     def finish_sale_order(self, sale_order):
-        if not self._context.get('journal_id', False):
-            raise ValidationError(_(
-                'Payment journal is necessary in order to finish sale orders'))
         if not self._context.get('pos_session_id', False):
             raise ValidationError(_(
                 'Payment journal is necessary in order to finish sale orders'))
         sale_order.action_confirm()
+        if sale_order.amount_total == 0:
+            return
+        if not self._context.get('journal_id', False):
+            raise ValidationError(_(
+                'Payment journal is necessary in order to finish sale orders'))
         journal_id = self._context.get('journal_id', False)
         pos_session_id = self._context.get('pos_session_id', False)
         cash_vals = {
@@ -150,7 +153,7 @@ class MedicalEncounter(models.Model):
 
     @api.multi
     def onleave2finished(self):
-        for res in self:
+        for res in self.filtered(lambda r: r.state == 'onleave'):
             sale_orders = res.sale_order_ids.filtered(
                 lambda r: not r.coverage_agreement_id and not r.is_down_payment
             )
