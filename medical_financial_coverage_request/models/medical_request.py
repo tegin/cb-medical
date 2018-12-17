@@ -63,15 +63,22 @@ class MedicalRequest(models.AbstractModel):
             'coverage_agreement_id': self.coverage_agreement_id.id,
         }
 
+    def _update_plan_parent_vals(self, plan, coverage_agreement_item_id):
+        return {
+            'plan_definition_id': plan.id,
+            'is_billable': plan.is_billable,
+            'is_breakdown': plan.is_breakdown,
+            'coverage_agreement_item_id': coverage_agreement_item_id.id,
+            'coverage_agreement_id': 
+                coverage_agreement_item_id.coverage_agreement_id.id,
+            'service_id': coverage_agreement_item_id.product_id.id,
+            'name': coverage_agreement_item_id.product_id.name,
+        }
+
     def update_plan_definition(self, plan, coverage_agreement_item_id):
-        self.plan_definition_id = plan
-        self.is_billable = plan.is_billable
-        self.is_breakdown = plan.is_breakdown
-        self.coverage_agreement_item_id = coverage_agreement_item_id
-        self.coverage_agreement_id = \
-            coverage_agreement_item_id.coverage_agreement_id
-        self.service_id = coverage_agreement_item_id.product_id
-        self.name = coverage_agreement_item_id.product_id.name
+        return self.write(
+            self._update_plan_parent_vals(plan, coverage_agreement_item_id)
+        )
 
     def check_plan_definition_change(self, plan):
         relations = {}
