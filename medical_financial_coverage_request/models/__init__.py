@@ -8,6 +8,7 @@ from . import medical_coverage
 from . import medical_coverage_agreement
 from . import medical_coverage_agreement_item
 from . import medical_coverage_template
+from . import medical_document_reference
 from . import medical_request
 from . import medical_request_group
 from . import res_partner
