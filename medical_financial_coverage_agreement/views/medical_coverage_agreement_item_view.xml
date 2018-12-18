@@ -92,6 +92,20 @@
         "/>
     </record>
 
+    <record id="medical_coverage_agreement_item_plan_action"
+            model="ir.actions.act_window">
+        <field name="name">Agreement Item</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.coverage.agreement.item</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('plan_definition_id', '=', active_id)]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('medical_coverage_agreement_item_view_coverage_tree')})
+             ]
+        "/>
+    </record>
+
     <record id="medical_coverage_agreement_item_action"
             model="ir.actions.act_window">
         <field name="name">Agreement Item</field>
