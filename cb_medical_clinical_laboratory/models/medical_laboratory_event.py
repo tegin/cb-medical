@@ -9,8 +9,7 @@ from odoo.exceptions import ValidationError
 class MedicalLaboratoryEvent(models.Model):
     _inherit = 'medical.laboratory.event'
 
-    delay = fields.Integer(
-        help='Number of days until it will be finished',
+    delay = fields.Date(
     )
     laboratory_code = fields.Char(
         required=True,
