@@ -47,49 +47,49 @@ class MedicalPractitionerCondition(models.Model):
                         'service and procedure service'
                     ))
 
-    def get_functions(self, procedure):
+    def get_functions(self, service, procedure_service, center):
         return [
             lambda r: (
-                r.service_id == procedure.service_id and
-                r.procedure_service_id == procedure.procedure_service_id and
-                procedure.procedure_request_id.center_id in r.center_ids
+                r.service_id == service and
+                r.procedure_service_id == procedure_service and
+                center in r.center_ids
             ),
             lambda r: (
-                r.service_id == procedure.service_id and
-                r.procedure_service_id == procedure.procedure_service_id and
+                r.service_id == service and
+                r.procedure_service_id == procedure_service and
                 not r.center_ids
             ),
             lambda r: (
-                r.service_id == procedure.service_id and
+                r.service_id == service and
                 not r.procedure_service_id and
-                procedure.procedure_request_id.center_id in r.center_ids
+                center in r.center_ids
             ),
             lambda r: (
-                r.service_id == procedure.service_id and
+                r.service_id == service and
                 not r.procedure_service_id and
                 not r.center_ids
             ),
             lambda r: (
                 not r.service_id and
-                r.procedure_service_id == procedure.procedure_service_id and
-                procedure.procedure_request_id.center_id in r.center_ids
+                r.procedure_service_id == procedure_service and
+                center in r.center_ids
             ),
             lambda r: (
                 not r.service_id and
-                r.procedure_service_id == procedure.procedure_service_id and
+                r.procedure_service_id == procedure_service and
                 not r.center_ids
             ),
             lambda r: (
                 not r.service_id and not r.procedure_service_id and
-                procedure.procedure_request_id.center_id in r.center_ids),
+                center in r.center_ids),
             lambda r: (
                 not r.service_id and not r.procedure_service_id and
                 not r.center_ids),
         ]
 
     @api.multi
-    def get_condition(self, procedure):
-        for function in self.get_functions(procedure):
+    def get_condition(self, service, procedure_service, center):
+        for function in self.get_functions(service, procedure_service, center):
             condition = self.filtered(function)
             if condition:
                 return condition[0]
