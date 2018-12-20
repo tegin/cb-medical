@@ -2,7 +2,8 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import models
+from odoo import models, _
+from odoo.exceptions import UserError
 
 
 class MedicalRequest(models.AbstractModel):
@@ -23,3 +24,30 @@ class MedicalRequest(models.AbstractModel):
                 lambda r: not r.is_private
             ).write(vals)
         return res
+
+    def cancel(self):
+        lines = self.mapped('sale_order_line_ids')
+        if any(
+            order.state != 'draft'
+            for order in lines.mapped('order_id')
+        ):
+            raise UserError(_('Cannot cancel validated lines'))
+        res = super().cancel()
+        lines.unlink()
+        return res
+
+    def cancel_values(self):
+        vals = super().cancel_values()
+        vals.update({
+            'sale_order_line_ids': [(5, )]
+        })
+        return vals
+
+    def _check_cancellable(self):
+        if (
+            all(order.state == 'draft' for order in self.mapped(
+                'sale_order_line_ids.order_id')) and
+            self.env.context.get('validation_cancel', False)
+        ):
+            return True
+        return super()._check_cancellable()
