@@ -9,7 +9,6 @@
     'depends': [
         'cb_medical_careplan_sale',
         'mrp',
-        'pos_validation',
         'cb_medical_block_request',
         'stock_pack_operation_auto_fill',
     ],
