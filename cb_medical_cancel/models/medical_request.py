@@ -27,13 +27,15 @@ class MedicalRequest(models.AbstractModel):
         })
         return vals
 
+    def _check_cancellable(self):
+        return not self.filtered(lambda r: r.state in [
+            'completed', 'entered-in-error', 'cancelled'])
+
     @api.multi
     def check_cancellable(self):
-        if self.filtered(
-            lambda r: r.state in ['completed', 'entered-in-error', 'cancelled']
-        ):
-            return False
         result = True
+        if not self._check_cancellable():
+            return False
         models = [self.env[model] for model in self._get_request_models()]
         fieldname = self._get_parent_field_name()
         for model in models:
