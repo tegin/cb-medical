@@ -69,7 +69,7 @@ class MedicalRequest(models.AbstractModel):
             'is_billable': plan.is_billable,
             'is_breakdown': plan.is_breakdown,
             'coverage_agreement_item_id': coverage_agreement_item_id.id,
-            'coverage_agreement_id': 
+            'coverage_agreement_id':
                 coverage_agreement_item_id.coverage_agreement_id.id,
             'service_id': coverage_agreement_item_id.product_id.id,
             'name': coverage_agreement_item_id.product_id.name,
