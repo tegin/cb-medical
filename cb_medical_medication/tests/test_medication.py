@@ -18,14 +18,6 @@ class TestMedication(TransactionCase):
             'categ_id': self.category.id,
         })
 
-    def test_constrains(self):
-        self.env['product.category'].create({
-            'name': 'Categ',
-            'category_product_id': self.service.id,
-        })
-        with self.assertRaises(ValidationError):
-            self.category.category_product_id = self.service.id
-
     def test_constrains_service(self):
         with self.assertRaises(ValidationError):
             self.env['product.category'].create({
