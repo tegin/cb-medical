@@ -7,3 +7,4 @@ from . import medical_encounter
 from . import medical_request
 from . import pos_session
 from . import sale_order
+from . import medical_laboratory_request
