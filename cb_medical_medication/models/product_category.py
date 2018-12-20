@@ -20,10 +20,3 @@ class ProductCategory(models.Model):
             if rec.category_product_id.type != 'service':
                 raise ValidationError(_(
                     'Category product must be always a service'))
-            if self.search([
-                ('category_product_id', '=', rec.category_product_id.id),
-            ]) != rec:
-                raise ValidationError(_(
-                    'The category product can only be the product of a single '
-                    'category'
-                ))
