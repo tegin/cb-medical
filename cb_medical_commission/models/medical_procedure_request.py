@@ -39,6 +39,16 @@ class MedicalProcedureRequest(models.Model):
             'variable_fee': self.variable_fee,
             'fixed_fee': self.fixed_fee,
         })
+        conditions = self.performer_id.practitioner_condition_ids
+        practitioner_condition_id = conditions.get_condition(
+            self.request_group_id.service_id,
+            self.service_id,
+            self.center_id
+        )
+        if practitioner_condition_id:
+            res.update({
+                'practitioner_condition_id': practitioner_condition_id.id
+            })
         return res
 
     def generate_event(self, *args, **kwargs):
