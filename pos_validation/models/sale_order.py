@@ -1,4 +1,5 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class SalerOrderLine(models.Model):
@@ -87,3 +88,48 @@ class SalerOrderLine(models.Model):
             group = self.laboratory_event_id.laboratory_request_id.\
                 request_group_id
         return group.check_authorization_action()
+
+    @api.multi
+    def medical_cancel(self, cancel_reason):
+        if not self.env.user.has_group(
+            'pos_validation.group_medical_encounter_validation'
+        ):
+            raise UserError(_(
+                'This can only be executed if you can validate encounters'
+            ))
+        for rec in self:
+            if rec.order_id.state != 'draft':
+                raise UserError(_(
+                    'Only on draft orders you can cancel an element'))
+            request = False
+            for element in [
+                rec.request_group_id, rec.procedure_request_id,
+                rec.medication_request_id, rec.document_reference_id,
+                rec.laboratory_request_id, rec.laboratory_event_id
+            ]:
+                if element:
+                    request = element
+                    break
+            if not request:
+                raise UserError(_('This is not a medical line'))
+            request.with_context(
+                cancel_reason_id=cancel_reason.id,
+                cancel_reason=cancel_reason.name,
+                validation_cancel=True,
+            ).cancel()
+
+    @api.multi
+    def change_plan(self, service):
+        self.ensure_one()
+        if self.order_id.state != 'draft':
+            raise UserError(_(
+                'Change of plan can only be applied to draft orders'))
+        request = self.request_group_id
+        if not request:
+            raise UserError(_(
+                'Change of plan can only be applied to request groups'))
+        request.with_context(
+            validation_change=True,
+        ).change_plan_definition(
+            self.env['medical.coverage.agreement.item'].get_item(
+                service, request.coverage_template_id))
