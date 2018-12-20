@@ -87,8 +87,7 @@
             <field name="pos_session_id" position="after">
                 <field name="validation_status"/>
             </field>
-            <group name="location_id" position="after">
-                <notebook>
+            <notebook position="inside">
                     <sheet name="sale_order" string="Sale Orders">
                         <field name="sale_order_line_ids">
                             <tree create="false" delete="false"
@@ -119,6 +118,10 @@
                                 <field name="authorization_status"/>
                                 <field name="state" invisible="1"/>
                                 <field name="agents"/>
+                                <button name="%(pos_validation.sale_order_line_cancel_act_window)s"
+                                       groups="pos_validation.group_medical_encounter_validation"
+                                       type="action" icon="fa-times-circle"
+                                />
                             </tree>
                             <form>
                                 <sheet>
@@ -173,7 +176,6 @@
                         </field>
                     </sheet>
                 </notebook>
-            </group>
         </field>
     </record>
 </odoo>
