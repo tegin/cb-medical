@@ -61,8 +61,12 @@ class MedicalProcedure(models.Model):
                   'procedure_service_id')
     def _onchange_check_condition(self):
         for rec in self:
-            rec.practitioner_condition_id = rec.performer_id.\
-                practitioner_condition_ids.get_condition(rec)
+            conditions = rec.performer_id.practitioner_condition_ids
+            rec.practitioner_condition_id = conditions.get_condition(
+                rec.service_id,
+                rec.procedure_service_id,
+                rec.procedure_request_id.center_id
+            )
 
     @api.depends('procedure_request_id.variable_fee',
                  'procedure_request_id.fixed_fee', 'practitioner_condition_id')
