@@ -24,6 +24,7 @@
         'web_flagbox',
         'web_ir_actions_act_multi',
         'cb_medical_clinical_laboratory',
+        'cb_medical_medication',
     ],
     'data': [
         'wizards/medical_encounter_validation_add_service.xml',
