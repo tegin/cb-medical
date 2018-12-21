@@ -12,7 +12,7 @@
         <field name="name">medical.encounter.view.form</field>
         <field name="model">medical.encounter</field>
         <field name="inherit_id"
-               ref="medical_administration_encounter.medical_encounter_view_form"/>
+               ref="cb_medical_medication.medical_encounter_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="before">
                 <flagbox
@@ -70,6 +70,13 @@
                 </flagbox>
             </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="%(pos_validation.medical_encounter_validation_add_service_act_window)s"
+                        type="action"
+                        string="Add Service"
+                        icon="fa-plus-circle"
+                        group="pos_validation.group_medical_encounter_validation"
+                        attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                        />
                 <field name="validation_status" invisible="1"/>
                 <button name="admin_validate"
                         type="object"
@@ -87,8 +94,10 @@
             <field name="pos_session_id" position="after">
                 <field name="validation_status"/>
             </field>
-            <notebook position="inside">
-                    <sheet name="sale_order" string="Sale Orders">
+            <page name="medication" position="before">
+                    <page name="sale_order" string="Sale Orders"
+                           group="pos_validation.group_medical_encounter_validation"
+                           attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}">
                         <field name="sale_order_line_ids">
                             <tree create="false" delete="false"
                                   decoration-muted="is_private==True"
@@ -119,8 +128,9 @@
                                 <field name="state" invisible="1"/>
                                 <field name="agents"/>
                                 <button name="%(pos_validation.sale_order_line_cancel_act_window)s"
-                                       groups="pos_validation.group_medical_encounter_validation"
-                                       type="action" icon="fa-times-circle"
+                                        groups="pos_validation.group_medical_encounter_validation"
+                                        type="action" icon="fa-times-circle"
+                                        attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
                                 />
                             </tree>
                             <form>
@@ -174,8 +184,8 @@
                                 </sheet>
                             </form>
                         </field>
-                    </sheet>
-                </notebook>
+                    </page>
+                </page>
         </field>
     </record>
 </odoo>
