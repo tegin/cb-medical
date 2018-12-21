@@ -96,10 +96,7 @@ class MedicalEncounter(models.Model):
                     request.get_sale_order_line_vals(is_ins))
         return values
 
-    @api.multi
-    def create_sale_order(self):
-        self.ensure_one()
-        values = self.get_sale_order_lines()
+    def generate_sale_orders(self, values):
         for key in values.keys():
             for partner in values[key]:
                 for cov in values[key][partner]:
@@ -112,6 +109,12 @@ class MedicalEncounter(models.Model):
                             values[key][partner][cov][
                                 third_party_partner]
                         )
+
+    @api.multi
+    def create_sale_order(self):
+        self.ensure_one()
+        values = self.get_sale_order_lines()
+        self.generate_sale_orders(values)
         return self.action_view_sale_order()
 
     @api.multi
