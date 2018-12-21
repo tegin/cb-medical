@@ -26,6 +26,7 @@
         'cb_medical_clinical_laboratory',
     ],
     'data': [
+        'wizards/medical_encounter_validation_add_service.xml',
         'wizards/sale_order_line_cancel.xml',
         'data/medical_invoice_group.xml',
         'security/security.xml',
