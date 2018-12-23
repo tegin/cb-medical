@@ -79,12 +79,12 @@ class SaleOrderLine(models.Model):
             res['encounter_id'] = self.encounter_id.id
             res['authorization_number'] = self.authorization_number
             if (
-                self.sale_order_id.coverage_agreement_id and
-                self.sale_order_id.coverage_agreement_id.file_reference
+                self.order_id.coverage_agreement_id and
+                self.order_id.coverage_agreement_id.file_reference
             ):
                 res[
                     'file_reference'
-                ] = self.sale_order_id.coverage_agreement_id.file_reference
+                ] = self.order_id.coverage_agreement_id.file_reference
         if self.coverage_template_id:
             nomenc = self.coverage_template_id.payor_id.invoice_nomenclature_id
             if nomenc:
