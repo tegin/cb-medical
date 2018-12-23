@@ -15,6 +15,10 @@ class SalerOrderLine(models.Model):
         compute='_compute_pos_session',
         readonly=1,
     )
+    validation_status = fields.Selection(
+        related='encounter_id.validation_status',
+        readonly=True
+    )
     coverage_agreement_id = fields.Many2one(
         'medical.coverage.agreement',
         related='order_id.coverage_agreement_id',
