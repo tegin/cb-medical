@@ -4,6 +4,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from . import account_invoice
+from . import medical_coverage_agreement
 from . import medical_encounter
 from . import medical_request
 from . import res_partner
