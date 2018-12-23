@@ -91,7 +91,7 @@
                         string="Close"
                 />
             </xpath>
-            <field name="pos_session_id" position="after">
+            <field name="location_id" position="after">
                 <field name="validation_status"/>
             </field>
             <page name="medication" position="before">
