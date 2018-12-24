@@ -12,38 +12,62 @@
         <t t-set="company" t-value="docs.env.user.company_id"/>
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
-		    <div class="page">
-			    <t t-foreach="docs" t-as="o">
-				    <div class="row">
-					<div class="col-xs-2"><span>Partner</span></div>
-					<div class="col-xs-4"><span t-field="o.partner_id.name"/></div>
-					<div class="col-xs-2"><span>Company</span></div>
-					<div class="col-xs-4"><span t-field="o.company_id.name"/></div>
-					<div class="col-xs-2"><span>Coverage Template</span></div>
-					<div class="col-xs-4"><span t-field="o.coverage_template_id.name"/></div>
-				    </div>
-                    <table class="table table-condensed"
-                           name="invoice_line_table">
-                    <thead>
-                        <th>Code</th>
-                        <th>Patient</th>
-                        <th>Service</th>
-                        <th>Authorization</th>
-                        <th>Subscriber</th>
-                        <th class="text-right">Amount</th>
-                    </thead>
-                    <tbody class="invoice_tbody">
-                        <tr t-foreach="o.validated_line_ids" t-as="l">
-                            <td><span t-field="l.encounter_id.internal_identifier"/></td>
-                            <td><span t-field="l.patient_name"/></td>
-                            <td><span t-field="l.name"/></td>
-                            <td><span t-field="l.authorization_number"/></td>
-                            <td><span t-field="l.subscriber_id"/></td>
-                            <td class="text-right"><span t-field="l.price_total"/></td>
-                        </tr>
-                    </tbody>
-	    </table>
-    </t>
+                <div class="page">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <span>Partner</span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span t-field="o.partner_id.name"/>
+                            </div>
+                            <div class="col-xs-2">
+                                <span>Company</span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span t-field="o.company_id.name"/>
+                            </div>
+                            <div class="col-xs-2">
+                                <span>Coverage Template</span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span t-field="o.coverage_template_id.name"/>
+                            </div>
+                        </div>
+                        <table class="table table-condensed"
+                               name="invoice_line_table">
+                            <thead>
+                                <th>Code</th>
+                                <th>Patient</th>
+                                <th>Service</th>
+                                <th>Authorization</th>
+                                <th>Subscriber</th>
+                                <th class="text-right">Amount</th>
+                            </thead>
+                            <tbody class="invoice_tbody">
+                                <tr t-foreach="o.validated_line_ids" t-as="l">
+                                    <td>
+                                        <span t-field="l.encounter_id.internal_identifier"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="l.patient_name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="l.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="l.authorization_number"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="l.subscriber_id"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="l.price_total"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
                 </div>
             </t>
         </t>
