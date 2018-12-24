@@ -11,12 +11,13 @@
     <record id="workflow_plan_definition_action_form" model="ir.ui.view">
         <field name="name">workflow.plan.definition.action.view.form</field>
         <field name="model">workflow.plan.definition.action</field>
-        <field name="inherit_id" ref="medical_workflow.workflow_plan_definition_action_form"/>
+        <field name="inherit_id"
+               ref="medical_workflow.workflow_plan_definition_action_form"/>
         <field name="arch" type="xml">
             <field name="activity_definition_id" position="after">
-		    <field name="laboratory_service_ids" widget="many2many_tags"
-			    attrs="{'invisible': [('model_id', '!=', %(medical_clinical_laboratory.model_medical_laboratory_request)s)]}"/>
-		    <field name="model_id" invisible="1"/>
+                <field name="laboratory_service_ids" widget="many2many_tags"
+                       attrs="{'invisible': [('model_id', '!=', %(medical_clinical_laboratory.model_medical_laboratory_request)s)]}"/>
+                <field name="model_id" invisible="1"/>
             </field>
         </field>
     </record>
