@@ -14,9 +14,9 @@
         <field name="arch" type="xml">
             <tree string="Non validated sale order lines">
                 <button type="object"
-                    name="validate_line"
-                    icon="fa-check-square"
-                    attrs="{'invisible': ['|', ('is_validated', '=', True)]}"/>
+                        name="validate_line"
+                        icon="fa-check-square"
+                        attrs="{'invisible': ['|', ('is_validated', '=', True)]}"/>
                 <field name="sequence"/>
                 <field name="encounter_id"/>
                 <field name="patient_name"/>
@@ -30,7 +30,8 @@
                 <field name="qty_delivered"/>
                 <field name="qty_invoiced"/>
                 <field name="qty_to_invoice"/>
-                <field name="product_uom" string="Unit of Measure" groups="product.group_uom"/>
+                <field name="product_uom" string="Unit of Measure"
+                       groups="product.group_uom"/>
                 <field name="price_subtotal" sum="Total" widget="monetary"/>
             </tree>
         </field>
