@@ -24,6 +24,7 @@
         'views/res_partner_views.xml',
         'views/sale_order_views.xml',
         'views/medical_coverage_agreement_view.xml',
+        'views/medical_encounter_views.xml',
     ],
     "installable": True,
     "application": False,
