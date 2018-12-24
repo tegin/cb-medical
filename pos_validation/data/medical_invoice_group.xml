@@ -9,8 +9,9 @@
 <odoo>
     <data noupdate="0">
 
-        <record model="invoice.group.method" id="cb_medical_careplan_sale.by_patient" forcecreate="True">
-		<field name="invoice_at_validation" eval="True"/>
+        <record model="invoice.group.method"
+                id="cb_medical_careplan_sale.by_patient" forcecreate="True">
+            <field name="invoice_at_validation" eval="True"/>
         </record>
 
     </data>
