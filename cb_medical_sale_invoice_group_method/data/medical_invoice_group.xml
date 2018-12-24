@@ -8,15 +8,18 @@
 
 <odoo>
 
-        <record model="invoice.group.method" id="cb_medical_careplan_sale.by_preinvoicing">
-		<field name="invoice_by_preinvoice" eval="True"/>
-        </record>
-        <record model="invoice.group.method" id="cb_medical_careplan_sale.no_invoice">
-		<field name="no_invoice" eval="True"/>
-        </record>
-        <record model="invoice.group.method" id="cb_medical_careplan_sale.no_invoice_preinvoice">
-		<field name="no_invoice" eval="True"/>
-		<field name="invoice_by_preinvoice" eval="True"/>
-        </record>
+    <record model="invoice.group.method"
+            id="cb_medical_careplan_sale.by_preinvoicing">
+        <field name="invoice_by_preinvoice" eval="True"/>
+    </record>
+    <record model="invoice.group.method"
+            id="cb_medical_careplan_sale.no_invoice">
+        <field name="no_invoice" eval="True"/>
+    </record>
+    <record model="invoice.group.method"
+            id="cb_medical_careplan_sale.no_invoice_preinvoice">
+        <field name="no_invoice" eval="True"/>
+        <field name="invoice_by_preinvoice" eval="True"/>
+    </record>
 
 </odoo>
