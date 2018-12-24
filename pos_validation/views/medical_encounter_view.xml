@@ -55,7 +55,7 @@
                           help="Missing practitioner"
                           decoration-danger="missing_practitioner"
                           decoration-light="not missing_practitioner"
-                          />
+                    />
                     <emptyflag/>
                     <flag icon="fa-user" help="Patient invoice"
                           decoration-light="not has_patient_invoice"
@@ -76,7 +76,7 @@
                         icon="fa-plus-circle"
                         group="pos_validation.group_medical_encounter_validation"
                         attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
-                        />
+                />
                 <field name="validation_status" invisible="1"/>
                 <button name="admin_validate"
                         type="object"
@@ -95,98 +95,101 @@
                 <field name="validation_status"/>
             </field>
             <page name="medication" position="before">
-                    <page name="sale_order" string="Sale Orders"
-                           group="pos_validation.group_medical_encounter_validation"
-                           attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}">
-                        <field name="sale_order_line_ids">
-                            <tree create="false" delete="false"
-                                  decoration-muted="is_private==True"
-                                  decoration-warnging="is_private == False and authorization_status != 'authorized'"
-                            >
-                                <field name="is_private" widget="toggle_button"
-                                       readonly="True"/>
-                                <field name="payor_id"/>
-                                <field name="order_partner_id"/>
-                                <field name="coverage_template_id"/>
-                                <field name="patient_name"
-                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="product_id" readonly="True"/>
-                                <field name="product_uom_qty"
-                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="price_unit"
-                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="price_total" readonly="1"
-                                       sum="Total"/>
-                                <field name="subscriber_id"
-                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="authorization_number"/>
-                                <button name="check_authorization_action"
-                                        type="object" icon="fa-cogs"
-                                        attrs="{'invisible': [('is_private', '=', True)]}"
-                                />
-                                <field name="authorization_status"/>
-                                <field name="state" invisible="1"/>
-				<field name="agents"/>
-				<field name="validation_status" invisible="1"/>
-                                <button name="%(pos_validation.sale_order_line_cancel_act_window)s"
-                                        groups="pos_validation.group_medical_encounter_validation"
-                                        type="action" icon="fa-times-circle"
-                                        attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
-                                />
-                            </tree>
-                            <form>
-                                <sheet>
-                                    <group>
-                                        <field name="product_id"
-                                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                        <field name="product_uom_qty"
-                                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                        <field name="medical_sale_discount_id"/>
-                                        <field name="price_unit"
-                                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                        <field name="price_total" readonly="1"
-                                               sum="Total"/>
+                <page name="sale_order" string="Sale Orders"
+                      group="pos_validation.group_medical_encounter_validation"
+                      attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}">
+                    <field name="sale_order_line_ids">
+                        <tree create="false" delete="false"
+                              decoration-muted="is_private==True"
+                              decoration-warnging="is_private == False and authorization_status != 'authorized'"
+                        >
+                            <field name="is_private" widget="toggle_button"
+                                   readonly="True"/>
+                            <field name="payor_id"/>
+                            <field name="order_partner_id"/>
+                            <field name="coverage_template_id"/>
+                            <field name="patient_name"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="product_id" readonly="True"/>
+                            <field name="product_uom_qty"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="price_unit"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="price_total" readonly="1"
+                                   sum="Total"/>
+                            <field name="subscriber_id"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="authorization_number"/>
+                            <button name="check_authorization_action"
+                                    type="object" icon="fa-cogs"
+                                    attrs="{'invisible': [('is_private', '=', True)]}"
+                            />
+                            <field name="authorization_status"/>
+                            <field name="state" invisible="1"/>
+                            <field name="agents"/>
+                            <field name="validation_status" invisible="1"/>
+                            <button name="%(pos_validation.sale_order_line_cancel_act_window)s"
+                                    groups="pos_validation.group_medical_encounter_validation"
+                                    type="action" icon="fa-times-circle"
+                                    attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                            />
+                        </tree>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="product_id"
+                                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="product_uom_qty"
+                                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="medical_sale_discount_id"/>
+                                    <field name="price_unit"
+                                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="price_total" readonly="1"
+                                           sum="Total"/>
 
-                                        <field name="subscriber_id"
-                                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                        <field name="subscriber_information" nolabel="1"/>
-                                        <field name="authorization_number"/>
-                                        <button name="check_authorization_action"
-                                                type="object" icon="fa-cogs"
-                                                attrs="{'invisible': ['|', ('is_private', '=', True), ('state', '!=', 'draft')]}"
-                                        />
-                                        <field name="authorization_status"/>
-                                        <field name="state" invisible="1"/>
-                                        <field name="is_private"
-                                               invisible="1"/>
-                                    </group>
-                                    <notebook>
-                                        <page name="procedure" string="Procedures">
-                                            <field name="procedure_ids">
-                                                <tree create="0">
-                                                    <field name="procedure_service_id"/>
-                                                    <field name="performer_id"/>
-                                                    <field name="variable_fee" readonly="1"/>
-                                                    <field name="fixed_fee" readonly="1"/>
-                                                    <field name="commission_agent_id"/>
-                                                </tree>
-                                            </field>
-                                        </page>
-                                        <page name="agent" string="Commissions">
-                                            <field name="agents">
-                                                <tree>
-                                                    <field name="agent"/>
-                                                    <field name="procedure_id"/>
-                                                    <field name="amount"/>
-                                                </tree>
-                                            </field>
-                                        </page>
-                                    </notebook>
-                                </sheet>
-                            </form>
-                        </field>
-                    </page>
+                                    <field name="subscriber_id"
+                                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="subscriber_information"
+                                           nolabel="1"/>
+                                    <field name="authorization_number"/>
+                                    <button name="check_authorization_action"
+                                            type="object" icon="fa-cogs"
+                                            attrs="{'invisible': ['|', ('is_private', '=', True), ('state', '!=', 'draft')]}"
+                                    />
+                                    <field name="authorization_status"/>
+                                    <field name="state" invisible="1"/>
+                                    <field name="is_private"
+                                           invisible="1"/>
+                                </group>
+                                <notebook>
+                                    <page name="procedure" string="Procedures">
+                                        <field name="procedure_ids">
+                                            <tree create="0">
+                                                <field name="procedure_service_id"/>
+                                                <field name="performer_id"/>
+                                                <field name="variable_fee"
+                                                       readonly="1"/>
+                                                <field name="fixed_fee"
+                                                       readonly="1"/>
+                                                <field name="commission_agent_id"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                    <page name="agent" string="Commissions">
+                                        <field name="agents">
+                                            <tree>
+                                                <field name="agent"/>
+                                                <field name="procedure_id"/>
+                                                <field name="amount"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                </notebook>
+                            </sheet>
+                        </form>
+                    </field>
                 </page>
+            </page>
         </field>
     </record>
 </odoo>
