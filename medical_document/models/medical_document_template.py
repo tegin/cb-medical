@@ -37,7 +37,7 @@ class MedicalDocumentTemplate(models.Model):
     def render_template(self, model, res_ids, post_process=False):
         if self.document_type == 'action':
             if not self.lang_ids:
-                raise UserError('No documents can be found')
+                raise UserError(_('No documents can be found'))
             lang = self.env.context.get('render_language', self.env.lang)
             lang_id = self.lang_ids.filtered(lambda r: r.lang == lang)
             if not lang_id:
