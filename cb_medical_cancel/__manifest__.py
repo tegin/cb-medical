@@ -16,6 +16,7 @@
         'security/ir.model.access.csv',
         'wizard/medical_request_cancel_views.xml',
         'wizard/medical_careplan_cancel_views.xml',
+        'wizard/medical_laboratory_request_cancel_views.xml',
         'wizard/medical_procedure_request_cancel_views.xml',
         'wizard/medical_request_group_cancel_views.xml',
         'wizard/medical_encounter_cancel_views.xml',
