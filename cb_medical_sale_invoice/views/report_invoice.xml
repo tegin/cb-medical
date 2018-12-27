@@ -16,5 +16,12 @@
             <td t-if="o.is_medical and o.show_subscriber"/>
             <td t-if="o.is_medical and o.show_authorization"/>
         </xpath>
+        <!-- hide fields -->
+        <xpath expr="//div[@t-if='o.origin']" position="attributes">
+            <attribute name="t-if">1==0</attribute>
+        </xpath>
+        <xpath expr="//div[@t-if='o.partner_id.ref']" position="attributes">
+            <attribute name="t-if">1==0</attribute>
+        </xpath>
     </template>
 </odoo>
