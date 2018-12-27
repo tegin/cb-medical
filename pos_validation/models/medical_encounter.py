@@ -140,6 +140,13 @@ class MedicalEncounter(models.Model):
             ).action_confirm()
             # We assume that private SO are already confirmed
             self.create_invoice(sale_order)
+        # Third party orders should be confirmed
+        for sale_order in self.sale_order_ids.filtered(
+            lambda r: r.third_party_order
+        ).mapped('third_party_order_ids'):
+            sale_order.with_context(
+                no_third_party_number=True
+            ).action_confirm()
         self.write(self._admin_validation_values())
         if not self.pos_session_id.encounter_ids.filtered(
             lambda r: r.validation_status not in 'finished'
