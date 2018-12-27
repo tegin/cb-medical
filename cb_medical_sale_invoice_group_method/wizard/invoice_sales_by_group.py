@@ -40,10 +40,9 @@ class InvoiceSalesByGroup(models.TransientModel):
         invoices = sales.with_context(
             customers=self.customer_ids.ids,
             companies=self.company_ids.ids,
-            invoice_group_method_id=self.invoice_group_method_id.id,
             no_check_lines=True,
             merge_draft_invoice=True
-        ).action_invoice_create()
+        ).action_invoice_by_group_create(self.invoice_group_method_id)
         # view
         action = self.env.ref('account.action_invoice_tree1')
         result = action.read()[0]

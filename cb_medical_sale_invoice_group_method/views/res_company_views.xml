@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id"
+               ref="sale_third_party.view_company_form"/>
+        <field name="arch" type="xml">
+
+            <field name="third_party_journal_id" position="after">
+                <field name="third_party_sale_journal_id"
+                       domain="[('company_id', '=', active_id), ('type', '=', 'sale')]"
+                       context="{'default_company_id': active_id}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
