@@ -17,21 +17,31 @@
 if line._name == 'sale.order.line':
     procedures = self.procedure_id
     events = self.laboratory_event_id
+    requests = self.laboratory_request_id
     if procedures:
         variable_fee = sum(procedures.mapped('variable_fee'))
         fixed_fee = sum(procedures.mapped('fixed_fee'))
         result += (variable_fee/100 * line.price_subtotal) + fixed_fee
     if events:
         result += sum(events.mapped('coverage_cost' if line.order_id.coverage_agreement_id else 'private_cost'))
+    if requests:
+        variable_fee = sum(requests.mapped('variable_fee'))
+        fixed_fee = sum(requests.mapped('fixed_fee'))
+        result += (variable_fee/100 * line.price_subtotal) + fixed_fee
 if line._name == 'account.invoice.line':
     procedures = self.procedure_id
     events = self.laboratory_event_id
+    requests = self.laboratory_request_id
     if procedures:
         variable_fee = sum(procedures.mapped('variable_fee'))
         fixed_fee = sum(procedures.mapped('fixed_fee'))
         result += (variable_fee/100 * line.price_subtotal) + fixed_fee
     if events:
         result += sum(events.mapped('coverage_cost' if line.sale_line_ids.order_id.coverage_agreement_id else 'private_cost'))
+    if requests:
+        variable_fee = sum(requests.mapped('variable_fee'))
+        fixed_fee = sum(requests.mapped('fixed_fee'))
+        result += (variable_fee/100 * line.price_subtotal) + fixed_fee
             </field>
         </record>
 
