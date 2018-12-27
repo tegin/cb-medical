@@ -15,6 +15,7 @@
         <field name="arch" type="xml">
             <field name="principal_concept" position="after">
                 <field name="file_reference"/>
+                <field name="discount"/>
             </field>
         </field>
     </record>
