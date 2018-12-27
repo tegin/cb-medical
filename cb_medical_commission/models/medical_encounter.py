@@ -24,6 +24,8 @@ class MedicalEncounter(models.AbstractModel):
         for pr in self.careplan_ids.mapped('procedure_request_ids'):
             for procedure in pr.procedure_ids:
                 procedure.compute_commission(pr)
+        for request in self.laboratory_request_ids:
+            request.compute_commission(request)
         for event in self.laboratory_request_ids.mapped(
             'laboratory_event_ids'
         ):

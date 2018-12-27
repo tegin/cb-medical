@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from . import account_invoice
+from . import medical_commission_action
 from . import medical_encounter
 from . import medical_event
 from . import medical_laboratory_event
