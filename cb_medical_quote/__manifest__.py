@@ -9,6 +9,7 @@
     'depends': [
         'cb_medical_financial_coverage_agreement',
         'cb_medical_careplan_sale',
+        'base_comment_template',
     ],
     'category': 'Medical',
     'data': [
@@ -17,6 +18,7 @@
         'data/ir_sequence_data.xml',
         'views/medical_quote_views.xml',
         'views/medical_menu.xml',
+        'views/base_comment_template_view.xml',
         'reports/medical_quote_templates.xml',
         'reports/medical_quote_report.xml',
     ],

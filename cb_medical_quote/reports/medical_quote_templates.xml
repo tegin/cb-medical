@@ -59,6 +59,9 @@
                     <p t-field="doc.confirmation_date"/>
                 </div>
             </div>
+            <p t-if="doc.note1">
+                <span t-field="doc.note1"/>
+            </p>
             <table class="table table-condensed">
                 <thead>
                     <tr>
@@ -119,6 +122,9 @@
                 </div>
             </div>
             <p t-field="doc.note" />
+            <p t-if="doc.note2">
+                <span t-field="doc.note2"/>
+            </p>
             <div class="oe_structure"/>
         </div>
     </t>
