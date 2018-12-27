@@ -34,6 +34,20 @@ class SaleOrder(models.Model):
             else:
                 order.preinvoice_status = 'draft'
 
+    def action_invoice_by_group_create(self, invoice_group_method_id):
+        invoices = []
+        for company in self.mapped('company_id'):
+            journal = invoice_group_method_id.get_journal(company)
+            ctx = {
+                'invoice_group_method_id': invoice_group_method_id.id,
+            }
+            if journal:
+                ctx['default_journal_id'] = journal.id
+            invoices += self.filtered(
+                lambda r: r.company_id == company
+            ).with_context(**ctx).action_invoice_create()
+        return invoices
+
     @api.model
     def _get_invoice_group_key(self, order):
         if order.coverage_agreement_id:
