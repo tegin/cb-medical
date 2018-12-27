@@ -27,6 +27,7 @@
         'wizard/wizard_barcode_handler_views.xml',
         'wizard/invoice_sales_by_group_view.xml',
         'views/medical_preinvoice_group_line_view.xml',
+        'views/res_company_views.xml',
         'views/sale_order_view.xml',
         'views/medical_preinvoice_group_views.xml',
         'report/medical_preinvoice_group.xml',
