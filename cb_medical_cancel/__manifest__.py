@@ -23,6 +23,7 @@
         'views/medical_sale_discount_views.xml',
         'views/medical_request_views.xml',
         'views/medical_careplan_view.xml',
+        'views/medical_laboratory_request_view.xml',
         'views/medical_procedure_request_view.xml',
         'views/medical_request_group_view.xml',
         'views/medical_encounter_view.xml',
