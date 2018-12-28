@@ -56,7 +56,7 @@ class SaleOrderLineAgent(models.Model):
         string='Laboratory Event',
     )
     laboratory_request_id = fields.Many2one(
-        'medical.laboratory.event',
+        'medical.laboratory.request',
         string='Laboratory Event',
     )
     parent_agent_line_id = fields.Many2one(
