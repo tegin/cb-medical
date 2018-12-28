@@ -14,4 +14,16 @@
         parent="medical_base.medical_root_financial"
         sequence="10" groups="sales_team.group_sale_salesman"/>
 
+    <menuitem name="Document Comments"
+      id="menu_base_comment_template_medical_quote"
+      action="base_comment_template.action_base_comment_template"
+      parent="medical_base.medical_root_configuration"/>
+
+    <menuitem
+        action="medical_quote_report_configuration_action"
+        id="medical_quote_report_configuration"
+        parent="medical_base.medical_root_configuration"
+        name="Medical Quote Report Layout Categories"
+    />
+
 </odoo>

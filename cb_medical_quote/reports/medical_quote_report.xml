@@ -2,21 +2,12 @@
 <odoo>
     <data>
         <report 
-            id="action_report_medical_quote_private"
-            string="Private Quote"
+            id="action_report_medical_quote"
+            string="Quote"
             model="medical.quote"
             report_type="qweb-pdf"
-            file="cb_medical_quote.report_medical_quote_private"
-            name="cb_medical_quote.report_medical_quote_private"
-            print_report_name="'Presupuesto - %s' % (object.name)"
-        />
-        <report
-            id="action_report_medical_quote_coverage"
-            string="Coverage Quote"
-            model="medical.quote"
-            report_type="qweb-pdf"
-            file="cb_medical_quote.report_medical_quote_coverage"
-            name="cb_medical_quote.report_medical_quote_coverage"
+            file="cb_medical_quote.report_medical_quote"
+            name="cb_medical_quote.report_medical_quote"
             print_report_name="'Presupuesto - %s' % (object.name)"
         />
 
