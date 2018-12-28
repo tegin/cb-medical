@@ -12,11 +12,13 @@ class ActivityDefinition(models.Model):
                             ):
         res = super(ActivityDefinition, self)._get_medical_values(
             vals, parent, plan, action)
-        if (
-            self.model_id == self.env.ref(
-                'medical_clinical_procedure.model_medical_procedure_request'
-            ) and action
-        ):
+        request_models = self.env.ref(
+            'medical_clinical_procedure.model_medical_procedure_request'
+        )
+        request_models |= self.env.ref(
+            'medical_clinical_laboratory.model_medical_laboratory_request'
+        )
+        if self.model_id in request_models and action:
             res.update({
                 'variable_fee': action.variable_fee,
                 'fixed_fee': action.fixed_fee,

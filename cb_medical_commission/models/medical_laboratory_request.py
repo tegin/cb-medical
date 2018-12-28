@@ -11,6 +11,17 @@ class MedicalLaboratoryRequest(models.Model):
         column1='laboratory_request_id',
         column2='sale_order_line_id',
     )
+    variable_fee = fields.Float(
+        string='Variable fee (%)',
+        default='0.0',
+    )
+    fixed_fee = fields.Float(
+        string='Fixed fee',
+        default='0.0',
+    )
+    medical_commission = fields.Boolean(
+        related='service_id.medical_commission'
+    )
 
     def check_agents(self, agent):
         return agent.laboratory_request_id == self
@@ -26,6 +37,31 @@ class MedicalLaboratoryRequest(models.Model):
     def _get_invoice_line_agent_vals(self, inv_line):
         res = super()._get_invoice_line_agent_vals(inv_line)
         res['laboratory_request_id'] = self.id
+        return res
+
+    def _get_event_values(self, vals=False):
+        res = super()._get_event_values(vals=vals)
+        self.commission_agent_id = False
+        valid_performer_ids = self.performer_id.commission_agent_ids
+        if not valid_performer_ids:
+            valid_performer_ids += self.performer_id
+        if len(valid_performer_ids) == 1:
+            self.commission_agent_id = valid_performer_ids[0]
+        res.update({
+            'commission_agent_id':
+                self.commission_agent_id and self.commission_agent_id.id,
+            'service_id': self.service_id.id,
+        })
+        conditions = self.performer_id.practitioner_condition_ids
+        practitioner_condition_id = conditions.get_condition(
+            self.request_group_id.service_id,
+            self.service_id,
+            self.center_id
+        )
+        if practitioner_condition_id:
+            res.update({
+                'practitioner_condition_id': practitioner_condition_id.id
+            })
         return res
 
     @api.multi
