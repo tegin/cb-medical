@@ -11,6 +11,12 @@
                     <div class="o_setting_left_pane">
 
                     </div>
+                    <div class="o_setting_right_pane"
+                         attrs="{'invisible': [('session_sequence_id','!=',False)]}">
+                        <label for="session_sequence_prefix"
+                               string="Session sequence prefix"/>
+                        <field name="session_sequence_prefix"/>
+                    </div>
                     <div class="o_setting_right_pane">
                         <label for="session_sequence_id"
                                string="Session sequence"/>
