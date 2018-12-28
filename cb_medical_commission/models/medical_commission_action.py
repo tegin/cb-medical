@@ -49,14 +49,14 @@ class MedicalCommissionAction(models.AbstractModel):
         return {
             'object_id': line.id,
             'commission': self.commission_agent_id.commission.id,
-            'agent': self.commission_agent_id.id,
+            'agent': self.commission_agent_id.id or self.performer_id.id,
         }
 
     def _get_invoice_line_agent_vals(self, inv_line):
         return {
             'object_id': inv_line.id,
             'commission': self.commission_agent_id.commission.id,
-            'agent': self.commission_agent_id.id,
+            'agent': self.commission_agent_id.id or self.performer_id.id,
         }
 
     @api.multi
