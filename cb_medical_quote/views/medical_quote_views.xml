@@ -18,12 +18,10 @@
                 <field name="user_id"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="payor_id"/>
-                <field name="patient_id"/>
+                <field name="patient_name"/>
                 <field name="coverage_template_id"/>
                 <field name="center_id"/>
-                <field name="private_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="coverage_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="total_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <field name="amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                 <field name="currency_id" invisible="True"/>
                 <field name="state"/>
             </tree>
@@ -52,7 +50,9 @@
                 </div>
                 <group>
                     <group>
+                        <field name="is_private"/>
                         <field name="patient_id" options="{'no_create': True}"/>
+                        <field name="patient_name" attrs="{'invisible': [('patient_id', '!=', False)]}"/>
                     </group>
                     <group>
                         <field name="payor_id" options="{'no_create': True}" domain="[('is_payor', '=', True)]"/>
@@ -77,14 +77,13 @@
                 <notebook>
                     <page string="Quote Lines">
                         <field name="quote_line_ids" mode="tree"
-                            attrs="{'readonly': [('state', 'in', ('sent', 'confirm','cancel'))]}"/>
+                            attrs="{'readonly': [('state', 'in', ('sent', 'confirm','cancel'))]}"
+                            context="{'default_is_private': is_private}"/>
                         <group class="oe_subtotal_footer oe_right" colspan="2" name="quote_total">
-                            <field name="private_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                            <field name="coverage_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                <label for="total_amount" />
-                            </div>
-                            <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            <field name="amount"
+                                   widget='monetary'
+                                   options="{'currency_field': 'currency_id'}"
+                            />
                         </group>
                         <field name="note" class="oe_inline" placeholder="Add terms and conditions here."/>
                         <div class="oe_clear"/>
@@ -172,18 +171,21 @@
                 <field name="sequence" widget="handle"/>
                 <field name="plan_definition_id"/>
                 <field name="product_id"/>
+                <field name="layout_category_id"/>
                 <field name="categ_id"/>
                 <field name="quantity"/>
-                <field name="coverage_percentage"/>
                 <field name="coverage_agreement_id" invisible="1"/>
                 <field name="template_id" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
-                <field name="private_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="private_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="coverage_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="coverage_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="total_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="total_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <field name="is_private" invisible="1"/>
+                <field name="price"
+                       widget='monetary'
+                       options="{'currency_field': 'currency_id'}"
+                />
+                <field name="amount"
+                       widget='monetary'
+                       options="{'currency_field': 'currency_id'}"
+                />
             </tree>
         </field>
     </record>
@@ -200,23 +202,14 @@
                 </group>
                 <group>
                     <field name="quantity"/>
-                    <field name="coverage_percentage"/>
                     <field name="coverage_agreement_id"/>
                     <field name="agreement_line_id"/>
                     <field name="template_id"/>
                     <field name="currency_id"/>
                 </group>
-                <group name="private" string="Private">
-                    <field name="private_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                    <field name="private_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                </group>
-                <group name="coverage" string="Coverage">
-                    <field name="coverage_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                    <field name="coverage_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                </group>
-                <group name="total" string="Total">
-                    <field name="total_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                    <field name="total_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <group name="pricing" string="Price">
+                    <field name="price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                 </group>
             </form>
         </field>

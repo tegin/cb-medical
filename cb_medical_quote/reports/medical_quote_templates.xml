@@ -1,152 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<template id="report_medical_quote_document">
-    <t t-call="web.external_layout">
-        <t t-set="doc" t-value="doc.with_context({'lang':doc.payor_id.lang, 'not_display_company': True})" />
-        <div class="page">
-            <div class="oe_structure"/>
-            <div class="row">
-                <div class="col-xs-6">
-                </div>
-                <div class="col-xs-5 col-xs-offset-1">
-                    <t t-if="private">
-                        <t t-if="doc.patient_id">
-                            <div t-field="doc.patient_id"
-                                t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
-                            <p t-if="doc.patient_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.patient_id.vat"/></p>
-                        </t>
-                    </t>
-                    <t t-if="not private">
-                        <div t-if="doc.patient_id" class="mt8">
-                            <strong>Patient:</strong>
-                            <div t-field="doc.patient_id"
-                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                        </div>
-                        <div t-if="doc.payor_id" class="mt8">
+    <template id="report_medical_quote_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context({'lang':doc.payor_id.lang, 'not_display_company': True})" />
+            <div class="page">
+                <div class="oe_structure"/>
+                <div class="row">
+                    <div class="col-xs-6">
+                    </div>
+                    <div class="col-xs-5 col-xs-offset-1">
+                        <t t-if="doc.is_private">
                             <t t-if="doc.patient_id">
-                                <strong>Payor:</strong>
+                                <div t-field="doc.patient_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                                <p t-if="doc.patient_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.patient_id.vat"/></p>
                             </t>
-                            <div t-field="doc.payor_id"
-                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                            <p t-if="doc.payor_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.payor_id.vat"/></p>
-                        </div>
-                    </t>
-                </div>
-            </div>
-            <h2>
-                <t>
-                    <span>Quotation # </span>
-                </t>
-                <span t-field="doc.name"/>
-            </h2>
-
-            <div class="row mt32 mb32" id="informations">
-                <div class="col-xs-3">
-                    <strong>Quotation Date:</strong>
-                    <p t-field="doc.quote_date"/>
-                </div>
-                <div t-if="doc.user_id.name" class="col-xs-3">
-                    <strong>Salesperson:</strong>
-                    <p t-field="doc.user_id"/>
-                </div>
-
-                <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-xs-3">
-                    <strong>Expiration Date:</strong>
-                    <p t-field="doc.validity_date"/>
-                </div>
-                <div t-if="doc.confirmation_date and doc.state == 'confirm'" class="col-xs-3">
-                    <strong>Confirmation Date:</strong>
-                    <p t-field="doc.confirmation_date"/>
-                </div>
-            </div>
-            <p t-if="doc.note1">
-                <span t-field="doc.note1"/>
-            </p>
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th>Service</th>
-                        <th class="text-right">Quantity</th>
-                        <th class="text-right">Unit Price</th>
-                        <th class="text-right">Total Price</th>
-                    </tr>
-               </thead>
-               <tbody>
-                    <t t-foreach="doc.quote_line_ids" t-as="l">
-                        <tr>
-                            <td><span t-field="l.product_id"/></td>
-                            <td class="text-right"><span t-field="l.quantity"/></td>
-                            <td class="text-right">
-                                <t t-if="private">
-                                    <span t-field="l.private_price"
-                                          t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                            <t t-if="not doc.patient_id and doc.patient_name">
+                                <div t-field="doc.patient_name"/>
+                            </t>
+                        </t>
+                        <t t-if="not doc.is_private">
+                            <div t-if="doc.patient_id" class="mt8">
+                                <strong>Patient:</strong>
+                                <div t-field="doc.patient_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                            </div>
+                            <div t-if="not doc.patient_id and doc.patient_name" class="mt8">
+                                <strong>Patient:</strong>
+                                <div t-field="doc.patient_name"/>
+                            </div>
+                            <div t-if="doc.payor_id" class="mt8">
+                                <t t-if="doc.patient_id or doc.patient_name">
+                                    <strong>Payor:</strong>
                                 </t>
-                                <t t-if="not private">
-                                    <span t-field="l.coverage_price"
-                                          t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                                </t>
-                            </td>
-                            <td class="text-right">
-                                <t t-if="private">
-                                    <span t-field="l.private_amount"
-                                          t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                                </t>
-                                <t t-if="not private">
-                                    <span t-field="l.coverage_amount"
-                                          t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                                </t>
-                            </td>
-                        </tr>
-                    </t>
-                </tbody>
-            </table>
-            <div class="clearfix">
-                <div class="row" name="total">
-                    <div class="col-xs-4 pull-right">
-                        <table class="table table-condensed" style="min-width: 200px;max-width: 350px;">
-                            <tr class="border-black">
-                                <td><strong>Total</strong></td>
-                                <td class="text-right">
-                                    <t t-if="private">
-                                        <span t-field="doc.private_amount"
-                                            t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                                    </t>
-                                    <t t-if="not private">
-                                        <span t-field="doc.coverage_amount"
-                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                                    </t>
-                                </td>
-                            </tr>
-                        </table>
+                                <div t-field="doc.payor_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                                <p t-if="doc.payor_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.payor_id.vat"/></p>
+                            </div>
+                        </t>
                     </div>
                 </div>
+                <h2>
+                    <t>
+                        <span>Quotation # </span>
+                    </t>
+                    <span t-field="doc.name"/>
+                </h2>
+
+                <div class="row mt32 mb32" id="informations">
+                    <div class="col-xs-3">
+                        <strong>Quotation Date:</strong>
+                        <p t-field="doc.quote_date"/>
+                    </div>
+                    <div t-if="doc.user_id.name" class="col-xs-3">
+                        <strong>Salesperson:</strong>
+                        <p t-field="doc.user_id"/>
+                    </div>
+
+                    <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-xs-3">
+                        <strong>Expiration Date:</strong>
+                        <p t-field="doc.validity_date"/>
+                    </div>
+                    <div t-if="doc.confirmation_date and doc.state == 'confirm'" class="col-xs-3">
+                        <strong>Confirmation Date:</strong>
+                        <p t-field="doc.confirmation_date"/>
+                    </div>
+                </div>
+                <p t-if="doc.note1">
+                    <span t-field="doc.note1"/>
+                </p>
+                <t t-foreach="doc.lines_layouted()" t-as="page">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th class="text-right">Quantity</th>
+                                <th class="text-right">Unit Price</th>
+                                <th class="text-right">Total Price</th>
+                            </tr>
+                       </thead>
+                       <tbody>
+                            <t t-foreach="page" t-as="layout_category">
+                                <t t-if="len(layout_category['lines']) > 1">
+                                    <tr class="active">
+                                        <td colspan="7" style="font-weight: bold; border-bottom: 1px solid black;">&amp;bull;
+                                            <t t-esc="layout_category['name']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <!-- Lines associated -->
+                                <t t-foreach="layout_category['lines']" t-as="l">
+                                    <tr>
+                                        <td><span t-field="l.product_id"/></td>
+                                        <td class="text-right"><span t-field="l.quantity"/></td>
+                                        <td class="text-right">
+                                            <span t-field="l.price"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="l.amount"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-if="len(layout_category['lines']) > 1 and layout_category['subtotal']">
+                                    <tr class="text-right">
+                                        <td colspan="6">
+                                            <strong>Subtotal: </strong>
+                                            <t t-set="subtotal" t-value="sum(line.amount for line in layout_category['lines'])"/>
+                                            <span t-esc="subtotal" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                    <t t-if="page_index &lt; page_size - 1">
+                        <p style="page-break-before:always;"> </p>
+                    </t>
+                </t>
+                <div class="clearfix">
+                    <div class="row" name="total">
+                        <div class="col-xs-4 pull-right">
+                            <table class="table table-condensed" style="min-width: 200px;max-width: 350px;">
+                                <tr class="border-black">
+                                    <td><strong>Total</strong></td>
+                                    <td class="text-right">
+                                        <span t-field="doc.amount"
+                                            t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <p t-field="doc.note" />
+                <p t-if="doc.note2">
+                    <span t-field="doc.note2"/>
+                </p>
+                <div class="oe_structure"/>
             </div>
-            <p t-field="doc.note" />
-            <p t-if="doc.note2">
-                <span t-field="doc.note2"/>
-            </p>
-            <div class="oe_structure"/>
-        </div>
-    </t>
-</template>
-
-
-<template id="report_medical_quote_private">
-    <t t-call="web.html_container">
-        <t t-set="private" t-value="True"/>
-        <t t-foreach="docs" t-as="doc">
-            <t t-call="cb_medical_quote.report_medical_quote_document" t-lang="doc.payor_id.lang"/>
         </t>
-    </t>
-</template>
+    </template>
 
-<template id="report_medical_quote_coverage">
-    <t t-call="web.html_container">
-        <t t-set="private" t-value="False"/>
-        <t t-foreach="docs" t-as="doc">
-            <t t-call="cb_medical_quote.report_medical_quote_document" t-lang="doc.payor_id.lang"/>
+
+    <template id="report_medical_quote">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="cb_medical_quote.report_medical_quote_document" t-lang="doc.payor_id.lang"/>
+            </t>
         </t>
-    </t>
-</template>
+    </template>
 
 </odoo>

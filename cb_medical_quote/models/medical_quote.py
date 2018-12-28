@@ -1,3 +1,4 @@
+from itertools import groupby
 from odoo import api, fields, models, _
 
 
@@ -9,6 +10,7 @@ class MedicalQuote(models.Model):
 
     name = fields.Char(default=lambda self: _('New'),
                        )
+    is_private = fields.Boolean('Is private')
     state = fields.Selection(
         [('draft', 'Draft'),
          ('sent', 'Sent'),
@@ -41,6 +43,7 @@ class MedicalQuote(models.Model):
                                  readonly=True,
                                  states={'draft': [('readonly', False)]},
                                  )
+    patient_name = fields.Char('Patient name')
     payor_id = fields.Many2one('res.partner', 'Payor', required=True,
                                domain="[('is_payor', '=', True)]",
                                readonly=True,
@@ -67,6 +70,7 @@ class MedicalQuote(models.Model):
     )
     agreement_ids = fields.Many2many('medical.coverage.agreement',
                                      compute='_compute_agreements',
+                                     store=True,
                                      )
     add_agreement_line_id = fields.Many2one(
         'medical.coverage.agreement.item',
@@ -80,12 +84,8 @@ class MedicalQuote(models.Model):
                                 readonly=True,
                                 states={'draft': [('readonly', False)]},
                                 )
-    total_amount = fields.Float(
-        'Total Amount', compute='_compute_amount', store=True)
-    private_amount = fields.Float(
-        'Private Amount', compute='_compute_amount', store=True)
-    coverage_amount = fields.Float(
-        'Coverage Amount', compute='_compute_amount', store=True)
+    amount = fields.Float(
+        'Amount', compute='_compute_amount', store=True)
     currency_id = fields.Many2one('res.currency',
                                   related='company_id.currency_id')
     note = fields.Text('Terms and conditions',
@@ -123,28 +123,24 @@ class MedicalQuote(models.Model):
             ('date_to', '>=', self.quote_date)
         ]
 
-    @api.depends('coverage_template_id', 'center_id')
+    @api.depends('coverage_template_id', 'center_id', 'quote_date')
     def _compute_agreements(self):
         for rec in self:
             domain = rec._get_agreements_domain()
             rec.agreement_ids = self.env['medical.coverage.agreement'].search(
                 domain)
 
-    @api.depends('quote_line_ids', 'quote_line_ids.total_price',
-                 'quote_line_ids.quantity',
-                 'quote_line_ids.coverage_percentage')
+    @api.depends('quote_line_ids', 'quote_line_ids.price',
+                 'quote_line_ids.quantity')
     def _compute_amount(self):
         for quote in self:
-            quote.private_amount = sum(self.quote_line_ids.mapped(
-                'private_amount'))
-            quote.coverage_amount = sum(self.quote_line_ids.mapped(
-                'coverage_amount'))
-            quote.total_amount = sum(self.quote_line_ids.mapped(
-                'total_amount'))
+            quote.amount = sum(quote.quote_line_ids.mapped(
+                'amount'))
 
     @api.onchange('patient_id')
     def _onchange_patient_id(self):
         if self.patient_id:
+            self.patient_name = self.patient_id.name
             templates = self.patient_id.coverage_ids.mapped(
                 'coverage_template_id')
             payors = self.patient_id.coverage_ids.mapped(
@@ -157,10 +153,6 @@ class MedicalQuote(models.Model):
                 self.payor_id = False
             if payors:
                 self.payor_id = payors[0]
-            return {'domain': {
-                'coverage_template_id': [('id', 'in', templates.ids)],
-                'payor_id': [('id', 'in', payors.ids)]}
-                }
         else:
             return {'domain': {
                 'coverage_template_id': [],
@@ -221,14 +213,19 @@ class MedicalQuote(models.Model):
         return items
 
     @api.model
-    def _prepare_medical_quote_line(self, item):
+    def _prepare_medical_quote_line(self, item, cat):
+        coverage_price = \
+            (item[0].coverage_percentage * item[0].total_price) / 100
+        private_price = \
+            ((100 - item[0].coverage_percentage) * item[0].total_price) / 100
+        price = private_price if self.is_private else coverage_price
         return {
             'agreement_line_id': item[0].id,
             'plan_definition_id': item[0].plan_definition_id.id,
+            'layout_category_id': cat.id,
             'product_id': item[0].product_id.id,
             'quantity': item[1] * self.add_quantity,
-            'total_price': item[0].total_price,
-            'coverage_percentage': item[0].coverage_percentage,
+            'price': price,
             'coverage_agreement_id': item[0].coverage_agreement_id.id,
         }
 
@@ -254,11 +251,30 @@ class MedicalQuote(models.Model):
             rec.state = 'draft'
 
     @api.multi
+    def _prepare_medical_quote_layout_category(self):
+        self.ensure_one()
+        return {
+            'name': self.add_agreement_line_id.product_id.name,
+            'quote_id': self.id,
+        }
+
+    @api.multi
     def button_add_line(self):
         self.ensure_one()
         items = self._search_agreement_items()
+        cat = self.env['medical.quote.layout_category']
+        if len(items) > 1:
+            cat = self.env['medical.quote.layout_category'].search(
+                [('quote_id', '=', self.id),
+                 ('name', '=', self.add_agreement_line_id.product_id.name)],
+                limit=1)
+            if not cat:
+                data = self._prepare_medical_quote_layout_category()
+                cat = self.env['medical.quote.layout_category'].sudo().create(
+                    data)
         for item in items:
-            medical_quote_line_data = self._prepare_medical_quote_line(item)
+            medical_quote_line_data = self._prepare_medical_quote_line(
+                item, cat)
             self.quote_line_ids += self.env['medical.quote.line'].new(
                 medical_quote_line_data)
         self.add_agreement_line_id = False
@@ -280,10 +296,35 @@ class MedicalQuote(models.Model):
             vals['name'] = self._get_name(vals)
         return super(MedicalQuote, self).create(vals)
 
+    @api.multi
+    def lines_layouted(self):
+        """
+        Returns the lines classified by sale_layout_category and separated in
+        pages according to the category pagebreaks. Used to render the report.
+        """
+        self.ensure_one()
+        report_pages = [[]]
+        for category, lines in groupby(self.quote_line_ids,
+                                       lambda l: l.layout_category_id):
+            # If last added category induced a pagebreak,
+            # this one will be on a new page
+            if report_pages[-1] and report_pages[-1][-1]['pagebreak']:
+                report_pages.append([])
+            # Append category to current report page
+            report_pages[-1].append({
+                'name': category and category.name or _('Uncategorized'),
+                'subtotal': category and category.subtotal,
+                'pagebreak': category and category.pagebreak,
+                'lines': list(lines)
+            })
+
+        return report_pages
+
 
 class MedicalQuoteLine(models.Model):
     _name = 'medical.quote.line'
     _description = 'Medical Quote Line'
+    _order = 'quote_id, layout_category_id, sequence, id'
 
     quote_id = fields.Many2one('medical.quote', 'Medical Quote',
                                required=True, ondelete='cascade',
@@ -319,13 +360,6 @@ class MedicalQuoteLine(models.Model):
         store=True,
         readonly=True,
     )
-    total_price = fields.Float(
-        string='Total price',
-        required=True,
-    )
-    coverage_percentage = fields.Float(
-        string='Coverage %',
-    )
     coverage_agreement_id = fields.Many2one(
         comodel_name='medical.coverage.agreement',
         string='Medical agreement',
@@ -348,45 +382,22 @@ class MedicalQuoteLine(models.Model):
         related='quote_id.company_id',
         store=True,
     )
-    coverage_price = fields.Float(
-        string='Coverage price',
+    is_private = fields.Boolean(related='quote_id.is_private'
+                                )
+    price = fields.Float(
+        string='Price',
+    )
+    amount = fields.Float(
+        string='Amount',
         compute='_compute_amount',
-        store=True,
         readonly=True,
     )
-    private_price = fields.Float(
-        string='Private price',
-        compute='_compute_amount',
-        store=True,
-        readonly=True,
-    )
-    coverage_amount = fields.Float(
-        string='Coverage amount',
-        compute='_compute_amount',
-        store=True,
-        readonly=True,
-    )
-    private_amount = fields.Float(
-        string='Private amount',
-        compute='_compute_amount',
-        store=True,
-        readonly=True,
-    )
-    total_amount = fields.Float(
-        string='Total amount',
-        compute='_compute_amount',
-        store=True,
-        readonly=True,
-    )
+    layout_category_id = fields.Many2one('medical.quote.layout_category',
+                                         string='Section')
+    layout_category_sequence = fields.Integer(string='Layout Sequence')
 
     @api.multi
-    @api.depends('total_price', 'quantity', 'coverage_percentage')
+    @api.depends('price', 'quantity')
     def _compute_amount(self):
         for rec in self:
-            rec.coverage_price = \
-                ((rec.coverage_percentage * rec.total_price) / 100)
-            rec.coverage_amount = rec.coverage_price * rec.quantity
-            rec.private_price = \
-                ((100 - rec.coverage_percentage) * rec.total_price) / 100
-            rec.private_amount = rec.private_price * rec.quantity
-            rec.total_amount = rec.private_amount + rec.coverage_amount
+            rec.amount = rec.price * rec.quantity
