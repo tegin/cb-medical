@@ -17,7 +17,8 @@ class PosConfig(models.Model):
 
     @api.model
     def _compute_session_prefix(self, prefix):
-        return prefix
+        range = '%(range_y)s/'
+        return '%s/%s' % (prefix, range)
 
     @api.model
     def _prepare_ir_session_sequence(self, prefix):
@@ -28,7 +29,9 @@ class PosConfig(models.Model):
         vals = {
             "name": "Pos Config " + prefix,
             "code": "pos.config - " + prefix,
-            "padding": 5,
+            "padding": 4,
+            "number_increment": 1,
+            "use_date_range": True,
             "prefix": self._compute_session_prefix(prefix),
             "company_id": False,
             "implementation": 'no_gap'
