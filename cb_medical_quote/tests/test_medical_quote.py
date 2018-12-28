@@ -56,7 +56,7 @@ class TestMedicalQuote(TransactionCase):
             'coverage_agreement_id': self.coverage_agreement.id,
             'plan_definition_id': self.plan_1.id,
             'product_id': self.product_1.id,
-            'coverage_percentage': 50.0,
+            'coverage_percentage': 40.0,
             'authorization_method_id': auth_method.id,
             'authorization_format_id': self.browse_ref(
                 'cb_medical_financial_coverage_request.format_anything').id,
@@ -150,7 +150,6 @@ class TestMedicalQuote(TransactionCase):
         })
 
     def test_onchange_medical_quote(self):
-
         quote = self.env['medical.quote'].new({
             'payor_id': self.payor_1.id,
             'center_id': self.center_1.id,
@@ -160,10 +159,10 @@ class TestMedicalQuote(TransactionCase):
         self.assertEqual(res['domain']['coverage_template_id'],
                          [('id', 'in', self.coverage_template_1.ids)])
 
-    def test_medical_quote(self):
-
+    def test_medical_quote_private(self):
         quote = self.env['medical.quote'].create({
             'payor_id': self.payor_1.id,
+            'is_private': True,
             'center_id': self.center_1.id,
             'coverage_template_id': self.coverage_template_1.id,
             'company_id': self.ref('base.main_company'),
@@ -176,7 +175,24 @@ class TestMedicalQuote(TransactionCase):
         line = quote.quote_line_ids
         self.assertEqual(line.coverage_agreement_id, self.coverage_agreement)
         self.assertEqual(line.plan_definition_id, self.plan_1)
-        self.assertEqual(line.private_amount, 200)
-        self.assertEqual(line.coverage_amount, 200)
-        self.assertEqual(quote.private_amount, 200)
-        self.assertEqual(quote.coverage_amount, 200)
+        self.assertEqual(line.amount, 240)
+        self.assertEqual(quote.amount, 240)
+
+    def test_medical_quote_coverage(self):
+        quote = self.env['medical.quote'].create({
+            'payor_id': self.payor_1.id,
+            'is_private': False,
+            'center_id': self.center_1.id,
+            'coverage_template_id': self.coverage_template_1.id,
+            'company_id': self.ref('base.main_company'),
+        })
+        quote.add_agreement_line_id = self.item_1.id
+        quote.add_quantity = 2.0
+        self.assertEqual(len(quote.quote_line_ids), 0)
+        quote.button_add_line()
+        self.assertEqual(len(quote.quote_line_ids), 1)
+        line = quote.quote_line_ids
+        self.assertEqual(line.coverage_agreement_id, self.coverage_agreement)
+        self.assertEqual(line.plan_definition_id, self.plan_1)
+        self.assertEqual(line.amount, 160)
+        self.assertEqual(quote.amount, 160)
