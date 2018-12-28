@@ -460,10 +460,12 @@ class TestCB(SavepointCase):
         self.pos_config = self.env['pos.config'].create(pos_vals)
         self.pos_config.write({'session_sequence_prefix': 'POS'})
         self.assertTrue(self.pos_config.session_sequence_id)
-        self.assertEqual(self.pos_config.session_sequence_id.prefix, 'POS')
+        self.assertEqual(self.pos_config.session_sequence_id.prefix,
+                         'POS/%(range_y)s/')
         self.pos_config.write({'session_sequence_prefix': 'PS'})
         self.assertTrue(self.pos_config.session_sequence_id)
-        self.assertEqual(self.pos_config.session_sequence_id.prefix, 'PS')
+        self.assertEqual(self.pos_config.session_sequence_id.prefix,
+                         'PS/%(range_y)s/')
         self.pos_config.open_session_cb()
         self.session = self.pos_config.current_session_id
         self.session.action_pos_session_open()
