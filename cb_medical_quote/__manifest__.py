@@ -4,7 +4,7 @@
 
 {
     'name': 'CB Medical Quote',
-    'version': '11.0.1.0.0',
+    'version': '11.0.2.0.0',
     'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
     'depends': [
         'cb_medical_financial_coverage_agreement',
@@ -17,8 +17,8 @@
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
         'views/medical_quote_views.xml',
+        'views/medical_quote_layout_category_views.xml',
         'views/medical_menu.xml',
-        'views/base_comment_template_view.xml',
         'reports/medical_quote_templates.xml',
         'reports/medical_quote_report.xml',
     ],
