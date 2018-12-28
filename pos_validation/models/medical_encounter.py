@@ -164,6 +164,10 @@ class MedicalEncounter(models.Model):
                 sale_order.with_context(
                     invoice_group_method_id=group.id,
                 ).action_invoice_create())
+            self.post_process_invoice(invoice, group)
             invoice.action_invoice_open()
             invoices |= invoice
         return invoices
+
+    def post_process_invoice(self, invoice, group):
+        pass
