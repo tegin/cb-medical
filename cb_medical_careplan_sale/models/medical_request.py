@@ -136,7 +136,9 @@ class MedicalRequest(models.AbstractModel):
         query = []
         fieldname = self._get_parent_field_name()
         request_models = self._get_request_models()
-        for request in self:
+        for request in self.filtered(
+            lambda r: r.state not in ['cancelled']
+        ):
             if request.is_sellable_insurance:
                 query.append((
                     request.coverage_agreement_id.id,
