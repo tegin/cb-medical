@@ -11,6 +11,7 @@
                 <button name="%(medical_coverage_agreement_item_plan_action)s"
                         type="action"
                         class="oe_stat_button" icon="fa-hand-holding-usd"
+                        groups="cb_medical_financial_coverage_agreement.group_medical_agreement_list"
                         string="View Agreements"
                 />
             </xpath>
