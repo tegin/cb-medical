@@ -14,7 +14,7 @@
         <field name="inherit_id" ref="cb_medical_financial_coverage_request.medical_authorization_method_form"/>
         <field name="arch" type="xml">
             <field name="integration_information" position="after">
-                <field name="invoice_group_method_id"/>
+                <field name="invoice_group_method_id" options="{'no_create': True}"/>
             </field>
         </field>
     </record>
