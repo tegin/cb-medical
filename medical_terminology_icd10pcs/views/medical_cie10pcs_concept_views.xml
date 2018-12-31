@@ -77,6 +77,7 @@
               name="ICD-10-PCS Concepts"
               parent="medical_base.medical_root_terminologies"
               sequence="20"
+              groups="group_medical_icd10pcs_concept_list"
               action="medical_medication_icd10pcs_concept_window_action"/>
 
 </odoo>
