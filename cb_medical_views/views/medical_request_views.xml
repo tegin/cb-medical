@@ -34,13 +34,7 @@
                ref="medical_workflow.medical_request_form"/>
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
-            <field name="patient_id" position="attributes">
-                <attribute name="options">{'no_create': True}</attribute>
-            </field>
             <field name="service_id" position="attributes">
-                <attribute name="options">{'no_create': True}</attribute>
-            </field>
-            <field name="performer_id" position="attributes">
                 <attribute name="options">{'no_create': True}</attribute>
             </field>
             <field name="order_by_id" position="attributes">
