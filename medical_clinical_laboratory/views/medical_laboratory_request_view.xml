@@ -36,7 +36,8 @@
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button type="object"
                         name="action_view_laboratory_events"
-                         class="oe_stat_button"  icon="fa-microscope"
+                        groups="medical_clinical_laboratory.group_medical_laboratory_list"
+                        class="oe_stat_button"  icon="fa-microscope"
                         attrs="{'invisible': [('state','=','draft')]}">
                     <field name="laboratory_event_count" widget="statinfo"
                                string="Laboratory Events"/>
