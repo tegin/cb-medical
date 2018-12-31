@@ -37,7 +37,9 @@ class LaboratoryEvent(models.Model):
     @api.multi
     def get_sale_order_query(self):
         query = []
-        for request in self:
+        for request in self.filtered(
+            lambda r: r.state not in ['aborted']
+        ):
             if request.is_sellable_insurance and request.coverage_amount > 0:
                 query.append((
                     request.coverage_agreement_id.id,
