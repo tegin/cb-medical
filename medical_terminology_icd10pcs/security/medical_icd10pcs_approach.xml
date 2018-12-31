@@ -7,7 +7,6 @@
     <record model="ir.model.access" id="medical_icd10pcs_approach_access_name"> <!-- TODO acl id -->
         <field name="name">medical.icd10pcs.approach access name</field> <!-- TODO acl name -->
         <field name="model_id" ref="model_medical_icd10pcs_approach"/>
-        <!-- TODO review and adapt -->
         <field name="group_id" ref="base.group_user"/>
         <field name="perm_read" eval="1"/>
         <field name="perm_create" eval="0"/>
