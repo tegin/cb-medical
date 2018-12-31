@@ -17,6 +17,7 @@
     'website': 'https://github.com/OCA/vertical-medical',
     "license": "LGPL-3",
     "data": [
+        'security/medical_security.xml',
         'wizards/medical_coverage_agreement_join.xml',
         'reports/agreement_report.xml',
         'reports/agreement_compare_report.xml',
