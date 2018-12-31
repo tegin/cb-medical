@@ -10,6 +10,7 @@
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="get_tmpl_activity" type="object"
                         class="oe_stat_button" icon="fa-medkit"
+                        groups="medical_workflow.group_workflow_activity_definition_manager"
                         attrs="{'invisible': ['|', ('type','!=','service'),('activity_tmpl_definition_ids','!=', False)]}"
                         string="View Activity"
                 >
@@ -17,6 +18,7 @@
                 </button>
                 <button name="generate_tmpl_activity" type="object"
                         class="oe_stat_button" icon="fa-medkit"
+                        groups="medical_workflow.group_workflow_activity_definition_manager"
                         attrs="{'invisible': ['|', ('type','!=','service'),('activity_tmpl_definition_ids','=', False)]}"
                         string="Create Activity"
                 />
@@ -32,6 +34,7 @@
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="get_activity" type="object"
                         class="oe_stat_button" icon="fa-archive"
+                        groups="medical_workflow.group_workflow_activity_definition_manager"
                         attrs="{'invisible': ['|', ('type','!=','service'),('activity_definition_ids','!=', False)]}"
                         string="Activity"
                 >
@@ -39,6 +42,7 @@
                 </button>
                 <button name="generate_activity" type="object"
                         class="oe_stat_button" icon="fa-archive"
+                        groups="medical_workflow.group_workflow_activity_definition_manager"
                         attrs="{'invisible': ['|', ('type','!=','service'),('activity_definition_ids','=', False)]}"
                         string="Activity"
                 />
