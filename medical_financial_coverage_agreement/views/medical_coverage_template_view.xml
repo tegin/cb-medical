@@ -14,7 +14,7 @@
         <field name="inherit_id" ref="medical_financial_coverage.medical_coverage_template_view_form"/>
         <field name="arch" type="xml">
             <notebook position="inside">
-                <page name="coverage_agreements" string="Agreements">
+                <page name="coverage_agreements" string="Agreements" groups="cb_medical_financial_coverage_agreement.group_medical_agreement_list">
                     <field name="agreement_ids" nolabel="1" options="{'no_create': True}">
                         <tree delete="1">
                             <field name="internal_identifier"/>
