@@ -8,20 +8,6 @@
 
 <odoo>
 
-    <record id="medical_encounter_view_form" model="ir.ui.view">
-        <field name="name">medical.encounter.view.form</field>
-        <field name="model">medical.encounter</field>
-        <field name="inherit_id" ref="medical_administration_encounter.medical_encounter_view_form"/>
-        <field name="arch" type="xml">
-            <field name="patient_id" position="attributes">
-                <attribute name="options">{'no_create': True}</attribute>
-            </field>
-            <field name="location_id" position="attributes">
-                <attribute name="options">{'no_create': True}</attribute>
-            </field>
-        </field>
-    </record>
-
     <act_window id="encounter_find_by_barcode"
                 name="Find encounter"
                 res_model="barcode.action"
