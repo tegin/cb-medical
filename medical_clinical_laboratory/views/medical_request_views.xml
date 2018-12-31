@@ -18,6 +18,7 @@
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button type="object"
                         name="action_view_request"
+                        groups="medical_clinical_laboratory.group_medical_laboratory_list"
                         class="oe_stat_button"  icon="fa-syringe"
                         attrs="{'readonly':[('is_editable', '=', False)]}"
                         context="{'model_name': 'medical.laboratory.request'}">
