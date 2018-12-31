@@ -13,10 +13,16 @@
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
 
+    <record id="group_medical_document_type_list" model="res.groups">
+        <field name="name">Document Type List</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_document_type_display'))]"/>
+    </record>
+
     <record id="group_medical_document_type_manager" model="res.groups">
         <field name="name">Document Type Manager</field>
         <field name="category_id" ref="base.module_category_hidden"/>
-        <field name="implied_ids" eval="[(4, ref('group_medical_document_type_display'))]"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_document_type_list'))]"/>
     </record>
 
     <record id="group_medical_document_reference_display" model="res.groups">
@@ -25,10 +31,16 @@
         <field name="implied_ids" eval="[(4, ref('medical_clinical.group_medical_view_requests')),(4, ref('group_medical_document_type_display'))]"/>
     </record>
 
+    <record id="group_medical_document_reference_list" model="res.groups">
+        <field name="name">Document Reference List</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_document_reference_display'))]"/>
+    </record>
+
     <record id="group_medical_document_reference_manager" model="res.groups">
         <field name="name">Document Reference Manager</field>
         <field name="category_id" ref="base.module_category_hidden"/>
-        <field name="implied_ids" eval="[(4, ref('group_medical_document_reference_display'))]"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_document_reference_list'))]"/>
     </record>
 
     <!-- Generic groups -->
