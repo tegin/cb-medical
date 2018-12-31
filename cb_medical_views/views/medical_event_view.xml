@@ -31,13 +31,7 @@
         <field name="inherit_id" ref="medical_workflow.medical_event_form"/>
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
-            <field name="patient_id" position="attributes">
-                <attribute name="options">{'no_create': True}</attribute>
-            </field>
             <field name="service_id" position="attributes">
-                <attribute name="options">{'no_create': True}</attribute>
-            </field>
-            <field name="performer_id" position="attributes">
                 <attribute name="options">{'no_create': True}</attribute>
             </field>
         </field>
