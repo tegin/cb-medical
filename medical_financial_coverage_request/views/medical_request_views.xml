@@ -19,13 +19,13 @@
                     <group>
                         <group>
                             <field name="coverage_id"
-                                   options="{'no_create': True}"
+                                   options="{'no_create': True, 'no_open': True}"
                                    attrs="{'readonly': [('is_editable', '=', False)]}"
                             />
                         </group>
                         <group>
                             <field name="authorization_method_id"
-                                   options="{'no_create': True}"
+                                   options="{'no_create': True, 'no_open': True}"
                                    attrs="{'readonly': [('is_editable', '=', False)]}"/>
                             <field name="authorization_number"
                                    attrs="{'readonly': [('is_editable', '=', False)]}"/>
@@ -34,6 +34,21 @@
                     </group>
                 </page>
             </notebook>
+        </field>
+    </record>
+
+    <record id="medical_request_form_coverage" model="ir.ui.view">
+        <field name="name">medical.request.view.form</field>
+        <field name="model">medical.request</field>
+        <field name="inherit_id" ref="medical_request_form"/>
+        <field name="groups_id"
+               eval="[(4, ref('medical_financial_coverage.group_medical_coverage_list'))]"/>
+        <field name="arch" type="xml">
+            <field name="coverage_id" position="attributes">
+                <attribute name="options">{'no_open': False, 'no_create':
+                    True}
+                </attribute>
+            </field>
         </field>
     </record>
 </odoo>
