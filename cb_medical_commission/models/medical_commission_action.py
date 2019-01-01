@@ -45,29 +45,41 @@ class MedicalCommissionAction(models.AbstractModel):
     def get_sale_order_lines(self):
         pass
 
+    def _get_agent(self):
+        performer_agent = False
+        valid_agent_ids = self.performer_id.commission_agent_ids
+        if not valid_agent_ids:
+            valid_agent_ids += self.performer_id
+        if len(valid_agent_ids) == 1:
+            performer_agent = valid_agent_ids[0]
+        agent = self.commission_agent_id or performer_agent
+        return agent
+
     def _get_sale_order_line_agent_vals(self, line):
-        return {
+        agent = self._get_agent()
+        res = {
             'object_id': line.id,
-            'commission': self.commission_agent_id.commission.id,
-            'agent': self.commission_agent_id.id or self.performer_id.id,
+            'commission': agent.commission.id,
+            'agent': agent.id,
         }
+        return res
 
     def _get_invoice_line_agent_vals(self, inv_line):
+        agent = self._get_agent()
         return {
             'object_id': inv_line.id,
-            'commission': self.commission_agent_id.commission.id,
-            'agent': self.commission_agent_id.id or self.performer_id.id,
+            'commission': agent.commission.id,
+            'agent': agent.id,
         }
 
     @api.multi
     def check_commission(self):
         # We First check that all the line have been created
-        agent = self.commission_agent_id or self.performer_id
+        agent = self._get_agent()
         for line in self.get_sale_order_lines():
             if (
                 not line.agents.filtered(lambda r: self.check_agents(r)) and
-                self.commission_agent_id and
-                self.commission_agent_id.agent
+                agent and agent.agent
             ):
                 self.env['sale.order.line.agent'].create(
                     self._get_sale_order_line_agent_vals(line)
@@ -77,8 +89,7 @@ class MedicalCommissionAction(models.AbstractModel):
                     not inv_line.agents.filtered(
                         lambda r: self.check_agents(r)
                     ) and
-                    self.commission_agent_id and
-                    self.commission_agent_id.agent
+                    agent and agent.agent
                 ):
                     self.env['account.invoice.line.agent'].create(
                         self._get_invoice_line_agent_vals(inv_line)
