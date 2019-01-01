@@ -62,6 +62,7 @@ class MedicalCommissionAction(models.AbstractModel):
     @api.multi
     def check_commission(self):
         # We First check that all the line have been created
+        agent = self.commission_agent_id or self.performer_id
         for line in self.get_sale_order_lines():
             if (
                 not line.agents.filtered(lambda r: self.check_agents(r)) and
@@ -88,9 +89,9 @@ class MedicalCommissionAction(models.AbstractModel):
             lambda r: not r.child_agent_line_ids and not r.is_cancel)
         for sale_agent in sale_agents:
             sale_agent._compute_amount()
-            if sale_agent.agent != self.commission_agent_id:
-                sale_agent.change_agent(self.commission_agent_id)
+            if sale_agent.agent != agent:
+                sale_agent.change_agent(agent)
         for inv_agent in invoice_agents:
             inv_agent._compute_amount()
-            if inv_agent and inv_agent.agent != self.commission_agent_id:
-                inv_agent.change_agent(self.commission_agent_id)
+            if inv_agent and inv_agent.agent != agent:
+                inv_agent.change_agent(agent)
