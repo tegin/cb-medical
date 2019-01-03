@@ -59,10 +59,14 @@ class MedicalEncounter(models.Model):
 
     @api.multi
     def inprogress2onleave(self):
+        data = {}
         for item in self.medication_item_ids.filtered(
             lambda r: not r.is_phantom
         ):
-            item._to_medication_request()
+            product, loc_type, request = item._to_medication_request(data)
+            if not data.get(product, False):
+                data[product] = {}
+            data[product][loc_type] = request
         return super().inprogress2onleave()
 
     @api.multi
@@ -73,11 +77,11 @@ class MedicalEncounter(models.Model):
                     req.draft2active()
                 if req.state == 'active':
                     req.active2completed()
-        self.picking_ids.filtered(
-            lambda r: r.state == 'draft').action_confirm()
-        moves = self.picking_ids.mapped('move_lines').filtered(
-            lambda move: move.state not in ('draft', 'cancel', 'done'))
-        if moves:
-            moves._action_assign()
-        self.picking_ids.action_pack_operation_auto_fill()
+        if not self.env.context.get('no_complete_administration', False):
+            self.process_medication_request()
         return super().onleave2finished()
+
+    def process_medication_request(self):
+        self.env['stock.immediate.transfer'].create({
+            'pick_ids': [(6, 0, self.picking_ids.ids)]
+        }).process()
