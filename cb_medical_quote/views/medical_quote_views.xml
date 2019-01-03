@@ -34,10 +34,18 @@
         <field name="arch" type="xml">
             <form string="Medical Quote">
             <header>
-                <button name="button_send" string="Mark as sent" type="object" states="draft" class="btn-primary"/>
-                <button name="button_confirm" string="Confirm" type="object" states="sent" class="btn-primary"/>
-                <button name="button_cancel" string="Cancel" type="object" states="draft,confirm,sent"/>
-                <button name="button_draft" string="Re-open" type="object" states="cancel" class="btn-primary"/>
+                <button name="button_send" string="Mark as sent" type="object"
+                        states="draft" class="btn-primary"
+                        groups="cb_medical_quote.group_medical_quote_manager"/>
+                <button name="button_confirm" string="Confirm" type="object"
+                        states="sent" class="btn-primary"
+                        groups="cb_medical_quote.group_medical_quote_manager"/>
+                <button name="button_cancel" string="Cancel" type="object"
+                        states="draft,confirm,sent"
+                        groups="cb_medical_quote.group_medical_quote_manager"/>
+                <button name="button_draft" string="Re-open" type="object"
+                        states="cancel" class="btn-primary"
+                        groups="cb_medical_quote.group_medical_quote_manager"/>
                 <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>
             </header>
             <sheet>
