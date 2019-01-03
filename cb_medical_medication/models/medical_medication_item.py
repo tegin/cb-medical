@@ -38,8 +38,16 @@ class MedicalMedicationItem(models.Model):
         self.price = self.product_id.list_price
 
     @api.multi
-    def _to_medication_request(self):
+    def _to_medication_request(self, data):
         product = self.product_id.categ_id.category_product_id
+        if data.get(product.id, {}).get(
+            self.location_id.location_type_id.id, False
+        ):
+            request = data.get(product.id, {}).get(
+                self.location_id.location_type_id.id, False
+            )
+            request._add_medication_item(self)
+            return product.id, self.location_id.location_type_id.id, request
         requests = self.encounter_id.mapped('careplan_ids').mapped(
             'medication_request_ids'
         ).filtered(
@@ -62,11 +70,14 @@ class MedicalMedicationItem(models.Model):
         for request in requests.filtered(
             lambda r: not r.is_sellable_insurance and not r.is_sellable_private
         ):
-            return request._add_medication_item(self)
+            request._add_medication_item(self)
+            return product.id, self.location_id.location_type_id.id, request
         for request in requests.filtered(lambda r: r.is_sellable_insurance):
-            return request._add_medication_item(self)
+            request._add_medication_item(self)
+            return product.id, self.location_id.location_type_id.id, request
         for request in requests.filtered(lambda r: r.is_sellable_private):
-            return request._add_medication_item(self)
+            request._add_medication_item(self)
+            return product.id, self.location_id.location_type_id.id, request
         # If no medications are found, we are returning an error
         raise ValidationError(_(
             'Request cannot be found for category %s'
