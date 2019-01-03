@@ -106,8 +106,6 @@ class MedicalEncounter(models.Model):
             raise ValidationError(_(
                 'Payment journal is necessary in order to finish sale orders'))
         sale_order.action_confirm()
-        if sale_order.amount_total == 0:
-            return
         if not self._context.get('journal_id', False):
             raise ValidationError(_(
                 'Payment journal is necessary in order to finish sale orders'))
@@ -126,6 +124,8 @@ class MedicalEncounter(models.Model):
                     no_split_invoices=True,
                 ).action_invoice_create())
             invoice.action_invoice_open()
+            if invoice.amount_total == 0:
+                return
             amount = invoice.amount_total
             if invoice.type == 'out_refund':
                 amount = -amount
