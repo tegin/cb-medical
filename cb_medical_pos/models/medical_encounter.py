@@ -106,14 +106,7 @@ class MedicalEncounter(models.Model):
             raise ValidationError(_(
                 'Payment journal is necessary in order to finish sale orders'))
         sale_order.action_confirm()
-        if not self._context.get('journal_id', False):
-            raise ValidationError(_(
-                'Payment journal is necessary in order to finish sale orders'))
-        journal_id = self._context.get('journal_id', False)
-        pos_session_id = self._context.get('pos_session_id', False)
-        cash_vals = {
-            'journal_id': journal_id,
-        }
+        cash_vals = {}
         if not sale_order.third_party_order:
             model = 'cash.invoice.out'
             patient_journal = sale_order.company_id.patient_journal_id.id
@@ -140,6 +133,13 @@ class MedicalEncounter(models.Model):
                 'amount': sale_order.amount_total,
             })
         if cash_vals['amount'] != 0:
+            if not self._context.get('journal_id', False):
+                raise ValidationError(_(
+                    'Payment journal is necessary in order to '
+                    'finish sale orders'))
+            journal_id = self._context.get('journal_id', False)
+            pos_session_id = self._context.get('pos_session_id', False)
+            cash_vals['journal_id'] = journal_id
             process = self.env[model].with_context(
                 active_ids=[pos_session_id], active_model='pos.session'
             ).create(cash_vals)
