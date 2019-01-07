@@ -56,6 +56,7 @@ class MedicalRequest(models.AbstractModel):
             'careplan_id': self.careplan_id.id or False,
             'center_id': self.center_id.id or False,
             'relations': relations,
+            'encounter_id': self.encounter_id.id or False,
             'coverage_id': self.coverage_id.id,
             'coverage_agreement_item_id': self.coverage_agreement_item_id.id,
             'authorization_method_id': self.authorization_method_id.id,
