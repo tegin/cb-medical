@@ -14,7 +14,7 @@ class MedicalEncounter(models.Model):
     def _compute_invoice_count(self):
         for record in self:
             invoices = self.env['account.invoice.line'].search(
-                [('encounter_id', '=', self.id)]).mapped('invoice_id')
+                [('encounter_id', '=', record.id)]).mapped('invoice_id')
             record.invoice_count = len(invoices)
 
     def _get_sale_order_vals(
