@@ -14,7 +14,7 @@ class MedicalDocumentReference(models.Model):
     _inherit = ['medical.request', 'medical.document.language']
 
     internal_identifier = fields.Char(
-        string="Document reference"
+        string="Document reference",
     )
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -36,6 +36,7 @@ class MedicalDocumentReference(models.Model):
     document_template_id = fields.Many2one(
         'medical.document.template',
         readonly=True,
+        copy=False,
         ondelete='restrict',
     )
     is_editable = fields.Boolean(
@@ -44,10 +45,13 @@ class MedicalDocumentReference(models.Model):
     text = fields.Text(
         string='Document text',
         readonly=True,
-        sanitize=True
+        copy=False,
+        sanitize=True,
     )
     lang = fields.Selection(
-        required=False, readonly=True,
+        required=False,
+        readonly=True,
+        copy=False,
         states={'draft': [('readonly', False)]},
     )
 
