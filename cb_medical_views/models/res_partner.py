@@ -6,9 +6,10 @@ class ResPartner(models.Model):
 
     @api.multi
     def name_get(self):
-        orig_name = dict(super().name_get())
+        orig = super().name_get()
         if not self.env.context.get('cb_display', False):
-            return orig_name
+            return orig
+        orig_name = dict(orig)
         result = []
         for partner in self:
             name = orig_name[partner.id]
