@@ -77,11 +77,12 @@ class MedicalEncounter(models.Model):
                     r.authorization_number
                 )
             ))
-            rec.missing_practitioner = bool(lines.mapped(
-                'procedure_ids'
+            rec.missing_practitioner = bool(rec.sale_order_ids.mapped(
+                'order_line.procedure_ids'
             ).filtered(lambda r: (
                 r.procedure_service_id.medical_commission
                 and not r.performer_id
+                and r.state not in ['aborted']
             )))
 
     def onleave2finished_values(self):
