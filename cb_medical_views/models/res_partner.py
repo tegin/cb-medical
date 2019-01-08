@@ -6,8 +6,10 @@ class ResPartner(models.Model):
 
     @api.multi
     def name_get(self):
+        orig_name = dict(super().name_get())
+        if not self.env.context.get('cb_display', False):
+            return orig_name
         result = []
-        orig_name = dict(super(ResPartner, self).name_get())
         for partner in self:
             name = orig_name[partner.id]
             if partner.is_payor:
