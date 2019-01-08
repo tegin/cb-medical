@@ -17,11 +17,15 @@ class MedicalEncounterValidationAddService(models.TransientModel):
         required=True,
     )
 
+    def post_process_request(self, request):
+        pass
+
     def run(self):
         res = super(MedicalEncounterValidationAddService, self.with_context(
             on_validation=True
         ))._run()
         values = dict()
+        self.post_process_request(res)
         query = res.get_sale_order_query()
         for el in query:
             key, partner, cov, is_ins, third_party, request = el
