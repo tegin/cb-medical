@@ -34,5 +34,5 @@ class MedicalEncounter(models.Model):
         result['domain'] = [('id', 'in', invoices.ids)]
         if len(invoices) == 1:
             result['views'] = [(False, 'form')]
-            result['res_id'] = self.invoices.id
+            result['res_id'] = invoices.id
         return result
