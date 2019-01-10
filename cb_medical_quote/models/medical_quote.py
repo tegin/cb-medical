@@ -8,8 +8,9 @@ class MedicalQuote(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'quote_date desc, id desc'
 
-    name = fields.Char(default=lambda self: _('New'),
-                       )
+    name = fields.Char(
+        default=lambda self: _('New'),
+    )
     is_private = fields.Boolean('Is private')
     state = fields.Selection(
         [('draft', 'Draft'),
@@ -19,42 +20,49 @@ class MedicalQuote(models.Model):
         string='Status', default='draft', required=True,
         track_visibility='always',
     )
-    quote_date = fields.Date('Date', default=fields.Date.context_today,
-                             readonly=True,
-                             states={'draft': [('readonly', False)]},
-                             )
-    validity_date = fields.Date('Expiry Date',
-                                readonly=True,
-                                states={'draft': [('readonly', False)]},
-                                )
-    confirmation_date = fields.Date('Confirmation Date', readonly=True,)
-    user_id = fields.Many2one('res.users',
-                              string='Salesperson',
-                              readonly=True,
-                              states={'draft': [('readonly', False)]},
-                              default=lambda self: self.env.user,
-                              )
-    company_id = fields.Many2one('res.company', required=True,
-                                 readonly=True,
-                                 states={'draft': [('readonly', False)]},
-                                 default=lambda self: self.env.user.company_id,
-                                 )
-    patient_id = fields.Many2one('medical.patient',
-                                 readonly=True,
-                                 states={'draft': [('readonly', False)]},
-                                 )
+    quote_date = fields.Date(
+        'Date', default=fields.Date.context_today,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+    validity_date = fields.Date(
+        'Expiry Date',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+    confirmation_date = fields.Date('Confirmation Date', readonly=True, )
+    user_id = fields.Many2one(
+        'res.users',
+        string='Salesperson',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=lambda self: self.env.user,
+    )
+    company_id = fields.Many2one(
+        'res.company', required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=lambda self: self.env.user.company_id,
+    )
+    patient_id = fields.Many2one(
+        'medical.patient',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
     patient_name = fields.Char('Patient name')
-    payor_id = fields.Many2one('res.partner', 'Payor', required=True,
-                               domain="[('is_payor', '=', True)]",
-                               readonly=True,
-                               states={'draft': [('readonly', False)]},
-                               )
-    coverage_template_id = fields.Many2one('medical.coverage.template',
-                                           required=True,
-                                           readonly=True,
-                                           states={
-                                               'draft': [('readonly', False)]},
-                                           )
+    payor_id = fields.Many2one(
+        'res.partner', 'Payor', required=True,
+        domain="[('is_payor', '=', True)]",
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+    coverage_template_id = fields.Many2one(
+        'medical.coverage.template',
+        required=True,
+        readonly=True,
+        states={
+            'draft': [('readonly', False)]},
+    )
     center_id = fields.Many2one(
         'res.partner',
         domain=[('is_center', '=', True)],
@@ -68,10 +76,11 @@ class MedicalQuote(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]}
     )
-    agreement_ids = fields.Many2many('medical.coverage.agreement',
-                                     compute='_compute_agreements',
-                                     store=True,
-                                     )
+    agreement_ids = fields.Many2many(
+        'medical.coverage.agreement',
+        compute='_compute_agreements',
+        store=True,
+    )
     add_agreement_line_id = fields.Many2one(
         'medical.coverage.agreement.item',
         string='Add service',
@@ -80,23 +89,27 @@ class MedicalQuote(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
-    add_quantity = fields.Float('Add Quantity',
-                                readonly=True,
-                                states={'draft': [('readonly', False)]},
-                                )
+    add_quantity = fields.Float(
+        'Add Quantity',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
     amount = fields.Float(
         'Amount', compute='_compute_amount', store=True)
     currency_id = fields.Many2one('res.currency',
                                   related='company_id.currency_id')
-    note = fields.Text('Terms and conditions',
-                       readonly=True,
-                       states={'draft': [('readonly', False)]},
-                       )
+    note = fields.Text(
+        'Terms and conditions',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
 
-    comment_template1_id = fields.Many2one('base.comment.template',
-                                           string='Top Comment Template')
-    comment_template2_id = fields.Many2one('base.comment.template',
-                                           string='Bottom Comment Template')
+    comment_template1_id = fields.Many2one(
+        'base.comment.template',
+        string='Top Comment Template')
+    comment_template2_id = fields.Many2one(
+        'base.comment.template',
+        string='Bottom Comment Template')
     note1 = fields.Html('Top Comment')
     note2 = fields.Html('Bottom Comment')
 
@@ -169,7 +182,7 @@ class MedicalQuote(models.Model):
                 self.coverage_template_id = templates[0]
             return {'domain': {
                 'coverage_template_id': [('id', 'in', templates.ids)]}
-                }
+            }
         else:
             return {'domain': {
                 'coverage_template_id': []}
@@ -225,6 +238,7 @@ class MedicalQuote(models.Model):
             'layout_category_id': cat.id,
             'product_id': item[0].product_id.id,
             'quantity': item[1] * self.add_quantity,
+            'description': item[0].product_id.description_quote,
             'price': price,
             'coverage_agreement_id': item[0].coverage_agreement_id.id,
         }
@@ -350,6 +364,9 @@ class MedicalQuoteLine(models.Model):
         domain=[('type', '=', 'service'), ('sale_ok', '=', True)],
         required=True,
         readonly=True,
+    )
+    description = fields.Text(
+
     )
     quantity = fields.Float('Quantity')
     categ_id = fields.Many2one(
