@@ -2,7 +2,8 @@
 <odoo>
     <template id="report_medical_quote_document">
         <t t-call="web.external_layout">
-            <t t-set="doc" t-value="doc.with_context({'lang':doc.payor_id.lang, 'not_display_company': True})" />
+            <t t-set="doc"
+               t-value="doc.with_context({'lang':doc.payor_id.lang, 'not_display_company': True})"/>
             <div class="page">
                 <div class="oe_structure"/>
                 <div class="row">
@@ -13,8 +14,13 @@
                             <strong>Patient:</strong>
                             <t t-if="doc.patient_id">
                                 <div t-field="doc.patient_id"
-                                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
-                                <p t-if="doc.patient_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.patient_id.vat"/></p>
+                                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                                <p t-if="doc.patient_id.vat">
+                                    <t
+                                            t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>
+                                    :
+                                    <span t-field="doc.patient_id.vat"/>
+                                </p>
                             </t>
                             <t t-if="not doc.patient_id and doc.patient_name">
                                 <strong>Patient:</strong>
@@ -25,9 +31,10 @@
                             <div t-if="doc.patient_id" class="mt8">
                                 <strong>Patient:</strong>
                                 <div t-field="doc.patient_id"
-                                    t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                                     t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                             </div>
-                            <div t-if="not doc.patient_id and doc.patient_name" class="mt8">
+                            <div t-if="not doc.patient_id and doc.patient_name"
+                                 class="mt8">
                                 <strong>Patient:</strong>
                                 <div t-field="doc.patient_name"/>
                             </div>
@@ -36,15 +43,20 @@
                                     <strong>Payor:</strong>
                                 </t>
                                 <div t-field="doc.payor_id"
-                                    t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                                <p t-if="doc.payor_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>: <span t-field="doc.payor_id.vat"/></p>
+                                     t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                                <p t-if="doc.payor_id.vat">
+                                    <t
+                                            t-esc="doc.company_id.country_id.vat_label or 'TIN'"/>
+                                    :
+                                    <span t-field="doc.payor_id.vat"/>
+                                </p>
                             </div>
                         </t>
                     </div>
                 </div>
                 <h2>
                     <t>
-                        <span>Quotation # </span>
+                        <span>Quotation #</span>
                     </t>
                     <span t-field="doc.name"/>
                 </h2>
@@ -59,11 +71,13 @@
                         <p t-field="doc.user_id"/>
                     </div>
 
-                    <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-xs-3">
+                    <div t-if="doc.validity_date and doc.state in ['draft', 'sent']"
+                         class="col-xs-3">
                         <strong>Expiration Date:</strong>
                         <p t-field="doc.validity_date"/>
                     </div>
-                    <div t-if="doc.confirmation_date and doc.state == 'confirm'" class="col-xs-3">
+                    <div t-if="doc.confirmation_date and doc.state == 'confirm'"
+                         class="col-xs-3">
                         <strong>Confirmation Date:</strong>
                         <p t-field="doc.confirmation_date"/>
                     </div>
@@ -74,48 +88,49 @@
                 <t t-foreach="doc.lines_layouted()" t-as="page">
                     <table class="table table-condensed">
                         <thead>
-                            <tr>
-                                <th>Service</th>
+                            <tr id="quote_header">
+                                <th colspan="2">Service</th>
                                 <th class="text-right">Quantity</th>
-                                <th class="text-right">Unit Price</th>
-                                <th class="text-right">Total Price</th>
                             </tr>
-                       </thead>
-                       <tbody>
+                        </thead>
+                        <tbody>
                             <t t-foreach="page" t-as="layout_category">
                                 <t t-if="layout_category['name']">
-                                    <tr class="active">
-                                        <td colspan="7" style="font-weight: bold; border-bottom: 1px solid black;">&amp;bull;
+                                    <tr class="active" id="quote_section">
+                                        <td colspan="7"
+                                            style="font-weight: bold; border-bottom: 1px solid black;">
+                                            &amp;bull;
                                             <t t-esc="layout_category['name']"/>
                                         </td>
                                     </tr>
                                 </t>
                                 <!-- Lines associated -->
-                                <t t-foreach="layout_category['lines']" t-as="l">
-                                    <tr>
+                                <t t-foreach="layout_category['lines']"
+                                   t-as="l">
+                                    <tr id="quote_line">
                                         <td>
-                                            <span t-field="l.product_id"/>
-                                            <t t-if="l.product_id.description_sale">
-                                                <br/><span t-field="l.product_id.description_sale"/>
+                                            <span t-field="l.product_id.default_code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="l.product_id.name"/>
+                                            <t t-if="l.description">
+                                                <br/>
+                                                <span t-field="l.description"/>
                                             </t>
                                         </td>
-                                        <td class="text-right"><span t-field="l.quantity"/></td>
                                         <td class="text-right">
-                                            <span t-field="l.price"
-                                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                                        </td>
-                                        <td class="text-right">
-                                            <span t-field="l.amount"
-                                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                            <span t-field="l.quantity"/>
                                         </td>
                                     </tr>
                                 </t>
                                 <t t-if="layout_category['subtotal']">
                                     <tr class="text-right">
                                         <td colspan="6">
-                                            <strong>Subtotal: </strong>
-                                            <t t-set="subtotal" t-value="sum(line.amount for line in layout_category['lines'])"/>
-                                            <span t-esc="subtotal" t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                            <strong>Subtotal:</strong>
+                                            <t t-set="subtotal"
+                                               t-value="sum(line.amount for line in layout_category['lines'])"/>
+                                            <span t-esc="subtotal"
+                                                  t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
                                         </td>
                                     </tr>
                                 </t>
@@ -123,25 +138,13 @@
                         </tbody>
                     </table>
                     <t t-if="page_index &lt; page_size - 1">
-                        <p style="page-break-before:always;"> </p>
+                        <p style="page-break-before:always;"></p>
                     </t>
                 </t>
-                <div class="clearfix">
-                    <div class="row" name="total">
-                        <div class="col-xs-4 pull-right">
-                            <table class="table table-condensed" style="min-width: 200px;max-width: 350px;">
-                                <tr class="border-black">
-                                    <td><strong>Total</strong></td>
-                                    <td class="text-right">
-                                        <span t-field="doc.amount"
-                                            t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                <div class="clearfix" id="table_end">
+
                 </div>
-                <p t-field="doc.note" />
+                <p t-field="doc.note"/>
                 <p t-if="doc.note2">
                     <span t-field="doc.note2"/>
                 </p>
@@ -151,10 +154,56 @@
     </template>
 
 
+    <template id="report_medical_quote_document_payor"
+              inherit_id="report_medical_quote_document" primary="True">
+        <xpath expr="//tr[@id='quote_line']" position="inside">
+            <td class="text-right">
+                <span t-field="l.price"
+                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+            </td>
+            <td class="text-right">
+                <span t-field="l.amount"
+                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+            </td>
+        </xpath>
+        <xpath expr="//tr[@id='quote_header']" position="inside">
+            <th class="text-right">Unit Price</th>
+            <th class="text-right">Total Price</th>
+        </xpath>
+        <xpath expr="//div[@id='table_end']">
+            <div class="row" name="total">
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed"
+                           style="min-width: 200px;max-width: 350px;">
+                        <tr class="border-black">
+                            <td>
+                                <strong>Total</strong>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="doc.amount"
+                                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_medical_quote_patient">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="cb_medical_quote.report_medical_quote_document"
+                   t-lang="doc.payor_id.lang"/>
+            </t>
+        </t>
+    </template>
+
     <template id="report_medical_quote">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="cb_medical_quote.report_medical_quote_document" t-lang="doc.payor_id.lang"/>
+                <t t-call="cb_medical_quote.report_medical_quote_document_payor"
+                   t-lang="doc.payor_id.lang"/>
             </t>
         </t>
     </template>
