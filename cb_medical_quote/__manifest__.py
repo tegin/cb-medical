@@ -19,6 +19,7 @@
         'views/medical_quote_views.xml',
         'views/medical_quote_layout_category_views.xml',
         'views/medical_menu.xml',
+        'views/product_template_views.xml',
         'reports/medical_quote_templates.xml',
         'reports/medical_quote_report.xml',
     ],
