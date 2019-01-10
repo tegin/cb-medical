@@ -12,13 +12,24 @@
         <field name="arch" type="xml">
             <form position="attributes">
                 <attribute name="name">Add a Service</attribute>
-            </form>
-            <field name="careplan_id" position="after">
-                <field name="encounter_id" invisible="1"/>
+	    </form>
+	    <field name="careplan_id" position="before">
+		    <field name="action_type" options="{'horizontal': true}" class="oe_edit_only" widget="radio"/>
             </field>
+	    <field name="careplan_id" position="after">
+		    <field name="payor_id" attrs="{'readonly': [('action_type', '=', 'reuse')]}"/>
+		    <field name="coverage_template_id" attrs="{'readonly': [('action_type', '=', 'reuse')]}" domain="[('payor_id', '=', payor_id)]"/>
+		    <field name="sub_payor_required" invisible="1"/>
+		    <field name="sub_payor_id" 
+			    domain="[('payor_id', '=', payor_id)]"
+			    attrs="{'readonly': [('action_type', '=', 'reuse')], 'required': [('sub_payor_required','=', True), ('action_type', '=', 'new')]}"/>
+                    <field name="subscriber_id" attrs="{'readonly': [('action_type', '=', 'reuse')]}"/>
+                <field name="encounter_id" invisible="1"/>
+	    </field>
             <field name="careplan_id" position="attributes">
-                <attribute name="invisible">0</attribute>
-                <attribute name="domain">[('encounter_id', '=', encounter_id)]</attribute>
+		    <attribute name="invisible">0</attribute>
+		    <attribute name="attrs">{'invisible': [('action_type', '=', 'new')], 'required': [('action_type', '=', 'reuse')]}</attribute>
+                    <attribute name="domain">[('encounter_id', '=', encounter_id)]</attribute>
             </field>
         </field>
     </record>
