@@ -136,4 +136,4 @@ class SalerOrderLine(models.Model):
             validation_change=True,
         ).change_plan_definition(
             self.env['medical.coverage.agreement.item'].get_item(
-                service, request.coverage_template_id))
+                service, request.coverage_template_id, request.center_id))
