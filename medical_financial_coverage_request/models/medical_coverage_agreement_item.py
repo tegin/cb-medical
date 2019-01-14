@@ -70,18 +70,25 @@ class MedicalCoverageAgreementItem(models.Model):
         res['authorization_format_id'] = self.authorization_format_id.id
         return res
 
-    def get_item(self, product, coverage_template, date=False, plan=False):
+    def get_item(
+        self, product, coverage_template, center, date=False, plan=False
+    ):
         if not date:
             date = fields.Date.today()
         if isinstance(product, int):
             product_id = product
         else:
             product_id = product.id
+        if isinstance(center, int):
+            center_id = center
+        else:
+            center_id = center.id
         if isinstance(coverage_template, int):
             coverage_template_id = coverage_template
         else:
             coverage_template_id = coverage_template.id
         domain = [
+            ('coverage_agreement_id.center_ids', '=', center_id),
             ('product_id', '=', product_id),
             ('coverage_template_ids', '=', coverage_template_id),
             '|', ('date_from', '=', False), ('date_from', '<=', date),
