@@ -106,7 +106,11 @@ class MedicalRequest(models.AbstractModel):
         # Agreement is researched if it is not billable
         self.coverage_agreement_item_id = self.env[
             'medical.coverage.agreement.item'
-        ].get_item(self.service_id, self.coverage_id.coverage_template_id)
+        ].get_item(
+            self.service_id,
+            self.coverage_id.coverage_template_id,
+            self.center_id,
+        )
         if not self.coverage_agreement_item_id:
             raise ValidationError(_('Agreement must be defined'))
         return self.is_billable
