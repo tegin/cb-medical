@@ -131,7 +131,7 @@ msgstr "Evento de Laboratorio"
 #: model:ir.actions.act_window,name:medical_clinical_laboratory.medical_laboratory_event_action
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_laboratory_request_view_form
 msgid "Laboratory Events"
-msgstr "Eventos laboratorio"
+msgstr "Ev. Laboratorio"
 
 #. module: medical_clinical_laboratory
 #: model:res.groups,name:medical_clinical_laboratory.group_medical_laboratory_manager
@@ -172,7 +172,7 @@ msgstr "Peticion laboratorio"
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_procedure_request_view_tree
 #: model:ir.ui.view,arch_db:medical_clinical_laboratory.medical_request_form
 msgid "Laboratory requests"
-msgstr "Peticiones laboratorio"
+msgstr "Pet. laboratorio"
 
 #. module: medical_clinical_laboratory
 #: model:ir.model.fields,field_description:medical_clinical_laboratory.field_medical_laboratory_event___last_update
