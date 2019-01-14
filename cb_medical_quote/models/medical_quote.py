@@ -220,7 +220,7 @@ class MedicalQuote(models.Model):
                     qty = activity.quantity
                     agreement = \
                         self.env['medical.coverage.agreement.item'].get_item(
-                            service, self.coverage_template_id)
+                            service, self.coverage_template_id, self.center_id)
                     items.append([agreement, qty])
 
         return items
