@@ -42,7 +42,7 @@ class MedicalLaboratoryEvent(models.Model):
                 lambda r: r.laboratory_code == cov.laboratory_code
             )
             cai = self.env['medical.coverage.agreement.item'].get_item(
-                self.service_id, cov)
+                self.service_id, cov, self.laboratory_request_id.center_id)
             if rec.laboratory_service_id in \
                     rec.laboratory_request_id.laboratory_service_ids:
                 rec.is_sellable_insurance = False
