@@ -132,7 +132,7 @@ msgstr "Oferta"
 #. module: cb_medical_careplan_sale
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_laboratory_event_coverage_amount
 msgid "Coverage Amount"
-msgstr "Cantidad"
+msgstr "Importe Mútua"
 
 #. module: cb_medical_careplan_sale
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_encounter_add_careplan_coverage_template_id
@@ -453,7 +453,7 @@ msgstr "# pedidos de ventas"
 #. module: cb_medical_careplan_sale
 #: model:ir.ui.view,arch_db:cb_medical_careplan_sale.medical_encounter_view_form
 msgid "Sale Orders"
-msgstr "Pedidos de Ventas"
+msgstr "Ventas"
 
 #. module: cb_medical_careplan_sale
 #: code:addons/cb_medical_careplan_sale/models/medical_request.py:120
