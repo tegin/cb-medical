@@ -3,7 +3,7 @@
     <template id="report_medical_quote_document">
         <t t-call="web.external_layout">
             <t t-set="doc"
-               t-value="doc.with_context({'lang':doc.payor_id.lang, 'not_display_company': True})"/>
+               t-value="doc.with_context(lang=doc.payor_id.lang,not_display_company=True)"/>
             <div class="page">
                 <div class="oe_structure"/>
                 <div class="row">
