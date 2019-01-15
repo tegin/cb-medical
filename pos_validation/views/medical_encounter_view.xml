@@ -91,6 +91,9 @@
                         string="Close"
                 />
             </xpath>
+	    <xpath expr="//button[@name='action_view_sale_order']" position="attributes">
+                <attribute name="groups">pos_validation.group_medical_encounter_validation</attribute>
+            </xpath>
             <field name="location_id" position="after">
                 <field name="validation_status"/>
             </field>
