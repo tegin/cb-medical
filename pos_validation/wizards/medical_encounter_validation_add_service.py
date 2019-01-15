@@ -83,6 +83,7 @@ class MedicalEncounterValidationAddService(models.TransientModel):
         ].with_context(
             on_validation=True,
         ).new({
+            'patient_id': self.patient_id.id,
             'encounter_id': self.encounter_id.id,
             'center_id': self.encounter_id.center_id.id,
             'coverage_template_id': self.coverage_template_id.id,
