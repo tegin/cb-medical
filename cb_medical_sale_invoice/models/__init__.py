@@ -6,6 +6,7 @@
 from . import account_invoice
 from . import medical_coverage_agreement
 from . import medical_encounter
+from . import medical_laboratory_event
 from . import medical_request
 from . import res_partner
 from . import sale_order
