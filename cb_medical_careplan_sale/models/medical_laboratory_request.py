@@ -23,4 +23,13 @@ class LaboratoryRequest(models.Model):
         res['encounter_id'] = self.encounter_id.id or False
         if not res.get('authorization_status', False):
             res['authorization_status'] = self.authorization_status
+        cai = self.env[
+            'medical.coverage.agreement.item'
+        ].get_item(
+            self.service_id,
+            self.coverage_id.coverage_template_id,
+            self.center_id,
+        )
+        if cai:
+            res['coverage_agreement_id'] = cai.id
         return res
