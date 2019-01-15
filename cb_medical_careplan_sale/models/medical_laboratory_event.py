@@ -64,7 +64,7 @@ class LaboratoryEvent(models.Model):
         return query
 
     def get_sale_order_line_vals(self, is_insurance):
-        return {
+        res = {
             'product_id': self.service_id.id,
             'name': self.name or self.service_id.name,
             'laboratory_event_id': self.id,
@@ -74,6 +74,9 @@ class LaboratoryEvent(models.Model):
             'authorization_status': self.authorization_status,
             'encounter_id': self.encounter_id.id or False,
         }
+        if is_insurance:
+            res['invoice_group_method_id'] = self.invoice_group_method_id.id
+        return res
 
     def compute_price(self, is_insurance):
         return self.coverage_amount if is_insurance else self.private_amount
