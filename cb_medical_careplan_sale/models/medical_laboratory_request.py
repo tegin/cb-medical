@@ -31,5 +31,5 @@ class LaboratoryRequest(models.Model):
             self.center_id,
         )
         if cai:
-            res['coverage_agreement_id'] = cai.id
+            res['coverage_agreement_id'] = cai.coverage_agreement_id.id
         return res
