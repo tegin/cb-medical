@@ -12,6 +12,7 @@
     'depends': [
         'medical_clinical_request_group',
         'medical_administration_encounter_careplan',
+        'medical_clinical_laboratory',
         'cb_medical_workflow_plandefinition',
         'cb_medical_financial_coverage_agreement',
         'cb_medical_identifier',
