@@ -36,6 +36,10 @@
                             <span>Patient:</span>
                             <span t-field="o.patient_id.name"/>
                         </h4>
+                        <h4>
+                            <span>Total:</span>
+                            <span t-esc="sum(i.price*i.qty for i in o.medication_item_ids)" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                        </h4>
                         <t t-foreach="o.medication_item_ids.mapped('location_id')"
                            t-as="location">
                             <h3>
