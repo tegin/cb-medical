@@ -73,6 +73,9 @@ class MedicalEncounterValidationAddService(models.TransientModel):
             self.sub_payor_id = sub_payors
         if len(self.payor_id.coverage_template_ids) == 1:
             self.coverage_template_id = self.payor_id.coverage_template_ids
+        return {"domain": {"coverage_template_id": [
+            ("payor_id", "=", self.payor_id.id or False)
+        ]}}
 
     def post_process_request(self, request):
         pass
@@ -82,7 +85,7 @@ class MedicalEncounterValidationAddService(models.TransientModel):
             'medical.encounter.add.careplan'
         ].with_context(
             on_validation=True,
-        ).new({
+        ).create({
             'patient_id': self.patient_id.id,
             'encounter_id': self.encounter_id.id,
             'center_id': self.encounter_id.center_id.id,
