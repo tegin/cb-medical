@@ -11,6 +11,8 @@ from . import medical_coverage_template
 from . import medical_document_reference
 from . import medical_request
 from . import medical_request_group
+from . import medical_laboratory_event
+from . import medical_laboratory_request
 from . import res_partner
 from . import workflow_activity_definition
 from . import workflow_plan_definition
