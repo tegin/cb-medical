@@ -12,6 +12,7 @@ class MedicalEncounter(models.AbstractModel):
     def recompute_commissions(self):
         for rec in self:
             rec._compute_commissions()
+        return True
 
     @api.multi
     def create_sale_order(self):
