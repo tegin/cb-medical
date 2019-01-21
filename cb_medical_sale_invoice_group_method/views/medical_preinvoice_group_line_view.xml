@@ -15,9 +15,9 @@
             <tree string="sale order lines">
                 <button type="object"
                         name="invalidate_line"
-                        icon="fa-check-square"
+                        icon="fa-minus-square"
                         groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager"
-                        attrs="{'invisible': ['|', ('is_validated', '=', False), ('state', '!=', 'validation')]}"/>
+                        attrs="{'invisible': ['|', ('is_validated', '=', False), ('preinvoice_status', '!=', 'validation')]}"/>
                 <button type="object"
                         name="validate_line"
                         icon="fa-check-square"
@@ -38,7 +38,8 @@
                 <field name="product_uom" string="Unit of Measure"
                        groups="product.group_uom"/>
                 <field name="price_subtotal" sum="Total" widget="monetary"/>
-                <field name="state" invisible="1"/>
+		<field name="state" invisible="1"/>
+		<field name="preinvoice_status" invisible="1"/>
             </tree>
         </field>
     </record>
