@@ -29,6 +29,11 @@ class SaleOrderLine(models.Model):
         self.ensure_one()
         self.preinvoice_group_id.validate_line(self)
 
+    @api.multi
+    def invalidate_line(self):
+        self.ensure_one()
+        self.preinvoice_group_id.invalidate_line(self)
+
     @api.depends('qty_invoiced', 'qty_delivered', 'product_uom_qty',
                  'order_id.state', 'invoice_group_method_id')
     def _get_to_invoice_qty(self):
