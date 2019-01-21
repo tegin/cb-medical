@@ -101,6 +101,14 @@ class SalePreinvoiceGroup(models.Model):
             })
         self._compute_lines()
 
+    def invalidate_line(self, line):
+        if not line.is_validated:
+            line.write({
+                'is_validated': False,
+                'sequence': 999999
+            })
+        self._compute_lines()
+
     def get_sequence(self):
         val = self.current_sequence + 1
         self.write({'current_sequence': val})
