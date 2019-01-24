@@ -32,8 +32,6 @@ class SaleOrderLine(models.Model):
     @api.multi
     def invalidate_line(self):
         self.ensure_one()
-        import logging
-        logging.info('Invalidate')
         self.preinvoice_group_id.invalidate_line(self)
 
     @api.depends('qty_invoiced', 'qty_delivered', 'product_uom_qty',
