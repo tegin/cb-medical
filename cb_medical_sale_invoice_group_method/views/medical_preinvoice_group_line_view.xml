@@ -38,8 +38,8 @@
                 <field name="product_uom" string="Unit of Measure"
                        groups="product.group_uom"/>
                 <field name="price_subtotal" sum="Total" widget="monetary"/>
-		<field name="state" invisible="1"/>
-		<field name="preinvoice_status" invisible="1"/>
+                <field name="state" invisible="1"/>
+                <field name="preinvoice_status" invisible="1"/>
             </tree>
         </field>
     </record>
