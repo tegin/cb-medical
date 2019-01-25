@@ -28,8 +28,12 @@ class MedicalRequest(models.AbstractModel):
         return vals
 
     def _check_cancellable(self):
-        return not self.filtered(lambda r: r.state in [
-            'completed', 'entered-in-error', 'cancelled'])
+        return not self.filtered(
+            lambda r: r.state in ['completed', 'entered-in-error', 'cancelled']
+        ) and (
+            not self.authorization_method_id.check_required or
+            self.authroization_status != 'authorized'
+        )
 
     @api.multi
     def check_cancellable(self):
