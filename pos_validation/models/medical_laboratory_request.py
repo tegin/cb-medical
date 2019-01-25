@@ -9,6 +9,8 @@ class MedicalLaboratoryRequest(models.Model):
     _inherit = ['medical.laboratory.request', 'medical.request']
 
     def _check_cancellable(self):
-        if self.mapped('laboratory_event_ids'):
+        if self.mapped('laboratory_event_ids').filtered(
+            lambda r: r.state != 'aborted'
+        ):
             return False
         return super()._check_cancellable()
