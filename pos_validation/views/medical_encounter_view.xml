@@ -100,7 +100,8 @@
             <page name="medication" position="before">
                 <page name="sale_order" string="Sale Orders"
                       group="pos_validation.group_medical_encounter_validation"
-                      attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}">
+                      context="{'validation_status': validation_status}"
+                      attrs="{'invisible': [('validation_status', 'in', ['draft', 'in_progress', 'finished'])]}">
                     <field name="sale_order_line_ids">
                         <tree create="false" delete="false"
                               decoration-muted="is_private==True"
@@ -125,7 +126,7 @@
                             <field name="authorization_number"/>
                             <button name="check_authorization_action"
                                     type="object" icon="fa-cogs"
-                                    attrs="{'invisible': [('is_private', '=', True)]}"
+                                    attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
                             />
                             <field name="authorization_status"/>
                             <field name="state" invisible="1"/>
