@@ -53,9 +53,13 @@ class MedicalEncounter(models.Model):
                     'amount_total')) -
                 sum(inv.filtered(lambda r: r.type != 'out_invoice').mapped(
                     'amount_total')) -
-                sum(inv.mapped('bank_statement_line_ids').mapped('amount')) +
+                sum(inv.mapped('bank_statement_line_ids').filtered(
+                    lambda r: r.statement_id.pos_session_id
+                ).mapped('amount')) +
                 sum(orders.mapped('amount_total')) -
-                sum(orders.mapped('bank_statement_line_ids').mapped('amount'))
+                sum(orders.mapped('bank_statement_line_ids').filtered(
+                    lambda r: r.statement_id.pos_session_id
+                ).mapped('amount'))
             )
 
     def _get_sale_order_vals(
