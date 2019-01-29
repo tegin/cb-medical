@@ -13,6 +13,7 @@
         'pos_close_approval',
         'pos_multiple_sessions',
         'cb_medical_commission',
+        'account_cash_invoice_inter_company',
     ],
     'data': [
         'data/ir_sequence_data.xml',
