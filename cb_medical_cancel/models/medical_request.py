@@ -32,7 +32,7 @@ class MedicalRequest(models.AbstractModel):
             lambda r: r.state in ['completed', 'entered-in-error', 'cancelled']
         ) and (
             not self.authorization_method_id.check_required or
-            self.authroization_status != 'authorized'
+            self.authorization_status != 'authorized'
         )
 
     @api.multi
