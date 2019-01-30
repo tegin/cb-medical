@@ -27,8 +27,8 @@ class SaleCommissionMakeSettle(models.TransientModel):
             agent_lines = agent_line_obj.search(domain)
             for company in agent_lines.mapped('company_id'):
                 agent_lines_company = agent_line_obj.search(
-                    domain + [('company_id', '=', company.id)]
-                    , order='date')
+                    domain + [('company_id', '=', company.id)],
+                    order='date')
                 if not agent_lines_company:
                     continue
                 pos = 0
