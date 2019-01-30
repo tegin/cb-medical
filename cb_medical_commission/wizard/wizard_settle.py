@@ -20,13 +20,15 @@ class SaleCommissionMakeSettle(models.TransientModel):
         for agent in self.agents:
             date_to_agent = self._get_period_start(agent, date_to)
             # Get non settled invoices
-            agent_lines = agent_line_obj.search(
-                [('date', '<', fields.Datetime.to_string(date_to_agent)),
-                 ('agent', '=', agent.id),
-                 ('settled', '=', False)], order='date')
+            domain = [
+                ('date', '<', fields.Datetime.to_string(date_to_agent)),
+                ('agent', '=', agent.id),
+                ('settled', '=', False)]
+            agent_lines = agent_line_obj.search(domain)
             for company in agent_lines.mapped('company_id'):
-                agent_lines_company = agent_lines.filtered(
-                    lambda r: r.object_id.order_id.company_id == company)
+                agent_lines_company = agent_line_obj.search(
+                    domain + [('company_id', '=', company.id)]
+                    , order='date')
                 if not agent_lines_company:
                     continue
                 pos = 0
