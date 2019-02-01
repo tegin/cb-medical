@@ -19,10 +19,8 @@ class SaleOrder(models.Model):
                  'order_line.preinvoice_group_id')
     def _compute_preinvoice_status(self):
         for order in self:
-            if (
-                order.state not in ['draft', 'cancel']
-            ):
-                if all(
+            if order.state not in ['draft', 'cancel']:
+                if order.third_party_order or all(
                     line.preinvoice_group_id for line in
                     order.order_line.filtered(
                         lambda r:
