@@ -30,7 +30,7 @@
                                 <span t-field="o.template_id.name"/>
                             </p>
                         </div>
-                        <table class="table table-bordered mt32">
+                        <table class="table table-condensed mt32">
                             <thead>
                                 <tr>
                                     <th class="text-center">Product</th>
