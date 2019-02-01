@@ -43,23 +43,27 @@
                                         <t t-esc="agreement.name"/>
                                     </h3>
                                     <br/>
-                                    <p><b>Center: </b><t
-                                            t-foreach="centers" t-as="o"><span t-field="o.name"/></t></p>
+                                    <p><b>Center:</b>
+                                        <ul class="list-inline mb4">
+                                            <li
+                                                    t-foreach="centers"
+                                                    t-as="o">
+                                                <span t-field="o.name"/>
+                                            </li>
+                                        </ul>
+                                    </p>
                                     <p><b>Company: </b><span t-field="agreement.company_id"/></p>
-                                    <p><b>Invoice Group Method: </b><span t-field="agreement.invoice_group_method_id"/></p>
-                                    <p><b>Payor: </b><span t-field="agreement.payor"/></p>
+                                    <p t-if="agreement.invoice_group_method_id"><b>Invoice Group Method: </b><span t-field="agreement.invoice_group_method_id"/></p>
                                     <p><b>Period: </b><span
                                             t-field="agreement.date_from"/>
                                         - <span
                                             t-field="agreement.date_to"/></p>
                                 </div>
-                                <table class="table table-bordered mt32">
+                                <table class="table table-condensed mt32">
                                     <thead>
                                         <tr>
                                             <th class="text-center">Product</th>
-                                            <th class="text-center">Total Price</th>
-                                            <th class="text-center">Coverage Price</th>
-                                            <th class="text-center">Private Price</th>
+                                            <th class="text-center">Price</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -67,8 +71,6 @@
                                             <tr>
                                                 <td><span t-field="o.product_id.name"/></td>
                                                 <td style="text-align:right"><span t-field="o.total_price"/></td>
-                                                <td style="text-align:right"><span t-field="o.coverage_price"/></td>
-                                                <td style="text-align:right"><span t-field="o.private_price"/></td>
                                             </tr>
                                         </t>
                                     </tbody>
