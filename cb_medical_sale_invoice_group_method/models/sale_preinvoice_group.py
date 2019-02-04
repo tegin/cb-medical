@@ -134,6 +134,7 @@ class SalePreinvoiceGroup(models.Model):
     def create_invoice_values(self):
         inv_data = self.validated_line_ids[0]._prepare_invoice()
         inv_data['agreement_id'] = self.agreement_id.id
+        inv_data['name'] = self.internal_identifier
         return inv_data
 
     @api.multi
@@ -152,7 +153,14 @@ class SalePreinvoiceGroup(models.Model):
                 self.invoice_id = self.env['account.invoice'].create(
                     self.create_invoice_values()
                 )
+            else:
+                self.invoice_id.write({'name': ','.join([
+                    self.invoice_id.name, self.internal_identifier])
+                })
+            seq = len(self.invoice_id.invoice_line_ids) + 1
             for line in self.validated_line_ids:
+                line.write({'sequence': seq})
+                seq += 1
                 line.invoice_line_create(
                     self.invoice_id.id, line.product_uom_qty)
         self.write({'state': 'closed'})
