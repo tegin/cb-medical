@@ -71,7 +71,8 @@ class SaleOrder(models.Model):
 
     @api.model
     def _get_draft_invoices(self, invoices, references):
-        invs, refs = super()._get_draft_invoices(invoices, references)
+        invoices, references = super()._get_draft_invoices(
+            invoices, references)
         method = self.env.context.get('invoice_group_method_id', False)
         if method and self.env.context.get('merge_draft_invoice', False):
             domain = [
@@ -88,6 +89,6 @@ class SaleOrder(models.Model):
             for inv in draft_inv:
                 for line in inv.invoice_line_ids.mapped('sale_line_ids'):
                     ref_order = self._get_invoice_group_line_key(line)
-                    refs[inv] = line.order_id
-                    invs[ref_order] = inv
-        return invs, refs
+                    references[inv] = line.order_id
+                    invoices[ref_order] = inv
+        return invoices, references
