@@ -3,16 +3,19 @@
     <template id="report_invoice_document" inherit_id="account.report_invoice_document">
         <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[2]" position="after">
             <th t-if="o.is_medical and o.show_patient">Patient</th>
+            <th t-if="o.is_medical">Date</th>
             <th t-if="o.is_medical and o.show_subscriber">Subscriber</th>
             <th t-if="o.is_medical and o.show_authorization">Authorization</th>
         </xpath>
         <xpath expr="//table[@name='invoice_line_table']/tbody/tr[1]/td[2]" position="after">
             <td t-if="o.is_medical and o.show_patient"><span t-field="l.patient_name"/></td>
+            <td t-if="o.is_medical"><span t-field="l.encounter_id.create_date" t-options="{'widget': 'date'}"/></td>
             <td t-if="o.is_medical and o.show_subscriber"><span t-field="l.subscriber_id"/></td>
             <td t-if="o.is_medical and o.show_authorization"><span t-field="l.authorization_number"/></td>
         </xpath>
         <xpath expr="//table[@name='invoice_line_table']/tbody/tr[2]/td[2]" position="after">
             <td t-if="o.is_medical and o.show_patient"/>
+            <td t-if="o.is_medical"/>
             <td t-if="o.is_medical and o.show_subscriber"/>
             <td t-if="o.is_medical and o.show_authorization"/>
         </xpath>
