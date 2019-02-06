@@ -15,12 +15,12 @@ class MedicalRequest(models.AbstractModel):
         ))
 
     def get_commission(self, amount):
-        result = amount
+        result = 0
         for pr in self.procedure_request_ids.filtered(
             lambda r: not r.is_billable
         ):
-            result -= amount * pr.variable_fee / 100
-            result -= pr.fixed_fee
+            result += amount * pr.variable_fee / 100
+            result += pr.fixed_fee
         return result
 
     def get_sale_order_line_vals(self, is_insurance):
