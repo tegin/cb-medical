@@ -131,7 +131,12 @@ class MedicalRequest(models.AbstractModel):
         vals = self.coverage_agreement_item_id._check_authorization(
             method, **kwargs
         )
+        vals.update(self._change_authorization_vals(method, vals, **kwargs))
         self._change_authorization(vals, **kwargs)
+
+    def _change_authorization_vals(self, method, vals, **kwargs):
+        # This hook allows to process the data using the original request
+        return {}
 
     def _change_authorization(self, vals, **kwargs):
         self.filtered(lambda r: r.is_billable).write(vals)
