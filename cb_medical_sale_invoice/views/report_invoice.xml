@@ -25,6 +25,6 @@
         </xpath>
         <xpath expr="//div[@t-if='o.partner_id.ref']" position="attributes">
             <attribute name="t-if">1==0</attribute>
-        </xpath>
+        </xpath>    
     </template>
 </odoo>
