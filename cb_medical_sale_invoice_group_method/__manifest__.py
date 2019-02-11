@@ -23,6 +23,7 @@
         'security/medical_security.xml',
         'security/ir.model.access.csv',
         'views/medical_preinvoice_group_menu.xml',
+        'views/report_invoice.xml',
         'wizard/wizard_sale_preinvoice_group_views.xml',
         'wizard/wizard_barcode_handler_views.xml',
         'wizard/invoice_sales_by_group_view.xml',
