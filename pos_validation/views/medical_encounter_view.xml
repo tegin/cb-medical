@@ -101,7 +101,7 @@
                 <page name="sale_order" string="Sale Orders"
                       group="pos_validation.group_medical_encounter_validation"
                       context="{'validation_status': validation_status}"
-                      attrs="{'invisible': [('validation_status', 'in', ['draft', 'in_progress', 'finished'])]}">
+                      attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress', 'finished'])]}">
                     <field name="sale_order_line_ids">
                         <tree create="false" delete="false"
                               decoration-muted="is_private==True"
