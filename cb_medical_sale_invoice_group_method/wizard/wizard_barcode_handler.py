@@ -16,7 +16,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
     line_ids = fields.One2many(
         string='Validated lines',
         comodel_name='sale.order.line',
-        related='preinvoice_group_id.line_ids'
+        related='preinvoice_group_id.line_ids', readonly=True,
     )
     status = fields.Text(
         readonly=1,
