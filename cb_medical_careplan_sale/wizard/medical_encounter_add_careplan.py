@@ -32,7 +32,7 @@ class MedicalEncounterAddCareplan(models.TransientModel):
     )
     patient_id = fields.Many2one(
         'medical.patient',
-        related='encounter_id.patient_id',
+        related='encounter_id.patient_id', readonly=True,
     )
     center_id = fields.Many2one(
         'res.partner',
