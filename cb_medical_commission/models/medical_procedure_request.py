@@ -21,7 +21,7 @@ class MedicalProcedureRequest(models.Model):
         default='0.0',
     )
     medical_commission = fields.Boolean(
-        related='service_id.medical_commission'
+        related='service_id.medical_commission', readonly=True,
     )
 
     def _get_procedure_values(self):
