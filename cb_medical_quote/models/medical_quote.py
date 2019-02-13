@@ -96,7 +96,7 @@ class MedicalQuote(models.Model):
     )
     amount = fields.Float(
         'Amount', compute='_compute_amount', store=True)
-    currency_id = fields.Many2one('res.currency',
+    currency_id = fields.Many2one('res.currency', readonly=True,
                                   related='company_id.currency_id')
     note = fields.Text(
         'Terms and conditions',
@@ -399,8 +399,7 @@ class MedicalQuoteLine(models.Model):
         related='quote_id.company_id',
         store=True,
     )
-    is_private = fields.Boolean(related='quote_id.is_private'
-                                )
+    is_private = fields.Boolean(related='quote_id.is_private', readonly=True)
     price = fields.Float(
         string='Price',
     )
