@@ -25,7 +25,7 @@ class ResPartner(models.Model):
         inverse='_inverse_role'
     )
     specialty_required = fields.Boolean(
-        related='practitioner_role_id.specialty_required'
+        related='practitioner_role_id.specialty_required', readonly=True,
     )
 
     @api.multi
