@@ -32,11 +32,11 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
-        related='pos_session_id.config_id.company_id',
+        related='pos_session_id.config_id.company_id', readonly=True,
     )
     journal_ids = fields.Many2many(
         comodel_name='account.journal',
-        related='pos_session_id.journal_ids',
+        related='pos_session_id.journal_ids', readonly=True,
     )
     journal_id = fields.Many2one(
         comodel_name='account.journal',
