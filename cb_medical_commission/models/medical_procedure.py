@@ -33,7 +33,7 @@ class MedicalProcedure(models.Model):
         readonly=True,
     )
     medical_commission = fields.Boolean(
-        related='service_id.medical_commission'
+        related='service_id.medical_commission', readonly=True,
     )
     sale_order_line_ids = fields.Many2many(
         'sale.order.line',
