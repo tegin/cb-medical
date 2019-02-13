@@ -67,7 +67,7 @@ class MedicalCoverageAgreementItem(models.Model):
         related='coverage_agreement_id.template_id',
     )
     currency_id = fields.Many2one(
-        related='coverage_agreement_id.currency_id',
+        related='coverage_agreement_id.currency_id', readonly=True,
     )
     company_id = fields.Many2one(
         'res.company',
