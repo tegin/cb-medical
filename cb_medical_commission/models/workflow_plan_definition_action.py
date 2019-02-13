@@ -17,5 +17,6 @@ class PlanDefinitionAction(models.Model):
         default='0.0',
     )
     medical_commission = fields.Boolean(
-        related='activity_definition_id.service_id.medical_commission'
+        related='activity_definition_id.service_id.medical_commission',
+        readonly=True,
     )
