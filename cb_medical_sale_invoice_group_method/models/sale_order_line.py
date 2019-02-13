@@ -14,7 +14,7 @@ class SaleOrderLine(models.Model):
         comodel_name='sale.preinvoice.group',
     )
     preinvoice_status = fields.Selection(
-        related='preinvoice_group_id.state'
+        related='preinvoice_group_id.state', readonly=True,
     )
     is_validated = fields.Boolean(
         track_visibility=True,
