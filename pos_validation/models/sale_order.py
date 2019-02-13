@@ -17,7 +17,7 @@ class SalerOrderLine(models.Model):
     )
     validation_status = fields.Selection(
         related='encounter_id.validation_status',
-        readonly=True
+        readonly=True,
     )
     coverage_agreement_id = fields.Many2one(
         'medical.coverage.agreement',
