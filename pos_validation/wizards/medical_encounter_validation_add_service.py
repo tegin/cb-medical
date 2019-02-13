@@ -21,7 +21,7 @@ class MedicalEncounterValidationAddService(models.TransientModel):
         required=False,
     )
     patient_id = fields.Many2one(
-        related='encounter_id.patient_id',
+        related='encounter_id.patient_id', readonly=True,
     )
     payor_id = fields.Many2one(
         'res.partner',
@@ -38,7 +38,7 @@ class MedicalEncounterValidationAddService(models.TransientModel):
     )
     sub_payor_required = fields.Boolean()
     center_id = fields.Many2one(
-        related='encounter_id.center_id'
+        related='encounter_id.center_id', readonly=True,
     )
     subscriber_id = fields.Char()
 
