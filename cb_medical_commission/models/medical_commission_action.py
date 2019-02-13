@@ -17,6 +17,7 @@ class MedicalCommissionAction(models.AbstractModel):
     commission_agent_ids = fields.Many2many(
         comodel_name='res.partner',
         related='performer_id.commission_agent_ids',
+        readonly=True,
     )
     sale_agent_ids = fields.One2many(
         'sale.order.line.agent',
