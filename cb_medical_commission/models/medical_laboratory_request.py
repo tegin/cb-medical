@@ -20,7 +20,8 @@ class MedicalLaboratoryRequest(models.Model):
         default='0.0',
     )
     medical_commission = fields.Boolean(
-        related='service_id.medical_commission'
+        related='service_id.medical_commission',
+        readonly=True,
     )
 
     def check_agents(self, agent):
