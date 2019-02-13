@@ -25,7 +25,7 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
         readonly=True,
     )
     coverage_agreement_item_id = fields.Many2one(
-        'medical.coverage.agreement.item',
+        'medical.coverage.agreement.item', readonly=True,
         related='request_group_id.coverage_agreement_item_id',
     )
     product_id = fields.Many2one(
