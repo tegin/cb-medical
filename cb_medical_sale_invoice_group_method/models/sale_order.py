@@ -92,3 +92,10 @@ class SaleOrder(models.Model):
                     references[inv] = line.order_id
                     invoices[ref_order] = inv
         return invoices, references
+
+    @api.multi
+    def _prepare_invoice(self):
+        res = super()._prepare_invoice()
+        if self.encounter_id and self.coverage_agreement_id:
+            res['agreement_id'] = self.coverage_agreement_id.id
+        return res
