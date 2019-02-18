@@ -40,6 +40,10 @@ class MedicalRequest(models.AbstractModel):
         track_visibility=True,
         readonly=True,
     )
+    qty = fields.Integer(
+        default=1,
+        required=True,
+    )
 
     def get_third_party_partner(self):
         return False
@@ -83,14 +87,15 @@ class MedicalRequest(models.AbstractModel):
 
     def compute_price(self, is_insurance):
         cai = self.coverage_agreement_item_id
-        return cai.coverage_price if is_insurance else cai.private_price
+        return self.qty * (
+            cai.coverage_price if is_insurance else cai.private_price)
 
     def get_sale_order_line_vals(self, is_insurance):
         res = {
             'product_id': self.service_id.id,
             'name': self.service_id.name or self.name,
             self._get_parent_field_name(): self.id,
-            'product_uom_qty': 1,
+            'product_uom_qty': self.qty or 1,
             'product_uom': self.service_id.uom_id.id,
             'price_unit': self.compute_price(is_insurance),
             'authorization_status': self.authorization_status,
