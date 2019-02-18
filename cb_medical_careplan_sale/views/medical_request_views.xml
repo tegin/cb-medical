@@ -27,6 +27,9 @@
                             <newline/>
                             <field name="coverage_agreement_item_id"
                                    options="{'no_create': True, 'no_open': True}"/>
+                            <field name="qty"
+                                   attrs="{'readonly': [('is_editable', '=', False)]}"
+                            />
                         </group>
                     </group>
                 </page>
