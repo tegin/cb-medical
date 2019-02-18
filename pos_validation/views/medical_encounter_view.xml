@@ -119,6 +119,8 @@
                                    attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="price_unit"
                                    attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="product_uom_qty"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="price_total" readonly="1"
                                    sum="Total"/>
                             <field name="subscriber_id"
