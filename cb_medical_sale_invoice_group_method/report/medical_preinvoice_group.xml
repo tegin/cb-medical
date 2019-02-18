@@ -47,6 +47,7 @@
                                name="invoice_line_table">
                             <thead>
                                 <th>Code</th>
+                                <th>Date</th>
                                 <th>Patient</th>
                                 <th>Service</th>
                                 <th>Authorization</th>
@@ -57,6 +58,9 @@
                                 <tr t-foreach="o.validated_line_ids" t-as="l">
                                     <td>
                                         <span t-field="l.encounter_id.internal_identifier"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="l.encounter_id.create_date" t-options="{'widget': 'date'}"/>
                                     </td>
                                     <td>
                                         <span t-field="l.patient_name"/>
