@@ -16,6 +16,9 @@ class ActivityDefinition(models.Model):
             res.update({
                 'sub_payor_id': parent.sub_payor_id.id or False,
             })
+        if self.model_id.model == 'medical.medication.request':
+            # Medication requests should have quantity equal to 1
+            res['qty'] = 1
         return res
 
     def _find_relation_activity(self, vals, parent, plan, action):
