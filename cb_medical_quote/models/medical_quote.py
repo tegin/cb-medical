@@ -52,7 +52,7 @@ class MedicalQuote(models.Model):
     patient_name = fields.Char('Patient name')
     payor_id = fields.Many2one(
         'res.partner', 'Payor', required=True,
-        domain="[('is_payor', '=', True)]",
+        domain=[('is_payor', '=', True)],
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
@@ -199,7 +199,7 @@ class MedicalQuote(models.Model):
             self.payor_id = self.coverage_template_id.payor_id
         else:
             return {'domain': {
-                'payor_id': []}
+                'payor_id': [('is_payor', '=', True)]}
             }
 
     @api.model
