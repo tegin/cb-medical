@@ -63,7 +63,7 @@
                         <field name="patient_name" attrs="{'invisible': [('patient_id', '!=', False)]}"/>
                     </group>
                     <group>
-                        <field name="payor_id" options="{'no_create': True}" domain="[('is_payor', '=', True)]"/>
+                        <field name="payor_id" options="{'no_create': True}"/>
                         <field name="coverage_template_id" options="{'no_create': True}" domain="[('payor_id', '=', payor_id)]"/>
                         <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                         <field name="agreement_ids" invisible="True"/>
