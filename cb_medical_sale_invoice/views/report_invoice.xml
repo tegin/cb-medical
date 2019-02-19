@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+
     <template id="report_invoice_document" inherit_id="account.report_invoice_document">
         <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[2]" position="after">
             <th t-if="o.is_medical and o.show_patient">Patient</th>
@@ -25,6 +26,6 @@
         </xpath>
         <xpath expr="//div[@t-if='o.partner_id.ref']" position="attributes">
             <attribute name="t-if">1==0</attribute>
-        </xpath>    
+        </xpath>
     </template>
 </odoo>
