@@ -77,6 +77,17 @@ class MedicalEncounter(models.Model):
             vals['company_id'] = (
                 self.company_id.id or
                 self._context.get('company_id'))
+        partner_obj = self.env['res.partner'].browse(partner).with_context(
+            force_company=vals['company_id'])
+        if 'payment_term_id' not in vals:
+            term = partner_obj.property_payment_term_id
+            if term:
+                vals['payment_term_id'] = term.id
+        addr = partner_obj.address_get(['delivery', 'invoice'])
+        if 'partner_invoice_id' not in vals:
+            vals['partner_invoice_id'] = addr['invoice']
+        if 'partner_shipping_id' not in vals:
+            vals['partner_shipping_id'] = addr['delivery']
         return vals
 
     def inprogress2onleave_values(self):
