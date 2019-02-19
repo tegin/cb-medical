@@ -87,8 +87,7 @@ class MedicalRequest(models.AbstractModel):
 
     def compute_price(self, is_insurance):
         cai = self.coverage_agreement_item_id
-        return self.qty * (
-            cai.coverage_price if is_insurance else cai.private_price)
+        return cai.coverage_price if is_insurance else cai.private_price
 
     def get_sale_order_line_vals(self, is_insurance):
         res = {
