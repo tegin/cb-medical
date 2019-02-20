@@ -17,6 +17,9 @@
                 <field name="sequence"/>
                 <field name="preinvoice_group_id" options="{'no_create': True}"/>
             </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="after">
+                <field name="preinvoice_group_id" options="{'no_create': True}" attrs="{'readonly': [('parent.state', 'in', ['sale', 'done'])]}"/>
+            </xpath>
         </field>
     </record>
 
