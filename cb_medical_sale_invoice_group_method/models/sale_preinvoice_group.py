@@ -14,7 +14,7 @@ class SalePreinvoiceGroup(models.Model):
     agreement_id = fields.Many2one(
         comodel_name='medical.coverage.agreement',
         string='Agreement',
-        required=True,
+        required=False,
         readonly=True
     )
     coverage_template_id = fields.Many2one(
@@ -122,7 +122,7 @@ class SalePreinvoiceGroup(models.Model):
             ('type', '=', 'out_invoice'),
             ('invoice_group_method_id', '=', self.invoice_group_method_id.id),
             ('partner_id', '=', partner_id),
-            ('agreement_id', '=', self.agreement_id.id),
+            ('agreement_id', '=', self.agreement_id.id or False),
             ('state', '=', 'draft'),
             (
                 'coverage_template_id',

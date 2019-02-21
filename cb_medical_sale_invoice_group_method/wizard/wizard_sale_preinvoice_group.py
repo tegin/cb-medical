@@ -40,7 +40,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
                     r.invoice_group_method_id in groups
                 )
             ):
-                cov_id = sale_order.coverage_agreement_id.id
+                cov_id = sale_order.coverage_agreement_id.id or False
                 partner_invoice_id = sale_order.partner_invoice_id.id
                 partner_id = sale_order.partner_id.id
                 group = line.invoice_group_method_id.id
