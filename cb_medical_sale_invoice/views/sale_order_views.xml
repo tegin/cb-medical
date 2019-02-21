@@ -23,6 +23,13 @@
                 <field name="authorization_number"
                        attrs="{'invisible': [('encounter_id', '=', False)]}"/>
             </xpath>
+            <field name="order_line" position="attributes">
+                <attribute name="context">{'default_encounter_id': encounter_id}</attribute>
+            </field>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']"
+                   position="after">
+                <field name="encounter_id" invisible="1" readonly="0"/>
+            </xpath>
         </field>
     </record>
 </odoo>
