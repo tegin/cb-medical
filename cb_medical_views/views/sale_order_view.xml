@@ -19,11 +19,11 @@
         <field name="arch" type="xml">
             <field name="user_id" position="attributes">
                 <attribute name="invisible">1</attribute>
-      	    </field>
+            </field>
             <field name="user_id" position="after">
                 <field name="patient_id"/>
                 <field name="encounter_id"/>
-      	    </field>
+            </field>
         </field>
     </record>
 
@@ -35,14 +35,15 @@
             <field name="name" position="after">
                 <field name="patient_id"/>
                 <field name="encounter_id"/>
-      	    </field>
+            </field>
         </field>
     </record>
 
-    <template id="report_saleorder_document_hide_salesperson" inherit_id="sale.report_saleorder_document">
-      	<xpath expr="//p[@t-field='doc.user_id']/.." position="attributes">
+    <template id="report_saleorder_document_hide_salesperson"
+              inherit_id="sale.report_saleorder_document">
+        <xpath expr="//p[@t-field='doc.user_id']/.." position="attributes">
             <attribute name="t-if">1==0</attribute>
-      	</xpath>
-  	</template>
+        </xpath>
+    </template>
 
 </odoo>
