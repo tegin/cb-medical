@@ -22,5 +22,30 @@
               action="encounter_find_by_barcode"
               sequence="35"/>
 
+    <record id="view_medical_encounter_kanban" model="ir.ui.view">
+        <field name="name">medical.encounter.kanban</field>
+        <field name="model">medical.encounter</field>
+        <field name="type">kanban</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="internal_identifier"/>
+                <field name="patient_id"/>
+                <field name="center_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div><strong><field name="internal_identifier"/></strong></div>
+                            <div><field name="patient_id"/></div>
+                            <div><field name="center_id"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="medical_administration_encounter.medical_encounter_action">
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
 
 </odoo>
