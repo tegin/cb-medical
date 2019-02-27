@@ -10,3 +10,4 @@ from . import res_partner
 from . import stock
 from . import workflow_activity_definition
 from . import workflow_plan_definition_action
+from . import product
