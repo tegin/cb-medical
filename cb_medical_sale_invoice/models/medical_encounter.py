@@ -27,12 +27,13 @@ class MedicalEncounter(models.Model):
 
     def action_view_invoice(self):
         self.ensure_one()
-        action = self.env.ref('account.action_invoice_tree')
+        action = self.env.ref('account.action_invoice_tree1')
         result = action.read()[0]
         invoices = self.env['account.invoice.line'].search(
             [('encounter_id', '=', self.id)]).mapped('invoice_id')
         result['domain'] = [('id', 'in', invoices.ids)]
         if len(invoices) == 1:
-            result['views'] = [(False, 'form')]
+            res = self.env.ref('account.invoice_form')
+            result['views'] = [(res and res.id or False, 'form')]
             result['res_id'] = invoices.id
         return result
