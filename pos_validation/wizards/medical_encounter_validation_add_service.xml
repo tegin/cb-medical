@@ -21,9 +21,9 @@
             </field>
             <field name="careplan_id" position="after">
                 <field name="payor_id"
-                       attrs="{'readonly': [('action_type', '=', 'reuse')]}"/>
+                       attrs="{'readonly': [('action_type', '=', 'reuse')], 'required': [('action_type', '=', 'new')]}"/>
                 <field name="coverage_template_id"
-                       attrs="{'readonly': [('action_type', '=', 'reuse')]}"
+                       attrs="{'readonly': [('action_type', '=', 'reuse')], 'required': [('action_type', '=', 'new')]}"
                        domain="[('payor_id', '=', payor_id)]"/>
                 <field name="sub_payor_required" invisible="1"/>
                 <field name="sub_payor_id"
