@@ -26,11 +26,9 @@ class MedicalEncounterValidationAddService(models.TransientModel):
     payor_id = fields.Many2one(
         'res.partner',
         domain=[('is_payor', '=', True)],
-        required=True,
     )
     coverage_template_id = fields.Many2one(
         related=False,
-        required=True,
         readonly=False,
     )
     sub_payor_id = fields.Many2one(
@@ -41,6 +39,7 @@ class MedicalEncounterValidationAddService(models.TransientModel):
         related='encounter_id.center_id', readonly=True,
     )
     subscriber_id = fields.Char()
+    is_phantom = fields.Boolean()
 
     @api.onchange('action_type')
     def _onchange_action_type(self):
