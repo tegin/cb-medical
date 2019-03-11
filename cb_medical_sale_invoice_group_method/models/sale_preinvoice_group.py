@@ -163,6 +163,8 @@ class SalePreinvoiceGroup(models.Model):
                 seq += 1
                 line.invoice_line_create(
                     self.invoice_id.id, line.product_uom_qty)
+            if self.validated_line_ids:
+                self.invoice_id.compute_taxes()
         self.write({'state': 'closed'})
 
     @api.multi
