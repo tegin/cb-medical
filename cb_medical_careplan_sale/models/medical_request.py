@@ -72,7 +72,7 @@ class MedicalRequest(models.AbstractModel):
                         r.state != 'cancel' and
                         not r.order_id.coverage_agreement_id)
                 )) == 0 and
-                (rec.coverage_agreement_item_id.private_price > 0)
+                (rec.coverage_agreement_item_id.private_sellable > 0)
             )
             rec.is_sellable_insurance = bool(
                 rec.state not in ['cancelled'] and
@@ -82,7 +82,7 @@ class MedicalRequest(models.AbstractModel):
                         r.state != 'cancel' and
                         r.order_id.coverage_agreement_id.id == ca.id)
                 )) == 0 and
-                rec.coverage_agreement_item_id.coverage_price > 0
+                rec.coverage_agreement_item_id.coverage_sellable > 0
             )
 
     def compute_price(self, is_insurance):
