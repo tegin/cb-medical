@@ -84,6 +84,14 @@ class MedicalCoverageAgreementItem(models.Model):
         string='Private price',
         compute='_compute_price',
     )
+    private_sellable = fields.Float(
+        string='Sellable to private',
+        compute='_compute_price',
+    )
+    coverage_sellable = fields.Float(
+        string='Sellable to coverage',
+        compute='_compute_price',
+    )
     active = fields.Boolean(
         default=True
     )
@@ -112,6 +120,12 @@ class MedicalCoverageAgreementItem(models.Model):
                 (rec.coverage_percentage * rec.total_price) / 100
             rec.private_price = \
                 ((100 - rec.coverage_percentage) * rec.total_price) / 100
+            rec.private_sellable = rec.private_price > 0 or (
+                rec.coverage_percentage < 100 and
+                rec.product_tmpl_id.include_zero_sales)
+            rec.coverage_sellable = rec.coverage_price > 0 or (
+                rec.coverage_percentage > 0 and
+                rec.product_tmpl_id.include_zero_sales)
 
     @api.constrains('product_id', 'coverage_agreement_id', 'active')
     def _check_product(self):
