@@ -9,6 +9,7 @@
     'depends': [
         'medical_document',
         'printer_zpl2',
+        'remote_report_to_printer_label',
     ],
     'data': [
         'views/medical_document_type_views.xml',

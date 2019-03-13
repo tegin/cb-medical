@@ -4,5 +4,4 @@
 
 from . import medical_document_reference
 from . import medical_document_type
-from . import printing_label_zpl2
 from . import res_remote_printer
