@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-14 08:31+0000\n"
-"PO-Revision-Date: 2018-11-14 08:31+0000\n"
+"POT-Creation-Date: 2019-03-18 09:07+0000\n"
+"PO-Revision-Date: 2019-03-18 09:07+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document_inherit_medical_invoice
+msgid "<strong>Invoicing address:</strong>"
+msgstr "<strong>Dirección de facturación:</strong>"
 
 #. module: cb_medical_sale_invoice
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document
@@ -32,10 +37,35 @@ msgid "Contact"
 msgstr "Contacto"
 
 #. module: cb_medical_sale_invoice
+#: model:ir.model,name:cb_medical_sale_invoice.model_medical_coverage_agreement
+msgid "Coverage Agreement"
+msgstr "Oferta"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document
+msgid "Date"
+msgstr "Fecha"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_coverage_agreement_discount
+msgid "Discount"
+msgstr "Descuento"
+
+#. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_encounter_id
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line_encounter_id
 msgid "Encounter"
 msgstr "Afiliación"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_coverage_agreement_file_reference
+msgid "File Reference"
+msgstr "File Reference"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model.fields,help:cb_medical_sale_invoice.field_medical_coverage_agreement_discount
+msgid "General discount applied on the final invoices"
+msgstr "General discount applied on the final invoices"
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_account_invoice
@@ -43,14 +73,29 @@ msgid "Invoice"
 msgstr "Factura"
 
 #. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_encounter_invoice_count
+msgid "Invoice Count"
+msgstr "Invoice Count"
+
+#. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_account_invoice_line
 msgid "Invoice Line"
 msgstr "Linea de Factura"
 
 #. module: cb_medical_sale_invoice
+#: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_encounter_invoice_line_ids
+msgid "Invoice Lines"
+msgstr "Líneas de la factura"
+
+#. module: cb_medical_sale_invoice
 #: model:ir.ui.view,arch_db:cb_medical_sale_invoice.res_partner_view_form
 msgid "Invoice configuration"
 msgstr "Configuracion de facturas"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.ui.view,arch_db:cb_medical_sale_invoice.medical_encounter_view_form
+msgid "Invoices"
+msgstr "Facturas"
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_is_medical
@@ -62,6 +107,11 @@ msgstr "Es Médico"
 #: model:ir.model,name:cb_medical_sale_invoice.model_medical_encounter
 msgid "Medical Encounter"
 msgstr "Afiliación"
+
+#. module: cb_medical_sale_invoice
+#: model:ir.model,name:cb_medical_sale_invoice.model_medical_laboratory_event
+msgid "Medical Laboratory Event"
+msgstr "Evento de laboratorio"
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_medical_request
