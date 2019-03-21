@@ -38,7 +38,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
                 lambda r: (
                     not r.preinvoice_group_id and
                     r.invoice_group_method_id in groups
-                )
+                ) and r.qty_invoiced < r.product_uom_qty
             ):
                 cov_id = sale_order.coverage_agreement_id.id or False
                 partner_invoice_id = sale_order.partner_invoice_id.id
