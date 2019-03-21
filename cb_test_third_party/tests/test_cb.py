@@ -94,17 +94,17 @@ class TestCBThirdParty(TestCB):
         sale_order = encounter.sale_order_ids.filtered(
             lambda r: not r.is_down_payment and not r.third_party_partner_id)
         self.assertTrue(sale_order)
-        self.assertEqual(sale_order.amount_total, -100)
-        payments = sale_order.invoice_ids.mapped('bank_statement_line_ids')
+        self.assertEqual(sum(s.amount_total for s in sale_order), -100)
+        payments = sale_order.mapped('invoice_ids.bank_statement_line_ids')
         self.assertTrue(payments)
-        self.assertEqual(-100, payments.amount)
+        self.assertEqual(-100, sum(p.amount for p in payments))
         sale_order = encounter.sale_order_ids.filtered(
             lambda r: not r.is_down_payment and r.third_party_partner_id)
         self.assertTrue(sale_order)
         payments = sale_order.mapped('bank_statement_line_ids')
         self.assertTrue(payments)
-        self.assertEqual(100, payments.amount)
-        self.assertEqual(sale_order.amount_total, 100)
+        self.assertEqual(100, sum(p.amount for p in payments))
+        self.assertEqual(sum(s.amount_total for s in sale_order), 100)
 
     def test_third_party(self):
         self.plan_definition.is_breakdown = True
