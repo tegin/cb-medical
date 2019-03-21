@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class SaleOrder(models.AbstractModel):
@@ -21,3 +21,10 @@ class SaleOrder(models.AbstractModel):
         if self.coverage_agreement_id:
             return
         return super().create_third_party_move()
+
+    @api.model
+    def _prepare_third_party_order(self):
+        res = super(SaleOrder, self)._prepare_third_party_order()
+        res['encounter_id'] = self.encounter_id.id or False
+        res['patient_id'] = self.patient_id.id or False
+        return res
