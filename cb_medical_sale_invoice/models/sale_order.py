@@ -93,3 +93,10 @@ class SaleOrderLine(models.Model):
                 if item:
                     res['name'] = item.name
         return res
+
+    def _prepare_third_party_order_line(self):
+        res = super()._prepare_third_party_order_line()
+        res['authorization_number'] = self.authorization_number or False
+        res['subscriber_id'] = self.subscriber_id or False
+        res['patient_name'] = self.patient_name or False
+        return res
