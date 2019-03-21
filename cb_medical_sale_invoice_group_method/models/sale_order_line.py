@@ -35,7 +35,9 @@ class SaleOrderLine(models.Model):
         self.preinvoice_group_id.invalidate_line(self)
 
     @api.depends('qty_invoiced', 'qty_delivered', 'product_uom_qty',
-                 'order_id.state', 'invoice_group_method_id')
+                 'order_id.state', 'invoice_group_method_id',
+                 'invoice_group_method_id.invoice_by_preinvoice',
+                 'invoice_group_method_id.no_invoice')
     def _get_to_invoice_qty(self):
         for line in self:
             if line.invoice_group_method_id.no_invoice:
