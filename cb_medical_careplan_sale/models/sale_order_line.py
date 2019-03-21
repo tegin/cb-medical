@@ -62,4 +62,5 @@ class SaleOrderLine(models.Model):
         res['invoice_group_method_id'] = self.env.ref(
             'cb_medical_careplan_sale.third_party'
         ).id
+        res['encounter_id'] = self.encounter_id.id or False
         return res
