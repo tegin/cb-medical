@@ -14,8 +14,10 @@ class SaleOrder(models.Model):
         ('preinvoiced', 'Prenvoiced')
     ], store=True, compute='_compute_preinvoice_status')
 
-    @api.depends('state', 'order_line.invoice_status',
+    @api.depends('state', 'order_line.invoice_status', 'third_party_order',
                  'order_line.invoice_group_method_id',
+                 'order_line.invoice_group_method_id.invoice_by_preinvoice',
+                 'order_line.qty_invoiced', 'order_line.product_uom_qty',
                  'order_line.preinvoice_group_id')
     def _compute_preinvoice_status(self):
         for order in self:
@@ -24,7 +26,9 @@ class SaleOrder(models.Model):
                     line.preinvoice_group_id for line in
                     order.order_line.filtered(
                         lambda r:
-                        r.invoice_group_method_id.invoice_by_preinvoice)
+                        r.invoice_group_method_id.invoice_by_preinvoice or
+                        r.qty_invoiced == r.product_uom_qty
+                    )
                 ):
                     order.preinvoice_status = 'preinvoiced'
                 else:
