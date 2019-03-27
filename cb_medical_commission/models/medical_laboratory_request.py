@@ -23,6 +23,12 @@ class MedicalLaboratoryRequest(models.Model):
         related='service_id.medical_commission',
         readonly=True,
     )
+    sale_agent_ids = fields.One2many(
+        inverse_name='laboratory_request_id',
+    )
+    invoice_agent_ids = fields.One2many(
+        inverse_name='laboratory_request_id',
+    )
 
     def check_agents(self, agent):
         return agent.laboratory_request_id == self
