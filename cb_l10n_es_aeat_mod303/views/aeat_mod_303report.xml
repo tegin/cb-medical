@@ -94,7 +94,7 @@
                                 <span t-field="o.total_devengado" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/><br></br>
                                 <b>[45] VAT receivable: </b>
                                 <span t-field="o.total_deducir" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/><br></br>
-                                <b>General scheme result: </b>
+                                <b>General scheme result:</b>
                                 <span t-field="o.casilla_46" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/><br></br>
                             </div>
                             <div class="col-xs-3">
