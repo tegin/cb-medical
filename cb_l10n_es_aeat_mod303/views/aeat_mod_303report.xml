@@ -43,6 +43,8 @@
                                     <span>-</span>
                                     <span t-field="o.date_end"/>
                                 </div>
+                                <b>Company: </b>
+                                <span t-esc="o.company_id.name"/><br></br>
                             </div>
                             <div class="col-xs-6">
                                 <div t-if="o.allow_posting">
