@@ -14,6 +14,7 @@ class TestMedicalGuard(TransactionCase):
             'type': 'service',
             'name': 'Product',
             'standard_price': 100,
+            'supplier_taxes_id': [],
         })
         self.center = self.env['res.partner'].create({
             'name': 'Center',
