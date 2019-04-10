@@ -106,8 +106,11 @@ class MedicalGuard(models.Model):
 
     def get_invoice(self):
         journal = self.location_id.guard_journal_id
+        partner = self.practitioner_id
+        if self.practitioner_id.commission_agent_ids:
+            partner = self.practitioner_id.commission_agent_ids[0]
         inv = self.env['account.invoice'].search([
-            ('partner_id', '=', self.practitioner_id.id),
+            ('partner_id', '=', partner.id),
             ('type', '=', ('in_invoice' if journal.type == 'purchase' else
                            'in_refund')),
             ('state', '=', 'draft'),
@@ -121,4 +124,5 @@ class MedicalGuard(models.Model):
         inv = self.get_invoice()
         self.env['account.invoice.line'].create(
             self._get_invoice_line_vals(inv))
+        inv.compute_taxes()
         return inv
