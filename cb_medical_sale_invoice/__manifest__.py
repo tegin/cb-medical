@@ -14,6 +14,7 @@
     "depends": [
         'cb_medical_careplan_sale',
         'cb_medical_sale_discount',
+        'cb_sale_report_invoice',
         'product_nomenclature',
     ],
     "data": [
