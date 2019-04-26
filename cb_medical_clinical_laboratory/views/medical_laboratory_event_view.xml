@@ -25,7 +25,9 @@
         <field name="inherit_id" eval="False"/>
         <field name="priority">50</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <tree editable="bottom"
+                  decoration-danger="state in ['entered-in-error', 'aborted']"
+            >
                 <field name="laboratory_request_id" invisible="1"/>
                 <field name="patient_id" invisible="1"/>
                 <field name="encounter_id" invisible="1" readonly="0"/>
