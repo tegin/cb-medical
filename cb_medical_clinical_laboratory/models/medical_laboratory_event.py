@@ -61,7 +61,7 @@ class MedicalLaboratoryEvent(models.Model):
                 else:
                     rec.is_sellable_insurance = False
                     rec.coverage_cost = 0
-                    rec.private_amount = 0
+                    rec.coverage_amount = 0
                 if cai.coverage_percentage < 100:
                     rec.is_sellable_private = True
                     rec.private_amount = price.amount * (
