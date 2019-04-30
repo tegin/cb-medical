@@ -47,6 +47,10 @@ class MedicalCoverageAgreement(models.Model):
         auto_join=True,
         copy=False,
     )
+    nomenclature_id = fields.Many2one(
+        'product.nomenclature',
+        string="Printing nomenclature",
+    )
     item_ids = fields.One2many(
         comodel_name='medical.coverage.agreement.item',
         inverse_name='coverage_agreement_id',
@@ -158,3 +162,71 @@ class MedicalCoverageAgreement(models.Model):
                 ).create(
                     item._copy_agreement_vals(self)
                 )
+
+    def _sort_data(self, data):
+        result = []
+        for d in data:
+            item = {
+                'product': d.product_id,
+                'item': d,
+                'nomenclature': self.env[
+                    'product.nomenclature.product'
+                ]
+            }
+            if self.nomenclature_id:
+                item['nomenclature'] = self.env[
+                    'product.nomenclature.product'
+                ].search([
+                    ('nomenclature_id', '=', self.nomenclature_id.id),
+                    ('product_id', '=', d.product_id.id)
+                ], limit=1)
+            result.append(item)
+        return sorted(
+            result,
+            key=lambda r: r['product'].default_code or r['product'].name
+        )
+
+    def explore_child_data(self, childs, data):
+        res = []
+        if not childs:
+            return res
+        for child in childs.filtered(lambda r: r.id in data.keys()):
+            res.append({
+                'data': self._sort_data(data[child.id]),
+                'category': child,
+                'childs': self.explore_child_data(child.child_id, data)
+            })
+        return sorted(res, key=lambda r: r['category'].name)
+
+    @api.multi
+    def _agreement_report_data(self):
+        self.ensure_one()
+        data = {}
+        sorted_data = []
+        categs = self.env['product.category']
+        all_categs = self.env['product.category']
+        for item in self.item_ids:
+            if item.categ_id.id not in data:
+                categs |= item.categ_id
+                data[item.categ_id.id] = self.env[
+                    'medical.coverage.agreement.item']
+            data[item.categ_id.id] |= item
+
+        all_categs |= categs
+        for categ in categs:
+            ctg = categ
+            while ctg.parent_id and ctg.parent_id not in all_categs:
+                all_categs |= ctg.parent_id
+                if ctg.parent_id not in data:
+                    data[
+                        ctg.parent_id.id
+                    ] = self.env['medical.coverage.agreement.item']
+                ctg = ctg.parent_id
+
+        for categ in all_categs.filtered(lambda r: r.level == 0):
+            sorted_data.append({
+                'data': self._sort_data(data[categ.id]),
+                'category': categ,
+                'childs': self.explore_child_data(categ.child_id, data)
+            })
+        return sorted(sorted_data, key=lambda r: r['category'].name)

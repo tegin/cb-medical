@@ -26,59 +26,73 @@
             paperformat="paperformat_material"
         />
 
+    <template id="report_agreement_template_category">
+        <t t-set="item" t-value="item_variable"/>
+        <tr>
+            <td t-att-colspan="min(level, 3)" t-if="level &gt; 0"/>
+            <td t-att-colspan="max(7-level, 4)">
+                <strong t-esc="'%s - %s' % (item['category'].display_name, item['category'].description)" t-if="item['category'].description"/>
+                <strong t-esc="item['category'].display_name" t-else=""/>
+            </td>
+        </tr>
+        <t t-foreach="item['data']" t-as="child">
+            <tr>
+                <t t-foreach="range(0, min(level, 3) + 1)"  t-as="lvl">
+                    <td style="width:20px"/>
+                </t>
+                <td>
+                    <span t-esc="child['product'].default_code" t-if="not child['nomenclature']"/>
+                    <span t-esc="'%s [%s]' % (child['nomenclature'].code, child['product'].default_code)" t-if="child['nomenclature']"/>
+                </td>
+                <td>
+                    <span t-esc="child['product'].name"/>
+                </td>
+
+                <t t-foreach="range(min(level, 3), 3)" t-as="lvl">
+                    <td style="width:20px"/>
+                </t>
+                <td style="text-align:right"><span t-esc="child['item'].total_price"/></td>
+            </tr>
+        </t>
+        <t t-set="level" t-value="level + 1"/>
+        <t t-foreach="item['childs']" t-as="item_variable">
+            <t t-call="cb_medical_financial_coverage_agreement.report_agreement_template_category"/>
+        </t>
+        <t t-set="level" t-value="level - 1"/>
+    </template>
+
     <template id="report_agreement_template">
         <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="o">
-                    <t t-call="web.external_layout">
-                        <t t-set="agreement" t-value="docs[0]"/>
-                        <t t-set="centers" t-value="agreement.center_ids"/>
-                        <t t-set="items" t-value="agreement.item_ids"/>
-                        <div class="page">
-                            <h3 class="text-center">Agreement Report</h3>
-                                <div class="agreement_details">
-                                    <h2>
-                                        <t t-esc="agreement.internal_identifier"/>
-                                    </h2>
-                                    <h3>
-                                        <t t-esc="agreement.name"/>
-                                    </h3>
-                                    <br/>
-                                    <p><b>Center:</b>
-                                        <ul class="list-inline mb4">
-                                            <li
-                                                    t-foreach="centers"
-                                                    t-as="o">
-                                                <span t-field="o.name"/>
-                                            </li>
-                                        </ul>
-                                    </p>
-                                    <p><b>Company: </b><span t-field="agreement.company_id"/></p>
-                                    <p t-if="agreement.invoice_group_method_id"><b>Invoice Group Method: </b><span t-field="agreement.invoice_group_method_id"/></p>
-                                    <p><b>Period: </b><span
-                                            t-field="agreement.date_from"/>
-                                        - <span
-                                            t-field="agreement.date_to"/></p>
-                                </div>
-                                <table class="table table-condensed mt32">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">Product</th>
-                                            <th class="text-center">Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <t t-foreach="items" t-as="o">
-                                            <tr>
-                                                <td><span t-field="o.product_id.name"/></td>
-                                                <td style="text-align:right"><span t-field="o.total_price"/></td>
-                                            </tr>
-                                        </t>
-                                    </tbody>
-                                </table>
-                        </div>
-                    </t>
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <t t-set="agreement" t-value="docs[0]"/>
+                    <t t-set="centers" t-value="agreement.center_ids"/>
+                    <t t-set="items" t-value="agreement.item_ids"/>
+                    <t t-set="data" t-value="o._agreement_report_data()"/>
+                    <div class="page">
+                        <h3 class="text-center"><span t-field="agreement.name"/></h3>
+                        <div class="agreement_details">
+                            <h2>
+                                <t t-esc="agreement.internal_identifier"/>
+                            </h2>
+                            <br/>
+                            <p><b>Period: </b><span
+                                    t-field="agreement.date_from"/>
+                                - <span
+                                    t-field="agreement.date_to"/></p>
+                            </div>
+                        <table class="table table-condensed mt32">
+                            <tbody>
+                                <t t-foreach="data" t-as="item_variable">
+                                    <t t-set="level" t-value="0"/>
+                                    <t t-call="cb_medical_financial_coverage_agreement.report_agreement_template_category"/>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
                 </t>
             </t>
+        </t>
     </template>
 
 </odoo>
