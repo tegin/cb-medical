@@ -11,6 +11,7 @@
         'medical_financial_coverage',
         'cb_medical_administration_center',
         'product',
+        'product_nomenclature',
         'medical_workflow',
         'sale',
     ],
@@ -30,6 +31,7 @@
         'views/medical_menu.xml',
         'views/product_views.xml',
         'views/workflow_plan_definition_views.xml',
+        'views/product_category_views.xml',
         'security/ir.model.access.csv',
     ],
     'test': [
