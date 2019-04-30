@@ -46,6 +46,7 @@
 
     <record model="ir.actions.act_window" id="medical_administration_encounter.medical_encounter_action">
         <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{'ignore_mcfix_widget': True}</field>
     </record>
 
 </odoo>
