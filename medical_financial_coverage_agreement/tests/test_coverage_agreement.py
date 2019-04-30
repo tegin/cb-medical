@@ -105,6 +105,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
     def _create_product(self, name):
         return self.product_model.create({
             'name': name,
+            'categ_id': self.browse_ref('product.product_category_all').id,
         })
 
     def _create_type(self):
@@ -296,3 +297,62 @@ class TestMedicalCoverageAgreement(TransactionCase):
             days=5)
         coverage_agreement._onchange_date_range()
         self.assertEquals(coverage_agreement.active, False)
+
+    def test_agreement_report(self):
+
+        coverage_agreement_vals = {
+            'name': 'test coverage agreement',
+            'center_ids': [(6, 0, [self.center_1.id])],
+            'company_id': self.ref('base.main_company'),
+        }
+        coverage_agreement = self.coverage_agreement_model.create(
+            coverage_agreement_vals)
+        self.assertNotEquals(coverage_agreement, False)
+        item = self.coverage_agreement_model_item.create({
+            'coverage_agreement_id': coverage_agreement.id,
+            'plan_definition_id': self.plan_1.id,
+            'product_id': self.product_1.id,
+            'coverage_percentage': 50.0,
+            'total_price': 200})
+        data = coverage_agreement._agreement_report_data()
+        self.assertTrue(data)
+        self.assertEqual(data[0]['category'], self.browse_ref(
+            'product.product_category_all'
+        ))
+        self.assertFalse(data[0]['childs'])
+        self.assertEqual(item, data[0]['data'][0]['item'])
+        self.assertFalse(data[0]['data'][0]['nomenclature'])
+        category = self.env['product.category'].create({
+            'parent_id': self.browse_ref('product.product_category_all').id,
+            'name': 'Categ',
+        })
+        self.product_1.categ_id = category
+        data = coverage_agreement._agreement_report_data()
+        self.assertTrue(data)
+        self.assertEqual(data[0]['category'], self.browse_ref(
+            'product.product_category_all'
+        ))
+        self.assertTrue(data[0]['childs'])
+        self.assertFalse(data[0]['data'])
+        self.assertEqual(data[0]['childs'][0]['category'], category)
+        self.assertEqual(item, data[0]['childs'][0]['data'][0]['item'])
+        self.assertFalse(data[0]['childs'][0]['data'][0]['nomenclature'])
+        nomenclature = self.env['product.nomenclature'].create({
+            'name': 'NOMENC',
+            'code': 'NOMENC',
+            'item_ids': [(0, 0, {
+                'product_id': self.product_1.id,
+                'code': 'test',
+                'name': 'test',
+            })]
+        })
+        coverage_agreement.nomenclature_id = nomenclature
+        data = coverage_agreement._agreement_report_data()
+        self.assertTrue(data[0]['childs'])
+        self.assertFalse(data[0]['data'])
+        self.assertEqual(data[0]['childs'][0]['category'], category)
+        self.assertEqual(item, data[0]['childs'][0]['data'][0]['item'])
+        self.assertEqual(
+            nomenclature.item_ids,
+            data[0]['childs'][0]['data'][0]['nomenclature']
+        )

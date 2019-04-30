@@ -87,6 +87,7 @@
                             <field name="company_id" options="{'no_create': True}"/>
                             <field name="currency_id" invisible="1"/>
                             <field name="principal_concept"/>
+                            <field name="nomenclature_id"/>
                         </group>
                     </group>
                     <group name="date_range">
