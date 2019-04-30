@@ -6,3 +6,4 @@ from . import medical_coverage_agreement
 from . import medical_coverage_template
 from . import medical_coverage_agreement_item
 from . import product_template
+from . import product_category
