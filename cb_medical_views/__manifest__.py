@@ -13,7 +13,6 @@
         'medical_clinical_procedure',
         'cb_medical_careplan_sale',
         'l10n_es_partner',
-        'mcfix_widget',
     ],
     'data': [
         'views/account_invoice_view.xml',
