@@ -15,11 +15,10 @@ class MedicalAgreementChangePrices(models.TransientModel):
     @api.multi
     def change_prices(self):
         context = dict(self._context or {})
-        agreements = self.env['medical.coverage.agreement'].browse(context.get(
-            'active_ids'))
+        agreements = self.env['medical.coverage.agreement'].browse(
+            context.get('active_ids'))
         for agreement in agreements:
-            items = agreement.item_ids
-            for item in items:
+            for item in agreement.item_ids:
                 item.total_price = item.total_price + ((item.total_price *
                                                         self.difference) / 100)
             agreement.message_post(
