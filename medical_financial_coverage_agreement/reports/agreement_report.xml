@@ -18,14 +18,6 @@
         <field name="dpi">90</field>
     </record>
 
-    <report id="action_agreement_report"
-            string="Agreement Report"
-            model="medical.coverage.agreement"
-            report_type="qweb-pdf"
-            name="cb_medical_financial_coverage_agreement.report_agreement_template"
-            paperformat="paperformat_material"
-        />
-
     <template id="report_agreement_template_category">
         <t t-set="item" t-value="item_variable"/>
         <tr>
@@ -51,7 +43,10 @@
                 <t t-foreach="range(min(level, 3), 3)" t-as="lvl">
                     <td style="width:20px"/>
                 </t>
-                <td style="text-align:right"><span t-esc="child['item'].total_price"/></td>
+                <td style="text-align:right">
+                    <span t-esc="child['item'].coverage_price" t-if="print_coverage" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/>
+                    <span t-esc="child['item'].private_price" t-if="not print_coverage" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/>
+                </td>
             </tr>
         </t>
         <t t-set="level" t-value="level + 1"/>
@@ -64,22 +59,23 @@
     <template id="report_agreement_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">
-                    <t t-set="agreement" t-value="docs[0]"/>
-                    <t t-set="centers" t-value="agreement.center_ids"/>
-                    <t t-set="items" t-value="agreement.item_ids"/>
-                    <t t-set="data" t-value="o._agreement_report_data()"/>
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+                <t t-call="web.external_layout_standard">
+                    <t t-set="print_coverage" t-value="True"/>
+                    <t t-set="centers" t-value="o.center_ids"/>
+                    <t t-set="items" t-value="o.item_ids"/>
+                    <t t-set="data" t-value="o._agreement_report_data(print_coverage)"/>
                     <div class="page">
-                        <h3 class="text-center"><span t-field="agreement.name"/></h3>
+                        <h3 class="text-center"><span t-field="o.name"/></h3>
                         <div class="agreement_details">
                             <h2>
-                                <t t-esc="agreement.internal_identifier"/>
+                                <t t-esc="o.internal_identifier"/>
                             </h2>
                             <br/>
                             <p><b>Period: </b><span
-                                    t-field="agreement.date_from"/>
+                                    t-field="o.date_from"/>
                                 - <span
-                                    t-field="agreement.date_to"/></p>
+                                    t-field="o.date_to"/></p>
                             </div>
                         <table class="table table-condensed mt32">
                             <tbody>
@@ -94,5 +90,25 @@
             </t>
         </t>
     </template>
+
+    <template id="report_agreement_template_private" inherit_id="report_agreement_template" primary="True">
+        <xpath expr="//t[@t-set='print_coverage']" position="attributes">
+            <attribute name="t-value">False</attribute>
+        </xpath>
+    </template>
+
+    <report id="action_agreement_report_private"
+            string="Agreement Report Private"
+            model="medical.coverage.agreement"
+            report_type="qweb-pdf"
+            name="cb_medical_financial_coverage_agreement.report_agreement_template_private"
+        />
+
+    <report id="action_agreement_report"
+            string="Agreement Report Coverage"
+            model="medical.coverage.agreement"
+            report_type="qweb-pdf"
+            name="cb_medical_financial_coverage_agreement.report_agreement_template"
+        />
 
 </odoo>

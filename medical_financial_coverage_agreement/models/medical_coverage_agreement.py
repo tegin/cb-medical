@@ -198,14 +198,26 @@ class MedicalCoverageAgreement(models.Model):
             })
         return sorted(res, key=lambda r: r['category'].name)
 
+    def _agreement_report_domain(self, print_coverage):
+        domain = [
+            ('coverage_agreement_id', '=', self.id),
+            ('total_price', '>', 0)
+        ]
+        if print_coverage:
+            domain.append(('coverage_percentage', '>', 0))
+        else:
+            domain.append(('coverage_percentage', '<', 100))
+        return domain
+
     @api.multi
-    def _agreement_report_data(self):
+    def _agreement_report_data(self, print_coverage=True):
         self.ensure_one()
         data = {}
         sorted_data = []
         categs = self.env['product.category']
         all_categs = self.env['product.category']
-        for item in self.item_ids:
+        domain = self._agreement_report_domain(print_coverage)
+        for item in self.env['medical.coverage.agreement.item'].search(domain):
             if item.categ_id.id not in data:
                 categs |= item.categ_id
                 data[item.categ_id.id] = self.env[
