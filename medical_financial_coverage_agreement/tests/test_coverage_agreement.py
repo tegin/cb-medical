@@ -266,7 +266,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         self.assertEquals(item_1.private_price, 100)
         wiz = self.env['medical.agreement.change.prices'].create({
             'difference': 50.0})
-        wiz.with_context(active_ids=[item_1.id]).change_prices()
+        wiz.with_context(active_ids=[coverage_agreement.id]).change_prices()
         self.assertEquals(item_1.coverage_price, 150)
         self.assertEquals(item_1.private_price, 150)
 
@@ -312,8 +312,10 @@ class TestMedicalCoverageAgreement(TransactionCase):
             'coverage_agreement_id': coverage_agreement.id,
             'plan_definition_id': self.plan_1.id,
             'product_id': self.product_1.id,
-            'coverage_percentage': 50.0,
+            'coverage_percentage': 100.0,
             'total_price': 200})
+        data = coverage_agreement._agreement_report_data(False)
+        self.assertFalse(data)
         data = coverage_agreement._agreement_report_data()
         self.assertTrue(data)
         self.assertEqual(data[0]['category'], self.browse_ref(
