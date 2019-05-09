@@ -6,7 +6,7 @@
     'name': 'Medical ICD-10-PCS Codification',
     'summary': 'Medical codification base',
     'version': '11.0.1.0.0',
-    'author': 'Creu Blanca, Eficent, Odoo Community Association (OCA)',
+    'author': 'Creu Blanca, Eficent',
     'category': 'Medical',
     'website': 'https://github.com/OCA/vertical-medical',
     'license': 'LGPL-3',
