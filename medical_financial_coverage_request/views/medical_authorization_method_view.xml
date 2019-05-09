@@ -18,6 +18,7 @@
                     <group>
                         <field name="code"/>
                         <field name="name"/>
+                        <field name="description"/>
                         <field name="auxiliary_method_id"/>
                         <field name="integration_system"/>
                         <field name="integration_information"/>
