@@ -11,6 +11,7 @@ class MedicalAuthorizationMethod(models.Model):
 
     code = fields.Char(required=True,)
     name = fields.Char(required=True,)
+    description = fields.Char()
     method_information = fields.Text()
     vat_required = fields.Boolean(
         track_visibility=True,
