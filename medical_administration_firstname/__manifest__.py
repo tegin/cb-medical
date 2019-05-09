@@ -5,7 +5,7 @@
 {
     'name': 'Medical Patient firstname',
     'version': '11.0.1.0.0',
-    'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
+    'author': 'Eficent, Creu Blanca',
     'depends': [
         'medical_administration',
         'partner_firstname',
