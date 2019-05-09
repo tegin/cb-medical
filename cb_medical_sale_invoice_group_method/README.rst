@@ -35,9 +35,6 @@ Credits
 
 Images
 ------
-
-* Odoo Community Association:
-  `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
 * Barcode:
   `Barcode Icon <https://pixabay.com/en/barcode-laser-code-black-306926/>`_.
 
