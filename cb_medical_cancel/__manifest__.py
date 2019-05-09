@@ -5,7 +5,7 @@
 {
     'name': 'Medical Sale Discounts',
     'version': '11.0.1.0.0',
-    'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
+    'author': 'Eficent, Creu Blanca',
     'category': 'Medical',
     'depends': [
         'cb_medical_pos',
