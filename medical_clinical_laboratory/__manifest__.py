@@ -5,7 +5,7 @@
 {
     'name': 'Medical Laboratory',
     'version': '11.0.1.0.0',
-    'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
+    'author': 'Eficent, Creu Blanca',
     'depends': [
         'medical_workflow',
         'medical_clinical',
