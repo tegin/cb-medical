@@ -6,7 +6,7 @@
     'name': 'Medical Coverage Request',
     'summary': 'Medical financial coverage request',
     'version': '11.0.1.0.0',
-    'author': 'Creu Blanca, Eficent, Odoo Community Association (OCA)',
+    'author': 'Creu Blanca, Eficent',
     'website': 'https://github.com/OCA/vertical-medical',
     'license': 'LGPL-3',
     'depends': [
