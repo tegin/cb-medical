@@ -5,7 +5,7 @@
 {
     'name': 'Medical Careplan to sales',
     'version': '11.0.1.0.2',
-    'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
+    'author': 'Eficent, Creu Blanca',
     'category': 'Medical',
     'depends': [
         'medical_clinical_careplan',
