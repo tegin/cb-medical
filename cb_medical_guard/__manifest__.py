@@ -6,7 +6,7 @@
     'version': '11.0.1.0.0',
     'category': 'CB',
     'website': 'https://creublanca.es',
-    'author': 'Creu Blanca, Eficent, Odoo Community Association (OCA)',
+    'author': 'Creu Blanca, Eficent',
     'license': 'AGPL-3',
     'installable': True,
     'application': False,
