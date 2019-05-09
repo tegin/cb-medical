@@ -7,7 +7,7 @@
     'version': '11.0.1.0.0',
     'category': 'Reporting',
     'website': 'https://github.com/eficent/cb-addons',
-    'author': 'Creu Blanca, Eficent, Odoo Community Association (OCA)',
+    'author': 'Creu Blanca, Eficent',
     'license': 'AGPL-3',
     'installable': True,
     'application': False,
