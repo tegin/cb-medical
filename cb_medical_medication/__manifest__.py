@@ -5,7 +5,7 @@
 {
     'name': 'CB Medical sequence configuration',
     'version': '11.0.1.0.0',
-    'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
+    'author': 'Eficent, Creu Blanca',
     'depends': [
         'cb_medical_careplan_sale',
         'mrp',
