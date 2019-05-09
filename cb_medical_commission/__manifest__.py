@@ -6,7 +6,7 @@
     'name': 'Medical Commission',
     'summary': 'Add Commissions',
     'version': '11.0.1.0.0',
-    'author': 'Eficent, Creu Blanca, Odoo Community Association (OCA)',
+    'author': 'Eficent, Creu Blanca',
     'category': 'Medical',
     'depends': [
         'sale_commission_formula',
