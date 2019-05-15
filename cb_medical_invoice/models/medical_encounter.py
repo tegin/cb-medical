@@ -55,6 +55,7 @@ class MedicalEncounter(models.Model):
                 for il in invoice_new_partner.invoice_line_ids:
                     il.quantity *= -1
                 invoice_new_partner.type = 'out_refund'
+            invoice_new_partner.compute_taxes()
             invoice_new_partner.action_invoice_open()
             inv_res |= invoice_new_partner
             invoice_refund = self.env['account.invoice'].with_context(
@@ -80,6 +81,7 @@ class MedicalEncounter(models.Model):
                     'sale_line_ids': [(4, id) for id in il.sale_line_ids.ids]
                 }
                 il.copy(default=default_data)
+            invoice_refund.compute_taxes()
             invoice_refund.action_invoice_open()
             inv_res |= invoice_refund
             final_inv.write({'encounter_final_invoice': False})
