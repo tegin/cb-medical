@@ -11,6 +11,15 @@ class ProductTemplate(models.Model):
         default=False
     )
 
+    @api.multi
+    def write(self, vals):
+        res = super().write(vals)
+        if 'categ_id' in vals:
+            self.env['medical.coverage.agreement.item'].search([
+                ('product_id', 'in', self.mapped('product_variant_ids').ids)
+            ]).write({'categ_id': vals['categ_id']})
+        return res
+
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
