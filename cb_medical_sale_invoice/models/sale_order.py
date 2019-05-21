@@ -81,7 +81,7 @@ class SaleOrderLine(models.Model):
             agreement = self.order_id.coverage_agreement_id
             if agreement:
                 if agreement.file_reference:
-                    res['file_reference'] = agreement.file_reference
+                    res['facturae_file_reference'] = agreement.file_reference
                 if agreement.discount and agreement.discount > 0.0:
                     res['discount'] = agreement.discount
         if self.coverage_template_id:
