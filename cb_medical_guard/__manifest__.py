@@ -12,8 +12,6 @@
     'application': False,
     'summary': 'CB medical location data',
     'depends': [
-        'medical_administration_practitioner',
-        'cb_medical_administration_center',
         'cb_medical_commission',
     ],
     'data': [
