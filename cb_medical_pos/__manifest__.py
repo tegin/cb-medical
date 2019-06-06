@@ -7,11 +7,8 @@
     'version': '11.0.1.0.0',
     'author': 'Eficent, Creu Blanca',
     'depends': [
-        'cb_medical_careplan_sale',
-        'point_of_sale',
         'pos_session_pay_invoice',
         'pos_close_approval',
-        'pos_multiple_sessions',
         'cb_medical_commission',
         'account_cash_invoice_inter_company',
     ],
