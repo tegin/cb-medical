@@ -8,12 +8,6 @@
     'author': 'Eficent, Creu Blanca',
     'category': 'Medical',
     'depends': [
-        'medical_workflow',
-        'medical_administration_encounter_careplan',
-        'medical_clinical_procedure',
-        'medical_clinical_request_group',
-        'medical_document',
-        'medical_medication_request',
         'cb_medical_careplan_sale',
         'cb_medical_workflow_trigger',
     ],
