@@ -7,7 +7,6 @@
     'version': '11.0.1.0.0',
     'author': 'Eficent, Creu Blanca',
     'depends': [
-        'cb_medical_careplan_sale',
         'mrp',
         'cb_medical_block_request',
         'stock_pack_operation_auto_fill',
