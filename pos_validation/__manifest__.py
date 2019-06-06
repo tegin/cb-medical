@@ -13,18 +13,12 @@
     'application': False,
     'summary': 'Validation of Careplans once they are assigned to a Session',
     'depends': [
-        'cb_medical_pos',
         'pos_safe_box',
         'barcode_action',
-        'cb_medical_commission',
         'cb_medical_cancel',
-        'pos_session_pay_invoice',
-        'cb_medical_sale_discount',
-        'cb_medical_sale_invoice',
         'web_flagbox',
         'web_ir_actions_act_multi',
         'cb_medical_clinical_laboratory',
-        'cb_medical_medication',
     ],
     'data': [
         'wizards/medical_encounter_validation_add_service.xml',
