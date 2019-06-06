@@ -7,7 +7,6 @@
     'version': '11.0.2.0.0',
     'author': 'Eficent, Creu Blanca',
     'depends': [
-        'cb_medical_financial_coverage_agreement',
         'cb_medical_careplan_sale',
         'base_comment_template',
     ],
