@@ -10,12 +10,9 @@
     'depends': [
         'medical_base',
         'cb_medical_sale_invoice',
-        'cb_medical_financial_coverage_agreement',
-        'sale',
         'barcodes',
         'medical_administration_encounter',
         'sale_merge_draft_invoice',
-        'sale_order_action_invoice_create_hook',
     ],
     'data': [
         'data/medical_invoice_group.xml',
