@@ -10,7 +10,6 @@
     'depends': [
         'medical_financial_coverage',
         'cb_medical_administration_center',
-        'product',
         'product_nomenclature',
         'medical_workflow',
         'sale',
