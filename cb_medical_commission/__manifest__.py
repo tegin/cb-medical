@@ -11,8 +11,6 @@
     'depends': [
         'sale_commission_formula',
         'sale_commission_cancel',
-        'cb_medical_sale_invoice',
-        'cb_medical_careplan_sale',
         'cb_medical_sale_invoice_group_method',
         'cb_medical_workflow_activity',
     ],
