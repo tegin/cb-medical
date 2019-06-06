@@ -7,11 +7,7 @@
     'version': '11.0.1.0.0',
     'author': 'Eficent, Creu Blanca',
     'depends': [
-        'cb_medical_pos',
-        'cb_medical_sale_invoice',
-        'cb_medical_sale_invoice_group_method',
         'pos_validation',
-        'sale',
     ],
     'data': [
         'security/medical_security.xml',
