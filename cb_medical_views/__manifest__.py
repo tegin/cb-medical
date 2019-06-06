@@ -7,10 +7,7 @@
     'version': '11.0.1.0.0',
     'author': 'Eficent, Creu Blanca',
     'depends': [
-        'medical_workflow',
-        'medical_administration_encounter',
         'barcode_action',
-        'medical_clinical_procedure',
         'cb_medical_careplan_sale',
         'l10n_es_partner',
     ],
