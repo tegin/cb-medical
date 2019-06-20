@@ -41,3 +41,11 @@ class MedicalMedicationRequest(models.Model):
             administration.with_context(
                 no_post_move=True).in_progress2completed()
         return administration
+
+    def get_sale_order_line_vals(self, is_insurance):
+        res = super().get_sale_order_line_vals(is_insurance)
+        if self.location_type_id:
+            res['name'] = '%s en %s' % (
+                res['name'], self.location_type_id.name
+            )
+        return res
