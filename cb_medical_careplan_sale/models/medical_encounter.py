@@ -93,7 +93,10 @@ class MedicalEncounter(models.Model):
                 if not values[key][partner][cov].get(third_party, False):
                     values[key][partner][cov][third_party] = []
                 values[key][partner][cov][third_party].append(
-                    request.get_sale_order_line_vals(is_ins))
+                    request.with_context(
+                        lang=self.env['res.partner'].browse(
+                            partner).lang or self.env.user.lang
+                    ).get_sale_order_line_vals(is_ins))
         return values
 
     def generate_sale_orders(self, values):
