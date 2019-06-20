@@ -22,7 +22,7 @@
         </xpath>
         <!-- hide fields -->
         <xpath expr="//div[@t-if='o.origin']" position="attributes">
-            <attribute name="t-if">1==0</attribute>
+            <attribute name="t-if">o.origin and o.type == 'out_refund'</attribute>
         </xpath>
         <xpath expr="//div[@t-if='o.partner_id.ref']" position="attributes">
             <attribute name="t-if">o.is_medical and not o.encounter_id</attribute>
