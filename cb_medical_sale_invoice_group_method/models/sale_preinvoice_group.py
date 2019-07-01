@@ -135,6 +135,9 @@ class SalePreinvoiceGroup(models.Model):
         inv_data = self.validated_line_ids[0]._prepare_invoice()
         inv_data['agreement_id'] = self.agreement_id.id or False
         inv_data['name'] = self.internal_identifier
+        journal = self.invoice_group_method_id.get_journal(self.company_id)
+        if journal:
+            inv_data['journal_id'] = journal.id
         return inv_data
 
     @api.multi
