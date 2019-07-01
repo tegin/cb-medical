@@ -77,3 +77,8 @@ class MedicalRequest(models.AbstractModel):
             for r in self:
                 r.message_post(subtype=False, body=cancel_reason)
         return res
+
+    def reactive_values(self):
+        res = super().reactive_values()
+        res['cancel_reason_id'] = False
+        return res
