@@ -408,6 +408,20 @@ class TestCBSale(TestCB):
         self.assertEqual(sale_order.amount_total, 50)
         self.assertEqual(sale_order.order_line.discount, 50)
 
+    def test_careplan_add_function(self):
+        encounter_action = self.env['medical.encounter'].create_encounter(
+            patient=self.patient_01.id, center=self.center.id, careplan_data=[{
+                'coverage': self.coverage_01.id,
+                'service': self.agreement_line3.product_id.id,
+            }]
+        )
+        encounter = self.env['medical.encounter'].browse(
+            encounter_action['res_id']
+        )
+        self.assertTrue(encounter)
+        self.assertTrue(encounter.careplan_ids)
+        self.assertTrue(encounter.careplan_ids.request_group_ids)
+
     def test_careplan_add_wizard(self):
         encounter = self.env['medical.encounter'].create({
             'patient_id': self.patient_01.id,
