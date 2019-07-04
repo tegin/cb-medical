@@ -17,3 +17,4 @@ from . import res_partner
 from . import workflow_activity_definition
 from . import workflow_plan_definition
 from . import medical_patient
+from . import medical_encounter
