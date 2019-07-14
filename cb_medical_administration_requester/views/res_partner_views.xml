@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 LasLabs Inc.
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//h1" position="before">
+                <h1>
+                    <field name="is_requester" invisible="1"/>
+                    <field name="edit_requester" invisible="1"/>
+                    <field name="requester_identifier"
+                           attrs="{'invisible': [('is_requester','=',False)]}"
+                           groups="cb_medical_administration_requester.group_medical_requester_display"
+                    />
+                </h1>
+            </xpath>
+            <field name="vat" position="after">
+                <field name="college_number"
+                       attrs="{'invisible': [('is_requester','=',False), ('is_practitioner', '=', False)],'readonly':[('edit_requester', '=', False)]}"
+                       groups="cb_medical_administration_requester.group_medical_requester_display"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="medical_requester_action">
+        <field name="name">Requester</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('is_requester', '=', True)]</field>
+        <field name="context">{'default_company_type':'person', 'default_is_company':False, 'default_is_requester': True, 'default_is_medical': True, 'default_is_customer': False}</field>
+    </record>
+
+</odoo>
