@@ -12,6 +12,7 @@
     'depends': [
         'crm',
         'cb_medical_financial_coverage_agreement',
+        'cb_medical_administration_requester',
     ],
     'data': [
         'wizards/crm_lead_add_agreement.xml',
