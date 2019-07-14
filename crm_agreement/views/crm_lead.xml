@@ -10,7 +10,7 @@
         <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="attributes">
-                <attribute name="domain">[('commercial_partner_id.is_payor', '=', True)]</attribute>
+                <attribute name="domain">['|', ('commercial_partner_id.is_payor', '=', True), ('commercial_partner_id.is_requester', '=', True)]</attribute>
             </field>
             <field name="partner_id" position="after">
                 <field name="is_payor" invisible="1"/>
@@ -38,7 +38,7 @@
         <field name="inherit_id" ref="crm.view_create_opportunity_simplified"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="attributes">
-                <attribute name="domain">[('commercial_partner_id.is_payor', '=', True)]</attribute>
+                <attribute name="domain">['|',('commercial_partner_id.is_payor', '=', True), ('commercial_partner_id.is_requester', '=', True)]</attribute>
             </field>
             <label for="planned_revenue" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -71,7 +71,7 @@
         <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="attributes">
-                <attribute name="domain">[('commercial_partner_id.is_payor', '=', True)]</attribute>
+                <attribute name="domain">['|', ('commercial_partner_id.is_payor', '=', True), ('commercial_partner_id.is_requester', '=', True)]</attribute>
             </field>
             <field name="partner_id" position="after">
                 <field name="is_payor" invisible="1"/>
