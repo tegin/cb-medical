@@ -1,0 +1,107 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* cb_medical_administration_requester
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-02-06 15:26+0000\n"
+"PO-Revision-Date: 2019-02-06 15:26+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cb_medical_administration_requester
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_patient_college_number
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_res_partner_college_number
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_res_users_college_number
+msgid "College Number"
+msgstr "Número de colegiado"
+
+#. module: cb_medical_administration_requester
+#: model:ir.model,name:cb_medical_administration_requester.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: cb_medical_administration_requester
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_patient_edit_requester
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_res_partner_edit_requester
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_res_users_edit_requester
+msgid "Edit Requester"
+msgstr "Editar peticionario"
+
+#. module: cb_medical_administration_requester
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_patient_is_requester
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_res_partner_is_requester
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_res_users_is_requester
+msgid "Is Requester"
+msgstr "Es peticionario"
+
+#. module: cb_medical_administration_requester
+#: model:res.groups,name:cb_medical_administration_requester.group_medical_requester_display
+msgid "Medical Requester Display"
+msgstr "Visualizador de Peticionarios"
+
+#. module: cb_medical_administration_requester
+#: model:res.groups,name:cb_medical_administration_requester.group_medical_requester_list
+msgid "Medical Requester List"
+msgstr "Medical Requester List"
+
+#. module: cb_medical_administration_requester
+#: model:res.groups,name:cb_medical_administration_requester.group_medical_requester_manager
+msgid "Medical Requester Manager"
+msgstr "Gestor de Peticionarios"
+
+#. module: cb_medical_administration_requester
+#: model:ir.model,name:cb_medical_administration_requester.model_medical_request
+msgid "Medical request"
+msgstr "Medical request"
+
+#. module: cb_medical_administration_requester
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_careplan_add_plan_definition_order_by_id
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_encounter_validation_add_service_order_by_id
+msgid "Order By"
+msgstr "Peticionario"
+
+#. module: cb_medical_administration_requester
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_careplan_order_by_id
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_document_reference_order_by_id
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_laboratory_request_order_by_id
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_medication_request_order_by_id
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_procedure_request_order_by_id
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_request_group_order_by_id
+msgid "Ordered by"
+msgstr "Ordered by"
+
+#. module: cb_medical_administration_requester
+#: model:ir.model.fields,help:cb_medical_administration_requester.field_medical_careplan_order_by_id
+#: model:ir.model.fields,help:cb_medical_administration_requester.field_medical_document_reference_order_by_id
+#: model:ir.model.fields,help:cb_medical_administration_requester.field_medical_laboratory_request_order_by_id
+#: model:ir.model.fields,help:cb_medical_administration_requester.field_medical_medication_request_order_by_id
+#: model:ir.model.fields,help:cb_medical_administration_requester.field_medical_procedure_request_order_by_id
+#: model:ir.model.fields,help:cb_medical_administration_requester.field_medical_request_group_order_by_id
+msgid "Person who has initiated the order."
+msgstr "Person who has initiated the order."
+
+#. module: cb_medical_administration_requester
+#: model:ir.actions.act_window,name:cb_medical_administration_requester.medical_requester_action
+#: model:ir.ui.menu,name:cb_medical_administration_requester.medical_conf_requester_menu
+msgid "Requester"
+msgstr "Peticionario"
+
+#. module: cb_medical_administration_requester
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_medical_patient_requester_identifier
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_res_partner_requester_identifier
+#: model:ir.model.fields,field_description:cb_medical_administration_requester.field_res_users_requester_identifier
+msgid "Requester Identifier"
+msgstr "Identificador Peticionario"
+
+#. module: cb_medical_administration_requester
+#: model:ir.model,name:cb_medical_administration_requester.model_medical_careplan_add_plan_definition
+msgid "medical.careplan.add.plan.definition"
+msgstr "medical.careplan.add.plan.definition"
+
