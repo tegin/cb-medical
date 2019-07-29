@@ -84,10 +84,10 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
             rec.agreement_ids = self.env['medical.coverage.agreement'].search([
                 ('coverage_template_ids', '=', rec.coverage_template_id.id),
                 ('center_ids', '=', rec.center_id.id),
-                ('date_from', '>=', date),
+                ('date_from', '<=', date),
                 '|',
                 ('date_to', '=', False),
-                ('date_to', '<=', date)
+                ('date_to', '>=', date)
             ])
 
     def _get_values(self):
