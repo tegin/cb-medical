@@ -29,6 +29,18 @@ class CrmLead(models.Model):
         related='partner_id.commercial_partner_id.is_payor',
         readonly=True,
     )
+    medical_quote_ids = fields.One2many(
+        'medical.quote',
+        inverse_name='lead_id',
+    )
+    medical_quote_count = fields.Integer(
+        compute='_compute_medical_quote_count',
+    )
+
+    @api.depends('medical_quote_ids')
+    def _compute_medical_quote_count(self):
+        for record in self:
+            record.medical_quote_count = len(record.medical_quote_ids)
 
     @api.depends('agreement_ids')
     def _compute_agreement_count(self):
@@ -47,6 +59,22 @@ class CrmLead(models.Model):
         action['domain'] = [('id', 'in', self.agreement_ids.ids)]
         if len(self.agreement_ids) == 1:
             action['res_id'] = self.agreement_ids.id
+            action['views'] = [(False, 'form')]
+        return action
+
+    @api.multi
+    def view_medical_quotes(self):
+        self.ensure_one()
+        action = self.env.ref('cb_medical_quote.action_quotes').read()[0]
+        action['context'] = ast.literal_eval(action['context'])
+        action['context'].update({
+            'default_lead_id': self.id,
+            'default_is_private': False,
+            'default_payor_id': self.partner_id.id,
+        })
+        action['domain'] = [('lead_id', '=', self.id)]
+        if len(self.medical_quote_ids) == 1:
+            action['res_id'] = self.medical_quote_ids.id
             action['views'] = [(False, 'form')]
         return action
 
