@@ -18,9 +18,6 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         related='careplan_id.center_id',
         readonly=True,
     )
-    date = fields.Date(
-        compute='_compute_date'
-    )
     coverage_template_id = fields.Many2one(
         'medical.coverage.template',
         related='coverage_id.coverage_template_id',
@@ -74,12 +71,17 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         readonly=True,
     )
 
+    def _get_careplan_date(self):
+        return (
+            self.careplan_id.encounter_id.create_date or
+            self.careplan_id.create_date
+        )
+
     @api.depends('coverage_template_id', 'center_id')
     def _compute_agreements(self):
         for rec in self:
             date = fields.Date.to_string(fields.Datetime.from_string(
-                rec.careplan_id.encounter_id.create_date
-                or rec.careplan_id.create_date
+                rec._get_careplan_date()
             ))
             rec.agreement_ids = self.env['medical.coverage.agreement'].search([
                 ('coverage_template_ids', '=', rec.coverage_template_id.id),
