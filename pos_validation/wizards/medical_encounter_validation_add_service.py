@@ -41,6 +41,9 @@ class MedicalEncounterValidationAddService(models.TransientModel):
     subscriber_id = fields.Char()
     is_phantom = fields.Boolean()
 
+    def _get_careplan_date(self):
+        return self.encounter_id.create_date
+
     @api.onchange('action_type')
     def _onchange_action_type(self):
         self.careplan_id = False
