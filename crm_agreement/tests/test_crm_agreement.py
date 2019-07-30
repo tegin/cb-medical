@@ -31,6 +31,14 @@ class TestCrmAgreement(TransactionCase):
             'is_center': True,
             'is_medical': True
         })
+        self.method = self.env['medical.authorization.method'].create({
+            'name': 'Test method',
+            'code': 'TEST',
+        })
+        self.format = self.env['medical.authorization.format'].create({
+            'name': 'Test format',
+            'code': 'test',
+        })
 
     def test_lead_to_agreement(self):
         partner = self.contact
@@ -49,7 +57,9 @@ class TestCrmAgreement(TransactionCase):
         ).create({
             'name': 'Test agreement',
             'center_ids': [(4, self.center.id)],
-            'company_id': self.company.id
+            'company_id': self.company.id,
+            'authorization_method_id': self.method.id,
+            'authorization_format_id': self.format.id,
         })
         self.assertIn(self.template_1, agreement.coverage_template_ids)
         self.assertIn(self.template_2, agreement.coverage_template_ids)
@@ -66,7 +76,9 @@ class TestCrmAgreement(TransactionCase):
         ).create({
             'name': 'Test agreement',
             'center_ids': [(4, self.center.id)],
-            'company_id': self.company.id
+            'company_id': self.company.id,
+            'authorization_method_id': self.method.id,
+            'authorization_format_id': self.format.id,
         })
         self.assertIn(self.template_1, agreement2.coverage_template_ids)
         self.assertIn(self.template_2, agreement2.coverage_template_ids)
@@ -86,6 +98,8 @@ class TestCrmAgreement(TransactionCase):
             'name': 'Test agreement',
             'center_ids': [(4, self.center.id)],
             'company_id': self.company.id,
+            'authorization_method_id': self.method.id,
+            'authorization_format_id': self.format.id,
             'coverage_template_ids': [
                 (4, self.template_1.id),
                 (4, self.template_2.id),
@@ -134,6 +148,8 @@ class TestCrmAgreement(TransactionCase):
             'name': 'Test agreement',
             'center_ids': [(4, self.center.id)],
             'company_id': self.company.id,
+            'authorization_method_id': self.method.id,
+            'authorization_format_id': self.format.id,
             'coverage_template_ids': [
                 (4, self.template_1.id),
                 (4, self.template_2.id),
@@ -161,6 +177,8 @@ class TestCrmAgreement(TransactionCase):
             'name': 'Test agreement',
             'center_ids': [(4, self.center.id)],
             'company_id': self.company.id,
+            'authorization_method_id': self.method.id,
+            'authorization_format_id': self.format.id,
             'coverage_template_ids': [
                 (4, self.template_1.id),
                 (4, self.template_2.id),
@@ -179,3 +197,22 @@ class TestCrmAgreement(TransactionCase):
         agreement.refresh()
         self.assertIn(lead, agreement.lead_ids)
         self.assertIn(agreement, lead.agreement_ids)
+
+    def test_quote(self):
+        lead = self.env['crm.lead'].create({
+            'name': 'Test',
+            'partner_id': self.payor.id,
+        })
+        self.assertEqual(lead.medical_quote_count, 0)
+        action = lead.view_medical_quotes()
+        quote = self.env['medical.quote'].with_context(
+            **action['context']
+        ).create({
+            'coverage_template_id': self.template_1.id,
+            'center_id': self.center.id,
+        })
+        self.assertEqual(lead, quote.lead_id)
+        lead.refresh()
+        self.assertEqual(1, lead.medical_quote_count)
+        action = lead.view_medical_quotes()
+        self.assertTrue(quote.id, action['res_id'])
