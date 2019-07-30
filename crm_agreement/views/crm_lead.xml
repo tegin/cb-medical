@@ -23,6 +23,12 @@
                             name="view_agreements">
                         <field string="Agreements" name="agreement_count" widget="statinfo"/>
                     </button>
+                    <button type="object"
+                            icon="fa-hand-holding-usd"
+                            attrs="{'invisible': [('is_payor', '=', False)]}"
+                            name="view_medical_quotes">
+                        <field string="Quotes" name="medical_quote_count" widget="statinfo"/>
+                    </button>
                     <button name="%(crm_agreement.crm_lead_add_agreement_act_window)s"
                             type="action"
                             icon="fa-plus"
@@ -99,4 +105,5 @@
     <record id="sale_crm.crm_case_form_view_oppor" model="ir.ui.view">
          <field name="active" eval="False"/>
      </record>
+
 </odoo>

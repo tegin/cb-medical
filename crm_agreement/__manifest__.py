@@ -10,11 +10,13 @@
     'author': 'Creu Blanca,Odoo Community Association (OCA)',
     'website': 'www.creublanca.es',
     'depends': [
-        'crm',
+        'sale_crm',
+        'cb_medical_quote',
         'cb_medical_financial_coverage_agreement',
         'cb_medical_administration_requester',
     ],
     'data': [
+        'views/medical_quote.xml',
         'wizards/crm_lead_add_agreement.xml',
         'views/medical_coverage_agreement.xml',
         'views/crm_lead.xml',
