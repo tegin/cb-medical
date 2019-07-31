@@ -56,6 +56,19 @@
                           decoration-danger="missing_practitioner"
                           decoration-light="not missing_practitioner"
                     />
+                    <button icon="fa-radiation"
+                            name="toggle_commission_issue_accepted"
+                            type="object"
+                            help="Preinvoicing is generated. Documents must be stored"
+                            class="flag-danger"
+                            attrs="{'invisible': ['|', ('commission_issue', '=', False), ('commission_issue_accepted', '=', True)]}"
+                    />
+                    <flag icon="fa-radiation"
+                          name="commission_issue"
+                          help="Missing practitioner"
+                          attrs="{'invisible': [('commission_issue', '=', True), ('commission_issue_accepted', '=', False)]}"
+                          decoration-light="True"
+                    />
                     <emptyflag/>
                     <flag icon="fa-user" help="Patient invoice"
                           decoration-light="not has_patient_invoice"
@@ -67,6 +80,8 @@
                     <field name="unauthorized_elements" invisible="1"/>
                     <field name="has_patient_invoice" invisible="1"/>
                     <field name="missing_practitioner" invisible="1"/>
+                    <field name="commission_issue" invisible="1"/>
+                    <field name="commission_issue_accepted" invisible="1"/>
                 </flagbox>
             </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">

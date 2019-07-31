@@ -22,6 +22,9 @@ class MedicalEncounter(models.Model):
     is_preinvoiced = fields.Boolean(
         default=False, track_visibility=True,
     )
+    commission_issue_accepted = fields.Boolean(
+        default=False, track_visibility=True
+    )
     has_patient_invoice = fields.Boolean(
         compute='_compute_validation_values',
     )
@@ -37,6 +40,9 @@ class MedicalEncounter(models.Model):
     missing_practitioner = fields.Boolean(
         compute='_compute_validation_values',
     )
+    commission_issue = fields.Boolean(
+        compute='_compute_validation_values'
+    )
 
     @api.depends(
         'sale_order_ids.order_line.invoice_group_method_id',
@@ -47,6 +53,8 @@ class MedicalEncounter(models.Model):
         'sale_order_ids.order_line.authorization_format_id',
         'sale_order_ids.order_line.authorization_method_id',
         'sale_order_ids.order_line.authorization_status',
+        'sale_order_ids.order_line.agents.amount',
+        'sale_order_ids.order_line.price_subtotal',
     )
     def _compute_validation_values(self):
         for rec in self:
@@ -84,6 +92,10 @@ class MedicalEncounter(models.Model):
                 and not r.performer_id
                 and r.state not in ['aborted']
             )))
+            rec.commission_issue = any(
+                line.price_subtotal < sum(a.amount for a in line.agents)
+                for line in rec.sale_order_line_ids
+            )
 
     def onleave2finished_values(self):
         res = super().onleave2finished_values()
@@ -109,6 +121,10 @@ class MedicalEncounter(models.Model):
         for record in self:
             record.is_preinvoiced = not record.is_preinvoiced
 
+    def toggle_commission_issue_accepted(self):
+        for rec in self:
+            rec.commission_issue_accepted = not rec.commission_issue_accepted
+
     def check_validation(self):
         if self.has_preinvoicing and not self.is_preinvoiced:
             raise ValidationError(_('You must check the documentation.'))
@@ -124,6 +140,11 @@ class MedicalEncounter(models.Model):
         if self.missing_practitioner:
             raise ValidationError(_(
                 'The performer is required in at least a procedure'
+            ))
+        if self.commission_issue and not self.commission_issue_accepted:
+            raise ValidationError(_(
+                'There is an issue related to commission amounts. '
+                'Check it please'
             ))
 
     def _admin_validation_values(self):
