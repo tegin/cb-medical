@@ -71,7 +71,7 @@ msgstr "Producto"
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.model.fields,field_description:cb_medical_financial_coverage_agreement.field_medical_coverage_agreement_name
 msgid "Agreement Name"
-msgstr "Producto"
+msgstr "Oferta"
 
 #. module: cb_medical_financial_coverage_agreement
 #: model:ir.actions.report,name:cb_medical_financial_coverage_agreement.action_agreement_report
