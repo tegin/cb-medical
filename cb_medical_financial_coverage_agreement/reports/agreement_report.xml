@@ -21,28 +21,26 @@
     <template id="report_agreement_template_category">
         <t t-set="item" t-value="item_variable"/>
         <tr>
-            <td t-att-colspan="min(level, 3)" t-if="level &gt; 0"/>
-            <td t-att-colspan="max(7-level, 4)">
+            <td colspan="3">
+                <t t-foreach="range(0, level)" t-as="i">
+                    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                </t>
                 <strong t-esc="'%s - %s' % (item['category'].display_name, item['category'].description)" t-if="item['category'].description"/>
                 <strong t-esc="item['category'].display_name" t-else=""/>
             </td>
         </tr>
         <t t-foreach="item['data']" t-as="child">
             <tr>
-                <t t-foreach="range(0, min(level, 3) + 1)"  t-as="lvl">
-                    <td style="width:20px"/>
-                </t>
                 <td>
+                    <t t-foreach="range(0, level + 1)" t-as="i">
+                        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                    </t>
                     <span t-esc="child['product'].default_code" t-if="not child['nomenclature']"/>
                     <span t-esc="'%s [%s]' % (child['nomenclature'].code, child['product'].default_code)" t-if="child['nomenclature']"/>
                 </td>
                 <td>
                     <span t-esc="child['product'].name"/>
                 </td>
-
-                <t t-foreach="range(min(level, 3), 3)" t-as="lvl">
-                    <td style="width:20px"/>
-                </t>
                 <td style="text-align:right">
                     <span t-esc="child['item'].coverage_price" t-if="print_coverage" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/>
                     <span t-esc="child['item'].private_price" t-if="not print_coverage" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/>
