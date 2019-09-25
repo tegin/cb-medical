@@ -6,6 +6,13 @@ from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+import logging
+_logger = logging.getLogger(__name__)
+
+try:
+    from xlrd import open_workbook
+except ImportError:
+    _logger.debug('Can not import xlrd`.')
 
 
 class TestMedicalCoverageAgreement(TransactionCase):
@@ -358,3 +365,58 @@ class TestMedicalCoverageAgreement(TransactionCase):
             nomenclature.item_ids,
             data[0]['childs'][0]['data'][0]['nomenclature']
         )
+
+    def test_export_xslx(self):
+        coverage_agreement_vals = {
+            'name': 'test coverage agreement',
+            'center_ids': [(6, 0, [self.center_1.id])],
+            'company_id': self.ref('base.main_company'),
+        }
+        coverage_agreement = self.coverage_agreement_model.create(
+            coverage_agreement_vals)
+        item = self.coverage_agreement_model_item.create({
+            'coverage_agreement_id': coverage_agreement.id,
+            'plan_definition_id': self.plan_1.id,
+            'product_id': self.product_1.id,
+            'coverage_percentage': 100.0,
+            'total_price': 200})
+
+        report_object = self.env['ir.actions.report']
+        report_name = 'cb_medical_financial_coverage_agreement.items_xslx'
+        report = report_object._get_report_from_name(report_name)
+
+        rep = report.render(item.ids)
+        wb = open_workbook(file_contents=rep[0])
+        sheet = wb.sheet_by_index(0)
+        self.assertEqual(sheet.cell(1, 0).value, item.product_id.name)
+
+        category_2 = self.env['product.category'].create({
+            'name': 'Categ 2',
+            'parent_id': self.browse_ref('product.product_category_all').id,
+        })
+        product_2 = self.product_model.create({
+            'name': 'Product 2',
+            'categ_id': category_2.id,
+        })
+        self.coverage_agreement_model_item.create({
+            'coverage_agreement_id': coverage_agreement.id,
+            'plan_definition_id': self.plan_1.id,
+            'product_id': product_2.id,
+            'coverage_percentage': 100.0,
+            'total_price': 200})
+
+        report_name = 'cb_medical_financial_coverage_agreement.mca_xlsx'
+        report = report_object._get_report_from_name(report_name)
+
+        rep = report.with_context(
+            active_model='medical.coverage.agreement'
+        ).render(coverage_agreement.ids)
+        wb = open_workbook(file_contents=rep[0])
+        sheet = wb.sheet_by_index(0)
+        self.assertEqual(
+            sheet.cell(0, 0).value,
+            self.browse_ref('product.product_category_all').name,
+        )
+        self.assertEqual(sheet.cell(1, 2).value, self.product_1.name)
+        self.assertEqual(sheet.cell(2, 1).value, category_2.display_name)
+        self.assertEqual(sheet.cell(3, 3).value, product_2.name)
