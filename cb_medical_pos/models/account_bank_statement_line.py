@@ -6,12 +6,10 @@ from odoo.exceptions import ValidationError
 
 
 class AccountBankStatementLine(models.Model):
-    _inherit = 'account.bank.statement.line'
+    _inherit = "account.bank.statement.line"
 
     sale_order_id = fields.Many2one(
-        'sale.order',
-        string='Sale Order',
-        readonly=True
+        "sale.order", string="Sale Order", readonly=True
     )
 
     @api.multi
@@ -24,17 +22,19 @@ class AccountBankStatementLine(models.Model):
             else:
                 sale_order = st_line.sale_order_id
                 if not sale_order.third_party_order:
-                    raise ValidationError(_(
-                        'Sale Order must be a third party order'))
+                    raise ValidationError(
+                        _("Sale Order must be a third party order")
+                    )
                 move_line = sale_order.third_party_move_id.line_ids.filtered(
                     lambda r: r.account_id.id == sale_order.account_id.id
                 )
                 if st_line.amount != 0:
                     vals = {
-                        'name': st_line.name,
-                        'debit': st_line.amount < 0 and -st_line.amount or 0.0,
-                        'credit': st_line.amount > 0 and st_line.amount or 0.0,
-                        'move_line': move_line
+                        "name": st_line.name,
+                        "debit": st_line.amount < 0 and -st_line.amount or 0.0,
+                        "credit": st_line.amount > 0 and st_line.amount or 0.0,
+                        "move_line": move_line,
                     }
                     st_line.process_reconciliation(
-                        counterpart_aml_dicts=[vals])
+                        counterpart_aml_dicts=[vals]
+                    )
