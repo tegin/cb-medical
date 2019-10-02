@@ -6,7 +6,6 @@ from odoo.exceptions import ValidationError
 
 
 class TestCBConstrains(TestCB):
-
     def test_no_agreement(self):
         self.plan_definition.is_breakdown = True
         self.plan_definition.is_billable = True
@@ -41,9 +40,11 @@ class TestCBConstrains(TestCB):
         careplan.active2completed()
         with self.assertRaises(ValidationError):
             # Raises 'It is not cancelable' relating to the care plan
-            self.env['medical.encounter.cancel'].create({
-                'encounter_id': encounter.id,
-                'cancel_reason_id': self.reason.id,
-                'cancel_reason': 'testing purposes',
-                'pos_session_id': self.session.id,
-            }).run()
+            self.env["medical.encounter.cancel"].create(
+                {
+                    "encounter_id": encounter.id,
+                    "cancel_reason_id": self.reason.id,
+                    "cancel_reason": "testing purposes",
+                    "pos_session_id": self.session.id,
+                }
+            ).run()
