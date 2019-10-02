@@ -6,10 +6,10 @@ from odoo import models, fields
 
 
 class MedicalAuthorizationMethod(models.Model):
-    _inherit = 'medical.authorization.method'
+    _inherit = "medical.authorization.method"
 
     invoice_group_method_id = fields.Many2one(
-        string='Invoice Group Method',
-        comodel_name='invoice.group.method',
+        string="Invoice Group Method",
+        comodel_name="invoice.group.method",
         track_visibility=True,
     )
