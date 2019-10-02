@@ -6,18 +6,21 @@ from odoo import api, models
 
 
 class MedicalMedicationRequest(models.Model):
-    _inherit = 'medical.medication.request'
+    _inherit = "medical.medication.request"
 
     def _get_event_values(self):
         res = super()._get_event_values()
         if self.encounter_id:
-            res['encounter_id'] = self.encounter_id.id
+            res["encounter_id"] = self.encounter_id.id
         return res
 
     @api.model
     def get_request_format(self):
-        return self.env['ir.config_parameter'].sudo().get_param(
-            'medical.medication.request.identifier')
+        return (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("medical.medication.request.identifier")
+        )
 
     @api.model
     def _get_internal_identifier(self, vals):
