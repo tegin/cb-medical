@@ -5,6 +5,6 @@ from odoo import fields, models
 
 
 class MedicalCoverage(models.Model):
-    _inherit = 'medical.coverage'
+    _inherit = "medical.coverage"
 
     subscriber_magnetic_str = fields.Char(readonly=True)
