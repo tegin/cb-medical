@@ -2,7 +2,7 @@ from odoo import api, models
 
 
 class MedicalEncounter(models.Model):
-    _inherit = 'medical.encounter'
+    _inherit = "medical.encounter"
 
     @api.multi
     def inprogress2onleave(self):
