@@ -101,7 +101,7 @@
             </xpath>
         </field>
     </record>
-    
+
     <record id="sale_crm.crm_case_form_view_oppor" model="ir.ui.view">
          <field name="active" eval="False"/>
      </record>

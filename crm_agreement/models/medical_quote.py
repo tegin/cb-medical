@@ -6,8 +6,6 @@ from odoo import fields, models
 
 class MedicalQuote(models.Model):
 
-    _inherit = 'medical.quote'
+    _inherit = "medical.quote"
 
-    lead_id = fields.Many2one(
-        'crm.lead',
-    )
+    lead_id = fields.Many2one("crm.lead")
