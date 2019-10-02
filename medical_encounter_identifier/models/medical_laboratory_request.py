@@ -2,12 +2,15 @@ from odoo import api, models
 
 
 class MedicalLaboratoryRequest(models.Model):
-    _inherit = 'medical.laboratory.request'
+    _inherit = "medical.laboratory.request"
 
     @api.model
     def get_request_format(self):
-        return self.env['ir.config_parameter'].sudo().get_param(
-            'medical.laboratory.request.identifier')
+        return (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("medical.laboratory.request.identifier")
+        )
 
     @api.model
     def _get_internal_identifier(self, vals):
