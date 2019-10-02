@@ -6,10 +6,11 @@ from odoo import models
 
 
 class MedicalLaboratoryRequest(models.Model):
-    _inherit = 'medical.laboratory.request'
+    _inherit = "medical.laboratory.request"
 
     def _change_authorization(self, vals, **kwargs):
         res = super()._change_authorization(vals, **kwargs)
-        self.mapped('laboratory_event_ids')._change_authorization(
-            vals, **kwargs)
+        self.mapped("laboratory_event_ids")._change_authorization(
+            vals, **kwargs
+        )
         return res
