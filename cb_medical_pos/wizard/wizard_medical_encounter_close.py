@@ -6,19 +6,19 @@ from odoo import api, fields, models
 
 
 class WizardMedicalEncounterClose(models.TransientModel):
-    _name = 'wizard.medical.encounter.close'
+    _name = "wizard.medical.encounter.close"
 
     pos_session_id = fields.Many2one(
-        comodel_name='pos.session',
-        string='PoS Session',
+        comodel_name="pos.session",
+        string="PoS Session",
         required=True,
-        domain=[('state', '=', 'opened')]
+        domain=[("state", "=", "opened")],
     )
     encounter_id = fields.Many2one(
-        comodel_name='medical.encounter',
-        string='encounter',
+        comodel_name="medical.encounter",
+        string="encounter",
         readonly=True,
-        required=True
+        required=True,
     )
 
     @api.multi
@@ -28,5 +28,5 @@ class WizardMedicalEncounterClose(models.TransientModel):
         # self.encounter_id.pos_session_id = self.pos_session_id
         self.encounter_id.with_context(
             pos_session_id=self.pos_session_id.id,
-            company_id=self.pos_session_id.config_id.company_id.id
+            company_id=self.pos_session_id.config_id.company_id.id,
         ).inprogress2onleave()
