@@ -6,14 +6,15 @@ from odoo import fields, models
 
 
 class MedicalCareplanAddPlanDefinition(models.TransientModel):
-    _inherit = 'medical.careplan.add.plan.definition'
+    _inherit = "medical.careplan.add.plan.definition"
 
     qty = fields.Integer(default=1)
 
     def _get_values(self):
         values = super()._get_values()
-        values['sub_payor_id'] = self.careplan_id.sub_payor_id.id
-        values['invoice_group_method_id'] = self.authorization_method_id.\
-            invoice_group_method_id.id or False
-        values['qty'] = self.qty
+        values["sub_payor_id"] = self.careplan_id.sub_payor_id.id
+        values["invoice_group_method_id"] = (
+            self.authorization_method_id.invoice_group_method_id.id or False
+        )
+        values["qty"] = self.qty
         return values
