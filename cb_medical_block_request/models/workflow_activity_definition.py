@@ -6,12 +6,14 @@ from odoo import models
 
 
 class ActivityDefinition(models.Model):
-    _inherit = 'workflow.activity.definition'
+    _inherit = "workflow.activity.definition"
 
-    def _get_medical_values(self, vals, parent=False, plan=False, action=False
-                            ):
+    def _get_medical_values(
+        self, vals, parent=False, plan=False, action=False
+    ):
         res = super(ActivityDefinition, self)._get_medical_values(
-            vals, parent, plan, action)
+            vals, parent, plan, action
+        )
         if action:
-            res.update({'is_blocking': action.is_blocking})
+            res.update({"is_blocking": action.is_blocking})
         return res

@@ -3,19 +3,17 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 {
-    'name': 'Medical Block requests',
-    'version': '11.0.1.0.0',
-    'author': 'Eficent, Creu Blanca',
-    'category': 'Medical',
-    'depends': [
-        'cb_medical_pos',
+    "name": "Medical Block requests",
+    "version": "11.0.1.0.0",
+    "author": "Eficent, Creu Blanca",
+    "category": "Medical",
+    "depends": ["cb_medical_pos"],
+    "data": [
+        "views/medical_request_views.xml",
+        "views/workflow_plan_definition_action.xml",
     ],
-    'data': [
-        'views/medical_request_views.xml',
-        'views/workflow_plan_definition_action.xml',
-    ],
-    'website': 'https://github.com/eficent/cb-addons',
-    'license': 'LGPL-3',
-    'installable': True,
-    'auto_install': False,
+    "website": "https://github.com/eficent/cb-addons",
+    "license": "LGPL-3",
+    "installable": True,
+    "auto_install": False,
 }
