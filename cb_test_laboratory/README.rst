@@ -12,4 +12,3 @@ Contributors
 ------------
 
 * Roser Garcia <roser.garcia@eficent.com>
-
