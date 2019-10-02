@@ -5,12 +5,12 @@ from odoo import models
 
 
 class MedicalLaboratoryRequest(models.Model):
-    _name = 'medical.laboratory.request'
-    _inherit = ['medical.laboratory.request', 'medical.request']
+    _name = "medical.laboratory.request"
+    _inherit = ["medical.laboratory.request", "medical.request"]
 
     def _check_cancellable(self):
-        if self.mapped('laboratory_event_ids').filtered(
-            lambda r: r.state != 'aborted'
+        if self.mapped("laboratory_event_ids").filtered(
+            lambda r: r.state != "aborted"
         ):
             return False
         return super()._check_cancellable()
