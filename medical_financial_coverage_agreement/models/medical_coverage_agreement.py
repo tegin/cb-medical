@@ -7,119 +7,102 @@ from odoo.exceptions import ValidationError
 
 
 class MedicalCoverageAgreement(models.Model):
-    _name = 'medical.coverage.agreement'
+    _name = "medical.coverage.agreement"
     _description = "Coverage Agreement"
-    _inherit = ['medical.abstract', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ["medical.abstract", "mail.thread", "mail.activity.mixin"]
 
     def _get_default_currency_id(self):
         return self.env.user.company_id.currency_id.id
 
-    name = fields.Char(
-        string='Agreement Name',
-        required=True,
-        translate=True,
-    )
-    active = fields.Boolean(
-        default=True,
-    )
+    name = fields.Char(string="Agreement Name", required=True, translate=True)
+    active = fields.Boolean(default=True)
     center_ids = fields.Many2many(
-        string='Centers',
-        comodel_name='res.partner',
-        domain=[('is_center', '=', True)],
+        string="Centers",
+        comodel_name="res.partner",
+        domain=[("is_center", "=", True)],
         required=True,
         index=True,
-        help='Medical centers',
+        help="Medical centers",
     )
     company_id = fields.Many2one(
-        comodel_name='res.company',
-        string='Company',
+        comodel_name="res.company",
+        string="Company",
         required=True,
         index=True,
-        help='Responsible Medical Company',
+        help="Responsible Medical Company",
     )
     coverage_template_ids = fields.Many2many(
-        string='Coverage Templates',
-        comodel_name='medical.coverage.template',
-        relation='medical_coverage_agreement_medical_coverage_template_rel',
-        column1='agreement_id',
-        column2='coverage_template_id',
-        help='Coverage templates related to this agreement',
+        string="Coverage Templates",
+        comodel_name="medical.coverage.template",
+        relation="medical_coverage_agreement_medical_coverage_template_rel",
+        column1="agreement_id",
+        column2="coverage_template_id",
+        help="Coverage templates related to this agreement",
         auto_join=True,
         copy=False,
     )
     nomenclature_id = fields.Many2one(
-        'product.nomenclature',
-        string="Printing nomenclature",
+        "product.nomenclature", string="Printing nomenclature"
     )
     item_ids = fields.One2many(
-        comodel_name='medical.coverage.agreement.item',
-        inverse_name='coverage_agreement_id',
-        string='Agreement items',
-        ondelete='cascade',
+        comodel_name="medical.coverage.agreement.item",
+        inverse_name="coverage_agreement_id",
+        string="Agreement items",
+        ondelete="cascade",
         copy=True,
     )
     currency_id = fields.Many2one(
-        comodel_name='res.currency',
-        string='Currency',
+        comodel_name="res.currency",
+        string="Currency",
         default=_get_default_currency_id,
         required=True,
     )
-    date_from = fields.Date(
-        'From',
-        required=True,
-        default=fields.Date.today(),
+    date_from = fields.Date("From", required=True, default=fields.Date.today())
+    date_to = fields.Date("To")
+    actual_date = fields.Date(default=fields.Date.today())
+    principal_concept = fields.Selection(
+        [("private", "Private"), ("coverage", "Coverage")], "Concept"
     )
-    date_to = fields.Date(
-        'To',
-    )
-    actual_date = fields.Date(
-        default=fields.Date.today(),
-    )
-    principal_concept = fields.Selection([
-        ('private', 'Private'),
-        ('coverage', 'Coverage')],
-        'Concept',
-    )
-    is_template = fields.Boolean(
-        default=False,
-        readonly=True,
-    )
+    is_template = fields.Boolean(default=False, readonly=True)
     template_id = fields.Many2one(
-        'medical.coverage.agreement',
-        domain=[('is_template', '=', True)],
+        "medical.coverage.agreement",
+        domain=[("is_template", "=", True)],
         readonly=True,
-        track_visibility='onchange',
+        track_visibility="onchange",
     )
 
-    @api.constrains('date_to', 'date_from', 'coverage_template_ids',
-                    'center_ids')
+    @api.constrains(
+        "date_to", "date_from", "coverage_template_ids", "center_ids"
+    )
     def _check_product_unicity(self):
         for rec in self:
             rec.item_ids._check_product()
 
-    @api.constrains('is_template', 'template_id', 'coverage_template_ids')
+    @api.constrains("is_template", "template_id", "coverage_template_ids")
     def _check_template(self):
         for rec in self.filtered(lambda r: r.is_template):
             if rec.coverage_template_ids:
-                raise ValidationError(_(
-                    'Coverage cannot be defined on templates'
-                ))
+                raise ValidationError(
+                    _("Coverage cannot be defined on templates")
+                )
             if rec.template_id:
-                raise ValidationError(_(
-                    'Template cannot be defined on templates'
-                ))
+                raise ValidationError(
+                    _("Template cannot be defined on templates")
+                )
 
     @api.model
     def _get_internal_identifier(self, vals):
-        return self.env['ir.sequence'].next_by_code(
-            'medical.coverage.agreement') or '/'
+        return (
+            self.env["ir.sequence"].next_by_code("medical.coverage.agreement")
+            or "/"
+        )
 
-    @api.onchange('date_from', 'date_to')
+    @api.onchange("date_from", "date_to")
     def _onchange_date_range(self):
         if self.date_from and self.date_to:
             if (
-                self.actual_date >= self.date_from and
-                self.actual_date <= self.date_to
+                self.actual_date >= self.date_from
+                and self.actual_date <= self.date_to
             ):
                 self.active = True
             else:
@@ -135,55 +118,56 @@ class MedicalCoverageAgreement(models.Model):
         res = super().toggle_active()
         for record in self.filtered(lambda r: not r.active):
             # Only set as unactive
-            record.item_ids.write({'active': False})
+            record.item_ids.write({"active": False})
         return res
 
     @api.multi
     def action_search_item(self):
-        action = self.env.ref('cb_medical_financial_coverage_agreement.'
-                              'medical_coverage_agreement_item_action')
+        action = self.env.ref(
+            "cb_medical_financial_coverage_agreement."
+            "medical_coverage_agreement_item_action"
+        )
         result = action.read()[0]
-        result['context'] = {'default_coverage_agreement_id': self.id}
-        result['domain'] = [('coverage_agreement_id', '=', self.id)]
+        result["context"] = {"default_coverage_agreement_id": self.id}
+        result["domain"] = [("coverage_agreement_id", "=", self.id)]
         return result
 
     @api.multi
     def set_template(self, template, set_items):
         self.ensure_one()
-        self.write({'template_id': template.id})
+        self.write({"template_id": template.id})
         if not set_items:
             return
         for item in template.item_ids:
             if not self.item_ids.filtered(
                 lambda r: r.product_id == item.product_id
             ):
-                self.env['medical.coverage.agreement.item'].with_context(
-                    default_coverage_agreement_id=self.id,
-                ).create(
-                    item._copy_agreement_vals(self)
-                )
+                self.env["medical.coverage.agreement.item"].with_context(
+                    default_coverage_agreement_id=self.id
+                ).create(item._copy_agreement_vals(self))
 
     def _sort_data(self, data):
         result = []
         for d in data:
             item = {
-                'product': d.product_id,
-                'item': d,
-                'nomenclature': self.env[
-                    'product.nomenclature.product'
-                ]
+                "product": d.product_id,
+                "item": d,
+                "nomenclature": self.env["product.nomenclature.product"],
             }
             if self.nomenclature_id:
-                item['nomenclature'] = self.env[
-                    'product.nomenclature.product'
-                ].search([
-                    ('nomenclature_id', '=', self.nomenclature_id.id),
-                    ('product_id', '=', d.product_id.id)
-                ], limit=1)
+                item["nomenclature"] = self.env[
+                    "product.nomenclature.product"
+                ].search(
+                    [
+                        ("nomenclature_id", "=", self.nomenclature_id.id),
+                        ("product_id", "=", d.product_id.id),
+                    ],
+                    limit=1,
+                )
             result.append(item)
         return sorted(
             result,
-            key=lambda r: r['product'].default_code or r['product'].name
+            key=lambda r: r["product"].default_code or r["product"].name,
         )
 
     def explore_child_data(self, childs, data):
@@ -191,22 +175,24 @@ class MedicalCoverageAgreement(models.Model):
         if not childs:
             return res
         for child in childs.filtered(lambda r: r.id in data.keys()):
-            res.append({
-                'data': self._sort_data(data[child.id]),
-                'category': child,
-                'childs': self.explore_child_data(child.child_id, data)
-            })
-        return sorted(res, key=lambda r: r['category'].name)
+            res.append(
+                {
+                    "data": self._sort_data(data[child.id]),
+                    "category": child,
+                    "childs": self.explore_child_data(child.child_id, data),
+                }
+            )
+        return sorted(res, key=lambda r: r["category"].name)
 
     def _agreement_report_domain(self, print_coverage):
         domain = [
-            ('coverage_agreement_id', '=', self.id),
-            ('total_price', '>', 0)
+            ("coverage_agreement_id", "=", self.id),
+            ("total_price", ">", 0),
         ]
         if print_coverage:
-            domain.append(('coverage_percentage', '>', 0))
+            domain.append(("coverage_percentage", ">", 0))
         else:
-            domain.append(('coverage_percentage', '<', 100))
+            domain.append(("coverage_percentage", "<", 100))
         return domain
 
     @api.multi
@@ -214,14 +200,15 @@ class MedicalCoverageAgreement(models.Model):
         self.ensure_one()
         data = {}
         sorted_data = []
-        categs = self.env['product.category']
-        all_categs = self.env['product.category']
+        categs = self.env["product.category"]
+        all_categs = self.env["product.category"]
         domain = self._agreement_report_domain(print_coverage)
-        for item in self.env['medical.coverage.agreement.item'].search(domain):
+        for item in self.env["medical.coverage.agreement.item"].search(domain):
             if item.categ_id.id not in data:
                 categs |= item.categ_id
                 data[item.categ_id.id] = self.env[
-                    'medical.coverage.agreement.item']
+                    "medical.coverage.agreement.item"
+                ]
             data[item.categ_id.id] |= item
 
         all_categs |= categs
@@ -230,15 +217,17 @@ class MedicalCoverageAgreement(models.Model):
             while ctg.parent_id and ctg.parent_id not in all_categs:
                 all_categs |= ctg.parent_id
                 if ctg.parent_id not in data:
-                    data[
-                        ctg.parent_id.id
-                    ] = self.env['medical.coverage.agreement.item']
+                    data[ctg.parent_id.id] = self.env[
+                        "medical.coverage.agreement.item"
+                    ]
                 ctg = ctg.parent_id
 
         for categ in all_categs.filtered(lambda r: r.level == 0):
-            sorted_data.append({
-                'data': self._sort_data(data[categ.id]),
-                'category': categ,
-                'childs': self.explore_child_data(categ.child_id, data)
-            })
-        return sorted(sorted_data, key=lambda r: r['category'].name)
+            sorted_data.append(
+                {
+                    "data": self._sort_data(data[categ.id]),
+                    "category": categ,
+                    "childs": self.explore_child_data(categ.child_id, data),
+                }
+            )
+        return sorted(sorted_data, key=lambda r: r["category"].name)
