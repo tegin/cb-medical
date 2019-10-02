@@ -6,7 +6,7 @@ from odoo import api, models
 
 
 class MedicalEncounter(models.AbstractModel):
-    _inherit = 'medical.encounter'
+    _inherit = "medical.encounter"
 
     @api.multi
     def recompute_commissions(self):
@@ -22,12 +22,12 @@ class MedicalEncounter(models.AbstractModel):
 
     def _compute_commissions(self):
         self.ensure_one()
-        for pr in self.careplan_ids.mapped('procedure_request_ids'):
+        for pr in self.careplan_ids.mapped("procedure_request_ids"):
             for procedure in pr.procedure_ids:
                 procedure.compute_commission(pr)
-        for request in self.careplan_ids.mapped('laboratory_request_ids'):
+        for request in self.careplan_ids.mapped("laboratory_request_ids"):
             request.compute_commission(request)
-        for event in self.careplan_ids.mapped('laboratory_request_ids').mapped(
-            'laboratory_event_ids'
+        for event in self.careplan_ids.mapped("laboratory_request_ids").mapped(
+            "laboratory_event_ids"
         ):
             event.compute_commission()
