@@ -12,4 +12,3 @@ Contributors
 ------------
 
 * Enric Tobella
-
