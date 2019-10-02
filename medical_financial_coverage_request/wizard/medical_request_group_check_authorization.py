@@ -6,65 +6,63 @@ from odoo import api, fields, models
 
 
 class MedicalRequestGroupCheckAuthorization(models.TransientModel):
-    _name = 'medical.request.group.check.authorization'
+    _name = "medical.request.group.check.authorization"
 
     @api.model
     def _default_request(self):
-        return self.env['medical.request.group'].browse(
-            self.env.context.get('default_request_group_id', False)
+        return self.env["medical.request.group"].browse(
+            self.env.context.get("default_request_group_id", False)
         )
 
     @api.model
     def _default_method(self):
-        return self._default_request().\
-            coverage_agreement_item_id.authorization_method_id
+        return (
+            self._default_request().coverage_agreement_item_id.authorization_method_id
+        )
 
-    request_group_id = fields.Many2one(
-        'medical.request.group',
-        required=True,
-    )
+    request_group_id = fields.Many2one("medical.request.group", required=True)
     coverage_agreement_item_id = fields.Many2one(
-        'medical.coverage.agreement.item', readonly=True,
-        related='request_group_id.coverage_agreement_item_id',
+        "medical.coverage.agreement.item",
+        readonly=True,
+        related="request_group_id.coverage_agreement_item_id",
     )
     product_id = fields.Many2one(
-        'product.product',
+        "product.product",
         readonly=True,
-        related="coverage_agreement_item_id.product_id"
+        related="coverage_agreement_item_id.product_id",
     )
     plan_definition_id = fields.Many2one(
-        comodel_name='workflow.plan.definition',
+        comodel_name="workflow.plan.definition",
         readonly=True,
-        related='coverage_agreement_item_id.plan_definition_id'
+        related="coverage_agreement_item_id.plan_definition_id",
     )
     authorization_number = fields.Char()
     authorization_method_id = fields.Many2one(
-        'medical.authorization.method',
+        "medical.authorization.method",
         default=_default_method,
         domain="[('id', 'in', authorization_method_ids)]",
     )
     authorization_method_ids = fields.Many2many(
-        'medical.authorization.method',
-        compute='_compute_authorization_method_ids',
+        "medical.authorization.method",
+        compute="_compute_authorization_method_ids",
     )
     authorization_format_id = fields.Many2one(
-        'medical.authorization.format',
-        related='coverage_agreement_item_id.authorization_format_id',
-        readonly=True
+        "medical.authorization.format",
+        related="coverage_agreement_item_id.authorization_format_id",
+        readonly=True,
     )
     authorization_information = fields.Text(
-        related='authorization_format_id.authorization_information',
+        related="authorization_format_id.authorization_information",
         readonly=True,
     )
     authorization_required = fields.Boolean(
-        related='authorization_method_id.authorization_required',
-        readonly=True,
+        related="authorization_method_id.authorization_required", readonly=True
     )
 
-    @api.depends('request_group_id')
+    @api.depends("request_group_id")
     def _compute_authorization_method_ids(self):
         for rec in self:
-            result = self.env['medical.authorization.method']
+            result = self.env["medical.authorization.method"]
             method = self.coverage_agreement_item_id.authorization_method_id
             while method:
                 result |= method
@@ -73,13 +71,14 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
 
     def _get_kwargs(self):
         return {
-            'authorization_number': self.authorization_number,
-            'authorization_method_id': self.authorization_method_id.id,
+            "authorization_number": self.authorization_number,
+            "authorization_method_id": self.authorization_method_id.id,
         }
 
     @api.multi
     def run(self):
         self.ensure_one()
         self.request_group_id.change_authorization(
-            self.authorization_method_id, **self._get_kwargs())
+            self.authorization_method_id, **self._get_kwargs()
+        )
         return {}

@@ -7,19 +7,15 @@ from odoo import models, fields
 
 
 class MedicalAuthorizationFormat(models.Model):
-    _name = 'medical.authorization.format'
-    _description = 'Authorization format'
+    _name = "medical.authorization.format"
+    _description = "Authorization format"
 
-    code = fields.Char(required=True,)
-    name = fields.Char(required=True,)
-    authorization_format = fields.Char(
-        track_visibility=True,
-    )
+    code = fields.Char(required=True)
+    name = fields.Char(required=True)
+    authorization_format = fields.Char(track_visibility=True)
     authorization_information = fields.Text()
     always_authorized = fields.Boolean(
-        default=False,
-        track_visibility=True,
-        required=True,
+        default=False, track_visibility=True, required=True
     )
 
     def check_value(self, value):

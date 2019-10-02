@@ -6,13 +6,11 @@ from odoo import fields, models
 
 
 class MedicalCoverageAgreement(models.Model):
-    _inherit = 'medical.coverage.agreement'
+    _inherit = "medical.coverage.agreement"
 
     authorization_method_id = fields.Many2one(
-        'medical.authorization.method',
-        required=True
+        "medical.authorization.method", required=True
     )
     authorization_format_id = fields.Many2one(
-        'medical.authorization.format',
-        required=True
+        "medical.authorization.format", required=True
     )
