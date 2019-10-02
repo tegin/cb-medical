@@ -6,5 +6,5 @@ from odoo import models
 
 
 class MedicalEvent(models.AbstractModel):
-    _name = 'medical.event'
-    _inherit = ['medical.event', 'medical.commission.action']
+    _name = "medical.event"
+    _inherit = ["medical.event", "medical.commission.action"]

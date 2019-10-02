@@ -18,24 +18,19 @@ class AccountInvoice(models.Model):
 
 
 class AccountInvoiceLineAgent(models.Model):
-    _inherit = 'account.invoice.line.agent'
+    _inherit = "account.invoice.line.agent"
 
-    procedure_id = fields.Many2one(
-        'medical.procedure',
-        readonly=True,
-    )
+    procedure_id = fields.Many2one("medical.procedure", readonly=True)
     laboratory_event_id = fields.Many2one(
-        'medical.laboratory.event',
-        string='Laboratory Event',
+        "medical.laboratory.event", string="Laboratory Event"
     )
     laboratory_request_id = fields.Many2one(
-        'medical.laboratory.request',
-        string='Laboratory Request',
+        "medical.laboratory.request", string="Laboratory Request"
     )
 
-    @api.constrains('agent', 'amount')
+    @api.constrains("agent", "amount")
     def _check_settle_integrity(self):
-        if self.env.context.get('check_original_integrity', False):
+        if self.env.context.get("check_original_integrity", False):
             return super()._check_settle_integrity()
         return
 
@@ -44,14 +39,16 @@ class AccountInvoiceLineAgent(models.Model):
         res = super()._build_model_attributes(pool)
         constraints = []
         for (key, definition, message) in cls._sql_constraints:
-            if key in ['unique_agent']:
-                constraints.append((
-                    key,
-                    'UNIQUE(object_id, agent, parent_agent_line_id, '
-                    'procedure_id, is_cancel, laboratory_request_id, '
-                    'laboratory_event_id)',
-                    message
-                ))
+            if key in ["unique_agent"]:
+                constraints.append(
+                    (
+                        key,
+                        "UNIQUE(object_id, agent, parent_agent_line_id, "
+                        "procedure_id, is_cancel, laboratory_request_id, "
+                        "laboratory_event_id)",
+                        message,
+                    )
+                )
             else:
                 constraints.append((key, definition, message))
         cls._sql_constraints = constraints
@@ -59,7 +56,7 @@ class AccountInvoiceLineAgent(models.Model):
 
     def get_commission_cancel_vals(self, agent=False):
         res = super().get_commission_cancel_vals(agent)
-        res['procedure_id'] = self.procedure_id.id or False
-        res['laboratory_event_id'] = self.laboratory_event_id.id or False
-        res['laboratory_request_id'] = self.laboratory_request_id.id or False
+        res["procedure_id"] = self.procedure_id.id or False
+        res["laboratory_event_id"] = self.laboratory_event_id.id or False
+        res["laboratory_request_id"] = self.laboratory_request_id.id or False
         return res
