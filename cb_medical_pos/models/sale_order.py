@@ -6,35 +6,27 @@ from odoo import api, fields, models
 
 
 class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+    _inherit = "sale.order"
 
     pos_session_id = fields.Many2one(
-        comodel_name='pos.session',
-        string='PoS Session',
-        readonly=1,
+        comodel_name="pos.session", string="PoS Session", readonly=1
     )
-    is_down_payment = fields.Boolean(
-        default=False
-    )
-    account_id = fields.Many2one(
-        comodel_name='account.account',
-        readonly=True
-    )
+    is_down_payment = fields.Boolean(default=False)
+    account_id = fields.Many2one(comodel_name="account.account", readonly=True)
     bank_statement_line_ids = fields.One2many(
-        'account.bank.statement.line',
-        inverse_name='sale_order_id',
+        "account.bank.statement.line",
+        inverse_name="sale_order_id",
         readonly=True,
     )
     residual = fields.Monetary(
-        currency_field='currency_id',
-        compute='_compute_residual',
+        currency_field="currency_id", compute="_compute_residual"
     )
 
-    @api.depends('amount_total', 'bank_statement_line_ids')
+    @api.depends("amount_total", "bank_statement_line_ids")
     def _compute_residual(self):
         for record in self:
             record.residual = record.amount_total - sum(
-                record.statement_line_ids.mapped('amount')
+                record.statement_line_ids.mapped("amount")
             )
 
     def create_third_party_move(self):
@@ -46,18 +38,15 @@ class SaleOrder(models.Model):
 
 
 class SaleOrderLine(models.Model):
-    _inherit = 'sale.order.line'
+    _inherit = "sale.order.line"
 
     down_payment_line_id = fields.Many2one(
-        'account.invoice.line',
-        default=False,
-        readonly=True,
-        copy=False,
+        "account.invoice.line", default=False, readonly=True, copy=False
     )
 
     @api.multi
     def _prepare_invoice_line(self, qty):
         res = super()._prepare_invoice_line(qty)
         if self.down_payment_line_id:
-            res['down_payment_line_id'] = self.down_payment_line_id.id
+            res["down_payment_line_id"] = self.down_payment_line_id.id
         return res

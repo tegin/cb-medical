@@ -6,19 +6,18 @@ from odoo import api, fields, models
 
 
 class PosConfig(models.Model):
-    _inherit = 'pos.config'
+    _inherit = "pos.config"
 
     session_sequence_id = fields.Many2one(
-        'ir.sequence',
-        'Sequence for sessions'
+        "ir.sequence", "Sequence for sessions"
     )
     session_sequence_prefix = fields.Char()
     requires_approval = fields.Boolean(default=True)
 
     @api.model
     def _compute_session_prefix(self, prefix):
-        range = '%(range_y)s/'
-        return '%s/%s' % (prefix, range)
+        range = "%(range_y)s/"
+        return "%s/%s" % (prefix, range)
 
     @api.model
     def _prepare_ir_session_sequence(self, prefix):
@@ -34,7 +33,7 @@ class PosConfig(models.Model):
             "use_date_range": True,
             "prefix": self._compute_session_prefix(prefix),
             "company_id": False,
-            "implementation": 'no_gap'
+            "implementation": "no_gap",
         }
         return vals
 
@@ -44,11 +43,11 @@ class PosConfig(models.Model):
         if prefix:
             for rec in self:
                 if rec.session_sequence_id:
-                    rec.sudo().session_sequence_id.prefix = \
-                        self._compute_session_prefix(prefix)
+                    rec.sudo().session_sequence_id.prefix = self._compute_session_prefix(
+                        prefix
+                    )
                 else:
-                    rec.session_sequence_id = self.env[
-                        "ir.sequence"
-                    ].create(
-                        self._prepare_ir_session_sequence(prefix))
+                    rec.session_sequence_id = self.env["ir.sequence"].create(
+                        self._prepare_ir_session_sequence(prefix)
+                    )
         return super().write(vals)
