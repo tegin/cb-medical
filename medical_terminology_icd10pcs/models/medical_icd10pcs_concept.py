@@ -16,57 +16,55 @@ class MedicalICD10PCSConcept(models.Model):
         - name: ATC/DDD
         - publisher: WHO
     """
-    _name = 'medical.icd10pcs.concept'
-    code = fields.Char(
-        compute='_compute_code',
-        store=True,
-        required=False,
-    )
-    section_id = fields.Many2one(
-        'medical.icd10pcs.section',
-        required=True,
-    )
+
+    _name = "medical.icd10pcs.concept"
+    code = fields.Char(compute="_compute_code", store=True, required=False)
+    section_id = fields.Many2one("medical.icd10pcs.section", required=True)
     body_system_id = fields.Many2one(
-        'medical.icd10pcs.body.system',
+        "medical.icd10pcs.body.system",
         required=True,
-        domain="[('section_id', '=', section_id)]"
+        domain="[('section_id', '=', section_id)]",
     )
     root_operation_id = fields.Many2one(
-        'medical.icd10pcs.operation',
+        "medical.icd10pcs.operation",
         required=True,
-        domain="[('section_id', '=', section_id)]"
+        domain="[('section_id', '=', section_id)]",
     )
     body_part_id = fields.Many2one(
-        'medical.icd10pcs.body.part',
+        "medical.icd10pcs.body.part",
         required=True,
-        domain="[('body_system_id', '=', body_system_id)]"
+        domain="[('body_system_id', '=', body_system_id)]",
     )
-    approach_id = fields.Many2one(
-        'medical.icd10pcs.approach',
-        required=True,
-    )
+    approach_id = fields.Many2one("medical.icd10pcs.approach", required=True)
     device_id = fields.Many2one(
-        'medical.icd10pcs.device',
+        "medical.icd10pcs.device",
         required=True,
-        domain="[('section_id', '=', section_id)]"
+        domain="[('section_id', '=', section_id)]",
     )
     qualifier_id = fields.Many2one(
-        'medical.icd10pcs.qualifier',
+        "medical.icd10pcs.qualifier",
         required=True,
-        domain="[('section_id', '=', section_id)]"
+        domain="[('section_id', '=', section_id)]",
     )
     name = fields.Char(required=True, translate=True)
 
-    @api.depends('section_id', 'body_system_id', 'root_operation_id',
-                 'body_part_id', 'approach_id', 'device_id', 'qualifier_id')
+    @api.depends(
+        "section_id",
+        "body_system_id",
+        "root_operation_id",
+        "body_part_id",
+        "approach_id",
+        "device_id",
+        "qualifier_id",
+    )
     def _compute_code(self):
         for rec in self:
-            rec.code = '%s%s%s%s%s%s%s' % (
+            rec.code = "%s%s%s%s%s%s%s" % (
                 rec.section_id.code,
                 rec.body_system_id.code,
                 rec.root_operation_id.code,
                 rec.body_part_id.code,
                 rec.approach_id.code,
                 rec.device_id.code,
-                rec.qualifier_id.code
+                rec.qualifier_id.code,
             )
