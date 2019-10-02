@@ -6,14 +6,13 @@ from odoo import fields, models
 
 
 class MedicalCareplanAddPlanDefinition(models.TransientModel):
-    _inherit = 'medical.careplan.add.plan.definition'
+    _inherit = "medical.careplan.add.plan.definition"
 
     order_by_id = fields.Many2one(
-        'res.partner',
-        domain=[('is_requester', '=', True)]
+        "res.partner", domain=[("is_requester", "=", True)]
     )
 
     def _get_values(self):
         values = super(MedicalCareplanAddPlanDefinition, self)._get_values()
-        values['order_by_id'] = self.order_by_id.id or False
+        values["order_by_id"] = self.order_by_id.id or False
         return values
