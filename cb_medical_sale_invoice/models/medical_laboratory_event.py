@@ -6,16 +6,16 @@ from odoo import models
 
 
 class MedicalLaboratoryEvent(models.Model):
-    _inherit = 'medical.laboratory.event'
+    _inherit = "medical.laboratory.event"
 
     def get_sale_order_line_vals(self, is_insurance):
         vals = super().get_sale_order_line_vals(is_insurance)
         if is_insurance:
-            vals['patient_name'] = self.patient_id.display_name
+            vals["patient_name"] = self.patient_id.display_name
             vals[
-                'authorization_number'
+                "authorization_number"
             ] = self.laboratory_request_id.authorization_number
             vals[
-                'subscriber_id'
+                "subscriber_id"
             ] = self.laboratory_request_id.coverage_id.subscriber_id
         return vals

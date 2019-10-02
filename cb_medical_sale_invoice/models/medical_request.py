@@ -6,12 +6,12 @@ from odoo import models
 
 
 class MedicalRequest(models.AbstractModel):
-    _inherit = 'medical.request'
+    _inherit = "medical.request"
 
     def get_sale_order_line_vals(self, is_insurance):
         vals = super().get_sale_order_line_vals(is_insurance)
         if is_insurance:
-            vals['patient_name'] = self.patient_id.display_name
-            vals['authorization_number'] = self.authorization_number
-            vals['subscriber_id'] = self.coverage_id.subscriber_id
+            vals["patient_name"] = self.patient_id.display_name
+            vals["authorization_number"] = self.authorization_number
+            vals["subscriber_id"] = self.coverage_id.subscriber_id
         return vals
