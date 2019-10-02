@@ -6,11 +6,11 @@ from odoo import api, models
 
 
 class AccountInvoiceLine(models.Model):
-    _inherit = 'account.invoice.line'
+    _inherit = "account.invoice.line"
 
     @api.multi
     def unlink(self):
-        sale_lines = self.mapped('sale_line_ids')
+        sale_lines = self.mapped("sale_line_ids")
         res = super(AccountInvoiceLine, self).unlink()
-        sale_lines.write({'preinvoice_group_id': False})
+        sale_lines.write({"preinvoice_group_id": False})
         return res
