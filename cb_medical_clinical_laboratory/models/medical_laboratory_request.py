@@ -6,15 +6,14 @@ from odoo import fields, models
 
 
 class MedicalLaboratoryRequest(models.Model):
-    _inherit = 'medical.laboratory.request'
+    _inherit = "medical.laboratory.request"
 
     laboratory_service_ids = fields.Many2many(
-        'medical.laboratory.service',
-        readonly=True
+        "medical.laboratory.service", readonly=True
     )
     laboratory_event_ids = fields.One2many(
         states={
-            'draft': [('readonly', False)],
-            'active': [('readonly', False)]
+            "draft": [("readonly", False)],
+            "active": [("readonly", False)],
         }
     )

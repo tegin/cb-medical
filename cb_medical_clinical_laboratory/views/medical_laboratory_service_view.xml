@@ -102,4 +102,3 @@
               groups="cb_medical_clinical_laboratory.group_medical_laboratory_configurator"
               action="medical_laboratory_service_action"/>
 </odoo>
-

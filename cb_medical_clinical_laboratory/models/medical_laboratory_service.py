@@ -7,36 +7,30 @@ from odoo.osv import expression
 
 
 class MedicalLaboratoryService(models.Model):
-    _name = 'medical.laboratory.service'
-    _description = 'Laboratory service'
-    _rec_name = 'name'
+    _name = "medical.laboratory.service"
+    _description = "Laboratory service"
+    _rec_name = "name"
 
-    code = fields.Char(
-        required=True,
-    )
-    name = fields.Char(
-
-    )
+    code = fields.Char(required=True)
+    name = fields.Char()
     delay = fields.Integer()
-    laboratory_code = fields.Char(
-        required=True,
-    )
+    laboratory_code = fields.Char(required=True)
     service_price_ids = fields.One2many(
-        'medical.laboratory.service.price',
-        inverse_name='laboratory_service_id',
+        "medical.laboratory.service.price",
+        inverse_name="laboratory_service_id",
         readonly=True,
     )
-    active = fields.Boolean(
-        default=True,
-        required=True,
-    )
+    active = fields.Boolean(default=True, required=True)
 
-    _sql_constraints = [(
-        'unique_laboratory_code', 'UNIQUE(laboratory_code)',
-        'Laboratory Code must be unique'
-    )]
+    _sql_constraints = [
+        (
+            "unique_laboratory_code",
+            "UNIQUE(laboratory_code)",
+            "Laboratory Code must be unique",
+        )
+    ]
 
-    @api.depends('code', 'name')
+    @api.depends("code", "name")
     def _compute_display_name(self):
         return super()._compute_display_name()
 
@@ -46,24 +40,24 @@ class MedicalLaboratoryService(models.Model):
         args = expression.normalize_domain(args)
         for arg in args:
             if isinstance(arg, (list, tuple)):
-                if arg[0] == 'name' or arg[0] == 'display_name':
+                if arg[0] == "name" or arg[0] == "display_name":
                     index = args.index(arg)
                     args = (
-                        args[:index] + ['|', ('code', arg[1], arg[2])] +
-                        args[index:]
+                        args[:index]
+                        + ["|", ("code", arg[1], arg[2])]
+                        + args[index:]
                     )
                     break
         return super().search(
-            args, offset=offset, limit=limit, order=order, count=count, )
+            args, offset=offset, limit=limit, order=order, count=count
+        )
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def name_search(self, name, args=None, operator="ilike", limit=100):
         """Give preference to commercial names on name search"""
         if not args:
             args = []
-        recs = self.search(
-            [('code', operator, name)] + args, limit=limit,
-        )
+        recs = self.search([("code", operator, name)] + args, limit=limit)
         res = recs.name_get()
         if limit:
             limit_rest = limit - len(recs)
@@ -71,9 +65,9 @@ class MedicalLaboratoryService(models.Model):
             # limit can be 0 or None representing infinite
             limit_rest = limit
         if limit_rest or not limit:
-            args += [('id', 'not in', recs.ids)]
+            args += [("id", "not in", recs.ids)]
             res += super().name_search(
-                name, args=args, operator=operator, limit=limit_rest,
+                name, args=args, operator=operator, limit=limit_rest
             )
         return res
 
@@ -85,27 +79,26 @@ class MedicalLaboratoryService(models.Model):
             name = orig_name[rec.id]
             code = rec.code
             if code:
-                name = '[%s] %s' % (code, name)
+                name = "[%s] %s" % (code, name)
             result.append((rec.id, name))
         return result
 
 
 class MedicalLaboratoryServicePrice(models.Model):
-    _name = 'medical.laboratory.service.price'
-    _description = 'Laboratory service price list'
+    _name = "medical.laboratory.service.price"
+    _description = "Laboratory service price list"
 
     laboratory_service_id = fields.Many2one(
-        'medical.laboratory.service',
-        required=True,
+        "medical.laboratory.service", required=True
     )
-    laboratory_code = fields.Char(
-        required=True,
-        string="Coverage code"
-    )
-    amount = fields.Float(required=True,)
+    laboratory_code = fields.Char(required=True, string="Coverage code")
+    amount = fields.Float(required=True)
     cost = fields.Float()
 
-    _sql_constraints = [(
-        'unique_code', 'UNIQUE(laboratory_code, laboratory_service_id)',
-        'Code must be unique on a service'
-    )]
+    _sql_constraints = [
+        (
+            "unique_code",
+            "UNIQUE(laboratory_code, laboratory_service_id)",
+            "Code must be unique on a service",
+        )
+    ]
