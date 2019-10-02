@@ -6,61 +6,46 @@ from odoo import fields, models
 
 
 class SaleOrderLine(models.Model):
-    _inherit = 'sale.order.line'
+    _inherit = "sale.order.line"
 
-    careplan_id = fields.Many2one(
-        'medical.careplan',
-        readonly=True,
-    )
+    careplan_id = fields.Many2one("medical.careplan", readonly=True)
     procedure_request_id = fields.Many2one(
-        'medical.procedure.request',
-        readonly=True,
+        "medical.procedure.request", readonly=True
     )
-    request_group_id = fields.Many2one(
-        'medical.request.group',
-        readonly=True,
-    )
+    request_group_id = fields.Many2one("medical.request.group", readonly=True)
     medication_request_id = fields.Many2one(
-        'medical.medication.request',
-        readonly=True,
+        "medical.medication.request", readonly=True
     )
-    encounter_id = fields.Many2one(
-        'medical.encounter',
-        readonly=True,
-    )
+    encounter_id = fields.Many2one("medical.encounter", readonly=True)
     document_reference_id = fields.Many2one(
-        'medical.document.reference',
-        readonly=True,
+        "medical.document.reference", readonly=True
     )
     laboratory_request_id = fields.Many2one(
-        'medical.laboratory.request', readonly=True,
+        "medical.laboratory.request", readonly=True
     )
     laboratory_event_id = fields.Many2one(
-        'medical.laboratory.event', readonly=True,
+        "medical.laboratory.event", readonly=True
     )
     invoice_group_method_id = fields.Many2one(
-        'invoice.group.method',
-        readonly=True,
+        "invoice.group.method", readonly=True
     )
     authorization_method_id = fields.Many2one(
-        'medical.authorization.method',
-        track_visibility=True,
+        "medical.authorization.method", track_visibility=True, readonly=True
+    )
+    authorization_checked = fields.Boolean(default=False, readonly=True)
+    authorization_status = fields.Selection(
+        [
+            ("pending", "Pending authorization"),
+            ("not-authorized", "Not authorized"),
+            ("authorized", "Authorized"),
+        ],
         readonly=True,
     )
-    authorization_checked = fields.Boolean(
-        default=False,
-        readonly=True,
-    )
-    authorization_status = fields.Selection([
-        ('pending', 'Pending authorization'),
-        ('not-authorized', 'Not authorized'),
-        ('authorized', 'Authorized'),
-    ], readonly=True,)
 
     def _prepare_third_party_order_line(self):
         res = super()._prepare_third_party_order_line()
-        res['invoice_group_method_id'] = self.env.ref(
-            'cb_medical_careplan_sale.third_party'
+        res["invoice_group_method_id"] = self.env.ref(
+            "cb_medical_careplan_sale.third_party"
         ).id
-        res['encounter_id'] = self.encounter_id.id or False
+        res["encounter_id"] = self.encounter_id.id or False
         return res
