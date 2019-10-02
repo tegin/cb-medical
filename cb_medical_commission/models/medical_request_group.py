@@ -7,23 +7,29 @@ from odoo.exceptions import ValidationError
 
 
 class RequestGroup(models.Model):
-    _inherit = 'medical.request.group'
+    _inherit = "medical.request.group"
 
     def get_third_party_partner(self):
         if self.third_party_bill:
             request = self.procedure_request_ids
             if not request:
-                raise ValidationError(_(
-                    'Error trying to determine the Third Party Partner. '
-                    'No Request was found for Request %s' %
-                    request.internal_identifier))
+                raise ValidationError(
+                    _(
+                        "Error trying to determine the Third Party Partner. "
+                        "No Request was found for Request %s"
+                        % request.internal_identifier
+                    )
+                )
             request.ensure_one()
             procedure = request.procedure_ids
             if not procedure:
-                raise ValidationError(_(
-                    'Error trying to determine the Third Party Partner. '
-                    'No Procedure was found for Request %s' %
-                    request.internal_identifier))
+                raise ValidationError(
+                    _(
+                        "Error trying to determine the Third Party Partner. "
+                        "No Procedure was found for Request %s"
+                        % request.internal_identifier
+                    )
+                )
             procedure.ensure_one()
             partner = procedure.commission_agent_id or procedure.performer_id
             if partner.third_party_sequence_id:
