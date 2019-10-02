@@ -6,7 +6,7 @@ from odoo import models
 
 
 class MedicalLaboratoryEvent(models.Model):
-    _inherit = 'medical.laboratory.event'
+    _inherit = "medical.laboratory.event"
 
     def _change_authorization(self, vals, **kwargs):
         self.write(vals)

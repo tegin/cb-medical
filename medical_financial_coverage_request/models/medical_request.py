@@ -7,73 +7,67 @@ from odoo.exceptions import ValidationError
 
 
 class MedicalRequest(models.AbstractModel):
-    _inherit = 'medical.request'
+    _inherit = "medical.request"
 
     coverage_id = fields.Many2one(
-        'medical.coverage',
+        "medical.coverage",
         track_visibility=True,
         required=False,
-        domain="[('patient_id', '=', patient_id)]"
+        domain="[('patient_id', '=', patient_id)]",
     )
     coverage_agreement_item_id = fields.Many2one(
-        'medical.coverage.agreement.item',
-        readonly=True,
-        ondelete='restrict'
+        "medical.coverage.agreement.item", readonly=True, ondelete="restrict"
     )
     coverage_agreement_id = fields.Many2one(
-        'medical.coverage.agreement',
-        readonly=True,
-        ondelete='restrict',
+        "medical.coverage.agreement", readonly=True, ondelete="restrict"
     )
     authorization_method_id = fields.Many2one(
-        comodel_name='medical.authorization.method',
+        comodel_name="medical.authorization.method",
         track_visibility=True,
         readonly=True,
-        ondelete='restrict',
+        ondelete="restrict",
     )
-    authorization_number = fields.Char(
-        track_visibility=True,
+    authorization_number = fields.Char(track_visibility=True)
+    authorization_status = fields.Selection(
+        [
+            ("pending", "Pending authorization"),
+            ("not-authorized", "Not authorized"),
+            ("authorized", "Authorized"),
+        ],
+        readonly=True,
     )
-    authorization_status = fields.Selection([
-        ('pending', 'Pending authorization'),
-        ('not-authorized', 'Not authorized'),
-        ('authorized', 'Authorized'),
-    ], readonly=True,)
-    can_deactivate = fields.Boolean(
-        compute='_compute_can_deactivate'
-    )
+    can_deactivate = fields.Boolean(compute="_compute_can_deactivate")
     parent_id = fields.Integer()
     parent_model = fields.Char()
 
-    @api.depends('state')
+    @api.depends("state")
     def _compute_can_deactivate(self):
         for record in self:
-            record.can_deactivate = (record.state == 'draft')
+            record.can_deactivate = record.state == "draft"
 
     def update_plan_vals(self, relations):
         return {
-            'patient_id': self.patient_id.id,
-            'careplan_id': self.careplan_id.id or False,
-            'center_id': self.center_id.id or False,
-            'relations': relations,
-            'encounter_id': self.encounter_id.id or False,
-            'coverage_id': self.coverage_id.id,
-            'coverage_agreement_item_id': self.coverage_agreement_item_id.id,
-            'authorization_method_id': self.authorization_method_id.id,
-            'authorization_number': self.authorization_number,
-            'coverage_agreement_id': self.coverage_agreement_id.id,
+            "patient_id": self.patient_id.id,
+            "careplan_id": self.careplan_id.id or False,
+            "center_id": self.center_id.id or False,
+            "relations": relations,
+            "encounter_id": self.encounter_id.id or False,
+            "coverage_id": self.coverage_id.id,
+            "coverage_agreement_item_id": self.coverage_agreement_item_id.id,
+            "authorization_method_id": self.authorization_method_id.id,
+            "authorization_number": self.authorization_number,
+            "coverage_agreement_id": self.coverage_agreement_id.id,
         }
 
     def _update_plan_parent_vals(self, plan, coverage_agreement_item_id):
         return {
-            'plan_definition_id': plan.id,
-            'is_billable': plan.is_billable,
-            'is_breakdown': plan.is_breakdown,
-            'coverage_agreement_item_id': coverage_agreement_item_id.id,
-            'coverage_agreement_id':
-                coverage_agreement_item_id.coverage_agreement_id.id,
-            'service_id': coverage_agreement_item_id.product_id.id,
-            'name': coverage_agreement_item_id.product_id.name,
+            "plan_definition_id": plan.id,
+            "is_billable": plan.is_billable,
+            "is_breakdown": plan.is_breakdown,
+            "coverage_agreement_item_id": coverage_agreement_item_id.id,
+            "coverage_agreement_id": coverage_agreement_item_id.coverage_agreement_id.id,
+            "service_id": coverage_agreement_item_id.product_id.id,
+            "name": coverage_agreement_item_id.product_id.name,
         }
 
     def update_plan_definition(self, plan, coverage_agreement_item_id):
@@ -89,10 +83,16 @@ class MedicalRequest(models.AbstractModel):
                 activities[action.activity_definition_id.id] = []
             activities[action.activity_definition_id.id].append(action.id)
         for model in self._get_request_models():
-            for child in self.env[model].search([
-                (self._get_parent_field_name(), '=', self.id),
-                ('active', '=', True)
-            ]).sorted('can_deactivate'):
+            for child in (
+                self.env[model]
+                .search(
+                    [
+                        (self._get_parent_field_name(), "=", self.id),
+                        ("active", "=", True),
+                    ]
+                )
+                .sorted("can_deactivate")
+            ):
                 if child.activity_definition_id.id in activities:
                     action = activities[child.activity_definition_id.id].pop()
                     relations[action] = child.id
@@ -101,25 +101,23 @@ class MedicalRequest(models.AbstractModel):
                 elif child.can_deactivate:
                     child.toggle_active()
                 else:
-                    raise ValidationError(_(
-                        'Plans cannot be interchanged'
-                    ))
+                    raise ValidationError(_("Plans cannot be interchanged"))
         return relations
 
     def change_plan_definition(self, coverage_agreement_item_id):
         self.ensure_one()
         plan = coverage_agreement_item_id.plan_definition_id
         if not self.active:
-            raise ValidationError(_(
-                'Element is inactive, your cannot change plan'
-            ))
+            raise ValidationError(
+                _("Element is inactive, your cannot change plan")
+            )
         if self.plan_definition_id == plan:
             self.update_plan_definition(plan, coverage_agreement_item_id)
             return
         if self.plan_definition_action_id:
-            raise ValidationError(_(
-                'A change of plan definition must be made on headers'
-            ))
+            raise ValidationError(
+                _("A change of plan definition must be made on headers")
+            )
         relations = self.check_plan_definition_change(plan)
         self.update_plan_definition(plan, coverage_agreement_item_id)
         self.plan_definition_id.execute_plan_definition(
@@ -143,34 +141,43 @@ class MedicalRequest(models.AbstractModel):
         fieldname = self._get_parent_field_name()
         for request in self:
             for model in self._get_request_models():
-                self.env[model].search([
-                    (fieldname, '=', request.id),
-                    ('parent_id', '=', request.id),
-                    ('parent_model', '=', request._name),
-                    ('state', '!=', 'cancelled')
-                ])._change_authorization(vals, **kwargs)
+                self.env[model].search(
+                    [
+                        (fieldname, "=", request.id),
+                        ("parent_id", "=", request.id),
+                        ("parent_model", "=", request._name),
+                        ("state", "!=", "cancelled"),
+                    ]
+                )._change_authorization(vals, **kwargs)
 
     def _update_related_activity(self, vals, parent, plan, action):
         res = {}
-        res['coverage_agreement_item_id'] = False
-        res['coverage_agreement_id'] = False
-        res['authorization_method_id'] = False
+        res["coverage_agreement_item_id"] = False
+        res["coverage_agreement_id"] = False
+        res["authorization_method_id"] = False
         if parent:
-            res['parent_model'] = parent._name
-            res['parent_id'] = parent.id
-        if res.get('is_billable', False) and vals.get('coverage_id', False):
-            coverage_template = self.env['medical.coverage'].browse(vals.get(
-                'coverage_id')).coverage_template_id
-            cai = self.env['medical.coverage.agreement.item'].get_item(
-                self.service_id, coverage_template,
-                parent.center_id or vals.get('center_id'))
+            res["parent_model"] = parent._name
+            res["parent_id"] = parent.id
+        if res.get("is_billable", False) and vals.get("coverage_id", False):
+            coverage_template = (
+                self.env["medical.coverage"]
+                .browse(vals.get("coverage_id"))
+                .coverage_template_id
+            )
+            cai = self.env["medical.coverage.agreement.item"].get_item(
+                self.service_id,
+                coverage_template,
+                parent.center_id or vals.get("center_id"),
+            )
             if not cai:
-                raise ValidationError(_(
-                    'An element should exist on an agreement if it is billable'
-                ))
-            res['coverage_agreement_item_id'] = cai.id
-            res['coverage_agreement_id'] = cai.coverage_agreement_id.id
-            res['authorization_method_id'] = cai.authorization_method_id.id
+                raise ValidationError(
+                    _(
+                        "An element should exist on an agreement if it is billable"
+                    )
+                )
+            res["coverage_agreement_item_id"] = cai.id
+            res["coverage_agreement_id"] = cai.coverage_agreement_id.id
+            res["authorization_method_id"] = cai.authorization_method_id.id
             vals = cai._check_authorization(cai.authorization_method_id, **res)
             res.update(vals)
         self.write(res)
