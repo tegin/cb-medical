@@ -2,7 +2,7 @@ from odoo import fields, models
 
 
 class InvoiceGroupMethod(models.Model):
-    _inherit = 'invoice.group.method'
+    _inherit = "invoice.group.method"
 
     invoice_by_preinvoice = fields.Boolean()
     no_invoice = fields.Boolean()
@@ -12,4 +12,4 @@ class InvoiceGroupMethod(models.Model):
         self.ensure_one()
         if self.third_party:
             return company.third_party_sale_journal_id
-        return self.env['account.journal']
+        return self.env["account.journal"]
