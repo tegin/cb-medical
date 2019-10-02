@@ -6,19 +6,19 @@ from odoo import models
 
 
 class ActivityDefinition(models.Model):
-    _inherit = 'workflow.activity.definition'
+    _inherit = "workflow.activity.definition"
 
-    def _get_medical_values(self, vals, parent=False, plan=False, action=False
-                            ):
+    def _get_medical_values(
+        self, vals, parent=False, plan=False, action=False
+    ):
         res = super(ActivityDefinition, self)._get_medical_values(
-            vals, parent, plan, action)
+            vals, parent, plan, action
+        )
         if parent:
-            res.update({
-                'sub_payor_id': parent.sub_payor_id.id or False,
-            })
-        if self.model_id.model == 'medical.medication.request':
+            res.update({"sub_payor_id": parent.sub_payor_id.id or False})
+        if self.model_id.model == "medical.medication.request":
             # Medication requests should have quantity equal to 1
-            res['qty'] = 1
+            res["qty"] = 1
         return res
 
     def _find_relation_activity(self, vals, parent, plan, action):
