@@ -6,18 +6,18 @@ from odoo.tests.common import TransactionCase
 
 
 class TestMedicalAdministrationHealthcareService(TransactionCase):
-
     def setUp(self):
         super().setUp()
-        self.healthcare_service_model = self.env['res.partner']
+        self.healthcare_service_model = self.env["res.partner"]
 
     def test_service(self):
         healthcare_service_vals = {
-            'is_medical': True,
-            'is_healthcare_service': True,
-            'name': 'Laboratory',
+            "is_medical": True,
+            "is_healthcare_service": True,
+            "name": "Laboratory",
         }
         healthcare_service_1 = self.healthcare_service_model.create(
-            healthcare_service_vals)
+            healthcare_service_vals
+        )
         self.assertTrue(healthcare_service_1)
         self.assertTrue(healthcare_service_1.healthcare_service_identifier)
