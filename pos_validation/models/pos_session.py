@@ -7,84 +7,86 @@ import ast
 
 
 class PosSession(models.Model):
-    _inherit = 'pos.session'
+    _inherit = "pos.session"
 
-    validation_status = fields.Selection([
-        ('draft', 'Draft'),
-        ('in_progress', 'In progress'),
-        ('finished', 'Finished')
-    ], default='draft', required=True, )
+    validation_status = fields.Selection(
+        [
+            ("draft", "Draft"),
+            ("in_progress", "In progress"),
+            ("finished", "Finished"),
+        ],
+        default="draft",
+        required=True,
+    )
     invoice_ids = fields.One2many(
-        'account.invoice',
-        compute='_compute_invoices',
+        "account.invoice", compute="_compute_invoices"
     )
     sale_order_line_ids = fields.One2many(
-        'sale.order.line',
-        inverse_name='pos_session_id',
-        readonly=1,
+        "sale.order.line", inverse_name="pos_session_id", readonly=1
     )
     down_payment_ids = fields.One2many(
-        'sale.order',
-        compute='_compute_down_payments',
+        "sale.order", compute="_compute_down_payments"
     )
     request_group_ids = fields.One2many(
-        'medical.request.group',
-        compute='_compute_lines',
+        "medical.request.group", compute="_compute_lines"
     )
     procedure_request_ids = fields.One2many(
-        'medical.procedure.request',
-        compute='_compute_lines',
+        "medical.procedure.request", compute="_compute_lines"
     )
     procedure_ids = fields.Many2many(
-        'medical.procedure',
-        compute='_compute_lines',
+        "medical.procedure", compute="_compute_lines"
     )
     encounter_non_validated_count = fields.Integer(
-        compute='_compute_encounter_non_validated_count'
+        compute="_compute_encounter_non_validated_count"
     )
 
-    @api.depends('encounter_ids', 'encounter_ids.validation_status')
+    @api.depends("encounter_ids", "encounter_ids.validation_status")
     def _compute_encounter_non_validated_count(self):
         for rec in self:
             rec.encounter_non_validated_count = len(
                 rec.encounter_ids.filtered(
-                    lambda r: r.validation_status != 'finished'
-                ))
+                    lambda r: r.validation_status != "finished"
+                )
+            )
 
-    @api.depends('sale_order_ids.coverage_agreement_id')
+    @api.depends("sale_order_ids.coverage_agreement_id")
     def _compute_invoices(self):
         for record in self:
             record.invoice_ids = record.sale_order_ids.filtered(
                 lambda r: not r.coverage_agreement_id
-            ).mapped('invoice_ids')
+            ).mapped("invoice_ids")
 
-    @api.depends('sale_order_ids.is_down_payment')
+    @api.depends("sale_order_ids.is_down_payment")
     def _compute_down_payments(self):
         for record in self:
             record.down_payment_ids = record.sale_order_ids.filtered(
-                lambda r: r.is_down_payment)
+                lambda r: r.is_down_payment
+            )
 
     @api.depends(
-        'sale_order_line_ids.request_group_id',
-        'sale_order_line_ids.procedure_request_id'
+        "sale_order_line_ids.request_group_id",
+        "sale_order_line_ids.procedure_request_id",
     )
     def _compute_lines(self):
         for record in self:
             record.request_group_ids = record.sale_order_line_ids.mapped(
-                'request_group_id')
+                "request_group_id"
+            )
             record.procedure_request_ids = record.sale_order_line_ids.mapped(
-                'procedure_request_id')
+                "procedure_request_id"
+            )
             record.procedure_ids = record.sale_order_line_ids.mapped(
-                'procedure_ids')
+                "procedure_ids"
+            )
 
     @api.multi
     def action_pos_session_close(self):
         #  Unfinished encounter should be taken of the session
-        self.encounter_ids.filtered(lambda r: r.state != 'finished').write({
-            'pos_session_id': False
-        })
+        self.encounter_ids.filtered(lambda r: r.state != "finished").write(
+            {"pos_session_id": False}
+        )
         res = super(PosSession, self).action_pos_session_close()
-        self.write({'validation_status': 'in_progress'})
+        self.write({"validation_status": "in_progress"})
         if not self.encounter_ids:
             self.action_validation_finish()
         return res
@@ -92,52 +94,55 @@ class PosSession(models.Model):
     @api.multi
     def action_validation_finish(self):
         self.ensure_one()
-        self.write({'validation_status': 'finished'})
+        self.write({"validation_status": "finished"})
 
     @api.multi
     def open_validation_encounter(self, barcode):
         self.ensure_one()
-        encounter = self.env['medical.encounter'].search([
-            ('internal_identifier', '=', barcode),
-            ('pos_session_id', '=', self.id)
-        ])
+        encounter = self.env["medical.encounter"].search(
+            [
+                ("internal_identifier", "=", barcode),
+                ("pos_session_id", "=", self.id),
+            ]
+        )
         if not encounter:
-            action = self.env.ref(
-                'barcode_action.barcode_action_action')
+            action = self.env.ref("barcode_action.barcode_action_action")
             result = action.read()[0]
-            result['context'] = {
-                'default_model': 'pos.session',
-                'default_method': 'open_validation_encounter',
-                'default_session_id': self.id,
-                'default_status': _('Encounter %s cannot be found') % barcode,
-                'default_status_state': 1,
+            result["context"] = {
+                "default_model": "pos.session",
+                "default_method": "open_validation_encounter",
+                "default_session_id": self.id,
+                "default_status": _("Encounter %s cannot be found") % barcode,
+                "default_status_state": 1,
             }
             return result
         action = self.env.ref(
-            'medical_administration_encounter.medical_encounter_action')
+            "medical_administration_encounter.medical_encounter_action"
+        )
         result = action.read()[0]
-        res = self.env.ref('medical_encounter.medical_encounter_form', False)
-        if isinstance(result['context'], str):
-            result['context'] = ast.literal_eval(result['context'])
-        result['context']['from_barcode_reader'] = True
-        result['views'] = [(res and res.id or False, 'form')]
-        result['res_id'] = encounter.id
+        res = self.env.ref("medical_encounter.medical_encounter_form", False)
+        if isinstance(result["context"], str):
+            result["context"] = ast.literal_eval(result["context"])
+        result["context"]["from_barcode_reader"] = True
+        result["views"] = [(res and res.id or False, "form")]
+        result["res_id"] = encounter.id
         return result
 
     @api.multi
     def action_view_non_validated_encounters(self):
         self.ensure_one()
         action = self.env.ref(
-            'medical_administration_encounter.medical_encounter_action')
+            "medical_administration_encounter.medical_encounter_action"
+        )
         result = action.read()[0]
-        result['domain'] = [
-            ('pos_session_id', '=', self.id),
-            ('validation_status', '!=', 'finished'),
+        result["domain"] = [
+            ("pos_session_id", "=", self.id),
+            ("validation_status", "!=", "finished"),
         ]
         encounters = self.encounter_ids.filtered(
-            lambda r: r.validation_status != 'finished'
+            lambda r: r.validation_status != "finished"
         )
         if len(encounters) == 1:
-            result['views'] = [(False, 'form')]
-            result['res_id'] = encounters.id
+            result["views"] = [(False, "form")]
+            result["res_id"] = encounters.id
         return result
