@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 
 class MedicalRequestGroupCheckAuthorization(models.TransientModel):
-    _inherit = 'medical.request.group.check.authorization'
+    _inherit = "medical.request.group.check.authorization"
 
     @api.model
     def _default_authorization(self):
@@ -16,5 +16,5 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
 
     def _get_kwargs(self):
         res = super()._get_kwargs()
-        res['authorization_checked'] = self.authorization_checked
+        res["authorization_checked"] = self.authorization_checked
         return res
