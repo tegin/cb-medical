@@ -6,27 +6,25 @@ from odoo import fields, models
 
 
 class MedicalMedicationRequest(models.Model):
-    _inherit = 'medical.medication.request'
+    _inherit = "medical.medication.request"
 
     location_type_id = fields.Many2one(
-        'medical.location.type',
-        readonly=True,
-        track_visibility='onchange',
+        "medical.location.type", readonly=True, track_visibility="onchange"
     )
 
     def _get_event_values(self):
         res = super()._get_event_values()
-        if self.env.context.get('product_id', False):
-            res['product_id'] = self.env.context.get('product_id')
-            res['product_uom_id'] = self.env.context.get('product_uom_id')
-            res['qty'] = self.env.context.get('qty', 1)
-            res['amount'] = self.env.context.get('amount', 0)
-        if self.env.context.get('location_id', False):
-            res['location_id'] = self.env.context.get('location_id')
+        if self.env.context.get("product_id", False):
+            res["product_id"] = self.env.context.get("product_id")
+            res["product_uom_id"] = self.env.context.get("product_uom_id")
+            res["qty"] = self.env.context.get("qty", 1)
+            res["amount"] = self.env.context.get("amount", 0)
+        if self.env.context.get("location_id", False):
+            res["location_id"] = self.env.context.get("location_id")
         return res
 
     def _add_medication_item(self, item):
-        if self.state == 'draft':
+        if self.state == "draft":
             self.draft2active()
         administration = self.with_context(
             product_id=item.product_id.id,
@@ -37,15 +35,17 @@ class MedicalMedicationRequest(models.Model):
             tracking_disable=True,
         ).generate_event()
         administration.preparation2in_progress()
-        if not self.env.context.get('no_complete_administration', False):
+        if not self.env.context.get("no_complete_administration", False):
             administration.with_context(
-                no_post_move=True).in_progress2completed()
+                no_post_move=True
+            ).in_progress2completed()
         return administration
 
     def get_sale_order_line_vals(self, is_insurance):
         res = super().get_sale_order_line_vals(is_insurance)
         if self.location_type_id:
-            res['name'] = '%s en %s' % (
-                res['name'], self.location_type_id.name
+            res["name"] = "%s en %s" % (
+                res["name"],
+                self.location_type_id.name,
             )
         return res
