@@ -2,12 +2,10 @@ from odoo import api, fields, models
 
 
 class ResPartner(models.Model):
-    _inherit = 'res.partner'
+    _inherit = "res.partner"
 
     encounter_sequence_id = fields.Many2one(
-        'ir.sequence',
-        'Encounter sequence',
-        readonly=True,
+        "ir.sequence", "Encounter sequence", readonly=True
     )
     encounter_sequence_prefix = fields.Char(
         string="Prefix for Encounter sequence",
@@ -31,7 +29,7 @@ class ResPartner(models.Model):
             "padding": 5,
             "prefix": self._compute_encounter_prefix(prefix),
             "company_id": False,
-            "implementation": 'no_gap',
+            "implementation": "no_gap",
             "safe": True,
         }
         return vals
@@ -42,12 +40,14 @@ class ResPartner(models.Model):
         if prefix:
             for rec in self:
                 if rec.encounter_sequence_id:
-                    rec.sudo().encounter_sequence_id.prefix = \
-                        self._compute_encounter_prefix(prefix)
+                    rec.sudo().encounter_sequence_id.prefix = self._compute_encounter_prefix(
+                        prefix
+                    )
                 else:
                     seq_vals = self._prepare_ir_encounter_sequence(prefix)
-                    rec.encounter_sequence_id = self.env[
-                        "ir.sequence"].create(seq_vals)
+                    rec.encounter_sequence_id = self.env["ir.sequence"].create(
+                        seq_vals
+                    )
         return super().write(vals)
 
     @api.model
