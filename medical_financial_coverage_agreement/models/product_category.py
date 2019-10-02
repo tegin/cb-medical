@@ -6,12 +6,12 @@ from odoo import api, fields, models
 
 class ProductCategory(models.Model):
 
-    _inherit = 'product.category'
+    _inherit = "product.category"
 
-    level = fields.Integer(compute='_compute_tree_level', store=True)
+    level = fields.Integer(compute="_compute_tree_level", store=True)
     description = fields.Char()
 
-    @api.depends('parent_id')
+    @api.depends("parent_id")
     def _compute_tree_level(self):
         for record in self:
             if not record.parent_id:
