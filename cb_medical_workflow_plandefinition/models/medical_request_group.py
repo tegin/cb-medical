@@ -6,8 +6,8 @@ from odoo import api, models
 
 
 class MedicalRequestGroup(models.Model):
-    _name = 'medical.request.group'
-    _inherit = ['medical.request.group', 'medical.request']
+    _name = "medical.request.group"
+    _inherit = ["medical.request.group", "medical.request"]
 
     @api.model
     def _pass_performer(self, activity, parent, plan, action):

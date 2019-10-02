@@ -6,30 +6,20 @@ from odoo import api, fields, models
 
 
 class MedicalRequest(models.AbstractModel):
-    _inherit = 'medical.request'
+    _inherit = "medical.request"
 
     is_billable = fields.Boolean(
-        string='Is billable?',
-        default=False,
-        track_visibility=True,
+        string="Is billable?", default=False, track_visibility=True
     )
-    is_breakdown = fields.Boolean(
-        default=False,
-        track_visibility=True,
-    )
-    third_party_bill = fields.Boolean(
-        default=False,
-        track_visibility=True,
-    )
+    is_breakdown = fields.Boolean(default=False, track_visibility=True)
+    third_party_bill = fields.Boolean(default=False, track_visibility=True)
     center_id = fields.Many2one(
-        'res.partner',
-        domain=[('is_center', '=', True)],
+        "res.partner",
+        domain=[("is_center", "=", True)],
         required=True,
         track_visibility=True,
     )
-    active = fields.Boolean(
-        default=True,
-    )
+    active = fields.Boolean(default=True)
 
     @api.model
     def _pass_performer(self, activity, parent, plan, action):
