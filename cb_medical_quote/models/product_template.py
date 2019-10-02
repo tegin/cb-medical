@@ -2,10 +2,11 @@ from odoo import fields, models
 
 
 class ProductTemplate(models.Model):
-    _inherit = 'product.template'
+    _inherit = "product.template"
 
     description_quote = fields.Text(
-        'Sale Description', translate=True,
+        "Sale Description",
+        translate=True,
         help="A description of the Product that you want to communicate "
-             "on your quotes"
+        "on your quotes",
     )
