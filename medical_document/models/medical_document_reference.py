@@ -9,50 +9,46 @@ from odoo.exceptions import ValidationError, UserError
 class MedicalDocumentReference(models.Model):
     # FHIR Entity: Document Reference
     # (https://www.hl7.org/fhir/documentreference.html)
-    _name = 'medical.document.reference'
-    _description = 'Medical Document Reference'
-    _inherit = ['medical.request', 'medical.document.language']
+    _name = "medical.document.reference"
+    _description = "Medical Document Reference"
+    _inherit = ["medical.request", "medical.document.language"]
 
-    internal_identifier = fields.Char(
-        string="Document reference",
+    internal_identifier = fields.Char(string="Document reference")
+    state = fields.Selection(
+        [
+            ("draft", "Draft"),
+            ("current", "Current"),
+            ("superseded", "Superseded"),
+        ],
+        required=True,
+        track_visibility=True,
+        default="draft",
     )
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('current', 'Current'),
-        ('superseded', 'Superseded')
-
-    ], required=True, track_visibility=True, default='draft')
     document_type_id = fields.Many2one(
-        'medical.document.type',
+        "medical.document.type",
         required=True,
         readonly=True,
-        states={'draft': [('readonly', False)]},
-        ondelete='restrict',
+        states={"draft": [("readonly", False)]},
+        ondelete="restrict",
     )
     document_type = fields.Selection(
-        related='document_type_id.document_type',
-        readonly=True,
+        related="document_type_id.document_type", readonly=True
     )
     document_template_id = fields.Many2one(
-        'medical.document.template',
+        "medical.document.template",
         readonly=True,
         copy=False,
-        ondelete='restrict',
+        ondelete="restrict",
     )
-    is_editable = fields.Boolean(
-        compute='_compute_is_editable',
-    )
+    is_editable = fields.Boolean(compute="_compute_is_editable")
     text = fields.Text(
-        string='Document text',
-        readonly=True,
-        copy=False,
-        sanitize=True,
+        string="Document text", readonly=True, copy=False, sanitize=True
     )
     lang = fields.Selection(
         required=False,
         readonly=True,
         copy=False,
-        states={'draft': [('readonly', False)]},
+        states={"draft": [("readonly", False)]},
     )
 
     def _get_language(self):
@@ -62,22 +58,25 @@ class MedicalDocumentReference(models.Model):
         return self.is_billable
 
     def _get_internal_identifier(self, vals):
-        return self.env['ir.sequence'].next_by_code(
-            'medical.document.reference') or '/'
+        return (
+            self.env["ir.sequence"].next_by_code("medical.document.reference")
+            or "/"
+        )
 
     @api.multi
-    @api.depends('state')
+    @api.depends("state")
     def _compute_is_editable(self):
         for rec in self:
-            rec.is_editable = bool(rec.state == 'draft')
+            rec.is_editable = bool(rec.state == "draft")
 
     def action_view_request_parameters(self):
         return {
-            'view': 'medical_document.medical_document_reference_action',
-            'view_form': 'medical.document.reference.view.form', }
+            "view": "medical_document.medical_document_reference_action",
+            "view_form": "medical.document.reference.view.form",
+        }
 
     def _get_parent_field_name(self):
-        return 'document_reference_id'
+        return "document_reference_id"
 
     @api.multi
     def print(self):
@@ -93,7 +92,7 @@ class MedicalDocumentReference(models.Model):
 
     def _print(self, action):
         self.ensure_one()
-        if self.state == 'draft':
+        if self.state == "draft":
             return self._draft2current(action)
         return action()
 
@@ -106,26 +105,27 @@ class MedicalDocumentReference(models.Model):
         return base64.b64encode(self._render()[0])
 
     def view_action(self):
-        if self.document_type == 'action':
+        if self.document_type == "action":
             return self.document_type_id.report_action_id.report_action(self)
-        raise UserError(_('Function must be defined'))
+        raise UserError(_("Function must be defined"))
 
     def _get_printer_usage(self):
-        return 'standard'
+        return "standard"
 
     def print_action(self):
         content, mime = self._render()
         behaviour = self.remote.with_context(
             printer_usage=self._get_printer_usage()
         ).get_printer_behaviour()
-        if 'printer' not in behaviour:
+        if "printer" not in behaviour:
             return False
-        printer = behaviour.pop('printer')
+        printer = behaviour.pop("printer")
         return printer.with_context(
-            print_report_name='doc_' + self.internal_identifier
+            print_report_name="doc_" + self.internal_identifier
         ).print_document(
             report=self.document_type_id.report_action_id,
-            content=content, doc_format=mime
+            content=content,
+            doc_format=mime,
         )
 
     @api.multi
@@ -139,50 +139,43 @@ class MedicalDocumentReference(models.Model):
     def draft2current_values(self):
         template_id = self.document_type_id.current_template_id.id
         return {
-            'lang': self._get_language(),
-            'document_template_id': template_id,
-            'text': self.with_context(
-                template_id=template_id,
-                render_language=self._get_language()
-            ).render_text()
+            "lang": self._get_language(),
+            "document_template_id": template_id,
+            "text": self.with_context(
+                template_id=template_id, render_language=self._get_language()
+            ).render_text(),
         }
 
     @api.multi
     def change_lang(self, lang):
         text = self.with_context(
-            template_id=self.document_template_id.id,
-            render_language=lang
+            template_id=self.document_template_id.id, render_language=lang
         ).render_text()
-        return self.write({
-            'lang': lang,
-            'text': text,
-        })
+        return self.write({"lang": lang, "text": text})
 
     def _draft2current(self, action):
         self.ensure_one()
-        if self.state != 'draft':
-            raise ValidationError(_('State must be draft'))
+        if self.state != "draft":
+            raise ValidationError(_("State must be draft"))
         self.write(self.draft2current_values())
         res = action()
         if res:
-            self.write({'state': 'current'})
+            self.write({"state": "current"})
         return res
 
     def render_text(self):
-        if self.document_type == 'action':
-            template = (
-                self.document_template_id or
-                self.env['medical.document.template'].browse(
-                    self._context.get('template_id', False))
-            )
+        if self.document_type == "action":
+            template = self.document_template_id or self.env[
+                "medical.document.template"
+            ].browse(self._context.get("template_id", False))
             return template.render_template(self._name, self.id)
-        raise UserError(_('Function must be defined'))
+        raise UserError(_("Function must be defined"))
 
     def current2superseded_values(self):
-        return {'state': 'superseded'}
+        return {"state": "superseded"}
 
     @api.multi
     def current2superseded(self):
-        if self.filtered(lambda r: r.state != 'current'):
-            raise ValidationError(_('State must be Current'))
+        if self.filtered(lambda r: r.state != "current"):
+            raise ValidationError(_("State must be Current"))
         self.write(self.current2superseded_values())
