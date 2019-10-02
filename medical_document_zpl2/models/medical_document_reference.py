@@ -5,19 +5,19 @@ from odoo import models
 
 
 class MedicalDocumentReference(models.Model):
-    _inherit = 'medical.document.reference'
+    _inherit = "medical.document.reference"
 
     def _render(self):
-        if self.document_type == 'zpl2':
-            return self.text.encode('utf-8'), 'text'
+        if self.document_type == "zpl2":
+            return self.text.encode("utf-8"), "text"
         return super()._render()
 
     def _get_printer_usage(self):
-        if self.document_type == 'zpl2':
-            return 'label'
+        if self.document_type == "zpl2":
+            return "label"
         return super()._get_printer_usage()
 
     def render_text(self):
-        if self.document_type == 'zpl2':
+        if self.document_type == "zpl2":
             return self.document_type_id.label_zpl2_id.render_label(self)
         return super().render_text()
