@@ -51,7 +51,7 @@ class MedicalEncounter(models.Model):
             new_patient_vals = {}
             for field in patient_vals:
                 if patient_vals[field] != patient._fields.get(field):
-                    patient_vals[field] = patient_vals[field]
+                    new_patient_vals[field] = patient_vals[field]
             if new_patient_vals:
                 patient.write(new_patient_vals)
         if isinstance(center, int):
