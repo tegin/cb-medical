@@ -58,6 +58,7 @@ class MedicalCoverageAgreementItem(models.Model):
         string="Medical agreement",
         index=True,
         ondelete="cascade",
+        copy=False,
     )
     template_id = fields.Many2one(
         "medical.coverage.agreement",
