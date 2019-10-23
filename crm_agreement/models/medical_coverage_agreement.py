@@ -9,21 +9,19 @@ class MedicalCoverageAgreement(models.Model):
     _inherit = "medical.coverage.agreement"
 
     def _default_leads(self):
-        result = []
-        if self.env.context.get("lead_id"):
-            result.append((4, self.env.context["lead_id"]))
-        return result
+        if not self.env.context.get("lead_id"):
+            return False
+        return [(4, self.env.context["lead_id"])]
 
     def _default_coverage_template(self):
-        result = []
-        if self.env.context.get("lead_id"):
-            partner = (
-                self.env["crm.lead"]
-                .browse(self.env.context["lead_id"])
-                .partner_id.commercial_partner_id
-            )
-            result.append((6, 0, partner.coverage_template_ids.ids))
-        return result
+        if not self.env.context.get("lead_id"):
+            return False
+        partner = (
+            self.env["crm.lead"]
+            .browse(self.env.context["lead_id"])
+            .partner_id.commercial_partner_id
+        )
+        return [(6, 0, partner.coverage_template_ids.ids)]
 
     lead_ids = fields.Many2many(
         "crm.lead",
@@ -32,6 +30,7 @@ class MedicalCoverageAgreement(models.Model):
         column2="lead_id",
         string="Leads",
         default=lambda r: r._default_leads(),
+        copy=False,
     )
     coverage_template_ids = fields.Many2many(
         default=lambda r: r._default_coverage_template()

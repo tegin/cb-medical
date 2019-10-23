@@ -9,10 +9,9 @@ class CrmLead(models.Model):
 
     @api.model
     def _default_agreements(self):
-        result = []
-        if self.env.context.get("agreement_id"):
-            result.append((4, self.env.context.get("agreement_id")))
-        return result
+        if not self.env.context.get("agreement_id"):
+            return False
+        return [(4, self.env.context.get("agreement_id"))]
 
     agreement_ids = fields.Many2many(
         "medical.coverage.agreement",
