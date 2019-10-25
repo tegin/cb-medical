@@ -11,6 +11,10 @@
                     <strong>Patient:</strong>
                     <p t-field="doc.patient_name"/>
                 </div>
+                <div t-if="doc.encounter_id" class="col-xs-3">
+                    <strong>Admission Date:</strong>
+                    <p t-field="doc.encounter_id.create_date" t-options="{'widget': 'date'}"/>
+                </div>
                 <div t-if="doc.subscriber_id" class="col-xs-3">
                     <strong>Subscriber:</strong>
                     <p t-field="doc.subscriber_id"/>
