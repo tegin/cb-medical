@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-24 11:58+0000\n"
-"PO-Revision-Date: 2018-12-24 13:01+0100\n"
+"POT-Creation-Date: 2019-10-25 09:38+0000\n"
+"PO-Revision-Date: 2019-10-25 11:39+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: cb_medical_careplan_sale
+#: model:ir.ui.view,arch_db:cb_medical_careplan_sale.report_saleorder_document
+msgid "<strong>Admission Date:</strong>"
+msgstr "<strong>Fecha de Admisión</strong>"
+
+#. module: cb_medical_careplan_sale
+#: model:ir.ui.view,arch_db:cb_medical_careplan_sale.report_saleorder_document
+msgid "<strong>Encounter:</strong>"
+msgstr "<strong>Afiliación:</strong>"
+
+#. module: cb_medical_careplan_sale
+#: model:ir.ui.view,arch_db:cb_medical_careplan_sale.report_saleorder_document
+msgid "<strong>Patient:</strong>"
+msgstr "<strong>Paciente:</strong>"
+
+#. module: cb_medical_careplan_sale
+#: model:ir.ui.view,arch_db:cb_medical_careplan_sale.report_saleorder_document
+msgid "<strong>Subscriber:</strong>"
+msgstr "<strong>Asegurado:</strong>"
 
 #. module: cb_medical_careplan_sale
 #: model:ir.model,name:cb_medical_careplan_sale.model_workflow_activity_definition
@@ -33,7 +53,7 @@ msgid "Add careplan"
 msgstr "Añadir proceso"
 
 #. module: cb_medical_careplan_sale
-#: code:addons/cb_medical_careplan_sale/models/medical_request.py:111
+#: code:addons/cb_medical_careplan_sale/models/medical_request.py:123
 #, python-format
 msgid "Agreement must be defined"
 msgstr "Se debe definir una oferta"
@@ -52,6 +72,11 @@ msgstr "Autorización Comprobada"
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_sale_order_line_authorization_method_id
 msgid "Authorization Method"
 msgstr "Método de autorización"
+
+#. module: cb_medical_careplan_sale
+#: model:ir.ui.view,arch_db:cb_medical_careplan_sale.report_saleorder_document
+msgid "Authorization Number"
+msgstr "Authorization Number"
 
 #. module: cb_medical_careplan_sale
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_laboratory_event_authorization_status
@@ -96,7 +121,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: cb_medical_careplan_sale
-#: code:addons/cb_medical_careplan_sale/models/medical_request.py:118
+#: code:addons/cb_medical_careplan_sale/models/medical_request.py:130
 #, python-format
 msgid "Cannot breakdown a not billable line"
 msgstr "No se puede romper un elemento no facturable"
@@ -142,6 +167,12 @@ msgid "Coverage Template"
 msgstr "Cobertura"
 
 #. module: cb_medical_careplan_sale
+#: code:addons/cb_medical_careplan_sale/models/medical_encounter.py:184
+#, python-format
+msgid "Coverage template is required"
+msgstr "Plantilla requerida"
+
+#. module: cb_medical_careplan_sale
 #: model:ir.ui.view,arch_db:cb_medical_careplan_sale.medical_encounter_add_careplan_form
 msgid "Create"
 msgstr "Crear"
@@ -174,6 +205,7 @@ msgid "Created on"
 msgstr "Creado en"
 
 #. module: cb_medical_careplan_sale
+#: model:ir.model.fields,help:cb_medical_careplan_sale.field_connector_config_settings_default_third_party_product
 #: model:ir.model.fields,help:cb_medical_careplan_sale.field_res_config_settings_default_third_party_product
 msgid "Default product used for third party sale orders"
 msgstr "Producto predeterminado utilizado para órdenes de venta de terceros"
@@ -204,28 +236,16 @@ msgid "Encounter"
 msgstr "Afiliación"
 
 #. module: cb_medical_careplan_sale
-#: code:addons/cb_medical_careplan_sale/wizard/medical_encounter_add_careplan.py:111
+#: code:addons/cb_medical_careplan_sale/wizard/medical_encounter_add_careplan.py:109
 #, python-format
 msgid "Encounter is not valid"
 msgstr "Afiliación no válida"
 
 #. module: cb_medical_careplan_sale
-#: code:addons/cb_medical_careplan_sale/models/medical_request_group.py:23
-#, python-format
-msgid "Error trying to determine the Third Party Partner. No Procedure was found for Request %s"
-msgstr "Error tratando de determinar el Tercero. No se encontró ningún Procedimiento para la Petición %s"
-
-#. module: cb_medical_careplan_sale
-#: code:addons/cb_medical_careplan_sale/models/medical_request_group.py:16
-#, python-format
-msgid "Error trying to determine the Third Party Partner. No Request was found for Request %s"
-msgstr "Error tratando de determinar el Tercero. No se encontró ninguna Petición para la Petición %s"
-
-#. module: cb_medical_careplan_sale
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_invoice_group_method_id
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_encounter_add_careplan_id
 msgid "ID"
-msgstr "ID (identificación)"
+msgstr "ID"
 
 #. module: cb_medical_careplan_sale
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_invoice_group_method_name
@@ -249,7 +269,7 @@ msgstr "Método de grupo de factura"
 
 #. module: cb_medical_careplan_sale
 #: code:addons/cb_medical_careplan_sale/wizard/medical_coverage_agreement_join.py:14
-#: code:addons/cb_medical_careplan_sale/wizard/medical_coverage_agreement_join.py:18
+#: code:addons/cb_medical_careplan_sale/wizard/medical_coverage_agreement_join.py:21
 #, python-format
 msgid "Invoice group method must be the same"
 msgstr "El método de facturación debe ser el mismo"
@@ -305,19 +325,19 @@ msgstr "Petición de laboratorio"
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_invoice_group_method___last_update
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_encounter_add_careplan___last_update
 msgid "Last Modified on"
-msgstr "Última modificación en"
+msgstr "Última modificación el"
 
 #. module: cb_medical_careplan_sale
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_invoice_group_method_write_uid
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_encounter_add_careplan_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: cb_medical_careplan_sale
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_invoice_group_method_write_date
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_encounter_add_careplan_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
 
 #. module: cb_medical_careplan_sale
 #: model:ir.model,name:cb_medical_careplan_sale.model_medical_careplan
@@ -342,7 +362,7 @@ msgstr "Petición de medicación"
 #. module: cb_medical_careplan_sale
 #: model:ir.model,name:cb_medical_careplan_sale.model_medical_request
 msgid "Medical request"
-msgstr "Peticion"
+msgstr "Medical request"
 
 #. module: cb_medical_careplan_sale
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_sale_order_line_medication_request_id
@@ -370,6 +390,12 @@ msgstr "No Autorizado"
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_sale_order_patient_id
 msgid "Patient"
 msgstr "Paciente"
+
+#. module: cb_medical_careplan_sale
+#: code:addons/cb_medical_careplan_sale/models/medical_encounter.py:172
+#, python-format
+msgid "Patient must be the same"
+msgstr "El paciente debe ser el mismo"
 
 #. module: cb_medical_careplan_sale
 #: model:ir.model.fields,help:cb_medical_careplan_sale.field_medical_encounter_add_careplan_patient_id
@@ -403,7 +429,13 @@ msgid "Payor"
 msgstr "Mutua"
 
 #. module: cb_medical_careplan_sale
-#: code:addons/cb_medical_careplan_sale/models/res_partner.py:51
+#: code:addons/cb_medical_careplan_sale/models/medical_encounter.py:180
+#, python-format
+msgid "Payor is required"
+msgstr "Mutua requerida"
+
+#. module: cb_medical_careplan_sale
+#: code:addons/cb_medical_careplan_sale/models/res_partner.py:42
 #, python-format
 msgid "Payor is required on subpayors"
 msgstr "La mutua es obligatoria para las delegaciones"
@@ -430,12 +462,23 @@ msgid "Product used for third party sale orders"
 msgstr "Producto utilizado para pedidos de venta de terceros"
 
 #. module: cb_medical_careplan_sale
+#: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_careplan_add_plan_definition_qty
+#: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_careplan_qty
+#: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_document_reference_qty
+#: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_encounter_validation_add_service_qty
+#: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_laboratory_request_qty
+#: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_procedure_request_qty
+#: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_request_group_qty
+#: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_request_qty
+msgid "Qty"
+msgstr "Qty"
+
+#. module: cb_medical_careplan_sale
 #: model:ir.model,name:cb_medical_careplan_sale.model_sale_order
 msgid "Quotation"
 msgstr "Presupuesto"
 
 #. module: cb_medical_careplan_sale
-#: model:ir.model,name:cb_medical_careplan_sale.model_medical_request_group
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_sale_order_line_request_group_id
 msgid "Request Group"
 msgstr "Servicio"
@@ -456,7 +499,7 @@ msgid "Sale Orders"
 msgstr "Ventas"
 
 #. module: cb_medical_careplan_sale
-#: code:addons/cb_medical_careplan_sale/models/medical_request.py:120
+#: code:addons/cb_medical_careplan_sale/models/medical_request.py:133
 #, python-format
 msgid "Sale order is created. It must be deleted in order to breakdown"
 msgstr "Se crea la orden de venta. Debe ser eliminado para poder romper"
@@ -477,6 +520,13 @@ msgstr "Lineas Pedido Venta"
 #: model:ir.model,name:cb_medical_careplan_sale.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Línea de pedido de ventas"
+
+#. module: cb_medical_careplan_sale
+#: code:addons/cb_medical_careplan_sale/models/medical_careplan.py:35
+#: code:addons/cb_medical_careplan_sale/models/medical_encounter.py:190
+#, python-format
+msgid "Service is required"
+msgstr "Service is required"
 
 #. module: cb_medical_careplan_sale
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_medical_careplan_sub_payor_id
@@ -526,6 +576,7 @@ msgid "Third Party"
 msgstr "Tercero"
 
 #. module: cb_medical_careplan_sale
+#: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_connector_config_settings_default_third_party_product
 #: model:ir.model.fields,field_description:cb_medical_careplan_sale.field_res_config_settings_default_third_party_product
 msgid "Third party Product"
 msgstr "Producto para terceros"
