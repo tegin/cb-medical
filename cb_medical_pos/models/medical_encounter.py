@@ -96,6 +96,10 @@ class MedicalEncounter(models.Model):
             term = partner_obj.property_payment_term_id
             if term:
                 vals["payment_term_id"] = term.id
+        if "fiscal_position_id" not in vals:
+            position = partner_obj.property_account_position_id
+            if position:
+                vals["fiscal_position_id"] = position.id
         addr = partner_obj.address_get(["delivery", "invoice"])
         if "partner_invoice_id" not in vals:
             vals["partner_invoice_id"] = addr["invoice"]
