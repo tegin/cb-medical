@@ -32,6 +32,7 @@ class MedicalCoverageAgreementItem(models.Model):
         readonly=True,
         store=True,
     )
+
     product_id = fields.Many2one(
         comodel_name="product.product",
         string="Service",
@@ -39,6 +40,13 @@ class MedicalCoverageAgreementItem(models.Model):
         domain=[("type", "=", "service"), ("sale_ok", "=", True)],
         required=True,
     )
+
+    default_code = fields.Char(
+        related="product_id.default_code",
+        string="Internal Reference",
+        readonly=True,
+    )
+
     categ_id = fields.Many2one(
         comodel_name="product.category",
         string="Category",
