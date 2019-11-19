@@ -439,7 +439,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         rep = report.render(item.ids)
         wb = open_workbook(file_contents=rep[0])
         sheet = wb.sheet_by_index(0)
-        self.assertEqual(sheet.cell(1, 0).value, item.product_id.name)
+        self.assertEqual(sheet.cell(1, 1).value, item.product_id.name)
 
         category_2 = self.env["product.category"].create(
             {
