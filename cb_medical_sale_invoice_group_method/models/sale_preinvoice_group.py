@@ -115,6 +115,7 @@ class SalePreinvoiceGroup(models.Model):
             ("invoice_group_method_id", "=", self.invoice_group_method_id.id),
             ("partner_id", "=", partner_id),
             ("agreement_id", "=", self.agreement_id.id or False),
+            ("company_id", "=", self.company_id.id),
             ("state", "=", "draft"),
             (
                 "coverage_template_id",
