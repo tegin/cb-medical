@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<odoo>
-    <menuitem id="safe_box_menu"
-              name="Safe Box"
-              parent="account.menu_finance"
-              groups="group_safe_box_user"
-              sequence="6"/>
-</odoo>

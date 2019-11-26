@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-    <template id="assets_backend" name="web_widget_image_url assets" inherit_id="web.assets_backend">
-        <xpath expr="." position="inside">
-            <script type="text/javascript" src="/web_icon_widget/static/src/js/widget.js" />
-        <!--<link rel="stylesheet" type="text/less" href="/web_icon_widget/static/src/less/flag_box.less"/>-->
-        </xpath>
-    </template>
-</odoo>

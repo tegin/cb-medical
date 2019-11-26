@@ -1,9 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_safe_box_group,access_safe_box_group,model_safe_box_group,safe_box.group_safe_box_user,1,0,0,0
-access_safe_box_move,access_safe_box_move,model_safe_box_move,safe_box.group_safe_box_user,1,1,1,0
-access_safe_box_move_line,access_safe_box_move_line,model_safe_box_move_line,safe_box.group_safe_box_user,1,1,1,1
-access_safe_box,access_safe_box,model_safe_box,safe_box.group_safe_box_user,1,0,0,0
-access_safe_box_coin,access_safe_box_coin,model_safe_box_coin,safe_box.group_safe_box_user,1,0,0,0
-manage_safe_box_group,manage_safe_box_group,model_safe_box_group,safe_box.group_safe_box_manager,1,1,1,1
-manage_safe_box,manage_safe_box,model_safe_box,safe_box.group_safe_box_manager,1,1,1,1
-manage_safe_box_coin,manage_safe_box_coin,model_safe_box_coin,safe_box.group_safe_box_manager,1,1,1,1

@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_res_partner_user,res.partner.write.user,base.model_res_partner,hr.group_hr_user,1,1,0,0
-access_res_partner_manager,res.partner.write.manager,base.model_res_partner,hr.group_hr_manager,1,1,1,1
-access_res_users,res.users.write.user,base.model_res_users,hr.group_hr_user,1,1,0,0
-access_res_users_manager,res.users.write.manager,base.model_res_users,hr.group_hr_manager,1,1,1,1
-access_hr_laboral_category,access_hr_laboral_category,model_hr_laboral_category,base.group_user,1,0,0,0
-access_hr_laboral_category_manager,access_hr_laboral_category_manager,model_hr_laboral_category,hr.group_hr_manager,1,1,1,1
