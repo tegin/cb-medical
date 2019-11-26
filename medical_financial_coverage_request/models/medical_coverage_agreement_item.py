@@ -28,6 +28,7 @@ class MedicalCoverageAgreementItem(models.Model):
         string="Coverage Templates",
         comodel_name="medical.coverage.template",
         related="coverage_agreement_id.coverage_template_ids",
+        readonly=True,
     )
     authorization_method_id = fields.Many2one(
         "medical.authorization.method",
