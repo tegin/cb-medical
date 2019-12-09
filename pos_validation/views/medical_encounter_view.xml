@@ -7,16 +7,30 @@
 -->
 
 <odoo>
-
     <record id="medical_encounter_view_form" model="ir.ui.view">
         <field name="name">medical.encounter.view.form</field>
         <field name="model">medical.encounter</field>
         <field name="inherit_id"
                ref="cb_medical_medication.medical_encounter_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_sale_order']" position="attributes">
+                <attribute name="groups">pos_validation.group_medical_encounter_validation</attribute>
+            </xpath>
+            <field name="location_id" position="after">
+                <field name="validation_status"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="medical_encounter_view_validation_form" model="ir.ui.view">
+        <field name="name">medical.encounter.view.form</field>
+        <field name="model">medical.encounter</field>
+        <field name="inherit_id"
+               ref="pos_validation.medical_encounter_view_form"/>
+        <field name="groups_id" eval="[(4, ref('pos_validation.group_medical_encounter_validation'))]"/>
+        <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="before">
                 <flagbox
-                        group="pos_validation.group_medical_encounter_validation"
                         attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
                 >
                     <button icon="fa-archive"
@@ -89,7 +103,6 @@
                         type="action"
                         string="Add Service"
                         icon="fa-plus-circle"
-                        group="pos_validation.group_medical_encounter_validation"
                         attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
                 />
                 <field name="validation_status" invisible="1"/>
@@ -97,7 +110,6 @@
                         type="object"
                         icon="fa-check"
                         string="Validate"
-                        group="pos_validation.group_medical_encounter_validation"
                         attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
                 />
                 <button name="close_view"
@@ -106,15 +118,8 @@
                         string="Close"
                 />
             </xpath>
-            <xpath expr="//button[@name='action_view_sale_order']" position="attributes">
-                <attribute name="groups">pos_validation.group_medical_encounter_validation</attribute>
-            </xpath>
-            <field name="location_id" position="after">
-                <field name="validation_status"/>
-            </field>
             <page name="medication" position="before">
                 <page name="sale_order" string="Sale Orders"
-                      group="pos_validation.group_medical_encounter_validation"
                       context="{'validation_status': validation_status}"
                       attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress', 'finished'])]}">
                     <field name="sale_order_line_ids">
@@ -150,7 +155,6 @@
                             <field name="agents"/>
                             <field name="validation_status" invisible="1"/>
                             <button name="%(pos_validation.sale_order_line_cancel_act_window)s"
-                                    groups="pos_validation.group_medical_encounter_validation"
                                     type="action" icon="fa-times-circle"
                                     attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
                             />
