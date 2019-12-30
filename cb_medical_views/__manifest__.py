@@ -12,6 +12,7 @@
         "l10n_es_partner",
     ],
     "data": [
+        "security/medical_encounter_create_group.xml",
         "views/account_invoice_view.xml",
         "views/medical_encounter.xml",
         "views/medical_event_view.xml",
