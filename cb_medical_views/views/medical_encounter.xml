@@ -27,7 +27,7 @@
         <field name="model">medical.encounter</field>
         <field name="type">kanban</field>
         <field name="arch" type="xml">
-            <kanban>
+            <kanban create="false">
                 <field name="internal_identifier"/>
                 <field name="patient_id"/>
                 <field name="center_id"/>
@@ -41,6 +41,63 @@
                     </t>
                 </templates>
             </kanban>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_encounter_kanban_show_create">
+        <field name="name">medical.encounter.kanban.show</field>
+        <field name="model">medical.encounter</field>
+        <field name="inherit_id" ref="view_medical_encounter_kanban"/>
+        <field name="arch" type="xml">
+            <kanban position="attributes">
+                <attribute name="create">true</attribute>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_encounter_tree_hide_create">
+        <field name="name">medical.encounter.tree.hide</field>
+        <field name="model">medical.encounter</field>
+        <field name="inherit_id" ref="medical_administration_encounter.medical_encounter_view_tree"/>
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="create">false</attribute>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_encounter_tree_show_create">
+        <field name="name">medical.encounter.tree.create</field>
+        <field name="model">medical.encounter</field>
+        <field name="inherit_id" ref="cb_medical_views.medical_encounter_tree_hide_create"/>
+        <field name="groups_id" eval="[(4, ref('cb_medical_views.group_can_create_encounters'))]"/>
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="create">true</attribute>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_encounter_form_hide_create">
+        <field name="name">medical.encounter.form.hide</field>
+        <field name="model">medical.encounter</field>
+        <field name="inherit_id" ref="medical_administration_encounter.medical_encounter_view_form"/>
+        <field name="arch" type="xml">
+            <form position="attributes">
+                <attribute name="create">false</attribute>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_encounter_form_show_create">
+        <field name="name">medical.encounter.form.create</field>
+        <field name="model">medical.encounter</field>
+        <field name="inherit_id" ref="medical_encounter_form_hide_create"/>
+        <field name="groups_id" eval="[(4, ref('cb_medical_views.group_can_create_encounters'))]"/>
+        <field name="arch" type="xml">
+            <form position="attributes">
+                <attribute name="create">true</attribute>
+            </form>
         </field>
     </record>
 
