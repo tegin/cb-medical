@@ -4,6 +4,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+from odoo.tools import float_compare
 
 
 class MedicalEncounter(models.Model):
@@ -62,7 +63,7 @@ class MedicalEncounter(models.Model):
                     .filtered(lambda r: r.statement_id.pos_session_id)
                     .mapped("amount")
                 )
-                + sum(orders.mapped("amount_total"))
+                + sum(o.amount_total for o in orders)
                 - sum(
                     orders.mapped("bank_statement_line_ids")
                     .filtered(lambda r: r.statement_id.pos_session_id)
@@ -126,7 +127,7 @@ class MedicalEncounter(models.Model):
         self.create_sale_order()
         res = super().inprogress2onleave()
         sos = self.sale_order_ids.filtered(
-            lambda r: not r.coverage_agreement_id and not r.is_down_payment
+            lambda r: not r.coverage_agreement_id and r.state == "draft"
         )
         if not sos or all(so.amount_total == 0 for so in sos):
             self.onleave2finished()
@@ -195,24 +196,54 @@ class MedicalEncounter(models.Model):
     @api.multi
     def onleave2finished(self):
         for res in self.filtered(lambda r: r.state == "onleave"):
+            extra_down_payment = res.sale_order_ids.filtered(
+                lambda r: not r.coverage_agreement_id
+                and r.state == "draft"
+                and r.is_down_payment
+            )
             sale_orders = res.sale_order_ids.filtered(
                 lambda r: not r.coverage_agreement_id and not r.is_down_payment
             )
+            if extra_down_payment:
+                extra_down_payment.ensure_one()
+                res.finish_sale_order(extra_down_payment)
+                order = sale_orders.filtered(lambda r: not r.third_party_order)
+                order.ensure_one()
+                for extra_line in extra_down_payment.order_line:
+                    line = order.order_line.filtered(
+                        lambda r: r.down_payment_sale_line_id == extra_line
+                    )
+                    line.ensure_one()
+                    line.write(
+                        {
+                            "name": extra_line._get_invoice_name(),
+                            "down_payment_line_id": extra_line.invoice_lines[
+                                0
+                            ].id,
+                        }
+                    )
             for sale_order in sale_orders:
                 res.finish_sale_order(sale_order)
         return super().onleave2finished()
 
     def down_payment_inverse_vals(self, order, line):
-        return {
+        vals = {
             "order_id": order.id,
             "product_id": line.product_id.id,
-            "name": "%s (%s)"
-            % (line.invoice_lines[0].invoice_id.number, line.name),
+            "name": line.name,
             "product_uom_qty": line.product_uom_qty,
             "product_uom": line.product_uom.id,
             "price_unit": -line.price_unit,
-            "down_payment_line_id": line.invoice_lines[0].id,
+            "down_payment_sale_line_id": line.id,
         }
+        if line.invoice_lines:
+            vals.update(
+                {
+                    "down_payment_line_id": line.invoice_lines[0].id,
+                    "name": line._get_invoice_name(),
+                }
+            )
+        return vals
 
     def get_sale_order_lines(self):
         values = super().get_sale_order_lines()
@@ -244,4 +275,59 @@ class MedicalEncounter(models.Model):
                         self.down_payment_inverse_vals(order, line)
                     )
                     inverse_line.change_company_id()
+            # We want to avoid making negative invoices, so we will generate a
+            # down_payment if it is negative
+            if (
+                float_compare(
+                    order.amount_total,
+                    0,
+                    precision_rounding=order.currency_id.rounding,
+                )
+                == -1
+            ):
+                product_id = int(
+                    self.env["ir.config_parameter"]
+                    .sudo()
+                    .get_param("sale.default_deposit_product_id")
+                )
+                new_order = self.env["sale.order"].create(
+                    self.fix_negative_sale_order_vals()
+                )
+                line = (
+                    self.env["sale.order.line"]
+                    .with_context(force_company=order.company_id.id)
+                    .create(
+                        self.fix_negative_sale_order_line_vals(
+                            new_order,
+                            self.env["product.product"].browse(product_id),
+                            order.amount_total,
+                        )
+                    )
+                )
+                line.change_company_id()
+                inverse_line = self.env["sale.order.line"].create(
+                    self.down_payment_inverse_vals(order, line)
+                )
+                inverse_line.change_company_id()
         return order
+
+    def fix_negative_sale_order_vals(self):
+        vals = {
+            "encounter_id": self.id,
+            "partner_id": self.patient_id.partner_id.id,
+            "patient_id": self.patient_id.id,
+            "company_id": self.company_id.id,
+            "pos_session_id": self._context.get("pos_session_id", False),
+            "is_down_payment": True,
+        }
+        return vals
+
+    def fix_negative_sale_order_line_vals(self, order, product, amount):
+        return {
+            "order_id": order.id,
+            "product_id": product.id,
+            "name": product.name,
+            "product_uom_qty": 1,
+            "product_uom": product.uom_id.id,
+            "price_unit": amount,
+        }
