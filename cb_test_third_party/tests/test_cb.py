@@ -96,6 +96,9 @@ class TestCBThirdParty(TestCB):
             {"encounter_id": encounter.id, "pos_session_id": self.session.id}
         ).run()
         self.assertEqual(encounter.pending_private_amount, 0)
+        extra_order = encounter.sale_order_ids.filtered(
+            lambda r: r.is_down_payment and r.state == "draft"
+        )
         self.env["wizard.medical.encounter.finish"].create(
             {
                 "encounter_id": encounter.id,
@@ -107,8 +110,10 @@ class TestCBThirdParty(TestCB):
             lambda r: not r.is_down_payment and not r.third_party_partner_id
         )
         self.assertTrue(sale_order)
-        self.assertEqual(sum(s.amount_total for s in sale_order), -100)
+        self.assertEqual(sum(s.amount_total for s in sale_order), 0)
         payments = sale_order.mapped("invoice_ids.bank_statement_line_ids")
+        self.assertFalse(payments)
+        payments = extra_order.mapped("invoice_ids.bank_statement_line_ids")
         self.assertTrue(payments)
         self.assertEqual(-100, sum(p.amount for p in payments))
         sale_order = encounter.sale_order_ids.filtered(
