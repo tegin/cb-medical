@@ -43,6 +43,9 @@ class SaleOrderLine(models.Model):
     down_payment_line_id = fields.Many2one(
         "account.invoice.line", default=False, readonly=True, copy=False
     )
+    down_payment_sale_line_id = fields.Many2one(
+        "sale.order.line", default=False, readonly=True, copy=False
+    )
 
     @api.multi
     def _prepare_invoice_line(self, qty):
@@ -50,3 +53,6 @@ class SaleOrderLine(models.Model):
         if self.down_payment_line_id:
             res["down_payment_line_id"] = self.down_payment_line_id.id
         return res
+
+    def _get_invoice_name(self):
+        return "%s (%s)" % (self.invoice_lines[0].invoice_id.number, self.name)
