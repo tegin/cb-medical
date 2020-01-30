@@ -4,8 +4,6 @@
 
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -305,34 +303,6 @@ class TestMedicalCoverageAgreement(TransactionCase):
         wiz.with_context(active_ids=[coverage_agreement.id]).change_prices()
         self.assertEquals(item_1.coverage_price, 150)
         self.assertEquals(item_1.private_price, 150)
-
-    def test_onchange_period(self):
-        # case 1
-        coverage_agreement_vals = {
-            "name": "test coverage agreement",
-            "center_ids": [(6, 0, [self.center_1.id])],
-            "company_id": self.ref("base.main_company"),
-            "date_from": (datetime.today() + relativedelta(days=5)),
-        }
-        coverage_agreement = self.coverage_agreement_model.create(
-            coverage_agreement_vals
-        )
-        coverage_agreement._onchange_date_range()
-        self.assertEquals(coverage_agreement.active, False)
-        # case 2
-        coverage_agreement.date_from = datetime.today() - relativedelta(
-            days=10
-        )
-        coverage_agreement._onchange_date_range()
-        self.assertEquals(coverage_agreement.active, True)
-        # case 3
-        coverage_agreement.date_to = datetime.today() + relativedelta(days=100)
-        coverage_agreement._onchange_date_range()
-        self.assertEquals(coverage_agreement.active, True)
-        # case 4
-        coverage_agreement.date_to = datetime.today() - relativedelta(days=5)
-        coverage_agreement._onchange_date_range()
-        self.assertEquals(coverage_agreement.active, False)
 
     def test_agreement_report(self):
 
