@@ -65,7 +65,7 @@ class MedicalCoverageAgreementItem(models.Model):
         comodel_name="medical.coverage.agreement",
         string="Medical agreement",
         index=True,
-        ondelete="cascade",
+        ondelete="cascade", auto_join=True,
         copy=False,
     )
     template_id = fields.Many2one(
@@ -171,7 +171,8 @@ class MedicalCoverageAgreementItem(models.Model):
                 domain += [
                     ("coverage_agreement_id.date_from", "<=", aggr.date_to)
                 ]
-            if self.search(domain, limit=1):
+            repeated = self.search(domain, limit=1)
+            if repeated:
                 raise ValidationError(
                     _(
                         "One of this actions cannot be completed:\n- If you are "
@@ -181,8 +182,12 @@ class MedicalCoverageAgreementItem(models.Model):
                         "belonging to this Coverage Template.\n"
                         "- If you are trying to add a new product to an Agreement "
                         "that means there is a coverage template that "
-                        "already has this product in another Agreement."
-                    )
+                        "already has this product in another Agreement.\n\n"
+                        "Conflictive agreement: [%s] %s\n"
+                        "Conflictive product: %s"
+                    ) % (repeated.coverage_agreement_id.internal_identifier,
+                         repeated.coverage_agreement_id.display_name,
+                         repeated.product_id.name)
                 )
 
     def _copy_agreement_vals(self, agreement):
