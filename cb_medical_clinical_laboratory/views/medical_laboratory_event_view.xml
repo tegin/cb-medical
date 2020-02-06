@@ -42,6 +42,7 @@
                 <field name="private_cost"/>
                 <field name="coverage_cost"/>
                 <field name="state" invisible="1"/>
+                <field name="coverage_agreement_id" invisible="1"/>
             </tree>
         </field>
     </record>
