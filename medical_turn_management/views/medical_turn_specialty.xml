@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="medical_turn_specialty_form_view">
+        <field name="name">medical.turn.specialty.form (in medical_turn_management)</field>
+        <field name="model">medical.turn.specialty</field>
+        <field name="arch" type="xml">
+            <form>
+                <header/>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <notebook>
+                        <page name="rule" string="Rules">
+                            <field name="rule_ids">
+                                <tree editable="bottom">
+                                    <field name="dayofweek"/>
+                                    <field name="start_hour" widget="float_time"/>
+                                    <field name="duration" widget="float_time"/>
+                                    <field name="default_practitioner_id" domain="[('turn_specialty_ids', '=', parent.id    ), ('is_practitioner', '=', True)]"/>
+                                    <field name="center_ids" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter"/>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_turn_specialty_search_view">
+        <field name="name">medical.turn.specialty.search (in medical_turn_management)</field>
+        <field name="model">medical.turn.specialty</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_turn_specialty_tree_view">
+        <field name="name">medical.turn.specialty.tree (in medical_turn_management)</field>
+        <field name="model">medical.turn.specialty</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="medical_turn_specialty_act_window">
+        <field name="name">Turn Specialties</field>
+        <field name="res_model">medical.turn.specialty</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="medical_turn_specialty_menu">
+        <field name="name">Turn Specialties</field>
+        <field name="parent_id" ref="medical_turn_root"/>
+        <field name="action" ref="medical_turn_specialty_act_window"/>
+        <field name="groups_id" eval="[(4,ref('medical_turn_management.group_medical_specialty_turn_manager'))]"/>
+        <field name="sequence" eval="90"/>
+    </record>
+
+</odoo>
