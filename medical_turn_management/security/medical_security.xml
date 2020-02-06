@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2020 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="group_medical_specialty_turn_display" model="res.groups">
+        <field name="name">Specialty Turn Display</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_medical_specialty_turn_list" model="res.groups">
+        <field name="name">Specialty Turn List</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_specialty_turn_display'))]"/>
+    </record>
+
+    <record id="group_medical_specialty_turn_manager" model="res.groups">
+        <field name="name">Specialty Turn Manager</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_specialty_turn_list'))]"/>
+    </record>
+
+    <record id="group_medical_turn_display" model="res.groups">
+        <field name="name">Document Turn Display</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_specialty_turn_display'))]"/>
+    </record>
+
+    <record id="group_medical_turn_list" model="res.groups">
+        <field name="name">Document Turn List</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_turn_display'))]"/>
+    </record>
+
+    <record id="group_medical_turn_manager" model="res.groups">
+        <field name="name">Document Turn Manager</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_turn_list'))]"/>
+    </record>
+
+    <record id="medical_base.group_medical_user" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_medical_turn_display'))]"/>
+    </record>
+
+    <record id="medical_base.group_medical_configurator" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_medical_turn_manager')),(4, ref('group_medical_specialty_turn_manager'))]"/>
+    </record>
+
+</odoo>
