@@ -1,2 +1,3 @@
 medical-fhir https://github.com/eficent/medical-fhir 11.0-dev
 cb-addons https://github.com/tegin/cb-addons 11.0
+web_calendar_list https://github.com/tegin/web 11.0-add-web_view_calendar_list
