@@ -55,6 +55,7 @@ class MedicalLaboratoryEvent(models.Model):
                 rec.private_amount = 0
                 rec.private_cost = 0
             elif price and cai:
+                rec.coverage_agreement_id = cai.coverage_agreement_id
                 if cai.coverage_percentage > 0:
                     rec.is_sellable_insurance = True
                     rec.coverage_amount = (
