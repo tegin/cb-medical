@@ -5,7 +5,7 @@
 {
     "name": "Medical ICD-10-PCS Codification",
     "summary": "Medical codification base",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "author": "Creu Blanca, Eficent",
     "category": "Medical",
     "website": "https://github.com/OCA/vertical-medical",
@@ -24,7 +24,6 @@
         "security/ir.model.access.csv",
         "views/medical_cie10pcs_concept_views.xml",
     ],
-    "demo": [],
     "application": False,
     "installable": True,
     "auto_install": False,
