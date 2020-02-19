@@ -1,5 +1,5 @@
 from odoo import api, fields, models, _
-from datetime import date, timedelta
+from datetime import datetime, timedelta
 
 
 class SaleCommissionMakeSettle(models.TransientModel):
@@ -34,17 +34,13 @@ class SaleCommissionMakeSettle(models.TransientModel):
                 if not agent_lines_company:
                     continue
                 pos = 0
-                sett_to = fields.Date.to_string(
-                    date(year=1900, month=1, day=1)
-                )
+                sett_to = datetime(year=1900, month=1, day=1)
                 while pos < len(agent_lines_company):
                     line = agent_lines_company[pos]
                     if line.date > sett_to:
                         sett_from = self._get_period_start(agent, line.date)
-                        sett_to = fields.Date.to_string(
-                            self._get_next_period_date(agent, sett_from)
-                            - timedelta(days=1)
-                        )
+                        sett_to = self._get_next_period_date(
+                            agent, sett_from) - timedelta(days=1)
                         sett_from = fields.Date.to_string(sett_from)
                         settlement = self._get_settlement(
                             agent, company, sett_from, sett_to

@@ -18,7 +18,8 @@
                 <field name="center_ids" widget="many2many_tags" options="{'no_create': True}"/>
                 <field name="fixed_fee"/>
                 <field name="variable_fee"/>
-                <button name="toggle_active" icon="fa-archive" confirm="Are you sure you want to archive/unarchive this element?" type="object"/>
+                <button name="toggle_active" aria-label="Archive" title="Archive"
+                        icon="fa-archive" confirm="Are you sure you want to archive/unarchive this element?" type="object"/>
             </tree>
         </field>
     </record>
