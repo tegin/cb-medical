@@ -4,7 +4,7 @@
 
 {
     "name": "Medical Patient second lastname",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": ["medical_administration_firstname", "partner_second_lastname"],
     "data": ["views/medical_patient_views.xml"],
