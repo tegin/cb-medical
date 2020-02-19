@@ -163,7 +163,7 @@
                     domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
                     ]"/>
                 <group expand="0" string="Group By">
-                    <filter string="Salesperson" domain="[]" context="{'group_by':'user_id'}"/>
+                    <filter name="salesperson" string="Salesperson" domain="[]" context="{'group_by':'user_id'}"/>
                     <filter name="patient" string="Patient" domain="[]" context="{'group_by':'patient_id'}"/>
                     <filter name="payor" string="Payor" domain="[]" context="{'group_by':'payor_id'}"/>
                 </group>
