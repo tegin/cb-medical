@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="mgmtsystem_quality_issue_form_view">
+        <field name="name">mgmtsystem.quality.issue.form (in cb_nonconformity_encounter)</field>
+        <field name="model">mgmtsystem.quality.issue</field>
+        <field name="inherit_id" ref="cb_mgmtsystem_issue.mgmtsystem_quality_issue_form_view"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="encounter_id" attrs="{'invisible': [('encounter_id', '=', False)]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="mgmtsystem_quality_issue_search_view">
+        <field name="name">mgmtsystem.quality.issue.search (in cb_nonconformity_encounter)</field>
+        <field name="model">mgmtsystem.quality.issue</field>
+        <field name="inherit_id" ref="cb_mgmtsystem_issue.mgmtsystem_quality_issue_search_view"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="encounter_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
