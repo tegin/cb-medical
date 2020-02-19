@@ -42,7 +42,6 @@ class MedicalSpecialty(models.Model):
             vals["sequence_id"] = sequence.id
         return super(MedicalSpecialty, self).create(vals)
 
-    @api.multi
     # do not depend on 'sequence_id.date_range_ids', because
     # sequence_id._get_current_sequence() may invalidate it!
     @api.depends(
