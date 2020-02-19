@@ -41,9 +41,8 @@ class TestCoverage(TransactionCase):
         )
         self.assertTrue(center.encounter_sequence_id)
         self.assertEqual(center.encounter_sequence_id.prefix, "S")
-        code = center.encounter_sequence_id.get_next_char(
-            center.encounter_sequence_id.number_next_actual
-        )
+        current = center.encounter_sequence_id.number_next_actual
+        code = center.encounter_sequence_id.get_next_char(current)
         encounter = self.env["medical.encounter"].create(
             {"patient_id": self.patient.id, "center_id": center.id}
         )
@@ -51,9 +50,7 @@ class TestCoverage(TransactionCase):
         center.write({"encounter_sequence_prefix": "R"})
         self.assertEqual(center.encounter_sequence_id.prefix, "R")
         self.assertTrue(center.encounter_sequence_id)
-        code = center.encounter_sequence_id.get_next_char(
-            center.encounter_sequence_id.number_next_actual
-        )
+        code = center.encounter_sequence_id.get_next_char(current+1)
         encounter = self.env["medical.encounter"].create(
             {"patient_id": self.patient.id, "center_id": center.id}
         )
