@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="mgmtsystem_quality_issue_form_view">
+        <field name="name">mgmtsystem.quality.issue.form (in cb_mgmtsystem_issue)</field>
+        <field name="model">mgmtsystem.quality.issue</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Approve" name="to_accepted" type="object" groups="mgmtsystem.group_mgmtsystem_user_manager"
+                            class="oe_highlight" attrs="{'invisible': [('state', '!=', 'pending')]}"/>
+                    <button string="Generate Non Conformity" name="to_nonconformity" type="object" groups="mgmtsystem.group_mgmtsystem_user_manager"
+                            class="oe_highlight" attrs="{'invisible': [('state', '!=', 'pending')]}"
+                            confirm="A new Non Conformity will be generated out of this issue."
+                    />
+                    <button string="Back to pending" name="back_to_pending" type="object" groups="mgmtsystem.group_mgmtsystem_user_manager"
+                            attrs="{'invisible': [('state', '=', 'pending')]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="ref"/>
+                            <field name="create_date" readonly="1"/>
+                            <field name="partner_id"/>
+                            <field name="origin_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="responsible_user_id"/>
+                            <field name="manager_user_id"/>
+                            <field name="user_id"/>
+                            <field name="non_conformity_id" attrs="{'invisible': [('non_conformity_id', '=', False)]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="description" string="Description">
+                            <group>
+                                <field name="description" nolabel="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="mgmtsystem_quality_issue_search_view">
+        <field name="name">mgmtsystem.quality.issue.search (in cb_mgmtsystem_issue)</field>
+        <field name="model">mgmtsystem.quality.issue</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="ref"/>
+                <field name="partner_id"/>
+                <field name="user_id" string="User" domain="['|','|',('user_id','=',uid),('responsible_user_id','=',uid),('manager_user_id','=',uid)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="mgmtsystem_quality_issue_tree_view">
+        <field name="name">mgmtsystem.quality.issue.tree (in cb_mgmtsystem_issue)</field>
+        <field name="model">mgmtsystem.quality.issue</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ref"/>
+                <field name="create_date"/>
+                <field name="partner_id"/>
+                <field name="description"/>
+                <field name="user_id"/>
+                <field name="responsible_user_id"/>
+                <field name="manager_user_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="mgmtsystem_quality_issue_act_window">
+        <field name="name">Quality Issues</field>
+        <field name="res_model">mgmtsystem.quality.issue</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="mgmtsystem_quality_issue_menu">
+        <field name="name">Quality Issues</field>
+        <field name="parent_id" ref="mgmtsystem.menu_mgmtsystem_main"/>
+        <field name="action" ref="mgmtsystem_quality_issue_act_window"/>
+        <field name="sequence" eval="31"/>
+    </record>
+
+    <record model="ir.ui.menu" id="mgmtsystem_nonconformity.menu_open_nonconformity">
+        <field name="sequence" eval="40"/>
+    </record>
+
+    <record model="ir.ui.menu" id="mgmtsystem.menu_mgmtsystem_root">
+        <field name="groups_id" eval="[(6, 0, [ref('mgmtsystem.group_mgmtsystem_user_manager')])]"/>
+    </record>
+
+</odoo>
