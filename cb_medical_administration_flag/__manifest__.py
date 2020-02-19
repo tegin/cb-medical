@@ -4,14 +4,13 @@
 
 {
     "name": "CB Medical Patient Flag",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": ["medical_administration_flag", "web_icon_widget"],
     "data": [
         "views/medical_flag_views.xml",
         "views/medical_flag_category_views.xml",
     ],
-    "demo": [],
     "website": "https://github.com/OCA/cb-addons",
     "license": "LGPL-3",
     "installable": True,
