@@ -4,7 +4,7 @@
 
 {
     "name": "Medical documents",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": [
         "medical_workflow",
@@ -25,7 +25,6 @@
         "views/workflow_activity_definition.xml",
         "report/document_report.xml",
     ],
-    "demo": ["demo/medical_demo.xml"],
     "website": "https://github.com/OCA/cb-addons",
     "license": "LGPL-3",
     "installable": True,

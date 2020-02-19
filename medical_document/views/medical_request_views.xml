@@ -20,7 +20,7 @@
                         name="action_view_request"
                         class="oe_stat_button"  icon="fa-file-contract"
                         attrs="{'readonly':[('is_editable', '=', False)]}"
-                        groups="medical_document_reference.group_medical_document_reference_list"
+                        groups="medical_document.group_medical_document_reference_list"
                         context="{'model_name': 'medical.document.reference'}">
                 <field name="document_reference_count" widget="statinfo"
                            string="Documents"/>
