@@ -4,7 +4,7 @@
 
 {
     "name": "Medical Careplan to sales",
-    "version": "11.0.1.0.2",
+    "version": "12.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "category": "Medical",
     "depends": [
