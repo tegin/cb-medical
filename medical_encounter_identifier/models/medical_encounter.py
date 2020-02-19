@@ -1,5 +1,5 @@
 from odoo import api, fields, models, _
-from odoo.addons.base.ir.ir_sequence import _update_nogap
+from odoo.addons.base.models.ir_sequence import _update_nogap
 from odoo.exceptions import ValidationError
 
 
