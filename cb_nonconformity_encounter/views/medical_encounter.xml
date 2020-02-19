@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="medical_encounter_view_form">
+        <field name="name">medical.encounter.form (in cb_nonconformity)</field>
+        <field name="model">medical.encounter</field>
+        <field name="inherit_id" ref="medical_administration_encounter.medical_encounter_view_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="%(cb_nonconformity_encounter.wizard_create_nonconformity_act_window)d" string="Add Quality Issue" type="action"/>
+            </header>
+            <div name="button_box" position="inside">
+                <field name="quality_issue_count" invisible="1"/>
+                <button name="action_view_quality_issues" class="oe_stat_button"
+                        icon="fa-exclamation" type="object" attrs="{'invisible': [('quality_issue_count', '=', 0)]}">
+                    <field name="quality_issue_count" widget="statinfo" string="Issues"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+</odoo>
