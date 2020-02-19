@@ -15,12 +15,16 @@
             <tree string="sale order lines">
                 <button type="object"
                         name="invalidate_line"
-                        icon="fa-minus-square"
+                        icon="fa fa-minus-square"
+                        aria-label="invalidate_line"
+                        title="invalidate_line"
                         groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager"
                         attrs="{'invisible': ['|', ('is_validated', '=', False), ('preinvoice_status', '!=', 'validation')]}"/>
                 <button type="object"
                         name="validate_line"
-                        icon="fa-check-square"
+                        aria-label="validate_line"
+                        title="validate_line"
+                        icon="fa fa-check-square"
                         attrs="{'invisible': [('is_validated', '=', True)]}"/>
                 <field name="sequence"/>
                 <field name="encounter_id"/>
