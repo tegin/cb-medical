@@ -4,7 +4,7 @@
 
 {
     "name": "CB Medical Views",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": [
         "barcode_action",
@@ -22,7 +22,7 @@
         "views/res_partner_views.xml",
         "views/sale_order_view.xml",
     ],
-    "website": "https://github.com/OCA/vertical-medical",
+    "website": "https://github.com/tegin/cb-addons",
     "license": "LGPL-3",
     "installable": True,
     "auto_install": False,
