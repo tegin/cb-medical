@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo noupdate="1">
+    <record id="seq_mgmtsystem_issue" model="ir.sequence">
+        <field name="name">Management System Issue</field>
+        <field name="code">mgmtsystem.quality.issue</field>
+        <field eval="5" name="padding"/>
+        <field name="prefix">QI</field>
+    </record>
+</odoo>
