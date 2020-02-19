@@ -4,10 +4,10 @@
 
 {
     "name": "Medical Administration Practitioner Specialty",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "category": "Medical",
-    "website": "https://github.com/OCA/vertical-medical",
+    "website": "https://github.com/tegin/cb-addons",
     "license": "LGPL-3",
     "depends": ["medical_administration_practitioner_specialty"],
     "data": [
@@ -16,7 +16,6 @@
         "views/medical_role.xml",
         "views/medical_specialty.xml",
     ],
-    "demo": [],
     "installable": True,
     "application": False,
     "auto_install": False,
