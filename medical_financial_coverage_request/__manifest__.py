@@ -5,9 +5,9 @@
 {
     "name": "Medical Coverage Request",
     "summary": "Medical financial coverage request",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "author": "Creu Blanca, Eficent",
-    "website": "https://github.com/OCA/vertical-medical",
+    "website": "https://github.com/tegin/cb_addons",
     "license": "LGPL-3",
     "depends": [
         "cb_medical_workflow_plandefinition",
@@ -31,7 +31,6 @@
         "views/medical_coverage_template_view.xml",
         "views/medical_authorization_format_view.xml",
     ],
-    "demo": [],
     "application": False,
     "installable": True,
     "auto_install": False,
