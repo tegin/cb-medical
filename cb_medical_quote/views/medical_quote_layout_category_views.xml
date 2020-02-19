@@ -41,10 +41,10 @@
         <field name="model">medical.quote.layout_category</field>
         <field name="arch" type="xml">
             <search string="Search Name">
-                <filter string="Total" domain="[('subtotal','=','True')]"/>
-                <filter string="Breaks Page" domain="[('pagebreak','=','True')]"/>
+                <filter string="Total" domain="[('subtotal','=','True')]" name="total"/>
+                <filter string="Breaks Page" domain="[('pagebreak','=','True')]" name="breaks_page"/>
                 <group string="Group By Name">
-                    <filter string="Name"  context="{'group_by' : 'name'}"/>
+                    <filter string="Name" name="name" context="{'group_by' : 'name'}"/>
                 </group>
             </search>
         </field>
