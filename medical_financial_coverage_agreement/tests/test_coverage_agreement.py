@@ -301,6 +301,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
             {"difference": 50.0}
         )
         wiz.with_context(active_ids=[coverage_agreement.id]).change_prices()
+        item_1.refresh()
         self.assertEquals(item_1.coverage_price, 150)
         self.assertEquals(item_1.private_price, 150)
 
