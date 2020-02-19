@@ -94,10 +94,10 @@
                 <field name="state"/>
                 <newline/>
                 <group expand="0" name="groupby" string="Group By...">
-                    <filter string="Patient"
+                    <filter string="Patient" name="patient"
                             domain="[]"
                             context="{'group_by':'patient_id'}"/>
-                    <filter string="Document reference ID"
+                    <filter string="Document reference ID" name="reference"
                             domain="[]"
                             context="{'group_by':'name'}"/>
                 </group>
