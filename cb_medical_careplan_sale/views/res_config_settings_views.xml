@@ -20,7 +20,7 @@
                      groups="base.group_no_one">
                     <div class="o_setting_left_pane"/>
                     <div class="o_setting_right_pane">
-                        <label string="Third party product"/>
+                        <label string="Third party product" for=""/>
                         <div class="text-muted">
                             Product used for third party sale orders
                         </div>
