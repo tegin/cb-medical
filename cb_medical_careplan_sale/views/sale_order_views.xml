@@ -5,7 +5,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='order_line']//field[@name='layout_category_id']" position="after">
+            <xpath expr="//field[@name='order_line']//field[@name='invoice_status']" position="before">
                 <field name="careplan_id" options="{'no_create': True}"/>
                 <field name="procedure_request_id" options="{'no_create': True}"/>
                 <field name="request_group_id" options="{'no_create': True}"/>
