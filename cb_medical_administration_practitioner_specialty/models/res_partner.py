@@ -27,14 +27,12 @@ class ResPartner(models.Model):
         related="practitioner_role_id.specialty_required", readonly=True
     )
 
-    @api.multi
     @api.depends("practitioner_role_ids")
     def _compute_role(self):
         for record in self:
             if record.practitioner_role_ids:
                 record.practitioner_role_id = record.practitioner_role_ids[0]
 
-    @api.multi
     @api.depends("specialty_ids")
     def _compute_specialty(self):
         for record in self:
