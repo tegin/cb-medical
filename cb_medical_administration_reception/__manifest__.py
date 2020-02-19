@@ -4,9 +4,9 @@
 
 {
     "name": "Medical Administration Location",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "category": "Medical",
-    "website": "https://github.com/OCA/vertical-medical",
+    "website": "https://github.com/tegin/cb-addons",
     "author": "Creu Blanca, Eficent",
     "license": "LGPL-3",
     "depends": ["cb_medical_administration_center"],
