@@ -3,6 +3,7 @@ from odoo import api, fields, models
 
 class MedicalCommissionAction(models.AbstractModel):
     _name = "medical.commission.action"
+    _description = "medical.commission.action"
 
     performer_id = fields.Many2one(
         string="Performer",
