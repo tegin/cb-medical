@@ -9,6 +9,8 @@ class CrmLead(models.Model):
 
     @api.model
     def _default_agreements(self):
+        import logging
+        logging.info('hola')
         if not self.env.context.get("agreement_id"):
             return False
         return [(4, self.env.context.get("agreement_id"))]
@@ -77,7 +79,7 @@ class CrmLead(models.Model):
 
     def _onchange_partner_id_values(self, partner_id):
         result = super()._onchange_partner_id_values(partner_id)
-        result["agreement_ids"] = []
+        agreement_ids = []
         if partner_id:
             partner = self.env["res.partner"].browse(partner_id)
             templates = partner.commercial_partner_id.coverage_template_ids
@@ -86,5 +88,6 @@ class CrmLead(models.Model):
                     template in templates
                     for template in agreement.coverage_template_ids
                 ):
-                    result["agreement_ids"].append(agreement.id)
+                    agreement_ids.append(agreement.id)
+            result["agreement_ids"] = [(6, 0, agreement_ids)]
         return result
