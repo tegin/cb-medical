@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError
 
 class MedicalMedicationItem(models.Model):
     _name = "medical.medication.item"
+    _description = "medical.medication.item"
 
     encounter_id = fields.Many2one(
         "medical.encounter", readonly=True, required=True
