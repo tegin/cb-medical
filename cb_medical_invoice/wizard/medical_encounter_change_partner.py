@@ -3,6 +3,7 @@ from odoo import api, fields, models
 
 class MedicalEncounterChangePartner(models.TransientModel):
     _name = "medical.encounter.change.partner"
+    _description = "medical.encounter.change.partner"
 
     partner_id = fields.Many2one("res.partner", required=True)
     encounter_id = fields.Many2one("medical.encounter", required=True)
