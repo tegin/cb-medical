@@ -7,6 +7,7 @@ from odoo.exceptions import ValidationError
 
 class MedicalCoverageAgreementJoin(models.TransientModel):
     _name = "medical.coverage.agreement.join"
+    _description = "medical.coverage.agreement.join"
 
     def _default_agreements(self):
         context = self.env.context
