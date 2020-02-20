@@ -3,6 +3,7 @@ from odoo import api, fields, models
 
 class MedicalCoverageAgreementTemplate(models.TransientModel):
     _name = "medical.coverage.agreement.template"
+    _description = "medical.coverage.agreement.template"
 
     agreement_id = fields.Many2one(
         "medical.coverage.agreement", readonly=True, required=True
