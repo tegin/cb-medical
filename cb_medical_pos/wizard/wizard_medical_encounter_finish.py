@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 class WizardMedicalEncounterClose(models.TransientModel):
     _name = "wizard.medical.encounter.finish"
+    _description = 'wizard.medical.encounter.finish'
 
     pos_session_id = fields.Many2one(
         comodel_name="pos.session",

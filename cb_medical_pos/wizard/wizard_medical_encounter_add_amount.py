@@ -8,6 +8,7 @@ from odoo.exceptions import ValidationError
 
 class WizardMedicalEncounterAddAmount(models.TransientModel):
     _name = "wizard.medical.encounter.add.amount"
+    _description = 'wizard.medical.encounter.add.amount'
 
     def _default_product(self):
         product_id = (
