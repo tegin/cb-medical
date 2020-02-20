@@ -3,6 +3,7 @@ from odoo import api, fields, models
 
 class MedicalCareplanCancel(models.AbstractModel):
     _name = "medical.request.cancel"
+    _description = 'medical.request.cancel'
 
     request_id = fields.Many2one(
         "medical.request", required=True, readonly=True
