@@ -8,6 +8,7 @@ from odoo.exceptions import ValidationError
 
 class MedicalEncounterAddCareplan(models.TransientModel):
     _name = "medical.encounter.add.careplan"
+    _description = "medical.encounter.add.careplan"
 
     @api.model
     def get_encounter_states(self):
