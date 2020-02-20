@@ -25,7 +25,7 @@
                             Product used for third party sale orders
                         </div>
                         <div class="text-muted">
-                            <field name="default_third_party_product"/>
+                            <field name="def_third_party_product"/>
                         </div>
                     </div>
                 </div>
