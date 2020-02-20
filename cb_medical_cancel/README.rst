@@ -3,7 +3,7 @@
    :alt: License: LGPL-3
 
 ======================
-Medical Sale Discounts
+Medical Cancel
 ======================
 
-TBD
+Medical Cancel

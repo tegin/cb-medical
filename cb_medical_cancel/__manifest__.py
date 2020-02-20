@@ -3,8 +3,8 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 {
-    "name": "Medical Sale Discounts",
-    "version": "11.0.1.0.0",
+    "name": "Medical Cancel",
+    "version": "12.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "category": "Medical",
     "depends": ["cb_medical_pos"],
