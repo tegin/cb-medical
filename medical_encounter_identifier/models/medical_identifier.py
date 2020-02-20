@@ -3,6 +3,7 @@ from odoo import api, models
 
 class MedicalCBIdentifier(models.AbstractModel):
     _name = "medical.cb.identifier"
+    _description = "medical.cb.identifier"
 
     @api.model
     def get_request_format(self):
