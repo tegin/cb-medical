@@ -3,6 +3,7 @@ from odoo import api, fields, models
 
 class MedicalEncounterCancel(models.TransientModel):
     _name = "medical.encounter.cancel"
+    _description = 'medical.encounter.cancel'
 
     encounter_id = fields.Many2one("medical.encounter")
     cancel_reason_id = fields.Many2one("medical.cancel.reason", required=True)
