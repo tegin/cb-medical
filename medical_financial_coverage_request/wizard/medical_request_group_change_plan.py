@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 class MedicalRequestGroupChangePlan(models.TransientModel):
     _name = "medical.request.group.change.plan"
+    _description = "medical.request.group.change.plan"
 
     request_group_id = fields.Many2one(
         "medical.request.group", requierd=True, readonly=True

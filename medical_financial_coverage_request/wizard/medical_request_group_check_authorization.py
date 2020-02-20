@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 class MedicalRequestGroupCheckAuthorization(models.TransientModel):
     _name = "medical.request.group.check.authorization"
+    _description = "medical.request.group.check.authorization"
 
     @api.model
     def _default_request(self):
