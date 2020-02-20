@@ -116,7 +116,7 @@
                 <field name="state"/>
                 <newline/>
                 <group expand="0" name="groupby" string="Group By...">
-                    <filter string="Document type ID"
+                    <filter string="Document type ID" name="document_type"
                             domain="[]"
                             context="{'group_by':'name'}"/>
                 </group>
