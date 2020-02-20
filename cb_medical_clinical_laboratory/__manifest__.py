@@ -3,8 +3,8 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 {
-    "name": "Medical documents",
-    "version": "11.0.1.0.0",
+    "name": "Medical Clinical Laboratory",
+    "version": "12.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": ["cb_medical_medication"],
     "data": [
