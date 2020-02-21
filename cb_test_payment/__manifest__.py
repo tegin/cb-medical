@@ -4,10 +4,9 @@
 
 {
     "name": "CB Testing Sales",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": ["cb_test"],
-    "data": [],
     "website": "https://github.com/OCA/vertical-medical",
     "license": "LGPL-3",
     "installable": True,
