@@ -3,6 +3,7 @@ from odoo import api, fields, models
 
 class MedicalCareplanMedication(models.TransientModel):
     _name = "medical.encounter.medication"
+    _description = "medical.encounter.medication"
 
     medical_id = fields.Many2one(
         "medical.encounter", required=True, readonly=True
