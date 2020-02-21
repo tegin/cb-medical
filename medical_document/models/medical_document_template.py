@@ -50,7 +50,7 @@ class MedicalDocumentTemplate(models.Model):
                 lang_id = self.lang_ids.filtered(lambda r: r.lang == lang)
             if not lang_id:
                 lang_id = self.lang_ids[0]
-            return self.env["mail.template"].render_template(
+            return self.env["mail.template"]._render_template(
                 lang_id.text, model, res_ids, post_process=post_process
             )
         raise UserError(_("Function must be defined"))
