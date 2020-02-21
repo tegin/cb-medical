@@ -119,12 +119,13 @@ class TestCrmAgreement(TransactionCase):
         self.assertFalse(
             self.env["crm.lead"].search(lead_action.get("domain", []))
         )
+        obj = self.env["crm.lead"].with_context(**lead_action.get("context", {}))
+
+        import logging
+        logging.info(obj.env.context)
         lead = (
-            self.env["crm.lead"]
-            .with_context(**lead_action.get("context", {}))
-            .create({"name": "Test LEAD"})
+            obj.create({"name": "Test LEAD"})
         )
-        agreement.refresh()
         self.assertIn(agreement, lead.agreement_ids)
         self.assertEqual(lead.partner_id, self.payor)
         self.assertEqual(1, agreement.lead_count)
