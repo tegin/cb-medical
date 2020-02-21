@@ -7,6 +7,7 @@ from odoo import fields, models
 
 class WizardSalePreinvoiceGroup(models.TransientModel):
     _name = "wizard.sale.preinvoice.group"
+    _description = "wizard.sale.preinvoice.group"
 
     company_ids = fields.Many2many(
         comodel_name="res.company", string="Companies"
