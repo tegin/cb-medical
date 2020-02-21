@@ -5,8 +5,8 @@ from odoo import api, fields, models
 
 
 class CrmLeadAddAgreement(models.TransientModel):
-
     _name = "crm.lead.add.agreement"
+    _description = "crm.lead.add.agreement"
 
     lead_id = fields.Many2one("crm.lead", required=True)
     coverage_template_ids = fields.One2many(
