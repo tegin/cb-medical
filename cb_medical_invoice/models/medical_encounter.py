@@ -118,7 +118,7 @@ class MedicalEncounter(models.Model):
                     and r.partner_id == invoice_refund.partner_id
                 )
             )
-            self.env["account.move.line"].process_reconciliations(
+            self.env["account.reconciliation.widget"].process_move_lines(
                 [
                     {
                         "mv_line_ids": ref_iml.ids + ref_move_iml.ids,
@@ -140,7 +140,7 @@ class MedicalEncounter(models.Model):
                     and r.partner_id == invoice_new_partner.partner_id
                 )
             )
-            self.env["account.move.line"].process_reconciliations(
+            self.env["account.reconciliation.widget"].process_move_lines(
                 [
                     {
                         "mv_line_ids": inv_iml.ids + inv_move_iml.ids,
