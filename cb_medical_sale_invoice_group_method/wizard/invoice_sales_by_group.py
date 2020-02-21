@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 class InvoiceSalesByGroup(models.TransientModel):
     _name = "invoice.sales.by.group"
+    _description = "invoice.sales.by.group"
 
     date_to = fields.Date("Up to", required=True, default=fields.Date.today())
     invoice_group_method_id = fields.Many2one(
