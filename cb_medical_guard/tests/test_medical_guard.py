@@ -177,4 +177,4 @@ class TestMedicalGuard(TransactionCase):
         ).run()
         guard.refresh()
         self.assertTrue(guard.invoice_line_ids)
-        self.assertEqual(guard.invoice_line_ids.invoice_id.amount_total, 100)
+        self.assertEqual(guard.invoice_line_ids.invoice_id.amount_untaxed, 100)
