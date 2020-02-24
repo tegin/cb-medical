@@ -64,6 +64,15 @@ class TestCB(SavepointCase):
             "medical.coverage.template"
         ].create({"payor_id": self.payor.id, "name": "Coverage 2"})
         self.company = self.browse_ref("base.main_company")
+        for order in self.env["sale.order"].search(
+            [
+                ("company_id", "=", self.company.id),
+                ("state", "!=", "cancel"),
+                ("invoice_status", "!=", "invoiced"),
+            ]
+        ):
+            # We cancel all demo orders just in case
+            order.action_cancel()
         self.company.patient_journal_id = self.env["account.journal"].create(
             {
                 "name": "Sale Journal",

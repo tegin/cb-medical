@@ -3,9 +3,12 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 from odoo.addons.cb_test.tests.test_cb import TestCB
 from odoo.exceptions import ValidationError
+from odoo.tests.common import at_install, post_install
 
 
-class TestCBSale(TestCB):
+@post_install(True)
+@at_install(False)
+class TestCBLaboratory(TestCB):
     def setUp(self):
         super().setUp()
         self.coverage_template.laboratory_code = "1"

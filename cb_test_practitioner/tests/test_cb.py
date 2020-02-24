@@ -2,8 +2,11 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 from odoo.addons.cb_test.tests.test_cb import TestCB
+from odoo.tests.common import at_install, post_install
 
 
+@post_install(True)
+@at_install(False)
 class TestCBPractitioner(TestCB):
     def test_practitioner_conditions(self):
         self.plan_definition2.write({"third_party_bill": False})

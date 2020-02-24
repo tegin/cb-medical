@@ -5,10 +5,13 @@ from dateutil.relativedelta import relativedelta
 from datetime import timedelta
 from odoo import fields
 from odoo.addons.cb_test.tests.test_cb import TestCB
+from odoo.tests.common import post_install, at_install
 from odoo.exceptions import ValidationError
 
 
-class TestCBSale(TestCB):
+@post_install(True)
+@at_install(False)
+class TestCBInvoicing(TestCB):
     def test_multiple_groups(self):
         method = self.browse_ref("cb_medical_careplan_sale.by_patient")
         method_2 = self.browse_ref("cb_medical_careplan_sale.by_customer")
@@ -110,6 +113,7 @@ class TestCBSale(TestCB):
                     self.env["medical.encounter"].browse(action["res_id"]),
                 )
             encounter_aux.admin_validate()
+            encounter_aux.refresh()
             non_validated -= 1
             self.assertEqual(
                 non_validated, self.session.encounter_non_validated_count
@@ -334,8 +338,11 @@ class TestCBSale(TestCB):
         for line in sale_orders.mapped("order_line"):
             self.assertEqual(line.qty_to_invoice, 0)
         for encounter in self.session.encounter_ids:
-            for request in encounter.careplan_ids.mapped(
-                "procedure_request_ids"
+            self.assertTrue(
+                encounter.mapped("careplan_ids.procedure_request_ids")
+            )
+            for request in encounter.mapped(
+                "careplan_ids.procedure_request_ids"
             ):
                 request.draft2active()
                 self.assertEqual(request.center_id, encounter.center_id)
@@ -347,7 +354,9 @@ class TestCBSale(TestCB):
                 self.assertEqual(
                     procedure.commission_agent_id, self.practitioner_02
                 )
+            encounter.refresh()
             encounter.recompute_commissions()
+            encounter.refresh()
             for line in encounter.sale_order_ids.mapped("order_line"):
                 self.assertTrue(line.agents)
         # Settle the payments
@@ -414,11 +423,6 @@ class TestCBSale(TestCB):
             for line in sale_order.order_line:
                 self.assertFalse(line.agents)
             sale_orders |= sale_order
-        for sale_order in sale_orders:
-            import logging
-            logging.info(sale_order.company_id)
-            logging.info(sale_order.invoice_status)
-            logging.info(sale_order.confirmation_date)
         self.session.action_pos_session_close()
         self.assertTrue(self.session.request_group_ids)
         for encounter in self.session.encounter_ids:
@@ -430,7 +434,13 @@ class TestCBSale(TestCB):
             encounter_aux.admin_validate()
         action = (
             self.env["invoice.sales.by.group"]
-            .create({"invoice_group_method_id": method.id})
+            .create(
+                {
+                    "invoice_group_method_id": method.id,
+                    "date_to": fields.Date.today() + timedelta(days=-1),
+                    "company_ids": [(6, 0, self.company.ids)],
+                }
+            )
             .invoice_sales_by_group()
         )
         self.assertFalse(action)
@@ -440,10 +450,8 @@ class TestCBSale(TestCB):
                 {
                     "invoice_group_method_id": method.id,
                     "customer_ids": [(4, self.payor.id)],
-                    "date_to": fields.Date.to_string(
-                        fields.Date.from_string(fields.Date.today())
-                        + timedelta(days=1)
-                    ),
+                    "date_to": fields.Date.today() + timedelta(days=1),
+                    "company_ids": [(6, 0, self.company.ids)],
                 }
             )
             .invoice_sales_by_group()
@@ -476,12 +484,7 @@ class TestCBSale(TestCB):
                 self.assertTrue(line.agents)
         # Settle the payments
         wizard = self.env["sale.commission.make.settle"].create(
-            {
-                "date_to": (
-                    fields.Datetime.from_string(fields.Datetime.now())
-                    + relativedelta(months=1)
-                )
-            }
+            {"date_to": fields.Datetime.now() + relativedelta(months=1)}
         )
         settlements = self.env["sale.commission.settlement"].browse(
             wizard.action_settle()["domain"][0][2]
