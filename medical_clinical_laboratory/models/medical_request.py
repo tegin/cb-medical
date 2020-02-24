@@ -9,7 +9,7 @@ class MedicalRequest(models.AbstractModel):
     _inherit = "medical.request"
 
     laboratory_request_ids = fields.One2many(
-        string="Associated Documents",
+        string="Laboratory requests",
         comodel_name="medical.laboratory.request",
         compute="_compute_laboratory_request_ids",
     )
