@@ -24,6 +24,7 @@ class InvoiceSalesByGroup(models.TransientModel):
     def invoice_sales_by_group(self):
         domain = [
             ("invoice_status", "=", "to invoice"),
+            ("state", "!=", "cancel"),
             ("confirmation_date", "<", self.date_to),
         ]
         if self.customer_ids:
@@ -45,10 +46,10 @@ class InvoiceSalesByGroup(models.TransientModel):
                 self.invoice_group_method_id, company
             )
         # view
-        action = self.env.ref("account.action_invoice_tree1")
-        result = action.read()[0]
         if not invoices:
             return
+        action = self.env.ref("account.action_invoice_tree1")
+        result = action.read()[0]
         if len(invoices) > 1:
             result["domain"] = "[('id', 'in', " + str(invoices) + ")]"
         elif len(invoices) == 1:
