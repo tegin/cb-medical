@@ -5,8 +5,8 @@ from odoo import api, fields, models
 
 
 class WizardCreateNonconformity(models.TransientModel):
-
     _name = 'wizard.create.nonconformity'
+    _description = 'wizard.create.nonconformity'
 
     name = fields.Char(required=True)
     description = fields.Text(required=True)
