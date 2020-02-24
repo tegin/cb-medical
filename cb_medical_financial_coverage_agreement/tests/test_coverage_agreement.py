@@ -116,6 +116,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
             {
                 "name": name,
                 "categ_id": self.browse_ref("product.product_category_all").id,
+                "type": "service",
             }
         )
 
