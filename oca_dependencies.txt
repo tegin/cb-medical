@@ -1,3 +1,4 @@
 medical-fhir https://github.com/eficent/medical-fhir 12.0
 cb-addons https://github.com/tegin/cb-addons 12.0
+management-system
 server-tools https://github.com/tegin/server-tools 12.0-mig-base-report
