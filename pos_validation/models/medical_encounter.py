@@ -110,6 +110,7 @@ class MedicalEncounter(models.Model):
 
     @api.multi
     def close_view(self):
+        # TODO: REvisar el history_back. no funciona
         actions = [{"type": "ir.actions.client", "tag": "history_back"}]
         if self.env.context.get("from_barcode_reader", False):
             action = self.env.ref("barcode_action.barcode_action_action")
@@ -166,6 +167,8 @@ class MedicalEncounter(models.Model):
             sale_order.with_context(
                 no_third_party_number=True
             ).action_confirm()
+            for line in sale_order.order_line:
+                line.write({"qty_delivered": line.product_uom_qty})
             # We assume that private SO are already confirmed
             self.create_invoice(sale_order)
         # Third party orders should be confirmed
@@ -175,6 +178,8 @@ class MedicalEncounter(models.Model):
             sale_order.with_context(
                 no_third_party_number=True
             ).action_confirm()
+            for line in sale_order.order_line:
+                line.write({"qty_delivered": line.product_uom_qty})
         self.write(self._admin_validation_values())
         if not self.pos_session_id.encounter_ids.filtered(
             lambda r: r.validation_status not in "finished"
