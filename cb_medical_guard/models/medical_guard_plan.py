@@ -48,6 +48,7 @@ def parse_atom(parse, minmax):
 
 class MedicalGuardPlan(models.Model):
     _name = "medical.guard.plan"
+    _description = "medical.guard.plan"
 
     start_time = fields.Float(required=True)
     delay = fields.Integer(required=True)

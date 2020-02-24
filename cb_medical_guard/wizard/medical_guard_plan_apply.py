@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 
 class MedicalGuardPlanApply(models.TransientModel):
     _name = "medical.guard.plan.apply"
+    _description = "medical.guard.plan.apply"
 
     start_date = fields.Date(required=True, default=fields.Date.today())
     end_date = fields.Date(required=True)
