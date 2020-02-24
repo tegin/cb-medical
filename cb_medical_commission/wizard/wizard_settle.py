@@ -1,5 +1,5 @@
 from odoo import api, fields, models, _
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 
 
 class SaleCommissionMakeSettle(models.TransientModel):
@@ -17,12 +17,12 @@ class SaleCommissionMakeSettle(models.TransientModel):
             self.agents = self.env["res.partner"].search(
                 [("agent", "=", True)]
             )
-        date_to = fields.Date.from_string(self.date_to)
+        date_to = self.date_to
         for agent in self.agents:
             date_to_agent = self._get_period_start(agent, date_to)
             # Get non settled invoices
             domain = [
-                ("date", "<", fields.Datetime.to_string(date_to_agent)),
+                ("date", "<", date_to_agent),
                 ("agent", "=", agent.id),
                 ("settled", "=", False),
             ]
@@ -34,13 +34,14 @@ class SaleCommissionMakeSettle(models.TransientModel):
                 if not agent_lines_company:
                     continue
                 pos = 0
-                sett_to = datetime(year=1900, month=1, day=1)
+                sett_to = date(year=1900, month=1, day=1)
                 while pos < len(agent_lines_company):
                     line = agent_lines_company[pos]
-                    if line.date > sett_to:
+                    if line.date.date() > sett_to:
                         sett_from = self._get_period_start(agent, line.date)
                         sett_to = self._get_next_period_date(
-                            agent, sett_from) - timedelta(days=1)
+                            agent, sett_from
+                        ) - timedelta(days=1)
                         sett_from = fields.Date.to_string(sett_from)
                         settlement = self._get_settlement(
                             agent, company, sett_from, sett_to
