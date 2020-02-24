@@ -33,6 +33,7 @@ class SaleOrderLine(models.Model):
         "qty_delivered",
         "product_uom_qty",
         "order_id.state",
+        "is_validated",
         "invoice_group_method_id",
         "invoice_group_method_id.invoice_by_preinvoice",
         "invoice_group_method_id.no_invoice",
