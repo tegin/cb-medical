@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError
 
 class MedicalGuard(models.Model):
     _name = "medical.guard"
+    _description = "medical.guard"
     _inherit = ["medical.abstract", "mail.thread", "mail.activity.mixin"]
 
     date = fields.Datetime(

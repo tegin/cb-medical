@@ -4,6 +4,7 @@ from odoo import api, fields, models, _
 
 class MedicalGuardPlanApply(models.TransientModel):
     _name = "medical.guard.invoice"
+    _description = "medical.guard.invoice"
 
     date_from = fields.Date(required=True, default=fields.Date.today())
     date_to = fields.Date(required=True)
