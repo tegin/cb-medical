@@ -32,7 +32,9 @@ class MedicalDocumentReference(models.Model):
         ondelete="restrict",
     )
     document_type = fields.Selection(
-        related="document_type_id.document_type", readonly=True
+        related="document_type_id.document_type",
+        readonly=True,
+        string="Document type reference",
     )
     document_template_id = fields.Many2one(
         "medical.document.template",
