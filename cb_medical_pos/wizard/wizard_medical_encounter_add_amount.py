@@ -8,7 +8,7 @@ from odoo.exceptions import ValidationError
 
 class WizardMedicalEncounterAddAmount(models.TransientModel):
     _name = "wizard.medical.encounter.add.amount"
-    _description = 'wizard.medical.encounter.add.amount'
+    _description = "wizard.medical.encounter.add.amount"
 
     def _default_product(self):
         product_id = (
@@ -114,6 +114,8 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
         )
         line.change_company_id()
         order.with_context(force_company=order.company_id.id).action_confirm()
+        for line in order.order_line:
+            line.qty_delivered = line.product_uom_qty
         invoice_ids = order.with_context(
             force_company=order.company_id.id
         ).action_invoice_create()

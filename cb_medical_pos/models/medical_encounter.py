@@ -141,6 +141,8 @@ class MedicalEncounter(models.Model):
                 )
             )
         sale_order.action_confirm()
+        for line in sale_order.order_line:
+            line.qty_delivered = line.product_uom_qty
         cash_vals = {}
         if not sale_order.third_party_order:
             model = "cash.invoice.out"
