@@ -19,7 +19,9 @@ class MedicalDocumentTemplate(models.Model):
         ondelete="cascade",
     )
     document_type = fields.Selection(
-        related="document_type_id.document_type", readonly=True
+        related="document_type_id.document_type",
+        readonly=True,
+        string="Document type reference",
     )
     sequence = fields.Integer()
     state = fields.Selection(
