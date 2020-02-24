@@ -4,11 +4,10 @@
 
 {
     "name": "CB Testing Invooicing",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": ["cb_test"],
-    "data": [],
-    "website": "https://github.com/OCA/vertical-medical",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "LGPL-3",
     "installable": True,
     "auto_install": False,

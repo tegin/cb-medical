@@ -414,6 +414,11 @@ class TestCBSale(TestCB):
             for line in sale_order.order_line:
                 self.assertFalse(line.agents)
             sale_orders |= sale_order
+        for sale_order in sale_orders:
+            import logging
+            logging.info(sale_order.company_id)
+            logging.info(sale_order.invoice_status)
+            logging.info(sale_order.confirmation_date)
         self.session.action_pos_session_close()
         self.assertTrue(self.session.request_group_ids)
         for encounter in self.session.encounter_ids:
