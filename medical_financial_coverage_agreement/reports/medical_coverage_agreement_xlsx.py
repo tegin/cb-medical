@@ -49,9 +49,10 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
             sheet = workbook.add_worksheet(report_name[:31])
             items = agreement._agreement_report_data()
             i = 0
-            th = max([self.tree_height(item) for item in items])
-            for item in items:
-                level = 0
-                sheet, i = self.generate_sub_tree(
-                    workbook, sheet, level, item, i, th
-                )
+            if items:
+                th = max([self.tree_height(item) for item in items])
+                for item in items:
+                    level = 0
+                    sheet, i = self.generate_sub_tree(
+                        workbook, sheet, level, item, i, th
+                    )
