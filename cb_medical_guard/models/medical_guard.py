@@ -118,6 +118,8 @@ class MedicalGuard(models.Model):
     def get_invoice(self):
         journal = self.location_id.guard_journal_id
         partner = self.practitioner_id
+        if partner.agent and partner.commission_agent_ids:
+            partner = partner.commission_agent_ids[0]
         if self.practitioner_id.commission_agent_ids:
             partner = self.practitioner_id.commission_agent_ids[0]
         inv = self.env["account.invoice"].search(
