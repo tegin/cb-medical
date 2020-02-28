@@ -408,7 +408,8 @@ class TestMedicalCoverageAgreement(TransactionCase):
         report_name = "cb_medical_financial_coverage_agreement.items_xslx"
         report = report_object._get_report_from_name(report_name)
 
-        rep = report.render(item.ids)
+        rep = report.with_context(xlsx_private=True).render(item.ids)
+
         wb = open_workbook(file_contents=rep[0])
         sheet = wb.sheet_by_index(0)
         self.assertEqual(sheet.cell(1, 1).value, item.product_id.name)
@@ -438,7 +439,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         report = report_object._get_report_from_name(report_name)
 
         rep = report.with_context(
-            active_model="medical.coverage.agreement"
+            active_model="medical.coverage.agreement", xlsx_private=True
         ).render(coverage_agreement.ids)
         wb = open_workbook(file_contents=rep[0])
         sheet = wb.sheet_by_index(0)
