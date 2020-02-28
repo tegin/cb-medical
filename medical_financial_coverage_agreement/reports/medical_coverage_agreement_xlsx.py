@@ -44,10 +44,11 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
         return sheet, i
 
     def generate_xlsx_report(self, workbook, data, agreements):
+        private = self.env.context.get('xlsx_private', False)
         for agreement in agreements:
             report_name = agreement.name
             sheet = workbook.add_worksheet(report_name[:31])
-            items = agreement._agreement_report_data()
+            items = agreement._agreement_report_data(private)
             i = 0
             if items:
                 th = max([self.tree_height(item) for item in items])
