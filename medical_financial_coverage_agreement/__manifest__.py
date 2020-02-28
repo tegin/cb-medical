@@ -14,6 +14,7 @@
         "medical_workflow",
         "sale",
         "report_xlsx",
+        "report_context",
     ],
     "website": "https://github.com/OCA/vertical-medical",
     "license": "LGPL-3",
