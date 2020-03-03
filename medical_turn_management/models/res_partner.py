@@ -8,5 +8,5 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     turn_specialty_ids = fields.Many2many(
-        'medical.turn.specialty',
+        'medical.turn.specialty', string="Specialties"
     )
