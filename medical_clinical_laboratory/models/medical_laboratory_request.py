@@ -15,7 +15,7 @@ class MedicalLaboratoryRequest(models.Model):
 
     internal_identifier = fields.Char(string="Laboratory request")
     laboratory_event_ids = fields.One2many(
-        string="Related Procedure",
+        string="Laboratory Events",
         comodel_name="medical.laboratory.event",
         inverse_name="laboratory_request_id",
         readonly=True,
