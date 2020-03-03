@@ -40,7 +40,7 @@ class SalePreinvoiceGroup(models.Model):
         readonly=True,
     )
     line_ids = fields.One2many(
-        string="Validated lines",
+        string="Lines",
         comodel_name="sale.order.line",
         inverse_name="preinvoice_group_id",
     )
