@@ -52,6 +52,7 @@ class CashSaleOrderOut(models.TransientModel):
         default=_default_journals,
         required=True,
         readonly=True,
+        string="Journals",
     )
     journal_id = fields.Many2one(
         "account.journal", required=True, default=_default_journal
