@@ -12,6 +12,7 @@ class MedicalLaboratoryRequest(models.Model):
         "medical.laboratory.service", readonly=True
     )
     laboratory_event_ids = fields.One2many(
+        string="Laboratory Events",
         states={
             "draft": [("readonly", False)],
             "active": [("readonly", False)],
