@@ -20,12 +20,14 @@ class SaleOrderLine(models.Model):
         relation="sale_order_line_commission_medical_laboratory_event",
         column1="sale_order_line_id",
         column2="laboratory_event_id",
+        string="Laboratory Events"
     )
     laboratory_request_ids = fields.Many2many(
         "medical.laboratory.event",
         relation="sale_order_line_commission_medical_laboratory_request",
         column1="sale_order_line_id",
         column2="laboratory_request_id",
+        string="Laboratory requests",
     )
 
     @api.multi
@@ -59,7 +61,7 @@ class SaleOrderLineAgent(models.Model):
         "medical.laboratory.event", string="Laboratory Event"
     )
     laboratory_request_id = fields.Many2one(
-        "medical.laboratory.request", string="Laboratory Event"
+        "medical.laboratory.request", string="Laboratory Request"
     )
     parent_agent_line_id = fields.Many2one(
         "sale.order.line.agent", readonly=True
