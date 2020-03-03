@@ -46,6 +46,7 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
     authorization_method_ids = fields.Many2many(
         "medical.authorization.method",
         compute="_compute_authorization_method_ids",
+        string="Authorization Methods",
     )
     authorization_format_id = fields.Many2one(
         "medical.authorization.format",
