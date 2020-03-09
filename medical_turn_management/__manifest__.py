@@ -24,5 +24,4 @@
         'views/medical_turn_specialty.xml',
         'views/medical_turn.xml',
     ],
-    'installable': False
 }
