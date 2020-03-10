@@ -24,7 +24,9 @@ class MedicalProcedure(models.Model):
     )
     procedure_service_id = fields.Many2one(
         related="procedure_request_id.service_id",
-        store=True, readonly=True, string="Procedure Service"
+        store=True,
+        readonly=True,
+        string="Procedure Service",
     )
     medical_commission = fields.Boolean(
         related="service_id.medical_commission", readonly=True
