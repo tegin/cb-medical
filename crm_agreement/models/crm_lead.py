@@ -78,7 +78,7 @@ class CrmLead(models.Model):
     def _onchange_partner_id_values(self, partner_id):
         result = super()._onchange_partner_id_values(partner_id)
         agreement_ids = []
-        if partner_id and not self.env.context.get('agreement_id'):
+        if partner_id and not self.env.context.get("agreement_id"):
             partner = self.env["res.partner"].browse(partner_id)
             templates = partner.commercial_partner_id.coverage_template_ids
             for agreement in self.agreement_ids:
