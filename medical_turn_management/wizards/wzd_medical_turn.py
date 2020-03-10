@@ -7,18 +7,16 @@ from datetime import timedelta
 
 class WzdMedicalTurn(models.TransientModel):
 
-    _name = 'wzd.medical.turn'
+    _name = "wzd.medical.turn"
 
-    turn_specialty_ids = fields.Many2many(
-        'medical.turn.specialty',
-    )
+    turn_specialty_ids = fields.Many2many("medical.turn.specialty")
     start_date = fields.Date(required=True)
     end_date = fields.Date(required=True)
 
     def _get_specialties(self):
         if self.turn_specialty_ids:
             return self.turn_specialty_ids
-        return self.env['medical.turn.specialty'].search([])
+        return self.env["medical.turn.specialty"].search([])
 
     @api.multi
     def doit(self):
@@ -26,6 +24,6 @@ class WzdMedicalTurn(models.TransientModel):
         specialties = self._get_specialties()
         specialties._execute_rules(
             fields.Date.from_string(self.start_date),
-            fields.Date.from_string(self.end_date) + timedelta(days=1)
+            fields.Date.from_string(self.end_date) + timedelta(days=1),
         )
         return {}
