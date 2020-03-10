@@ -11,22 +11,20 @@
     <record id="res_partner_view_form" model="ir.ui.view">
         <field name="name">res.partner.view.form</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="medical_financial_coverage.res_partner_view_form"/>
+        <field name="inherit_id" ref="cb_medical_financial_coverage_request.res_partner_view_form_payor"/>
         <field name="arch" type="xml">
-            <notebook position="inside">
-                <page name="payor" string="Payor" attrs="{'invisible': [('is_payor','=', False)]}">
-                    <group string="Invoice configuration" name="invoice">
-                        <group>
-                            <field name="show_patient"/>
-                            <field name="show_subscriber"/>
-                        </group>
-                        <group>
-                            <field name="show_authorization"/>
-                            <field name="invoice_nomenclature_id"/>
-                        </group>
+            <page name="payor" position="inside">
+                <group string="Invoice configuration" name="invoice">
+                    <group>
+                        <field name="show_patient"/>
+                        <field name="show_subscriber"/>
                     </group>
-                </page>
-            </notebook>
+                    <group>
+                        <field name="show_authorization"/>
+                        <field name="invoice_nomenclature_id"/>
+                    </group>
+                </group>
+            </page>
         </field>
     </record>
 
