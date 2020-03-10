@@ -17,8 +17,8 @@ class AccountBankStatementLine(models.Model):
         for st_line in self:
             company = st_line.statement_id.company_id
             if (
-                st_line.account_id and
-                st_line.account_id.company_id.id != company.id
+                st_line.account_id
+                and st_line.account_id.company_id.id != company.id
             ) or not st_line.sale_order_id:
                 super(
                     AccountBankStatementLine, st_line
