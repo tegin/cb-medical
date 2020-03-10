@@ -36,7 +36,6 @@ class ResConfigSettings(models.TransientModel):
     def set_values(self):
         res = super(ResConfigSettings, self).set_values()
         self.env["ir.config_parameter"].sudo().set_param(
-            "cb.def_third_party_product",
-            self.def_third_party_product.id,
+            "cb.def_third_party_product", self.def_third_party_product.id
         )
         return res
