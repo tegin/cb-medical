@@ -39,20 +39,20 @@ class MedicalAuthorizationMethod(models.Model):
         track_visibility=True,
     )
     integration_information = fields.Char()
-    authorization_web_id = fields.Many2one(
-        'medical.authorization.web',
-    )
+    authorization_web_id = fields.Many2one("medical.authorization.web")
 
     def _update_web_method(self, vals):
-        authorization_web_id = vals.get('authorization_web_id', False)
+        authorization_web_id = vals.get("authorization_web_id", False)
         if authorization_web_id:
-            authorization_web = self.env['medical.authorization.web'].browse(
+            authorization_web = self.env["medical.authorization.web"].browse(
                 authorization_web_id
             )
-            vals.update({
-                'integration_information': authorization_web.link,
-                'method_information': authorization_web.notes,
-            })
+            vals.update(
+                {
+                    "integration_information": authorization_web.link,
+                    "method_information": authorization_web.notes,
+                }
+            )
             return vals
         return vals
 
