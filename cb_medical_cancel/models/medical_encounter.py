@@ -6,8 +6,10 @@ class MedicalEncounter(models.AbstractModel):
     _inherit = "medical.encounter"
 
     cancel_reason_id = fields.Many2one(
-        "medical.cancel.reason", readonly=True,
-        track_visibility="onchange", string="Cancel reason"
+        "medical.cancel.reason",
+        readonly=True,
+        track_visibility="onchange",
+        string="Cancel reason",
     )
 
     @api.multi
