@@ -15,7 +15,7 @@
         "cb_medical_identifier",
     ],
     "data": [
-        'views/medical_authorization_web.xml',
+        "views/medical_authorization_web.xml",
         "data/medical_authorization_method_data.xml",
         "data/medical_authorization_format_data.xml",
         "security/medical_security.xml",
