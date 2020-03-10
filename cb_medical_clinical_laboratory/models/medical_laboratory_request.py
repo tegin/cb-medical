@@ -16,5 +16,5 @@ class MedicalLaboratoryRequest(models.Model):
         states={
             "draft": [("readonly", False)],
             "active": [("readonly", False)],
-        }
+        },
     )
