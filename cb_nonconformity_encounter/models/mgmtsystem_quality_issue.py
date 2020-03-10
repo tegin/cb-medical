@@ -6,11 +6,11 @@ from odoo import fields, models
 
 class MgmtsystemQualityIssue(models.Model):
 
-    _inherit = 'mgmtsystem.quality.issue'
+    _inherit = "mgmtsystem.quality.issue"
 
-    encounter_id = fields.Many2one('medical.encounter', readonly=True)
+    encounter_id = fields.Many2one("medical.encounter", readonly=True)
 
     def _create_non_conformity_vals(self):
         res = super()._create_non_conformity_vals()
-        res['encounter_id'] = self.encounter_id.id
+        res["encounter_id"] = self.encounter_id.id
         return res
