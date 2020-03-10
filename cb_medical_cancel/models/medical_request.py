@@ -5,7 +5,9 @@ from odoo.exceptions import ValidationError
 class MedicalRequest(models.AbstractModel):
     _inherit = "medical.request"
 
-    cancel_reason_id = fields.Many2one("medical.cancel.reason")
+    cancel_reason_id = fields.Many2one(
+        "medical.cancel.reason", string="Cancel reason"
+    )
 
     @api.constrains("state", "cancel_reason_id")
     def check_cancel_reason_state(self):
