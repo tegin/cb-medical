@@ -65,7 +65,8 @@ class MedicalCoverageAgreementItem(models.Model):
         comodel_name="medical.coverage.agreement",
         string="Medical agreement",
         index=True,
-        ondelete="cascade", auto_join=True,
+        ondelete="cascade",
+        auto_join=True,
         copy=False,
     )
     template_id = fields.Many2one(
@@ -185,9 +186,12 @@ class MedicalCoverageAgreementItem(models.Model):
                         "already has this product in another Agreement.\n\n"
                         "Conflictive agreement: [%s] %s\n"
                         "Conflictive product: %s"
-                    ) % (repeated.coverage_agreement_id.internal_identifier,
-                         repeated.coverage_agreement_id.display_name,
-                         repeated.product_id.name)
+                    )
+                    % (
+                        repeated.coverage_agreement_id.internal_identifier,
+                        repeated.coverage_agreement_id.display_name,
+                        repeated.product_id.name,
+                    )
                 )
 
     def _copy_agreement_vals(self, agreement):
