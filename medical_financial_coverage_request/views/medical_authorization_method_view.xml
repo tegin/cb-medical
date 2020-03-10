@@ -20,8 +20,9 @@
                         <field name="name"/>
                         <field name="description"/>
                         <field name="auxiliary_method_id"/>
+                        <field name="authorization_web_id"/>
                         <field name="integration_system"/>
-                        <field name="integration_information"/>
+                        <field name="integration_information" attrs="{'readonly': [('authorization_web_id', '!=', False)]}"/>
                     </group>
                     <group>
                         <group>
@@ -35,7 +36,7 @@
                         </group>
                     </group>
                     <group>
-                        <field name="method_information"/>
+                        <field name="method_information" attrs="{'readonly': [('authorization_web_id', '!=', False)]}"/>
                     </group>
                 </sheet>
             </form>
