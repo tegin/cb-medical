@@ -7,7 +7,7 @@ from odoo import api, fields, models, _
 
 class MedicalAgreementChangePrices(models.TransientModel):
     _name = "medical.agreement.change.prices"
-    _description = 'medical.agreement.change.prices'
+    _description = "medical.agreement.change.prices"
 
     difference = fields.Float(
         string="Indicate the percentage to apply to the agreement"

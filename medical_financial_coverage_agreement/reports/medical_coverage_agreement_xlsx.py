@@ -44,7 +44,7 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
         return sheet, i
 
     def generate_xlsx_report(self, workbook, data, agreements):
-        private = self.env.context.get('xlsx_private', False)
+        private = self.env.context.get("xlsx_private", False)
         for agreement in agreements:
             report_name = agreement.name
             sheet = workbook.add_worksheet(report_name[:31])
