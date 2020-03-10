@@ -3,7 +3,7 @@ from odoo import api, fields, models
 
 class MedicalDocumentReferenceChangeLanguage(models.TransientModel):
     _name = "medical.document.reference.change.language"
-    _description = 'medical document reference change language'
+    _description = "medical document reference change language"
 
     document_reference_id = fields.Many2one(
         "medical.document.reference", required=True, readonly=True
