@@ -18,6 +18,8 @@ class MedicalICD10PCSConcept(models.Model):
     """
 
     _name = "medical.icd10pcs.concept"
+    _description = "medical.icd10pcs.concept"
+
     code = fields.Char(compute="_compute_code", store=True, required=False)
     section_id = fields.Many2one("medical.icd10pcs.section", required=True)
     body_system_id = fields.Many2one(
