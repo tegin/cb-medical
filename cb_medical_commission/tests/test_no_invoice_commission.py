@@ -40,9 +40,7 @@ class TestNoInvoiceCommission(TransactionCase):
                             "invoice_group_method_id": self.group.id,
                             "product_id": self.product.id,
                             "product_uom_qty": 1.0,
-                            "product_uom": self.ref(
-                                "uom.product_uom_unit"
-                            ),
+                            "product_uom": self.ref("uom.product_uom_unit"),
                             "price_unit": self.product.lst_price,
                             "agents": [
                                 (
@@ -63,9 +61,7 @@ class TestNoInvoiceCommission(TransactionCase):
         sale_order.action_confirm()
         self.assertFalse(sale_order.order_line.agents.settled)
         wizard = self.env["sale.commission.no.invoice.make.settle"].create(
-            {
-                'date_to': fields.Datetime.now() + relativedelta(months=1)
-            }
+            {"date_to": fields.Datetime.now() + relativedelta(months=1)}
         )
         settlements = self.env["sale.commission.settlement"].browse(
             wizard.action_settle()["domain"][0][2]
@@ -84,9 +80,7 @@ class TestNoInvoiceCommission(TransactionCase):
                             "name": self.product.name,
                             "product_id": self.product.id,
                             "product_uom_qty": 1.0,
-                            "product_uom": self.ref(
-                                "uom.product_uom_unit"
-                            ),
+                            "product_uom": self.ref("uom.product_uom_unit"),
                             "price_unit": self.product.lst_price,
                             "agents": [
                                 (
