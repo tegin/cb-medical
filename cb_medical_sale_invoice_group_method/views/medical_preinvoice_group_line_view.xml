@@ -40,7 +40,7 @@
                 <field name="qty_invoiced"/>
                 <field name="qty_to_invoice"/>
                 <field name="product_uom" string="Unit of Measure"
-                       groups="product.group_uom"/>
+                       groups="uom.group_uom"/>
                 <field name="price_subtotal" sum="Total" widget="monetary"/>
                 <field name="state" invisible="1"/>
                 <field name="preinvoice_status" invisible="1"/>
