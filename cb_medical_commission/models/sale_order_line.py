@@ -20,7 +20,7 @@ class SaleOrderLine(models.Model):
         relation="sale_order_line_commission_medical_laboratory_event",
         column1="sale_order_line_id",
         column2="laboratory_event_id",
-        string="Laboratory Events"
+        string="Laboratory Events",
     )
     laboratory_request_ids = fields.Many2many(
         "medical.laboratory.event",
