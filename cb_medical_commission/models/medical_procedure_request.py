@@ -48,3 +48,13 @@ class MedicalProcedureRequest(models.Model):
         res = super().generate_event(*args, **kwargs)
         res.compute_commission(res.procedure_request_id)
         return res
+
+    def _update_related_activity_vals(self, vals, parent, plan, action):
+        res = super()._update_related_activity_vals(vals, parent, plan, action)
+        res.update(
+            {
+                "variable_fee": action.variable_fee,
+                "fixed_fee": action.fixed_fee,
+            }
+        )
+        return res
