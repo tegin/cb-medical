@@ -150,7 +150,7 @@ class MedicalRequest(models.AbstractModel):
                     ]
                 )._change_authorization(vals, **kwargs)
 
-    def _update_related_activity(self, vals, parent, plan, action):
+    def _update_related_activity_vals(self, vals, parent, plan, action):
         res = {}
         res["coverage_agreement_item_id"] = False
         res["coverage_agreement_id"] = False
@@ -180,4 +180,9 @@ class MedicalRequest(models.AbstractModel):
             res["authorization_method_id"] = cai.authorization_method_id.id
             vals = cai._check_authorization(cai.authorization_method_id, **res)
             res.update(vals)
-        self.write(res)
+        return res
+
+    def _update_related_activity(self, vals, parent, plan, action):
+        self.write(
+            self._update_related_activity_vals(vals, parent, plan, action)
+        )
