@@ -14,7 +14,7 @@
                     </group>
                     <group string="Agents" colspan="4">
                         <p colspan="4">(keep empty for making the settlement of all agents)</p>
-                        <field name="agents" nolabel="1" widget="many2many_list"/>
+                        <field name="agents" nolabel="1" />
                     </group>
                     <footer>
                         <button name="action_settle"
