@@ -23,8 +23,7 @@
                 </group>
                 <group string="Customers" colspan="4">
                     <p colspan="4">(keep empty for making the invoices of all the customers)</p>
-                    <field name="customer_ids" nolabel="1"
-                           widget="many2many_list" options="{'no_create': True}"/>
+                    <field name="customer_ids" nolabel="1" options="{'no_create': True}"/>
                 </group>
                 <footer>
                     <button name="invoice_sales_by_group"
