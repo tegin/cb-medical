@@ -31,6 +31,7 @@ class MedicalTurnSpecialty(models.Model):
 
 class MedicalTurnSpecialtyRule(models.Model):
     _name = "medical.turn.specialty.rule"
+    _description = "medical.turn.specialty.rule"
 
     turn_specialty_id = fields.Many2one(
         "medical.turn.specialty", required=True, ondelete="cascade"
