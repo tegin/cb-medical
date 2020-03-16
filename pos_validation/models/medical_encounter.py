@@ -110,6 +110,9 @@ class MedicalEncounter(models.Model):
 
     @api.multi
     def close_view(self):
+        import logging
+
+        logging.info("HOLA")
         # TODO: REvisar el history_back. no funciona
         actions = [{"type": "ir.actions.client", "tag": "history_back"}]
         if self.env.context.get("from_barcode_reader", False):
