@@ -6,8 +6,8 @@ from datetime import timedelta
 
 
 class WzdMedicalTurn(models.TransientModel):
-
     _name = "wzd.medical.turn"
+    _description = "wzd.medical.turn"
 
     turn_specialty_ids = fields.Many2many("medical.turn.specialty")
     start_date = fields.Date(required=True)
