@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_invoice_refund_lines" model="ir.ui.view">
+        <field name="name">account.invoice.refund.lines.form</field>
+        <field name="model">account.invoice.refund</field>
+        <field name="inherit_id" ref="account_invoice_refund_line_selection.view_account_invoice_refund_lines"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
+                <field name="patient_name"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
