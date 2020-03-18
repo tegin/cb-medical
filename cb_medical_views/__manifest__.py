@@ -10,6 +10,8 @@
         "barcode_action",
         "cb_medical_careplan_sale",
         "l10n_es_partner",
+        "account_invoice_refund_line_selection",
+        "cb_medical_sale_invoice",
     ],
     "data": [
         "security/medical_encounter_create_group.xml",
@@ -21,6 +23,7 @@
         "views/medical_menu.xml",
         "views/res_partner_views.xml",
         "views/sale_order_view.xml",
+        "wizards/account_invoice_refund_view.xml",
     ],
     "website": "https://github.com/tegin/cb-addons",
     "license": "LGPL-3",
