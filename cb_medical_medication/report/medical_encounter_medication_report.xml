@@ -13,15 +13,15 @@
         <t t-call="web.html_container">
             <div class="header">
                 <div class="row">
-                    <div class="col-xs-3 mb4">
+                    <div class="col-3 mb4">
                         <img t-if="company.logo"
                              t-att-src="'data:image/png;base64,%s' % to_text(company.logo)"
                              style="max-height: 45px;"/>
                     </div>
-                    <div class="col-xs-9 text-left" style="margin-top:22px;">
+                    <div class="col-9 text-left" style="margin-top:22px;">
                         Consumed material
                     </div>
-                    <div class="col-xs-12">
+                    <div class="col-12">
                     <div style="border-bottom: 1px solid black;"/>
                 </div>
                 </div>
