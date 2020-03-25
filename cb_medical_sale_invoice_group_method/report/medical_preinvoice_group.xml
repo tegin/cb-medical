@@ -14,32 +14,32 @@
                 <div class="page">
                     <t t-foreach="docs" t-as="o">
                         <div class="row">
-                            <div class="col-xs-8">
+                            <div class="col-8">
                                 <h2>
                                     <span>List:</span>
                                     <span t-field="o.internal_identifier"/>
                                 </h2>
                             </div>
-                            <div class="col-xs-4">srv
+                            <div class="col-4">srv
                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.internal_identifier, 600, 100)"
                                     style="width:300px;height:50px" class="pull-right mb16"/>
                             </div>
-                            <div class="col-xs-2">
+                            <div class="col-2">
                                 <span>Partner</span>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-4">
                                 <span t-field="o.partner_id.name"/>
                             </div>
-                            <div class="col-xs-2">
+                            <div class="col-2">
                                 <span>Company</span>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-4">
                                 <span t-field="o.company_id.name"/>
                             </div>
-                            <div class="col-xs-2">
+                            <div class="col-2">
                                 <span>Coverage Template</span>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-4">
                                 <span t-field="o.coverage_template_id.name"/>
                             </div>
                         </div>
