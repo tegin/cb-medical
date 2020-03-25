@@ -3,19 +3,19 @@
     <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
         <xpath expr="//div[@id='informations']" position="after">
             <div class="row mt32 mb32" t-if="doc.coverage_agreement_id">
-                <div t-if="doc.encounter_id" class="col-xs-3">
+                <div t-if="doc.encounter_id" class="col-3">
                     <strong>Encounter:</strong>
                     <p t-field="doc.encounter_id"/>
                 </div>
-                <div t-if="doc.patient_name" class="col-xs-3">
+                <div t-if="doc.patient_name" class="col-3">
                     <strong>Patient:</strong>
                     <p t-field="doc.patient_name"/>
                 </div>
-                <div t-if="doc.encounter_id" class="col-xs-3">
+                <div t-if="doc.encounter_id" class="col-3">
                     <strong>Admission Date:</strong>
                     <p t-field="doc.encounter_id.create_date" t-options="{'widget': 'date'}"/>
                 </div>
-                <div t-if="doc.subscriber_id" class="col-xs-3">
+                <div t-if="doc.subscriber_id" class="col-3">
                     <strong>Subscriber:</strong>
                     <p t-field="doc.subscriber_id"/>
                 </div>
