@@ -44,6 +44,18 @@
                 <filter name="pending_to_assign" domain="[('practitioner_id', '=', False)]" string="Pending to assign"/>
                 <separator/>
                 <filter name="my_turns" domain="[('practitioner_id.user_ids', 'in', [uid])]" string="Mine"/>
+                <separator/>
+                <filter name="from_today" string="From Today"
+                        domain="[('date', '&gt;=', context_today().strftime('%Y-%m-%d'))]"
+                />
+                <filter name="this_month" string="This Month"
+                        domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01')),
+                         ('date', '&lt;', (context_today()+datetime.timedelta(days=31)).strftime('%Y-%m-01'))]"
+                />
+                <filter name="next_month" string="Next Month"
+                        domain="[('date', '&gt;=', (context_today()+datetime.timedelta(days=31)).strftime('%Y-%m-01')),
+                         ('date', '&lt;', (context_today()+datetime.timedelta(days=62)).strftime('%Y-%m-01'))]"
+                />
             </search>
         </field>
     </record>
