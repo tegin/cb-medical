@@ -19,6 +19,7 @@
         "web_flagbox",
         "web_ir_actions_act_multi",
         "cb_medical_clinical_laboratory",
+        "web_history_back",
     ],
     "data": [
         "wizards/medical_encounter_validation_add_service.xml",
