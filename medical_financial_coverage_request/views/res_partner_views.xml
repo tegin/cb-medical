@@ -30,6 +30,7 @@
                 <page name="payor" string="Payor" attrs="{'invisible': [('is_payor','=', False)]}">
                     <group string="Integration" name="integration">
                         <field name="authorization_web_id"/>
+                        <field name="authorization_information"/>
                     </group>
                 </page>
             </notebook>
