@@ -6,3 +6,4 @@ class ResPartner(models.Model):
 
     integer_center_identifier = fields.Integer()
     authorization_web_id = fields.Many2one("medical.authorization.web")
+    authorization_information = fields.Text()
