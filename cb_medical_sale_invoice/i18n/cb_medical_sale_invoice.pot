@@ -1,63 +1,61 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* cb_medical_sale_invoice
+#	* cb_medical_sale_invoice
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-01 07:16+0000\n"
-"PO-Revision-Date: 2020-04-01 09:19+0200\n"
+"PO-Revision-Date: 2020-04-01 07:16+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.0.6\n"
 
 #. module: cb_medical_sale_invoice
 #: model_terms:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document_inherit_medical_invoice
 msgid "<strong>Invoicing address:</strong>"
-msgstr "<strong>Dirección de facturación:</strong>"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model_terms:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document
 msgid "Authorization"
-msgstr "Autorización"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line__authorization_number
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_sale_order_line__authorization_number
 msgid "Authorization Number"
-msgstr "Número de autorización"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_res_partner
 msgid "Contact"
-msgstr "Contacto"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_medical_coverage_agreement
 msgid "Coverage Agreement"
-msgstr "Oferta"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model_terms:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document
 msgid "Date"
-msgstr "Fecha"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_coverage_agreement__discount
 msgid "Discount"
-msgstr "Descuento"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice__encounter_id
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line__encounter_id
 msgid "Encounter"
-msgstr "Afiliación"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_coverage_agreement__file_reference
@@ -72,7 +70,7 @@ msgstr ""
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_account_invoice
 msgid "Invoice"
-msgstr "Factura"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_encounter__invoice_count
@@ -82,38 +80,38 @@ msgstr ""
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_account_invoice_line
 msgid "Invoice Line"
-msgstr "Linea de Factura"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_medical_encounter__invoice_line_ids
 msgid "Invoice Lines"
-msgstr "Líneas de la factura"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model_terms:ir.ui.view,arch_db:cb_medical_sale_invoice.res_partner_view_form
 msgid "Invoice configuration"
-msgstr "Configuracion de facturas"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model_terms:ir.ui.view,arch_db:cb_medical_sale_invoice.medical_encounter_view_form
 msgid "Invoices"
-msgstr "Facturas"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice__is_medical
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line__is_medical
 msgid "Is Medical"
-msgstr "Es Médico"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_medical_encounter
 msgid "Medical Encounter"
-msgstr "Afiliación"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_medical_laboratory_event
 msgid "Medical Laboratory Event"
-msgstr "Evento de laboratorio"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_medical_request
@@ -125,32 +123,32 @@ msgstr ""
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_partner__invoice_nomenclature_id
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_users__invoice_nomenclature_id
 msgid "Nomenclature"
-msgstr "Nomenclatura"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,help:cb_medical_sale_invoice.field_medical_patient__invoice_nomenclature_id
 #: model:ir.model.fields,help:cb_medical_sale_invoice.field_res_partner__invoice_nomenclature_id
 #: model:ir.model.fields,help:cb_medical_sale_invoice.field_res_users__invoice_nomenclature_id
 msgid "Nomenclature for invoices"
-msgstr "Nomenclatura de facturas"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.ui.menu,name:cb_medical_sale_invoice.nomenclature_menu
 msgid "Nomenclatures"
-msgstr "Nomenclaturas"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line__patient_id
 #: model_terms:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document
 msgid "Patient"
-msgstr "Paciente"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line__patient_name
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_sale_order__patient_name
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_sale_order_line__patient_name
 msgid "Patient Name"
-msgstr "Nombre del paciente"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_sale_order
@@ -160,7 +158,7 @@ msgstr ""
 #. module: cb_medical_sale_invoice
 #: model:ir.model,name:cb_medical_sale_invoice.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Línea de pedido de ventas"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice__show_authorization
@@ -168,7 +166,7 @@ msgstr "Línea de pedido de ventas"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_partner__show_authorization
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_users__show_authorization
 msgid "Show Authorization"
-msgstr "Mostrar autorización"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice__show_patient
@@ -176,7 +174,7 @@ msgstr "Mostrar autorización"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_partner__show_patient
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_users__show_patient
 msgid "Show Patient"
-msgstr "Mostrar paciente"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice__show_subscriber
@@ -184,7 +182,7 @@ msgstr "Mostrar paciente"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_partner__show_subscriber
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_res_users__show_subscriber
 msgid "Show Subscriber"
-msgstr "Mostrar número de asegurado"
+msgstr ""
 
 #. module: cb_medical_sale_invoice
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_account_invoice_line__subscriber_id
@@ -192,4 +190,5 @@ msgstr "Mostrar número de asegurado"
 #: model:ir.model.fields,field_description:cb_medical_sale_invoice.field_sale_order_line__subscriber_id
 #: model_terms:ir.ui.view,arch_db:cb_medical_sale_invoice.report_invoice_document
 msgid "Subscriber"
-msgstr "Asegurado"
+msgstr ""
+
