@@ -53,7 +53,9 @@ class PosSession(models.Model):
     def create(self, vals):
         if vals.get("internal_identifier", "/") == "/":
             vals["internal_identifier"] = self.get_internal_identifier(vals)
-        return super(PosSession, self).create(vals)
+        return super(
+            PosSession, self.with_context(ignore_balance_start=True)
+        ).create(vals)
 
     @api.multi
     def action_view_encounters(self):
