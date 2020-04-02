@@ -9,3 +9,4 @@ from . import sale_order
 from . import medical_encounter
 from . import pos_config
 from . import res_company
+from . import account_bank_statement
