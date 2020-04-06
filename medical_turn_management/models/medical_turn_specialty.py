@@ -9,12 +9,14 @@ from datetime import time, datetime, timedelta
 
 class MedicalTurnSpecialty(models.Model):
     _name = "medical.turn.specialty"
-    _description = "Turn Specialty"  # TODO
+    _description = "Turn Specialty"
 
     name = fields.Char(required=True)
     active = fields.Boolean(default=True)
     rule_ids = fields.One2many(
-        "medical.turn.specialty.rule", inverse_name="turn_specialty_id"
+        "medical.turn.specialty.rule",
+        inverse_name="turn_specialty_id",
+        copy=True,
     )
 
     def _execute_rules(self, start_date, end_date):
