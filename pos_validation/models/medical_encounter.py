@@ -169,7 +169,9 @@ class MedicalEncounter(models.Model):
             for line in sale_order.order_line:
                 line.write({"qty_delivered": line.product_uom_qty})
             # We assume that private SO are already confirmed
-            self.create_invoice(sale_order)
+            self.with_context(
+                mail_auto_subscribe_no_notify=True
+            ).create_invoice(sale_order)
         # Third party orders should be confirmed
         for sale_order in self.sale_order_ids.filtered(
             lambda r: r.third_party_order
