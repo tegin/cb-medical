@@ -19,6 +19,12 @@ class MedicalTurnSpecialty(models.Model):
         copy=True,
     )
 
+    practitioner_ids = fields.Many2many(
+        "res.partner",
+        string="Practitioners",
+        domain=[("is_practitioner", "=", True)],
+    )
+
     def _execute_rules(self, start_date, end_date):
         results = self.env["medical.turn"]
         rules = self.mapped("rule_ids")
