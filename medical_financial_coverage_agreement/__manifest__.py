@@ -25,6 +25,7 @@
         "reports/agreement_report.xml",
         "reports/agreement_compare_report.xml",
         "reports/medical_coverage_agreement_xlsx.xml",
+        "reports/medical_coverage_agreement_xlsx_private.xml",
         "data/medical_coverage_agreement.xml",
         "wizards/medical_coverage_agreement_template_views.xml",
         "wizards/medical_agreement_change_prices_views.xml",
