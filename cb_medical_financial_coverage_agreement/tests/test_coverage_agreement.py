@@ -435,11 +435,13 @@ class TestMedicalCoverageAgreement(TransactionCase):
             }
         )
 
-        report_name = "cb_medical_financial_coverage_agreement.mca_xlsx"
+        report_name = (
+            "cb_medical_financial_coverage_agreement.mca_xlsx_private"
+        )
         report = report_object._get_report_from_name(report_name)
 
         rep = report.with_context(
-            active_model="medical.coverage.agreement", xlsx_private=True
+            active_model="medical.coverage.agreement"
         ).render(coverage_agreement.ids)
         wb = open_workbook(file_contents=rep[0])
         sheet = wb.sheet_by_index(0)
