@@ -9,14 +9,12 @@
     />
 
     <template id="report_medical_encounter_material">
-        <t t-set="company" t-value="docs.env.user.company_id"/>
+<t t-set="company" t-value="docs.env.user.company_id"/>
         <t t-call="web.html_container">
             <div class="header">
                 <div class="row">
                     <div class="col-3 mb4">
-                        <img t-if="company.logo"
-                             t-att-src="'data:image/png;base64,%s' % to_text(company.logo)"
-                             style="max-height: 45px;"/>
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 45px;"/>
                     </div>
                     <div class="col-9 text-left" style="margin-top:22px;">
                         Consumed material
@@ -29,59 +27,53 @@
             <div class="article o_report_layout_standard">
                 <t t-foreach="docs" t-as="o">
                     <div class="page">
-                        <h2>
-                            <span t-field="o.internal_identifier"/>
-                        </h2>
                         <h4>
+                            <span t-field="o.internal_identifier"/>
+                        </h4>
+                        <h6>
                             <span>Patient:</span>
                             <span t-field="o.patient_id.name"/>
-                        </h4>
-                        <h4>
+                        </h6>
+                        <h6>
                             <span>Total:</span>
                             <span t-esc="sum(i.price*i.qty for i in o.medication_item_ids)" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
-                        </h4>
-                        <t t-foreach="o.medication_item_ids.mapped('location_id')"
-                           t-as="location">
-                            <h3>
+                        </h6>
+                        <t t-foreach="o.medication_item_ids.mapped('location_id')" t-as="location">
+                            <h5>
                                 <span>Location:</span>
                                 <span t-field="location.name"/>
-                            </h3>
-                            <t t-set="items"
-                               t-value="o.medication_item_ids.filtered(lambda r: r.location_id == location and not r.is_phantom)"/>
-                            <t t-foreach="items.mapped('categ_id')"
-                               t-as="categ">
-                                <t t-set="categ_items"
-                                   t-value="items.filtered(lambda r: r.categ_id == categ)"/>
-                                <h4>
+                            </h5>
+                            <t t-set="items" t-value="o.medication_item_ids.filtered(lambda r: r.location_id == location and not r.is_phantom)"/>
+                            <t t-foreach="items.mapped('categ_id')" t-as="categ">
+                                <t t-set="categ_items" t-value="items.filtered(lambda r: r.categ_id == categ)"/>
+                                <h6>
                                     <span>Category:</span>
                                     <span t-field="categ.category_product_id.name"/>
-                                </h4>
+                                </h6>
                                 <div class="row">
-                                    <table class="table table-condensed mt32">
+                                    <table class="table table-condensed mt32" style="font-size: 12px;">
                                         <thead>
                                             <tr>
-                                                <th class="text-left">Product
+                                                <th class="text-left" style="padding: 1px;">Product
                                                 </th>
-                                                <th class="text-right">
+                                                <th class="text-right" style="padding: 1px;">
                                                     Quantity
                                                 </th>
-                                                <th class="text-right">Price
+                                                <th class="text-right" style="padding: 1px;">Price
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <t t-foreach="categ_items"
-                                               t-as="item">
+                                            <t t-foreach="categ_items" t-as="item">
                                                 <tr>
-                                                    <td>
+                                                    <td style="padding: 1px;">
                                                         <span t-field="item.product_id.name"/>
                                                     </td>
-                                                    <td style="text-align:right">
+                                                    <td style="text-align:right; padding: 1px;">
                                                         <span t-field="item.qty"/>
                                                     </td>
-                                                    <td style="text-align:right">
-                                                        <span t-field="item.price"
-                                                              t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                                    <td style="text-align:right; padding: 1px;">
+                                                        <span t-field="item.price" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
                                                     </td>
                                                 </tr>
                                             </t>
@@ -94,8 +86,7 @@
                                                 <td/>
                                                 <td style="text-align:right">
                                                     <strong>
-                                                        <span t-esc="sum(i.price*i.qty for i in categ_items)"
-                                                              t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                                        <span t-esc="sum(i.price*i.qty for i in categ_items)" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
                                                     </strong>
                                                 </td>
                                             </tr>
