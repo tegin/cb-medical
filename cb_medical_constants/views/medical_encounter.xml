@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="medical_encounter_view_form">
+        <field name="name">medical.encounter.form (in cb_medical_constants)</field>
+        <field name="model">medical.encounter</field>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="get_constants_chart" string="Constants Chart" type="object" class="oe_stat_button" icon="fa-heartbeat"/>
+            </div>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_encounter_graph_view_form">
+        <field name="name">medical.encounter.form (in cb_medical_constants)</field>
+        <field name="model">medical.encounter</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <center>
+                        <field name="constants_chart" widget="bokeh_chart"/>
+                        <button name="get_constants_chart" string="Update Constants Chart" type="object" class="btn btn-primary"/>
+                    </center>
+                </sheet>
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="medical_encounter_action">
+        <field name="name">Encounters</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.encounter</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+            <field name="view_ids" eval="[(5,0,0),
+                          (0,0,{'view_mode':'form', 'view_id': ref('medical_encounter_graph_view_form')})]"/>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

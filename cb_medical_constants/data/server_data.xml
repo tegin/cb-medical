@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Medical Constants Server -->
+        <record id="medical_constants_server" model="ir.config_parameter" forcecreate="True">
+            <field name="key">medical.constants.server</field>
+            <field name="value">http://localhost:8080</field>
+        </record>
+        <!-- Medical Constants Path -->
+        <record id="medical_constants_path" model="ir.config_parameter" forcecreate="True">
+            <field name="key">medical.constants.path</field>
+            <field name="value">/constants/get</field>
+        </record>
+    </data>
+</odoo>
