@@ -7,10 +7,11 @@
     <record model="ir.ui.view" id="medical_encounter_view_form">
         <field name="name">medical.encounter.form (in cb_medical_constants)</field>
         <field name="model">medical.encounter</field>
+        <field name="inherit_id" ref="medical_administration_encounter.medical_encounter_view_form"/>
         <field name="arch" type="xml">
-            <div name="button_box" position="inside">
+            <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="get_constants_chart" string="Constants Chart" type="object" class="oe_stat_button" icon="fa-heartbeat"/>
-            </div>
+            </xpath>
         </field>
     </record>
 
