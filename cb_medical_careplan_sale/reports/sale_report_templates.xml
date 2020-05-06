@@ -26,7 +26,7 @@
         </xpath>
         <xpath expr="//td[2]" position="before">
             <td class="text-right" t-if="doc.coverage_agreement_id">
-                <span t-field="l.authorization_number"/>
+                <span t-field="line.authorization_number"/>
             </td>
         </xpath>
     </template>
