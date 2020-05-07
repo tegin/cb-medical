@@ -10,7 +10,7 @@ from odoo.tools import float_compare
 class MedicalCoverageAgreementItem(models.Model):
     _name = "medical.coverage.agreement.item"
     _description = "Medical Coverage Agreement Item"
-    _rec_name = "product_id"
+    _rec_name = "name"
 
     def _default_coverage_percentage(self):
         agreement_id = self.env.context.get(
@@ -39,7 +39,9 @@ class MedicalCoverageAgreementItem(models.Model):
         ondelete="restrict",
         domain=[("type", "=", "service"), ("sale_ok", "=", True)],
         required=True,
+        auto_join=True,  # In order to improve search time
     )
+    name = fields.Char(related="product_id.name", store=False)
 
     default_code = fields.Char(
         related="product_id.default_code",
