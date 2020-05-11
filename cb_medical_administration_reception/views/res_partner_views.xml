@@ -48,7 +48,7 @@
                 </button>
             </div>
             <field name="center_id" position="attributes">
-                <attribute name="attrs">{'invisible': [('is_location','=',False), ('is_reception', '=', False)], 'required': ['|',('is_location', '=', True), ('is_reception', '=', True)], 'readonly': [('edit_location', '!=', True)]}</attribute>
+                <attribute name="attrs">{'invisible': [('is_location','=',False), ('is_reception', '=', False)], 'required': ['|',('is_location', '=', True), ('is_reception', '=', True)]}</attribute>
             </field>
         </field>
     </record>
