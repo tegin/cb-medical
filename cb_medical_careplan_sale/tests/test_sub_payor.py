@@ -13,16 +13,6 @@ class TestMedicalSubPayor(TransactionCase):
             {"name": "Payor", "is_payor": True}
         )
 
-    def test_sub_payor(self):
-        sub_payor = self.env["res.partner"].create(
-            {
-                "name": "Sub Payor",
-                "is_sub_payor": True,
-                "payor_id": self.payor.id,
-            }
-        )
-        self.assertTrue(sub_payor.edit_sub_payor)
-
     def test_constrain(self):
         with self.assertRaises(ValidationError):
             self.env["res.partner"].create(
