@@ -8,7 +8,7 @@
 
 <odoo>
 
-   <record id="res_partner_view_form" model="ir.ui.view">
+    <record id="res_partner_view_form" model="ir.ui.view">
         <field name="name">res.partner.view.form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="sale_commission.view_partner_form_agent"/>
@@ -19,18 +19,30 @@
                       attrs="{'invisible': ['|', ('is_practitioner', '=', False), ('agent', '=', False)]}"
                       groups="medical_administration_practitioner.group_medical_practitioner_manager">
                     <field name="commission_agent_ids"
-                           nolabel="1"
-                           attrs="{'readonly': [('edit_practitioner', '=', False)]}" options="{'no_create': True}"/>
+                           nolabel="1" options="{'no_create': True}"/>
                 </page>
                 <page name="practitoner_condition" string="Practitioner conditions"
                       attrs="{'invisible': ['|', ('is_practitioner', '=', False), ('agent', '=', False)]}"
                       groups="medical_administration_practitioner.group_medical_practitioner_manager">
                     <field name="practitioner_condition_ids"
-                           nolabel="1"
-                           attrs="{'readonly': [('edit_practitioner', '=', False)]}"/>
+                           nolabel="1"/>
                 </page>
             </notebook>
         </field>
     </record>
 
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="sale_commission.view_partner_form_agent"/>
+        <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman')), (4, ref('medical_administration_practitioner.group_medical_practitioner_manager'))]"/>
+        <field name="arch" type="xml">
+                <field name="commission_agent_ids" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field>
+                <field name="practitioner_condition_ids" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field>
+        </field>
+    </record>
 </odoo>
