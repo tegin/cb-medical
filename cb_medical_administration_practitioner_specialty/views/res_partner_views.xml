@@ -21,7 +21,7 @@
                     position="after">
                 <field name="practitioner_role_id"
                        options="{'no_create': True}"
-                       attrs="{'required': [('is_practitioner','=',True)], 'invisible': [('is_practitioner','=',False)],'readonly':[('edit_practitioner', '=', False)]}"
+                       attrs="{'required': [('is_practitioner','=',True)], 'invisible': [('is_practitioner','=',False)]}"
                        groups="medical_administration_practitioner.group_medical_practitioner_display"/>
             </field>
             <field name="specialty_ids"
@@ -33,8 +33,23 @@
                     position="after">
                 <field name="specialty_required" invisible="True"/>
                 <field name="specialty_id" options="{'no_create': True}"
-                       attrs="{'invisible': [('is_practitioner','=',False)],'readonly':[('edit_practitioner', '=', False)], 'required': [('specialty_required', '=', True)]}"
+                       attrs="{'invisible': [('is_practitioner','=',False)], 'required': [('specialty_required', '=', True)]}"
                        groups="medical_administration_practitioner.group_medical_practitioner_display"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="res_partner_view_edit_form" model="ir.ui.view">
+    <field name="name">res.partner.view.form</field>
+    <field name="model">res.partner</field>
+    <field name="groups_id" eval="[(4, ref('medical_administration_practitioner.group_medical_practitioner_manager'))]"/>
+    <field name="inherit_id" ref="cb_medical_administration_practitioner_specialty.res_partner_view_form"/>
+        <field name="arch" type="xml">
+            <field name="practitioner_role_id" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </field>
+            <field name="specialty_id" position="attributes">
+                <attribute name="readonly">0</attribute>
             </field>
         </field>
     </record>
