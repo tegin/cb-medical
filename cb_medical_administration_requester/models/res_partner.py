@@ -6,27 +6,9 @@ from odoo import api, models, fields
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    @api.model
-    def _default_edit_requester(self):
-        return (
-            self.env["res.users"]
-            .browse(self.env.uid)
-            .has_group(
-                "cb_medical_administration_requester."
-                "group_medical_requester_manager"
-            )
-        )
-
     college_number = fields.Char()
     is_requester = fields.Boolean()
-    edit_requester = fields.Boolean(
-        default=_default_edit_requester, compute="_compute_edit_requester"
-    )
     requester_identifier = fields.Char(readonly=True)
-
-    def _compute_edit_requester(self):
-        for record in self:
-            record.edit_requester = self._default_edit_requester()
 
     @api.model
     def _get_medical_identifiers(self):
