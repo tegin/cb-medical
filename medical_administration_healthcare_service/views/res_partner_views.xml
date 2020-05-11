@@ -16,7 +16,6 @@
             <xpath expr="//h1" position="before">
                 <h1>
                     <field name="is_healthcare_service" invisible="1"/>
-                    <field name="edit_healthcare_service" invisible="1"/>
                     <field name="healthcare_service_identifier"
                            attrs="{'invisible': [('is_healthcare_service','=',False)]}"
                            groups="medical_administration_healthcare_service.group_medical_healthcare_service_display"
