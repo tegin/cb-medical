@@ -263,8 +263,9 @@ class TestCB(TransactionCase):
             default_request_group_id=group.id
         ).create({"agreement_line_id": self.agreement_line3.id}).run()
         group.procedure_request_ids.refresh()
+
         requests = group.procedure_request_ids.filtered(
-            lambda r: r.state == "draft"
+            lambda r: r.state == "cancelled"
         )
         self.assertTrue(requests)
         for child in requests:

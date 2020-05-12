@@ -99,7 +99,8 @@ class MedicalRequest(models.AbstractModel):
                     if len(activities[child.activity_definition_id.id]) == 0:
                         del activities[child.activity_definition_id.id]
                 elif child.can_deactivate:
-                    child.toggle_active()
+                    child.cancel()
+                    # child.toggle_active()
                 else:
                     raise ValidationError(_("Plans cannot be interchanged"))
         return relations
