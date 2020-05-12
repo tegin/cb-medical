@@ -11,29 +11,12 @@ class ResPartner(models.Model):
     # (https://www.hl7.org/fhir/coverage-definitions.html#Coverage.payor)
     _inherit = "res.partner"
 
-    @api.model
-    def _default_edit_sub_payor(self):
-        return (
-            self.env["res.users"]
-            .browse(self.env.uid)
-            .has_group(
-                "medical_financial_coverage." "group_medical_payor_manager"
-            )
-        )
-
     is_sub_payor = fields.Boolean(default=False)
-    edit_sub_payor = fields.Boolean(
-        default=_default_edit_sub_payor, compute="_compute_edit_sub_payor"
-    )
     sub_payor_identifier = fields.Char(readonly=True)  # FHIR Field: identifier
     payor_id = fields.Many2one(
         "res.partner", string="Payor", domain=[("is_payor", "=", True)]
     )
     sub_payor_ids = fields.One2many("res.partner", inverse_name="payor_id")
-
-    def _compute_edit_sub_payor(self):
-        for record in self:
-            record.edit_sub_payor = self._default_edit_sub_payor()
 
     @api.constrains("is_sub_payor", "payor_id")
     def _check_subpayor(self):

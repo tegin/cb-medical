@@ -11,29 +11,10 @@ class ResPartner(models.Model):
     #  (https://www.hl7.org/fhir/healthcareservice.html)
     _inherit = "res.partner"
 
-    @api.model
-    def _default_edit_healthcare_service(self):
-        return (
-            self.env["res.users"]
-            .browse(self.env.uid)
-            .has_group(
-                "medical_administration_healthcare_service."
-                "group_medical_healthcare_service_manager"
-            )
-        )
-
     is_healthcare_service = fields.Boolean(default=False)
-    edit_healthcare_service = fields.Boolean(
-        default=_default_edit_healthcare_service,
-        compute="_compute_edit_healthcare_service",
-    )
     healthcare_service_identifier = fields.Char(
         readonly=True
     )  # FHIR Field: identifier
-
-    def _compute_edit_healthcare_service(self):
-        for r in self:
-            r.edit_healthcare_service = self._default_edit_healthcare_service()
 
     @api.model
     def _get_medical_identifiers(self):
