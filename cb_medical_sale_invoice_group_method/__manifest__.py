@@ -15,6 +15,7 @@
         "sale_merge_draft_invoice",
     ],
     "data": [
+        "views/medical_authorization_method.xml",
         "data/medical_invoice_group.xml",
         "data/medical_preinvoice_group_sequence.xml",
         "security/medical_security.xml",
@@ -27,6 +28,7 @@
         "views/medical_preinvoice_group_line_view.xml",
         "views/res_company_views.xml",
         "views/sale_order_view.xml",
+        "views/medical_coverage_agreement_item_view.xml",
         "views/medical_preinvoice_group_views.xml",
         "report/medical_preinvoice_group.xml",
     ],
