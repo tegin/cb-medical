@@ -10,3 +10,4 @@ from . import res_company
 from . import sale_order
 from . import sale_order_line
 from . import sale_preinvoice_group
+from . import medical_authorization_method
