@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+
+<odoo>
+
+    <record id="medical_coverage_agreement_item_view_tree" model="ir.ui.view">
+        <field name="name">medical.coverage.agreement.item.tree</field>
+        <field name="model">medical.coverage.agreement.item</field>
+        <field name="inherit_id"
+               ref="cb_medical_financial_coverage_request.medical_coverage_agreement_item_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="authorization_method_id" position="after">
+                <field name="invoice_group_method_id" options="{'no_create': True, 'no_open': True}"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
