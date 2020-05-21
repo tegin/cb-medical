@@ -6,4 +6,3 @@ from . import test_check_authorization
 from . import test_coverage
 from . import test_encounter_sequence
 from . import test_wizard
-from . import test_authorization_method
