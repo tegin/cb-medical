@@ -1,7 +1,7 @@
 # Copyright 2020 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalAuthorizationWeb(models.Model):
@@ -18,15 +18,3 @@ class MedicalAuthorizationWeb(models.Model):
         inverse_name="authorization_web_id",
         readonly=True,
     )
-
-    @api.multi
-    def write(self, vals):
-        res = super().write(vals)
-        for record in self:
-            record.authorization_method_ids.write(
-                {
-                    "integration_information": record.link,
-                    "method_information": record.notes,
-                }
-            )
-        return res
