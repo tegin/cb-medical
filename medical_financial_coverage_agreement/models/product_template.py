@@ -9,6 +9,8 @@ class ProductTemplate(models.Model):
 
     include_zero_sales = fields.Boolean(default=False)
 
+    agreement_comment = fields.Text("Agreement Comment")
+
     @api.multi
     def write(self, vals):
         res = super().write(vals)
