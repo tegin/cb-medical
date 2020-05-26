@@ -47,6 +47,9 @@
                    <label for="include_zero_sales" />
                </div>
            </xpath>
+           <field name="categ_id" position="after">
+                <field name="agreement_comment"/>
+            </field>
        </field>
    </record>
 
