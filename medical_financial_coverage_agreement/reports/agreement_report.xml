@@ -39,7 +39,8 @@
                     <span t-esc="'%s [%s]' % (child['nomenclature'].code, child['product'].default_code)" t-if="child['nomenclature']"/>
                 </td>
                 <td>
-                    <span t-esc="child['product'].name"/>
+                    <div><span t-esc="child['product'].name"/></div>
+                    <div t-if="child['item'].item_comment"><span t-esc="child['item'].item_comment"/></div>
                 </td>
                 <td style="text-align:right">
                     <span t-esc="child['item'].coverage_price" t-if="print_coverage" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/>
