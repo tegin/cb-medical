@@ -5,13 +5,12 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.tools import float_compare
-from odoo.osv import expression
 
 
 class MedicalCoverageAgreementItem(models.Model):
     _name = "medical.coverage.agreement.item"
     _description = "Medical Coverage Agreement Item"
-    _rec_name = "product_id"
+    _rec_name = "name"
 
     def _default_coverage_percentage(self):
         agreement_id = self.env.context.get(
@@ -42,6 +41,11 @@ class MedicalCoverageAgreementItem(models.Model):
         required=True,
         auto_join=True,  # In order to improve search time
     )
+
+    item_comment = fields.Char(string="Comment")
+
+    name = fields.Char(related="product_id.name", store=False)
+
     default_code = fields.Char(
         related="product_id.default_code",
         string="Internal Reference",
@@ -106,6 +110,9 @@ class MedicalCoverageAgreementItem(models.Model):
         )
         if related:
             self._update_by_related(related)
+        self.item_comment = (
+            self.product_id.agreement_comment if self.product_id else False
+        )
 
     def _update_by_related(self, related):
         rounding = self.currency_id.rounding
@@ -202,28 +209,3 @@ class MedicalCoverageAgreementItem(models.Model):
             "product_id": self.product_id.id,
             "total_price": self.total_price,
         }
-
-    @api.model
-    def _name_search(
-        self,
-        name="",
-        args=None,
-        operator="ilike",
-        limit=100,
-        name_get_uid=None,
-    ):
-        """ search full name and barcode """
-        args = args or []
-        domain = []
-        if name:
-            domain = [
-                "|",
-                ("product_id.name", operator, name),
-                ("product_id.default_code", operator, name),
-            ]
-        items = self._search(
-            expression.AND([domain, args]),
-            limit=limit,
-            access_rights_uid=name_get_uid,
-        )
-        return self.browse(items).name_get()

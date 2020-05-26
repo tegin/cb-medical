@@ -21,7 +21,7 @@
     <template id="report_agreement_template_category">
         <t t-set="item" t-value="item_variable"/>
         <tr>
-            <td colspan="3">
+            <td colspan="4">
                 <t t-foreach="range(0, level)" t-as="i">
                     &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
                 </t>
@@ -40,6 +40,9 @@
                 </td>
                 <td>
                     <span t-esc="child['product'].name"/>
+                </td>
+                <td>
+                    <span t-esc="child['item'].item_comment"/>
                 </td>
                 <td style="text-align:right">
                     <span t-esc="child['item'].coverage_price" t-if="print_coverage" t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/>
