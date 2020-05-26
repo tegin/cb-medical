@@ -42,6 +42,9 @@ class MedicalCoverageAgreementItem(models.Model):
         required=True,
         auto_join=True,  # In order to improve search time
     )
+
+    item_comment = fields.Text(string="Comment")
+
     default_code = fields.Char(
         related="product_id.default_code",
         string="Internal Reference",
@@ -106,6 +109,9 @@ class MedicalCoverageAgreementItem(models.Model):
         )
         if related:
             self._update_by_related(related)
+        self.item_comment = (
+            self.product_id.agreement_comment if self.product_id else False
+        )
 
     def _update_by_related(self, related):
         rounding = self.currency_id.rounding
