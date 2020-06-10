@@ -14,8 +14,17 @@ class ActivityDefinition(models.Model):
         res = super(ActivityDefinition, self)._get_medical_values(
             vals, parent, plan, action
         )
-        res["is_billable"] = action.is_billable if action else plan.is_billable
-        res["is_breakdown"] = plan.is_breakdown if not action else False
+        if action:
+            is_billable = action.is_billable
+            is_breakdown = False
+        elif plan:
+            is_billable = plan.is_billable
+            is_breakdown = plan.is_breakdown
+        else:
+            is_billable = False
+            is_breakdown = False
+        res["is_billable"] = is_billable
+        res["is_breakdown"] = is_breakdown
         if parent and not res.get("center_id", False):
             res["center_id"] = parent.center_id.id
         elif res.get("careplan_id", False) and not res.get("center_id", False):
@@ -24,10 +33,10 @@ class ActivityDefinition(models.Model):
                 .browse(res["careplan_id"])
                 .center_id.id
             )
-        if not self.env[self.model_id.model]._pass_performer(
+        if not action or not self.env[self.model_id.model]._pass_performer(
             self, parent, plan, action
         ):
             res["performer_id"] = False
-        if action.performer_id:
-            res["performer_id"] = action.performer_id.id
+        if action:
+            res["performer_id"] = action.performer_id.id or False
         return res
