@@ -6,10 +6,8 @@
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
                 <group name="description" position="after">
-                    <group>
-                        <group string="Description for Medical quotes">
-                            <field name="description_quote" nolabel="1" placeholder="This note will show up on medical quotes."/>
-                        </group>
+                    <group string="Description for Medical quotes" name="group_description_quote">
+                        <field name="description_quote" nolabel="1" placeholder="This note will show up on medical quotes."/>
                     </group>
                 </group>
             </field>
