@@ -13,12 +13,16 @@
                     <field name="lead_id" invisible="1"/>
                     <field name="coverage_template_ids" invisible="1"/>
                     <field name="agreement_id" options="{'no_create': 1}"
-                           domain="[('lead_ids', '!=', lead_id),('coverage_template_ids', 'in', coverage_template_ids)]"
+                           domain="[('coverage_template_ids', 'in', coverage_template_ids)]"
                     />
                 </group>
                 <footer>
-                    <button name="doit"
-                            string="OK"
+                    <button name="link_to_existing"
+                            string="Link to existing"
+                            class="btn-primary"
+                            type="object"/>
+                    <button name="generate_new"
+                            string="Generate New from Template"
                             class="btn-primary"
                             type="object"/>
                     <button string="Cancel"

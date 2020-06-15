@@ -201,11 +201,21 @@ class TestCrmAgreement(TransactionCase):
         wizard = self.env["crm.lead.add.agreement"].create(
             {"lead_id": lead.id, "agreement_id": agreement.id}
         )
-        wizard.doit()
+        wizard.link_to_existing()
         lead.refresh()
         agreement.refresh()
         self.assertIn(lead, agreement.lead_ids)
         self.assertIn(agreement, lead.agreement_ids)
+
+        agreements_count_before = len(
+            self.env["medical.coverage.agreement"].search([])
+        )
+        wizard.generate_new()
+        lead.refresh()
+        agreements_count_after = len(
+            self.env["medical.coverage.agreement"].search([])
+        )
+        self.assertEqual(agreements_count_before + 1, agreements_count_after)
 
     def test_quote(self):
         lead = self.env["crm.lead"].create(
