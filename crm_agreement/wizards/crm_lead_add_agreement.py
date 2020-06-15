@@ -1,7 +1,7 @@
 # Copyright 2019 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 
 class CrmLeadAddAgreement(models.TransientModel):
@@ -18,7 +18,18 @@ class CrmLeadAddAgreement(models.TransientModel):
     agreement_id = fields.Many2one("medical.coverage.agreement", required=True)
 
     @api.multi
-    def doit(self):
+    def link_to_existing(self):
         self.ensure_one()
         self.lead_id.write({"agreement_ids": [(4, self.agreement_id.id)]})
+        return {}
+
+    @api.multi
+    def generate_new(self):
+        self.ensure_one()
+        vals = self.agreement_id.copy_data()[0]
+        vals["date_from"] = fields.Date.today()
+        vals["name"] += _(" (Copy)")
+        vals.pop("date_to", False)
+        new_agreement = self.env["medical.coverage.agreement"].create(vals)
+        self.lead_id.write({"agreement_ids": [(4, new_agreement.id)]})
         return {}
