@@ -47,9 +47,11 @@
                    <label for="include_zero_sales" />
                </div>
            </xpath>
-           <field name="categ_id" position="after">
-                <field name="agreement_comment"/>
-            </field>
+           <xpath expr="//field[@name='description_sale']/.." position="after">
+               <group string="Agreement Comment" name="group_agreement_comment">
+                   <field name="agreement_comment" nolabel="1" placeholder="This note will show up agreement items comments..."/>
+               </group>
+           </xpath>
        </field>
    </record>
 
