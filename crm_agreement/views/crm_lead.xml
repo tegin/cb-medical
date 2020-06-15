@@ -33,7 +33,7 @@
                             type="action"
                             icon="fa-plus"
                             attrs="{'invisible': [('is_payor', '=', False)]}"
-                            string="Add agreement"/>
+                            string="Link to existing Agreement"/>
             </xpath>
         </field>
     </record>
