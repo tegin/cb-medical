@@ -53,7 +53,7 @@
                                 name="%(cb_medical_financial_coverage_agreement.set_medical_coverage_agreement_template_action)s"
                                 class="oe_stat_button"
                                 icon="fa-clone"
-                                context="{'default_agreement_id': active_id, 'default_template_id': template_id}"
+                                context="{'default_agreement_id': id, 'default_template_id': template_id}"
                                 attrs="{'invisible': [('is_template', '=', True)]}"
                                 string="Set template"/>
                         <button
@@ -61,7 +61,7 @@
                                 name="%(cb_medical_financial_coverage_agreement.medical_agreement_change_prices_action)s"
                                 class="oe_stat_button"
                                 icon="fa-percent"
-                                context="{'active_ids': [active_id]}"
+                                context="{'active_ids': [id]}"
                                 attrs="{'invisible': [('is_template', '=', True)]}"
                                 string="Apply percentage"/>
                         <button
