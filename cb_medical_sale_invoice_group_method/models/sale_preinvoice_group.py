@@ -146,10 +146,10 @@ class SalePreinvoiceGroup(models.Model):
                 self.invoice_domain(), limit=1
             )
             if not self.invoice_id:
-                self.invoice_id = self.env["account.invoice"].with_context(
-                    mail_auto_subscribe_no_notify=True
-                ).create(
-                    self.create_invoice_values()
+                self.invoice_id = (
+                    self.env["account.invoice"]
+                    .with_context(mail_auto_subscribe_no_notify=True)
+                    .create(self.create_invoice_values())
                 )
             else:
                 self.invoice_id.write(
