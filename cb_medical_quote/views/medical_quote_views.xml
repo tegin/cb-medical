@@ -72,6 +72,7 @@
                         <field name="quote_date"/>
                         <field name="validity_date" attrs="{'invisible': [('state', 'in', ['confirm'])]}"/>
                         <field name="confirmation_date" attrs="{'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"/>
+                        <field name="origin_agreement_id" attrs="{'invisible': [('origin_agreement_id', '=', False)]}"/>
                     </group>
                     <group>
                         <field name="center_id" options="{'no_create': True}"/>
@@ -144,6 +145,7 @@
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="payor_id"/>
                 <field name="patient_id"/>
+                <field name="origin_agreement_id"/>
                 <field name="coverage_template_id"/>
                 <field name="center_id"/>
                 <field name="state"/>
