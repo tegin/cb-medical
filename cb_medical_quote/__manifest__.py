@@ -9,6 +9,8 @@
     "depends": ["cb_medical_careplan_sale", "base_comment_template"],
     "category": "Medical",
     "data": [
+        "wizards/wizard_create_quote_agreement.xml",
+        "views/medical_coverage_agreement.xml",
         "security/medical_security.xml",
         "security/ir.model.access.csv",
         "data/ir_sequence_data.xml",

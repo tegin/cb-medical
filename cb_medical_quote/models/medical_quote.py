@@ -80,6 +80,11 @@ class MedicalQuote(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
+
+    origin_agreement_id = fields.Many2one(
+        "medical.coverage.agreement", readonly=True
+    )
+
     agreement_ids = fields.Many2many(
         "medical.coverage.agreement", compute="_compute_agreements", store=True
     )
@@ -92,7 +97,10 @@ class MedicalQuote(models.Model):
         states={"draft": [("readonly", False)]},
     )
     add_quantity = fields.Float(
-        "Add Quantity", readonly=True, states={"draft": [("readonly", False)]}
+        "Add Quantity",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        default=1,
     )
     amount = fields.Float("Amount", compute="_compute_amount", store=True)
     currency_id = fields.Many2one(
@@ -306,7 +314,7 @@ class MedicalQuote(models.Model):
                 medical_quote_line_data
             )
         self.add_agreement_line_id = False
-        self.add_quantity = False
+        self.add_quantity = 1
 
     def _get_name(self, vals):
         if "company_id" in vals:
