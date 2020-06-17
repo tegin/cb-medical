@@ -219,3 +219,26 @@ class TestMedicalQuote(TransactionCase):
         self.assertEqual(line.plan_definition_id, self.plan_1)
         self.assertEqual(line.amount, 160)
         self.assertEqual(quote.amount, 160)
+
+    def test_cuote_from_agreement(self):
+        self.assertFalse(self.coverage_agreement.quote_ids)
+        wizard = (
+            self.env["wizard.create.quote.agreement"]
+            .with_context(active_id=self.coverage_agreement.id)
+            .create(
+                {
+                    "coverage_template_id": self.coverage_template_1.id,
+                    "center_id": self.center_1.id,
+                }
+            )
+        )
+        wizard.generate_quote()
+        self.assertTrue(self.coverage_agreement.quote_ids)
+
+        self.assertEqual(
+            len(self.coverage_agreement.quote_ids[0].quote_line_ids), 1
+        )
+        self.assertEqual(
+            self.coverage_agreement.quote_ids[0].quote_line_ids[0].product_id,
+            self.coverage_agreement.item_ids[0].product_id,
+        )
