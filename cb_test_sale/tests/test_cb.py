@@ -1,9 +1,10 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
-from odoo.addons.cb_test.tests.test_cb import TestCB
 from odoo.exceptions import ValidationError
 from odoo.tests.common import at_install, post_install
+
+from odoo.addons.cb_test.tests.test_cb import TestCB
 
 
 @post_install(True)
@@ -215,7 +216,7 @@ class TestCBSale(TestCB):
         ):
             self.assertTrue(sale_order.patient_name)
             original_patient_name = sale_order.patient_name
-            patient_name = "%s %s" % (original_patient_name, "TEST")
+            patient_name = "{} {}".format(original_patient_name, "TEST")
             sale_order.patient_name = patient_name
             for line in sale_order.order_line:
                 self.assertTrue(line.tax_id)

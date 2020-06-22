@@ -1,6 +1,7 @@
-from odoo.tests.common import TransactionCase
-from odoo import fields
 from dateutil.relativedelta import relativedelta
+
+from odoo import fields
+from odoo.tests.common import TransactionCase
 
 
 class TestNoInvoiceCommission(TransactionCase):

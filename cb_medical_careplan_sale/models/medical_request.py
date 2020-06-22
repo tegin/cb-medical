@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -198,9 +198,5 @@ class MedicalRequest(models.AbstractModel):
         if self.encounter_id.state in ["onleave", "finished"]:
             if not self.sale_order_line_ids and self.is_billable:
                 # TODO: What should happen? We should create if possible
-                pass
-            for line in self.sale_order_line_ids:
-                # TODO: Review it according to their configuration .
-                # (Insurance / Private)
                 pass
         return res

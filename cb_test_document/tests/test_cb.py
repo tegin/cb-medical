@@ -2,10 +2,13 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 import base64
-from odoo.addons.cb_test.tests.test_cb import TestCB
-from odoo.exceptions import UserError, ValidationError
+
 from mock import patch
+
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import at_install, post_install
+
+from odoo.addons.cb_test.tests.test_cb import TestCB
 
 
 @post_install(True)
@@ -32,7 +35,7 @@ class TestCBDocument(TestCB):
         self.assertFalse(
             self.env["medical.encounter"]
             .find_encounter_by_barcode(
-                "%s-%s-%s" % (identifier, identifier, identifier)
+                "{}-{}-{}".format(identifier, identifier, identifier)
             )
             .get("res_id", False)
         )

@@ -53,10 +53,13 @@ class LaboratoryEvent(models.Model):
                     )
                 )
             if request.is_sellable_private and request.private_amount > 0:
+                pp = (
+                    request.laboratory_request_id.encounter_id.get_patient_partner()
+                )
                 query.append(
                     (
                         0,
-                        request.laboratory_request_id.encounter_id.get_patient_partner(),
+                        pp,
                         False,
                         False,
                         request.laboratory_request_id.get_third_party_partner()

@@ -1,6 +1,7 @@
-from odoo import api, fields, models, _
-from odoo.addons.base.models.ir_sequence import _update_nogap
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+from odoo.addons.base.models.ir_sequence import _update_nogap
 
 
 class MedicalEncounter(models.Model):

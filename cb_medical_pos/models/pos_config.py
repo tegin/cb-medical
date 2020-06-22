@@ -17,7 +17,7 @@ class PosConfig(models.Model):
     @api.model
     def _compute_session_prefix(self, prefix):
         range = "%(range_y)s/"
-        return "%s/%s" % (prefix, range)
+        return "{}/{}".format(prefix, range)
 
     @api.model
     def _prepare_ir_session_sequence(self, prefix):
@@ -43,9 +43,8 @@ class PosConfig(models.Model):
         if prefix:
             for rec in self:
                 if rec.session_sequence_id:
-                    rec.sudo().session_sequence_id.prefix = self._compute_session_prefix(
-                        prefix
-                    )
+                    session_prefix = self._compute_session_prefix(prefix)
+                    rec.sudo().session_sequence_id.prefix = session_prefix
                 else:
                     rec.session_sequence_id = self.env["ir.sequence"].create(
                         self._prepare_ir_session_sequence(prefix)
