@@ -1,3 +1,4 @@
+from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 
@@ -168,15 +169,55 @@ class TestMedicalQuote(TransactionCase):
         )
 
     def test_onchange_medical_quote(self):
-        quote = self.env["medical.quote"].new(
-            {"payor_id": self.payor_1.id, "center_id": self.center_1.id}
+        comment_template = self.env["base.comment.template"].create(
+            {"name": "Comment", "text": "Text"}
         )
-        res = quote._onchange_payor_id()
-        self.assertEqual(quote.coverage_template_id, self.coverage_template_1)
-        self.assertEqual(
-            res["domain"]["coverage_template_id"],
-            [("id", "in", self.coverage_template_1.ids)],
+        coverage_template_2 = self._create_coverage_template()
+        payor_2 = self._create_payor()
+        quote = self.env["medical.quote"].create(
+            {
+                "payor_id": payor_2.id,
+                "is_private": True,
+                "center_id": self.center_1.id,
+                "coverage_template_id": self.coverage_template_1.id,
+                "company_id": self.ref("base.main_company"),
+            }
         )
+        with Form(quote) as f:
+            f.comment_template1_id = comment_template
+            self.assertTrue(f.note1)
+
+            f.comment_template2_id = comment_template
+            self.assertTrue(f.note2)
+
+            f.add_agreement_line_id = self.item_1
+            self.assertEqual(f.add_quantity, 1)
+
+            f.patient_id = self.patient_2
+            self.assertFalse(f.coverage_template_id)
+
+            f.coverage_template_id = coverage_template_2
+            self.assertEqual(f.payor_id, self.payor_1)
+
+    def test_quote_states(self):
+        quote = self.env["medical.quote"].create(
+            {
+                "payor_id": self.payor_1.id,
+                "is_private": True,
+                "center_id": self.center_1.id,
+                "coverage_template_id": self.coverage_template_1.id,
+                "company_id": self.ref("base.main_company"),
+            }
+        )
+        self.assertEqual(quote.state, "draft")
+        quote.button_send()
+        self.assertEqual(quote.state, "sent")
+        quote.button_confirm()
+        self.assertEqual(quote.state, "confirm")
+        quote.button_cancel()
+        self.assertEqual(quote.state, "cancel")
+        quote.button_draft()
+        self.assertEqual(quote.state, "draft")
 
     def test_medical_quote_private(self):
         quote = self.env["medical.quote"].create(
@@ -219,6 +260,9 @@ class TestMedicalQuote(TransactionCase):
         self.assertEqual(line.plan_definition_id, self.plan_1)
         self.assertEqual(line.amount, 160)
         self.assertEqual(quote.amount, 160)
+
+        report_info = quote.lines_layouted()
+        self.assertEqual(len(report_info[0][0]["lines"]), 1)
 
     def test_cuote_from_agreement(self):
         self.assertFalse(self.coverage_agreement.quote_ids)
