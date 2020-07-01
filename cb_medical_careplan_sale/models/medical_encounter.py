@@ -69,6 +69,7 @@ class MedicalEncounter(models.Model):
                     partner, cov, agreement, third_party_partner, is_insurance
                 )
             )
+            order.onchange_partner_id()
         order.ensure_one()
         for order_line in order_lines:
             order_line["order_id"] = order.id
