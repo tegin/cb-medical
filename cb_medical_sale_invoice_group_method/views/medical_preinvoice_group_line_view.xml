@@ -15,7 +15,7 @@
             <tree string="sale order lines">
                 <button type="object"
                         name="invalidate_line"
-                        icon="fa fa-minus-square"
+                        icon="fa-minus-square"
                         aria-label="invalidate_line"
                         title="invalidate_line"
                         groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager"
@@ -24,7 +24,7 @@
                         name="validate_line"
                         aria-label="validate_line"
                         title="validate_line"
-                        icon="fa fa-check-square"
+                        icon="fa-check-square"
                         attrs="{'invisible': [('is_validated', '=', True)]}"/>
                 <field name="sequence"/>
                 <field name="encounter_id"/>
