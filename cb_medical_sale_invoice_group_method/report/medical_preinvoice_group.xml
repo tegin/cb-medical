@@ -20,7 +20,7 @@
                                     <span t-field="o.internal_identifier"/>
                                 </h2>
                             </div>
-                            <div class="col-4">srv
+                            <div class="col-4">
                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.internal_identifier, 600, 100)" style="width:300px;height:50px" class="pull-right mb16"/>
                             </div>
                         </div>
