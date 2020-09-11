@@ -36,10 +36,16 @@
         <field name="implied_ids" eval="[(4, ref('group_medical_turn_display'))]"/>
     </record>
 
+    <record id="group_medical_turn_user" model="res.groups">
+        <field name="name">Document Turn User</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_turn_list'))]"/>
+    </record>
+
     <record id="group_medical_turn_manager" model="res.groups">
         <field name="name">Document Turn Manager</field>
         <field name="category_id" ref="base.module_category_hidden"/>
-        <field name="implied_ids" eval="[(4, ref('group_medical_turn_list'))]"/>
+        <field name="implied_ids" eval="[(4, ref('group_medical_turn_user'))]"/>
     </record>
 
     <record id="medical_base.group_medical_user" model="res.groups">
