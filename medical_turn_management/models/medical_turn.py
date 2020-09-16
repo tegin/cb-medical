@@ -28,6 +28,7 @@ class MedicalTurn(models.Model):
     date = fields.Datetime(
         required=True,
         copy=False,
+        index=True,
         track_visibility="onchange",
         default=lambda r: fields.Datetime.now(),
     )
