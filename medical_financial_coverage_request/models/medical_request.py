@@ -37,8 +37,8 @@ class MedicalRequest(models.AbstractModel):
         readonly=True,
     )
     can_deactivate = fields.Boolean(compute="_compute_can_deactivate")
-    parent_id = fields.Integer()
-    parent_model = fields.Char()
+    parent_id = fields.Integer(index=True)
+    parent_model = fields.Char(index=True)
 
     @api.depends("state")
     def _compute_can_deactivate(self):
