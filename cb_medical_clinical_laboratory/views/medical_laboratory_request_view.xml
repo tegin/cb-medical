@@ -15,10 +15,11 @@
         <field name="arch" type="xml">
             <field name="performer_id" position="after">
                 <field name="laboratory_service_ids" widget="many2many_tags"/>
+                <field name="event_coverage_agreement_id" invisible="1"/>
             </field>
             <notebook position="inside">
                 <page string="Events" id="event">
-                    <field name="laboratory_event_ids" context="{'default_coverage_agreement_id': coverage_agreement_id, 'default_laboratory_request_id': id, 'default_encounter_id': encounter_id, 'default_patient_id': patient_id, 'default_service_id': service_id, 'default_performer_id': performer_id, 'tree_view_ref':'cb_medical_clinical_laboratory.medical_laboratory_event_view_tree'}"/>
+                    <field name="laboratory_event_ids" context="{'default_coverage_agreement_id': event_coverage_agreement_id, 'default_laboratory_request_id': id, 'default_encounter_id': encounter_id, 'default_patient_id': patient_id, 'default_service_id': service_id, 'default_performer_id': performer_id, 'tree_view_ref':'cb_medical_clinical_laboratory.medical_laboratory_event_view_tree'}"/>
                 </page>
             </notebook>
         </field>
