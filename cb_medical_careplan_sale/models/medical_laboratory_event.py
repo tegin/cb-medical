@@ -26,7 +26,7 @@ class LaboratoryEvent(models.Model):
         readonly=True,
     )
     coverage_agreement_id = fields.Many2one(
-        "medical.coverage.agreement", readonly=True, ondelete="restrict"
+        "medical.coverage.agreement", readonly=False, ondelete="restrict"
     )
     invoice_group_method_id = fields.Many2one(
         string="Invoice Group Method",
