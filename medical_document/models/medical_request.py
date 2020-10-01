@@ -21,7 +21,7 @@ class MedicalRequest(models.AbstractModel):
         default=0,
     )
     document_reference_id = fields.Many2one(
-        "medical.document.reference", required=False, readonly=True
+        "medical.document.reference", required=False, readonly=True, index=True
     )  # the field must be created, but it should allways be null
 
     @api.constrains("document_reference_id")
