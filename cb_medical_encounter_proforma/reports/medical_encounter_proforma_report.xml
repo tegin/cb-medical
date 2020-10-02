@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+
+<odoo>
+    <template id="report_encounter_proforma">
+        <t t-call="web.html_container">
+            <t t-foreach="proforma_datas" t-as="proforma_data">
+                <t t-set="partner" t-value="proforma_data['partner']"/>
+                <t t-set="encounter_identifier"
+                   t-value="proforma_data['encounter_identifier']"/>
+                <t t-set="is_third_party"
+                   t-value="proforma_data['is_third_party']"/>
+                <t t-set="third_party_partner"
+                   t-value="proforma_data['third_party_partner']"/>
+                <t t-set="company" t-value="proforma_data['company']"/>
+                <t t-set="lines_data" t-value="proforma_data['lines_data']"/>
+                <div class="header" t-att-style="report_header_style">
+                    <div class="row">
+                        <div class="col-3" style="margin-top:22px;">
+                            <img t-if="company.logo and not is_third_party"
+                                 t-att-src="image_data_uri(company.logo)"
+                                 style="max-height: 90px;" alt="Logo"/>
+                        </div>
+                        <div class="col-9 text-right" style="margin-top:22px;">
+                            <t t-if="is_third_party">
+                                <div t-esc="third_party_partner"
+                                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+
+                            </t>
+                            <t t-else="">
+                                <div t-field="company.partner_id"
+                                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+
+                            </t>
+                        </div>
+                    </div>
+                    <div t-if="company.logo or company.report_header"
+                         class="row zero_min_height">
+                        <div class="col-12">
+                            <div style="border-bottom: 1px solid black;"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page article o_report_layout_standard">
+                    <div class="row">
+                        <div class="col-6">
+                            <h2>
+                                <span>Pro-Forma Invoice</span>
+                            </h2>
+                            <h5>
+                                <span t-esc="encounter_identifier"/>
+                            </h5>
+                            <img class="text-left"
+                                 t-att-src="'/report/qr/?value=%s&amp;error_correction=%s' % (encounter.get_quick_access_code(), 3)"
+                                 style="width:50;height:50;float:left"/>
+                        </div>
+                        <div class="col-6 text-right">
+                            <address t-esc="partner"
+                                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                        </div>
+                    </div>
+
+                    <!-- Information -->
+                    <div class="row mt32 mb32" id="informations">
+                        <div class="col-auto mw-100 mb-2">
+                        </div>
+                    </div>
+
+                    <!-- Lines -->
+                    <table class="table table-sm o_main_table"
+                           name="proformula_line_table">
+                        <thead>
+                            <tr>
+                                <t t-set="colspan" t-value="6"/>
+                                <th class="text-left">
+                                    <span>Description</span>
+                                </th>
+                                <th class="text-right">
+                                    <span>Quantity</span>
+                                </th>
+                                <th class="text-right">
+                                    <span>Unit Price</span>
+                                </th>
+                                <th class="text-right">
+                                    <span>Taxes</span>
+                                </th>
+                                <th class="text-right">
+                                    <span>Total Price</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="current_subtotal" t-value="0"/>
+                            <t t-foreach="lines_data" t-as="line">
+                                <t t-set="current_subtotal"
+                                   t-value="current_subtotal + line['price_total']"/>
+                                <tr>
+                                    <td class="text-left">
+                                        <span t-esc="line['product_id'].name"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['product_qty']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['price_unit']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['taxes']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="line['price_total']"
+                                              t-options='{"widget": "monetary", "display_currency": company.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div class="clearfix">
+                        <div id="total" class="row">
+                            <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                <table class="table table-sm"
+                                       style="page-break-inside: avoid;">
+                                    <tr class="border-black o_subtotal"
+                                        style="">
+                                        <tr class="border-black o_total">
+                                            <td>
+                                                <strong>Total</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="current_subtotal"
+                                                      t-options='{"widget": "monetary", "display_currency": company.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_encounter_proforma_private">
+        <t t-call="cb_medical_encounter_proforma.report_encounter_proforma"/>
+    </template>
+
+
+    <template id="report_encounter_proforma_payor">
+        <t t-call="cb_medical_encounter_proforma.report_encounter_proforma"/>
+    </template>
+
+    <report
+            id="medical_encounter_proforma_report_action"
+            model="medical.encounter"
+            string="Print PROFORMA"
+            report_type="qweb-pdf"
+            name="cb_medical_encounter_proforma.report_encounter_proforma"
+            file="cb_medical_encounter_proforma.report_encounter_proforma"
+            print_report_name="'PROFORMA - %s' % object.name"
+    />
+
+    <report
+        id="medical_encounter_proforma_report_action_private"
+        model="medical.encounter"
+        string="Print PROFORMA Private"
+        report_type="qweb-pdf"
+        name="cb_medical_encounter_proforma.report_encounter_proforma_private"
+        file="cb_medical_encounter_proforma.report_encounter_proforma_private"
+        print_report_name="'PROFORMA - %s' % object.name"
+    />
+
+    <report
+        id="medical_encounter_proforma_report_action_payor"
+        model="medical.encounter"
+        string="Print PROFORMA Payor"
+        report_type="qweb-pdf"
+        name="cb_medical_encounter_proforma.report_encounter_proforma_payor"
+        file="cb_medical_encounter_proforma.report_encounter_proforma_payor"
+        print_report_name="'PROFORMA - %s' % object.name"
+    />
+
+</odoo>
