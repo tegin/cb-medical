@@ -8,29 +8,38 @@ from odoo import fields, models
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    careplan_id = fields.Many2one("medical.careplan", readonly=True)
+    careplan_id = fields.Many2one(
+        "medical.careplan", readonly=True, index=True
+    )
     procedure_request_id = fields.Many2one(
-        "medical.procedure.request", readonly=True
+        "medical.procedure.request", readonly=True, index=True
     )
-    request_group_id = fields.Many2one("medical.request.group", readonly=True)
+    request_group_id = fields.Many2one(
+        "medical.request.group", readonly=True, index=True
+    )
     medication_request_id = fields.Many2one(
-        "medical.medication.request", readonly=True
+        "medical.medication.request", readonly=True, index=True
     )
-    encounter_id = fields.Many2one("medical.encounter", readonly=True)
+    encounter_id = fields.Many2one(
+        "medical.encounter", readonly=True, index=True
+    )
     document_reference_id = fields.Many2one(
-        "medical.document.reference", readonly=True
+        "medical.document.reference", readonly=True, index=True
     )
     laboratory_request_id = fields.Many2one(
-        "medical.laboratory.request", readonly=True
+        "medical.laboratory.request", readonly=True, index=True
     )
     laboratory_event_id = fields.Many2one(
-        "medical.laboratory.event", readonly=True
+        "medical.laboratory.event", readonly=True, index=True
     )
     invoice_group_method_id = fields.Many2one(
-        "invoice.group.method", readonly=True
+        "invoice.group.method", readonly=True, index=True
     )
     authorization_method_id = fields.Many2one(
-        "medical.authorization.method", track_visibility=True, readonly=True
+        "medical.authorization.method",
+        track_visibility=True,
+        readonly=True,
+        index=True,
     )
     authorization_checked = fields.Boolean(default=False, readonly=True)
     authorization_status = fields.Selection(

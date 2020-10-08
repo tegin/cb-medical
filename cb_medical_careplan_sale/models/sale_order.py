@@ -8,15 +8,19 @@ from odoo import api, fields, models
 class SaleOrder(models.AbstractModel):
     _inherit = "sale.order"
 
-    encounter_id = fields.Many2one("medical.encounter", readonly=True)
+    encounter_id = fields.Many2one(
+        "medical.encounter", readonly=True, index=True
+    )
     coverage_id = fields.Many2one("medical.coverage", readonly=True)
     coverage_template_id = fields.Many2one(
         "medical.coverage.template",
         readonly=True,
         related="coverage_id.coverage_template_id",
     )
-    coverage_agreement_id = fields.Many2one("medical.coverage.agreement")
-    patient_id = fields.Many2one("medical.patient", readonly=True)
+    coverage_agreement_id = fields.Many2one(
+        "medical.coverage.agreement", index=True,
+    )
+    patient_id = fields.Many2one("medical.patient", readonly=True, index=True)
 
     def create_third_party_move(self):
         if self.coverage_agreement_id:
