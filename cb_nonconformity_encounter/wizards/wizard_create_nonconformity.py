@@ -33,6 +33,13 @@ class WizardCreateNonconformity(models.TransientModel):
                 "encounter_id": encounter_id.id,
             }
         )
+        issue.message_unsubscribe(issue.user_id.partner_id.ids)
+        issue.message_subscribe(
+            [
+                self.origin_id.responsible_user_id.partner_id.id,
+                self.origin_id.manager_user_id.partner_id.id,
+            ]
+        )
         action = {
             "type": "ir.actions.act_window",
             "name": self.name,
