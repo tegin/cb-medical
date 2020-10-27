@@ -8,7 +8,7 @@ class MedicalQuote(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "quote_date desc, id desc"
 
-    name = fields.Char(default=lambda self: _("New"))
+    name = fields.Char(default=lambda self: _("New"), copy=False)
     is_private = fields.Boolean("Is private")
     state = fields.Selection(
         [
