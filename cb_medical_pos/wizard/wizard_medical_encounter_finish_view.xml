@@ -10,6 +10,7 @@
                     <field name="pos_session_id" options="{'no_create': True}"/>
                     <field name="journal_id" options="{'no_create': True}"/>
                     <field name="journal_ids" invisible="1"/>
+                    <field name="dont_pay"/>
                     <field name="amount"/>
                     <field name="currency_id" invisible="1"/>
                 </group>
