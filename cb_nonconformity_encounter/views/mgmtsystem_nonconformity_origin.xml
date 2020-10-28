@@ -27,15 +27,17 @@
         <field name="name">mgmtsystem.nonconformity.origin.tree (in cb_nonconformity)</field>
         <field name="model">mgmtsystem.nonconformity.origin</field>
         <field name="inherit_id" ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_origin_tree"/>
+        <field name="sequence" eval="100"/>
         <field name="arch" type="xml">
-            <field name="sequence" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
+            <field name="sequence" position="replace"/>
             <field name="parent_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="parent_id" position="before">
                 <field name="sequence" widget="handle"/>
+            </field>
+            <field name="description" position="after">
+                <field name="from_encounter"/>
             </field>
         </field>
     </record>
