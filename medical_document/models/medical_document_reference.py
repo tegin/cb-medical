@@ -44,7 +44,11 @@ class MedicalDocumentReference(models.Model):
     )
     is_editable = fields.Boolean(compute="_compute_is_editable")
     text = fields.Text(
-        string="Document text", readonly=True, copy=False, sanitize=True
+        string="Document text",
+        readonly=True,
+        copy=False,
+        sanitize=True,
+        prefetch=False,
     )
     lang = fields.Selection(
         required=False,
