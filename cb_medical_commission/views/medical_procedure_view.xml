@@ -14,6 +14,12 @@
         <field name="inherit_id"
                ref="medical_clinical_procedure.medical_procedure_view_form"/>
         <field name="arch" type="xml">
+            <field name="service_id" position="after">
+                <field name="procedure_service_id"/>
+            </field>
+            <field name="service_id" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </field>
             <notebook position="inside">
                 <page name='commission' string="Commission Agent"
                       attrs="{'invisible':[('medical_commission', '=', False)]}">
