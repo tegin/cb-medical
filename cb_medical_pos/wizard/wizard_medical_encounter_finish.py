@@ -5,7 +5,7 @@
 from odoo import api, fields, models
 
 
-class WizardMedicalEncounterClose(models.TransientModel):
+class WizardMedicalEncounterFinish(models.TransientModel):
     _name = "wizard.medical.encounter.finish"
     _description = "wizard.medical.encounter.finish"
 
@@ -38,6 +38,7 @@ class WizardMedicalEncounterClose(models.TransientModel):
     amount = fields.Monetary(
         related="encounter_id.pending_private_amount", readonly=True
     )
+    dont_pay = fields.Boolean(groups="cb_medical_pos.group_dont_pay_encounter")
 
     @api.onchange("pos_session_id")
     def _onchange_session(self):
@@ -49,4 +50,5 @@ class WizardMedicalEncounterClose(models.TransientModel):
         self.encounter_id.with_context(
             pos_session_id=self.pos_session_id.id,
             journal_id=self.journal_id.id,
+            encounter_finish_dont_pay=self.dont_pay,
         ).onleave2finished()
