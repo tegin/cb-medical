@@ -133,6 +133,13 @@ class MedicalEncounter(models.Model):
             self.onleave2finished()
         return res
 
+    def medical_encounter_close_action(self):
+        self.ensure_one()
+        action = self.env.ref(
+            "cb_medical_pos.wizard_medical_encounter_close_action"
+        ).read()[0]
+        return action
+
     def finish_sale_order(self, sale_order):
         if not self._context.get("pos_session_id", False):
             raise ValidationError(
@@ -155,6 +162,7 @@ class MedicalEncounter(models.Model):
                 ).action_invoice_create()
             )
             invoice.action_invoice_open()
+            # Invoice has been created
             if invoice.amount_total == 0:
                 return
             amount = invoice.amount_total
@@ -169,7 +177,9 @@ class MedicalEncounter(models.Model):
                     "amount": sale_order.amount_total,
                 }
             )
-        if cash_vals["amount"] != 0:
+        if cash_vals["amount"] != 0 and not self._context.get(
+            "encounter_finish_dont_pay", False
+        ):
             if not self._context.get("journal_id", False):
                 raise ValidationError(
                     _(
@@ -180,6 +190,7 @@ class MedicalEncounter(models.Model):
             journal_id = self._context.get("journal_id", False)
             pos_session_id = self._context.get("pos_session_id", False)
             cash_vals["journal_id"] = journal_id
+            # We are going to pay the invoice / third party sale.order
             process = (
                 self.env[model]
                 .with_context(

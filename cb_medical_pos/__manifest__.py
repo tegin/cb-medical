@@ -14,6 +14,7 @@
     ],
     "data": [
         "data/ir_sequence_data.xml",
+        "security/cb_medical_pos_security.xml",
         "wizard/wizard_medical_encounter_close_view.xml",
         "wizard/wizard_medical_encounter_finish_view.xml",
         "wizard/wizard_medical_encounter_add_amount_view.xml",
