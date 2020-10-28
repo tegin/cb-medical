@@ -23,8 +23,8 @@
                         class="oe_highlight"
                         context="{'default_encounter_id': active_id}"
                         attrs="{'invisible': [('state','not in',['arrived', 'in-progress'])]}"/>
-                <button name="%(cb_medical_pos.wizard_medical_encounter_close_action)d"
-                        type="action" string="Close"
+                <button name="medical_encounter_close_action"
+                        type="object" string="Close"
                         class="oe_highlight"
                         context="{'default_encounter_id': active_id}"
                         attrs="{'invisible': [('state','not in',['arrived', 'in-progress'])]}"/>
