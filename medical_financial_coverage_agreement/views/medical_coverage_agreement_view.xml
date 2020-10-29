@@ -11,7 +11,7 @@
         <field name="name">medical.coverage.agreement.tree</field>
         <field name="model">medical.coverage.agreement</field>
         <field name="arch" type="xml">
-            <tree string="Agreements">
+            <tree string="Agreements" decoration-muted="(date_from &gt; current_date) or (date_to and date_to &lt; current_date)">
                 <field name="internal_identifier"/>
                 <field name="name"/>
                 <field name="company_id"/>
