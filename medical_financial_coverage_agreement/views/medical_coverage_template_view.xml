@@ -16,7 +16,7 @@
             <notebook position="inside">
                 <page name="coverage_agreements" string="Agreements" groups="cb_medical_financial_coverage_agreement.group_medical_agreement_list">
                     <field name="agreement_ids" nolabel="1" options="{'no_create': True}">
-                        <tree delete="1">
+                        <tree delete="1" decoration-muted="(date_from &gt; current_date) or (date_to and date_to &lt; current_date)">
                             <field name="internal_identifier"/>
                             <field name="name"/>
                             <field name="company_id"/>
