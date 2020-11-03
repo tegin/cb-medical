@@ -10,4 +10,7 @@
             </field>
         </field>
     </record>
+    <record model="ir.actions.act_window" id="medical_financial_coverage.medical_payor_action">
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
 </odoo>
