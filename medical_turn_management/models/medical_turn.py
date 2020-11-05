@@ -1,7 +1,7 @@
 # Copyright 2020 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 
 
 class MedicalTurn(models.Model):
@@ -44,7 +44,7 @@ class MedicalTurn(models.Model):
     def name_get(self):
         result = []
         for rec in self:
-            name = "%s [%s] (%s)" % (
+            name = "{} [{}] ({})".format(
                 rec.specialty_id.name,
                 rec.practitioner_id.display_name or _("Pending to assign"),
                 ",".join([c.ref or c.name for c in rec.center_ids]),
