@@ -1,14 +1,12 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" ?>
 <odoo>
     <report
-            id="medical_coverage_agreement_xlsx"
-            model="medical.coverage.agreement"
-            string="Print to XLSX"
-            report_type="xlsx"
-            name="cb_medical_financial_coverage_agreement.mca_xlsx"
-            file="medical_coverage_agreement_xlsx"
-            attachment_use="False"
+        id="medical_coverage_agreement_xlsx"
+        model="medical.coverage.agreement"
+        string="Print to XLSX"
+        report_type="xlsx"
+        name="cb_medical_financial_coverage_agreement.mca_xlsx"
+        file="medical_coverage_agreement_xlsx"
+        attachment_use="False"
     />
-
 </odoo>
