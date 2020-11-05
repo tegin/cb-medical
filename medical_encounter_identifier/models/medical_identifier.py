@@ -21,5 +21,5 @@ class MedicalCBIdentifier(models.AbstractModel):
         if encounter_code:
             encounter = self.env["medical.encounter"].browse(encounter_code)
             sequence = encounter.get_next_number_cb(self.get_request_format())
-            return "%s-%s" % (encounter.internal_identifier, sequence)
+            return "{}-{}".format(encounter.internal_identifier, sequence)
         return False

@@ -1,52 +1,83 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data noupdate="1">
-        <record id="medical_careplan_identifier_format"
-                model="ir.config_parameter" forcecreate="True">
+        <record
+            id="medical_careplan_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
             <field name="key">medical.careplan.identifier</field>
             <field name="value">CP%02d</field>
         </record>
-        <record id="medical_document_refernece_identifier_format"
-                model="ir.config_parameter" forcecreate="True">
+        <record
+            id="medical_document_refernece_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
             <field name="key">medical.document.reference.identifier</field>
             <field name="value">DR%02d</field>
         </record>
-        <record id="medical_identifier_format" model="ir.config_parameter" forcecreate="True">
+        <record
+            id="medical_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
             <field name="key">medical.identifier</field>
             <field name="value">I%02d</field>
         </record>
-        <record id="medical_medication_administration_identifier_format"
-                model="ir.config_parameter" forcecreate="True">
+        <record
+            id="medical_medication_administration_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
             <field name="key">medical.medication.administration.ident</field>
             <field name="value">MA%02d</field>
         </record>
-        <record id="medical_medication_request_identifier_format"
-                model="ir.config_parameter" forcecreate="True">
+        <record
+            id="medical_medication_request_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
             <field name="key">medical.medication.request.identifier</field>
             <field name="value">MR%02d</field>
         </record>
-        <record id="medical_procedure_identifier_format"
-                model="ir.config_parameter" forcecreate="True">
+        <record
+            id="medical_procedure_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
             <field name="key">medical.procedure.identifier</field>
             <field name="value">P%02d</field>
         </record>
-        <record id="medical_procedure_request_identifier_format"
-                model="ir.config_parameter" forcecreate="True">
+        <record
+            id="medical_procedure_request_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
             <field name="key">medical.procedure.request.identifier</field>
             <field name="value">PR%02d</field>
         </record>
-        <record id="medical_request_group_identifier_format"
-                model="ir.config_parameter" forcecreate="True">
+        <record
+            id="medical_request_group_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
             <field name="key">medical.request.group.identifier</field>
             <field name="value">RG%02d</field>
         </record>
-        <record id="medical_laboratory_request_identifier_format"
-                model="ir.config_parameter" forcecreate="True">
+        <record
+            id="medical_laboratory_request_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
             <field name="key">medical.laboratory.request.identifier</field>
             <field name="value">LR%02d</field>
         </record>
-        <record id="medical_laboratory_group_identifier_format"
-                model="ir.config_parameter" forcecreate="True">
+        <record
+            id="medical_laboratory_group_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
             <field name="key">medical.laboratory.event.identifier</field>
             <field name="value">LE%02d</field>
         </record>
