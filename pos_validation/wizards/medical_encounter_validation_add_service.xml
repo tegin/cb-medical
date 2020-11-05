@@ -1,54 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2018 CreuBlanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
-
-    <record model="ir.ui.view"
-            id="medical_encounter_validation_add_service_form_view">
+    <record model="ir.ui.view" id="medical_encounter_validation_add_service_form_view">
         <field name="name">medical.encounter.validation.add.service.form</field>
         <field name="model">medical.encounter.validation.add.service</field>
         <field name="mode">primary</field>
-        <field name="inherit_id"
-               ref="cb_medical_financial_coverage_request.medical_add_plan_definition_form"/>
+        <field
+            name="inherit_id"
+            ref="cb_medical_financial_coverage_request.medical_add_plan_definition_form"
+        />
         <field name="arch" type="xml">
             <form position="attributes">
                 <attribute name="name">Add a Service</attribute>
             </form>
             <field name="careplan_id" position="before">
-                <field name="action_type" options="{'horizontal': true}"
-                       class="oe_edit_only" widget="radio"/>
+                <field
+                    name="action_type"
+                    options="{'horizontal': true}"
+                    class="oe_edit_only"
+                    widget="radio"
+                />
             </field>
             <field name="careplan_id" position="after">
-                <field name="payor_id"
-                       attrs="{'readonly': [('action_type', '=', 'reuse')], 'required': [('action_type', '=', 'new')]}"/>
-                <field name="coverage_template_id"
-                       attrs="{'readonly': [('action_type', '=', 'reuse')], 'required': [('action_type', '=', 'new')]}"
-                       domain="[('payor_id', '=', payor_id)]"/>
-                <field name="sub_payor_required" invisible="1"/>
-                <field name="sub_payor_id"
-                       domain="[('payor_id', '=', payor_id)]"
-                       attrs="{'readonly': [('action_type', '=', 'reuse')], 'required': [('sub_payor_required','=', True), ('action_type', '=', 'new')]}"/>
-                <field name="subscriber_id"
-                       attrs="{'readonly': [('action_type', '=', 'reuse')]}"/>
-                <field name="encounter_id" invisible="1"/>
+                <field
+                    name="payor_id"
+                    attrs="{'readonly': [('action_type', '=', 'reuse')], 'required': [('action_type', '=', 'new')]}"
+                />
+                <field
+                    name="coverage_template_id"
+                    attrs="{'readonly': [('action_type', '=', 'reuse')], 'required': [('action_type', '=', 'new')]}"
+                    domain="[('payor_id', '=', payor_id)]"
+                />
+                <field name="sub_payor_required" invisible="1" />
+                <field
+                    name="sub_payor_id"
+                    domain="[('payor_id', '=', payor_id)]"
+                    attrs="{'readonly': [('action_type', '=', 'reuse')], 'required': [('sub_payor_required','=', True), ('action_type', '=', 'new')]}"
+                />
+                <field
+                    name="subscriber_id"
+                    attrs="{'readonly': [('action_type', '=', 'reuse')]}"
+                />
+                <field name="encounter_id" invisible="1" />
             </field>
             <field name="careplan_id" position="attributes">
                 <attribute name="invisible">0</attribute>
-                <attribute name="attrs">{'invisible': [('action_type', '=', 'new')], 'required': [('action_type', '=', 'reuse')]}</attribute>
-                <attribute name="domain">[('encounter_id', '=', encounter_id)]</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('action_type', '=', 'new')], 'required': [('action_type', '=', 'reuse')]}</attribute>
+                <attribute
+                    name="domain"
+                >[('encounter_id', '=', encounter_id)]</attribute>
             </field>
         </field>
     </record>
-
-    <record model="ir.actions.act_window"
-            id="medical_encounter_validation_add_service_act_window">
+    <record
+        model="ir.actions.act_window"
+        id="medical_encounter_validation_add_service_act_window"
+    >
         <field name="name">Medical Encounter Validation Add Service</field>
         <field name="res_model">medical.encounter.validation.add.service</field>
         <field name="view_mode">form</field>
         <field name="context">{'default_encounter_id': active_id}</field>
         <field name="target">new</field>
     </record>
-
-
 </odoo>
