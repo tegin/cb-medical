@@ -1,24 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Creu Blanca
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record id="medical_document_type_lang_view_tree" model="ir.ui.view">
         <field name="name">medical.document.type.lang.view.tree</field>
         <field name="model">medical.document.type.lang</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <tree string="Document types Language" create="false">
-                <field name="lang"/>
+                <field name="lang" />
             </tree>
         </field>
     </record>
-
     <record id="medical_document_type_lang_view_form" model="ir.ui.view">
         <field name="name">medical.document.type.lang.view.form</field>
         <field name="model">medical.document.type.lang</field>
@@ -26,34 +22,32 @@
         <field name="arch" type="xml">
             <form string="Document type">
                 <header>
-                    <button name="preview" string="Preview" type="object"/>
+                    <button name="preview" string="Preview" type="object" />
                 </header>
                 <sheet>
-                    <div name="button_box" class="oe_button_box"/>
+                    <div name="button_box" class="oe_button_box" />
                     <h2>
-                        <field name="lang" readonly="1"/>
+                        <field name="lang" readonly="1" />
                     </h2>
-                    <field name="text" options="{'style-inline': true}"/>
-                    <field name="document_type_id" invisible="1"/>
-                    <notebook invisible="1"/>
+                    <field name="text" options="{'style-inline': true}" />
+                    <field name="document_type_id" invisible="1" />
+                    <notebook invisible="1" />
                 </sheet>
             </form>
         </field>
     </record>
-
     <record id="medical_document_type_view_tree" model="ir.ui.view">
         <field name="name">medical.document.type.view.tree</field>
         <field name="model">medical.document.type</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <tree string="Document types">
-                <field name="internal_identifier"/>
-                <field name="name"/>
-                <field name="state"/>
+                <field name="internal_identifier" />
+                <field name="name" />
+                <field name="state" />
             </tree>
         </field>
     </record>
-
     <record id="medical_document_type_view_form" model="ir.ui.view">
         <field name="name">medical.document.type.view.form</field>
         <field name="model">medical.document.type</field>
@@ -61,69 +55,102 @@
         <field name="arch" type="xml">
             <form string="Document type">
                 <header>
-                    <button name="draft2current" states="draft" string="Post" type="object" class="oe_highlight"/>
-                    <button name="post" states="current" string="Post new version" type="object" class="oe_highlight"/>
-                    <button name="current2superseded" states="current" string="Supersed" type="object"/>
-                    <field name="state" widget="statusbar"/>
+                    <button
+                        name="draft2current"
+                        states="draft"
+                        string="Post"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="post"
+                        states="current"
+                        string="Post new version"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="current2superseded"
+                        states="current"
+                        string="Supersed"
+                        type="object"
+                    />
+                    <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
                     <div name="button_box" class="oe_button_box">
-                        <button name="%(medical_document.medical_document_type_add_language_action)s"
-                                type="action" class="oe_stat_button" icon="fa-language" string="Add Language"
-                                attrs="{'invisible': [('document_type', '!=', 'action')]}"
+                        <button
+                            name="%(medical_document.medical_document_type_add_language_action)s"
+                            type="action"
+                            class="oe_stat_button"
+                            icon="fa-language"
+                            string="Add Language"
+                            attrs="{'invisible': [('document_type', '!=', 'action')]}"
                         />
-                        <button name="generate_activity_definition" type="object"
-                                icon="fa-puzzle-piece" class="oe_stat_button" string="Create activity"
-                                attrs="{'invisible': [('activity_definition_ids', '!=', False)]}"
-                                />
+                        <button
+                            name="generate_activity_definition"
+                            type="object"
+                            icon="fa-puzzle-piece"
+                            class="oe_stat_button"
+                            string="Create activity"
+                            attrs="{'invisible': [('activity_definition_ids', '!=', False)]}"
+                        />
                     </div>
                     <h2>
-                        <field name="internal_identifier"/>
+                        <field name="internal_identifier" />
                     </h2>
                     <group name="details" cols="4">
                         <group>
-                            <field name="name"/>
-                            <field name="document_type" invisible="1"/>
-                            <field name="report_action_id" attrs="{'invisible': [('document_type', '!=', 'action')], 'required': [('document_type', '=', 'action')]}"/>
-                            <field name="activity_definition_ids" invisible="1"/>
+                            <field name="name" />
+                            <field name="document_type" invisible="1" />
+                            <field
+                                name="report_action_id"
+                                attrs="{'invisible': [('document_type', '!=', 'action')], 'required': [('document_type', '=', 'action')]}"
+                            />
+                            <field name="activity_definition_ids" invisible="1" />
                         </group>
                     </group>
                     <notebook>
-                        <page name="translation" string="Translations" attrs="{'invisible': [('document_type', '!=', 'action')]}">
-                            <field name="lang_ids"/>
+                        <page
+                            name="translation"
+                            string="Translations"
+                            attrs="{'invisible': [('document_type', '!=', 'action')]}"
+                        >
+                            <field name="lang_ids" />
                         </page>
                         <page name="template" string="Items">
-                            <field name="template_ids"/>
+                            <field name="template_ids" />
                         </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
                 </div>
             </form>
         </field>
     </record>
-
     <record id="medical_document_type_view_search" model="ir.ui.view">
         <field name="name">medical.document.type.view.search</field>
         <field name="model">medical.document.type</field>
         <field name="arch" type="xml">
             <search string="Medical Document type">
-                <field name="internal_identifier"/>
-                <field name="name"/>
-                <field name="state"/>
-                <newline/>
+                <field name="internal_identifier" />
+                <field name="name" />
+                <field name="state" />
+                <newline />
                 <group expand="0" name="groupby" string="Group By...">
-                    <filter string="Document type ID" name="document_type"
-                            domain="[]"
-                            context="{'group_by':'name'}"/>
+                    <filter
+                        string="Document type ID"
+                        name="document_type"
+                        domain="[]"
+                        context="{'group_by':'name'}"
+                    />
                 </group>
             </search>
         </field>
     </record>
-
     <record model="ir.actions.act_window" id="medical_document_type_action">
         <field name="name">Document Actions</field>
         <field name="type">ir.actions.act_window</field>
@@ -133,9 +160,10 @@
         <field name="domain">[('document_type', '=', 'action')]</field>
         <field name="context">{'default_document_type': 'action'}</field>
     </record>
-
-    <menuitem id="medical_document_type_menu"
-              parent="medical_base.medical_root_configuration"
-              action="medical_document_type_action"
-              name="Document actions"/>
+    <menuitem
+        id="medical_document_type_menu"
+        parent="medical_base.medical_root_configuration"
+        action="medical_document_type_action"
+        name="Document actions"
+    />
 </odoo>
