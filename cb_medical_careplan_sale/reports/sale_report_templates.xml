@@ -1,32 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
+    <template
+        id="report_saleorder_document"
+        inherit_id="sale.report_saleorder_document"
+    >
         <xpath expr="//div[@id='informations']" position="after">
             <div class="row mt32 mb32" t-if="doc.coverage_agreement_id">
                 <div t-if="doc.encounter_id" class="col-3">
                     <strong>Encounter:</strong>
-                    <p t-field="doc.encounter_id"/>
+                    <p t-field="doc.encounter_id" />
                 </div>
                 <div t-if="doc.patient_name" class="col-3">
                     <strong>Patient:</strong>
-                    <p t-field="doc.patient_name"/>
+                    <p t-field="doc.patient_name" />
                 </div>
                 <div t-if="doc.encounter_id" class="col-3">
                     <strong>Admission Date:</strong>
-                    <p t-field="doc.encounter_id.create_date" t-options="{'widget': 'date'}"/>
+                    <p
+                        t-field="doc.encounter_id.create_date"
+                        t-options="{'widget': 'date'}"
+                    />
                 </div>
                 <div t-if="doc.subscriber_id" class="col-3">
                     <strong>Subscriber:</strong>
-                    <p t-field="doc.subscriber_id"/>
+                    <p t-field="doc.subscriber_id" />
                 </div>
             </div>
         </xpath>
         <xpath expr="//th[2]" position="before">
-            <th class="text-right" t-if="doc.coverage_agreement_id">Authorization Number</th>
+            <th
+                class="text-right"
+                t-if="doc.coverage_agreement_id"
+            >Authorization Number</th>
         </xpath>
         <xpath expr="//td[2]" position="before">
             <td class="text-right" t-if="doc.coverage_agreement_id">
-                <span t-field="line.authorization_number"/>
+                <span t-field="line.authorization_number" />
             </td>
         </xpath>
     </template>
