@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2018 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
-
-    <record model="ir.model.access" id="medical_icd10pcs_operation_access_name"> <!-- TODO acl id -->
-        <field name="name">medical.icd10pcs.operation access name</field> <!-- TODO acl name -->
-        <field name="model_id" ref="model_medical_icd10pcs_operation"/>
+    <record model="ir.model.access" id="medical_icd10pcs_operation_access_name">
+        <!-- TODO acl id -->
+        <field name="name">medical.icd10pcs.operation access name</field>
+        <!-- TODO acl name -->
+        <field name="model_id" ref="model_medical_icd10pcs_operation" />
         <!-- TODO review and adapt -->
-        <field name="group_id" ref="base.group_user"/>
-        <field name="perm_read" eval="1"/>
-        <field name="perm_create" eval="0"/>
-        <field name="perm_write" eval="0"/>
-        <field name="perm_unlink" eval="0"/>
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_unlink" eval="0" />
     </record>
-
 </odoo>
