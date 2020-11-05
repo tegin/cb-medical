@@ -1,4 +1,4 @@
-from odoo import exceptions, models, _
+from odoo import _, exceptions, models
 
 
 class PrintingLabelZpl2(models.Model):
