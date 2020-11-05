@@ -1,42 +1,43 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record id="medical_encounter_medication_form" model="ir.ui.view">
         <field name="name">medical.encounter.medication</field>
         <field name="model">medical.encounter.medication</field>
         <field name="arch" type="xml">
             <form string="Add Medication">
                 <group>
-                    <field name="medical_id" invisible="1"/>
-                    <field name="location_id" options="{'no_create': True}"/>
-                    <field name="product_id" options="{'no_create': True}" context="{'search_on_supplier': True}"/>
+                    <field name="medical_id" invisible="1" />
+                    <field name="location_id" options="{'no_create': True}" />
+                    <field
+                        name="product_id"
+                        options="{'no_create': True}"
+                        context="{'search_on_supplier': True}"
+                    />
                 </group>
                 <footer>
-                    <button name="run"
-                            string="Create"
-                            type="object"
-                            class="oe_highlight" />
+                    <button
+                        name="run"
+                        string="Create"
+                        type="object"
+                        class="oe_highlight"
+                    />
                     or
                     <button
                         name="action_cancel"
                         string="Cancel"
                         class="oe_link"
                         special="cancel"
-                        />
+                    />
                 </footer>
             </form>
         </field>
     </record>
-
-    <record id="medical_encounter_medication_action"
-            model="ir.actions.act_window">
+    <record id="medical_encounter_medication_action" model="ir.actions.act_window">
         <field name="name">Add Medication</field>
         <field name="res_model">medical.encounter.medication</field>
         <field name="view_mode">form</field>
