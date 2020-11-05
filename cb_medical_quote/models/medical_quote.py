@@ -1,5 +1,6 @@
 from itertools import groupby
-from odoo import api, fields, models, _
+
+from odoo import _, api, fields, models
 
 
 class MedicalQuote(models.Model):

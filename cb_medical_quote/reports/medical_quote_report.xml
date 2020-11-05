@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <report
-            id="action_report_medical_quote"
-            string="Quote"
-            model="medical.quote"
-            report_type="qweb-pdf"
-            file="cb_medical_quote.report_medical_quote"
-            name="cb_medical_quote.report_medical_quote"
-            print_report_name="'Presupuesto - %s' % (object.name)"
+        id="action_report_medical_quote"
+        string="Quote"
+        model="medical.quote"
+        report_type="qweb-pdf"
+        file="cb_medical_quote.report_medical_quote"
+        name="cb_medical_quote.report_medical_quote"
+        print_report_name="'Presupuesto - %s' % (object.name)"
     />
     <report
-            id="action_report_medical_quote_patient"
-            string="Patient copy"
-            model="medical.quote"
-            report_type="qweb-pdf"
-            file="cb_medical_quote.report_medical_quote_patient"
-            name="cb_medical_quote.report_medical_quote_patient"
-            print_report_name="'Actividad - %s' % (object.name)"
+        id="action_report_medical_quote_patient"
+        string="Patient copy"
+        model="medical.quote"
+        report_type="qweb-pdf"
+        file="cb_medical_quote.report_medical_quote_patient"
+        name="cb_medical_quote.report_medical_quote_patient"
+        print_report_name="'Actividad - %s' % (object.name)"
     />
 </odoo>
