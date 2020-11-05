@@ -1,31 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2018 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
-
     <record model="ir.ui.view" id="sale_order_line_cancel_form_view">
         <field name="name">sale.order.line.cancel.form (in pos_validation)</field>
         <field name="model">sale.order.line.cancel</field>
         <field name="arch" type="xml">
             <form string="Sale Order Line Cancel">
                 <group>
-                    <field name="sale_order_line_id" invisible="1"/>
-                    <field name="cancel_reason_id"/>
+                    <field name="sale_order_line_id" invisible="1" />
+                    <field name="cancel_reason_id" />
                 </group>
                 <footer>
-                    <button name="run"
-                            string="OK"
-                            class="btn-primary"
-                            type="object"/>
-                    <button string="Cancel"
-                            class="btn-default"
-                            special="cancel"/>
+                    <button name="run" string="OK" class="btn-primary" type="object" />
+                    <button string="Cancel" class="btn-default" special="cancel" />
                 </footer>
             </form>
         </field>
     </record>
-
     <record model="ir.actions.act_window" id="sale_order_line_cancel_act_window">
         <field name="name">Sale Order Line Cancel</field>
         <field name="res_model">sale.order.line.cancel</field>
@@ -33,6 +25,4 @@
         <field name="context">{'default_sale_order_line_id': active_id}</field>
         <field name="target">new</field>
     </record>
-
-
 </odoo>
