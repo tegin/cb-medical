@@ -1,5 +1,6 @@
-from odoo import api, fields, models, _
 from datetime import date, timedelta
+
+from odoo import _, api, fields, models
 
 
 class SaleCommissionMakeSettle(models.TransientModel):
