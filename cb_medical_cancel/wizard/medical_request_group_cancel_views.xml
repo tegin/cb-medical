@@ -1,33 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 -->
-
 <odoo>
-
     <record model="ir.ui.view" id="medical_request_group_cancel_form">
         <field name="name">medical.request.group.cancel</field>
         <field name="model">medical.request.group.cancel</field>
         <field name="type">form</field>
         <field name="mode">primary</field>
-        <field name="inherit_id" ref="medical_request_cancel_form"/>
+        <field name="inherit_id" ref="medical_request_cancel_form" />
         <field name="arch" type="xml">
             <xpath expr="//form" position="attributes">
                 <attribute name="String">Cancel request group</attribute>
             </xpath>
         </field>
     </record>
-
-    <record id="medical_request_group_cancel_action"
-            model="ir.actions.act_window">
+    <record id="medical_request_group_cancel_action" model="ir.actions.act_window">
         <field name="name">Cancel request_group</field>
         <field name="res_model">medical.request.group.cancel</field>
         <field name="view_mode">form</field>
         <field name="context">{'default_request_id': active_id}</field>
         <field name="target">new</field>
     </record>
-
 </odoo>
