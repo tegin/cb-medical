@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
     -->
-
 <odoo>
     <record model="ir.ui.view" id="medical_add_plan_definition_form">
         <field name="name">medical.careplan.add.plan.definition.form</field>
         <field name="model">medical.careplan.add.plan.definition</field>
-        <field name="inherit_id"
-               ref="medical_clinical_careplan.medical_add_plan_definition_form"/>
+        <field
+            name="inherit_id"
+            ref="medical_clinical_careplan.medical_add_plan_definition_form"
+        />
         <field name="arch" type="xml">
             <field name="plan_definition_id" position="after">
-                <field name="qty"/>
+                <field name="qty" />
             </field>
-
         </field>
     </record>
-
 </odoo>
