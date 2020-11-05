@@ -1,54 +1,55 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record id="wizard_sale_preinvoice_group" model="ir.ui.view">
         <field name="name">wizard.sale.preinvoice.group</field>
         <field name="model">wizard.sale.preinvoice.group</field>
         <field name="arch" type="xml">
             <form string="Generate preinvoices">
                 <group>
-                    <field name="company_ids" widget="many2many_tags"/>
+                    <field name="company_ids" widget="many2many_tags" />
                 </group>
                 <group string="Customers" colspan="4">
-                    <p colspan="4">(keep empty for making the invoices of all the customers)</p>
-                    <field name="payor_ids" nolabel="1"
-                            options="{'no_create': True}"/>
+                    <p
+                        colspan="4"
+                    >(keep empty for making the invoices of all the customers)</p>
+                    <field name="payor_ids" nolabel="1" options="{'no_create': True}" />
                 </group>
                 <footer>
-                    <button name="run"
-                            string="Create preinvoices"
-                            type="object"
-                            class="oe_highlight"/>
+                    <button
+                        name="run"
+                        string="Create preinvoices"
+                        type="object"
+                        class="oe_highlight"
+                    />
                     or
                     <button
-                            name="action_cancel"
-                            string="Cancel"
-                            class="oe_link"
-                            special="cancel"
+                        name="action_cancel"
+                        string="Cancel"
+                        class="oe_link"
+                        special="cancel"
                     />
                 </footer>
             </form>
         </field>
     </record>
-
-    <act_window id="action_wizard_sale_preinvoice_group"
-                name="Generate preinvoices"
-                res_model="wizard.sale.preinvoice.group"
-                view_mode="form"
-                view_type="form"
-                target="new"/>
-
-    <menuitem action="action_wizard_sale_preinvoice_group"
-              id="menu_wizard_sale_preinvoice_group"
-              parent="sale_preinvoice_group_menu"
-              groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager"
-              sequence="100"/>
-
+    <act_window
+        id="action_wizard_sale_preinvoice_group"
+        name="Generate preinvoices"
+        res_model="wizard.sale.preinvoice.group"
+        view_mode="form"
+        view_type="form"
+        target="new"
+    />
+    <menuitem
+        action="action_wizard_sale_preinvoice_group"
+        id="menu_wizard_sale_preinvoice_group"
+        parent="sale_preinvoice_group_menu"
+        groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager"
+        sequence="100"
+    />
 </odoo>

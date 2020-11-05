@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2020 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
-
     <record id="medical_authorization_method_form" model="ir.ui.view">
         <field name="name">medical.authorization.method.form</field>
         <field name="model">medical.authorization.method</field>
-        <field name="inherit_id" ref="cb_medical_financial_coverage_request.medical_authorization_method_form"/>
+        <field
+            name="inherit_id"
+            ref="cb_medical_financial_coverage_request.medical_authorization_method_form"
+        />
         <field name="arch" type="xml">
             <field name="integration_information" position="after">
-                <field name="force_item_authorization_method"/>
+                <field name="force_item_authorization_method" />
             </field>
         </field>
     </record>
