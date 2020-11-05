@@ -61,7 +61,7 @@ class MedicalICD10PCSConcept(models.Model):
     )
     def _compute_code(self):
         for rec in self:
-            rec.code = "%s%s%s%s%s%s%s" % (
+            rec.code = "{}{}{}{}{}{}{}".format(
                 rec.section_id.code,
                 rec.body_system_id.code,
                 rec.root_operation_id.code,
