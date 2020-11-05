@@ -3,28 +3,40 @@
     <record id="view_pos_session_form" model="ir.ui.view">
         <field name="name">pos.session.form.view</field>
         <field name="model">pos.session</field>
-        <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+        <field name="inherit_id" ref="point_of_sale.view_pos_session_form" />
         <field name="arch" type="xml">
             <field name="name" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="name" position="after">
-                <field name="internal_identifier"/>
+                <field name="internal_identifier" />
             </field>
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button type="object"
-                        name="action_view_encounters"
-                        class="oe_stat_button" icon="fa-hospital-o">
-                    <field name="encounter_count" widget="statinfo"
-                           string="Encounters"/>
-                    <field name="encounter_ids" invisible="1"/>
+                <button
+                    type="object"
+                    name="action_view_encounters"
+                    class="oe_stat_button"
+                    icon="fa-hospital-o"
+                >
+                    <field
+                        name="encounter_count"
+                        widget="statinfo"
+                        string="Encounters"
+                    />
+                    <field name="encounter_ids" invisible="1" />
                 </button>
-                <button type="object"
-                        name="action_view_sale_orders"
-                        class="oe_stat_button" icon="fa-usd">
-                    <field name="sale_order_count" widget="statinfo"
-                           string="Sale Orders"/>
-                    <field name="sale_order_ids" invisible="1"/>
+                <button
+                    type="object"
+                    name="action_view_sale_orders"
+                    class="oe_stat_button"
+                    icon="fa-usd"
+                >
+                    <field
+                        name="sale_order_count"
+                        widget="statinfo"
+                        string="Sale Orders"
+                    />
+                    <field name="sale_order_ids" invisible="1" />
                 </button>
             </xpath>
         </field>
@@ -32,24 +44,23 @@
     <record id="view_pos_session_tree" model="ir.ui.view">
         <field name="name">pos.session.form.tree</field>
         <field name="model">pos.session</field>
-        <field name="inherit_id" ref="point_of_sale.view_pos_session_tree"/>
+        <field name="inherit_id" ref="point_of_sale.view_pos_session_tree" />
         <field name="arch" type="xml">
             <field name="name" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="name" position="after">
-                <field name="internal_identifier"/>
+                <field name="internal_identifier" />
             </field>
         </field>
     </record>
-
     <record id="view_pos_session_search" model="ir.ui.view">
         <field name="name">pos.session.search.view</field>
         <field name="model">pos.session</field>
-        <field name="inherit_id" ref="point_of_sale.view_pos_session_search"/>
+        <field name="inherit_id" ref="point_of_sale.view_pos_session_search" />
         <field name="arch" type="xml">
             <field name="name" position="before">
-                <field name="internal_identifier"/>
+                <field name="internal_identifier" />
             </field>
             <field name="name" position="attributes">
                 <attribute name="invisible">1</attribute>
