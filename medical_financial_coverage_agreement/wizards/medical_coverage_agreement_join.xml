@@ -1,31 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2018 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
-
     <record model="ir.ui.view" id="medical_coverage_agreement_join_form_view">
-        <field name="name">medical.coverage.agreement.join.form (in cb_medical_financial_coverage_agreement)</field>
+        <field
+            name="name"
+        >medical.coverage.agreement.join.form (in cb_medical_financial_coverage_agreement)</field>
         <field name="model">medical.coverage.agreement.join</field>
         <field name="arch" type="xml">
             <form string="Medical Coverage Agreement Join">
                 <group>
-                    <field name="agreement_ids"/>
+                    <field name="agreement_ids" />
                 </group>
                 <footer>
-                    <button name="run"
-                            string="Join"
-                            class="btn-primary"
-                            type="object"/>
-                    <button string="Cancel"
-                            class="btn-default"
-                            special="cancel"/>
+                    <button
+                        name="run"
+                        string="Join"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
                 </footer>
             </form>
         </field>
     </record>
-
-    <act_window id="medical_coverage_agreement_join_act_window"
+    <act_window
+        id="medical_coverage_agreement_join_act_window"
         name="Medical Coverage Agreement Join"
         src_model="medical.coverage.agreement"
         res_model="medical.coverage.agreement.join"
@@ -33,5 +33,4 @@
         target="new"
         key2="client_action_multi"
     />
-
 </odoo>
