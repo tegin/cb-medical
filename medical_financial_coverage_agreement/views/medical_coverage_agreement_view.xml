@@ -1,40 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Creu Blanca
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
     <record id="medical_coverage_agreement_tree" model="ir.ui.view">
         <field name="name">medical.coverage.agreement.tree</field>
         <field name="model">medical.coverage.agreement</field>
         <field name="arch" type="xml">
-            <tree string="Agreements" decoration-muted="(date_from &gt; current_date) or (date_to and date_to &lt; current_date)">
-                <field name="internal_identifier"/>
-                <field name="name"/>
-                <field name="company_id"/>
-                <field name="date_from"/>
-                <field name="date_to"/>
-                <field name="coverage_template_ids" string="Coverage templates"/>
+            <tree
+                string="Agreements"
+                decoration-muted="(date_from &gt; current_date) or (date_to and date_to &lt; current_date)"
+            >
+                <field name="internal_identifier" />
+                <field name="name" />
+                <field name="company_id" />
+                <field name="date_from" />
+                <field name="date_to" />
+                <field name="coverage_template_ids" string="Coverage templates" />
             </tree>
         </field>
     </record>
-
     <record id="medical_coverage_agreement_tree_delete" model="ir.ui.view">
         <field name="name">medical.coverage.agreement.form</field>
         <field name="model">medical.coverage.agreement</field>
         <field name="mode">primary</field>
-        <field name="inherit_id" ref="medical_coverage_agreement_tree"/>
-        <field name="priority" eval="100"/>
+        <field name="inherit_id" ref="medical_coverage_agreement_tree" />
+        <field name="priority" eval="100" />
         <field name="arch" type="xml">
             <tree position="attributes">
                 <attribute name="delete">1</attribute>
             </tree>
         </field>
     </record>
-
     <record id="medical_coverage_agreement_view" model="ir.ui.view">
         <field name="name">medical.coverage.agreement.form</field>
         <field name="model">medical.coverage.agreement</field>
@@ -42,71 +41,98 @@
             <form string="Agreement">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="toggle_active" type="object"
-                                confirm="Are you sure you want to archive/unarchive this element?"
-                                class="oe_stat_button" icon="fa-archive">
-                            <field name="active" widget="boolean_button"
-                                   options='{"terminology": "archive"}'/>
+                        <button
+                            name="toggle_active"
+                            type="object"
+                            confirm="Are you sure you want to archive/unarchive this element?"
+                            class="oe_stat_button"
+                            icon="fa-archive"
+                        >
+                            <field
+                                name="active"
+                                widget="boolean_button"
+                                options='{"terminology": "archive"}'
+                            />
                         </button>
                         <button
-                                type="action"
-                                name="%(cb_medical_financial_coverage_agreement.set_medical_coverage_agreement_template_action)s"
-                                class="oe_stat_button"
-                                icon="fa-clone"
-                                context="{'default_agreement_id': id, 'default_template_id': template_id}"
-                                attrs="{'invisible': [('is_template', '=', True)]}"
-                                string="Set template"/>
+                            type="action"
+                            name="%(cb_medical_financial_coverage_agreement.set_medical_coverage_agreement_template_action)s"
+                            class="oe_stat_button"
+                            icon="fa-clone"
+                            context="{'default_agreement_id': id, 'default_template_id': template_id}"
+                            attrs="{'invisible': [('is_template', '=', True)]}"
+                            string="Set template"
+                        />
                         <button
-                                type="action"
-                                name="%(cb_medical_financial_coverage_agreement.medical_agreement_change_prices_action)s"
-                                class="oe_stat_button"
-                                icon="fa-percent"
-                                context="{'active_ids': [id]}"
-                                attrs="{'invisible': [('is_template', '=', True)]}"
-                                string="Apply percentage"/>
+                            type="action"
+                            name="%(cb_medical_financial_coverage_agreement.medical_agreement_change_prices_action)s"
+                            class="oe_stat_button"
+                            icon="fa-percent"
+                            context="{'active_ids': [id]}"
+                            attrs="{'invisible': [('is_template', '=', True)]}"
+                            string="Apply percentage"
+                        />
                         <button
-                                type="object"
-                                name="action_search_item"
-                                class="oe_stat_button"
-                                icon="fa-bars"
-                                string="Items"/>
+                            type="object"
+                            name="action_search_item"
+                            class="oe_stat_button"
+                            icon="fa-bars"
+                            string="Items"
+                        />
                     </div>
                     <div class="oe_title">
                         <h1>
-                            <field name="internal_identifier"/>
+                            <field name="internal_identifier" />
                         </h1>
                         <h2>
-                            <field name="name"/>
+                            <field name="name" />
                         </h2>
                     </div>
                     <group>
                         <group>
-                            <field name="is_template" invisible="1"/>
-                            <field name="template_id" attrs="{'invisible': [('is_template','=', True)]}"/>
-                            <field name="center_ids" widget="many2many_tags"
-                                   options="{'no_create': True}"/>
-                            <field name="company_id" options="{'no_create': True}"/>
-                            <field name="currency_id" invisible="1"/>
-                            <field name="principal_concept"/>
-                            <field name="nomenclature_id"/>
+                            <field name="is_template" invisible="1" />
+                            <field
+                                name="template_id"
+                                attrs="{'invisible': [('is_template','=', True)]}"
+                            />
+                            <field
+                                name="center_ids"
+                                widget="many2many_tags"
+                                options="{'no_create': True}"
+                            />
+                            <field name="company_id" options="{'no_create': True}" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="principal_concept" />
+                            <field name="nomenclature_id" />
                         </group>
                     </group>
                     <group name="date_range">
-                        <label for="date_from" string="Period"/>
+                        <label for="date_from" string="Period" />
                         <div>
-                            <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
+                            <field name="date_from" class="oe_inline" /> - <field
+                                name="date_to"
+                                class="oe_inline"
+                            />
                         </div>
-                        <field name="actual_date" invisible="1"/>
+                        <field name="actual_date" invisible="1" />
                     </group>
                     <notebook>
-                        <page name="templates" string="Coverage Templates" attrs="{'invisible': [('is_template','=', True)]}">
+                        <page
+                            name="templates"
+                            string="Coverage Templates"
+                            attrs="{'invisible': [('is_template','=', True)]}"
+                        >
                             <group>
-                                <field name="coverage_template_ids" nolabel="1" options="{'no_create': True}">
+                                <field
+                                    name="coverage_template_ids"
+                                    nolabel="1"
+                                    options="{'no_create': True}"
+                                >
                                     <tree delete="1">
-                                        <field name="internal_identifier"/>
-                                        <field name="name"/>
-                                        <field name="payor_id"/>
-                                        <field name="state"/>
+                                        <field name="internal_identifier" />
+                                        <field name="name" />
+                                        <field name="payor_id" />
+                                        <field name="state" />
                                     </tree>
                                 </field>
                             </group>
@@ -114,30 +140,30 @@
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
                 </div>
             </form>
         </field>
     </record>
-
     <record id="medical_coverage_agreement_search_view" model="ir.ui.view">
         <field name="name">medical.coverage.agreement.search</field>
         <field name="model">medical.coverage.agreement</field>
         <field name="arch" type="xml">
             <search string="Agreements">
-                <field name="name"/>
-                <field name="company_id"/>
-                <field name="coverage_template_ids"/>
-                <filter string="Archived" name="inactive"
-                        domain="[('active','=',False)]"/>
+                <field name="name" />
+                <field name="company_id" />
+                <field name="coverage_template_ids" />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active','=',False)]"
+                />
             </search>
         </field>
     </record>
-
-    <record id="medical_coverage_agreement_action"
-            model="ir.actions.act_window">
+    <record id="medical_coverage_agreement_action" model="ir.actions.act_window">
         <field name="name">Agreements</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement</field>
@@ -159,9 +185,10 @@
             </p>
         </field>
     </record>
-
-    <record id="medical_coverage_agreement_template_action"
-            model="ir.actions.act_window">
+    <record
+        id="medical_coverage_agreement_template_action"
+        model="ir.actions.act_window"
+    >
         <field name="name">Agreement Templates</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement</field>
@@ -170,5 +197,4 @@
         <field name="domain">[('is_template', '=', True)]</field>
         <field name="context">{'default_is_template': True}</field>
     </record>
-
 </odoo>
