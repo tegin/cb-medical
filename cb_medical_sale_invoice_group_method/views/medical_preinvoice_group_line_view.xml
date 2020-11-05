@@ -1,51 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record id="medical_preinvoice_group_line_tree" model="ir.ui.view">
         <field name="name">medical.preinvoice.group.line.tree</field>
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
             <tree string="sale order lines">
-                <button type="object"
-                        name="invalidate_line"
-                        icon="fa-minus-square"
-                        aria-label="invalidate_line"
-                        title="invalidate_line"
-                        groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager"
-                        attrs="{'invisible': ['|', ('is_validated', '=', False), ('preinvoice_status', '!=', 'validation')]}"/>
-                <button type="object"
-                        name="validate_line"
-                        aria-label="validate_line"
-                        title="validate_line"
-                        icon="fa-check-square"
-                        attrs="{'invisible': [('is_validated', '=', True)]}"/>
-                <field name="sequence"/>
-                <field name="encounter_id"/>
-                <field name="patient_name"/>
-                <field name="authorization_number"/>
-                <field name="preinvoice_group_id" invisible="1"/>
-                <field name="is_validated" invisible="1"/>
-                <field name="product_id" options="{'no_create': True}"/>
-                <field name="order_id" options="{'no_create': True}"/>
-                <field name="name"/>
-                <field name="product_uom_qty" string="Qty"/>
-                <field name="qty_delivered"/>
-                <field name="qty_invoiced"/>
-                <field name="qty_to_invoice"/>
-                <field name="product_uom" string="Unit of Measure"
-                       groups="uom.group_uom"/>
-                <field name="price_subtotal" sum="Total" widget="monetary"/>
-                <field name="state" invisible="1"/>
-                <field name="preinvoice_status" invisible="1"/>
+                <button
+                    type="object"
+                    name="invalidate_line"
+                    icon="fa-minus-square"
+                    aria-label="invalidate_line"
+                    title="invalidate_line"
+                    groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_manager"
+                    attrs="{'invisible': ['|', ('is_validated', '=', False), ('preinvoice_status', '!=', 'validation')]}"
+                />
+                <button
+                    type="object"
+                    name="validate_line"
+                    aria-label="validate_line"
+                    title="validate_line"
+                    icon="fa-check-square"
+                    attrs="{'invisible': [('is_validated', '=', True)]}"
+                />
+                <field name="sequence" />
+                <field name="encounter_id" />
+                <field name="patient_name" />
+                <field name="authorization_number" />
+                <field name="preinvoice_group_id" invisible="1" />
+                <field name="is_validated" invisible="1" />
+                <field name="product_id" options="{'no_create': True}" />
+                <field name="order_id" options="{'no_create': True}" />
+                <field name="name" />
+                <field name="product_uom_qty" string="Qty" />
+                <field name="qty_delivered" />
+                <field name="qty_invoiced" />
+                <field name="qty_to_invoice" />
+                <field
+                    name="product_uom"
+                    string="Unit of Measure"
+                    groups="uom.group_uom"
+                />
+                <field name="price_subtotal" sum="Total" widget="monetary" />
+                <field name="state" invisible="1" />
+                <field name="preinvoice_status" invisible="1" />
             </tree>
         </field>
     </record>
-
 </odoo>

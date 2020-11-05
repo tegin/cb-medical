@@ -3,7 +3,7 @@
     <template id="report_invoice_document" inherit_id="account.report_invoice_document">
         <xpath expr="//div[hasclass('page')]/table[1]" position="before">
             <p t-if="o.agreement_id and o.agreement_id.file_reference">
-              <span t-field="o.agreement_id.file_reference"/>
+                <span t-field="o.agreement_id.file_reference" />
             </p>
         </xpath>
     </template>

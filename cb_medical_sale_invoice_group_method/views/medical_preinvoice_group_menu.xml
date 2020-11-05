@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
-    <menuitem id="sale_preinvoice_group_menu"
-              name="Pre-invoice management"
-              parent="sale.sale_menu_root"
-              sequence="4"
-              groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_display"/>
-
+    <menuitem
+        id="sale_preinvoice_group_menu"
+        name="Pre-invoice management"
+        parent="sale.sale_menu_root"
+        sequence="4"
+        groups="cb_medical_sale_invoice_group_method.group_sale_preinvoice_group_display"
+    />
 </odoo>
