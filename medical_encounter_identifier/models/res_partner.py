@@ -40,9 +40,8 @@ class ResPartner(models.Model):
         if prefix:
             for rec in self:
                 if rec.encounter_sequence_id:
-                    rec.sudo().encounter_sequence_id.prefix = self._compute_encounter_prefix(
-                        prefix
-                    )
+                    new_prefix = self._compute_encounter_prefix(prefix)
+                    rec.sudo().encounter_sequence_id.prefix = new_prefix
                 else:
                     seq_vals = self._prepare_ir_encounter_sequence(prefix)
                     rec.encounter_sequence_id = self.env["ir.sequence"].create(

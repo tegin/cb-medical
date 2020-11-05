@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.addons.base.models.ir_sequence import _update_nogap
 from odoo.exceptions import ValidationError
 
@@ -50,6 +50,6 @@ class MedicalEncounter(models.Model):
         return _update_nogap(self, 1)
 
     @api.multi
-    def get_next_number_cb(self, format):
+    def get_next_number_cb(self, number_format):
         self.ensure_one()
-        return format % self.get_next_number()
+        return number_format % self.get_next_number()
