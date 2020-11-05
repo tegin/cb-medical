@@ -1,6 +1,7 @@
-from odoo import api, models, _
-from odoo.tools.safe_eval import safe_eval
 import json
+
+from odoo import _, api, models
+from odoo.tools.safe_eval import safe_eval
 
 
 class MedicalEncounter(models.Model):
