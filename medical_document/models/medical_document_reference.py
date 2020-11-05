@@ -2,8 +2,9 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 import base64
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError, UserError
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 
 class MedicalDocumentReference(models.Model):
