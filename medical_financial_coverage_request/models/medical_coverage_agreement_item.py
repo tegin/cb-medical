@@ -60,8 +60,8 @@ class MedicalCoverageAgreementItem(models.Model):
             "authorization_status": "authorized",
             "authorization_method_id": method.id,
         }
-        format = self.authorization_format_id
-        if method.authorization_required and not format.check_value(
+        auth_format = self.authorization_format_id
+        if method.authorization_required and not auth_format.check_value(
             authorization_number
         ):
             vals["authorization_status"] = "pending"

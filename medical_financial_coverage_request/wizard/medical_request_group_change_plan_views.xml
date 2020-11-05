@@ -1,51 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
     -->
-
 <odoo>
     <record model="ir.ui.view" id="medical_request_group_change_plan_form">
         <field name="name">medical.request.group.change.plan.form</field>
         <field name="model">medical.request.group.change.plan</field>
         <field name="arch" type="xml">
             <form>
-                <field name="request_group_id" invisible="1"/>
-                <field name="careplan_id" invisible="1"/>
-                <field name="patient_id" invisible="1"/>
-                <field name="plan_definition_id" invisible="1"/>
-                <field name="agreement_line_id" options="{'no_create': True}"/>
-                <field name="center_id" invisible="1"/>
-                <field name="product_id" invisible="1"/>
-                <field name="coverage_id" invisible="1"/>
-                <field name="agreement_ids" invisible="1"/>
-                <field name="coverage_template_id" invisible="1"/>
-                <field name="authorization_method_id" invisible="1"/>
-                <field name="authorization_required" invisible="1"/>
-                <field name="authorization_number"
-                       attrs="{'invisible': [('authorization_required', '=', False)]}"/>
-                <field name="authorization_format_id" invisible="1"/>
-                <field name="authorization_information"
-                       attrs="{'invisible': ['|', ('authorization_information', '=', False), ('authorization_required', '=', False)]}"/>
-
+                <field name="request_group_id" invisible="1" />
+                <field name="careplan_id" invisible="1" />
+                <field name="patient_id" invisible="1" />
+                <field name="plan_definition_id" invisible="1" />
+                <field name="agreement_line_id" options="{'no_create': True}" />
+                <field name="center_id" invisible="1" />
+                <field name="product_id" invisible="1" />
+                <field name="coverage_id" invisible="1" />
+                <field name="agreement_ids" invisible="1" />
+                <field name="coverage_template_id" invisible="1" />
+                <field name="authorization_method_id" invisible="1" />
+                <field name="authorization_required" invisible="1" />
+                <field
+                    name="authorization_number"
+                    attrs="{'invisible': [('authorization_required', '=', False)]}"
+                />
+                <field name="authorization_format_id" invisible="1" />
+                <field
+                    name="authorization_information"
+                    attrs="{'invisible': ['|', ('authorization_information', '=', False), ('authorization_required', '=', False)]}"
+                />
                 <footer>
-                    <button type="object" name="run" string="Change"
-                            class="oe_highlight"/>
-                    <button special="cancel" string="Cancel" class="oe_link"/>
+                    <button
+                        type="object"
+                        name="run"
+                        string="Change"
+                        class="oe_highlight"
+                    />
+                    <button special="cancel" string="Cancel" class="oe_link" />
                 </footer>
             </form>
         </field>
     </record>
-
-    <record id="action_medical_request_group_change_plan"
-            model="ir.actions.act_window">
+    <record id="action_medical_request_group_change_plan" model="ir.actions.act_window">
         <field name="name">Change Plan</field>
         <field name="res_model">medical.request.group.change.plan</field>
         <field name="view_mode">form</field>
         <field name="context">{'default_request_group_id': active_id}</field>
         <field name="target">new</field>
     </record>
-
 </odoo>
