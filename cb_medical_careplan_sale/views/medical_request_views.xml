@@ -3,52 +3,64 @@
     <record model="ir.ui.view" id="medical_request_form">
         <field name="name">medical.request.form</field>
         <field name="model">medical.request</field>
-        <field name="inherit_id"
-               ref="medical_workflow.medical_request_form"/>
+        <field name="inherit_id" ref="medical_workflow.medical_request_form" />
         <field name="arch" type="xml">
             <form position="attributes">
                 <attribute name="create">0</attribute>
             </form>
             <field name="coverage_id" position="after">
-                <field name="payor_id"
-                       options="{'no_create': True, 'no_open': True}"
-                       attrs="{'readonly': [('is_editable', '=', False)]}"/>
-                <field name="sub_payor_id"
-                       options="{'no_create': True, 'no_open': True}"
-                       attrs="{'readonly': [('is_editable', '=', False)]}"/>
+                <field
+                    name="payor_id"
+                    options="{'no_create': True, 'no_open': True}"
+                    attrs="{'readonly': [('is_editable', '=', False)]}"
+                />
+                <field
+                    name="sub_payor_id"
+                    options="{'no_create': True, 'no_open': True}"
+                    attrs="{'readonly': [('is_editable', '=', False)]}"
+                />
             </field>
             <notebook position="inside">
-                <page name="invoicing" string="Invoicing"
-                      attrs="{'invisible': [('is_billable', '=', False)]}">
+                <page
+                    name="invoicing"
+                    string="Invoicing"
+                    attrs="{'invisible': [('is_billable', '=', False)]}"
+                >
                     <group>
                         <group>
-                            <field name="coverage_agreement_id"
-                                   options="{'no_create': True, 'no_open': True}"/>
-                            <newline/>
-                            <field name="coverage_agreement_item_id"
-                                   options="{'no_create': True, 'no_open': True}"/>
-                            <field name="qty"
-                                   attrs="{'readonly': [('is_editable', '=', False)]}"
+                            <field
+                                name="coverage_agreement_id"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                            <newline />
+                            <field
+                                name="coverage_agreement_item_id"
+                                options="{'no_create': True, 'no_open': True}"
+                            />
+                            <field
+                                name="qty"
+                                attrs="{'readonly': [('is_editable', '=', False)]}"
                             />
                         </group>
                     </group>
                 </page>
             </notebook>
             <group name="inheritance" position="inside">
-                <field name="is_billable" readonly="1"/>
-                <field name="is_breakdown" invisible="1"/>
-                <field name="is_sellable_insurance" invisible="1"/>
-                <field name="is_sellable_private" invisible="1"/>
+                <field name="is_billable" readonly="1" />
+                <field name="is_breakdown" invisible="1" />
+                <field name="is_sellable_insurance" invisible="1" />
+                <field name="is_sellable_private" invisible="1" />
             </group>
         </field>
     </record>
-
     <record id="medical_request_form_agreement" model="ir.ui.view">
         <field name="name">medical.request.view.form</field>
         <field name="model">medical.request</field>
-        <field name="inherit_id" ref="medical_request_form"/>
-        <field name="groups_id"
-               eval="[(4, ref('cb_medical_financial_coverage_agreement.group_medical_agreement_list'))]"/>
+        <field name="inherit_id" ref="medical_request_form" />
+        <field
+            name="groups_id"
+            eval="[(4, ref('cb_medical_financial_coverage_agreement.group_medical_agreement_list'))]"
+        />
         <field name="arch" type="xml">
             <field name="coverage_agreement_id" position="attributes">
                 <attribute name="options">{'no_open': False, 'no_create':
@@ -62,13 +74,14 @@
             </field>
         </field>
     </record>
-
     <record id="medical_request_form_payor" model="ir.ui.view">
         <field name="name">medical.request.view.form</field>
         <field name="model">medical.request</field>
-        <field name="inherit_id" ref="medical_request_form"/>
-        <field name="groups_id"
-               eval="[(4, ref('medical_financial_coverage.group_medical_payor_list'))]"/>
+        <field name="inherit_id" ref="medical_request_form" />
+        <field
+            name="groups_id"
+            eval="[(4, ref('medical_financial_coverage.group_medical_payor_list'))]"
+        />
         <field name="arch" type="xml">
             <field name="payor_id" position="attributes">
                 <attribute name="options">{'no_open': False, 'no_create':
