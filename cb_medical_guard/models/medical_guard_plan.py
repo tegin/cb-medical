@@ -1,6 +1,7 @@
-from datetime import timedelta, datetime, date
+from datetime import date, datetime, timedelta
+
 import pytz
-from odoo import api, models, fields, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -13,7 +14,7 @@ def parse_atom(parse, minmax):
         # A single number still needs to be returned as a set
         value = int(parse)
         if minmax[0] <= value <= minmax[1]:
-            return set((value,))
+            return {value}
         else:
             raise UserError(_('"%s" is not within valid range.') % parse)
     elif "-" in parse or "/" in parse:
