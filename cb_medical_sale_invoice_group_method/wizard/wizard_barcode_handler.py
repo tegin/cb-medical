@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models, _
+from odoo import _, fields, models
 
 
 class WizardSalePreinvoiceGroup(models.TransientModel):
@@ -36,10 +36,8 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
             % self.encounter_id.display_name
         )
         for line in self.processed_lines:
-            show_lines = "%s %s [%s]\n" % (
-                show_lines,
-                line.product_id.name,
-                line.order_id.name,
+            show_lines = "{} {} [{}]\n".format(
+                show_lines, line.product_id.name, line.order_id.name,
             )
         return show_lines + _(
             "Scan the next barcode or press Close to " "finish scanning."
