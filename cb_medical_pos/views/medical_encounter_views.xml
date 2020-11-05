@@ -3,8 +3,10 @@
     <record id="medical_encounter_view_form" model="ir.ui.view">
         <field name="name">medical.encounter.view.form</field>
         <field name="model">medical.encounter</field>
-        <field name="inherit_id"
-               ref="cb_medical_careplan_sale.medical_encounter_view_form"/>
+        <field
+            name="inherit_id"
+            ref="cb_medical_careplan_sale.medical_encounter_view_form"
+        />
         <field name="arch" type="xml">
             <button name="create_sale_order" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -18,28 +20,37 @@
                 <attribute name="invisible">1</attribute>
             </button>
             <button name="onleave2finished" position="after">
-                <button name="%(cb_medical_pos.wizard_medical_encounter_add_amount_action)d"
-                        type="action" string="Add Amount"
-                        class="oe_highlight"
-                        context="{'default_encounter_id': active_id}"
-                        attrs="{'invisible': [('state','not in',['arrived', 'in-progress'])]}"/>
-                <button name="medical_encounter_close_action"
-                        type="object" string="Close"
-                        class="oe_highlight"
-                        context="{'default_encounter_id': active_id}"
-                        attrs="{'invisible': [('state','not in',['arrived', 'in-progress'])]}"/>
-                <button name="%(cb_medical_pos.wizard_medical_encounter_finish_action)d"
-                        type="action" string="Finish"
-                        class="oe_highlight"
-                        context="{'default_encounter_id': active_id}"
-                        attrs="{'invisible': [('state','!=','onleave')]}"/>
+                <button
+                    name="%(cb_medical_pos.wizard_medical_encounter_add_amount_action)d"
+                    type="action"
+                    string="Add Amount"
+                    class="oe_highlight"
+                    context="{'default_encounter_id': active_id}"
+                    attrs="{'invisible': [('state','not in',['arrived', 'in-progress'])]}"
+                />
+                <button
+                    name="medical_encounter_close_action"
+                    type="object"
+                    string="Close"
+                    class="oe_highlight"
+                    context="{'default_encounter_id': active_id}"
+                    attrs="{'invisible': [('state','not in',['arrived', 'in-progress'])]}"
+                />
+                <button
+                    name="%(cb_medical_pos.wizard_medical_encounter_finish_action)d"
+                    type="action"
+                    string="Finish"
+                    class="oe_highlight"
+                    context="{'default_encounter_id': active_id}"
+                    attrs="{'invisible': [('state','!=','onleave')]}"
+                />
             </button>
             <button name="onleave2finished" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
             <field name="location_id" position="after">
-                <field name="company_id" options="{'no_create': True}"/>
-                <field name="pos_session_id" options="{'no_create': True}"/>
+                <field name="company_id" options="{'no_create': True}" />
+                <field name="pos_session_id" options="{'no_create': True}" />
             </field>
         </field>
     </record>

@@ -55,4 +55,6 @@ class SaleOrderLine(models.Model):
         return res
 
     def _get_invoice_name(self):
-        return "%s (%s)" % (self.invoice_lines[0].invoice_id.number, self.name)
+        return "{} ({})".format(
+            self.invoice_lines[0].invoice_id.number, self.name
+        )
