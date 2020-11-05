@@ -1,38 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2019 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
-
     <record model="ir.ui.view" id="crm_lead_add_agreement_form_view">
         <field name="name">crm.lead.add.agreement.form (in crm_agreement)</field>
         <field name="model">crm.lead.add.agreement</field>
         <field name="arch" type="xml">
             <form string="Add Agreement">
                 <group>
-                    <field name="lead_id" invisible="1"/>
-                    <field name="coverage_template_ids" invisible="1"/>
-                    <field name="agreement_id" options="{'no_create': 1}"
-                           domain="[('coverage_template_ids', 'in', coverage_template_ids)]"
+                    <field name="lead_id" invisible="1" />
+                    <field name="coverage_template_ids" invisible="1" />
+                    <field
+                        name="agreement_id"
+                        options="{'no_create': 1}"
+                        domain="[('coverage_template_ids', 'in', coverage_template_ids)]"
                     />
                 </group>
                 <footer>
-                    <button name="link_to_existing"
-                            string="Link to existing"
-                            class="btn-primary"
-                            type="object"/>
-                    <button name="generate_new"
-                            string="Generate New from Template"
-                            class="btn-primary"
-                            type="object"/>
-                    <button string="Cancel"
-                            class="btn-default"
-                            special="cancel"/>
+                    <button
+                        name="link_to_existing"
+                        string="Link to existing"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button
+                        name="generate_new"
+                        string="Generate New from Template"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
                 </footer>
             </form>
         </field>
     </record>
-
     <record model="ir.actions.act_window" id="crm_lead_add_agreement_act_window">
         <field name="name">Add Agreement</field>
         <field name="res_model">crm.lead.add.agreement</field>
@@ -40,6 +41,4 @@
         <field name="context">{'default_lead_id': active_id}</field>
         <field name="target">new</field>
     </record>
-
-
 </odoo>
