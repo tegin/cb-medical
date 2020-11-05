@@ -1,48 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Creu Blanca
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record id="medical_document_template_view_tree" model="ir.ui.view">
         <field name="name">medical.document.template.view.tree</field>
         <field name="model">medical.document.template</field>
         <field name="arch" type="xml">
             <tree string="Document templates">
-                <field name="sequence"/>
-                <field name="document_type_id" invisible="1"/>
-                <field name="lang_ids" widget="many2many_tags"/>
-                <field name="state"/>
+                <field name="sequence" />
+                <field name="document_type_id" invisible="1" />
+                <field name="lang_ids" widget="many2many_tags" />
+                <field name="state" />
             </tree>
         </field>
     </record>
-
     <record id="medical_document_template_view_form" model="ir.ui.view">
         <field name="name">medical.document.template.view.form</field>
         <field name="model">medical.document.template</field>
         <field name="arch" type="xml">
             <form string="Document template">
                 <header>
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
                     <group name="details" cols="4">
                         <group>
-                            <field name="document_type_id"/>
-                            <field name="sequence"/>
+                            <field name="document_type_id" />
+                            <field name="sequence" />
                         </group>
                     </group>
                     <group>
-                        <field name="lang_ids" widget="many2many_tags"/>
+                        <field name="lang_ids" widget="many2many_tags" />
                     </group>
-                    <notebook/>
+                    <notebook />
                 </sheet>
             </form>
         </field>
     </record>
-
 </odoo>
