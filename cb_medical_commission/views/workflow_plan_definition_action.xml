@@ -1,28 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record model="ir.ui.view" id="workflow_plan_definition_action_form">
         <field name="name">workflow.plan.definition.action.form</field>
         <field name="model">workflow.plan.definition.action</field>
-        <field name="inherit_id"
-               ref="medical_workflow.workflow_plan_definition_action_form"/>
-        <field name="priority" eval="16"/>
+        <field
+            name="inherit_id"
+            ref="medical_workflow.workflow_plan_definition_action_form"
+        />
+        <field name="priority" eval="16" />
         <field name="arch" type="xml">
             <group name="fees">
-                <field name="medical_commission" invisible="1"/>
-                <field name="variable_fee"
-                       attrs="{'invisible':[('medical_commission', '=', False)]}"/>
-                <field name="fixed_fee"
-                       attrs="{'invisible':[('medical_commission', '=', False)]}"/>
+                <field name="medical_commission" invisible="1" />
+                <field
+                    name="variable_fee"
+                    attrs="{'invisible':[('medical_commission', '=', False)]}"
+                />
+                <field
+                    name="fixed_fee"
+                    attrs="{'invisible':[('medical_commission', '=', False)]}"
+                />
             </group>
         </field>
     </record>
-
 </odoo>
