@@ -1,43 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Creu Blanca
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record id="medical_coverage_agreement_item_view_tree" model="ir.ui.view">
         <field name="name">medical.coverage.agreement.item.tree</field>
         <field name="model">medical.coverage.agreement.item</field>
         <field name="priority">10</field>
         <field name="arch" type="xml">
             <tree string="Agreement Items" editable="bottom">
-                <field name="coverage_agreement_id" invisible="1"/>
-                <field name="template_id" invisible="1"/>
-                <field name="product_id" options="{'no_create': True}"/>
-                <field name="item_comment"/>
-                <field name="total_price"/>
-                <field name="categ_id"/>
-                <field name="plan_definition_id" options="{'no_create': True}"/>
-                <field name="coverage_percentage"/>
-                <field name="coverage_price" readonly="True"/>
-                <field name="private_price" readonly="True"/>
-                <button name="toggle_active" type="object"
-                        confirm="Are you sure you want to archive/unarchive this element?"
-                        class="oe_stat_button" icon="fa-archive">
-                    <field name="active" widget="boolean_button"
-                           options='{"terminology": "archive"}'/>
+                <field name="coverage_agreement_id" invisible="1" />
+                <field name="template_id" invisible="1" />
+                <field name="product_id" options="{'no_create': True}" />
+                <field name="item_comment" />
+                <field name="total_price" />
+                <field name="categ_id" />
+                <field name="plan_definition_id" options="{'no_create': True}" />
+                <field name="coverage_percentage" />
+                <field name="coverage_price" readonly="True" />
+                <field name="private_price" readonly="True" />
+                <button
+                    name="toggle_active"
+                    type="object"
+                    confirm="Are you sure you want to archive/unarchive this element?"
+                    class="oe_stat_button"
+                    icon="fa-archive"
+                >
+                    <field
+                        name="active"
+                        widget="boolean_button"
+                        options='{"terminology": "archive"}'
+                    />
                 </button>
             </tree>
         </field>
     </record>
-
     <record id="medical_coverage_agreement_item_view_coverage_tree" model="ir.ui.view">
         <field name="name">medical.coverage.agreement.item.tree</field>
         <field name="model">medical.coverage.agreement.item</field>
-        <field name="inherit_id" ref="medical_coverage_agreement_item_view_tree"/>
+        <field name="inherit_id" ref="medical_coverage_agreement_item_view_tree" />
         <field name="mode">primary</field>
         <field name="priority">20</field>
         <field name="arch" type="xml">
@@ -50,30 +53,42 @@
             </field>
         </field>
     </record>
-
     <record id="medical_coverage_agreement_item_search_view" model="ir.ui.view">
         <field name="name">medical.coverage.agreement.item.search</field>
         <field name="model">medical.coverage.agreement.item</field>
         <field name="arch" type="xml">
             <search string="Agreements">
-                <field name="product_id"/>
-                <field name="categ_id"/>
-                <field name="plan_definition_id"/>
-                <newline/>
-                <filter string="Archived" name="inactive"
-                        domain="[('active','=',False)]"/>
-                <filter string="Current Agreements" name="current_agreements"
-                        domain="['|', ('coverage_agreement_id.date_to', '=', False), ('coverage_agreement_id.date_to', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
-                <filter string="Future Agreements" name="future_agreements"
-                        domain="[('coverage_agreement_id.date_from', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
-                <filter string="Expired Agreements" name="expired_agreements"
-                        domain="[('coverage_agreement_id.date_to', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <field name="product_id" />
+                <field name="categ_id" />
+                <field name="plan_definition_id" />
+                <newline />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active','=',False)]"
+                />
+                <filter
+                    string="Current Agreements"
+                    name="current_agreements"
+                    domain="['|', ('coverage_agreement_id.date_to', '=', False), ('coverage_agreement_id.date_to', '&gt;', context_today().strftime('%Y-%m-%d'))]"
+                />
+                <filter
+                    string="Future Agreements"
+                    name="future_agreements"
+                    domain="[('coverage_agreement_id.date_from', '&gt;', context_today().strftime('%Y-%m-%d'))]"
+                />
+                <filter
+                    string="Expired Agreements"
+                    name="expired_agreements"
+                    domain="[('coverage_agreement_id.date_to', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                />
             </search>
         </field>
     </record>
-
-    <record id="medical_coverage_agreement_item_product_template_action"
-            model="ir.actions.act_window">
+    <record
+        id="medical_coverage_agreement_item_product_template_action"
+        model="ir.actions.act_window"
+    >
         <field name="name">Agreement Item</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement.item</field>
@@ -81,14 +96,18 @@
         <field name="view_mode">tree</field>
         <field name="domain">[('product_tmpl_id', '=', active_id)]</field>
         <field name="context">{'search_default_current_agreements': 1}</field>
-        <field name="view_ids" eval="[(5, 0, 0),
+        <field
+            name="view_ids"
+            eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('medical_coverage_agreement_item_view_coverage_tree')})
              ]
-        "/>
+        "
+        />
     </record>
-
-    <record id="medical_coverage_agreement_item_product_action"
-            model="ir.actions.act_window">
+    <record
+        id="medical_coverage_agreement_item_product_action"
+        model="ir.actions.act_window"
+    >
         <field name="name">Agreement Item</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement.item</field>
@@ -96,28 +115,33 @@
         <field name="view_mode">tree</field>
         <field name="context">{'search_default_current_agreements': 1}</field>
         <field name="domain">[('product_id', '=', active_id)]</field>
-        <field name="view_ids" eval="[(5, 0, 0),
+        <field
+            name="view_ids"
+            eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('medical_coverage_agreement_item_view_coverage_tree')})
              ]
-        "/>
+        "
+        />
     </record>
-
-    <record id="medical_coverage_agreement_item_plan_action"
-            model="ir.actions.act_window">
+    <record
+        id="medical_coverage_agreement_item_plan_action"
+        model="ir.actions.act_window"
+    >
         <field name="name">Agreement Item</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement.item</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree</field>
         <field name="domain">[('plan_definition_id', '=', active_id)]</field>
-        <field name="view_ids" eval="[(5, 0, 0),
+        <field
+            name="view_ids"
+            eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('medical_coverage_agreement_item_view_coverage_tree')})
              ]
-        "/>
+        "
+        />
     </record>
-
-    <record id="medical_coverage_agreement_item_action"
-            model="ir.actions.act_window">
+    <record id="medical_coverage_agreement_item_action" model="ir.actions.act_window">
         <field name="name">Agreement Item</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement.item</field>
@@ -125,5 +149,4 @@
         <field name="view_mode">tree</field>
         <field name="context">{}</field>
     </record>
-
 </odoo>

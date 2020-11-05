@@ -1,25 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
-    <menuitem id="menu_medical_coverage_agreement_template_root"
-              name="Agreement Template"
-              sequence="30"
-              parent="medical_base.medical_root_financial"
-              groups="group_medical_agreement_list"
-              action="medical_coverage_agreement_template_action"/>
-
-    <menuitem id="menu_medical_coverage_agreement_root"
-              name="Agreement"
-              sequence="31"
-              groups="group_medical_agreement_list"
-              parent="medical_base.medical_root_financial"
-              action="medical_coverage_agreement_action"/>
-
+    <menuitem
+        id="menu_medical_coverage_agreement_template_root"
+        name="Agreement Template"
+        sequence="30"
+        parent="medical_base.medical_root_financial"
+        groups="group_medical_agreement_list"
+        action="medical_coverage_agreement_template_action"
+    />
+    <menuitem
+        id="menu_medical_coverage_agreement_root"
+        name="Agreement"
+        sequence="31"
+        groups="group_medical_agreement_list"
+        parent="medical_base.medical_root_financial"
+        action="medical_coverage_agreement_action"
+    />
 </odoo>
