@@ -3,7 +3,7 @@
     <record id="view_pos_session_validation_form" model="ir.ui.view">
         <field name="name">pos.session.validation.form</field>
         <field name="model">pos.session</field>
-        <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+        <field name="inherit_id" ref="point_of_sale.view_pos_session_form" />
         <field name="mode">primary</field>
         <field name="priority">50</field>
         <field name="arch" type="xml">
@@ -11,24 +11,30 @@
                 <attribute name="edit">false</attribute>
             </form>
             <div name="button_box" position="inside">
-                <button name="%(barcode_action.barcode_action_action)d"
-                                    type="action"
-                                    icon="fa-barcode"
-                                    string="Scan"
-                                    context="{'default_model': 'pos.session', 'default_res_id': active_id, 'default_method': 'open_validation_encounter'}"
-                                    attrs="{'invisible': [('validation_status', '!=', 'in_progress')]}"
-                            />
-                <button type="object"
-                        name="action_view_non_validated_encounters"
-                        class="oe_stat_button" icon="fa-hospital-o"
-                        attrs="{'invisible': [('validation_status', '!=', 'in_progress')]}"
-                        >
-                    <field name="encounter_non_validated_count" widget="statinfo"
-                           string="Non validated"/>
+                <button
+                    name="%(barcode_action.barcode_action_action)d"
+                    type="action"
+                    icon="fa-barcode"
+                    string="Scan"
+                    context="{'default_model': 'pos.session', 'default_res_id': active_id, 'default_method': 'open_validation_encounter'}"
+                    attrs="{'invisible': [('validation_status', '!=', 'in_progress')]}"
+                />
+                <button
+                    type="object"
+                    name="action_view_non_validated_encounters"
+                    class="oe_stat_button"
+                    icon="fa-hospital-o"
+                    attrs="{'invisible': [('validation_status', '!=', 'in_progress')]}"
+                >
+                    <field
+                        name="encounter_non_validated_count"
+                        widget="statinfo"
+                        string="Non validated"
+                    />
                 </button>
             </div>
             <header position="inside">
-                <field name="validation_status" widget="statusbar"/>
+                <field name="validation_status" widget="statusbar" />
             </header>
             <field name="statement_ids" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -39,70 +45,78 @@
             <sheet position="inside">
                 <notebook>
                     <page id="invoice" string="Invoices">
-                        <field name="invoice_ids"/>
+                        <field name="invoice_ids" />
                     </page>
                     <page id="order_line" string="Order lines">
                         <field name="sale_order_line_ids">
                             <tree>
-                                <field name="order_id"/>
-                                <field name="careplan_id"/>
-                                <field name="order_partner_id"/>
-                                <field name="product_id"/>
-                                <field name="price_total"/>
+                                <field name="order_id" />
+                                <field name="careplan_id" />
+                                <field name="order_partner_id" />
+                                <field name="product_id" />
+                                <field name="price_total" />
                             </tree>
                         </field>
                     </page>
                     <page id="down_payment" string="Down payments">
-                        <field name="down_payment_ids"/>
+                        <field name="down_payment_ids" />
                     </page>
                     <page id="request_group" string="Request groups">
-                        <field name="request_group_ids"/>
+                        <field name="request_group_ids" />
                     </page>
                     <page id="procedure_request" string="Procedure requests">
-                        <field name="procedure_request_ids"/>
+                        <field name="procedure_request_ids" />
                     </page>
                     <page id="procedure" string="Procedures">
-                        <field name="procedure_ids"/>
+                        <field name="procedure_ids" />
                     </page>
                 </notebook>
             </sheet>
         </field>
     </record>
-
     <record id="session_to_validate_action" model="ir.actions.act_window">
         <field name="name">Validation</field>
         <field name="res_model">pos.session</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_ids"
-                   eval="[(5, 0, 0),
+        <field
+            name="view_ids"
+            eval="[(5, 0, 0),
                           (0, 0, {'view_mode': 'tree', 'view_id': ref('point_of_sale.view_pos_session_tree')}),
                           (0, 0, {'view_mode': 'form', 'view_id': ref('view_pos_session_validation_form')})
-                          ]"/>
-        <field name="context">{'search_default_validation_status': 'in_progress'}</field>
+                          ]"
+        />
+        <field
+            name="context"
+        >{'search_default_validation_status': 'in_progress'}</field>
         <field name="domain">[('validation_status', '!=', 'draft')]</field>
     </record>
-
     <record id="view_pos_session_search" model="ir.ui.view">
-            <field name="name">pos.session.search.view</field>
-            <field name="model">pos.session</field>
-            <field name="inherit_id" ref="point_of_sale.view_pos_session_search"/>
-            <field name="arch" type="xml">
-                <field name="name" position="before">
-                    <field name="validation_status" invisible="1"/>
-                </field>
-                <filter name="open_sessions" position="after">
-                    <filter name="validation_in_progress" string="In Validation"
-                            domain="[('validation_status', '=', 'in_progress')]"/>
-                    <filter name="validation_finished" string="Finished Validation"
-                            domain="[('validation_status', '=', 'finished')]"/>
-                </filter>
+        <field name="name">pos.session.search.view</field>
+        <field name="model">pos.session</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_session_search" />
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="validation_status" invisible="1" />
             </field>
-        </record>
-
-    <menuitem id="pos_session_validation"
-              name="Sessions to validate"
-              parent="medical_sale"
-              action="session_to_validate_action"
-              sequence="1"/>
-
+            <filter name="open_sessions" position="after">
+                <filter
+                    name="validation_in_progress"
+                    string="In Validation"
+                    domain="[('validation_status', '=', 'in_progress')]"
+                />
+                <filter
+                    name="validation_finished"
+                    string="Finished Validation"
+                    domain="[('validation_status', '=', 'finished')]"
+                />
+            </filter>
+        </field>
+    </record>
+    <menuitem
+        id="pos_session_validation"
+        name="Sessions to validate"
+        parent="medical_sale"
+        action="session_to_validate_action"
+        sequence="1"
+    />
 </odoo>
