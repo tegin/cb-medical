@@ -29,4 +29,6 @@ class MedicalFlag(models.Model):
     @api.depends("icon", "level")
     def _compute_flag(self):
         for r in self:
-            r.flag = "%s %s" % (r.icon or "", self.color_mapping()[r.level])
+            r.flag = "{} {}".format(
+                r.icon or "", self.color_mapping()[r.level]
+            )
