@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 -->
-
 <odoo>
-
     <record model="ir.ui.view" id="medical_encounter_add_careplan_form">
         <field name="name">medical.encounter.add.careplan</field>
         <field name="model">medical.encounter.add.careplan</field>
@@ -15,38 +12,43 @@
         <field name="arch" type="xml">
             <form string="Add careplan">
                 <group>
-                    <field name="encounter_id" options="{'no_create': True}"/>
-                    <field name="patient_id" options="{'no_create': True}"/>
-                    <field name="center_id" options="{'no_create': True}"/>
+                    <field name="encounter_id" options="{'no_create': True}" />
+                    <field name="patient_id" options="{'no_create': True}" />
+                    <field name="center_id" options="{'no_create': True}" />
                 </group>
                 <group>
                     <group>
-                        <field name="payor_id" options="{'no_create': True}"/>
-                        <field name="sub_payor_id" options="{'no_create': True}"/>
-                        <field name="coverage_template_id" options="{'no_create': True}"/>
+                        <field name="payor_id" options="{'no_create': True}" />
+                        <field name="sub_payor_id" options="{'no_create': True}" />
+                        <field
+                            name="coverage_template_id"
+                            options="{'no_create': True}"
+                        />
                     </group>
                     <group>
-                        <field name="coverage_id" options="{'no_create': True}"/>
-                        <field name="subscriber_id"/>
-                        <field name="subscriber_magnetic_str"/>
+                        <field name="coverage_id" options="{'no_create': True}" />
+                        <field name="subscriber_id" />
+                        <field name="subscriber_magnetic_str" />
                     </group>
                 </group>
                 <footer>
-                    <button string="Create" name="run"
-                            type="object" default_focus="1" class="btn-primary"/>
-                    <button string="Cancel" class="btn-default" special="cancel"/>
+                    <button
+                        string="Create"
+                        name="run"
+                        type="object"
+                        default_focus="1"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
                 </footer>
             </form>
         </field>
     </record>
-
-    <record id="medical_encounter_add_careplan_action"
-            model="ir.actions.act_window">
+    <record id="medical_encounter_add_careplan_action" model="ir.actions.act_window">
         <field name="name">Add Careplan</field>
         <field name="res_model">medical.encounter.add.careplan</field>
         <field name="view_mode">form</field>
         <field name="context">{'default_encounter_id': active_id}</field>
         <field name="target">new</field>
     </record>
-
 </odoo>

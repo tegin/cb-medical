@@ -40,11 +40,12 @@ class LaboratoryEvent(models.Model):
         query = []
         for request in self.filtered(lambda r: r.state not in ["aborted"]):
             if request.is_sellable_insurance and request.coverage_amount > 0:
+                cov = request.laboratory_request_id.careplan_id.coverage_id.id
                 query.append(
                     (
                         request.coverage_agreement_id.id,
                         request.laboratory_request_id.careplan_id.get_payor(),
-                        request.laboratory_request_id.careplan_id.coverage_id.id,
+                        cov,
                         True,
                         request.laboratory_request_id.get_third_party_partner()
                         if request.laboratory_request_id.third_party_bill
@@ -53,10 +54,11 @@ class LaboratoryEvent(models.Model):
                     )
                 )
             if request.is_sellable_private and request.private_amount > 0:
+                encounter = request.laboratory_request_id.encounter_id
                 query.append(
                     (
                         0,
-                        request.laboratory_request_id.encounter_id.get_patient_partner(),
+                        encounter.get_patient_partner(),
                         False,
                         False,
                         request.laboratory_request_id.get_third_party_partner()
