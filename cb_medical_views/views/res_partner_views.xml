@@ -3,14 +3,17 @@
     <record id="view_res_partner_filter" model="ir.ui.view">
         <field name="name">res.partner.search</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field string="VAT" name="vat"/>
+                <field string="VAT" name="vat" />
             </field>
         </field>
     </record>
-    <record model="ir.actions.act_window" id="medical_financial_coverage.medical_payor_action">
+    <record
+        model="ir.actions.act_window"
+        id="medical_financial_coverage.medical_payor_action"
+    >
         <field name="view_mode">tree,kanban,form</field>
     </record>
 </odoo>

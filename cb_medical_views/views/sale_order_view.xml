@@ -1,49 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
     <record id="view_sale_order_form" model="ir.ui.view">
         <field name="name">sale.order.view</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
             <field name="user_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
         </field>
     </record>
-
     <record id="view_quotation_tree_hide" model="ir.ui.view">
         <field name="name">sale.order.tree.hide</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="inherit_id" ref="sale.view_quotation_tree" />
         <field name="arch" type="xml">
             <field name="user_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="user_id" position="after">
-                <field name="patient_id"/>
-                <field name="encounter_id"/>
+                <field name="patient_id" />
+                <field name="encounter_id" />
             </field>
         </field>
     </record>
-
     <record id="view_sales_order_filter" model="ir.ui.view">
         <field name="name">sale.order.search</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="patient_id"/>
-                <field name="encounter_id"/>
+                <field name="patient_id" />
+                <field name="encounter_id" />
             </field>
         </field>
     </record>
-
-    <template id="report_saleorder_document_hide_salesperson"
-              inherit_id="sale.report_saleorder_document">
+    <template
+        id="report_saleorder_document_hide_salesperson"
+        inherit_id="sale.report_saleorder_document"
+    >
         <xpath expr="//p[@t-field='doc.user_id']/.." position="attributes">
             <attribute name="t-if">1==0</attribute>
         </xpath>
     </template>
-
 </odoo>
