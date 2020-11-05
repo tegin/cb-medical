@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2020 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
-
     <record model="ir.ui.view" id="view_mgmtsystem_nonconformity_form">
         <field name="name">mgmtsystem.nonconformity.form (in cb_nonconformity)</field>
         <field name="model">mgmtsystem.nonconformity</field>
-        <field name="inherit_id" ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_form"/>
+        <field
+            name="inherit_id"
+            ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_form"
+        />
         <field name="arch" type="xml">
             <field name="kanban_state" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -29,12 +30,11 @@
             </field>
             <field name="description" position="after">
                 <group>
-                    <field name="description" nolabel="1"/>
+                    <field name="description" nolabel="1" />
                 </group>
             </field>
         </field>
     </record>
-
     <!--
     <record model="ir.ui.view" id="mgmtsystem_nonconformity_search_view">
         <field name="name">mgmtsystem.nonconformity.search (in cb_nonconformity)</field>
