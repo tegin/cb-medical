@@ -1,5 +1,5 @@
-from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
+from odoo.tests.common import TransactionCase
 
 
 class TestPractitionerCondition(TransactionCase):

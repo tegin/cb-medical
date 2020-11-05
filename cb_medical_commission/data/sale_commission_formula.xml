@@ -1,14 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
     <data noupdate="0">
-
         <record id="commission_01" model="sale.commission">
             <field name="name">Cálculo de honorarios</field>
             <field name="commission_type">formula</field>
@@ -42,6 +39,5 @@ if line._name == 'account.invoice.line':
         result += (variable_fee/100 * line.price_subtotal) + fixed_fee * line.quantity
             </field>
         </record>
-
     </data>
 </odoo>
