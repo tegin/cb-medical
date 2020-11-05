@@ -44,8 +44,7 @@ class MedicalMedicationRequest(models.Model):
     def get_sale_order_line_vals(self, is_insurance):
         res = super().get_sale_order_line_vals(is_insurance)
         if self.location_type_id:
-            res["name"] = "%s en %s" % (
-                res["name"],
-                self.location_type_id.name,
+            res["name"] = "{} en {}".format(
+                res["name"], self.location_type_id.name,
             )
         return res
