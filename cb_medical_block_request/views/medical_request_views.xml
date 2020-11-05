@@ -3,11 +3,10 @@
     <record model="ir.ui.view" id="medical_request_form">
         <field name="name">medical.request.form</field>
         <field name="model">medical.request</field>
-        <field name="inherit_id"
-               ref="medical_workflow.medical_request_form"/>
+        <field name="inherit_id" ref="medical_workflow.medical_request_form" />
         <field name="arch" type="xml">
             <group name="inheritance" position="inside">
-                <field name="is_blocking"/>
+                <field name="is_blocking" />
             </group>
         </field>
     </record>
