@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <template id="report_invoice_document"
-              inherit_id="account.report_invoice_document">
-        <xpath expr="//table[@name='invoice_line_table']/tbody/t[@t-foreach='o.invoice_line_ids']"
-               position="attributes">
+    <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+        <xpath
+            expr="//table[@name='invoice_line_table']/tbody/t[@t-foreach='o.invoice_line_ids']"
+            position="attributes"
+        >
             <attribute name="t-foreach">o.invoice_line_ids.filtered(lambda r:
                 not r.down_payment_line_id)
             </attribute>
@@ -14,27 +15,33 @@
                     <strong>Total Services</strong>
                 </td>
                 <td class="text-right">
-                    <span t-esc="sum(line.price_subtotal for line in o.invoice_line_ids.filtered(lambda r: not r.down_payment_line_id))"
-                          t-options='{"widget":"monetary", "display_currency": o.currency_id}'/>
+                    <span
+                        t-esc="sum(line.price_subtotal for line in o.invoice_line_ids.filtered(lambda r: not r.down_payment_line_id))"
+                        t-options='{"widget":"monetary", "display_currency": o.currency_id}'
+                    />
                 </td>
             </tr>
             <tr style="border-bottom:0px">
                 <td>
-                    <span></span>
+                    <span />
                 </td>
                 <td class="text-right">
-                    <span></span>
+                    <span />
                 </td>
             </tr>
-            <t t-foreach="o.invoice_line_ids.filtered(lambda r: r.down_payment_line_id)"
-               t-as="line">
+            <t
+                t-foreach="o.invoice_line_ids.filtered(lambda r: r.down_payment_line_id)"
+                t-as="line"
+            >
                 <tr style="border-bottom:1px solid #dddddd;">
                     <td>
-                        <span t-esc="line.name"/>
+                        <span t-esc="line.name" />
                     </td>
                     <td class="text-right">
-                        <span t-esc="line.price_subtotal"
-                              t-options='{"widget":"monetary", "display_currency": o.currency_id}'/>
+                        <span
+                            t-esc="line.price_subtotal"
+                            t-options='{"widget":"monetary", "display_currency": o.currency_id}'
+                        />
                     </td>
                 </tr>
             </t>
