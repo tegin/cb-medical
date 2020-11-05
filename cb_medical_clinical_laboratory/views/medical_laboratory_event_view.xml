@@ -1,48 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 -->
-
 <odoo>
-
     <record id="medical_laboratory_event_view_form" model="ir.ui.view">
         <field name="name">medical.laboratory.event.view.form</field>
         <field name="model">medical.laboratory.event</field>
-        <field name="inherit_id" ref="medical_clinical_laboratory.medical_laboratory_event_view_form"/>
+        <field
+            name="inherit_id"
+            ref="medical_clinical_laboratory.medical_laboratory_event_view_form"
+        />
         <field name="arch" type="xml">
             <field name="performer_id" position="after">
-                <field name="delay"/>
+                <field name="delay" />
             </field>
         </field>
     </record>
-
     <record id="medical_laboratory_event_view_tree" model="ir.ui.view">
         <field name="name">medical.laboratory.event.view.tree</field>
         <field name="model">medical.laboratory.event</field>
-        <field name="inherit_id" eval="False"/>
+        <field name="inherit_id" eval="False" />
         <field name="priority">50</field>
         <field name="arch" type="xml">
-            <tree editable="bottom"
-                  decoration-danger="state in ['entered-in-error', 'aborted']"
+            <tree
+                editable="bottom"
+                decoration-danger="state in ['entered-in-error', 'aborted']"
             >
-                <field name="laboratory_request_id" invisible="1"/>
-                <field name="patient_id" invisible="1"/>
-                <field name="encounter_id" invisible="1" readonly="0"/>
-                <field name="service_id" invisible="1"/>
-                <field name="performer_id" invisible="1"/>
+                <field name="laboratory_request_id" invisible="1" />
+                <field name="patient_id" invisible="1" />
+                <field name="encounter_id" invisible="1" readonly="0" />
+                <field name="service_id" invisible="1" />
+                <field name="performer_id" invisible="1" />
                 <field name="laboratory_service_id" />
-                <field name="laboratory_code" invisible="1" readonly="0"/>
-                <field name="private_amount" sum="Private Amount"/>
-                <field name="coverage_amount" sum="Coverage Amount"/>
-                <field name="is_sellable_insurance" invisible="1"/>
-                <field name="is_sellable_private" invisible="1"/>
-                <field name="private_cost"/>
-                <field name="coverage_cost"/>
-                <field name="state" invisible="1"/>
-                <field name="coverage_agreement_id" invisible="1"/>
+                <field name="laboratory_code" invisible="1" readonly="0" />
+                <field name="private_amount" sum="Private Amount" />
+                <field name="coverage_amount" sum="Coverage Amount" />
+                <field name="is_sellable_insurance" invisible="1" />
+                <field name="is_sellable_private" invisible="1" />
+                <field name="private_cost" />
+                <field name="coverage_cost" />
+                <field name="state" invisible="1" />
+                <field name="coverage_agreement_id" invisible="1" />
             </tree>
         </field>
     </record>
