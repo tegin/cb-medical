@@ -1,57 +1,72 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record id="invoice_sale_by_group_wizard" model="ir.ui.view">
         <field name="name">Select period to invoice</field>
         <field name="model">invoice.sales.by.group</field>
         <field name="arch" type="xml">
             <form string="Invoice sales">
                 <group>
-                    <p colspan="4">Select the date up to which you want to invoice the sales orders:</p>
+                    <p
+                        colspan="4"
+                    >Select the date up to which you want to invoice the sales orders:</p>
                 </group>
                 <group colspan="2">
-                    <field name="date_to"/>
-                    <field name="invoice_group_method_id" options="{'no_create': True}"/>
-                    <field name="company_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    <field name="date_to" />
+                    <field
+                        name="invoice_group_method_id"
+                        options="{'no_create': True}"
+                    />
+                    <field
+                        name="company_ids"
+                        widget="many2many_tags"
+                        options="{'no_create': True}"
+                    />
                 </group>
                 <group string="Customers" colspan="4">
-                    <p colspan="4">(keep empty for making the invoices of all the customers)</p>
-                    <field name="customer_ids" nolabel="1" options="{'no_create': True}"/>
+                    <p
+                        colspan="4"
+                    >(keep empty for making the invoices of all the customers)</p>
+                    <field
+                        name="customer_ids"
+                        nolabel="1"
+                        options="{'no_create': True}"
+                    />
                 </group>
                 <footer>
-                    <button name="invoice_sales_by_group"
-                            string="Create invoices"
-                            type="object"
-                            class="oe_highlight" />
+                    <button
+                        name="invoice_sales_by_group"
+                        string="Create invoices"
+                        type="object"
+                        class="oe_highlight"
+                    />
                     or
                     <button
                         name="action_cancel"
                         string="Cancel"
                         class="oe_link"
                         special="cancel"
-                        />
+                    />
                 </footer>
             </form>
         </field>
     </record>
-
-    <act_window id="action_invoice_by_group"
-                name="Sales to Invoice by group"
-                res_model="invoice.sales.by.group"
-                view_mode="form"
-                view_type="form"
-                target="new" />
-
-    <menuitem action="action_invoice_by_group"
-          id="menu_invoice_by_group"
-          parent="sale.menu_sale_invoicing"
-          sequence="100"/>
-
+    <act_window
+        id="action_invoice_by_group"
+        name="Sales to Invoice by group"
+        res_model="invoice.sales.by.group"
+        view_mode="form"
+        view_type="form"
+        target="new"
+    />
+    <menuitem
+        action="action_invoice_by_group"
+        id="menu_invoice_by_group"
+        parent="sale.menu_sale_invoicing"
+        sequence="100"
+    />
 </odoo>

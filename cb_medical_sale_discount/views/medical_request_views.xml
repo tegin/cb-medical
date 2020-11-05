@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
     <record model="ir.ui.view" id="medical_request_form">
         <field name="name">medical.request.form</field>
         <field name="model">medical.request</field>
-        <field name="inherit_id"
-               ref="cb_medical_careplan_sale.medical_request_form"/>
+        <field name="inherit_id" ref="cb_medical_careplan_sale.medical_request_form" />
         <field name="arch" type="xml">
             <field name="coverage_agreement_item_id" position="after">
-                <newline/>
-                <field name="discount"/>
-                <newline/>
-                <field name="medical_sale_discount_id"/>
+                <newline />
+                <field name="discount" />
+                <newline />
+                <field name="medical_sale_discount_id" />
             </field>
         </field>
     </record>
-
 </odoo>

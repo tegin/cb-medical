@@ -3,32 +3,51 @@
     <record id="view_order_form" model="ir.ui.view">
         <field name="name">sale.order.form</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
             <field name="team_id" position="after">
-                <field name="encounter_id" readonly="True"
-                       attrs="{'invisible': [('encounter_id', '=', False)]}"/>
-                <field name="patient_name"
-                       attrs="{'invisible': [('encounter_id', '=', False)]}"/>
-                <field name="subscriber_id"
-                       attrs="{'invisible': [('encounter_id', '=', False)]}"/>
+                <field
+                    name="encounter_id"
+                    readonly="True"
+                    attrs="{'invisible': [('encounter_id', '=', False)]}"
+                />
+                <field
+                    name="patient_name"
+                    attrs="{'invisible': [('encounter_id', '=', False)]}"
+                />
+                <field
+                    name="subscriber_id"
+                    attrs="{'invisible': [('encounter_id', '=', False)]}"
+                />
             </field>
-
-            <xpath expr="//field[@name='order_line']/form//field[@name='product_id']"
-                   position="after">
-                <field name="encounter_id" readonly="1"
-                       attrs="{'invisible': [('encounter_id', '=', False)]}"/>
-                <field name="subscriber_id"
-                       attrs="{'invisible': [('encounter_id', '=', False)]}"/>
-                <field name="authorization_number"
-                       attrs="{'invisible': [('encounter_id', '=', False)]}"/>
+            <xpath
+                expr="//field[@name='order_line']/form//field[@name='product_id']"
+                position="after"
+            >
+                <field
+                    name="encounter_id"
+                    readonly="1"
+                    attrs="{'invisible': [('encounter_id', '=', False)]}"
+                />
+                <field
+                    name="subscriber_id"
+                    attrs="{'invisible': [('encounter_id', '=', False)]}"
+                />
+                <field
+                    name="authorization_number"
+                    attrs="{'invisible': [('encounter_id', '=', False)]}"
+                />
             </xpath>
             <field name="order_line" position="attributes">
-                <attribute name="context">{'default_encounter_id': encounter_id}</attribute>
+                <attribute
+                    name="context"
+                >{'default_encounter_id': encounter_id}</attribute>
             </field>
-            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']"
-                   position="after">
-                <field name="encounter_id" invisible="1" readonly="0"/>
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='product_id']"
+                position="after"
+            >
+                <field name="encounter_id" invisible="1" readonly="0" />
             </xpath>
         </field>
     </record>

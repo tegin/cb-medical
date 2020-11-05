@@ -1,12 +1,13 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
-from dateutil.relativedelta import relativedelta
 from datetime import timedelta
+
+from dateutil.relativedelta import relativedelta
 from odoo import fields
 from odoo.addons.cb_test.tests.test_cb import TestCB
-from odoo.tests.common import post_install, at_install
 from odoo.exceptions import ValidationError
+from odoo.tests.common import at_install, post_install
 
 
 @post_install(True)
@@ -35,7 +36,7 @@ class TestCBInvoicing(TestCB):
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
         self.company.sale_merge_draft_invoice = True
-        for i in range(1, 10):
+        for _ in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
                 self.agreement_line3
             )
@@ -234,7 +235,7 @@ class TestCBInvoicing(TestCB):
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
         self.company.sale_merge_draft_invoice = True
-        for i in range(1, 10):
+        for _ in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
                 self.agreement_line3
             )
@@ -305,7 +306,7 @@ class TestCBInvoicing(TestCB):
         self.agreement_line3.coverage_percentage = 100
         self.company.sale_merge_draft_invoice = True
         sale_orders = self.env["sale.order"]
-        for i in range(1, 10):
+        for _ in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
                 self.agreement_line3
             )
@@ -402,7 +403,7 @@ class TestCBInvoicing(TestCB):
         )
         self.company.sale_merge_draft_invoice = True
         sale_orders = self.env["sale.order"]
-        for i in range(1, 10):
+        for _i in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
                 self.agreement_line3
             )
@@ -513,7 +514,7 @@ class TestCBInvoicing(TestCB):
         self.agreement_line3.coverage_percentage = 100
         self.company.sale_merge_draft_invoice = True
         sale_orders = self.env["sale.order"]
-        for i in range(1, 10):
+        for _i in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
                 self.agreement_line3
             )

@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record id="sequence_pos_session_identifier" model="ir.sequence">
-            <field name="name">Point of Sale session validation</field>
-            <field name="code">pos.session.identifier</field>
-            <field name="prefix">S/%(range_y)s/%(range_month)s/%(range_day)s/</field>
-            <field eval="1" name="number_increment"/>
-            <field eval="True" name="use_date_range"/>
-            <field eval="False" name="company_id"/>
-            <field name="padding">4</field>
-        </record>
-
+        <field name="name">Point of Sale session validation</field>
+        <field name="code">pos.session.identifier</field>
+        <field name="prefix">S/%(range_y)s/%(range_month)s/%(range_day)s/</field>
+        <field eval="1" name="number_increment" />
+        <field eval="True" name="use_date_range" />
+        <field eval="False" name="company_id" />
+        <field name="padding">4</field>
+    </record>
 </odoo>

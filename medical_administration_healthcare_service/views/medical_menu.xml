@@ -1,16 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Creu Blanca
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
-        <menuitem id="medical_conf_healthcare_service_menu"
-                  name="Healthcare Services"
-                  parent="medical_base.medical_root_administration"
-                  action="medical_healthcare_service_action"
-                  sequence="20"/>
+    <menuitem
+        id="medical_conf_healthcare_service_menu"
+        name="Healthcare Services"
+        parent="medical_base.medical_root_administration"
+        action="medical_healthcare_service_action"
+        sequence="20"
+    />
 </odoo>

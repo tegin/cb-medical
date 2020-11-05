@@ -1,28 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
     Copyright 2017 Creu Blanca
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record model="ir.ui.view" id="workflow_plan_definition_action_form">
         <field name="name">workflow.plan.definition.action.form</field>
         <field name="model">workflow.plan.definition.action</field>
-        <field name="inherit_id"
-               ref="medical_workflow.workflow_plan_definition_action_form"/>
+        <field
+            name="inherit_id"
+            ref="medical_workflow.workflow_plan_definition_action_form"
+        />
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page name="trigger" string="Trigger Actions">
                     <group>
-                        <field name="trigger_action_ids"
-                               widget="many2many_tags" options="{'no_create': True}"/>
+                        <field
+                            name="trigger_action_ids"
+                            widget="many2many_tags"
+                            options="{'no_create': True}"
+                        />
                     </group>
                 </page>
             </notebook>
         </field>
     </record>
-
 </odoo>

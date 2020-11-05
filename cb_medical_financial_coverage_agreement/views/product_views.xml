@@ -1,58 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
     <record model="ir.ui.view" id="product_template_form_view">
         <field name="name">product.template.form</field>
         <field name="model">product.template</field>
-        <field name="inherit_id"
-               ref="product.product_template_only_form_view"/>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="%(medical_coverage_agreement_item_product_template_action)s"
-                        type="action"
-                        groups="cb_medical_financial_coverage_agreement.group_medical_agreement_list"
-                        class="oe_stat_button" icon="fa-hand-holding-usd"
-                        attrs="{'invisible': [('type','!=','service')]}"
-                        string="View Agreements"
+                <button
+                    name="%(medical_coverage_agreement_item_product_template_action)s"
+                    type="action"
+                    groups="cb_medical_financial_coverage_agreement.group_medical_agreement_list"
+                    class="oe_stat_button"
+                    icon="fa-hand-holding-usd"
+                    attrs="{'invisible': [('type','!=','service')]}"
+                    string="View Agreements"
                 />
             </xpath>
         </field>
     </record>
-
     <record model="ir.ui.view" id="product_normal_form_view">
         <field name="name">product.product.form</field>
         <field name="model">product.product</field>
-        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="%(cb_medical_financial_coverage_agreement.medical_coverage_agreement_item_product_action)s"
-                        type="action"
-                        groups="cb_medical_financial_coverage_agreement.group_medical_agreement_list"
-                        class="oe_stat_button" icon="fa-hand-holding-usd"
-                        attrs="{'invisible': [('type','!=','service')]}"
-                        string="View Agreements"
+                <button
+                    name="%(cb_medical_financial_coverage_agreement.medical_coverage_agreement_item_product_action)s"
+                    type="action"
+                    groups="cb_medical_financial_coverage_agreement.group_medical_agreement_list"
+                    class="oe_stat_button"
+                    icon="fa-hand-holding-usd"
+                    attrs="{'invisible': [('type','!=','service')]}"
+                    string="View Agreements"
                 />
             </xpath>
         </field>
     </record>
-
     <record id="product_template_form_zero_sales_view" model="ir.ui.view">
-       <field name="name">product.template.common.form</field>
-       <field name="model">product.template</field>
-       <field name="inherit_id" ref="product.product_template_form_view" />
-       <field name="arch" type="xml">
-           <xpath expr="//div[@name='options']" position="inside">
-               <div>
-                   <field name="include_zero_sales" />
-                   <label for="include_zero_sales" />
-               </div>
-           </xpath>
-           <xpath expr="//field[@name='description_sale']/.." position="after">
-               <group string="Agreement Comment" name="group_agreement_comment">
-                   <field name="agreement_comment" nolabel="1" placeholder="This note will show up agreement items comments..."/>
-               </group>
-           </xpath>
-       </field>
-   </record>
-
+        <field name="name">product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='options']" position="inside">
+                <div>
+                    <field name="include_zero_sales" />
+                    <label for="include_zero_sales" />
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='description_sale']/.." position="after">
+                <group string="Agreement Comment" name="group_agreement_comment">
+                    <field
+                        name="agreement_comment"
+                        nolabel="1"
+                        placeholder="This note will show up agreement items comments..."
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
 </odoo>
