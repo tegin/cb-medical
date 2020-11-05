@@ -1,109 +1,127 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
-    <act_window id="encounter_find_by_barcode"
-                name="Find encounter"
-                res_model="barcode.action"
-                view_mode="form"
-                view_type="form"
-                context="{'default_model': 'medical.encounter', 'default_method': 'find_encounter_by_barcode'}"
-                target="new"/>
-
-    <menuitem id="encounter_find_by_barcode_menu"
-              name="Find encounter"
-              parent="medical_base.medical_root_administration"
-              action="encounter_find_by_barcode"
-              sequence="35"/>
-
+    <act_window
+        id="encounter_find_by_barcode"
+        name="Find encounter"
+        res_model="barcode.action"
+        view_mode="form"
+        view_type="form"
+        context="{'default_model': 'medical.encounter', 'default_method': 'find_encounter_by_barcode'}"
+        target="new"
+    />
+    <menuitem
+        id="encounter_find_by_barcode_menu"
+        name="Find encounter"
+        parent="medical_base.medical_root_administration"
+        action="encounter_find_by_barcode"
+        sequence="35"
+    />
     <record id="view_medical_encounter_kanban" model="ir.ui.view">
         <field name="name">medical.encounter.kanban</field>
         <field name="model">medical.encounter</field>
         <field name="type">kanban</field>
         <field name="arch" type="xml">
             <kanban create="false">
-                <field name="internal_identifier"/>
-                <field name="patient_id"/>
-                <field name="center_id"/>
+                <field name="internal_identifier" />
+                <field name="patient_id" />
+                <field name="center_id" />
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click">
-                            <div><strong><field name="internal_identifier"/></strong></div>
-                            <div><field name="patient_id"/></div>
-                            <div><field name="center_id"/></div>
+                            <div>
+                                <strong>
+                                    <field name="internal_identifier" />
+                                </strong>
+                            </div>
+                            <div>
+                                <field name="patient_id" />
+                            </div>
+                            <div>
+                                <field name="center_id" />
+                            </div>
                         </div>
                     </t>
                 </templates>
             </kanban>
         </field>
     </record>
-
     <record model="ir.ui.view" id="medical_encounter_kanban_show_create">
         <field name="name">medical.encounter.kanban.show</field>
         <field name="model">medical.encounter</field>
-        <field name="inherit_id" ref="view_medical_encounter_kanban"/>
+        <field name="inherit_id" ref="view_medical_encounter_kanban" />
         <field name="arch" type="xml">
             <kanban position="attributes">
                 <attribute name="create">true</attribute>
             </kanban>
         </field>
     </record>
-
     <record model="ir.ui.view" id="medical_encounter_tree_hide_create">
         <field name="name">medical.encounter.tree.hide</field>
         <field name="model">medical.encounter</field>
-        <field name="inherit_id" ref="medical_administration_encounter.medical_encounter_view_tree"/>
+        <field
+            name="inherit_id"
+            ref="medical_administration_encounter.medical_encounter_view_tree"
+        />
         <field name="arch" type="xml">
             <tree position="attributes">
                 <attribute name="create">false</attribute>
             </tree>
         </field>
     </record>
-
     <record model="ir.ui.view" id="medical_encounter_tree_show_create">
         <field name="name">medical.encounter.tree.create</field>
         <field name="model">medical.encounter</field>
-        <field name="inherit_id" ref="cb_medical_views.medical_encounter_tree_hide_create"/>
-        <field name="groups_id" eval="[(4, ref('cb_medical_views.group_can_create_encounters'))]"/>
+        <field
+            name="inherit_id"
+            ref="cb_medical_views.medical_encounter_tree_hide_create"
+        />
+        <field
+            name="groups_id"
+            eval="[(4, ref('cb_medical_views.group_can_create_encounters'))]"
+        />
         <field name="arch" type="xml">
             <tree position="attributes">
                 <attribute name="create">true</attribute>
             </tree>
         </field>
     </record>
-
     <record model="ir.ui.view" id="medical_encounter_form_hide_create">
         <field name="name">medical.encounter.form.hide</field>
         <field name="model">medical.encounter</field>
-        <field name="inherit_id" ref="medical_administration_encounter.medical_encounter_view_form"/>
+        <field
+            name="inherit_id"
+            ref="medical_administration_encounter.medical_encounter_view_form"
+        />
         <field name="arch" type="xml">
             <form position="attributes">
                 <attribute name="create">false</attribute>
             </form>
         </field>
     </record>
-
     <record model="ir.ui.view" id="medical_encounter_form_show_create">
         <field name="name">medical.encounter.form.create</field>
         <field name="model">medical.encounter</field>
-        <field name="inherit_id" ref="medical_encounter_form_hide_create"/>
-        <field name="groups_id" eval="[(4, ref('cb_medical_views.group_can_create_encounters'))]"/>
+        <field name="inherit_id" ref="medical_encounter_form_hide_create" />
+        <field
+            name="groups_id"
+            eval="[(4, ref('cb_medical_views.group_can_create_encounters'))]"
+        />
         <field name="arch" type="xml">
             <form position="attributes">
                 <attribute name="create">true</attribute>
             </form>
         </field>
     </record>
-
-    <record model="ir.actions.act_window" id="medical_administration_encounter.medical_encounter_action">
+    <record
+        model="ir.actions.act_window"
+        id="medical_administration_encounter.medical_encounter_action"
+    >
         <field name="view_mode">tree,form,kanban</field>
         <field name="context">{'ignore_mcfix_widget': True}</field>
     </record>
-
 </odoo>
