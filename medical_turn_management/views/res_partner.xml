@@ -1,31 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2020 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
-
     <record model="ir.ui.view" id="res_partner_view_form">
         <field name="name">res.partner.form (in medical_turn_management)</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="medical_administration_practitioner.res_partner_view_form"/>
-        <field name="groups_id" eval="[(4, ref('medical_administration_practitioner.group_medical_practitioner_display'))]"/>
+        <field
+            name="inherit_id"
+            ref="medical_administration_practitioner.res_partner_view_form"
+        />
+        <field
+            name="groups_id"
+            eval="[(4, ref('medical_administration_practitioner.group_medical_practitioner_display'))]"
+        />
         <field name="arch" type="xml">
             <field name="practitioner_role_ids" position="after">
-                <field name="turn_specialty_ids" widget="many2many_tags" options="{'no_create': True}" attrs="{'invisible': [('is_practitioner','=',False)]}"/>
+                <field
+                    name="turn_specialty_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': [('is_practitioner','=',False)]}"
+                />
             </field>
         </field>
     </record>
-
     <record model="ir.ui.view" id="res_partner_view_edit_form">
         <field name="name">res.partner.form (in medical_turn_management)</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="medical_administration_practitioner.res_partner_view_form"/>
-        <field name="groups_id" eval="[(4, ref('medical_administration_practitioner.group_medical_practitioner_manager'))]"/>
+        <field
+            name="inherit_id"
+            ref="medical_administration_practitioner.res_partner_view_form"
+        />
+        <field
+            name="groups_id"
+            eval="[(4, ref('medical_administration_practitioner.group_medical_practitioner_manager'))]"
+        />
         <field name="arch" type="xml">
             <field name="turn_specialty_ids" position="attributes">
                 <attribute name="readonly">0</attribute>
             </field>
         </field>
     </record>
-
 </odoo>
