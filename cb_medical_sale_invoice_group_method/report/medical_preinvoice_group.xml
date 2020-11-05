@@ -1,13 +1,12 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" ?>
 <odoo>
-    <report id="action_medical_preinvoice_group_report"
-            string="Preinvoice Report"
-            model="sale.preinvoice.group"
-            report_type="qweb-pdf"
-            name="cb_medical_sale_invoice_group_method.report_medical_preinvoice_group"
+    <report
+        id="action_medical_preinvoice_group_report"
+        string="Preinvoice Report"
+        model="sale.preinvoice.group"
+        report_type="qweb-pdf"
+        name="cb_medical_sale_invoice_group_method.report_medical_preinvoice_group"
     />
-
     <template id="report_medical_preinvoice_group">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
@@ -17,11 +16,15 @@
                             <div class="col-8">
                                 <h2>
                                     <span>List:</span>
-                                    <span t-field="o.internal_identifier"/>
+                                    <span t-field="o.internal_identifier" />
                                 </h2>
                             </div>
                             <div class="col-4">
-                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.internal_identifier, 600, 100)" style="width:300px;height:50px" class="pull-right mb16"/>
+                                <img
+                                    t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.internal_identifier, 600, 100)"
+                                    style="width:300px;height:50px"
+                                    class="pull-right mb16"
+                                />
                             </div>
                         </div>
                         <div class="row">
@@ -29,13 +32,13 @@
                                 <span>Partner</span>
                             </div>
                             <div class="col-4">
-                                <span t-field="o.partner_id.name"/>
+                                <span t-field="o.partner_id.name" />
                             </div>
                             <div class="col-2">
                                 <span>Company</span>
                             </div>
                             <div class="col-4">
-                                <span t-field="o.company_id.name"/>
+                                <span t-field="o.company_id.name" />
                             </div>
                         </div>
                         <div class="row">
@@ -43,11 +46,10 @@
                                 <span>Coverage Template</span>
                             </div>
                             <div class="col-4">
-                                <span t-field="o.coverage_template_id.name"/>
+                                <span t-field="o.coverage_template_id.name" />
                             </div>
                         </div>
-                        <table class="table table-condensed"
-                               name="invoice_line_table">
+                        <table class="table table-condensed" name="invoice_line_table">
                             <thead>
                                 <th>Code</th>
                                 <th>Date</th>
@@ -60,25 +62,30 @@
                             <tbody class="invoice_tbody">
                                 <tr t-foreach="o.validated_line_ids" t-as="l">
                                     <td>
-                                        <span t-field="l.encounter_id.internal_identifier"/>
+                                        <span
+                                            t-field="l.encounter_id.internal_identifier"
+                                        />
                                     </td>
                                     <td>
-                                        <span t-field="l.encounter_id.create_date" t-options="{'widget': 'date'}"/>
+                                        <span
+                                            t-field="l.encounter_id.create_date"
+                                            t-options="{'widget': 'date'}"
+                                        />
                                     </td>
                                     <td>
-                                        <span t-field="l.patient_name"/>
+                                        <span t-field="l.patient_name" />
                                     </td>
                                     <td>
-                                        <span t-field="l.name"/>
+                                        <span t-field="l.name" />
                                     </td>
                                     <td>
-                                        <span t-field="l.authorization_number"/>
+                                        <span t-field="l.authorization_number" />
                                     </td>
                                     <td>
-                                        <span t-field="l.subscriber_id"/>
+                                        <span t-field="l.subscriber_id" />
                                     </td>
                                     <td class="text-right">
-                                        <span t-field="l.price_total"/>
+                                        <span t-field="l.price_total" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -88,5 +95,4 @@
             </t>
         </t>
     </template>
-
 </odoo>
