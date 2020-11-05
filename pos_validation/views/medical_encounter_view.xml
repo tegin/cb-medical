@@ -1,211 +1,262 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
     <record id="medical_encounter_view_form" model="ir.ui.view">
         <field name="name">medical.encounter.view.form</field>
         <field name="model">medical.encounter</field>
-        <field name="inherit_id"
-               ref="cb_medical_medication.medical_encounter_view_form"/>
+        <field
+            name="inherit_id"
+            ref="cb_medical_medication.medical_encounter_view_form"
+        />
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='action_view_sale_order']" position="attributes">
-                <attribute name="groups">pos_validation.group_medical_encounter_validation</attribute>
+            <xpath
+                expr="//button[@name='action_view_sale_order']"
+                position="attributes"
+            >
+                <attribute
+                    name="groups"
+                >pos_validation.group_medical_encounter_validation</attribute>
             </xpath>
             <field name="location_id" position="after">
-                <field name="validation_status"/>
+                <field name="validation_status" />
             </field>
         </field>
     </record>
-
     <record id="medical_encounter_view_validation_form" model="ir.ui.view">
         <field name="name">medical.encounter.view.form</field>
         <field name="model">medical.encounter</field>
-        <field name="inherit_id"
-               ref="pos_validation.medical_encounter_view_form"/>
-        <field name="groups_id" eval="[(4, ref('pos_validation.group_medical_encounter_validation'))]"/>
+        <field name="inherit_id" ref="pos_validation.medical_encounter_view_form" />
+        <field
+            name="groups_id"
+            eval="[(4, ref('pos_validation.group_medical_encounter_validation'))]"
+        />
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="before">
                 <flagbox
-                        attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                    attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
                 >
-                    <button icon="fa-archive"
-                            name="toggle_is_preinvoiced"
-                            type="object"
-                            help="Preinvoicing is generated. Documents must be stored"
-                            class="flag-warning"
-                            attrs="{'invisible': ['|', ('is_preinvoiced', '=', True), ('has_preinvoicing', '=', False)]}"
+                    <button
+                        icon="fa-archive"
+                        name="toggle_is_preinvoiced"
+                        type="object"
+                        help="Preinvoicing is generated. Documents must be stored"
+                        class="flag-warning"
+                        attrs="{'invisible': ['|', ('is_preinvoiced', '=', True), ('has_preinvoicing', '=', False)]}"
                     />
-                    <flag icon="fa-archive"
-                          name="preinvoicing"
-                          help="Preinvoicing is generated. Documents must be stored"
-                          decoration-light="True"
-                          attrs="{'invisible': [('is_preinvoiced', '=', False), ('has_preinvoicing', '=', True)]}"
+                    <flag
+                        icon="fa-archive"
+                        name="preinvoicing"
+                        help="Preinvoicing is generated. Documents must be stored"
+                        decoration-light="True"
+                        attrs="{'invisible': [('is_preinvoiced', '=', False), ('has_preinvoicing', '=', True)]}"
                     />
-                    <flag icon="fa-exclamation-triangle "
-                          name="unauthorized"
-                          help="Unauthorized elements"
-                          decoration-danger="unauthorized_elements"
-                          decoration-light="not unauthorized_elements"
+                    <flag
+                        icon="fa-exclamation-triangle "
+                        name="unauthorized"
+                        help="Unauthorized elements"
+                        decoration-danger="unauthorized_elements"
+                        decoration-light="not unauthorized_elements"
                     />
-                    <flag icon="fa-terminal"
-                          name="authorization_number"
-                          help="Missing authorization number"
-                          decoration-primary="missing_authorization_number"
-                          decoration-light="not missing_authorization_number"
+                    <flag
+                        icon="fa-terminal"
+                        name="authorization_number"
+                        help="Missing authorization number"
+                        decoration-primary="missing_authorization_number"
+                        decoration-light="not missing_authorization_number"
                     />
-                    <flag icon="fa-credit-card"
-                          name="subscriber_id"
-                          help="Missing subscriber"
-                          decoration-info="missing_subscriber_id"
-                          decoration-light="not missing_subscriber_id"
+                    <flag
+                        icon="fa-credit-card"
+                        name="subscriber_id"
+                        help="Missing subscriber"
+                        decoration-info="missing_subscriber_id"
+                        decoration-light="not missing_subscriber_id"
                     />
-                    <flag icon="fa-stethoscope"
-                          name="missing_practitioner"
-                          help="Missing practitioner"
-                          decoration-danger="missing_practitioner"
-                          decoration-light="not missing_practitioner"
+                    <flag
+                        icon="fa-stethoscope"
+                        name="missing_practitioner"
+                        help="Missing practitioner"
+                        decoration-danger="missing_practitioner"
+                        decoration-light="not missing_practitioner"
                     />
-                    <button icon="fa-radiation"
-                            name="toggle_commission_issue_accepted"
-                            type="object"
-                            help="Preinvoicing is generated. Documents must be stored"
-                            class="flag-danger"
-                            attrs="{'invisible': ['|', ('commission_issue', '=', False), ('commission_issue_accepted', '=', True)]}"
+                    <button
+                        icon="fa-radiation"
+                        name="toggle_commission_issue_accepted"
+                        type="object"
+                        help="Preinvoicing is generated. Documents must be stored"
+                        class="flag-danger"
+                        attrs="{'invisible': ['|', ('commission_issue', '=', False), ('commission_issue_accepted', '=', True)]}"
                     />
-                    <flag icon="fa-radiation"
-                          name="commission_issue"
-                          help="Missing practitioner"
-                          attrs="{'invisible': [('commission_issue', '=', True), ('commission_issue_accepted', '=', False)]}"
-                          decoration-light="True"
+                    <flag
+                        icon="fa-radiation"
+                        name="commission_issue"
+                        help="Missing practitioner"
+                        attrs="{'invisible': [('commission_issue', '=', True), ('commission_issue_accepted', '=', False)]}"
+                        decoration-light="True"
                     />
-                    <emptyflag/>
-                    <flag icon="fa-user" help="Patient invoice"
-                          decoration-light="not has_patient_invoice"
+                    <emptyflag />
+                    <flag
+                        icon="fa-user"
+                        help="Patient invoice"
+                        decoration-light="not has_patient_invoice"
                     />
-                    <field name="is_preinvoiced" invisible="1"/>
-                    <field name="has_preinvoicing" invisible="1"/>
-                    <field name="missing_authorization_number" invisible="1"/>
-                    <field name="missing_subscriber_id" invisible="1"/>
-                    <field name="unauthorized_elements" invisible="1"/>
-                    <field name="has_patient_invoice" invisible="1"/>
-                    <field name="missing_practitioner" invisible="1"/>
-                    <field name="commission_issue" invisible="1"/>
-                    <field name="commission_issue_accepted" invisible="1"/>
+                    <field name="is_preinvoiced" invisible="1" />
+                    <field name="has_preinvoicing" invisible="1" />
+                    <field name="missing_authorization_number" invisible="1" />
+                    <field name="missing_subscriber_id" invisible="1" />
+                    <field name="unauthorized_elements" invisible="1" />
+                    <field name="has_patient_invoice" invisible="1" />
+                    <field name="missing_practitioner" invisible="1" />
+                    <field name="commission_issue" invisible="1" />
+                    <field name="commission_issue_accepted" invisible="1" />
                 </flagbox>
             </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="%(pos_validation.medical_encounter_validation_add_service_act_window)s"
-                        type="action"
-                        string="Add Service"
-                        icon="fa-plus-circle"
-                        attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                <button
+                    name="%(pos_validation.medical_encounter_validation_add_service_act_window)s"
+                    type="action"
+                    string="Add Service"
+                    icon="fa-plus-circle"
+                    attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
                 />
-                <field name="validation_status" invisible="1"/>
-                <button name="admin_validate"
-                        type="object"
-                        icon="fa-check"
-                        string="Validate"
-                        attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                <field name="validation_status" invisible="1" />
+                <button
+                    name="admin_validate"
+                    type="object"
+                    icon="fa-check"
+                    string="Validate"
+                    attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
                 />
-                <button name="close_view"
-                        type="object"
-                        icon="fa-times"
-                        string="Close"
+                <button
+                    name="close_view"
+                    type="object"
+                    icon="fa-times"
+                    string="Close"
                 />
             </xpath>
             <page name="medication" position="before">
-                <page name="sale_order" string="Sale Orders"
-                      context="{'validation_status': validation_status}"
-                      attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress', 'finished'])]}">
+                <page
+                    name="sale_order"
+                    string="Sale Orders"
+                    context="{'validation_status': validation_status}"
+                    attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress', 'finished'])]}"
+                >
                     <field name="sale_order_line_ids">
-                        <tree create="false" delete="false"
-                              decoration-muted="is_private==True"
-                              decoration-warnging="is_private == False and authorization_status != 'authorized'"
+                        <tree
+                            create="false"
+                            delete="false"
+                            decoration-muted="is_private==True"
+                            decoration-warnging="is_private == False and authorization_status != 'authorized'"
                         >
-                            <field name="is_private" widget="toggle_button"
-                                   readonly="True"/>
-                            <field name="payor_id"/>
-                            <field name="order_partner_id"/>
-                            <field name="coverage_template_id"/>
-                            <field name="patient_name"
-                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="product_id" readonly="True"/>
-                            <field name="product_uom_qty"
-                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="price_unit"
-                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="product_uom_qty"
-                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="price_total" readonly="1"
-                                   sum="Total"/>
-                            <field name="subscriber_id"
-                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="authorization_number"/>
-                            <button name="check_authorization_action"
-                                    type="object" icon="fa-cogs"
-                                    attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                            <field
+                                name="is_private"
+                                widget="toggle_button"
+                                readonly="True"
                             />
-                            <field name="authorization_status"/>
-                            <field name="state" invisible="1"/>
-                            <field name="agents"/>
-                            <field name="validation_status" invisible="1"/>
-                            <button name="%(pos_validation.sale_order_line_cancel_act_window)s"
-                                    type="action" icon="fa-times-circle"
-                                    attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                            <field name="payor_id" />
+                            <field name="order_partner_id" />
+                            <field name="coverage_template_id" />
+                            <field
+                                name="patient_name"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field name="product_id" readonly="True" />
+                            <field
+                                name="product_uom_qty"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="price_unit"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="product_uom_qty"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field name="price_total" readonly="1" sum="Total" />
+                            <field
+                                name="subscriber_id"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field name="authorization_number" />
+                            <button
+                                name="check_authorization_action"
+                                type="object"
+                                icon="fa-cogs"
+                                attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                            />
+                            <field name="authorization_status" />
+                            <field name="state" invisible="1" />
+                            <field name="agents" />
+                            <field name="validation_status" invisible="1" />
+                            <button
+                                name="%(pos_validation.sale_order_line_cancel_act_window)s"
+                                type="action"
+                                icon="fa-times-circle"
+                                attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
                             />
                         </tree>
                         <form>
                             <sheet>
                                 <group>
-                                    <field name="product_id"
-                                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                    <field name="product_uom_qty"
-                                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                    <field name="medical_sale_discount_id"/>
-                                    <field name="price_unit"
-                                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                    <field name="price_total" readonly="1"
-                                           sum="Total"/>
-
-                                    <field name="subscriber_id"
-                                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                    <field name="subscriber_information"
-                                           nolabel="1"/>
-                                    <field name="authorization_number"/>
-                                    <button name="check_authorization_action"
-                                            type="object" icon="fa-cogs"
-                                            attrs="{'invisible': ['|', ('is_private', '=', True), ('state', '!=', 'draft')]}"
+                                    <field
+                                        name="product_id"
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
                                     />
-                                    <field name="authorization_status"/>
-                                    <field name="state" invisible="1"/>
-                                    <field name="is_private"
-                                           invisible="1"/>
+                                    <field
+                                        name="product_uom_qty"
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                    />
+                                    <field name="medical_sale_discount_id" />
+                                    <field
+                                        name="price_unit"
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                    />
+                                    <field
+                                        name="price_total"
+                                        readonly="1"
+                                        sum="Total"
+                                    />
+                                    <field
+                                        name="subscriber_id"
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                    />
+                                    <field name="subscriber_information" nolabel="1" />
+                                    <field name="authorization_number" />
+                                    <button
+                                        name="check_authorization_action"
+                                        type="object"
+                                        icon="fa-cogs"
+                                        attrs="{'invisible': ['|', ('is_private', '=', True), ('state', '!=', 'draft')]}"
+                                    />
+                                    <field name="authorization_status" />
+                                    <field name="state" invisible="1" />
+                                    <field name="is_private" invisible="1" />
                                 </group>
                                 <notebook>
                                     <page name="procedure" string="Procedures">
                                         <field name="procedure_ids">
                                             <tree create="0">
-                                                <field name="procedure_service_id"/>
-                                                <field name="performer_id"/>
-                                                <field name="variable_fee"
-                                                       readonly="1"/>
-                                                <field name="fixed_fee"
-                                                       readonly="1"/>
-                                                <field name="commission_agent_id"/>
+                                                <field name="procedure_service_id" />
+                                                <field name="performer_id" />
+                                                <field
+                                                    name="variable_fee"
+                                                    readonly="1"
+                                                />
+                                                <field name="fixed_fee" readonly="1" />
+                                                <field name="commission_agent_id" />
                                             </tree>
                                         </field>
                                     </page>
                                     <page name="agent" string="Commissions">
                                         <field name="agents">
                                             <tree>
-                                                <field name="agent"/>
-                                                <field name="procedure_id"/>
-                                                <field name="amount"/>
+                                                <field name="agent" />
+                                                <field name="procedure_id" />
+                                                <field name="amount" />
                                             </tree>
                                         </field>
                                     </page>
