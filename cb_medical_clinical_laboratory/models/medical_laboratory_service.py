@@ -79,7 +79,7 @@ class MedicalLaboratoryService(models.Model):
             name = orig_name[rec.id]
             code = rec.code
             if code:
-                name = "[%s] %s" % (code, name)
+                name = "[{}] {}".format(code, name)
             result.append((rec.id, name))
         return result
 
