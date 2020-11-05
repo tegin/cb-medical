@@ -1,19 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record model="ir.ui.view" id="medical_patient_form">
         <field name="name">medical.patient.form</field>
         <field name="model">medical.patient</field>
-
-        <field name="inherit_id"
-               ref="medical_administration.medical_patient_form"/>
+        <field name="inherit_id" ref="medical_administration.medical_patient_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="attributes">
                 <attribute name="attrs">{
@@ -25,14 +20,18 @@
             <xpath expr="//h1//field[@name='name']/.." position="before">
                 <div class="oe_edit_only">
                     <group attrs="{'invisible': [('is_company', '=', True)]}">
-                        <field name="lastname" attrs=
-                                "{'required': [('firstname', '=', False),
+                        <field
+                            name="lastname"
+                            attrs="{'required': [('firstname', '=', False),
                                 ('is_company', '=', False),
-                                ('type', '=', 'contact')]}"/>
-                        <field name="firstname" attrs=
-                                "{'required': [('lastname', '=', False),
+                                ('type', '=', 'contact')]}"
+                        />
+                        <field
+                            name="firstname"
+                            attrs="{'required': [('lastname', '=', False),
                                 ('is_company', '=', False),
-                                ('type', '=', 'contact')]}"/>
+                                ('type', '=', 'contact')]}"
+                        />
                     </group>
                 </div>
             </xpath>
