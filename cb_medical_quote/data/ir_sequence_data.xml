@@ -1,16 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data noupdate="1">
-
         <!-- Sequences for medical.quote -->
         <record id="seq_medical_quote" model="ir.sequence">
             <field name="name">Medical Quote</field>
             <field name="code">medical.quote</field>
             <field name="prefix">MQ/%(range_year)s/</field>
             <field name="padding">6</field>
-            <field name="company_id" eval="False"/>
-            <field eval="True" name="use_date_range"/>
+            <field name="company_id" eval="False" />
+            <field eval="True" name="use_date_range" />
         </record>
-
     </data>
 </odoo>

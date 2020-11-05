@@ -1,25 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2018 Eficent Business and IT Consulting Services, S.L.
     Copyright 2018 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
-    <menuitem id="menu_medical_quote"
+    <menuitem
+        id="menu_medical_quote"
         name="Quotes"
         action="action_quotes"
         parent="medical_base.medical_root_financial"
-        sequence="10" groups="cb_medical_quote.group_medical_quote_list"/>
-
-    <menuitem name="Document Comments"
-      id="menu_base_comment_template_medical_quote"
-      action="base_comment_template.action_base_comment_template"
-      groups="cb_medical_quote.group_medical_quote_list"
-      parent="medical_base.medical_root_configuration"/>
-
+        sequence="10"
+        groups="cb_medical_quote.group_medical_quote_list"
+    />
+    <menuitem
+        name="Document Comments"
+        id="menu_base_comment_template_medical_quote"
+        action="base_comment_template.action_base_comment_template"
+        groups="cb_medical_quote.group_medical_quote_list"
+        parent="medical_base.medical_root_configuration"
+    />
     <menuitem
         action="medical_quote_report_configuration_action"
         id="medical_quote_report_configuration"
@@ -27,5 +27,4 @@
         parent="medical_base.medical_root_configuration"
         name="Medical Quote Report Layout Categories"
     />
-
 </odoo>
