@@ -1,244 +1,360 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
     Copyright 2018 Eficent Business and IT Consulting Services, S.L.
     Copyright 2018 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
     -->
-
 <odoo>
     <record model="ir.ui.view" id="medical_quote_tree">
         <field name="name">medical.quote.form</field>
         <field name="model">medical.quote</field>
         <field name="arch" type="xml">
-            <tree string="Medical Quotes" decoration-info="state=='draft'" decoration-muted="(state=='cancel')">
-                <field name="name"/>
-                <field name="quote_date"/>
-                <field name="validity_date"/>
-                <field name="user_id"/>
-                <field name="company_id" groups="base.group_multi_company"/>
-                <field name="payor_id"/>
-                <field name="patient_name"/>
-                <field name="coverage_template_id"/>
-                <field name="center_id"/>
-                <field name="amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="currency_id" invisible="True"/>
-                <field name="state"/>
+            <tree
+                string="Medical Quotes"
+                decoration-info="state=='draft'"
+                decoration-muted="(state=='cancel')"
+            >
+                <field name="name" />
+                <field name="quote_date" />
+                <field name="validity_date" />
+                <field name="user_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="payor_id" />
+                <field name="patient_name" />
+                <field name="coverage_template_id" />
+                <field name="center_id" />
+                <field
+                    name="amount"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                />
+                <field name="currency_id" invisible="True" />
+                <field name="state" />
             </tree>
         </field>
     </record>
-
     <record model="ir.ui.view" id="medical_quote_form">
         <field name="name">medical.quote.form</field>
         <field name="model">medical.quote</field>
         <field name="arch" type="xml">
             <form string="Medical Quote">
-            <header>
-                <button name="button_send" string="Mark as sent" type="object"
-                        states="draft" class="btn-primary"
-                        groups="cb_medical_quote.group_medical_quote_manager"/>
-                <button name="button_confirm" string="Confirm" type="object"
-                        states="sent" class="btn-primary"
-                        groups="cb_medical_quote.group_medical_quote_manager"/>
-                <button name="button_cancel" string="Cancel" type="object"
+                <header>
+                    <button
+                        name="button_send"
+                        string="Mark as sent"
+                        type="object"
+                        states="draft"
+                        class="btn-primary"
+                        groups="cb_medical_quote.group_medical_quote_manager"
+                    />
+                    <button
+                        name="button_confirm"
+                        string="Confirm"
+                        type="object"
+                        states="sent"
+                        class="btn-primary"
+                        groups="cb_medical_quote.group_medical_quote_manager"
+                    />
+                    <button
+                        name="button_cancel"
+                        string="Cancel"
+                        type="object"
                         states="draft,confirm,sent"
-                        groups="cb_medical_quote.group_medical_quote_manager"/>
-                <button name="button_draft" string="Re-open" type="object"
-                        states="cancel" class="btn-primary"
-                        groups="cb_medical_quote.group_medical_quote_manager"/>
-                <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>
-            </header>
-            <sheet>
-                <div class="oe_button_box" name="button_box">
+                        groups="cb_medical_quote.group_medical_quote_manager"
+                    />
+                    <button
+                        name="button_draft"
+                        string="Re-open"
+                        type="object"
+                        states="cancel"
+                        class="btn-primary"
+                        groups="cb_medical_quote.group_medical_quote_manager"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,sent,sale"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
                 </div>
-                <div class="oe_title">
-                    <h1>
-                        <field name="name" readonly="1"/>
-                    </h1>
-                </div>
-                <group>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
                     <group>
-                        <field name="is_private"/>
-                        <field name="patient_id" options="{'no_create': True}"/>
-                        <field name="patient_name" attrs="{'invisible': [('patient_id', '!=', False)]}"/>
-                    </group>
-                    <group>
-                        <field name="payor_id" options="{'no_create': True}"/>
-                        <field name="coverage_template_id" options="{'no_create': True}" domain="[('payor_id', '=', payor_id)]"/>
-                        <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
-                        <field name="agreement_ids" invisible="True"/>
-                    </group>
-                    <group>
-                        <field name="quote_date"/>
-                        <field name="validity_date" attrs="{'invisible': [('state', 'in', ['confirm'])]}"/>
-                        <field name="confirmation_date" attrs="{'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"/>
-                        <field name="origin_agreement_id" attrs="{'invisible': [('origin_agreement_id', '=', False)]}"/>
-                    </group>
-                    <group>
-                        <field name="center_id" options="{'no_create': True}"/>
-                    </group>
-                    <group>
-                        <field name="add_agreement_line_id" options="{'no_create': True}"/>
-                        <field name="add_quantity"/>
-                        <button name="button_add_line" type="object" string="Add line"/>
-                    </group>
-                </group>
-                <notebook>
-                    <page string="Quote Lines">
-                        <field name="quote_line_ids" mode="tree"
-                            attrs="{'readonly': [('state', 'in', ('sent', 'confirm','cancel'))]}"
-                            context="{'default_is_private': is_private}"/>
-                        <group class="oe_subtotal_footer oe_right" colspan="2" name="quote_total">
-                            <field name="amount"
-                                   widget='monetary'
-                                   options="{'currency_field': 'currency_id'}"
+                        <group>
+                            <field name="is_private" />
+                            <field name="patient_id" options="{'no_create': True}" />
+                            <field
+                                name="patient_name"
+                                attrs="{'invisible': [('patient_id', '!=', False)]}"
                             />
                         </group>
-                        <field name="note" class="oe_inline" placeholder="Add terms and conditions here."/>
-                        <div class="oe_clear"/>
-                    </page>
-                    <page string="Comments" name="comments">
-                        <p style="margin-top: 10px;">The comments will be displayed on the printed document. You can load a predefined template, write your own text or load a template and then modify it only for this document.</p>
-                        <group string="Top Comments">
-                          <field name="comment_template1_id"
-                            string="Load a template"
-                            domain="[('position','=','before_lines')]"
-                            context="{'default_position': 'before_lines'}"/>
-                          <field name="note1" nolabel="1" colspan="2"/>
-                        </group>
-                        <group string="Bottom Comments">
-                          <field name="comment_template2_id"
-                            string="Load a template"
-                            context="{'default_position': 'after_lines'}"
-                            domain="[('position','=','after_lines')]"/>
-                          <field name="note2" nolabel="1" colspan="2"/>
-                        </group>
-                    </page>
-                    <page string="Other Information">
                         <group>
-                            <group string="Sales Information" name="sales_person">
-                                <field name="user_id" options="{'no_create': True}"/>
-                            </group>
+                            <field name="payor_id" options="{'no_create': True}" />
+                            <field
+                                name="coverage_template_id"
+                                options="{'no_create': True}"
+                                domain="[('payor_id', '=', payor_id)]"
+                            />
+                            <field
+                                name="company_id"
+                                options="{'no_create': True}"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="agreement_ids" invisible="True" />
                         </group>
-                    </page>
-                </notebook>
-            </sheet>
-            <div class="oe_chatter">
-                <field name="message_follower_ids" widget="mail_followers"/>
-                <field name="activity_ids" widget="mail_activity"/>
-                <field name="message_ids" widget="mail_thread"/>
-            </div>
+                        <group>
+                            <field name="quote_date" />
+                            <field
+                                name="validity_date"
+                                attrs="{'invisible': [('state', 'in', ['confirm'])]}"
+                            />
+                            <field
+                                name="confirmation_date"
+                                attrs="{'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"
+                            />
+                            <field
+                                name="origin_agreement_id"
+                                attrs="{'invisible': [('origin_agreement_id', '=', False)]}"
+                            />
+                        </group>
+                        <group>
+                            <field name="center_id" options="{'no_create': True}" />
+                        </group>
+                        <group>
+                            <field
+                                name="add_agreement_line_id"
+                                options="{'no_create': True}"
+                            />
+                            <field name="add_quantity" />
+                            <button
+                                name="button_add_line"
+                                type="object"
+                                string="Add line"
+                            />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Quote Lines">
+                            <field
+                                name="quote_line_ids"
+                                mode="tree"
+                                attrs="{'readonly': [('state', 'in', ('sent', 'confirm','cancel'))]}"
+                                context="{'default_is_private': is_private}"
+                            />
+                            <group
+                                class="oe_subtotal_footer oe_right"
+                                colspan="2"
+                                name="quote_total"
+                            >
+                                <field
+                                    name="amount"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                />
+                            </group>
+                            <field
+                                name="note"
+                                class="oe_inline"
+                                placeholder="Add terms and conditions here."
+                            />
+                            <div class="oe_clear" />
+                        </page>
+                        <page string="Comments" name="comments">
+                            <p
+                                style="margin-top: 10px;"
+                            >The comments will be displayed on the printed document. You can load a predefined template, write your own text or load a template and then modify it only for this document.</p>
+                            <group string="Top Comments">
+                                <field
+                                    name="comment_template1_id"
+                                    string="Load a template"
+                                    domain="[('position','=','before_lines')]"
+                                    context="{'default_position': 'before_lines'}"
+                                />
+                                <field name="note1" nolabel="1" colspan="2" />
+                            </group>
+                            <group string="Bottom Comments">
+                                <field
+                                    name="comment_template2_id"
+                                    string="Load a template"
+                                    context="{'default_position': 'after_lines'}"
+                                    domain="[('position','=','after_lines')]"
+                                />
+                                <field name="note2" nolabel="1" colspan="2" />
+                            </group>
+                        </page>
+                        <page string="Other Information">
+                            <group>
+                                <group string="Sales Information" name="sales_person">
+                                    <field
+                                        name="user_id"
+                                        options="{'no_create': True}"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
             </form>
         </field>
     </record>
-
     <record model="ir.ui.view" id="medical_quote_search">
         <field name="name">medical.quote.search</field>
         <field name="model">medical.quote</field>
         <field name="arch" type="xml">
             <search string="Medical Quotes">
-                <field name="name"/>
-                <field name="quote_date"/>
-                <field name="validity_date"/>
-                <field name="confirmation_date"/>
-                <field name="user_id"/>
-                <field name="company_id" groups="base.group_multi_company"/>
-                <field name="payor_id"/>
-                <field name="patient_id"/>
-                <field name="origin_agreement_id"/>
-                <field name="coverage_template_id"/>
-                <field name="center_id"/>
-                <field name="state"/>
-                <filter string="My Quotes" domain="[('user_id','=',uid)]" name="my_quotes_filter"/>
-                <separator/>
-                <filter string="Unread Messages" name="message_needaction" domain="[('message_needaction','=',True)]"/>
-                <separator/>
-                <filter string="My Activities" name="activities_my"
-                    domain="[('activity_ids.user_id', '=', uid)]"/>
-                <separator/>
-                <filter string="Late Activities" name="activities_overdue"
+                <field name="name" />
+                <field name="quote_date" />
+                <field name="validity_date" />
+                <field name="confirmation_date" />
+                <field name="user_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="payor_id" />
+                <field name="patient_id" />
+                <field name="origin_agreement_id" />
+                <field name="coverage_template_id" />
+                <field name="center_id" />
+                <field name="state" />
+                <filter
+                    string="My Quotes"
+                    domain="[('user_id','=',uid)]"
+                    name="my_quotes_filter"
+                />
+                <separator />
+                <filter
+                    string="Unread Messages"
+                    name="message_needaction"
+                    domain="[('message_needaction','=',True)]"
+                />
+                <separator />
+                <filter
+                    string="My Activities"
+                    name="activities_my"
+                    domain="[('activity_ids.user_id', '=', uid)]"
+                />
+                <separator />
+                <filter
+                    string="Late Activities"
+                    name="activities_overdue"
                     domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
-                    help="Show all records which has next action date is before today"/>
-                <filter string="Today Activities" name="activities_today"
-                    domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
-                <filter string="Future Activities" name="activities_upcoming_all"
+                    help="Show all records which has next action date is before today"
+                />
+                <filter
+                    string="Today Activities"
+                    name="activities_today"
+                    domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"
+                />
+                <filter
+                    string="Future Activities"
+                    name="activities_upcoming_all"
                     domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
-                    ]"/>
+                    ]"
+                />
                 <group expand="0" string="Group By">
-                    <filter name="salesperson" string="Salesperson" domain="[]" context="{'group_by':'user_id'}"/>
-                    <filter name="patient" string="Patient" domain="[]" context="{'group_by':'patient_id'}"/>
-                    <filter name="payor" string="Payor" domain="[]" context="{'group_by':'payor_id'}"/>
+                    <filter
+                        name="salesperson"
+                        string="Salesperson"
+                        domain="[]"
+                        context="{'group_by':'user_id'}"
+                    />
+                    <filter
+                        name="patient"
+                        string="Patient"
+                        domain="[]"
+                        context="{'group_by':'patient_id'}"
+                    />
+                    <filter
+                        name="payor"
+                        string="Payor"
+                        domain="[]"
+                        context="{'group_by':'payor_id'}"
+                    />
                 </group>
             </search>
         </field>
     </record>
-
     <record model="ir.ui.view" id="medical_quote_line_tree">
         <field name="name">medical.quote.line.tree</field>
         <field name="model">medical.quote.line</field>
         <field name="arch" type="xml">
             <tree string="Medical Quote Lines" editable="bottom">
-                <field name="sequence" widget="handle"/>
-                <field name="plan_definition_id"/>
-                <field name="product_id"/>
-                <field name="description"/>
-                <field name="layout_category_id"/>
-                <field name="categ_id"/>
-                <field name="quantity"/>
-                <field name="coverage_agreement_id" invisible="1"/>
-                <field name="template_id" invisible="1"/>
-                <field name="currency_id" invisible="1"/>
-                <field name="is_private" invisible="1"/>
-                <field name="price"
-                       widget='monetary'
-                       options="{'currency_field': 'currency_id'}"
+                <field name="sequence" widget="handle" />
+                <field name="plan_definition_id" />
+                <field name="product_id" />
+                <field name="description" />
+                <field name="layout_category_id" />
+                <field name="categ_id" />
+                <field name="quantity" />
+                <field name="coverage_agreement_id" invisible="1" />
+                <field name="template_id" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <field name="is_private" invisible="1" />
+                <field
+                    name="price"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
                 />
-                <field name="amount"
-                       widget='monetary'
-                       options="{'currency_field': 'currency_id'}"
+                <field
+                    name="amount"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
                 />
             </tree>
         </field>
     </record>
-
     <record model="ir.ui.view" id="medical_quote_line_form">
         <field name="name">medical.quote.line.form</field>
         <field name="model">medical.quote.line</field>
         <field name="arch" type="xml">
             <form string="Medical Quote Line">
                 <group>
-                    <field name="plan_definition_id"/>
-                    <field name="product_id"/>
-                    <field name="categ_id"/>
+                    <field name="plan_definition_id" />
+                    <field name="product_id" />
+                    <field name="categ_id" />
                 </group>
                 <group>
-                    <field name="quantity"/>
-                    <field name="coverage_agreement_id"/>
-                    <field name="agreement_line_id"/>
-                    <field name="template_id"/>
-                    <field name="currency_id"/>
+                    <field name="quantity" />
+                    <field name="coverage_agreement_id" />
+                    <field name="agreement_line_id" />
+                    <field name="template_id" />
+                    <field name="currency_id" />
                 </group>
                 <group name="pricing" string="Price">
-                    <field name="price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                    <field name="amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                    <field
+                        name="price"
+                        widget='monetary'
+                        options="{'currency_field': 'currency_id'}"
+                    />
+                    <field
+                        name="amount"
+                        widget='monetary'
+                        options="{'currency_field': 'currency_id'}"
+                    />
                 </group>
             </form>
         </field>
     </record>
-
-        <record id="action_quotes" model="ir.actions.act_window">
-            <field name="name">Medical Quotes</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">medical.quote</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="medical_quote_search"/>
-            <field name="context">{}</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
+    <record id="action_quotes" model="ir.actions.act_window">
+        <field name="name">Medical Quotes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.quote</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="medical_quote_search" />
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
                     Create a Medical Quote
                 </p>
-            </field>
-        </record>
-
+        </field>
+    </record>
 </odoo>
