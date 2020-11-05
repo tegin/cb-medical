@@ -1,33 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
     Copyright 2017 Creu Blanca
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record model="ir.ui.view" id="workflow_plan_definition_action_tree">
         <field name="name">workflow.plan.definition.action.tree</field>
         <field name="model">workflow.plan.definition.action</field>
-        <field name="inherit_id" ref="medical_workflow.workflow_plan_definition_action_tree"/>
+        <field
+            name="inherit_id"
+            ref="medical_workflow.workflow_plan_definition_action_tree"
+        />
         <field name="arch" type="xml">
             <field name="complete_name" position="after">
-                <field name="service_id"/>
-                <field name="performer_id"/>
+                <field name="service_id" />
+                <field name="performer_id" />
             </field>
         </field>
     </record>
-
     <record model="ir.ui.view" id="workflow_plan_definition_action_form">
         <field name="name">workflow.plan.definition.action.form</field>
         <field name="model">workflow.plan.definition.action</field>
-        <field name="inherit_id" ref="medical_workflow.workflow_plan_definition_action_form"/>
+        <field
+            name="inherit_id"
+            ref="medical_workflow.workflow_plan_definition_action_form"
+        />
         <field name="arch" type="xml">
             <group name="fees" position="inside">
-                <field name="service_id"/>
-                <field name="performer_id" options="{'no_create': True}"/>
+                <field name="service_id" />
+                <field name="performer_id" options="{'no_create': True}" />
                 <field name="is_billable" />
             </group>
             <field name="name" position="attributes">
@@ -50,5 +52,4 @@
             </field>
         </field>
     </record>
-
 </odoo>
