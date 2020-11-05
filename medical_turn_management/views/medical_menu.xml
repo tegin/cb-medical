@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
-
-    <menuitem id="medical_turn_root"
-              name="Turns"
-              parent="medical_base.medical_root"
-              groups="medical_turn_management.group_medical_turn_display"
-              sequence="25"/>
+    <menuitem
+        id="medical_turn_root"
+        name="Turns"
+        parent="medical_base.medical_root"
+        groups="medical_turn_management.group_medical_turn_display"
+        sequence="25"
+    />
 </odoo>

@@ -1,36 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2020 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
-
     <record model="ir.ui.view" id="wzd_medical_turn_form_view">
         <field name="name">wzd.medical.turn.form (in medical_turn_management)</field>
         <field name="model">wzd.medical.turn</field>
         <field name="arch" type="xml">
             <form string="Generate Turns">
                 <group>
-                    <field name="start_date"/>
-                    <field name="end_date"/>
+                    <field name="start_date" />
+                    <field name="end_date" />
                 </group>
                 <notebook>
                     <page name="specialty" string="Specialties">
-                        <field name="turn_specialty_ids"/>
+                        <field name="turn_specialty_ids" />
                     </page>
                 </notebook>
                 <footer>
-                    <button name="doit"
-                            string="OK"
-                            class="btn-primary"
-                            type="object"/>
-                    <button string="Cancel"
-                            class="btn-default"
-                            special="cancel"/>
+                    <button name="doit" string="OK" class="btn-primary" type="object" />
+                    <button string="Cancel" class="btn-default" special="cancel" />
                 </footer>
             </form>
         </field>
     </record>
-
     <record model="ir.actions.act_window" id="wzd_medical_turn_act_window">
         <field name="name">Generate turns</field>
         <field name="res_model">wzd.medical.turn</field>
@@ -38,13 +30,14 @@
         <field name="context">{}</field>
         <field name="target">new</field>
     </record>
-
-
     <record model="ir.ui.menu" id="wzd_medical_turn_menu">
         <field name="name">Generate turns</field>
-        <field name="parent_id" ref="medical_turn_root"/>
-        <field name="action" ref="wzd_medical_turn_act_window"/>
-        <field name="groups_id" eval="[(4,ref('medical_turn_management.group_medical_turn_manager'))]"/>
-        <field name="sequence" eval="50"/>
+        <field name="parent_id" ref="medical_turn_root" />
+        <field name="action" ref="wzd_medical_turn_act_window" />
+        <field
+            name="groups_id"
+            eval="[(4,ref('medical_turn_management.group_medical_turn_manager'))]"
+        />
+        <field name="sequence" eval="50" />
     </record>
 </odoo>
