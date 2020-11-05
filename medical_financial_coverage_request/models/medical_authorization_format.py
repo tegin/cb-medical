@@ -3,7 +3,8 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 import re
-from odoo import models, fields
+
+from odoo import fields, models
 
 
 class MedicalAuthorizationFormat(models.Model):

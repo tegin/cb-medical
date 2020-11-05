@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -60,12 +60,13 @@ class MedicalRequest(models.AbstractModel):
         }
 
     def _update_plan_parent_vals(self, plan, coverage_agreement_item_id):
+        cov = coverage_agreement_item_id.coverage_agreement_id.id
         return {
             "plan_definition_id": plan.id,
             "is_billable": plan.is_billable,
             "is_breakdown": plan.is_breakdown,
             "coverage_agreement_item_id": coverage_agreement_item_id.id,
-            "coverage_agreement_id": coverage_agreement_item_id.coverage_agreement_id.id,
+            "coverage_agreement_id": cov,
             "service_id": coverage_agreement_item_id.product_id.id,
             "name": coverage_agreement_item_id.product_id.name,
         }
