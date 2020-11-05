@@ -1,25 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
     <record id="medical_practitioner_condition_tree" model="ir.ui.view">
         <field name="name">medical.practitioner.condition.tree</field>
         <field name="model">medical.practitioner.condition</field>
         <field name="arch" type="xml">
             <tree editable="bottom" delete="0">
-                <field name="service_id"/>
-                <field name="procedure_service_id"/>
-                <field name="center_ids" widget="many2many_tags" options="{'no_create': True}"/>
-                <field name="fixed_fee"/>
-                <field name="variable_fee"/>
-                <button name="toggle_active" aria-label="Archive" title="Archive"
-                        icon="fa-archive" confirm="Are you sure you want to archive/unarchive this element?" type="object"/>
+                <field name="service_id" />
+                <field name="procedure_service_id" />
+                <field
+                    name="center_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
+                <field name="fixed_fee" />
+                <field name="variable_fee" />
+                <button
+                    name="toggle_active"
+                    aria-label="Archive"
+                    title="Archive"
+                    icon="fa-archive"
+                    confirm="Are you sure you want to archive/unarchive this element?"
+                    type="object"
+                />
             </tree>
         </field>
     </record>
@@ -28,33 +35,41 @@
         <field name="model">medical.practitioner.condition</field>
         <field name="arch" type="xml">
             <form>
-                <header/>
+                <header />
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="toggle_active" type="object"
-                                confirm="Are you sure you want to archive/unarchive this element?"
-                                class="oe_stat_button" icon="fa-archive">
-                            <field name="active" widget="boolean_button"
-                                   options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                        <button
+                            name="toggle_active"
+                            type="object"
+                            confirm="Are you sure you want to archive/unarchive this element?"
+                            class="oe_stat_button"
+                            icon="fa-archive"
+                        >
+                            <field
+                                name="active"
+                                widget="boolean_button"
+                                options="{&quot;terminology&quot;: &quot;archive&quot;}"
+                            />
                         </button>
                     </div>
                     <group>
-                        <field name="practitioner_id"/>
+                        <field name="practitioner_id" />
                         <group>
-                            <field name="service_id"/>
-                            <field name="procedure_service_id"/>
-                            <field name="center_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="service_id" />
+                            <field name="procedure_service_id" />
+                            <field
+                                name="center_ids"
+                                widget="many2many_tags"
+                                options="{'no_create': True}"
+                            />
                         </group>
                         <group>
-                            <field name="fixed_fee"/>
-                            <field name="variable_fee"/>
-
+                            <field name="fixed_fee" />
+                            <field name="variable_fee" />
                         </group>
-
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
-
 </odoo>

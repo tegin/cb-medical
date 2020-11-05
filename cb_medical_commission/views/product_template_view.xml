@@ -1,25 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-
 <odoo>
-
-   <record id="product_template_form_view_commission" model="ir.ui.view">
-       <field name="name">product.template.common.form.commission</field>
-       <field name="model">product.template</field>
-       <field name="inherit_id" ref="product.product_template_form_view" />
-       <field name="arch" type="xml">
-           <label for="commission_free" position="after">
-               <div>
-                   <field name="medical_commission" />
-                   <label for="medical_commission" />
-               </div>
-           </label>
-       </field>
-   </record>
-
+    <record id="product_template_form_view_commission" model="ir.ui.view">
+        <field name="name">product.template.common.form.commission</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <label for="commission_free" position="after">
+                <div>
+                    <field name="medical_commission" />
+                    <label for="medical_commission" />
+                </div>
+            </label>
+        </field>
+    </record>
 </odoo>
