@@ -3,6 +3,6 @@
     <record id="format_anything" model="medical.authorization.format">
         <field name="code">anything</field>
         <field name="name">Anything</field>
-        <field name="always_authorized" eval="True"/>
+        <field name="always_authorized" eval="True" />
     </record>
 </odoo>
