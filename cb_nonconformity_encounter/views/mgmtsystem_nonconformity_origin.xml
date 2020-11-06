@@ -42,7 +42,7 @@
             name="inherit_id"
             ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_origin_tree"
         />
-        <field name="sequence" eval="100" />
+        <field name="priority" eval="99" />
         <field name="arch" type="xml">
             <field name="sequence" position="replace" />
             <field name="parent_id" position="attributes">
