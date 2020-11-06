@@ -38,7 +38,7 @@ class WizardMedicalEncounterFinish(models.TransientModel):
     amount = fields.Monetary(
         related="encounter_id.pending_private_amount", readonly=True
     )
-    dont_pay = fields.Boolean(groups="cb_medical_pos.group_dont_pay_encounter")
+    dont_pay = fields.Boolean()
 
     @api.onchange("pos_session_id")
     def _onchange_session(self):
