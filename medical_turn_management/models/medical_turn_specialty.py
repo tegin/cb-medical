@@ -1,10 +1,11 @@
 # Copyright 2020 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from datetime import datetime, time, timedelta
+
 from dateutil import tz
+from odoo import fields, models
 from pytz import utc
-from datetime import time, datetime, timedelta
 
 
 class MedicalTurnSpecialty(models.Model):

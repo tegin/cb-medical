@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
     <record id="view_account_invoice_customer_form" model="ir.ui.view">
         <field name="name">account.invoice.form</field>
         <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="inherit_id" ref="account.invoice_form" />
         <field name="arch" type="xml">
-           <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="after">
-               <field name="patient_name" readonly="1"/>
-               <field name="subscriber_id"/>
-               <field name="authorization_number"/>
-           </xpath>
+            <xpath
+                expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']"
+                position="after"
+            >
+                <field name="patient_name" readonly="1" />
+                <field name="subscriber_id" />
+                <field name="authorization_number" />
+            </xpath>
         </field>
     </record>
-
     <record id="view_invoice_line_form" model="ir.ui.view">
         <field name="name">account.invoice.line.form</field>
         <field name="model">account.invoice.line</field>
         <field name="inherit_id" ref="account.view_invoice_line_form" />
         <field name="arch" type="xml">
             <field name="product_id" position="after">
-                <field name="is_medical" invisible="1"/>
-                <field name="encounter_id" readonly="1"
-                       attrs="{'invisible': [('is_medical', '=', False)]}"/>
-                <field name="subscriber_id"
-                       attrs="{'invisible': [('is_medical', '=', False)]}"/>
-                <field name="authorization_number"
-                       attrs="{'invisible': [('is_medical', '=', False)]}"/>
+                <field name="is_medical" invisible="1" />
+                <field
+                    name="encounter_id"
+                    readonly="1"
+                    attrs="{'invisible': [('is_medical', '=', False)]}"
+                />
+                <field
+                    name="subscriber_id"
+                    attrs="{'invisible': [('is_medical', '=', False)]}"
+                />
+                <field
+                    name="authorization_number"
+                    attrs="{'invisible': [('is_medical', '=', False)]}"
+                />
             </field>
         </field>
     </record>

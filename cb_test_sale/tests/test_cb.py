@@ -215,7 +215,7 @@ class TestCBSale(TestCB):
         ):
             self.assertTrue(sale_order.patient_name)
             original_patient_name = sale_order.patient_name
-            patient_name = "%s %s" % (original_patient_name, "TEST")
+            patient_name = "{} {}".format(original_patient_name, "TEST")
             sale_order.patient_name = patient_name
             for line in sale_order.order_line:
                 self.assertTrue(line.tax_id)

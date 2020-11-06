@@ -1,13 +1,12 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" ?>
 <odoo>
     <report
-            id="items_xslx"
-            model="medical.coverage.agreement.item"
-            string="Export to XLSX"
-            report_type="xlsx"
-            name="cb_medical_financial_coverage_agreement.items_xslx"
-            file="medical_coverage_agreement_item"
-            attachment_use="False"
+        id="items_xslx"
+        model="medical.coverage.agreement.item"
+        string="Export to XLSX"
+        report_type="xlsx"
+        name="cb_medical_financial_coverage_agreement.items_xslx"
+        file="medical_coverage_agreement_item"
+        attachment_use="False"
     />
 </odoo>

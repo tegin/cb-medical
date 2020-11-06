@@ -5,14 +5,15 @@
         <field name="model">medical.patient</field>
         <field name="arch" type="xml">
             <search>
-                <field string="Name" name="name"/>
-                <field string="VAT" name="vat"/>
+                <field string="Name" name="name" />
+                <field string="VAT" name="vat" />
             </search>
         </field>
     </record>
-
-    <record model="ir.actions.act_window" id="medical_administration.medical_patient_window_action">
+    <record
+        model="ir.actions.act_window"
+        id="medical_administration.medical_patient_window_action"
+    >
         <field name="view_mode">tree,kanban,form</field>
     </record>
-
 </odoo>

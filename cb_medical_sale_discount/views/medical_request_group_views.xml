@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
     <record model="ir.ui.view" id="medical_request_group_form">
         <field name="name">medical.request.group.form</field>
         <field name="model">medical.request.group</field>
-        <field name="inherit_id"
-               ref="medical_clinical_request_group.medical_request_group_form"/>
+        <field
+            name="inherit_id"
+            ref="medical_clinical_request_group.medical_request_group_form"
+        />
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button type="action" name="%(cb_medical_sale_discount.medical_request_group_discount_action)s" string="Apply discount"
-                        class="oe_stat_button"
-                        icon="fa-percent"
-                        attrs="{'invisible': ['|', ('sale_order_line_ids', '!=', False), ('is_billable', '=', False)]}"/>
-                <field name="sale_order_line_ids" invisible="1"/>
+                <button
+                    type="action"
+                    name="%(cb_medical_sale_discount.medical_request_group_discount_action)s"
+                    string="Apply discount"
+                    class="oe_stat_button"
+                    icon="fa-percent"
+                    attrs="{'invisible': ['|', ('sale_order_line_ids', '!=', False), ('is_billable', '=', False)]}"
+                />
+                <field name="sale_order_line_ids" invisible="1" />
             </xpath>
         </field>
     </record>
-
 </odoo>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
-    <menuitem id="medical_sale"
-              name="Medical"
-              parent="sale.sale_menu_root"
-              sequence="3"/>
-
+    <menuitem
+        id="medical_sale"
+        name="Medical"
+        parent="sale.sale_menu_root"
+        sequence="3"
+    />
 </odoo>

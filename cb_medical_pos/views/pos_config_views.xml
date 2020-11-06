@@ -3,24 +3,26 @@
     <record id="view_pos_config_form" model="ir.ui.view">
         <field name="name">pos.config.form.view</field>
         <field name="model">pos.config</field>
-        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
         <field name="arch" type="xml">
             <xpath expr="//div[@id='category_reference']" position="after">
-                <div id="session_sequence_id"
-                     class="col-xs-12 col-md-6 o_setting_box">
+                <div id="session_sequence_id" class="col-xs-12 col-md-6 o_setting_box">
                     <div class="o_setting_left_pane">
 
                     </div>
-                    <div class="o_setting_right_pane"
-                         attrs="{'invisible': [('session_sequence_id','!=',False)]}">
-                        <label for="session_sequence_prefix"
-                               string="Session sequence prefix"/>
-                        <field name="session_sequence_prefix"/>
+                    <div
+                        class="o_setting_right_pane"
+                        attrs="{'invisible': [('session_sequence_id','!=',False)]}"
+                    >
+                        <label
+                            for="session_sequence_prefix"
+                            string="Session sequence prefix"
+                        />
+                        <field name="session_sequence_prefix" />
                     </div>
                     <div class="o_setting_right_pane">
-                        <label for="session_sequence_id"
-                               string="Session sequence"/>
-                        <field name="session_sequence_id"/>
+                        <label for="session_sequence_id" string="Session sequence" />
+                        <field name="session_sequence_id" />
                     </div>
                 </div>
             </xpath>

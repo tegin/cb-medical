@@ -1,48 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
     Copyright 2017 Eficent Business and IT Consulting Services, S.L.
     Copyright 2017 Creu Blanca
     License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
     -->
-
 <odoo>
     <record model="ir.ui.view" id="medical_request_form">
         <field name="name">medical.request.form</field>
         <field name="model">medical.request</field>
-        <field name="inherit_id"
-               ref="medical_workflow.medical_request_form"/>
-        <field name="priority" eval="16"/>
+        <field name="inherit_id" ref="medical_workflow.medical_request_form" />
+        <field name="priority" eval="16" />
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page name="payor" string="Payor">
                     <group>
                         <group>
-                            <field name="coverage_id"
-                                   options="{'no_create': True, 'no_open': True}"
-                                   attrs="{'readonly': [('is_editable', '=', False)]}"
+                            <field
+                                name="coverage_id"
+                                options="{'no_create': True, 'no_open': True}"
+                                attrs="{'readonly': [('is_editable', '=', False)]}"
                             />
                         </group>
                         <group>
-                            <field name="authorization_method_id"
-                                   options="{'no_create': True, 'no_open': True}"
-                                   attrs="{'readonly': [('is_editable', '=', False)]}"/>
-                            <field name="authorization_number"
-                                   attrs="{'readonly': [('is_editable', '=', False)]}"/>
-                            <field name="authorization_status"/>
+                            <field
+                                name="authorization_method_id"
+                                options="{'no_create': True, 'no_open': True}"
+                                attrs="{'readonly': [('is_editable', '=', False)]}"
+                            />
+                            <field
+                                name="authorization_number"
+                                attrs="{'readonly': [('is_editable', '=', False)]}"
+                            />
+                            <field name="authorization_status" />
                         </group>
                     </group>
                 </page>
             </notebook>
         </field>
     </record>
-
     <record id="medical_request_form_coverage" model="ir.ui.view">
         <field name="name">medical.request.view.form</field>
         <field name="model">medical.request</field>
-        <field name="inherit_id" ref="medical_request_form"/>
-        <field name="groups_id"
-               eval="[(4, ref('medical_financial_coverage.group_medical_coverage_list'))]"/>
+        <field name="inherit_id" ref="medical_request_form" />
+        <field
+            name="groups_id"
+            eval="[(4, ref('medical_financial_coverage.group_medical_coverage_list'))]"
+        />
         <field name="arch" type="xml">
             <field name="coverage_id" position="attributes">
                 <attribute name="options">{'no_open': False, 'no_create':
