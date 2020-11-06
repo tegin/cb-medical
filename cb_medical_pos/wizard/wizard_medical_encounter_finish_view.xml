@@ -10,7 +10,10 @@
                     <field name="pos_session_id" options="{'no_create': True}" />
                     <field name="journal_id" options="{'no_create': True}" />
                     <field name="journal_ids" invisible="1" />
-                    <field name="dont_pay" />
+                    <field
+                        name="dont_pay"
+                        groups="cb_medical_pos.group_dont_pay_encounter"
+                    />
                     <field name="amount" />
                     <field name="currency_id" invisible="1" />
                 </group>
