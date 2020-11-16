@@ -79,11 +79,29 @@
         <field name="arch" type="xml">
             <search>
                 <field name="ref" />
+                <field name="name" />
                 <field name="partner_id" />
+                <field name="origin_ids" />
                 <field
                     name="user_id"
                     string="User"
                     domain="['|','|',('user_id','=',uid),('responsible_user_id','=',uid),('manager_user_id','=',uid)]"
+                />
+                <separator />
+                <filter
+                    name="state_pending"
+                    string="Pending to Evaluate"
+                    domain="[('state', '=', 'pending')]"
+                />
+                <filter
+                    name="state_ok"
+                    string="Accepted"
+                    domain="[('state', '=', 'ok')]"
+                />
+                <filter
+                    name="state_no_ok"
+                    string="Non Conformity"
+                    domain="[('state', '=', 'no_ok')]"
                 />
             </search>
         </field>
@@ -98,6 +116,7 @@
                 <field name="ref" />
                 <field name="create_date" />
                 <field name="partner_id" />
+                <field name="origin_ids" widget="many2many_tags" />
                 <field name="description" />
                 <field name="user_id" />
                 <field name="responsible_user_id" />
@@ -110,7 +129,7 @@
         <field name="res_model">mgmtsystem.quality.issue</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[]</field>
-        <field name="context">{}</field>
+        <field name="context">{'search_default_state_pending': 1}</field>
     </record>
     <record model="ir.ui.menu" id="mgmtsystem_quality_issue_menu">
         <field name="name">Quality Issues</field>
