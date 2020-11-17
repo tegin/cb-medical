@@ -116,8 +116,8 @@
                 <field name="ref" />
                 <field name="create_date" />
                 <field name="partner_id" />
+                <field name="name" />
                 <field name="origin_ids" widget="many2many_tags" />
-                <field name="description" />
                 <field name="user_id" />
                 <field name="responsible_user_id" />
                 <field name="manager_user_id" />

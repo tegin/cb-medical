@@ -10,7 +10,7 @@ class MgmtsystemQualityIssue(models.Model):
     _description = "Mgmtsystem Quality Issue"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(required=True)
+    name = fields.Char(required=True, string="Title")
     description = fields.Text("Description", required=True)
     partner_id = fields.Many2one("res.partner", "Partner", required=True)
     ref = fields.Char("Related to", readonly=True, copy=False, default="/")
