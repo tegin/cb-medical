@@ -12,24 +12,8 @@
             ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_origin_form"
         />
         <field name="arch" type="xml">
-            <field name="sequence" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="parent_id" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
             <field name="ref_code" position="after">
                 <field name="from_encounter" />
-                <field
-                    name="responsible_user_id"
-                    options="{'no_create': True, 'no_open': True}"
-                    attrs="{'required': [('from_encounter', '=', True)]}"
-                />
-                <field
-                    name="manager_user_id"
-                    options="{'no_create': True, 'no_open': True}"
-                    attrs="{'required': [('from_encounter', '=', True)]}"
-                />
             </field>
         </field>
     </record>
@@ -44,13 +28,6 @@
         />
         <field name="priority" eval="99" />
         <field name="arch" type="xml">
-            <field name="sequence" position="replace" />
-            <field name="parent_id" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="parent_id" position="before">
-                <field name="sequence" widget="handle" />
-            </field>
             <field name="description" position="after">
                 <field name="from_encounter" />
             </field>
