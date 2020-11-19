@@ -18,7 +18,7 @@ class TestMgmtsystemIssue(TransactionCase):
                 "partner_id": self.partner_id.id,
                 "responsible_user_id": self.env.uid,
                 "manager_user_id": self.env.uid,
-                "origin": [(4, self.origin.id)],
+                "origin_ids": [(4, self.origin.id)],
             }
         )
 
