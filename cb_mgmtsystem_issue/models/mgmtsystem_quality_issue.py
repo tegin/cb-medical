@@ -13,13 +13,15 @@ class MgmtsystemQualityIssue(models.Model):
     name = fields.Char(required=True, string="Title")
     description = fields.Text("Description", required=True)
     partner_id = fields.Many2one("res.partner", "Partner", required=True)
+    res_model = fields.Char(index=True)
+    res_id = fields.Integer(index=True)
     ref = fields.Char("Related to", readonly=True, copy=False, default="/")
 
     responsible_user_id = fields.Many2one(
-        "res.users", "Responsible", required=True, track_visibility="onchange"
+        "res.users", "Responsible", track_visibility="onchange"
     )
     manager_user_id = fields.Many2one(
-        "res.users", "Manager", required=True, track_visibility="onchange"
+        "res.users", "Manager", track_visibility="onchange"
     )
 
     user_id = fields.Many2one(
@@ -56,7 +58,6 @@ class MgmtsystemQualityIssue(models.Model):
             vals["ref"] = sequence.next_by_id()
         return super().create(vals)
 
-    @api.multi
     def to_accepted(self):
         self.write({"state": "ok"})
 
@@ -67,10 +68,11 @@ class MgmtsystemQualityIssue(models.Model):
             "partner_id": self.partner_id.id,
             "responsible_user_id": self.responsible_user_id.id,
             "manager_user_id": self.manager_user_id.id,
+            "res_model": self.res_model,
+            "res_id": self.res_id,
             "origin_ids": [(6, 0, self.origin_ids.ids)],
         }
 
-    @api.multi
     def to_nonconformity(self):
         self.ensure_one()
         vals = self._create_non_conformity_vals()
@@ -89,6 +91,19 @@ class MgmtsystemQualityIssue(models.Model):
         self.write({"state": "no_ok", "non_conformity_id": non_conformity.id})
         return action
 
-    @api.multi
     def back_to_pending(self):
         self.write({"state": "pending"})
+
+    def access_related_item(self):
+        self.ensure_one()
+        records = self.env[self.res_model].browse(self.res_id).exists()
+        if not records:
+            return None
+        return {
+            "name": _("Related Record"),
+            "type": "ir.actions.act_window",
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": records._name,
+            "res_id": records.id,
+        }

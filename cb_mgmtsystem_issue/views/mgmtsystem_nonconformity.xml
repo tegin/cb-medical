@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="view_mgmtsystem_nonconformity_form">
+        <field name="name">mgmtsystem.nonconformity.form (in cb_nonconformity)</field>
+        <field name="model">mgmtsystem.nonconformity</field>
+        <field
+            name="inherit_id"
+            ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_form"
+        />
+        <field name="arch" type="xml">
+            <field name="stage_id" position="before">
+                <button
+                    string="Access Related record"
+                    type="object"
+                    name="access_related_item"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('res_id', '=', False), ('res_model', '=', False)]}"
+                />
+                <field name="res_id" invisible="1" />
+                <field name="res_model" invisible="1" />
+            </field>
+            <field name="kanban_state" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="immediate_action_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="company_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="ref" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+            <field name="system_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="description" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="description" position="after">
+                <group>
+                    <field name="description" nolabel="1" />
+                </group>
+            </field>
+        </field>
+    </record>
+</odoo>
