@@ -11,9 +11,14 @@
     "website": "www.creublanca.es",
     "depends": ["mgmtsystem_nonconformity"],
     "data": [
+        "views/res_partner.xml",
         "data/mgmtsystem_sequence.xml",
+        "data/nonconformity_sequence_data.xml",
         "security/ir.model.access.csv",
         "security/msmsystem_security.xml",
+        "wizards/wizard_create_nonconformity.xml",
         "views/mgmtsystem_quality_issue.xml",
+        "views/mgmtsystem_nonconformity.xml",
+        "views/mgmtsystem_nonconformity_origin.xml",
     ],
 }

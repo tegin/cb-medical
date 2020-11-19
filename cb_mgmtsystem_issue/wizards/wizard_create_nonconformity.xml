@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="wizard_create_nonconformity_form_view">
+        <field
+            name="name"
+        >wizard.create.nonconformity.form (in cb_nonconformity)</field>
+        <field name="model">wizard.create.nonconformity</field>
+        <field name="arch" type="xml">
+            <form string="Create Issue">
+                <group>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <group>
+                        <field
+                            name="origin_id"
+                            options="{'no_create': True, 'no_open': True}"
+                        />
+                    </group>
+                </group>
+                <group>
+                    <field name="description" />
+                </group>
+                <footer>
+                    <button
+                        name="create_quality_issue"
+                        string="Create Quality Issue"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="wizard_create_nonconformity_act_window">
+        <field name="name">Create Issue</field>
+        <field name="res_model">wizard.create.nonconformity</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

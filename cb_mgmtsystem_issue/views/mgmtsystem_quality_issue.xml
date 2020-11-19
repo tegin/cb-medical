@@ -11,6 +11,13 @@
             <form>
                 <header>
                     <button
+                        string="Access Related record"
+                        type="object"
+                        name="access_related_item"
+                        class="oe_highlight"
+                        attrs="{'invisible': ['|', ('res_id', '=', False), ('res_model', '=', False)]}"
+                    />
+                    <button
                         string="Approve"
                         name="to_accepted"
                         type="object"
@@ -37,6 +44,8 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
+                    <field name="res_model" invisible="1" />
+                    <field name="res_id" invisible="1" />
                     <group>
                         <group>
                             <field name="name" />
@@ -46,8 +55,8 @@
                             <field name="origin_ids" widget="many2many_tags" />
                         </group>
                         <group>
-                            <field name="responsible_user_id" />
-                            <field name="manager_user_id" />
+                            <field name="responsible_user_id" required="1" />
+                            <field name="manager_user_id" required="1" />
                             <field name="user_id" />
                             <field
                                 name="non_conformity_id"
