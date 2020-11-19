@@ -16,14 +16,16 @@ class TestNonconformityEncounter(TransactionCase):
             }
         )
         self.patient = self.env["medical.patient"].create({"name": "Patient"})
-        self.encounter_id = self.env["medical.encounter"].create(
+        self.encounter = self.env["medical.encounter"].create(
             {"patient_id": self.patient.id}
         )
 
     def test_nonconformity_encounter(self):
         wizard = (
-            self.env["wizard.create.nonconformity"]
-            .with_context(active_id=self.encounter_id.id)
+            self.env["wizard.create.nonconformity.encounter"]
+            .with_context(
+                active_id=self.encounter.id, active_model=self.encounter._name
+            )
             .create(
                 {
                     "name": "Title",
@@ -34,12 +36,13 @@ class TestNonconformityEncounter(TransactionCase):
         )
         wizard.create_quality_issue()
         issue = self.env["mgmtsystem.quality.issue"].search(
-            [("encounter_id", "=", self.encounter_id.id)]
+            [
+                ("res_id", "=", self.encounter.id),
+                ("res_model", "=", self.encounter._name),
+            ]
         )
         self.assertTrue(issue)
         issue.to_nonconformity()
-        self.assertTrue(
-            issue.non_conformity_id.encounter_id.id, self.encounter_id.id
-        )
-        action = self.encounter_id.action_view_quality_issues()
+        self.assertEqual(issue.non_conformity_id.res_id, self.encounter.id)
+        action = self.encounter.action_view_quality_issues()
         self.assertEqual(action["res_id"], issue.id)
