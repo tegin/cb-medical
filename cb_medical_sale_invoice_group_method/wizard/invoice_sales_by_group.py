@@ -41,7 +41,7 @@ class InvoiceSalesByGroup(models.TransientModel):
                 customers=self.customer_ids.ids,
                 companies=company.ids,
                 no_check_lines=True,
-                merge_draft_invoice=True,
+                cb_merge_draft_invoice=True,
             ).action_invoice_by_group_create(
                 self.invoice_group_method_id, company
             )
