@@ -85,7 +85,7 @@ class SaleOrder(models.Model):
             invoices, references
         )
         method = self.env.context.get("invoice_group_method_id", False)
-        if method and self.env.context.get("merge_draft_invoice", False):
+        if method and self.env.context.get("cb_merge_draft_invoice", False):
             domain = [
                 ("state", "=", "draft"),
                 ("invoice_group_method_id", "=", method),
