@@ -48,6 +48,28 @@
             <field name="parent_id" position="before">
                 <field name="sequence" widget="handle" />
             </field>
+            <field name="parent_id" position="after">
+                <field name="notify_creator" />
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_mgmtsystem_nonconformity_origin_filter">
+        <field
+            name="name"
+        >mgmtsystem.nonconformity.origin.search (in cb_mgmtsystem_issue)</field>
+        <field name="model">mgmtsystem.nonconformity.origin</field>
+        <field
+            name="inherit_id"
+            ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_origin_filter"
+        />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <filter
+                    name="notify_creator_filter"
+                    string="Notify Creator"
+                    domain="[('notify_creator', '=', True)]"
+                />
+            </field>
         </field>
     </record>
 </odoo>

@@ -14,3 +14,4 @@ class MgmtsystemNonconformityOrigin(models.Model):
         "res.users", string="Default Responsible"
     )
     manager_user_id = fields.Many2one("res.users", string="Default Manager")
+    notify_creator = fields.Boolean(string="Notify Creator")

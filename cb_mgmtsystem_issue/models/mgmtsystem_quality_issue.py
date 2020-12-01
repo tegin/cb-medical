@@ -7,6 +7,7 @@ from odoo import _, api, fields, models
 class MgmtsystemQualityIssue(models.Model):
 
     _name = "mgmtsystem.quality.issue"
+    _order = "id desc"
     _description = "Mgmtsystem Quality Issue"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
