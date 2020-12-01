@@ -33,7 +33,8 @@ class WizardCreateNonconformity(models.TransientModel):
                 "encounter_id": encounter_id.id,
             }
         )
-        issue.message_unsubscribe(issue.user_id.partner_id.ids)
+        if not self.origin_id.notify_creator:
+            issue.message_unsubscribe(issue.user_id.partner_id.ids)
         issue.message_subscribe(
             [
                 self.origin_id.responsible_user_id.partner_id.id,

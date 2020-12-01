@@ -15,5 +15,6 @@
         "security/ir.model.access.csv",
         "security/msmsystem_security.xml",
         "views/mgmtsystem_quality_issue.xml",
+        "views/mgmtsystem_nonconformity_origin.xml",
     ],
 }

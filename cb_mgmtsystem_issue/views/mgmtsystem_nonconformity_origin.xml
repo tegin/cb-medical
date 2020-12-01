@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="mgmtsystem_nonconformity_origin_form_view">
+        <field
+            name="name"
+        >mgmtsystem.nonconformity.origin.form (in cb_mgmtsystem_issue)</field>
+        <field name="model">mgmtsystem.nonconformity.origin</field>
+        <field
+            name="inherit_id"
+            ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_origin_form"
+        />
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="notify_creator" />
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_mgmtsystem_nonconformity_origin_filter">
+        <field
+            name="name"
+        >mgmtsystem.nonconformity.origin.search (in cb_mgmtsystem_issue)</field>
+        <field name="model">mgmtsystem.nonconformity.origin</field>
+        <field
+            name="inherit_id"
+            ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_origin_filter"
+        />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="notify_creator" />
+            </field>
+        </field>
+    </record>
+</odoo>
