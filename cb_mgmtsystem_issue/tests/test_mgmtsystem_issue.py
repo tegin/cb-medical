@@ -9,7 +9,7 @@ class TestMgmtsystemIssue(TransactionCase):
         super().setUp()
         self.partner_id = self.env["res.partner"].create({"name": "Partner"})
         self.origin = self.env["mgmtsystem.nonconformity.origin"].create(
-            {"name": "origin"}
+            {"name": "origin", "notify_creator": True}
         )
         self.issue = self.env["mgmtsystem.quality.issue"].create(
             {
