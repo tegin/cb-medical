@@ -10,6 +10,17 @@
             ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_form"
         />
         <field name="arch" type="xml">
+            <field name="stage_id" position="before">
+                <button
+                    string="Access Related record"
+                    type="object"
+                    name="access_related_item"
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|', ('res_id', '=', False), ('res_model', '=', False)]}"
+                />
+                <field name="res_id" invisible="1" />
+                <field name="res_model" invisible="1" />
+            </field>
             <field name="kanban_state" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
@@ -35,21 +46,4 @@
             </field>
         </field>
     </record>
-    <!--
-    <record model="ir.ui.view" id="mgmtsystem_nonconformity_search_view">
-        <field name="name">mgmtsystem.nonconformity.search (in cb_nonconformity)</field>
-        <field name="model">mgmtsystem.nonconformity</field>
-        <field name="inherit_id" ref="TODO othermodule.search_view"/>
-        <field name="arch" type="xml">
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="mgmtsystem_nonconformity_tree_view">
-        <field name="name">mgmtsystem.nonconformity.tree (in cb_nonconformity)</field>
-        <field name="model">mgmtsystem.nonconformity</field>
-        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
-        <field name="arch" type="xml">
-        </field>
-    </record>
-    -->
 </odoo>

@@ -8,7 +8,7 @@
         >wizard.create.nonconformity.form (in cb_nonconformity)</field>
         <field name="model">wizard.create.nonconformity</field>
         <field name="arch" type="xml">
-            <form string="Create Nonconformity">
+            <form string="Create Issue">
                 <group>
                     <group>
                         <field name="name" />
@@ -36,7 +36,7 @@
         </field>
     </record>
     <record model="ir.actions.act_window" id="wizard_create_nonconformity_act_window">
-        <field name="name">Create Nonconformity</field>
+        <field name="name">Create Issue</field>
         <field name="res_model">wizard.create.nonconformity</field>
         <field name="view_mode">form</field>
         <field name="context">{}</field>

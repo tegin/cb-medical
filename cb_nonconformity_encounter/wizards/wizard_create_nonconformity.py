@@ -1,7 +1,7 @@
 # Copyright 2020 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class WizardCreateNonconformity(models.TransientModel):
@@ -33,12 +33,19 @@ class WizardCreateNonconformity(models.TransientModel):
                 "encounter_id": encounter_id.id,
             }
         )
-        issue.message_unsubscribe(issue.user_id.partner_id.ids)
+        if not self.origin_id.notify_creator:
+            issue.message_unsubscribe(issue.user_id.partner_id.ids)
         issue.message_subscribe(
             [
                 self.origin_id.responsible_user_id.partner_id.id,
                 self.origin_id.manager_user_id.partner_id.id,
             ]
+        )
+        issue.message_post(
+            message_type="notification",
+            subtype="mail.mt_comment",
+            body=_("A new quality issue has been created by %")
+            % self.env.user.name,
         )
         action = {
             "type": "ir.actions.act_window",
