@@ -43,13 +43,19 @@ class WizardCreateNonconformity(models.TransientModel):
             )
         )
         partners = []
+        if self.origin_id.notify_creator:
+            partners = issue.user_id.partner_id.ids
         if self.origin_id.responsible_user_id:
             partners.append(self.origin_id.responsible_user_id.partner_id.id)
         if self.origin_id.manager_user_id:
             partners.append(self.origin_id.manager_user_id.partner_id.id)
         issue.message_subscribe(partners)
-        doc_name = self.env["ir.model"]._get(self._name).name
-        issue._message_log(body=_("%s created") % doc_name)
+        issue.message_post(
+            message_type="notification",
+            subtype="mail.mt_comment",
+            body=_("A new quality issue has been created by %s")
+            % self.env.user.name,
+        )
         action = {
             "type": "ir.actions.act_window",
             "name": self.name,
