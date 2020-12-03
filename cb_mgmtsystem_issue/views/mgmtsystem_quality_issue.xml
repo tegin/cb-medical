@@ -11,13 +11,6 @@
             <form>
                 <header>
                     <button
-                        string="Access Related record"
-                        type="object"
-                        name="access_related_item"
-                        class="oe_highlight"
-                        attrs="{'invisible': ['|', ('res_id', '=', False), ('res_model', '=', False)]}"
-                    />
-                    <button
                         string="Approve"
                         name="to_accepted"
                         type="object"
@@ -46,6 +39,19 @@
                 <sheet>
                     <field name="res_model" invisible="1" />
                     <field name="res_id" invisible="1" />
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="access_related_item"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-file-text"
+                            attrs="{'invisible': [('state', '!=', 'pending')]}"
+                        >
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Related<br />Record</span>
+                            </div>
+                        </button>
+                    </div>
                     <group>
                         <group>
                             <field name="name" />
