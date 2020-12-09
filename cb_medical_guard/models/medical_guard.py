@@ -6,6 +6,7 @@ class MedicalGuard(models.Model):
     _name = "medical.guard"
     _description = "medical.guard"
     _inherit = ["medical.abstract", "mail.thread", "mail.activity.mixin"]
+    _order = "date desc"
 
     date = fields.Datetime(
         required=True,
@@ -52,6 +53,14 @@ class MedicalGuard(models.Model):
     invoice_line_ids = fields.One2many(
         "account.invoice.line", inverse_name="guard_id"
     )
+
+    @api.multi
+    @api.depends("internal_identifier")
+    def name_get(self):
+        result = []
+        for record in self:
+            result.append((record.id, record.internal_identifier))
+        return result
 
     @api.model
     def _get_internal_identifier(self, vals):
