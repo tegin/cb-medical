@@ -1,30 +1,134 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* cb_medical_clinical_laboratory
+# 	* cb_medical_clinical_laboratory
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-14 08:32+0000\n"
-"PO-Revision-Date: 2018-11-14 08:32+0000\n"
+"POT-Creation-Date: 2020-12-09 12:39+0000\n"
+"PO-Revision-Date: 2020-12-09 13:43+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.3\n"
 
 #. module: cb_medical_clinical_laboratory
-#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_event_delay
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model,name:cb_medical_clinical_laboratory.model_workflow_activity_definition
+msgid "Activity Definition"
+msgstr "Actividad"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price__amount
+msgid "Amount"
+msgstr "Importe"
+
+#. module: cb_medical_clinical_laboratory
+#: model_terms:ir.ui.view,arch_db:cb_medical_clinical_laboratory.medical_laboratory_service_view_form
+msgid "Are you sure you want to archive/unarchive this element?"
+msgstr "Está seguro que quiere archivar/desarchivar este elemento?"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__code
+msgid "Code"
+msgstr "Código"
+
+#. module: cb_medical_clinical_laboratory
+#: code:addons/cb_medical_clinical_laboratory/models/medical_laboratory_event.py:32
+#, python-format
+msgid "Code must be the same"
+msgstr "El código debe ser el mismo"
+
+#. module: cb_medical_clinical_laboratory
+#: sql_constraint:medical.laboratory.service.price:0
+msgid "Code must be unique on a service"
+msgstr "El código debe ser único en el servicio"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price__cost
+msgid "Cost"
+msgstr "Coste"
+
+#. module: cb_medical_clinical_laboratory
+#: model_terms:ir.ui.view,arch_db:cb_medical_clinical_laboratory.medical_laboratory_event_view_tree
+msgid "Coverage Amount"
+msgstr "Importe Mútua"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price__laboratory_code
+msgid "Coverage code"
+msgstr "Código de Cobertura"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__create_uid
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__create_date
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_event__delay
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__delay
 msgid "Delay"
-msgstr "Fecha de entrega"
+msgstr "Retraso"
 
 #. module: cb_medical_clinical_laboratory
-#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_event_laboratory_code
-#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_request_laboratory_code
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__display_name
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_request__event_coverage_agreement_id
+msgid "Event Coverage Agreement"
+msgstr "Event Coverage Agreement"
+
+#. module: cb_medical_clinical_laboratory
+#: model_terms:ir.ui.view,arch_db:cb_medical_clinical_laboratory.medical_laboratory_request_view_form
+msgid "Events"
+msgstr "Eventos"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__id
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price__id
+msgid "ID"
+msgstr "ID"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_coverage_template__laboratory_code
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_event__laboratory_code
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__laboratory_code
 msgid "Laboratory Code"
-msgstr "Código de laboratorio"
+msgstr "Código de Laboratorio"
+
+#. module: cb_medical_clinical_laboratory
+#: sql_constraint:medical.laboratory.service:0
+msgid "Laboratory Code must be unique"
+msgstr "El código de Laboratorio debe ser único"
+
+#. module: cb_medical_clinical_laboratory
+#: model:res.groups,name:cb_medical_clinical_laboratory.group_medical_laboratory_configurator
+msgid "Laboratory Configurator"
+msgstr "Configurador de Laboratorio"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_request__laboratory_event_ids
+msgid "Laboratory Events"
+msgstr "Eventos de Laboratorio"
 
 #. module: cb_medical_clinical_laboratory
 #: model:ir.model,name:cb_medical_clinical_laboratory.model_medical_laboratory_request
@@ -32,7 +136,84 @@ msgid "Laboratory Request"
 msgstr "Petición de laboratorio"
 
 #. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_event__laboratory_service_id
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_request__laboratory_service_ids
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price__laboratory_service_id
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_workflow_plan_definition_action__laboratory_service_ids
+msgid "Laboratory Service"
+msgstr "Servicio de Laboratorio"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.actions.act_window,name:cb_medical_clinical_laboratory.medical_laboratory_service_action
+#: model:ir.model,name:cb_medical_clinical_laboratory.model_medical_laboratory_service
+msgid "Laboratory service"
+msgstr "Servicio de Laboratorio"
+
+#. module: cb_medical_clinical_laboratory
+#: code:addons/cb_medical_clinical_laboratory/models/medical_laboratory_event.py:84
+#, python-format
+msgid "Laboratory service is not covered."
+msgstr "Servicio de Laboratorio no cubierto"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model,name:cb_medical_clinical_laboratory.model_medical_laboratory_service_price
+msgid "Laboratory service price list"
+msgstr "Laboratory service price list"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.ui.menu,name:cb_medical_clinical_laboratory.medical_laboratory_service_menu
+msgid "Laboratory services"
+msgstr "Servicios de Laboratorio"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service____last_update
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__write_uid
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__write_date
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service_price__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model,name:cb_medical_clinical_laboratory.model_medical_coverage_template
+msgid "Medical Coverage Template"
+msgstr "Cobertura"
+
+#. module: cb_medical_clinical_laboratory
 #: model:ir.model,name:cb_medical_clinical_laboratory.model_medical_laboratory_event
 msgid "Medical Laboratory Event"
 msgstr "Evento de laboratorio"
 
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model,name:cb_medical_clinical_laboratory.model_workflow_plan_definition_action
+msgid "Medical Plan Definition Action"
+msgstr "Acción"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: cb_medical_clinical_laboratory
+#: model_terms:ir.ui.view,arch_db:cb_medical_clinical_laboratory.medical_laboratory_service_view_form
+msgid "Prices"
+msgstr "Precios"
+
+#. module: cb_medical_clinical_laboratory
+#: model_terms:ir.ui.view,arch_db:cb_medical_clinical_laboratory.medical_laboratory_event_view_tree
+msgid "Private Amount"
+msgstr "Importe Privado"
+
+#. module: cb_medical_clinical_laboratory
+#: model:ir.model.fields,field_description:cb_medical_clinical_laboratory.field_medical_laboratory_service__service_price_ids
+msgid "Service Price"
+msgstr "Precio del Servicio"
