@@ -1,0 +1,520 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* cb_medical_guard
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-09 09:56+0000\n"
+"PO-Revision-Date: 2020-12-09 09:56+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cb_medical_guard
+#: code:addons/cb_medical_guard/models/medical_guard_plan.py:19
+#: code:addons/cb_medical_guard/models/medical_guard_plan.py:31
+#, python-format
+msgid "\"%s\" is not within valid range."
+msgstr ""
+
+#. module: cb_medical_guard
+#: code:addons/cb_medical_guard/models/medical_guard.py:112
+#, python-format
+msgid "%s at %s on %s"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__active
+msgid "Active"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.actions.act_window,name:cb_medical_guard.medical_guard_plan_apply_action
+#: model:ir.ui.menu,name:cb_medical_guard.medical_guard_plan_apply_menu
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_plan_apply_form
+msgid "Apply Guard plans"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_plan_view_form
+msgid "Are you sure you want to archive/unarchive this element?"
+msgstr ""
+
+#. module: cb_medical_guard
+#: code:addons/cb_medical_guard/models/medical_guard_plan.py:47
+#, python-format
+msgid "Atom \"%s\" not in a recognized format."
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_invoice_form
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_plan_apply_form
+msgid "Cancel"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_view_form
+msgid "Complete"
+msgstr ""
+
+#. module: cb_medical_guard
+#: selection:medical.guard,state:0
+msgid "Completed"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model,name:cb_medical_guard.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_invoice_form
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_plan_apply_form
+msgid "Create"
+msgstr ""
+
+#. module: cb_medical_guard
+#: code:addons/cb_medical_guard/wizard/medical_guard_invoice.py:41
+#, python-format
+msgid "Created Invoices"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__create_uid
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice__create_uid
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__create_uid
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan_apply__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__create_date
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice__create_date
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__create_date
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan_apply__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__date
+msgid "Date"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__delay
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__delay
+msgid "Delay"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__display_name
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice__display_name
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__display_name
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan_apply__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: cb_medical_guard
+#: selection:medical.guard,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan_apply__end_date
+msgid "End Date"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_account_invoice_line__guard_id
+msgid "Guard"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_patient__guard_journal_id
+#: model:ir.model.fields,field_description:cb_medical_guard.field_res_partner__guard_journal_id
+#: model:ir.model.fields,field_description:cb_medical_guard.field_res_users__guard_journal_id
+msgid "Guard Journal"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.actions.act_window,name:cb_medical_guard.medical_guard_plan_action
+msgid "Guard's Plans"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.ui.menu,name:cb_medical_guard.medical_guard_root
+msgid "Guards"
+msgstr ""
+
+#. module: cb_medical_guard
+#: code:addons/cb_medical_guard/wizard/medical_guard_plan_apply.py:22
+#, python-format
+msgid "Guards already exists, plan cannot be applied"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__id
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice__id
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__id
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan_apply__id
+msgid "ID"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard__message_unread
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__internal_identifier
+msgid "Internal Identifier"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard__internal_identifier
+msgid "Internal identifier used to identify this record"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model,name:cb_medical_guard.model_account_invoice_line
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__invoice_line_ids
+msgid "Invoice Line"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.actions.act_window,name:cb_medical_guard.medical_guard_invoice_action
+#: model:ir.ui.menu,name:cb_medical_guard.medical_guard_invoice_menu
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_invoice_form
+msgid "Invoice guards"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard____last_update
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice____last_update
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan____last_update
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan_apply____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__write_uid
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice__write_uid
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__write_uid
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan_apply__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__write_date
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice__write_date
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__write_date
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan_apply__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__location_id
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice__location_ids
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__location_id
+msgid "Location"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_plan_view_search
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_view_search
+msgid "Medical Guard"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:res.groups,name:cb_medical_guard.group_medical_guard_display
+msgid "Medical Guard Display"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:res.groups,name:cb_medical_guard.group_medical_guard_manager
+msgid "Medical Guard Manager"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.ui.menu,name:cb_medical_guard.medical_guard_plan_menu
+msgid "Medical Guard Plans"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.ui.menu,name:cb_medical_guard.medical_guard_menu
+msgid "Medical Guards"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.actions.act_window,name:cb_medical_guard.medical_guard_action
+msgid "Medical guards"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__month
+msgid "Month"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__monthday
+msgid "Monthday"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_has_error_counter
+msgid "Number of error"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: cb_medical_guard
+#: selection:medical.guard,activity_state:0
+msgid "Overdue"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__plan_guard_id
+msgid "Plan Guard"
+msgstr ""
+
+#. module: cb_medical_guard
+#: selection:medical.guard,activity_state:0
+msgid "Planned"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__practitioner_id
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_invoice__practitioner_ids
+msgid "Practitioner"
+msgstr ""
+
+#. module: cb_medical_guard
+#: code:addons/cb_medical_guard/models/medical_guard.py:68
+#, python-format
+msgid "Practitioner is required"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__product_id
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__product_id
+msgid "Product"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan_apply__start_date
+msgid "Start Date"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__start_time
+msgid "Start Time"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__state
+msgid "State"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard__activity_state
+msgid "Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: cb_medical_guard
+#: selection:medical.guard,activity_state:0
+msgid "Today"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: cb_medical_guard
+#: code:addons/cb_medical_guard/models/medical_guard_plan.py:36
+#, python-format
+msgid "Unrecognized symbol \"%s\""
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard_plan__monthday
+msgid "Use it in order to filter the day of the month. Use * for all."
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard_plan__month
+msgid "Use it in order to filter the month. Use * for all."
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard_plan__weekday
+msgid "Use it in order to filter the weekdays, where 0 is monday and 6 sunday. You could use 0-4 in order to select Monday to Friday. Use * for all."
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,help:cb_medical_guard.field_medical_guard__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard_plan__weekday
+msgid "Weekday"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model,name:cb_medical_guard.model_medical_guard
+msgid "medical.guard"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model,name:cb_medical_guard.model_medical_guard_invoice
+msgid "medical.guard.invoice"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model,name:cb_medical_guard.model_medical_guard_plan
+msgid "medical.guard.plan"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model:ir.model,name:cb_medical_guard.model_medical_guard_plan_apply
+msgid "medical.guard.plan.apply"
+msgstr ""
+
+#. module: cb_medical_guard
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_invoice_form
+#: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_plan_apply_form
+msgid "or"
+msgstr ""
+
