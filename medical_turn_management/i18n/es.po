@@ -1,0 +1,484 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* medical_turn_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-09 09:39+0000\n"
+"PO-Revision-Date: 2020-12-09 10:44+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.3\n"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_needaction
+msgid "Action Needed"
+msgstr "Acción Necesaria"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__activity_ids
+msgid "Activities"
+msgstr "Actividades"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__activity_state
+msgid "Activity State"
+msgstr "Estado de Actividad"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_attachment_count
+msgid "Attachment Count"
+msgstr "Conteo de archivos adjuntos"
+
+#. module: medical_turn_management
+#: model_terms:ir.ui.view,arch_db:medical_turn_management.wzd_medical_turn_form_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__center_ids
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__center_ids
+msgid "Centers"
+msgstr "Centros"
+
+#. module: medical_turn_management
+#: model:ir.model,name:medical_turn_management.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__create_uid
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty__create_uid
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__create_uid
+#: model:ir.model.fields,field_description:medical_turn_management.field_wzd_medical_turn__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__create_date
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty__create_date
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__create_date
+#: model:ir.model.fields,field_description:medical_turn_management.field_wzd_medical_turn__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__date
+msgid "Date"
+msgstr "Fecha"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__dayofweek
+msgid "Day of Week"
+msgstr "Día de la semana"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__default_practitioner_id
+msgid "Default Practitioner"
+msgstr "Profesional por defecto"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__display_name
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty__display_name
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__display_name
+#: model:ir.model.fields,field_description:medical_turn_management.field_wzd_medical_turn__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: medical_turn_management
+#: model:res.groups,name:medical_turn_management.group_medical_turn_display
+msgid "Document Turn Display"
+msgstr "Turnos: Visualizador"
+
+#. module: medical_turn_management
+#: model:res.groups,name:medical_turn_management.group_medical_turn_list
+msgid "Document Turn List"
+msgstr "Turnos: Listado"
+
+#. module: medical_turn_management
+#: model:res.groups,name:medical_turn_management.group_medical_turn_manager
+msgid "Document Turn Manager"
+msgstr "Turnos: Gestor"
+
+#. module: medical_turn_management
+#: model:res.groups,name:medical_turn_management.group_medical_turn_user
+msgid "Document Turn User"
+msgstr "Turnos: Usuario"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__duration
+msgid "Duration"
+msgstr "Duración"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__duration
+msgid "Duration (in hours)"
+msgstr "Duración (en horas)"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_wzd_medical_turn__end_date
+msgid "End Date"
+msgstr "Fecha finalización"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Seguidores (Canales)"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Empresas)"
+
+#. module: medical_turn_management
+#: selection:medical.turn.specialty.rule,dayofweek:0
+msgid "Friday"
+msgstr "Viernes"
+
+#. module: medical_turn_management
+#: model_terms:ir.ui.view,arch_db:medical_turn_management.medical_turn_search_view
+msgid "From Today"
+msgstr "A partir de hoy"
+
+#. module: medical_turn_management
+#: model_terms:ir.ui.view,arch_db:medical_turn_management.wzd_medical_turn_form_view
+msgid "Generate Turns"
+msgstr "Generar Turnos"
+
+#. module: medical_turn_management
+#: model:ir.actions.act_window,name:medical_turn_management.wzd_medical_turn_act_window
+#: model:ir.ui.menu,name:medical_turn_management.wzd_medical_turn_menu
+msgid "Generate turns"
+msgstr "Generar Turnos"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__id
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty__id
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__id
+#: model:ir.model.fields,field_description:medical_turn_management.field_wzd_medical_turn__id
+msgid "ID"
+msgstr "ID"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,help:medical_turn_management.field_medical_turn__message_unread
+msgid "If checked new messages require your attention."
+msgstr "Si está marcado hay nuevos mensajes que requieren su atención."
+
+#. module: medical_turn_management
+#: model:ir.model.fields,help:medical_turn_management.field_medical_turn__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
+
+#. module: medical_turn_management
+#: model:ir.model.fields,help:medical_turn_management.field_medical_turn__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Si se encuentra marcado, algunos mensajes tienen error de envío."
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_is_follower
+msgid "Is Follower"
+msgstr "Es un seguidor"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn____last_update
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty____last_update
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule____last_update
+#: model:ir.model.fields,field_description:medical_turn_management.field_wzd_medical_turn____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__write_uid
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty__write_uid
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__write_uid
+#: model:ir.model.fields,field_description:medical_turn_management.field_wzd_medical_turn__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__write_date
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty__write_date
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__write_date
+#: model:ir.model.fields,field_description:medical_turn_management.field_wzd_medical_turn__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Adjuntos principales"
+
+#. module: medical_turn_management
+#: model:ir.model,name:medical_turn_management.model_medical_turn
+msgid "Medical Turn"
+msgstr "Turno"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_has_error
+msgid "Message Delivery error"
+msgstr "Error de Envío de Mensaje"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_ids
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: medical_turn_management
+#: model_terms:ir.ui.view,arch_db:medical_turn_management.medical_turn_search_view
+msgid "Mine"
+msgstr "Míos"
+
+#. module: medical_turn_management
+#: selection:medical.turn.specialty.rule,dayofweek:0
+msgid "Monday"
+msgstr "Lunes"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Fecha límite de actividad siguiente"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumen de actividad siguiente"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__activity_type_id
+msgid "Next Activity Type"
+msgstr "Siguiente Tipo de Actividad"
+
+#. module: medical_turn_management
+#: model_terms:ir.ui.view,arch_db:medical_turn_management.medical_turn_search_view
+msgid "Next Month"
+msgstr "Próximo mes"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de acciones"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_has_error_counter
+msgid "Number of error"
+msgstr "Número de error"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,help:medical_turn_management.field_medical_turn__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensajes que requieren una acción"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,help:medical_turn_management.field_medical_turn__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensajes con error de envío"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,help:medical_turn_management.field_medical_turn__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensajes no leidos"
+
+#. module: medical_turn_management
+#: model_terms:ir.ui.view,arch_db:medical_turn_management.wzd_medical_turn_form_view
+msgid "OK"
+msgstr "OK"
+
+#. module: medical_turn_management
+#: selection:medical.turn,activity_state:0
+msgid "Overdue"
+msgstr "Programadas pasadas"
+
+#. module: medical_turn_management
+#: code:addons/medical_turn_management/models/medical_turn.py:49
+#: model_terms:ir.ui.view,arch_db:medical_turn_management.medical_turn_search_view
+#, python-format
+msgid "Pending to assign"
+msgstr "Pendientes de Asignar"
+
+#. module: medical_turn_management
+#: selection:medical.turn,activity_state:0
+msgid "Planned"
+msgstr "Planificadas"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__practitioner_id
+msgid "Practitioner"
+msgstr "Profesional"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty__practitioner_ids
+msgid "Practitioners"
+msgstr "Profesionales"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__activity_user_id
+msgid "Responsible User"
+msgstr "Usuario Responsable"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty__rule_ids
+msgid "Rule"
+msgstr "Regla"
+
+#. module: medical_turn_management
+#: model_terms:ir.ui.view,arch_db:medical_turn_management.medical_turn_specialty_form_view
+msgid "Rules"
+msgstr "Reglas"
+
+#. module: medical_turn_management
+#: selection:medical.turn.specialty.rule,dayofweek:0
+msgid "Saturday"
+msgstr "Sábado"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_patient__turn_specialty_ids
+#: model:ir.model.fields,field_description:medical_turn_management.field_res_partner__turn_specialty_ids
+#: model:ir.model.fields,field_description:medical_turn_management.field_res_users__turn_specialty_ids
+#: model_terms:ir.ui.view,arch_db:medical_turn_management.wzd_medical_turn_form_view
+msgid "Specialties"
+msgstr "Especialidades"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__specialty_id
+msgid "Specialty"
+msgstr "Especialidad"
+
+#. module: medical_turn_management
+#: model:res.groups,name:medical_turn_management.group_medical_specialty_turn_display
+msgid "Specialty Turn Display"
+msgstr "Especialidad de Turnos: Visualizador"
+
+#. module: medical_turn_management
+#: model:res.groups,name:medical_turn_management.group_medical_specialty_turn_list
+msgid "Specialty Turn List"
+msgstr "Especialidad de Turnos: Listas"
+
+#. module: medical_turn_management
+#: model:res.groups,name:medical_turn_management.group_medical_specialty_turn_manager
+msgid "Specialty Turn Manager"
+msgstr "Especialidad de Turnos: Gestor"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_wzd_medical_turn__start_date
+msgid "Start Date"
+msgstr "Fecha de Inicio"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__start_hour
+msgid "Start Hour"
+msgstr "Hora de inicio"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,help:medical_turn_management.field_medical_turn__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Estado basado en actividades\n"
+"Atrasado: la fecha de vencimiento ya pasó\n"
+"Hoy: la fecha de la actividad es hoy\n"
+"Planificado: Actividades futuras."
+
+#. module: medical_turn_management
+#: selection:medical.turn.specialty.rule,dayofweek:0
+msgid "Sunday"
+msgstr "Domingo"
+
+#. module: medical_turn_management
+#: model_terms:ir.ui.view,arch_db:medical_turn_management.medical_turn_search_view
+msgid "This Month"
+msgstr "Este mes"
+
+#. module: medical_turn_management
+#: selection:medical.turn.specialty.rule,dayofweek:0
+msgid "Thursday"
+msgstr "Jueves"
+
+#. module: medical_turn_management
+#: selection:medical.turn,activity_state:0
+msgid "Today"
+msgstr "Hoy"
+
+#. module: medical_turn_management
+#: selection:medical.turn.specialty.rule,dayofweek:0
+msgid "Tuesday"
+msgstr "Martes"
+
+#. module: medical_turn_management
+#: model:ir.actions.act_window,name:medical_turn_management.medical_turn_specialty_act_window
+#: model:ir.ui.menu,name:medical_turn_management.medical_turn_specialty_menu
+msgid "Turn Specialties"
+msgstr "Especialidades"
+
+#. module: medical_turn_management
+#: model:ir.model,name:medical_turn_management.model_medical_turn_specialty
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn_specialty_rule__turn_specialty_id
+#: model:ir.model.fields,field_description:medical_turn_management.field_wzd_medical_turn__turn_specialty_ids
+msgid "Turn Specialty"
+msgstr "Especialidad"
+
+#. module: medical_turn_management
+#: model:ir.actions.act_window,name:medical_turn_management.medical_turn_act_window
+#: model:ir.ui.menu,name:medical_turn_management.medical_turn_menu
+#: model:ir.ui.menu,name:medical_turn_management.medical_turn_root
+msgid "Turns"
+msgstr "Turno"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_unread
+msgid "Unread Messages"
+msgstr "Mensajes por leer"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Contador de mensajes sin leer"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,field_description:medical_turn_management.field_medical_turn__website_message_ids
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. module: medical_turn_management
+#: model:ir.model.fields,help:medical_turn_management.field_medical_turn__website_message_ids
+msgid "Website communication history"
+msgstr "Historial de comunicaciones del sitio web"
+
+#. module: medical_turn_management
+#: selection:medical.turn.specialty.rule,dayofweek:0
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#. module: medical_turn_management
+#: model:ir.model,name:medical_turn_management.model_medical_turn_specialty_rule
+msgid "medical.turn.specialty.rule"
+msgstr "medical.turn.specialty.rule"
+
+#. module: medical_turn_management
+#: model:ir.model,name:medical_turn_management.model_wzd_medical_turn
+msgid "wzd.medical.turn"
+msgstr "wzd.medical.turn"
