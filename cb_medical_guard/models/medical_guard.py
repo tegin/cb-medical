@@ -6,6 +6,7 @@ class MedicalGuard(models.Model):
     _name = "medical.guard"
     _description = "medical.guard"
     _inherit = ["medical.abstract", "mail.thread", "mail.activity.mixin"]
+    _order = "date desc"
 
     date = fields.Datetime(
         required=True,
