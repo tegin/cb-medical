@@ -248,7 +248,7 @@ msgstr "Linea de Factura"
 #: model:ir.ui.menu,name:cb_medical_guard.medical_guard_invoice_menu
 #: model_terms:ir.ui.view,arch_db:cb_medical_guard.medical_guard_invoice_form
 msgid "Invoice guards"
-msgstr "Facturas de Guardia"
+msgstr "Facturar Guardias"
 
 #. module: cb_medical_guard
 #: model:ir.model.fields,field_description:cb_medical_guard.field_medical_guard__message_is_follower
