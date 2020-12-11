@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="product_variant_easy_edit_view">
+        <field name="name">product.product.form (in cb_medical_medication_cima)</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view" />
+        <field name="arch" type="xml">
+            <field name="default_code" position="after">
+                <field name="is_medication" invisible="1" />
+                <field
+                    name="register_number"
+                    attrs="{'invisible': [('is_medication', '=', False)]}"
+                />
+            </field>
+            <group name="codes" position="after">
+                <group
+                    string="Medical Documentation"
+                    name="medical_documentation"
+                    attrs="{'invisible': [('is_medication', '=', False)]}"
+                >
+                    <field name="data_sheet" />
+                    <field name="leaflet" />
+                </group>
+            </group>
+            <field name="name" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('is_medication', '=', True)]}</attribute>
+            </field>
+            <field name="name" position="after">
+                <field
+                    name="medication_name"
+                    attrs="{'invisible': [('is_medication', '=', False)]}"
+                />
+            </field>
+            <xpath expr="//sheet" position="before">
+                <field name="psum" invisible="1" />
+                <div
+                    class="alert alert-warning"
+                    aria-label="Warning"
+                    title="Warning"
+                    role="alert"
+                    attrs="{'invisible': [('psum', '=', False)]}"
+                >
+                    <p>
+                        <i class="fa fa-fw fa-info-circle" />
+                        <span>This medication has a supply problem!</span>
+                    </p>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="product_product_tree_view">
+        <field name="name">product.product.tree (in cb_medical_medication_cima)</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view" />
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="name" position="after">
+                <field name="computed_name" string="Name" />
+            </field>
+        </field>
+    </record>
+</odoo>
