@@ -3,16 +3,13 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 import logging
+from io import BytesIO
 
+import pandas
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 _logger = logging.getLogger(__name__)
-
-try:
-    from xlrd import open_workbook
-except ImportError:
-    _logger.debug("Can not import xlrd`.")
 
 
 class TestMedicalCoverageAgreement(TransactionCase):
@@ -410,10 +407,8 @@ class TestMedicalCoverageAgreement(TransactionCase):
         report = report_object._get_report_from_name(report_name)
 
         rep = report.render(item.ids)
-
-        wb = open_workbook(file_contents=rep[0])
-        sheet = wb.sheet_by_index(0)
-        self.assertEqual(sheet.cell(1, 1).value, item.product_id.name)
+        sheet = pandas.read_excel(BytesIO(rep[0]), engine="openpyxl")
+        self.assertEqual(sheet[sheet.columns[1]][0], item.product_id.name)
 
         category_2 = self.env["product.category"].create(
             {
@@ -444,12 +439,11 @@ class TestMedicalCoverageAgreement(TransactionCase):
         rep = report.with_context(
             active_model="medical.coverage.agreement", xlsx_private=True
         ).render(coverage_agreement.ids)
-        wb = open_workbook(file_contents=rep[0])
-        sheet = wb.sheet_by_index(0)
+        sheet = pandas.read_excel(BytesIO(rep[0]), engine="openpyxl")
         self.assertEqual(
-            sheet.cell(0, 0).value,
+            sheet.columns[0],
             self.browse_ref("product.product_category_all").name,
         )
-        self.assertEqual(sheet.cell(1, 2).value, self.product_1.name)
-        self.assertEqual(sheet.cell(2, 1).value, category_2.display_name)
-        self.assertEqual(sheet.cell(3, 3).value, product_2.name)
+        self.assertEqual(sheet[sheet.columns[2]][0], self.product_1.name)
+        self.assertEqual(sheet[sheet.columns[1]][1], category_2.display_name)
+        self.assertEqual(sheet[sheet.columns[3]][2], product_2.name)
