@@ -1,3 +1,4 @@
 fuzzywuzzy
+pandas
 pdf2image
 pyzbar
