@@ -39,6 +39,18 @@ class MedicalEncounter(models.Model):
     missing_practitioner = fields.Boolean(compute="_compute_validation_values")
     commission_issue = fields.Boolean(compute="_compute_validation_values")
 
+    @api.constrains("validation_status", "state")
+    def _check_validation_status_state(self):
+        for record in self:
+            if (
+                record.validation_status != "none"
+                and record.state != "finished"
+            ):
+                raise ValidationError(
+                    _("Validation status is not consistent for %s")
+                    % record.internal_identifier
+                )
+
     @api.depends(
         "sale_order_ids.order_line.invoice_group_method_id",
         "sale_order_ids.coverage_agreement_id",
