@@ -106,6 +106,7 @@ class MedicalRequest(models.AbstractModel):
         }
         if is_insurance:
             res["invoice_group_method_id"] = self.invoice_group_method_id.id
+            res["authorization_method_id"] = self.authorization_method_id.id
         return res
 
     def check_is_billable(self):
