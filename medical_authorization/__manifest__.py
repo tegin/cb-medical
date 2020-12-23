@@ -11,8 +11,9 @@
     "license": "LGPL-3",
     "depends": ["cb_medical_financial_coverage_request"],
     "data": [
+        "wizards/medical_request_group_uncheck_authorization.xml",
         "views/medical_authorization_method_view.xml",
-        "wizard/medical_request_group_check_authorization_views.xml",
+        "wizards/medical_request_group_check_authorization_views.xml",
     ],
     "application": False,
     "installable": True,
