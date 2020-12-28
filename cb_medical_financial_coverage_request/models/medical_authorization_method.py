@@ -40,3 +40,5 @@ class MedicalAuthorizationMethod(models.Model):
     )
     integration_information = fields.Char()
     authorization_web_id = fields.Many2one("medical.authorization.web")
+
+    active = fields.Boolean(default=True)
