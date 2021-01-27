@@ -9,7 +9,7 @@ class MedicalCareplanCancel(models.AbstractModel):
         "medical.request", required=True, readonly=True
     )
     cancel_reason_id = fields.Many2one("medical.cancel.reason", required=True)
-    cancel_reason = fields.Text()
+    cancel_reason = fields.Text(string="Description")
 
     @api.multi
     def run(self):

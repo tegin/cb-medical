@@ -9,7 +9,7 @@ class MedicalEncounterCancel(models.TransientModel):
     cancel_reason_id = fields.Many2one(
         "medical.cancel.reason", required=True, string="Cancel reason"
     )
-    cancel_reason = fields.Text()
+    cancel_reason = fields.Text(string="Description")
     pos_session_id = fields.Many2one("pos.session", required=True)
 
     @api.multi
