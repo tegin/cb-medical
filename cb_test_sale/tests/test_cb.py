@@ -90,10 +90,22 @@ class TestCBSale(TestCB):
             [("careplan_id", "=", careplan.id)]
         )
         self.assertEqual(careplan.state, "draft")
-        self.assertTrue(medication_requests.filtered(lambda r: r.is_billable))
+        self.assertFalse(medication_requests.filtered(lambda r: r.is_billable))
         self.assertTrue(
-            medication_requests.filtered(
-                lambda r: r.is_sellable_insurance or r.is_sellable_private
+            groups.filtered(
+                lambda r: r.child_model == "medical.medication.request"
+            )
+        )
+        self.assertTrue(
+            groups.filtered(
+                lambda r: (r.is_sellable_insurance or r.is_sellable_private)
+                and r.child_model == "medical.medication.request"
+            )
+        )
+        self.assertTrue(
+            groups.filtered(
+                lambda r: r.is_billable
+                and r.child_model == "medical.medication.request"
             )
         )
         self.assertFalse(encounter.medication_item_ids)

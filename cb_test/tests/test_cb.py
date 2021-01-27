@@ -679,7 +679,10 @@ class TestCB(SavepointCase):
         self.action.is_billable = False
         wizard.run()
         group = self.env["medical.request.group"].search(
-            [("careplan_id", "=", careplan.id)]
+            [
+                ("careplan_id", "=", careplan.id),
+                ("service_id", "=", agreement_line.product_id.id),
+            ]
         )
         group.ensure_one()
         self.assertEqual(group.center_id, encounter.center_id)
