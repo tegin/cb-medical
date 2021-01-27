@@ -72,7 +72,7 @@ class MedicalRequest(models.AbstractModel):
                     )
                 )
                 == 0
-                and (rec.coverage_agreement_item_id.private_sellable > 0)
+                and rec.check_sellable(False, rec.coverage_agreement_item_id)
             )
             rec.is_sellable_insurance = bool(
                 rec.state not in ["cancelled"]
@@ -86,11 +86,19 @@ class MedicalRequest(models.AbstractModel):
                     )
                 )
                 == 0
-                and rec.coverage_agreement_item_id.coverage_sellable > 0
+                and rec.check_sellable(True, rec.coverage_agreement_item_id)
             )
 
+    def check_sellable(self, is_insurance, agreement_item):
+        if is_insurance:
+            return agreement_item.coverage_sellable > 0
+        return agreement_item.private_sellable > 0
+
     def compute_price(self, is_insurance):
-        cai = self.coverage_agreement_item_id
+        cai = (
+            self.coverage_agreement_item_id
+            or self.request_group_id.coverage_agreement_item_id
+        )
         return cai.coverage_price if is_insurance else cai.private_price
 
     def get_sale_order_line_vals(self, is_insurance):
