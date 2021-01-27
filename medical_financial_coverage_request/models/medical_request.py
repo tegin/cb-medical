@@ -115,15 +115,7 @@ class MedicalRequest(models.AbstractModel):
         if self.plan_definition_id == plan:
             self.update_plan_definition(plan, coverage_agreement_item_id)
             return
-        if self.plan_definition_action_id:
-            raise ValidationError(
-                _("A change of plan definition must be made on headers")
-            )
-        relations = self.check_plan_definition_change(plan)
-        self.update_plan_definition(plan, coverage_agreement_item_id)
-        self.plan_definition_id.execute_plan_definition(
-            self.update_plan_vals(relations), self
-        )
+        raise ValidationError(_("Plans are not equivalent"))
 
     def change_authorization(self, method, **kwargs):
         self.ensure_one()
