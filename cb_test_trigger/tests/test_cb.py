@@ -20,7 +20,7 @@ class TestCBTrigger(TestCB):
             group.procedure_request_ids.filtered(lambda r: r.trigger_ids)
         )
         self.assertTrue(
-            group.medication_request_ids.filtered(lambda r: r.triggerer_ids)
+            careplan.medication_request_ids.filtered(lambda r: r.triggerer_ids)
         )
 
     def test_blocking_failure(self):

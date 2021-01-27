@@ -10,6 +10,8 @@ class MedicalRequestGroup(models.Model):
     _inherit = "medical.request.group"
 
     can_change_plan = fields.Boolean(compute="_compute_can_change_plan")
+    child_model = fields.Char()
+    child_id = fields.Integer()
 
     @api.depends("state")
     def _compute_can_change_plan(self):
