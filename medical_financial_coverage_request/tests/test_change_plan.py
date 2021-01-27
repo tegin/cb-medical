@@ -252,24 +252,7 @@ class TestCB(TransactionCase):
         )
         self.assertIn(self.agreement, wizard.agreement_ids)
         wizard.run()
-        self.env["medical.request.group.change.plan"].with_context(
-            default_request_group_id=group.id
-        ).create({"agreement_line_id": self.agreement_line3.id}).run()
-        self.env["medical.request.group.change.plan"].with_context(
-            default_request_group_id=group.id
-        ).create({"agreement_line_id": self.agreement_line.id}).run()
-
-        self.env["medical.request.group.change.plan"].with_context(
-            default_request_group_id=group.id
-        ).create({"agreement_line_id": self.agreement_line3.id}).run()
-        group.procedure_request_ids.refresh()
-        requests = group.procedure_request_ids.filtered(
-            lambda r: r.state == "draft"
-        )
-        self.assertTrue(requests)
-        for child in requests:
-            child.draft2active()
         with self.assertRaises(ValidationError):
             self.env["medical.request.group.change.plan"].with_context(
                 default_request_group_id=group.id
-            ).create({"agreement_line_id": self.agreement_line.id}).run()
+            ).create({"agreement_line_id": self.agreement_line3.id}).run()
