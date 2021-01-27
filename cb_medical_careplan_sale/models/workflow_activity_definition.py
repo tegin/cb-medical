@@ -23,5 +23,4 @@ class ActivityDefinition(models.Model):
 
     def _find_relation_activity(self, vals, parent, plan, action):
         res = super()._find_relation_activity(vals, parent, plan, action)
-
         return res
