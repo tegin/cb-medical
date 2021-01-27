@@ -27,11 +27,17 @@ class ActivityDefinition(models.Model):
         res["coverage_agreement_item_id"] = False
         res["coverage_agreement_id"] = False
         res["authorization_method_id"] = False
+        res["is_billable"] = False
         if parent:
             res["parent_model"] = parent._name
             res["parent_id"] = parent.id
-        if not res.get("is_billable", False):
-            return res
+        return res
+
+    def _get_request_group_values(
+        self, vals, parent=False, plan=False, action=False
+    ):
+        res = self._get_activity_values(vals, parent, plan, action)
+        res["is_billable"] = True
         if vals.get("coverage_id", False):
             coverage_template = (
                 self.env["medical.coverage"]
@@ -50,10 +56,10 @@ class ActivityDefinition(models.Model):
             res["coverage_agreement_item_id"] = cai.id
             res["coverage_agreement_id"] = cai.coverage_agreement_id.id
             res["authorization_method_id"] = cai.authorization_method_id.id
-            vals = cai._check_authorization(cai.authorization_method_id, **res)
-            res.update(vals)
-        if parent:
-            res.update({"parent_id": parent.id, "parent_model": parent._name})
+            new_vals = cai._check_authorization(
+                cai.authorization_method_id, **res
+            )
+            res.update(new_vals)
         return res
 
     @api.multi
@@ -65,4 +71,23 @@ class ActivityDefinition(models.Model):
             )
             activity._update_related_activity(vals, parent, plan, action)
             return activity
+        if parent and action.is_billable:
+            group_obj = self.env["medical.request.group"]
+            request_vals = self._get_request_group_values(
+                vals,
+                self.env[parent.parent_model].browse(parent.parent_id),
+                plan,
+                action,
+            )
+            for key in request_vals.copy():
+                if key not in group_obj._fields:
+                    del request_vals[key]
+            request_group = group_obj.create(request_vals)
+            result = super().execute_activity(
+                vals, request_group, plan, action
+            )
+            request_group.write(
+                {"child_model": result._name, "child_id": result.id}
+            )
+            return result
         return super().execute_activity(vals, parent, plan, action)
