@@ -266,35 +266,7 @@ class TestCB(TransactionCase):
         )
         self.assertIn(self.agreement, wizard.agreement_ids)
         wizard.run()
-        self.env["medical.request.group.change.plan"].with_context(
-            default_request_group_id=group.id
-        ).create({"agreement_line_id": self.agreement_line3.id}).run()
-        self.env["medical.request.group.change.plan"].with_context(
-            default_request_group_id=group.id
-        ).create({"agreement_line_id": self.agreement_line.id}).run()
-
-        self.env["medical.request.group.change.plan"].with_context(
-            default_request_group_id=group.id
-        ).create({"agreement_line_id": self.agreement_line3.id}).run()
-        group.procedure_request_ids.refresh()
-        requests = group.procedure_request_ids.filtered(
-            lambda r: r.state == "draft"
-        )
-        self.assertTrue(requests)
-        for child in requests:
-            child.draft2active()
-
-        requests = group.procedure_request_ids.filtered(
-            lambda r: r.state in ["draft", "active"]
-        )
-        self.assertTrue(requests)
-        request = requests.filtered(
-            lambda r: r.activity_definition_id == self.activity
-        )
-        self.assertTrue(request)
-        self.assertEqual(request.variable_fee, 0)
-        self.assertEqual(request.fixed_fee, 10)
         with self.assertRaises(ValidationError):
             self.env["medical.request.group.change.plan"].with_context(
                 default_request_group_id=group.id
-            ).create({"agreement_line_id": self.agreement_line.id}).run()
+            ).create({"agreement_line_id": self.agreement_line3.id}).run()
