@@ -232,6 +232,7 @@
                                         icon="fa-cogs"
                                         attrs="{'invisible': ['|', ('is_private', '=', True), ('state', '!=', 'draft')]}"
                                     />
+                                    <field name="authorization_method_id" />
                                     <field name="authorization_status" />
                                     <field name="state" invisible="1" />
                                     <field name="is_private" invisible="1" />
