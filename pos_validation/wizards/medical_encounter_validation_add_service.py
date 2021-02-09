@@ -94,11 +94,15 @@ class MedicalEncounterValidationAddService(models.TransientModel):
     def run(self):
         if self.action_type == "new":
             self.careplan_id = self.create_careplan()
-        res = super(
+        groups = self.careplan_id.request_group_ids
+        result = super(
             MedicalEncounterValidationAddService,
             self.with_context(on_validation=True),
         )._run()
         values = dict()
+        self.careplan_id.refresh()
+        res = self.careplan_id.request_group_ids - groups
+        assert result in res
         self.post_process_request(res)
         query = res.get_sale_order_query()
         for el in query:
