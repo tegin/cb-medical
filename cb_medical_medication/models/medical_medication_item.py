@@ -74,16 +74,23 @@ class MedicalMedicationItem(models.Model):
                 )
             )
         # We are adding the information on the first medication request that
-        # is not invoicable, that insurance will pay, that private will pay
+        # is not sellable
         for request in requests.filtered(
-            lambda r: not r.is_sellable_insurance and not r.is_sellable_private
+            lambda r: not r.request_group_id.child_id
+            and not r.request_group_id.child_model
         ):
             request._add_medication_item(self)
             return product.id, self.location_id.location_type_id.id, request
-        for request in requests.filtered(lambda r: r.is_sellable_insurance):
+        # That is sellable to insurance
+        for request in requests.filtered(
+            lambda r: r.request_group_id.is_sellable_insurance
+        ):
             request._add_medication_item(self)
             return product.id, self.location_id.location_type_id.id, request
-        for request in requests.filtered(lambda r: r.is_sellable_private):
+        # That is sellable to patient
+        for request in requests.filtered(
+            lambda r: r.request_group_id.is_sellable_private
+        ):
             request._add_medication_item(self)
             return product.id, self.location_id.location_type_id.id, request
         # If no medications are found, we are returning an error
