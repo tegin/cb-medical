@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="inherited_res_users_form" model="ir.ui.view">
+        <field name="name">inherited.res.users.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    name="update_signature"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    string="Change signature"
+                />
+            </div>
+            <xpath expr="//field[@name='signature']" position="after">
+                <field name="current_signature_id" invisible="1" />
+            </xpath>
+        </field>
+    </record>
+    <record id="inherited_res_users_preferences_form" model="ir.ui.view">
+        <field name="name">inherited.res.users.preferences.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+        <field name="arch" type="xml">
+            <button name="preference_change_password" position="after">
+                <button
+                    name="update_signature"
+                    type="object"
+                    string="Change Signature"
+                    class="oe_link"
+                />
+            </button>
+        </field>
+    </record>
+</odoo>

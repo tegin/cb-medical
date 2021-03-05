@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+manage_user_signature,manage_user_signature,model_res_users_signature,base.group_user,1,1,1,0
