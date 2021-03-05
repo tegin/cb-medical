@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="res_users_update_signature_form_view">
+        <field
+            name="name"
+        >res.users.update.signature.form (in medical_signature_storage)</field>
+        <field name="model">res.users.update.signature</field>
+        <field name="arch" type="xml">
+            <form string="Update Signature">
+                <group>
+                    <field name="user_id" invisible="1" />
+                    <field name="option" />
+                    <field name="user_id" invisible="1" />
+                    <h2 attrs="{'invisible': [('option', '!=', 'signature')]}">
+                        <field
+                            name="signature"
+                            widget="signature"
+                            attrs="{'required': [('option', '=', 'signature')]}"
+                        />
+                    </h2>
+                    <field
+                        name="signature_file"
+                        filename="signature_file_name"
+                        attrs="{'invisible': [('option', '!=', 'file')], 'required': [('option', '=', 'file')]}"
+                    />
+                    <field name="signature_file_name" invisible="1" />
+                </group>
+                <footer>
+                    <button
+                        name="update_signature"
+                        string="Update"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="res_users_update_signature_act_window">
+        <field name="name">Update Signature</field>
+        <field name="res_model">res.users.update.signature</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
