@@ -5,11 +5,15 @@ from odoo import api, fields, models
 
 
 class ResPartner(models.Model):
-    _inherit = 'res.partner'
+    _inherit = "res.partner"
 
-    is_department = fields.Boolean(default=False, string="Is Medical Department")
+    is_department = fields.Boolean(
+        default=False, string="Is Medical Department"
+    )
     department_identifier = fields.Char(readonly=True)
-    diagnostic_report_header = fields.Html(string="Diagnostic Report Header", translate=True)
+    diagnostic_report_header = fields.Html(
+        string="Diagnostic Report Header", translate=True
+    )
 
     @api.model
     def _get_medical_identifiers(self):
