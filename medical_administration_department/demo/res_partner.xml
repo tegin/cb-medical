@@ -1,13 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2021 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo noupdate="1">
-
-    <!-- TODO
     <record model="res.partner" id="res_partner_demo_1">
-       <field name="name">...</field>
+        <field name="name">Medical department</field>
+        <field name="is_medical" eval="True" />
+        <field name="is_department" eval="True" />
     </record>
-    -->
-
 </odoo>
