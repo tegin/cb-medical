@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="medical_diagnostic_report_expand_form_view">
+        <field
+            name="name"
+        >medical.diagnostic.report.expand.form (in medical_diagnostic_report)</field>
+        <field name="model">medical.diagnostic.report.expand</field>
+        <field
+            name="inherit_id"
+            ref="medical_diagnostic_report.medical_diagnostic_report_expand_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="template_id" position="attributes">
+                <attribute
+                    name="domain"
+                >[('id', 'not in', template_ids), ('report_category_id', '=', report_category_id)]</attribute>
+            </field>
+            <field name="template_id" position="after">
+                <field name="report_category_id" invisible="1" />
+            </field>
+        </field>
+    </record>
+</odoo>
