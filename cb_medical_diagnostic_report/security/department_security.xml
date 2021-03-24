@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2021 Creu Blanca
+    # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="group_medical_department_display" model="res.groups">
+        <field name="name">Department Display</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+        <field
+            name="implied_ids"
+            eval="[(4, ref('medical_administration.group_res_partner_display'))]"
+        />
+    </record>
+    <record id="group_medical_department_list" model="res.groups">
+        <field name="name">Department List</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+        <field
+            name="implied_ids"
+            eval="[(4, ref('medical_base.group_medical_root_menu')), (4, ref('medical_base.group_medical_administration_menu')),(4, ref('medical_administration.group_res_partner_list'))]"
+        />
+    </record>
+    <record id="group_medical_department_manager" model="res.groups">
+        <field name="name">Department Manager</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+        <field
+            name="implied_ids"
+            eval="[(4, ref('group_medical_department_list')), (4, ref('medical_administration.group_res_partner_manager')),(4, ref('medical_base.group_medical_configuration_menu'))]"
+        />
+    </record>
+    <record id="medical_base.group_medical_user" model="res.groups">
+        <field
+            name="implied_ids"
+            eval="[(4, ref('group_medical_department_display'))]"
+        />
+    </record>
+    <record id="medical_base.group_medical_configurator" model="res.groups">
+        <field
+            name="implied_ids"
+            eval="[(4, ref('group_medical_department_manager'))]"
+        />
+    </record>
+</odoo>
