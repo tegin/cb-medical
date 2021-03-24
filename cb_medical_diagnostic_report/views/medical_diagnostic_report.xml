@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="medical_diagnostic_report_form_view">
+        <field
+            name="name"
+        >medical.diagnostic.report.form (in cb_medical_diagnostic_report)</field>
+        <field name="model">medical.diagnostic.report</field>
+        <field
+            name="inherit_id"
+            ref="medical_diagnostic_report.medical_diagnostic_report_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="patient_origin" position="after">
+                <field name="with_department" invisible="1" />
+            </field>
+            <xpath expr="//notebook/page[last()]" position="after">
+                <page
+                    name="medical_department_header"
+                    string="Medical Department"
+                    attrs="{'invisible': [('with_department', '=', False)]}"
+                >
+                    <field
+                        name="medical_department_header"
+                        attrs="{'readonly':[('is_editable', '=', False)]}"
+                    />
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

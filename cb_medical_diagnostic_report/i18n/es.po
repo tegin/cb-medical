@@ -1,0 +1,173 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* cb_medical_diagnostic_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-31 10:02+0000\n"
+"PO-Revision-Date: 2021-03-31 12:14+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.3\n"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model,name:cb_medical_diagnostic_report.model_medical_report_abstract
+msgid "Abstract Diagnostic Report"
+msgstr "Informe abstracto"
+
+#. module: cb_medical_diagnostic_report
+#: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_department_form_view
+msgid "Add a category"
+msgstr "Añadir categoría"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__create_uid
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__create_date
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: cb_medical_diagnostic_report
+#: model:res.groups,name:cb_medical_diagnostic_report.group_medical_department_display
+msgid "Department Display"
+msgstr "Visualizar Departamento"
+
+#. module: cb_medical_diagnostic_report
+#: model:res.groups,name:cb_medical_diagnostic_report.group_medical_department_list
+msgid "Department List"
+msgstr "Listar Departamento"
+
+#. module: cb_medical_diagnostic_report
+#: model:res.groups,name:cb_medical_diagnostic_report.group_medical_department_manager
+msgid "Department Manager"
+msgstr "Gestionar Departamento"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.ui.menu,name:cb_medical_diagnostic_report.medical_department_menu
+msgid "Departments"
+msgstr "Departamentos"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model,name:cb_medical_diagnostic_report.model_medical_diagnostic_report
+msgid "Diagnostic Report"
+msgstr "Informe"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__diagnostic_report_header
+#: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_department_form_view
+msgid "Diagnostic Report Header"
+msgstr "Cabecera informe"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model,name:cb_medical_diagnostic_report.model_medical_diagnostic_report_template
+msgid "Diagnostic Report Template"
+msgstr "Plantilla de informe"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__display_name
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__id
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__id
+msgid "ID"
+msgstr "Identificador"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__internal_identifier
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__internal_identifier
+msgid "Internal Identifier"
+msgstr "Identificador"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,help:cb_medical_diagnostic_report.field_medical_department__internal_identifier
+#: model:ir.model.fields,help:cb_medical_diagnostic_report.field_medical_report_category__internal_identifier
+msgid "Internal identifier used to identify this record"
+msgstr "Identificador del informe"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department____last_update
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__write_uid
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__write_date
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.actions.act_window,name:cb_medical_diagnostic_report.medical_department_act_window
+#: model:ir.model,name:cb_medical_diagnostic_report.model_medical_department
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__medical_department_header
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report_template__medical_department_header
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report_template__medical_department_id
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_abstract__medical_department_header
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__medical_department_id
+#: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_diagnostic_report_form_view
+#: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_diagnostic_report_template_form_view
+msgid "Medical Department"
+msgstr "Departamento"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model,name:cb_medical_diagnostic_report.model_medical_report_category
+msgid "Medical Report Category"
+msgstr "Categoría de informe"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__name
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.actions.act_window,name:cb_medical_diagnostic_report.medical_report_category_act_window
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__report_categories
+#: model:ir.ui.menu,name:cb_medical_diagnostic_report.medical_configuration_report_category_menu
+#: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_department_form_view
+msgid "Report Categories"
+msgstr "Categorías de informes"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__report_category_id
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report_expand__report_category_id
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report_template__report_category_id
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_abstract__report_category_id
+msgid "Report Category"
+msgstr "Categoría de informe"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__sequence
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__with_department
+msgid "With Department"
+msgstr "Con departamento"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model,name:cb_medical_diagnostic_report.model_medical_diagnostic_report_expand
+msgid "medical.diagnostic.report.expand"
+msgstr "medical.diagnostic.report.expand"
