@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="medical_department_form_view">
+        <field
+            name="name"
+        >medical.department.form (in cb_medical_diagnostic_report)</field>
+        <field name="model">medical.department</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <h2>
+                        <label for="internal_identifier" />
+                        <field name="internal_identifier" readonly="1" />
+                    </h2>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <notebook>
+                        <page name="report_category_ids" string="Report Categories">
+                            <field name="report_category_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="name" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page
+                            name="diagnostic_report_header"
+                            string="Diagnostic Report Header"
+                        >
+                            <field name="diagnostic_report_header" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="medical_department_tree_view">
+        <field
+            name="name"
+        >medical.department.tree (in cb_medical_diagnostic_report)</field>
+        <field name="model">medical.department</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="internal_identifier" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="medical_department_act_window">
+        <field name="name">Medical Department</field>
+        <field name="res_model">medical.department</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        id="medical_department_menu"
+        name="Departments"
+        parent="medical_base.medical_root_administration"
+        action="medical_department_act_window"
+        sequence="20"
+    />
+</odoo>
