@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2021 Creu Blanca
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <record id="seq_medical_department" model="ir.sequence">
+        <field name="name">Medical Department</field>
+        <field name="code">medical.department</field>
+        <field name="prefix">MD</field>
+        <field name="padding">6</field>
+    </record>
+    <record id="seq_medical_report_category" model="ir.sequence">
+        <field name="name">Medical Report Category</field>
+        <field name="code">medical.report.category</field>
+        <field name="prefix">MRC</field>
+        <field name="padding">6</field>
+    </record>
+</odoo>
