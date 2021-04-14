@@ -7,6 +7,7 @@ from odoo import fields, models
 class ResUsersUpdateSignature(models.TransientModel):
 
     _name = "res.users.update.signature"
+    _description = "Update signature"
 
     user_id = fields.Many2one("res.users", required=True)
     option = fields.Selection(
