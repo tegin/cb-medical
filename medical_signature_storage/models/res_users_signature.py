@@ -5,9 +5,8 @@ from odoo import fields, models
 
 
 class ResUsersSignature(models.Model):
-    # TODO: Improve security
     _name = "res.users.signature"
-    _description = "Res Users Signature"  # TODO
+    _description = "User Signature"
 
-    user_id = fields.Many2one(required=True)
+    user_id = fields.Many2one("res.users", required=True)
     signature = fields.Binary(required=True)
