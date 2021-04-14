@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="cb_medical_diagnostic_report.cb_medical_diagnostic_report_base"
+        inherit_id="medical_diagnostic_report.medical_diagnostic_report_base"
+    >
+        <xpath expr="//div[hasclass('o_patient_information')]" position="after">
+            <div t-if="doc.medical_department_header" class="o_medical_department">
+                <p t-field="doc.medical_department_header" />
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='signature']" position="attributes">
+            <attribute name="t-if">"doc.state!='final'"</attribute>
+        </xpath>
+        <xpath expr="//div[@id='signature']" position="inside">
+            <div class="col-auto" name="issued_user_id">
+                <strong t-field="doc.issued_user_id.name" />
+                <p class="m-0" t-if="doc.signature_id.signature">
+                    <img
+                        class="image"
+                        t-att-src="'data:image/png;base64,%s' % to_text(doc.signature_id.signature)"
+                        style="border:auto;"
+                    />
+                </p>
+            </div>
+        </xpath>
+    </template>
+</odoo>

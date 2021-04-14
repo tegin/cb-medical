@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
-    Copyright 2017 Creu Blanca
-    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+    Copyright 2021 Creu Blanca
+    # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
     <record id="group_medical_department_display" model="res.groups">
@@ -28,27 +27,6 @@
             name="implied_ids"
             eval="[(4, ref('group_medical_department_list')), (4, ref('medical_administration.group_res_partner_manager')),(4, ref('medical_base.group_medical_configuration_menu'))]"
         />
-    </record>
-    <!-- Record rules -->
-    <record id="department_display" model="ir.rule">
-        <field name="name">Department Display</field>
-        <field name="model_id" ref="base.model_res_partner" />
-        <field name="groups" eval="[(4, ref('group_medical_department_display'))]" />
-        <field name="domain_force">[('is_department', '=', True)]</field>
-        <field name="perm_write" eval="False" />
-        <field name="perm_create" eval="False" />
-        <field name="perm_unlink" eval="False" />
-        <field name="perm_read" eval="True" />
-    </record>
-    <record id="department_manager" model="ir.rule">
-        <field name="name">Department Manager</field>
-        <field name="model_id" ref="base.model_res_partner" />
-        <field name="groups" eval="[(4, ref('group_medical_department_manager'))]" />
-        <field name="domain_force">[('is_department', '=', True)]</field>
-        <field name="perm_write" eval="True" />
-        <field name="perm_create" eval="True" />
-        <field name="perm_unlink" eval="False" />
-        <field name="perm_read" eval="True" />
     </record>
     <record id="medical_base.group_medical_user" model="res.groups">
         <field
