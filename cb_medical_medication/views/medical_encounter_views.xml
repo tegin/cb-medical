@@ -5,7 +5,7 @@
         <field name="model">medical.encounter</field>
         <field
             name="inherit_id"
-            ref="cb_medical_careplan_sale.medical_encounter_view_form"
+            ref="medical_administration_encounter.medical_encounter_view_form"
         />
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
