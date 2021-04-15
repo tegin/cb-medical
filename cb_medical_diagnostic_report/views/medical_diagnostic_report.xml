@@ -12,6 +12,9 @@
             ref="medical_diagnostic_report.medical_diagnostic_report_form_view"
         />
         <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">false</attribute>
+            </xpath>
             <field name="patient_origin" position="after">
                 <field name="with_department" invisible="1" />
             </field>
