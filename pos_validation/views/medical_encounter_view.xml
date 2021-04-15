@@ -10,7 +10,7 @@
         <field name="model">medical.encounter</field>
         <field
             name="inherit_id"
-            ref="cb_medical_medication.medical_encounter_view_form"
+            ref="cb_medical_careplan_sale.medical_encounter_view_form"
         />
         <field name="arch" type="xml">
             <xpath
@@ -137,7 +137,7 @@
                     string="Close"
                 />
             </xpath>
-            <page name="medication" position="before">
+            <xpath expr="//notebook/page[1]" position="before">
                 <page
                     name="sale_order"
                     string="Sale Orders"
@@ -266,7 +266,7 @@
                         </form>
                     </field>
                 </page>
-            </page>
+            </xpath>
         </field>
     </record>
 </odoo>
