@@ -12,6 +12,8 @@
         "medical_diagnostic_report",
         "medical_administration",
         "medical_signature_storage",
+        "sequence_parser",
+        "cb_medical_identifier",
     ],
     "data": [
         "security/department_security.xml",

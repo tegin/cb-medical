@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template
+        id="cb_medical_diagnostic_report.cb_medical_diagnostic_report_template"
+        inherit_id="medical_diagnostic_report.medical_diagnostic_report_template"
+    >
+        <xpath expr="//t[@t-set='partner']" position="attributes">
+            <attribute name="t-value">doc.encounter_id.center_id</attribute>
+        </xpath>
+    </template>
+    <template
         id="cb_medical_diagnostic_report.cb_medical_diagnostic_report_base"
-        inherit_id="medical_diagnostic_report.medical_diagnostic_report_base"
+        inherit_id="medical_diagnostic_report.medical_diagnostic_report_template_single"
     >
         <xpath expr="//div[hasclass('o_patient_information')]" position="after">
             <div t-if="doc.medical_department_header" class="o_medical_department">
