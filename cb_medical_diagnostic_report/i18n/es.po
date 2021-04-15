@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-31 10:02+0000\n"
-"PO-Revision-Date: 2021-03-31 12:14+0200\n"
+"POT-Creation-Date: 2021-04-15 09:03+0000\n"
+"PO-Revision-Date: 2021-04-15 11:05+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,6 @@ msgstr ""
 #: model:ir.model,name:cb_medical_diagnostic_report.model_medical_report_abstract
 msgid "Abstract Diagnostic Report"
 msgstr "Informe abstracto"
-
-#. module: cb_medical_diagnostic_report
-#: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_department_form_view
-msgid "Add a category"
-msgstr "Añadir categoría"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__create_uid
@@ -66,6 +61,7 @@ msgstr "Informe"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__diagnostic_report_header
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report_template__medical_department_header
 #: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_department_form_view
 msgid "Diagnostic Report Header"
 msgstr "Cabecera informe"
@@ -120,15 +116,18 @@ msgstr "Última actualización el"
 #. module: cb_medical_diagnostic_report
 #: model:ir.actions.act_window,name:cb_medical_diagnostic_report.medical_department_act_window
 #: model:ir.model,name:cb_medical_diagnostic_report.model_medical_department
-#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__medical_department_header
-#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report_template__medical_department_header
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report_template__medical_department_id
-#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_abstract__medical_department_header
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__medical_department_id
 #: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_diagnostic_report_form_view
 #: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_diagnostic_report_template_form_view
 msgid "Medical Department"
 msgstr "Departamento"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__medical_department_header
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_abstract__medical_department_header
+msgid "Medical Department Header"
+msgstr "Cabecera departamento"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model,name:cb_medical_diagnostic_report.model_medical_report_category
@@ -143,13 +142,13 @@ msgstr "Nombre"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.actions.act_window,name:cb_medical_diagnostic_report.medical_report_category_act_window
-#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__report_categories
 #: model:ir.ui.menu,name:cb_medical_diagnostic_report.medical_configuration_report_category_menu
 #: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_department_form_view
 msgid "Report Categories"
 msgstr "Categorías de informes"
 
 #. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__report_category_ids
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__report_category_id
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report_expand__report_category_id
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report_template__report_category_id
@@ -163,11 +162,16 @@ msgid "Sequence"
 msgstr "Secuencia"
 
 #. module: cb_medical_diagnostic_report
-#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__with_department
-msgid "With Department"
-msgstr "Con departamento"
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__signature_id
+msgid "Signature"
+msgstr "Firma"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model,name:cb_medical_diagnostic_report.model_medical_diagnostic_report_expand
-msgid "medical.diagnostic.report.expand"
-msgstr "medical.diagnostic.report.expand"
+msgid "This model allows to add templates to a report"
+msgstr "Este modelo permite añadir plantillas a un informe"
+
+#. module: cb_medical_diagnostic_report
+#: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__with_department
+msgid "With Department"
+msgstr "Con departamento"
