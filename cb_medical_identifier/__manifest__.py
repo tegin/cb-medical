@@ -15,6 +15,7 @@
         "medical_document",
         "medical_clinical_laboratory",
         "sequence_parser",
+        "medical_diagnostic_report",
         "cb_medical_administration_center",
         "sequence_safe",
     ],
