@@ -81,5 +81,13 @@
             <field name="key">medical.laboratory.event.identifier</field>
             <field name="value">LE%02d</field>
         </record>
+        <record
+            id="medical_diagnostic_report_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
+            <field name="key">medical.diagnostic.report.identifier</field>
+            <field name="value">MDR%02d</field>
+        </record>
     </data>
 </odoo>
