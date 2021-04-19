@@ -16,3 +16,4 @@ from . import medical_procedure_request
 from . import medical_request
 from . import medical_request_group
 from . import res_partner
+from . import medical_diagnostic_report
