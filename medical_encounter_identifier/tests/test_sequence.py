@@ -160,3 +160,28 @@ class TestSequence(TransactionCase):
             "medical.document.reference",
             {"document_type_id": document_type.id},
         )
+
+    def test_diagnostic_report(self):
+        model = "medical.diagnostic.report"
+        values = dict(
+            patient_id=self.patient.id, encounter_id=self.encounter.id
+        )
+        request_2 = self.env[model].create(values)
+        self.assertEqual(
+            request_2.internal_identifier[
+                : len(self.encounter.internal_identifier)
+            ],
+            self.encounter.internal_identifier,
+        )
+        values = dict(patient_id=self.patient.id)
+        request_3 = (
+            self.env[model]
+            .with_context(default_encounter_id=self.encounter.id)
+            .create(values)
+        )
+        self.assertEqual(
+            request_3.internal_identifier[
+                : len(self.encounter.internal_identifier)
+            ],
+            self.encounter.internal_identifier,
+        )
