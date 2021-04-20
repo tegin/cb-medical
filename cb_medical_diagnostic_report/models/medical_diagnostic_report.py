@@ -11,6 +11,8 @@ class MedicalDiagnosticReport(models.Model):
     with_department = fields.Boolean(default=False)
     medical_department_header = fields.Html(readonly=True)
     signature_id = fields.Many2one("res.users.signature", readonly=True)
+    occurrence_date = fields.Datetime(related="encounter_id.create_date")
+    encounter_id = fields.Many2one(readonly=True)
 
     def _generate_serializer(self):
         result = super(MedicalDiagnosticReport, self)._generate_serializer()
