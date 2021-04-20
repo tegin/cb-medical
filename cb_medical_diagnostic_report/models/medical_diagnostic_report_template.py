@@ -13,7 +13,7 @@ class MedicalDiagnosticReportTemplate(models.Model):
         related="report_category_id.medical_department_id"
     )
     medical_department_header = fields.Html(
-        related="medical_department_id.diagnostic_report_header",
+        related="medical_department_id.diagnostic_report_header", readonly=True
     )
 
     def _generate_report_vals(self, encounter):

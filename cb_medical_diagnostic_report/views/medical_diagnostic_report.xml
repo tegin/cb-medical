@@ -24,10 +24,7 @@
                     string="Medical Department"
                     attrs="{'invisible': [('with_department', '=', False)]}"
                 >
-                    <field
-                        name="medical_department_header"
-                        attrs="{'readonly':[('is_editable', '=', False)]}"
-                    />
+                    <field name="medical_department_header" />
                 </page>
             </xpath>
         </field>
