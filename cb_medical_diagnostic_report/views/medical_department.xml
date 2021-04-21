@@ -19,19 +19,11 @@
                         <field name="name" />
                     </group>
                     <notebook>
-                        <page name="report_category_ids" string="Report Categories">
-                            <field name="report_category_ids">
-                                <tree editable="bottom">
-                                    <field name="sequence" widget="handle" />
-                                    <field name="name" />
-                                </tree>
-                            </field>
-                        </page>
-                        <page
-                            name="diagnostic_report_header"
-                            string="Diagnostic Report Header"
-                        >
+                        <page name="diagnostic_report_header" string="Report Header">
                             <field name="diagnostic_report_header" />
+                        </page>
+                        <page name="user" string="Users">
+                            <field name="user_ids" />
                         </page>
                     </notebook>
                 </sheet>
@@ -60,6 +52,7 @@
         name="Departments"
         parent="medical_base.medical_root_administration"
         action="medical_department_act_window"
+        groups="group_medical_department_manager"
         sequence="20"
     />
 </odoo>
