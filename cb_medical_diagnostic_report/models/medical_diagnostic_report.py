@@ -28,3 +28,15 @@ class MedicalDiagnosticReport(models.Model):
         res = super().registered2final_change_state()
         res["signature_id"] = self.env.user.current_signature_id.id
         return res
+
+    def _is_editable(self):
+        department = self.medical_department_id
+        return super()._is_editable() and (
+            not department or self.env.user in department.user_ids
+        )
+
+    def _is_cancellable(self):
+        department = self.medical_department_id
+        return super()._is_cancellable() and (
+            not department or self.env.user in department.user_ids
+        )
