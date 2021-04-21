@@ -16,6 +16,7 @@ class MedicalDepartment(models.Model):
         comodel_name="medical.report.category",
         inverse_name="medical_department_id",
     )
+    user_ids = fields.Many2many("res.users")
 
     def _get_internal_identifier(self, vals):
         return (

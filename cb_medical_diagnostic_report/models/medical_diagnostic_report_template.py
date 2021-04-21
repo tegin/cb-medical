@@ -8,7 +8,7 @@ class MedicalDiagnosticReportTemplate(models.Model):
 
     _inherit = "medical.diagnostic.report.template"
 
-    report_category_id = fields.Many2one(required=True)
+    report_category_id = fields.Many2one(required=True, auto_join=True)
     medical_department_id = fields.Many2one(
         related="report_category_id.medical_department_id"
     )

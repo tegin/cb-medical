@@ -11,21 +11,3 @@ class MedicalDiagnosticReportExpand(models.TransientModel):
         "medical.report.category",
         related="diagnostic_report_id.report_category_id",
     )
-
-    def _merge_new_vals(self, vals):
-
-        new_vals = super()._merge_new_vals(vals)
-
-        if (
-            vals["with_department"]
-            and not self.diagnostic_report_id.with_department
-        ):
-            new_vals.update(
-                {
-                    "with_department": vals["with_department"],
-                    "medical_department_header": vals[
-                        "medical_department_header"
-                    ],
-                }
-            )
-        return new_vals
