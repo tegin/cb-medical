@@ -13,7 +13,6 @@ class MedicalReportCategory(models.Model):
 
     name = fields.Char(required=True)
     medical_department_id = fields.Many2one("medical.department")
-
     sequence = fields.Integer(default=20)
 
     def _get_internal_identifier(self, vals):
