@@ -9,4 +9,9 @@ class MedicalReportAbstract(models.AbstractModel):
     _inherit = "medical.report.abstract"
 
     report_category_id = fields.Many2one("medical.report.category")
+    medical_department_id = fields.Many2one(
+        "medical.department",
+        related="report_category_id.medical_department_id",
+        store=True,
+    )
     medical_department_header = fields.Html()
