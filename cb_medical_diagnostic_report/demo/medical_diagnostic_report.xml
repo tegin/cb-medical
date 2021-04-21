@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="category_demo_1" model="medical.report.category">
+        <field name="name">Demo category</field>
+    </record>
+    <record
+        model="medical.diagnostic.report.template"
+        id="medical_diagnostic_report.medical_diagnostic_report_template_demo_1"
+    >
+        <field name="report_category_id" ref="category_demo_1" />
+    </record>
+</odoo>

@@ -15,6 +15,12 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
                 "diagnostic_report_header": " Report Header 1",
             }
         )
+        self.department_1 = self.env["medical.department"].create(
+            {
+                "name": "Department 2",
+                "diagnostic_report_header": " Report Header 2",
+            }
+        )
         self.category_1 = self.env["medical.report.category"].create(
             {
                 "name": "Category 1",
@@ -86,6 +92,82 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         )
         self.env.user.current_signature_id = self.signature_1.id
 
+    def test_security(self):
+        user_1 = self.env["res.users"].create(
+            {
+                "name": "Test user",
+                "login": "test_report_user",
+                "groups_id": [
+                    (
+                        4,
+                        self.env.ref(
+                            "medical_diagnostic_report."
+                            "group_medical_diagnostic_report_manager"
+                        ).id,
+                    )
+                ],
+            }
+        )
+        user_2 = self.env["res.users"].create(
+            {
+                "name": "Test user",
+                "login": "test_report_user_2",
+                "groups_id": [
+                    (
+                        4,
+                        self.env.ref(
+                            "medical_diagnostic_report."
+                            "group_medical_diagnostic_report_manager"
+                        ).id,
+                    )
+                ],
+            }
+        )
+        self.department_1.user_ids = user_1
+        department_2 = self.env["medical.department"].create(
+            {
+                "name": "Department 2",
+                "diagnostic_report_header": " Report Header 2",
+                "user_ids": [(4, user_2.id)],
+            }
+        )
+        category_3 = self.env["medical.report.category"].create(
+            {"name": "Category 3", "medical_department_id": department_2.id}
+        )
+        template_1 = self.env["medical.diagnostic.report.template"].create(
+            {"name": "Template", "report_category_id": self.category_1.id}
+        )
+        report_1 = self._generate_report(template_1)
+        self.assertTrue(report_1.sudo(user_1.id).is_editable)
+        self.assertFalse(report_1.sudo(user_2.id).is_editable)
+        self.assertTrue(report_1.sudo(user_1.id).is_cancellable)
+        self.assertFalse(report_1.sudo(user_2.id).is_cancellable)
+        template_2 = self.env["medical.diagnostic.report.template"].create(
+            {"name": "Template", "report_category_id": self.category_2.id}
+        )
+        report_2 = self._generate_report(template_2)
+        self.assertTrue(report_2.sudo(user_1.id).is_editable)
+        self.assertTrue(report_2.sudo(user_2.id).is_editable)
+        self.assertTrue(report_2.sudo(user_1.id).is_cancellable)
+        self.assertTrue(report_2.sudo(user_2.id).is_cancellable)
+        template_3 = self.env["medical.diagnostic.report.template"].create(
+            {"name": "Template", "report_category_id": category_3.id}
+        )
+        report_3 = self._generate_report(template_3)
+        self.assertFalse(report_3.sudo(user_1.id).is_editable)
+        self.assertTrue(report_3.sudo(user_2.id).is_editable)
+        self.assertFalse(report_3.sudo(user_1.id).is_cancellable)
+        self.assertTrue(report_3.sudo(user_2.id).is_cancellable)
+
+    def _generate_report(self, template):
+        report_generation = self.env[
+            "medical.encounter.create.diagnostic.report"
+        ].create(
+            {"encounter_id": self.encounter_1.id, "template_id": template.id}
+        )
+        action = report_generation.generate()
+        return self.env[action.get("res_model")].browse(action.get("res_id"))
+
     def test_report_generation(self):
         self.assertEqual("medical.diagnostic.report", self.report._name)
         self.assertEqual(
@@ -114,29 +196,4 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         self.assertEqual(
             self.report.issued_user_id.digital_signature,
             self.env.user.digital_signature,
-        )
-
-    def test_report_expand(self):
-        report_generation = self.env[
-            "medical.encounter.create.diagnostic.report"
-        ].create(
-            {
-                "encounter_id": self.encounter_1.id,
-                "template_id": self.template_2.id,
-            }
-        )
-        action = report_generation.generate()
-        report = self.env[action.get("res_model")].browse(action.get("res_id"))
-        self.assertFalse(report.with_department)
-        self.assertTrue(self.template_1.medical_department_id)
-        self.env["medical.diagnostic.report.expand"].create(
-            {
-                "diagnostic_report_id": report.id,
-                "template_id": self.template_1.id,
-            }
-        ).merge()
-        self.assertTrue(report.with_department)
-        self.assertRegex(
-            report.medical_department_header,
-            self.template_1.medical_department_header,
         )
