@@ -12,6 +12,15 @@
             eval="[(4, ref('medical_administration.group_res_partner_display'))]"
         />
     </record>
+    <record
+        id="medical_diagnostic_report.group_medical_diagnostic_report_display"
+        model="res.groups"
+    >
+        <field
+            name="implied_ids"
+            eval="[(4, ref('cb_medical_diagnostic_report.group_medical_department_display'))]"
+        />
+    </record>
     <record id="group_medical_department_list" model="res.groups">
         <field name="name">Department List</field>
         <field name="category_id" ref="base.module_category_hidden" />
@@ -28,6 +37,14 @@
             eval="[(4, ref('group_medical_department_list')), (4, ref('medical_administration.group_res_partner_manager')),(4, ref('medical_base.group_medical_configuration_menu'))]"
         />
     </record>
+    <record id="group_medical_category_manager" model="res.groups">
+        <field name="name">Diagnostic Category Manager</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+        <field
+            name="implied_ids"
+            eval="[(4, ref('group_medical_department_manager'))]"
+        />
+    </record>
     <record id="medical_base.group_medical_user" model="res.groups">
         <field
             name="implied_ids"
@@ -37,7 +54,7 @@
     <record id="medical_base.group_medical_configurator" model="res.groups">
         <field
             name="implied_ids"
-            eval="[(4, ref('group_medical_department_manager'))]"
+            eval="[(4, ref('group_medical_department_manager')), (4, ref('group_medical_category_manager'))]"
         />
     </record>
 </odoo>

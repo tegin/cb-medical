@@ -26,4 +26,5 @@
         "reports/medical_diagnostic_report_template.xml",
         "wizards/medical_diagnostic_report_expand.xml",
     ],
+    "demo": ["demo/medical_diagnostic_report.xml"],
 }
