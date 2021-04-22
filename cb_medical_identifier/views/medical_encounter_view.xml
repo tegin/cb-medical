@@ -29,7 +29,7 @@
             <field name="location_id" position="after">
                 <field
                     name="center_id"
-                    options="{'no_create': True}"
+                    options="{'no_create': True, 'no_open': True}"
                     attrs="{'readonly': [('is_editable', '=', False)]}"
                 />
             </field>
