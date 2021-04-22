@@ -13,6 +13,7 @@
                     name="recompute_commissions"
                     type="object"
                     string="Recompute commissions"
+                    groups="medical_administration_encounter.group_medical_encounter_manager"
                     class="oe_highlight"
                 />
             </button>
