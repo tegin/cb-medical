@@ -16,6 +16,7 @@
                     class="oe_stat_button"
                     icon="fa-pills"
                     string="Add Medication"
+                    groups="cb_medical_medication.group_medical_medication_item_manager"
                     states="draft,arrived,in-progress"
                 />
             </xpath>
