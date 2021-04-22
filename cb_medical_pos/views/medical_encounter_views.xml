@@ -26,6 +26,7 @@
                     string="Add Amount"
                     class="oe_highlight"
                     context="{'default_encounter_id': active_id}"
+                    groups="medical_administration_encounter.group_medical_encounter_manager"
                     attrs="{'invisible': [('state','not in',['arrived', 'in-progress'])]}"
                 />
                 <button
@@ -33,6 +34,7 @@
                     type="object"
                     string="Close"
                     class="oe_highlight"
+                    groups="medical_administration_encounter.group_medical_encounter_manager"
                     context="{'default_encounter_id': active_id}"
                     attrs="{'invisible': [('state','not in',['arrived', 'in-progress'])]}"
                 />
@@ -41,6 +43,7 @@
                     type="action"
                     string="Finish"
                     class="oe_highlight"
+                    groups="medical_administration_encounter.group_medical_encounter_manager"
                     context="{'default_encounter_id': active_id}"
                     attrs="{'invisible': [('state','!=','onleave')]}"
                 />
@@ -49,8 +52,14 @@
                 <attribute name="invisible">1</attribute>
             </button>
             <field name="location_id" position="after">
-                <field name="company_id" options="{'no_create': True}" />
-                <field name="pos_session_id" options="{'no_create': True}" />
+                <field
+                    name="company_id"
+                    options="{'no_create': True, 'no_open': True}"
+                />
+                <field
+                    name="pos_session_id"
+                    options="{'no_create': True, 'no_open': True}"
+                />
             </field>
         </field>
     </record>
