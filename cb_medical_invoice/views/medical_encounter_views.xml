@@ -14,6 +14,7 @@
                     type="action"
                     string="Change Partner"
                     class="oe_highlight"
+                    groups="medical_administration_encounter.group_medical_encounter_manager"
                     context="{'default_encounter_id': active_id}"
                     attrs="{'invisible': [('state','not in',['finished'])]}"
                 />
