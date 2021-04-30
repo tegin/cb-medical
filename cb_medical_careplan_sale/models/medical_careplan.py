@@ -28,6 +28,7 @@ class MedicalCareplan(models.Model):
         order_by=False,
         authorization_number=False,
         performer=False,
+        agreement_line=False,
         **kwargs
     ):
         self.ensure_one()
@@ -54,14 +55,17 @@ class MedicalCareplan(models.Model):
                 }
             )
         )
-        agreement_line = self.env["medical.coverage.agreement.item"].search(
-            [
-                ("product_id", "=", service.id),
-                ("coverage_agreement_id", "in", call.agreement_ids.ids),
-                ("plan_definition_id", "!=", False),
-            ],
-            limit=1,
-        )
+        if not agreement_line:
+            agreement_line = self.env[
+                "medical.coverage.agreement.item"
+            ].search(
+                [
+                    ("product_id", "=", service.id),
+                    ("coverage_agreement_id", "in", call.agreement_ids.ids),
+                    ("plan_definition_id", "!=", False),
+                ],
+                limit=1,
+            )
         agreement_line.ensure_one()
         write_vals = {"agreement_line_id": agreement_line.id}
         if agreement_line.plan_definition_id.performer_required:
