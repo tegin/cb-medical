@@ -40,11 +40,13 @@ class MedicalRequest(models.AbstractModel):
         return False
 
     def _compute_sale_order_line_ids(self):
-        inverse_field_name = self._get_parent_field_name()
         for rec in self:
-            rec.sale_order_line_ids = self.env["sale.order.line"].search(
-                [(inverse_field_name, "=", rec.id)]
-            )
+            rec.sale_order_line_ids = rec._get_sale_order_lines()
+
+    def _get_sale_order_lines(self):
+        return self.env["sale.order.line"].search(
+            [(self._get_parent_field_name(), "=", self.id)]
+        )
 
     @api.onchange("coverage_id")
     def _onchange_coverage_id(self):
