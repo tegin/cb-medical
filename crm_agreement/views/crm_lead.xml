@@ -47,8 +47,16 @@
                     type="action"
                     icon="fa-plus"
                     attrs="{'invisible': [('is_payor', '=', False)]}"
-                    string="Link to existing Agreement"
+                    string="Add agreement"
                 />
+                <button
+                    name="generate_quote"
+                    type="object"
+                    icon="fa-plus"
+                    attrs="{'invisible': [('is_payor', '=', False)]}"
+                    string="Generate quote"
+                >
+                </button>
             </xpath>
         </field>
     </record>
@@ -135,6 +143,14 @@
                         name="medical_quote_count"
                         widget="statinfo"
                     />
+                </button>
+                <button
+                    name="generate_quote"
+                    type="object"
+                    icon="fa-plus"
+                    attrs="{'invisible': [('is_payor', '=', False)]}"
+                    string="Generate quote"
+                >
                 </button>
             </xpath>
         </field>
