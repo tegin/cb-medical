@@ -10,10 +10,11 @@
                 <group>
                     <field name="lead_id" invisible="1" />
                     <field name="coverage_template_ids" invisible="1" />
+                    <field name="agreement_ids" invisible="1" />
                     <field
                         name="agreement_id"
                         options="{'no_create': 1}"
-                        domain="[('coverage_template_ids', 'in', coverage_template_ids)]"
+                        domain="[('coverage_template_ids', 'in', coverage_template_ids), ('id', 'not in', agreement_ids)]"
                     />
                 </group>
                 <footer>
