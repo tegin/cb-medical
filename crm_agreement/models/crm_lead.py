@@ -90,3 +90,21 @@ class CrmLead(models.Model):
                     agreement_ids.append(agreement.id)
             result["agreement_ids"] = [(6, 0, agreement_ids)]
         return result
+
+    def _generate_quote_context(self):
+        return {
+            "default_payor_id": self.partner_id.commercial_partner_id.id,
+            "default_lead_id": self.id,
+        }
+
+    def generate_quote(self):
+        action = self.env.ref("cb_medical_quote.action_quotes").read()[0]
+        action.update(
+            {
+                "view_mode": "form",
+                "views": [(False, "form")],
+                "target": "new",
+                "context": self._generate_quote_context(),
+            }
+        )
+        return action
