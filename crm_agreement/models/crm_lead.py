@@ -67,7 +67,7 @@ class CrmLead(models.Model):
             {
                 "default_lead_id": self.id,
                 "default_is_private": False,
-                "default_payor_id": self.partner_id.id,
+                "default_payor_id": self.partner_id.commercial_partner_id.id,
             }
         )
         action["domain"] = [("lead_id", "=", self.id)]
