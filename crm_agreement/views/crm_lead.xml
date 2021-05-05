@@ -15,6 +15,7 @@
             <field name="partner_id" position="after">
                 <field name="is_payor" invisible="1" />
                 <field name="agreement_ids" invisible="1" />
+                <field name="medical_quote_ids" invisible="1" />
             </field>
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button
@@ -95,6 +96,7 @@
             <field name="partner_id" position="after">
                 <field name="is_payor" invisible="1" />
                 <field name="agreement_ids" invisible="1" />
+                <field name="medical_quote_ids" invisible="1" />
             </field>
             <xpath
                 expr="//field[@name='planned_revenue']/../../.."
@@ -122,6 +124,18 @@
                     attrs="{'invisible': [('is_payor', '=', False)]}"
                     string="Add agreement"
                 />
+                <button
+                    type="object"
+                    icon="fa-hand-holding-usd"
+                    attrs="{'invisible': [('is_payor', '=', False)]}"
+                    name="view_medical_quotes"
+                >
+                    <field
+                        string="Quotes"
+                        name="medical_quote_count"
+                        widget="statinfo"
+                    />
+                </button>
             </xpath>
         </field>
     </record>
