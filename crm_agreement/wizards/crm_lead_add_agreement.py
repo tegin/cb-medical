@@ -16,6 +16,11 @@ class CrmLeadAddAgreement(models.TransientModel):
         readonly=True,
     )
     agreement_id = fields.Many2one("medical.coverage.agreement", required=True)
+    agreement_ids = fields.Many2many(
+        "medical.coverage.agreement",
+        related="lead_id.agreement_ids",
+        string="Current agreement ids",
+    )
 
     @api.multi
     def link_to_existing(self):
