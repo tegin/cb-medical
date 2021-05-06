@@ -8,8 +8,26 @@
         <field name="inherit_id" ref="cb_medical_quote.medical_quote_form" />
         <field name="arch" type="xml">
             <field name="center_id" position="after">
-                <field name="lead_id" />
+                <field
+                    name="lead_id"
+                    domain="[('partner_id.commercial_partner_id','=', payor_id)]"
+                />
             </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="medical_quote_search_view">
+        <field name="name">medical.quote.search</field>
+        <field name="model">medical.quote</field>
+        <field name="inherit_id" ref="cb_medical_quote.medical_quote_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='activities_my']" position="after">
+                <separator />
+                <filter
+                    string="Lead is set"
+                    name="with_lead"
+                    domain="[('lead_id','!=',False)]"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>
