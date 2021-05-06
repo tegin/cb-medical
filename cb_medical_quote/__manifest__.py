@@ -14,6 +14,7 @@
         "security/medical_security.xml",
         "security/ir.model.access.csv",
         "data/ir_sequence_data.xml",
+        "data/mail_data.xml",
         "views/medical_quote_views.xml",
         "views/medical_quote_layout_category_views.xml",
         "views/medical_menu.xml",
