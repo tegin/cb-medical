@@ -70,6 +70,14 @@
                         class="btn-primary"
                         groups="cb_medical_quote.group_medical_quote_manager"
                     />
+                    <button
+                        name="send_quote_by_email"
+                        string="Send by Email"
+                        type="object"
+                        class="btn-primary"
+                        states="draft,confirm,sent"
+                        groups="cb_medical_quote.group_medical_quote_manager"
+                    />
                     <field
                         name="state"
                         widget="statusbar"
