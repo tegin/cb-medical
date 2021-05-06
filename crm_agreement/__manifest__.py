@@ -16,6 +16,7 @@
         "cb_medical_administration_requester",
     ],
     "data": [
+        "data/mail_data.xml",
         "views/medical_quote.xml",
         "wizards/crm_lead_add_agreement.xml",
         "views/medical_coverage_agreement.xml",
