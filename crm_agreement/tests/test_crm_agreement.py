@@ -217,7 +217,7 @@ class TestCrmAgreement(TransactionCase):
         )
         self.assertEqual(agreements_count_before + 1, agreements_count_after)
 
-    def test_quote(self):
+    def test_view_quote(self):
         lead = self.env["crm.lead"].create(
             {"name": "Test", "partner_id": self.payor.id}
         )
@@ -238,3 +238,17 @@ class TestCrmAgreement(TransactionCase):
         self.assertEqual(1, lead.medical_quote_count)
         action = lead.view_medical_quotes()
         self.assertTrue(quote.id, action["res_id"])
+
+    def test_generate_quote(self):
+        lead = self.env["crm.lead"].create(
+            {"name": "Test", "partner_id": self.payor.id}
+        )
+        self.assertEqual(lead.medical_quote_count, 0)
+        action = lead.generate_quote()
+
+        quote = self.env[action.get("res_model")].browse(action.get("res_id"))
+        self.assertEqual("medical.quote", quote._name)
+        self.assertEqual(lead.id, action["context"]["default_lead_id"])
+        self.assertEqual(
+            lead.partner_id.id, action["context"]["default_payor_id"]
+        )
