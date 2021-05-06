@@ -17,6 +17,14 @@
                 <field name="agreement_ids" invisible="1" />
                 <field name="medical_quote_ids" invisible="1" />
             </field>
+            <xpath expr="//button[@name='action_set_lost']" position="after">
+                <button
+                    name="send_email_from_lead"
+                    string="Send Email"
+                    type="object"
+                    class="btn-primary"
+                />
+            </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button
                     type="object"
@@ -96,6 +104,17 @@
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
         <field name="arch" type="xml">
+            <xpath
+                expr="//button[@name='%(crm.crm_lead_lost_action)d']"
+                position="after"
+            >
+                <button
+                    name="send_email_from_lead"
+                    string="Send Email"
+                    type="object"
+                    class="btn-primary"
+                />
+            </xpath>
             <field name="partner_id" position="attributes">
                 <attribute
                     name="domain"
