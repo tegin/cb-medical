@@ -95,7 +95,11 @@ class TestMedicalQuote(TransactionCase):
 
     def _create_payor(self):
         return self.payor_model.create(
-            {"name": "Test payor", "is_payor": True}
+            {
+                "name": "Test payor",
+                "is_payor": True,
+                "email": "test.payor@test.com",
+            }
         )
 
     def _create_coverage_template(self, state=False):
@@ -286,3 +290,17 @@ class TestMedicalQuote(TransactionCase):
             self.coverage_agreement.quote_ids[0].quote_line_ids[0].product_id,
             self.coverage_agreement.item_ids[0].product_id,
         )
+
+    def test_send_email(self):
+        quote = self.env["medical.quote"].create(
+            {
+                "payor_id": self.payor_1.id,
+                "is_private": False,
+                "center_id": self.center_1.id,
+                "coverage_template_id": self.coverage_template_1.id,
+                "company_id": self.ref("base.main_company"),
+            }
+        )
+        action = quote.send_quote_by_email()
+        email = self.env[action.get("res_model")].browse(action.get("res_id"))
+        self.assertEqual("mail.compose.message", email._name)
