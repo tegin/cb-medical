@@ -8,7 +8,12 @@ class TestCrmAgreement(TransactionCase):
     def setUp(self):
         super(TestCrmAgreement, self).setUp()
         self.payor = self.env["res.partner"].create(
-            {"name": "Payor", "is_medical": True, "is_payor": True}
+            {
+                "name": "Payor",
+                "is_medical": True,
+                "is_payor": True,
+                "email": "payor@email.com",
+            }
         )
         self.contact = self.env["res.partner"].create(
             {"name": "Contact", "parent_id": self.payor.id}
@@ -252,3 +257,11 @@ class TestCrmAgreement(TransactionCase):
         self.assertEqual(
             lead.partner_id.id, action["context"]["default_payor_id"]
         )
+
+    def test_send_email(self):
+        lead = self.env["crm.lead"].create(
+            {"name": "Test", "partner_id": self.payor.id}
+        )
+        action = lead.send_email_from_lead()
+        email = self.env[action.get("res_model")].browse(action.get("res_id"))
+        self.assertEqual("mail.compose.message", email._name)
