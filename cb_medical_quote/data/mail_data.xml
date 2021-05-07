@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="email_medical_quote" model="mail.template">
-        <field name="name">Quotes: Send by email</field>
-        <field name="email_from">${object.user_id.email}</field>
-        <field name="email_to">${object.payor_id.email}</field>
-        <field
-            name="subject"
-        >${object.company_id.name} Quote (Ref ${object.name or 'n/a' })</field>
-        <field name="model_id" ref="model_medical_quote" />
-        <field name="body_html">
+    <data noupdate="1">
+        <record id="email_medical_quote" model="mail.template">
+            <field name="name">Quotes: Send by email</field>
+            <field name="email_from">${object.user_id.email}</field>
+            <!-- TODO: Ask if patient + payor is needed or only patient -->
+            <field name="email_to">
+            % if object.is_private:
+                ${object.patient_id.email}
+            % else:
+                ${object.payor_id.email}
+            %endif
+        </field>
+            <field
+                name="subject"
+            >${object.company_id.name} Quote (Ref ${object.name or 'n/a' })</field>
+            <field name="model_id" ref="model_medical_quote" />
+            <field name="body_html">
                 <![CDATA[
-                        Dear ${object.payor_id.name},
+                        Dear
+                        % if object.is_private:
+                            ${object.patient_id.name},
+                        % else:
+                            ${object.payor_id.name},
+                         %endif
                         <br /> <br />
                         Here is the quote <strong>${object.name}</strong>
                         amounting in <strong>${format_amount(object.amount, object.currency_id)}</strong>
@@ -23,11 +36,12 @@
                         ${object.company_id.name}
                         ]]>
             </field>
-        <field
-            name="report_template"
-            ref="cb_medical_quote.action_report_medical_quote"
-        />
-        <field name="report_name">${(object.name or '').replace('/','_')}</field>
-        <field name="lang">${object.payor_id.lang}</field>
-    </record>
+            <field
+                name="report_template"
+                ref="cb_medical_quote.action_report_medical_quote"
+            />
+            <field name="report_name">${(object.name or '').replace('/','_')}</field>
+            <field name="lang">${object.payor_id.lang}</field>
+        </record>
+    </data>
 </odoo>
