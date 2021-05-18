@@ -197,3 +197,17 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
             self.report.issued_user_id.digital_signature,
             self.env.user.digital_signature,
         )
+
+    def test_copy_action(self):
+        self.report.registered2final_action()
+        self.assertEqual(self.report.state, "final")
+        action = self.report.copy_action()
+        report_duplicate = self.env[action.get("res_model")].browse(
+            action.get("res_id")
+        )
+        self.assertEqual("medical.diagnostic.report", report_duplicate._name)
+        self.assertNotEqual(report_duplicate.id, self.report.id)
+        self.assertEqual(report_duplicate.state, "registered")
+        self.assertEqual(
+            report_duplicate.encounter_id, self.report.encounter_id
+        )

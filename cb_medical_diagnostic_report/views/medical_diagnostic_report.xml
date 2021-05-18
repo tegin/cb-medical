@@ -15,6 +15,14 @@
             <xpath expr="//form" position="attributes">
                 <attribute name="create">false</attribute>
             </xpath>
+            <xpath expr="//form/header" position="inside">
+                <button
+                    name="copy_action"
+                    type="object"
+                    string="Duplicate"
+                    states="final,cancelled"
+                />
+            </xpath>
             <field name="patient_origin" position="after">
                 <field name="with_department" invisible="1" />
             </field>
