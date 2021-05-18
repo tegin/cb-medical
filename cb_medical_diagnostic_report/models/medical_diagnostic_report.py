@@ -40,3 +40,8 @@ class MedicalDiagnosticReport(models.Model):
         return super()._is_cancellable() and (
             not department or self.env.user in department.user_ids
         )
+
+    def copy_action(self):
+        self.ensure_one()
+        result = self.copy()
+        return result.get_formview_action()
