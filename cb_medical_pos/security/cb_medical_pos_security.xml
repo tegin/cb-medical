@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2020 Creu Blanca
-    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
 <odoo>
     <record id="group_dont_pay_encounter" model="res.groups">
