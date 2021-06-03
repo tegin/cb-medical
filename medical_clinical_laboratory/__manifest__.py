@@ -1,6 +1,6 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 {
     "name": "Medical Laboratory",
@@ -17,7 +17,7 @@
         "views/medical_laboratory_request_view.xml",
     ],
     "website": "https://github.com/OCA/cb-addons",
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
 }
