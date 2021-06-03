@@ -1,6 +1,6 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 {
     "name": "Medical Administration Practitioner Specialty",
@@ -8,7 +8,7 @@
     "author": "Eficent, Creu Blanca",
     "category": "Medical",
     "website": "https://github.com/tegin/cb-addons",
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "depends": ["medical_administration_practitioner_specialty"],
     "data": [
         "data/medical_role.xml",
