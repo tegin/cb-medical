@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-21 20:18+0000\n"
-"PO-Revision-Date: 2021-04-21 22:20+0200\n"
+"POT-Creation-Date: 2021-06-03 14:46+0000\n"
+"PO-Revision-Date: 2021-06-03 16:49+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,11 @@ msgstr ""
 #: model:ir.model,name:cb_medical_diagnostic_report.model_medical_report_abstract
 msgid "Abstract Diagnostic Report"
 msgstr "Informe abstracto"
+
+#. module: cb_medical_diagnostic_report
+#: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_diagnostic_report_form_view
+msgid "Are you sure you want to duplicate this report?"
+msgstr "¿Está seguro que quiere duplicar el informe?"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__create_uid
@@ -82,6 +87,11 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: cb_medical_diagnostic_report
+#: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_diagnostic_report_form_view
+msgid "Duplicate"
+msgstr "Duplicar"
+
+#. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__encounter_id
 msgid "Encounter"
 msgstr "Afiliación"
@@ -101,13 +111,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__internal_identifier
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__internal_identifier
 msgid "Internal Identifier"
-msgstr "Identificador interno"
+msgstr "Identificador"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,help:cb_medical_diagnostic_report.field_medical_department__internal_identifier
 #: model:ir.model.fields,help:cb_medical_diagnostic_report.field_medical_report_category__internal_identifier
 msgid "Internal identifier used to identify this record"
-msgstr "Identificador interno usado para identificar este elemento"
+msgstr "Identificador del informe"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department____last_update
