@@ -22,7 +22,6 @@
         </xpath>
         <xpath expr="//div[@id='signature']" position="inside">
             <div class="col-auto" name="issued_user_id">
-                <strong t-field="doc.issued_user_id.name" />
                 <p class="m-0" t-if="doc.signature_id.signature">
                     <img
                         class="image"

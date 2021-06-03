@@ -21,6 +21,7 @@
                     type="object"
                     string="Duplicate"
                     states="final,cancelled"
+                    confirm="Are you sure you want to duplicate this report?"
                 />
             </xpath>
             <field name="patient_origin" position="after">
