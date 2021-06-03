@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-21 20:19+0000\n"
-"PO-Revision-Date: 2021-04-21 22:26+0200\n"
+"POT-Creation-Date: 2021-06-03 14:51+0000\n"
+"PO-Revision-Date: 2021-06-03 16:54+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,11 @@ msgstr ""
 #: model:ir.model,name:cb_medical_diagnostic_report.model_medical_report_abstract
 msgid "Abstract Diagnostic Report"
 msgstr ""
+
+#. module: cb_medical_diagnostic_report
+#: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_diagnostic_report_form_view
+msgid "Are you sure you want to duplicate this report?"
+msgstr "Està segur que vol duplicar l'informe? "
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__create_uid
@@ -73,13 +78,18 @@ msgstr "Capçalera"
 #. module: cb_medical_diagnostic_report
 #: model:ir.model,name:cb_medical_diagnostic_report.model_medical_diagnostic_report_template
 msgid "Diagnostic Report Template"
-msgstr "Plantilla"
+msgstr "Plantilla d'informe"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__display_name
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__display_name
 msgid "Display Name"
-msgstr "Nom a mostrar"
+msgstr "Mostrar Nom"
+
+#. module: cb_medical_diagnostic_report
+#: model_terms:ir.ui.view,arch_db:cb_medical_diagnostic_report.medical_diagnostic_report_form_view
+msgid "Duplicate"
+msgstr "Duplicar"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_diagnostic_report__encounter_id
@@ -89,7 +99,7 @@ msgstr "Afiliació"
 #. module: cb_medical_diagnostic_report
 #: model:ir.model,name:cb_medical_diagnostic_report.model_medical_encounter_create_diagnostic_report
 msgid "Generate report from encounter using a template"
-msgstr "Generar informe desde una afiliació"
+msgstr "Generar un informe desde una plantilla"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__id
@@ -101,13 +111,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__internal_identifier
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_report_category__internal_identifier
 msgid "Internal Identifier"
-msgstr "Identificador intern"
+msgstr "Identificador"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,help:cb_medical_diagnostic_report.field_medical_department__internal_identifier
 #: model:ir.model.fields,help:cb_medical_diagnostic_report.field_medical_report_category__internal_identifier
 msgid "Internal identifier used to identify this record"
-msgstr "Identificador usat per buscar el registre"
+msgstr "Identificador usat per a trobar el registre"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department____last_update
@@ -164,7 +174,7 @@ msgstr "Data"
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,help:cb_medical_diagnostic_report.field_medical_diagnostic_report__occurrence_date
 msgid "Occurrence of the order."
-msgstr "Data de solicitud."
+msgstr "Data de la petició."
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.actions.act_window,name:cb_medical_diagnostic_report.medical_report_category_act_window
@@ -204,7 +214,7 @@ msgstr "Plantilla"
 #. module: cb_medical_diagnostic_report
 #: model:ir.model,name:cb_medical_diagnostic_report.model_medical_diagnostic_report_expand
 msgid "This model allows to add templates to a report"
-msgstr "Aquest model permet afegir plantilles a un informe"
+msgstr "Aquest model afegeix plantilles a un informe"
 
 #. module: cb_medical_diagnostic_report
 #: model:ir.model.fields,field_description:cb_medical_diagnostic_report.field_medical_department__user_ids
