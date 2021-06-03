@@ -1,6 +1,6 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 {
     "name": "CB Medical Workflow Activity",
@@ -9,7 +9,7 @@
     "depends": ["medical_clinical_procedure"],
     "data": ["views/product_views.xml"],
     "website": "https://github.com/OCA/vertical-medical",
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
 }
