@@ -1,6 +1,6 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 {
     "name": "Medical Invoices",
@@ -8,7 +8,7 @@
     "category": "Medical",
     "website": "https://github.com/OCA/vertical-medical",
     "author": "Creu Blanca, Eficent",
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "depends": ["cb_medical_sale_discount", "cb_sale_report_invoice"],
     "data": [
         "security/ir.model.access.csv",
