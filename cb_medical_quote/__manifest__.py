@@ -1,10 +1,10 @@
 # Copyright 2018 Creu Blanca
 # Copyright 2018 Eficent Business and IT Consulting Services, S.L.
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 {
     "name": "CB Medical Quote",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": ["cb_medical_careplan_sale", "base_comment_template"],
     "category": "Medical",
@@ -23,7 +23,7 @@
         "data/mail_data.xml",
     ],
     "website": "https://github.com/Eficent/cb-addons",
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
 }
