@@ -14,8 +14,12 @@
         "medical_signature_storage",
         "sequence_parser",
         "cb_medical_identifier",
+        "web_drop_target",
+        "web_tree_image_tooltip",
+        "storage_file",
     ],
     "data": [
+        "data/ir_parameter.xml",
         "security/department_security.xml",
         "security/ir.model.access.csv",
         "data/ir_sequence_data.xml",
@@ -25,6 +29,7 @@
         "views/medical_report_category.xml",
         "reports/medical_diagnostic_report_template.xml",
         "wizards/medical_diagnostic_report_expand.xml",
+        "templates/assets.xml",
     ],
     "demo": ["demo/medical_diagnostic_report.xml"],
 }

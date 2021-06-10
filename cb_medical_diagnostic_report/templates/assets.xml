@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template
+        id="assets_backend"
+        name="cb_diagnostic_report_assets_backend"
+        inherit_id="web.assets_backend"
+    >
+        <xpath expr="." position="inside">
+            <script
+                type="text/javascript"
+                src="/cb_medical_diagnostic_report/static/src/js/diagnostic_report_controller.js"
+            />
+            <script
+                type="text/javascript"
+                src="/cb_medical_diagnostic_report/static/src/js/diagnostic_report_renderer.js"
+            />
+            <script
+                type="text/javascript"
+                src="/cb_medical_diagnostic_report/static/src/js/diagnostic_report_view.js"
+            />
+        </xpath>
+    </template>
+</odoo>
