@@ -14,6 +14,7 @@
         <field name="arch" type="xml">
             <xpath expr="//form" position="attributes">
                 <attribute name="create">false</attribute>
+                <attribute name="js_class">diagnostic_report</attribute>
             </xpath>
             <xpath expr="//form/header" position="inside">
                 <button
@@ -28,6 +29,33 @@
                 <field name="with_department" invisible="1" />
             </field>
             <xpath expr="//notebook/page[last()]" position="after">
+                <page name="images" string="Images">
+                    <field
+                        name="image_ids"
+                        attrs="{'readonly':[('is_editable', '=', False)]}"
+                    >
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="data" widget="image" filename="name" />
+                            <field name="name" invisible="1" />
+                            <field name="description" />
+                            <field name="file_id" invisible="1" />
+                        </tree>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="data" widget="image" />
+                                    </group>
+                                    <group>
+                                        <field name="description" />
+                                        <field name="file_id" invisible="1" />
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
                 <page
                     name="medical_department_header"
                     string="Medical Department"

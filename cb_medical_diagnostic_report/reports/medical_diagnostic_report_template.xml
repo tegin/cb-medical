@@ -17,6 +17,34 @@
                 <p t-field="doc.medical_department_header" />
             </div>
         </xpath>
+        <xpath expr="//div[@id='signature']" position="before">
+            <t t-if="doc.image_ids">
+                <div
+                    t-foreach="doc._get_image_grouped()"
+                    t-as="images"
+                    class="row"
+                    style="page-break-inside: avoid !important;padding: 0.2em"
+                >
+                    <div
+                        t-foreach="images"
+                        t-as="image"
+                        t-name="image_column"
+                        class="col-6"
+                        style="text-align:center"
+                    >
+                        <img
+                            class="image"
+                            t-att-src="'data:%s;base64,%s' % (image.mimetype, to_text(image.data))"
+                            style="border:auto; max-width:100%;"
+                        />
+                        <t t-if="image.description">
+                            <br />
+                            <span t-esc="image.description" />
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </xpath>
         <xpath expr="//div[@id='signature']" position="attributes">
             <attribute name="t-if">"doc.state!='final'"</attribute>
         </xpath>
