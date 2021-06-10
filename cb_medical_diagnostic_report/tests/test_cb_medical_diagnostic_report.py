@@ -2,10 +2,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
+import json
 
-from odoo.tests import TransactionCase
+from odoo import tools
+from odoo.tests import TransactionCase, tagged
 
 
+@tagged("-at_install", "post_install")
 class TestCbMedicalDiagnosticReport(TransactionCase):
     def setUp(self):
         super(TestCbMedicalDiagnosticReport, self).setUp()
@@ -211,3 +214,17 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         self.assertEqual(
             report_duplicate.encounter_id, self.report.encounter_id
         )
+
+    def test_images(self):
+        image = tools.file_open(
+            name="addons/cb_medical_diagnostic_report/static/description/icon.png",
+            mode="rb",
+        ).read()
+        self.assertFalse(self.report.image_ids)
+        self.report.add_image_attachment(name="icon.png", datas=image)
+        self.assertTrue(self.report.image_ids)
+        self.report.registered2final_action()
+        self.assertEqual(self.report.state, "final")
+        serializer = json.loads(self.report.serializer_current)
+        self.assertIn("images", serializer)
+        self.assertEqual(1, len(serializer["images"]))
