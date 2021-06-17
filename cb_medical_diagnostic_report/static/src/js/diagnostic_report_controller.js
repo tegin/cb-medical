@@ -5,14 +5,11 @@ odoo.define("diagnostic_report.DiagnosticReportController", function(require) {
     var FormController = require("web.FormController");
 
     var DiagnosticReportController = FormController.extend({
-        events: _.extend(FormController.prototype.events, {
-            paste: "_onPaste",
+        custom_events: _.extend({}, FormController.prototype.custom_events, {
+            paste_file: "_onPaste",
         }),
         _onPaste: function(e) {
-            if (this.mode !== "readonly") {
-                return;
-            }
-            var clipboardData = e.originalEvent.clipboardData;
+            var clipboardData = e.data.clipboardData;
             var self = this;
             if (clipboardData && clipboardData.items && clipboardData.items.length) {
                 var item = clipboardData.items[0];
