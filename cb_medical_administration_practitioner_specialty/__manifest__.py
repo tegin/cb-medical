@@ -4,7 +4,7 @@
 
 {
     "name": "Medical Administration Practitioner Specialty",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "category": "Medical",
     "website": "https://github.com/tegin/cb-addons",
