@@ -3,7 +3,7 @@
 
 {
     "name": "CB Medical Coverage Magnetic str",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "category": "CB",
     "website": "https://creublanca.es",
     "author": "Creu Blanca",
