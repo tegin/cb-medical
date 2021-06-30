@@ -16,35 +16,39 @@ class ResPartner(models.Model):
         string="Specialty",
         compute="_compute_specialty",
         inverse="_inverse_specialty",
+        search="_search_specialty",
     )
     practitioner_role_id = fields.Many2one(
         "medical.role",
         string="Role",
         compute="_compute_role",
         inverse="_inverse_role",
+        search="_search_practitioner_role",
     )
     specialty_required = fields.Boolean(
         related="practitioner_role_id.specialty_required", readonly=True
     )
 
+    def _search_specialty(self, operator, value):
+        return [("specialty_ids", operator, value)]
+
+    def _search_practitioner_role(self, operator, value):
+        return [("practitioner_role_ids", operator, value)]
+
     @api.depends("practitioner_role_ids")
     def _compute_role(self):
         for record in self:
-            if record.practitioner_role_ids:
-                record.practitioner_role_id = record.practitioner_role_ids[0]
+            record.practitioner_role_id = record.practitioner_role_ids[:1]
 
     @api.depends("specialty_ids")
     def _compute_specialty(self):
         for record in self:
-            if record.specialty_ids:
-                record.specialty_id = record.specialty_ids[0]
+            record.specialty_id = record.specialty_ids[:1]
 
-    @api.multi
     def _inverse_specialty(self):
         for record in self:
             record.specialty_ids = record.specialty_id
 
-    @api.multi
     def _inverse_role(self):
         for record in self:
             record.practitioner_role_ids = record.practitioner_role_id
