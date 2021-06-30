@@ -54,7 +54,6 @@
         <field name="name">Requester</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="domain">[('is_requester', '=', True)]</field>
         <field
