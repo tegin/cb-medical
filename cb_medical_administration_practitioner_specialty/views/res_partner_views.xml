@@ -17,24 +17,28 @@
                 <attribute name="invisible">True</attribute>
             </field>
             <field name="practitioner_role_ids" position="after">
-                <field
-                    name="practitioner_role_id"
-                    options="{'no_create': True}"
-                    attrs="{'required': [('is_practitioner','=',True)], 'invisible': [('is_practitioner','=',False)]}"
-                    groups="medical_administration_practitioner.group_medical_practitioner_display"
-                />
+                <group>
+                    <field
+                        name="practitioner_role_id"
+                        options="{'no_create': True}"
+                        attrs="{'required': [('is_practitioner','=',True)], 'invisible': [('is_practitioner','=',False)]}"
+                        groups="medical_administration_practitioner.group_medical_practitioner_display"
+                    />
+                </group>
             </field>
             <field name="specialty_ids" position="attributes">
                 <attribute name="invisible">True</attribute>
             </field>
             <field name="specialty_ids" position="after">
                 <field name="specialty_required" invisible="True" />
-                <field
-                    name="specialty_id"
-                    options="{'no_create': True}"
-                    attrs="{'invisible': [('is_practitioner','=',False)], 'required': [('specialty_required', '=', True)]}"
-                    groups="medical_administration_practitioner.group_medical_practitioner_display"
-                />
+                <group>
+                    <field
+                        name="specialty_id"
+                        options="{'no_create': True}"
+                        attrs="{'invisible': [('is_practitioner','=',False)], 'required': [('specialty_required', '=', True)]}"
+                        groups="medical_administration_practitioner.group_medical_practitioner_display"
+                    />
+                </group>
             </field>
         </field>
     </record>
