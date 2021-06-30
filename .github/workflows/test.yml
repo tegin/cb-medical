@@ -47,6 +47,9 @@ jobs:
                   git+https://github.com/tegin/medical-fhir.git@13.0#subdirectory=setup
             - run:
                   pip install
+                  git+https://github.com/OCA/report-print-send.git@refs/pull/251/merge#subdirectory=setup/remote_report_to_printer
+            - run:
+                  pip install
                   git+https://github.com/tegin/cb-addons.git@13.0#subdirectory=setup
             - run: oca_install_addons
             - run: oca_init_test_database
