@@ -58,7 +58,6 @@ class MedicalSpecialty(models.Model):
             else:
                 record.sequence_number_next = 1
 
-    @api.multi
     def _inverse_seq_number_next(self):
         """Inverse 'sequence_number_next' to edit the current sequence next number.
         """
