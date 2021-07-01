@@ -23,9 +23,11 @@ class MgmtsystemNonconformity(models.Model):
 
     def access_related_item(self):
         self.ensure_one()
+        if not self.res_model or self.res_model not in self.env:
+            return False
         records = self.env[self.res_model].browse(self.res_id).exists()
         if not records:
-            return None
+            return False
         return {
             "name": _("Related Record"),
             "type": "ir.actions.act_window",
