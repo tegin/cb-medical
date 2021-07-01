@@ -14,7 +14,6 @@ class MedicalPatient(models.Model):
         for rec in self:
             rec.medical_flag_count = len(rec.medical_flag_ids.ids)
 
-    @api.multi
     def action_view_flags(self):
         self.ensure_one()
         action = self.env.ref(
