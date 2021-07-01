@@ -4,7 +4,7 @@
 
 {
     "name": "Medical documents",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": [
         "medical_workflow",
