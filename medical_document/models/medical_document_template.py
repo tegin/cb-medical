@@ -60,6 +60,7 @@ class MedicalDocumentTemplate(models.Model):
 
 class MedicalDocumentTemplateLang(models.Model):
     _name = "medical.document.template.lang"
+    _description = "Medical Document Template Lang"
     _inherit = "medical.document.language"
     _rec_name = "lang"
 
