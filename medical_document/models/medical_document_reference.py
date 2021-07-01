@@ -16,13 +16,13 @@ class MedicalDocumentReference(models.Model):
 
     internal_identifier = fields.Char(string="Document reference")
     state = fields.Selection(
-        [
+        selection_add=[
             ("draft", "Draft"),
             ("current", "Current"),
             ("superseded", "Superseded"),
         ],
         required=True,
-        track_visibility=True,
+        tracking=True,
         default="draft",
     )
     document_type_id = fields.Many2one(
@@ -70,7 +70,6 @@ class MedicalDocumentReference(models.Model):
             or "/"
         )
 
-    @api.multi
     @api.depends("state")
     def _compute_is_editable(self):
         for rec in self:
@@ -85,15 +84,12 @@ class MedicalDocumentReference(models.Model):
     def _get_parent_field_name(self):
         return "document_reference_id"
 
-    @api.multi
     def print(self):
         return self._print(self.print_action)
 
-    @api.multi
     def view(self):
         return self._print(self.view_action)
 
-    @api.multi
     def render(self):
         return self._print(self.render_report)
 
@@ -135,11 +131,9 @@ class MedicalDocumentReference(models.Model):
             doc_format=mime,
         )
 
-    @api.multi
     def draft2current(self):
         return self._draft2current(self.print_action)
 
-    @api.multi
     def cancel(self):
         pass
 
@@ -153,7 +147,6 @@ class MedicalDocumentReference(models.Model):
             ).render_text(),
         }
 
-    @api.multi
     def change_lang(self, lang):
         text = self.with_context(
             template_id=self.document_template_id.id, render_language=lang
@@ -181,7 +174,6 @@ class MedicalDocumentReference(models.Model):
     def current2superseded_values(self):
         return {"state": "superseded"}
 
-    @api.multi
     def current2superseded(self):
         if self.filtered(lambda r: r.state != "current"):
             raise ValidationError(_("State must be Current"))
