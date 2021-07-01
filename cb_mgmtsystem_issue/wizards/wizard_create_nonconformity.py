@@ -10,7 +10,7 @@ class WizardCreateNonconformity(models.TransientModel):
 
     name = fields.Char(required=True)
     description = fields.Text(required=True)
-
+    partner_id = fields.Many2one("res.partner", "Partner", required=True)
     origin_id = fields.Many2one(
         "mgmtsystem.nonconformity.origin",
         string="Origin",
@@ -33,10 +33,10 @@ class WizardCreateNonconformity(models.TransientModel):
                 {
                     "name": self.name,
                     "description": self.description,
-                    "partner_id": record._get_quality_issue_partner().id,
                     "origin_ids": [(4, self.origin_id.id)],
                     "responsible_user_id": self.origin_id.responsible_user_id.id,
                     "manager_user_id": self.origin_id.manager_user_id.id,
+                    "partner_id": self.partner_id.id,
                     "res_id": record.id,
                     "res_model": record._name,
                 }
@@ -56,11 +56,10 @@ class WizardCreateNonconformity(models.TransientModel):
             body=_("A new quality issue has been created by %s")
             % self.env.user.name,
         )
-        action = {
+        return {
             "type": "ir.actions.act_window",
             "name": self.name,
             "res_model": "mgmtsystem.quality.issue",
             "res_id": issue.id,
             "view_mode": "form",
         }
-        return action
