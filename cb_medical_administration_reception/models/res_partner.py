@@ -14,7 +14,6 @@ class ResPartner(models.Model):
     reception_identifier = fields.Char(readonly=True)  # FHIR Field: identifier
     reception_count = fields.Integer(compute="_compute_reception_count")
 
-    @api.multi
     @api.depends("location_ids")
     def _compute_reception_count(self):
         for record in self:
@@ -22,7 +21,6 @@ class ResPartner(models.Model):
                 record.location_ids.filtered(lambda r: r.is_reception)
             )
 
-    @api.multi
     @api.depends("location_ids")
     def _compute_location_count(self):
         for record in self:
