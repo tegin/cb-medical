@@ -2,11 +2,11 @@
    :target: https://www.gnu.org/licenses/AGPL-3.0-standalone.html
    :alt: License: AGPL-3
 
-=========================
-Medical Patient firstname
-=========================
+===========================
+Medical Administration Flag
+===========================
 
-Allows to use first name and last name on patients
+This module allows to create and add flags to the patients
 
 Contributors
 ------------

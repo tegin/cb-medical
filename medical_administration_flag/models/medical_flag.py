@@ -29,7 +29,6 @@ class MedicalFlag(models.Model):
     def _get_internal_identifier(self, vals):
         return self.env["ir.sequence"].next_by_code("medical.flag") or "/"
 
-    @api.multi
     @api.depends("name", "internal_identifier")
     def name_get(self):
         result = []
@@ -45,7 +44,6 @@ class MedicalFlag(models.Model):
         for rec in self:
             rec.active = not bool(rec.closure_date)
 
-    @api.multi
     def close(self):
         return self.write(
             {
