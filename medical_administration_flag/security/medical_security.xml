@@ -30,4 +30,14 @@
         <field name="category_id" ref="base.module_category_hidden" />
         <field name="implied_ids" eval="[(4, ref('group_medical_flag_display'))]" />
     </record>
+    <!-- Generic groups -->
+    <record id="medical_base.group_medical_user" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_medical_flag_display'))]" />
+    </record>
+    <record id="medical_base.group_medical_configurator" model="res.groups">
+        <field
+            name="implied_ids"
+            eval="[(4, ref('group_medical_flag_category_manager')), (4,ref('group_medical_flag_manager'))]"
+        />
+    </record>
 </odoo>
