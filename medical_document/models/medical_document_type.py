@@ -21,7 +21,7 @@ class MedicalDocumentType(models.Model):
             ("superseded", "Superseded"),
         ],
         required=True,
-        track_visibility=True,
+        tracking=True,
         default="draft",
     )
     template_ids = fields.One2many(
@@ -71,7 +71,6 @@ class MedicalDocumentType(models.Model):
             "sequence": self.current_sequence,
         }
 
-    @api.multi
     def post(self):
         self.ensure_one()
         self.unpost()
@@ -91,7 +90,6 @@ class MedicalDocumentType(models.Model):
     def draft2current_values(self):
         return {"state": "current"}
 
-    @api.multi
     def draft2current(self):
         for record in self:
             record.post()
@@ -101,7 +99,6 @@ class MedicalDocumentType(models.Model):
     def current2superseded_values(self):
         return {"state": "superseded"}
 
-    @api.multi
     def current2superseded(self):
         for record in self:
             if record.activity_definition_ids.filtered(
@@ -132,7 +129,6 @@ class MedicalDocumentType(models.Model):
             "document_type_id": self.id,
         }
 
-    @api.multi
     def generate_activity_definition(self):
         activites = self._generate_activity_definition()
         action = self.env.ref(
@@ -150,6 +146,7 @@ class MedicalDocumentType(models.Model):
 
 class MedicalDocumentTypeLang(models.Model):
     _name = "medical.document.type.lang"
+    _description = "Medical Document Type Lang"
     _inherit = "medical.document.language"
     _rec_name = "lang"
 
@@ -167,7 +164,6 @@ class MedicalDocumentTypeLang(models.Model):
     def get_document_template_lang_vals(self):
         return {"text": self.text, "lang": self.lang}
 
-    @api.multi
     def preview(self):
         return self.env.ref(
             "medical_document.action_report_document_report_type"
