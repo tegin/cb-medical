@@ -9,6 +9,12 @@ class WizardCreateNonconformity(models.TransientModel):
     _inherit = "wizard.create.nonconformity"
     _description = "Create Issue for encounter"
 
+    def _default_partner(self):
+        encounter = self.env[self.env.context.get("active_model")].browse(
+            self.env.context.get("active_id")
+        )
+        return encounter.patient_id.partner_id
+
     origin_id = fields.Many2one(
         domain=[
             ("from_encounter", "=", True),
@@ -17,3 +23,4 @@ class WizardCreateNonconformity(models.TransientModel):
             ("manager_user_id", "!=", False),
         ]
     )
+    partner_id = fields.Many2one(default=lambda r: r._default_partner())
