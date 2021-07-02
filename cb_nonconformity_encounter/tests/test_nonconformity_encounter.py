@@ -7,6 +7,7 @@ from odoo.tests.common import TransactionCase
 class TestNonconformityEncounter(TransactionCase):
     def setUp(self):
         super(TestNonconformityEncounter, self).setUp()
+        self.partner_id = self.env["res.partner"].create({"name": "Partner"})
         self.origin = self.env["mgmtsystem.nonconformity.origin"].create(
             {
                 "name": "origin",
@@ -20,7 +21,7 @@ class TestNonconformityEncounter(TransactionCase):
             {"patient_id": self.patient.id}
         )
 
-    def test_nonconformity_encounter(self):
+    def test_wizard_nonconformity_encounter(self):
         wizard = (
             self.env["wizard.create.nonconformity.encounter"]
             .with_context(
@@ -34,15 +35,13 @@ class TestNonconformityEncounter(TransactionCase):
                 }
             )
         )
-        wizard.create_quality_issue()
-        issue = self.env["mgmtsystem.quality.issue"].search(
-            [
-                ("res_id", "=", self.encounter.id),
-                ("res_model", "=", self.encounter._name),
-            ]
+        wizard.flush()
+        self.assertEqual(
+            wizard.partner_id, self.encounter.patient_id.partner_id
         )
+        action = wizard.create_quality_issue()
+        issue = self.env[action["res_model"]].browse(action["res_id"])
         self.assertTrue(issue)
         issue.to_nonconformity()
+        # "partner_id": self.partner_id.id,
         self.assertEqual(issue.non_conformity_id.res_id, self.encounter.id)
-        action = self.encounter.action_view_quality_issues()
-        self.assertEqual(action["res_id"], issue.id)
