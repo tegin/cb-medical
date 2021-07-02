@@ -5,7 +5,7 @@
     "name": "Cb Nonconformity Encounter",
     "summary": """
         CB custom nonconformity management""",
-    "version": "12.0.1.1.0",
+    "version": "13.0.1.1.0",
     "license": "AGPL-3",
     "author": "Creu Blanca",
     "website": "www.creublanca.es",
