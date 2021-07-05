@@ -11,9 +11,7 @@ class ActivityDefinition(models.Model):
     def _get_medical_values(
         self, vals, parent=False, plan=False, action=False
     ):
-        res = super(ActivityDefinition, self)._get_medical_values(
-            vals, parent, plan, action
-        )
+        res = super()._get_medical_values(vals, parent, plan, action)
         res["is_billable"] = False if action else plan.is_billable
         res["is_breakdown"] = plan.is_breakdown if not action else False
         if parent and not res.get("center_id", False):

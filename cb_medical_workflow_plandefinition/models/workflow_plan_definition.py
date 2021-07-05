@@ -10,17 +10,16 @@ class PlanDefinition(models.Model):
     _inherit = "workflow.plan.definition"
 
     is_billable = fields.Boolean(
-        string="Is billable?", default=True, track_visibility=True
+        string="Is billable?", default=True, tracking=True
     )
     third_party_bill = fields.Boolean(
         string="Will be payed to the third party?", default=False
     )
     is_breakdown = fields.Boolean(
-        string="Possible breakdown?", default=True, track_visibility=True
+        string="Possible breakdown?", default=True, tracking=True
     )
     performer_required = fields.Boolean(default=False)
 
-    @api.multi
     @api.constrains("is_billable", "third_party_bill", "direct_action_ids")
     def _check_third_party_bill(self):
         for plan in self:
@@ -45,7 +44,7 @@ class PlanDefinition(models.Model):
                         _("Action cannot be billable on third party plans")
                     )
 
-    def get_request_group_vals(self, vals):
+    def _get_request_group_vals(self, vals):
         agreement_item_id = self.env["medical.coverage.agreement.item"].browse(
             vals.get("coverage_agreement_item_id")
         )
@@ -56,7 +55,6 @@ class PlanDefinition(models.Model):
         values["third_party_bill"] = self.third_party_bill
         return values
 
-    @api.multi
     def execute_plan_definition(self, vals, parent=False):
         self.ensure_one()
         request_group = parent
@@ -66,7 +64,7 @@ class PlanDefinition(models.Model):
             and vals.get("coverage_agreement_item_id", False)
         ):
             request_group = self.env["medical.request.group"].create(
-                self.get_request_group_vals(vals)
+                self._get_request_group_vals(vals)
             )
         res = super().execute_plan_definition(vals, request_group)
         return request_group or res
