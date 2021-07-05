@@ -41,22 +41,16 @@
             <form string="Agreement">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button
-                            name="toggle_active"
-                            type="object"
-                            confirm="Are you sure you want to archive/unarchive this element?"
-                            class="oe_stat_button"
-                            icon="fa-archive"
-                        >
-                            <field
-                                name="active"
-                                widget="boolean_button"
-                                options='{"terminology": "archive"}'
-                            />
-                        </button>
+                        <widget
+                            name="web_ribbon"
+                            text="Archived"
+                            bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"
+                        />
+                        <field name="active" invisible="1" />
                         <button
                             type="action"
-                            name="%(cb_medical_financial_coverage_agreement.set_medical_coverage_agreement_template_action)s"
+                            name="%(medical_financial_coverage_agreement.set_medical_coverage_agreement_template_action)s"
                             class="oe_stat_button"
                             icon="fa-clone"
                             context="{'default_agreement_id': id, 'default_template_id': template_id}"
@@ -65,7 +59,7 @@
                         />
                         <button
                             type="action"
-                            name="%(cb_medical_financial_coverage_agreement.medical_agreement_change_prices_action)s"
+                            name="%(medical_financial_coverage_agreement.medical_agreement_change_prices_action)s"
                             class="oe_stat_button"
                             icon="fa-percent"
                             context="{'active_ids': [id]}"
@@ -167,7 +161,6 @@
         <field name="name">Agreements</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('is_template', '=', False)]</field>
         <field name="help" type="html">
@@ -192,7 +185,6 @@
         <field name="name">Agreement Templates</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('is_template', '=', True)]</field>
         <field name="context">{'default_is_template': True}</field>

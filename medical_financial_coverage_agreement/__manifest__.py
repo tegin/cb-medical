@@ -9,10 +9,9 @@
     "category": "Medical",
     "depends": [
         "medical_financial_coverage",
-        "cb_medical_administration_center",
-        "product_nomenclature",
+        "medical_administration_center",
         "medical_workflow",
-        "sale",
+        "product_nomenclature",
         "report_xlsx",
         "report_context",
     ],

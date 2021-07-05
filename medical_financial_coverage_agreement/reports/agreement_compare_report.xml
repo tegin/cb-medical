@@ -5,7 +5,7 @@
         string="Agreement Comparison Report"
         model="medical.coverage.agreement"
         report_type="qweb-pdf"
-        name="cb_medical_financial_coverage_agreement.report_agreement_compare_template"
+        name="medical_financial_coverage_agreement.report_agreement_compare_template"
     />
     <template id="report_agreement_compare_template">
         <t t-call="web.html_container">

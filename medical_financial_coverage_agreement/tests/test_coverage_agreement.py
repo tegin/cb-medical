@@ -7,50 +7,52 @@ from io import BytesIO
 
 import pandas
 from odoo.exceptions import ValidationError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import Form, SavepointCase
 
 _logger = logging.getLogger(__name__)
 
 
-class TestMedicalCoverageAgreement(TransactionCase):
-    def setUp(self):
-        super(TestMedicalCoverageAgreement, self).setUp()
-        self.medical_user_group = self.env.ref(
+class TestMedicalCoverageAgreement(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super(TestMedicalCoverageAgreement, cls).setUpClass()
+        cls.medical_user_group = cls.env.ref(
             "medical_base.group_medical_configurator"
         )
-        self.medical_user = self._create_user(
-            "medical_user", self.medical_user_group.id
+        cls.medical_user = cls._create_user(
+            "medical_user", cls.medical_user_group.id
         )
-        self.patient_model = self.env["medical.patient"]
-        self.coverage_model = self.env["medical.coverage"]
-        self.coverage_template_model = self.env["medical.coverage.template"]
-        self.payor_model = self.env["res.partner"]
-        self.coverage_agreement_model = self.env["medical.coverage.agreement"]
-        self.coverage_agreement_model_item = self.env[
+        cls.patient_model = cls.env["medical.patient"]
+        cls.coverage_model = cls.env["medical.coverage"]
+        cls.coverage_template_model = cls.env["medical.coverage.template"]
+        cls.payor_model = cls.env["res.partner"]
+        cls.coverage_agreement_model = cls.env["medical.coverage.agreement"]
+        cls.coverage_agreement_model_item = cls.env[
             "medical.coverage.agreement.item"
         ]
-        self.center_model = self.env["res.partner"]
-        self.product_model = self.env["product.product"]
-        self.type_model = self.env["workflow.type"]
-        self.act_def_model = self.env["workflow.activity.definition"]
-        self.action_model = self.env["workflow.plan.definition.action"]
-        self.plan_model = self.env["workflow.plan.definition"]
-        self.patient_1 = self._create_patient()
-        self.patient_2 = self._create_patient()
-        self.payor_1 = self._create_payor()
-        self.coverage_template_1 = self._create_coverage_template()
-        self.coverage = self._create_coverage(self.coverage_template_1)
-        self.center_1 = self._create_center()
-        self.product_1 = self._create_product("test 1")
-        self.product_2 = self._create_product("test 2")
-        self.type_1 = self._create_type()
-        self.act_def_1 = self._create_act_def()
-        self.plan_1 = self._create_plan()
-        self.action_1 = self._create_action()
+        cls.center_model = cls.env["res.partner"]
+        cls.product_model = cls.env["product.product"]
+        cls.type_model = cls.env["workflow.type"]
+        cls.act_def_model = cls.env["workflow.activity.definition"]
+        cls.action_model = cls.env["workflow.plan.definition.action"]
+        cls.plan_model = cls.env["workflow.plan.definition"]
+        cls.patient_1 = cls._create_patient()
+        cls.patient_2 = cls._create_patient()
+        cls.payor_1 = cls._create_payor()
+        cls.coverage_template_1 = cls._create_coverage_template()
+        cls.coverage = cls._create_coverage(cls.coverage_template_1)
+        cls.center_1 = cls._create_center()
+        cls.product_1 = cls._create_product("test 1")
+        cls.product_2 = cls._create_product("test 2")
+        cls.type_1 = cls._create_type()
+        cls.act_def_1 = cls._create_act_def()
+        cls.plan_1 = cls._create_plan()
+        cls.action_1 = cls._create_action()
 
-    def _create_user(self, name, group_ids):
+    @classmethod
+    def _create_user(cls, name, group_ids):
         return (
-            self.env["res.users"]
+            cls.env["res.users"]
             .with_context({"no_reset_password": True})
             .create(
                 {
@@ -63,72 +65,78 @@ class TestMedicalCoverageAgreement(TransactionCase):
             )
         )
 
-    def _create_patient(self):
-        return self.patient_model.create(
+    @classmethod
+    def _create_patient(cls):
+        return cls.patient_model.create(
             {"name": "Test patient", "gender": "female"}
         )
 
-    def _create_payor(self):
-        return self.payor_model.create(
-            {"name": "Test payor", "is_payor": True}
-        )
+    @classmethod
+    def _create_payor(cls):
+        return cls.payor_model.create({"name": "Test payor", "is_payor": True})
 
-    def _create_coverage_template(self, state=False):
-        vals = {"name": "test coverage template", "payor_id": self.payor_1.id}
+    @classmethod
+    def _create_coverage_template(cls, state=False):
+        vals = {"name": "test coverage template", "payor_id": cls.payor_1.id}
         if state:
             vals.update({"state": state})
-        coverage_template = self.coverage_template_model.create(vals)
+        coverage_template = cls.coverage_template_model.create(vals)
         return coverage_template
 
-    def _create_coverage(self, coverage_template, state=False, patient=False):
+    @classmethod
+    def _create_coverage(cls, coverage_template, state=False, patient=False):
         vals = {
             "name": "test coverage",
-            "patient_id": self.patient_1.id,
+            "patient_id": cls.patient_1.id,
             "coverage_template_id": coverage_template.id,
         }
         if state:
             vals.update({"state": state})
         if patient:
             vals.update({"patient_id": patient.id})
-        coverage = self.coverage_model.create(vals)
+        coverage = cls.coverage_model.create(vals)
         return coverage
 
-    def _create_coverage_agreement_item(self, coverage_agreement, product):
-        return self.coverage_agreement_model_item.create(
+    @classmethod
+    def _create_coverage_agreement_item(cls, coverage_agreement, product):
+        return cls.coverage_agreement_model_item.create(
             {
                 "coverage_agreement_id": coverage_agreement.id,
-                "plan_definition_id": self.plan_1.id,
+                "plan_definition_id": cls.plan_1.id,
                 "product_id": product.id,
                 "total_price": 100,
                 "coverage_percentage": 100,
             }
         )
 
-    def _create_center(self):
-        return self.center_model.create(
+    @classmethod
+    def _create_center(cls):
+        return cls.center_model.create(
             {"name": "Test location", "is_center": True}
         )
 
-    def _create_product(self, name):
-        return self.product_model.create(
+    @classmethod
+    def _create_product(cls, name):
+        return cls.product_model.create(
             {
                 "name": name,
-                "categ_id": self.browse_ref("product.product_category_all").id,
+                "categ_id": cls.env.ref("product.product_category_all").id,
                 "type": "service",
             }
         )
 
-    def _create_type(self):
-        return self.type_model.create(
+    @classmethod
+    def _create_type(cls):
+        return cls.type_model.create(
             {
                 "name": "Test type",
-                "model_id": self.browse_ref(
+                "model_id": cls.env.ref(
                     "medical_administration.model_medical_patient"
                 ).id,
                 "model_ids": [
                     (
                         4,
-                        self.browse_ref(
+                        cls.env.ref(
                             "medical_administration.model_medical_patient"
                         ).id,
                     )
@@ -136,37 +144,41 @@ class TestMedicalCoverageAgreement(TransactionCase):
             }
         )
 
-    def _create_act_def(self):
-        return self.act_def_model.create(
+    @classmethod
+    def _create_act_def(cls):
+        return cls.act_def_model.create(
             {
                 "name": "Test activity",
-                "model_id": self.type_1.model_id.id,
-                "service_id": self.product_1.id,
+                "model_id": cls.type_1.model_id.id,
+                "service_id": cls.product_1.id,
             }
         )
 
-    def _create_action(self):
-        return self.action_model.create(
+    @classmethod
+    def _create_action(cls):
+        return cls.action_model.create(
             {
                 "name": "Test action",
-                "direct_plan_definition_id": self.plan_1.id,
-                "activity_definition_id": self.act_def_1.id,
-                "type_id": self.type_1.id,
+                "direct_plan_definition_id": cls.plan_1.id,
+                "activity_definition_id": cls.act_def_1.id,
+                "type_id": cls.type_1.id,
             }
         )
 
-    def _create_plan(self):
-        return self.plan_model.create(
-            {"name": "Test plan", "type_id": self.type_1.id}
+    @classmethod
+    def _create_plan(cls):
+        return cls.plan_model.create(
+            {"name": "Test plan", "type_id": cls.type_1.id}
         )
 
-    def _create_coverage_agreement(self, coverage_template):
-        return self.coverage_agreement_model.create(
+    @classmethod
+    def _create_coverage_agreement(cls, coverage_template):
+        return cls.coverage_agreement_model.create(
             {
                 "name": "test coverage agreement",
-                "center_ids": [(6, 0, [self.center_1.id])],
-                "company_id": self.ref("base.main_company"),
-                "coverage_template_ids": [(6, 0, [coverage_template.id])],
+                "center_ids": [(6, 0, [cls.center_1.id])],
+                "company_id": cls.env.ref("base.main_company").id,
+                "coverage_template_ids": [(6, 0, coverage_template.ids)],
                 "principal_concept": "coverage",
             }
         )
@@ -176,10 +188,10 @@ class TestMedicalCoverageAgreement(TransactionCase):
         coverage_agreement_vals = {
             "name": "test coverage agreement",
             "center_ids": [(6, 0, [self.center_1.id])],
-            "company_id": self.ref("base.main_company"),
+            "company_id": self.env.ref("base.main_company").id,
             "coverage_template_ids": [(6, 0, [coverage_template.id])],
         }
-        coverage_agreement = self.coverage_agreement_model.sudo(
+        coverage_agreement = self.coverage_agreement_model.with_user(
             self.medical_user
         ).create(coverage_agreement_vals)
         self.assertNotEquals(coverage_agreement, False)
@@ -329,17 +341,14 @@ class TestMedicalCoverageAgreement(TransactionCase):
         data = coverage_agreement._agreement_report_data()
         self.assertTrue(data)
         self.assertEqual(
-            data[0]["category"],
-            self.browse_ref("product.product_category_all"),
+            data[0]["category"], self.env.ref("product.product_category_all"),
         )
         self.assertFalse(data[0]["childs"])
         self.assertEqual(item, data[0]["data"][0]["item"])
         self.assertFalse(data[0]["data"][0]["nomenclature"])
         category = self.env["product.category"].create(
             {
-                "parent_id": self.browse_ref(
-                    "product.product_category_all"
-                ).id,
+                "parent_id": self.env.ref("product.product_category_all").id,
                 "name": "Categ",
             }
         )
@@ -347,8 +356,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         data = coverage_agreement._agreement_report_data()
         self.assertTrue(data)
         self.assertEqual(
-            data[0]["category"],
-            self.browse_ref("product.product_category_all"),
+            data[0]["category"], self.env.ref("product.product_category_all"),
         )
         self.assertTrue(data[0]["childs"])
         self.assertFalse(data[0]["data"])
@@ -403,7 +411,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         )
 
         report_object = self.env["ir.actions.report"]
-        report_name = "cb_medical_financial_coverage_agreement.items_xslx"
+        report_name = "medical_financial_coverage_agreement.items_xslx"
         report = report_object._get_report_from_name(report_name)
 
         rep = report.render(item.ids)
@@ -413,9 +421,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
         category_2 = self.env["product.category"].create(
             {
                 "name": "Categ 2",
-                "parent_id": self.browse_ref(
-                    "product.product_category_all"
-                ).id,
+                "parent_id": self.env.ref("product.product_category_all").id,
             }
         )
         product_2 = self.product_model.create(
@@ -431,9 +437,7 @@ class TestMedicalCoverageAgreement(TransactionCase):
             }
         )
 
-        report_name = (
-            "cb_medical_financial_coverage_agreement.mca_xlsx_private"
-        )
+        report_name = "medical_financial_coverage_agreement.mca_xlsx_private"
         report = report_object._get_report_from_name(report_name)
 
         rep = report.with_context(
@@ -442,8 +446,215 @@ class TestMedicalCoverageAgreement(TransactionCase):
         sheet = pandas.read_excel(BytesIO(rep[0]), engine="openpyxl")
         self.assertEqual(
             sheet.columns[0],
-            self.browse_ref("product.product_category_all").name,
+            self.env.ref("product.product_category_all").name,
         )
         self.assertEqual(sheet[sheet.columns[2]][0], self.product_1.name)
         self.assertEqual(sheet[sheet.columns[1]][1], category_2.display_name)
         self.assertEqual(sheet[sheet.columns[3]][2], product_2.name)
+
+    def test_join_agreements(self):
+        temp_01 = self._create_coverage_template()
+        agr = self._create_coverage_agreement(temp_01)
+        agr2 = self._create_coverage_agreement(temp_01)
+        self._create_coverage_agreement_item(agr, self.product_1)
+        self._create_coverage_agreement_item(agr2, self.product_2)
+        (agr | agr2).write(
+            {
+                "center_ids": [(4, self.center_1.id)],
+                "coverage_template_ids": [(4, temp_01.id)],
+            }
+        )
+        self.env["medical.coverage.agreement.join"].with_context(
+            active_model=(agr | agr2)._name, active_ids=(agr | agr2).ids,
+        ).create({}).run()
+        joined = (agr | agr2).filtered(lambda r: r.item_ids)
+        self.assertEqual(len(joined), 1)
+        self.assertEqual(len(joined.item_ids), 2)
+
+    def test_join_agreements_constrain_01(self):
+        temp_01 = self._create_coverage_template()
+        agr = self._create_coverage_agreement(temp_01)
+        agr2 = self._create_coverage_agreement(self.coverage_template_1)
+        self._create_coverage_agreement_item(agr, self.product_1)
+        self._create_coverage_agreement_item(agr2, self.product_2)
+        (agr | agr2).write({"center_ids": [(4, self.center_1.id)]})
+        with self.assertRaises(ValidationError):
+            self.env["medical.coverage.agreement.join"].with_context(
+                active_model=(agr | agr2)._name, active_ids=(agr | agr2).ids,
+            ).create({}).run()
+
+    def test_join_agreements_constrain_02(self):
+        temp_01 = self._create_coverage_template()
+        agr = self._create_coverage_agreement(temp_01)
+        agr2 = self._create_coverage_agreement(temp_01)
+        self._create_coverage_agreement_item(agr, self.product_1)
+        self._create_coverage_agreement_item(agr2, self.product_2)
+        agr2.center_ids = self.center_1
+        agr.center_ids = self._create_center()
+        with self.assertRaises(ValidationError):
+            self.env["medical.coverage.agreement.join"].with_context(
+                active_model=(agr | agr2)._name, active_ids=(agr | agr2).ids,
+            ).create({}).run()
+
+    def test_join_agreements_constrain_03(self):
+        temp_01 = self._create_coverage_template()
+        agr = self._create_coverage_agreement(temp_01)
+        self._create_coverage_agreement_item(agr, self.product_1)
+        agr.center_ids = self._create_center()
+        with self.assertRaises(ValidationError):
+            self.env["medical.coverage.agreement.join"].with_context(
+                active_model=agr._name, active_ids=agr.ids,
+            ).create({}).run()
+
+    def test_join_agreements_constrain_04(self):
+        temp_01 = self._create_coverage_template()
+        agr = self._create_coverage_agreement(temp_01)
+        agr2 = self._create_coverage_agreement(temp_01)
+        self._create_coverage_agreement_item(agr, self.product_1)
+        self._create_coverage_agreement_item(agr2, self.product_2)
+        (agr | agr2).write(
+            {
+                "center_ids": [(4, self.center_1.id)],
+                "coverage_template_ids": [(4, temp_01.id)],
+            }
+        )
+        agr.company_id = self.env["res.company"].create(
+            {"name": "Demo company"}
+        )
+        with self.assertRaises(ValidationError):
+            self.env["medical.coverage.agreement.join"].with_context(
+                active_model=(agr | agr2)._name, active_ids=(agr | agr2).ids,
+            ).create({}).run()
+
+    def test_template_constrain_01(self):
+        temp_01 = self._create_coverage_agreement(
+            self.env["medical.coverage.template"]
+        )
+        temp_01.is_template = True
+        with self.assertRaises(ValidationError):
+            temp_01.coverage_template_ids = self.coverage_template_1
+
+    def test_template_constrain_02(self):
+        temp_01 = self._create_coverage_agreement(
+            self.env["medical.coverage.template"]
+        )
+        temp_01.is_template = True
+        temp_02 = self._create_coverage_agreement(
+            self.env["medical.coverage.template"]
+        )
+        temp_02.is_template = True
+        with self.assertRaises(ValidationError):
+            self.env["medical.coverage.agreement.template"].create(
+                {
+                    "agreement_id": temp_02.id,
+                    "template_id": temp_01.id,
+                    "set_items": True,
+                }
+            ).run()
+
+    def test_template_wizard(self):
+        temp_01 = self._create_coverage_agreement(
+            self.env["medical.coverage.template"]
+        )
+        temp_01.is_template = True
+        self._create_coverage_agreement_item(temp_01, self.product_1)
+        self._create_coverage_agreement_item(temp_01, self.product_2)
+
+        aggr = self._create_coverage_agreement(self.coverage_template_1)
+        self.assertFalse(aggr.item_ids)
+        self.env["medical.coverage.agreement.template"].create(
+            {
+                "agreement_id": aggr.id,
+                "template_id": temp_01.id,
+                "set_items": True,
+            }
+        ).run()
+        self.assertTrue(aggr.item_ids)
+        self.assertEqual(len(aggr.item_ids), 2)
+        self.assertEqual(aggr.template_id, temp_01)
+
+    def test_template_wizard_no_items(self):
+        temp_01 = self._create_coverage_agreement(
+            self.env["medical.coverage.template"]
+        )
+        temp_01.is_template = True
+        self._create_coverage_agreement_item(temp_01, self.product_1)
+        self._create_coverage_agreement_item(temp_01, self.product_2)
+
+        aggr = self._create_coverage_agreement(self.coverage_template_1)
+        self.assertFalse(aggr.item_ids)
+        self.env["medical.coverage.agreement.template"].create(
+            {"agreement_id": aggr.id, "template_id": temp_01.id}
+        ).run()
+        self.assertFalse(aggr.item_ids)
+        self.assertEqual(aggr.template_id, temp_01)
+
+    def test_agreement_line_onchange(self):
+        aggr_01 = self._create_coverage_agreement(
+            self.env["medical.coverage.template"]
+        )
+        aggr_01.principal_concept = "private"
+        self.product_1.agreement_comment = "MY COMMENT"
+        with Form(
+            self.env["medical.coverage.agreement.item"].with_context(
+                default_coverage_agreement_id=aggr_01.id
+            )
+        ) as item:
+            item.product_id = self.product_1
+            self.assertEqual(item.coverage_percentage, 0)
+            self.assertEqual(item.item_comment, "MY COMMENT")
+
+    def test_agreement_line_onchange_template(self):
+        aggr_01 = self._create_coverage_agreement(
+            self.env["medical.coverage.template"]
+        )
+        temp_01 = self._create_coverage_agreement(
+            self.env["medical.coverage.template"]
+        )
+        temp_01.is_template = True
+        self._create_coverage_agreement_item(temp_01, self.product_1)
+        self.env["medical.coverage.agreement.template"].create(
+            {
+                "agreement_id": aggr_01.id,
+                "template_id": temp_01.id,
+                "set_items": False,
+            }
+        ).run()
+        with Form(
+            self.env["medical.coverage.agreement.item"].with_context(
+                default_coverage_agreement_id=aggr_01.id
+            )
+        ) as item:
+            item.product_id = self.product_1
+            self.assertEqual(100, item.total_price)
+            self.assertEqual(item.plan_definition_id, self.plan_1)
+
+    def test_agreement_line_constrain(self):
+        aggr_01 = self._create_coverage_agreement(
+            self.env["medical.coverage.template"]
+        )
+        self._create_coverage_agreement_item(aggr_01, self.product_1)
+        with self.assertRaises(ValidationError):
+            self._create_coverage_agreement_item(aggr_01, self.product_1)
+
+    def test_search(self):
+        aggr_01 = self._create_coverage_agreement(
+            self.env["medical.coverage.template"]
+        )
+        self.product_1.default_code = "DEMO DEFAULT CODE"
+        self.product_1.name = "DEMO DEFAULT NAME"
+        self._create_coverage_agreement_item(aggr_01, self.product_1)
+        self.assertEqual(
+            aggr_01.item_ids.name_get(),
+            self.coverage_agreement_model_item._name_search(
+                "DEMO DEFAULT CODE",
+                [("coverage_agreement_id", "=", aggr_01.id)],
+            ),
+        )
+        self.assertEqual(
+            aggr_01.item_ids.name_get(),
+            self.coverage_agreement_model_item._name_search(
+                "DEMO DEFAULT NAME",
+                [("coverage_agreement_id", "=", aggr_01.id)],
+            ),
+        )

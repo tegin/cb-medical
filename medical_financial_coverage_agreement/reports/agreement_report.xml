@@ -69,7 +69,7 @@
         <t t-set="level" t-value="level + 1" />
         <t t-foreach="item['childs']" t-as="item_variable">
             <t
-                t-call="cb_medical_financial_coverage_agreement.report_agreement_template_category"
+                t-call="medical_financial_coverage_agreement.report_agreement_template_category"
             />
         </t>
         <t t-set="level" t-value="level - 1" />
@@ -103,7 +103,7 @@
                                 <t t-foreach="data" t-as="item_variable">
                                     <t t-set="level" t-value="0" />
                                     <t
-                                        t-call="cb_medical_financial_coverage_agreement.report_agreement_template_category"
+                                        t-call="medical_financial_coverage_agreement.report_agreement_template_category"
                                     />
                                 </t>
                             </tbody>
@@ -127,13 +127,13 @@
         string="Agreement Report Private"
         model="medical.coverage.agreement"
         report_type="qweb-pdf"
-        name="cb_medical_financial_coverage_agreement.report_agreement_template_private"
+        name="medical_financial_coverage_agreement.report_agreement_template_private"
     />
     <report
         id="action_agreement_report"
         string="Agreement Report Coverage"
         model="medical.coverage.agreement"
         report_type="qweb-pdf"
-        name="cb_medical_financial_coverage_agreement.report_agreement_template"
+        name="medical_financial_coverage_agreement.report_agreement_template"
     />
 </odoo>
