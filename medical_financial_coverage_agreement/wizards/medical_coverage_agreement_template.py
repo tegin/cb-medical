@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalCoverageAgreementTemplate(models.TransientModel):
@@ -13,7 +13,6 @@ class MedicalCoverageAgreementTemplate(models.TransientModel):
     )
     set_items = fields.Boolean(default=False)
 
-    @api.multi
     def run(self):
         self.ensure_one()
         self.agreement_id.set_template(self.template_id, self.set_items)
