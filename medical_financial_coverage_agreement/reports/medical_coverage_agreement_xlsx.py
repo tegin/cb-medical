@@ -2,8 +2,9 @@ from odoo import models
 
 
 class MedicalCoverageAgreementXlsx(models.AbstractModel):
-    _name = "report.cb_medical_financial_coverage_agreement.mca_xlsx"
+    _name = "report.medical_financial_coverage_agreement.mca_xlsx"
     _inherit = "report.report_xlsx.abstract"
+    _description = "Report CB Medical Financial Coverage Agreement"
 
     def tree_height(self, item):
         return (

@@ -3,7 +3,8 @@ from odoo import models
 
 class MedicalCoverageAgreementItem(models.AbstractModel):
 
-    _name = "report.cb_medical_financial_coverage_agreement.items_xslx"
+    _name = "report.medical_financial_coverage_agreement.items_xslx"
+    _description = "Report CB Medical Financial Coverage Agreement Items"
     _inherit = "report.report_xlsx.abstract"
 
     def generate_xlsx_report(self, workbook, data, items):
