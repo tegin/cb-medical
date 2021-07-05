@@ -68,7 +68,7 @@ class MedicalCoverageAgreement(models.Model):
         "medical.coverage.agreement",
         domain=[("is_template", "=", True)],
         readonly=True,
-        track_visibility="onchange",
+        tracking=True,
     )
 
     @api.constrains(
@@ -80,7 +80,9 @@ class MedicalCoverageAgreement(models.Model):
 
     @api.constrains("is_template", "template_id", "coverage_template_ids")
     def _check_template(self):
-        for rec in self.filtered(lambda r: r.is_template):
+        for rec in self:
+            if not rec.is_template:
+                continue
             if rec.coverage_template_ids:
                 raise ValidationError(
                     _("Coverage cannot be defined on templates")
@@ -97,7 +99,6 @@ class MedicalCoverageAgreement(models.Model):
             or "/"
         )
 
-    @api.multi
     def toggle_active(self):
         res = super().toggle_active()
         for record in self.filtered(lambda r: not r.active):
@@ -105,10 +106,9 @@ class MedicalCoverageAgreement(models.Model):
             record.item_ids.write({"active": False})
         return res
 
-    @api.multi
     def action_search_item(self):
         action = self.env.ref(
-            "cb_medical_financial_coverage_agreement."
+            "medical_financial_coverage_agreement."
             "medical_coverage_agreement_item_action"
         )
         result = action.read()[0]
@@ -116,7 +116,6 @@ class MedicalCoverageAgreement(models.Model):
         result["domain"] = [("coverage_agreement_id", "=", self.id)]
         return result
 
-    @api.multi
     def set_template(self, template, set_items):
         self.ensure_one()
         self.write({"template_id": template.id})
@@ -179,7 +178,6 @@ class MedicalCoverageAgreement(models.Model):
             domain.append(("coverage_percentage", "<", 100))
         return domain
 
-    @api.multi
     def _agreement_report_data(self, print_coverage=True):
         self.ensure_one()
         data = {}

@@ -32,7 +32,7 @@
     <act_window
         id="medical_agreement_change_prices_action"
         name="Change prices"
-        src_model="medical.coverage.agreement.item"
+        binding_model="medical.coverage.agreement.item"
         res_model="medical.agreement.change.prices"
         view_mode="form"
         target="new"
