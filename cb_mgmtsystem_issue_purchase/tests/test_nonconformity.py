@@ -46,6 +46,7 @@ class TestNonconformityEncounter(TransactionCase):
                     "name": "Title",
                     "description": "Description",
                     "origin_id": self.origin.id,
+                    "partner_id": self.env.user.partner_id.id,
                 }
             )
         )
@@ -59,5 +60,4 @@ class TestNonconformityEncounter(TransactionCase):
         self.assertTrue(issue)
         issue.to_nonconformity()
         self.assertEqual(issue.non_conformity_id.res_id, self.order.id)
-        action = self.order.action_view_quality_issues()
-        self.assertEqual(action["res_id"], issue.id)
+        self.order.action_view_quality_issues()
