@@ -61,14 +61,12 @@ class MedicalLaboratoryRequest(models.Model):
         )
         return result
 
-    @api.multi
     def generate_event(self, vals=False):
         self.ensure_one()
         return self.env["medical.laboratory.event"].create(
             self._get_event_values(vals)
         )
 
-    @api.multi
     def action_view_laboratory_events(self):
         self.ensure_one()
         action = self.env.ref(
