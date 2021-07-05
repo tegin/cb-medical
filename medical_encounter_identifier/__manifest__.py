@@ -4,7 +4,7 @@
 
 {
     "name": "CB Medical sequence configuration",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": [
         "medical_administration_encounter_careplan",
@@ -16,7 +16,7 @@
         "medical_clinical_laboratory",
         "sequence_parser",
         "medical_diagnostic_report",
-        "cb_medical_administration_center",
+        "medical_administration_center",
         "sequence_safe",
     ],
     "data": [
