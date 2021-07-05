@@ -120,7 +120,6 @@ class MedicalCoverageAgreementItem(models.Model):
         if not float_compare(self.total_price, 0, precision_rounding=rounding):
             self.total_price = related.total_price
 
-    @api.multi
     def _compute_price(self):
         for rec in self:
             rec.coverage_price = (

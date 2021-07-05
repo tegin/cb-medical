@@ -17,7 +17,7 @@
                 <page
                     name="coverage_agreements"
                     string="Agreements"
-                    groups="cb_medical_financial_coverage_agreement.group_medical_agreement_list"
+                    groups="medical_financial_coverage_agreement.group_medical_agreement_list"
                 >
                     <field
                         name="agreement_ids"

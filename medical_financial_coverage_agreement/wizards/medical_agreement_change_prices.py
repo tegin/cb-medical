@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 
 
 class MedicalAgreementChangePrices(models.TransientModel):
@@ -13,7 +13,6 @@ class MedicalAgreementChangePrices(models.TransientModel):
         string="Indicate the percentage to apply to the agreement"
     )
 
-    @api.multi
     def change_prices(self):
         context = dict(self._context or {})
         agreements = self.env["medical.coverage.agreement"].browse(

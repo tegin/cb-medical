@@ -21,19 +21,6 @@
                 <field name="coverage_percentage" />
                 <field name="coverage_price" readonly="True" />
                 <field name="private_price" readonly="True" />
-                <button
-                    name="toggle_active"
-                    type="object"
-                    confirm="Are you sure you want to archive/unarchive this element?"
-                    class="oe_stat_button"
-                    icon="fa-archive"
-                >
-                    <field
-                        name="active"
-                        widget="boolean_button"
-                        options='{"terminology": "archive"}'
-                    />
-                </button>
             </tree>
         </field>
     </record>
@@ -92,7 +79,6 @@
         <field name="name">Agreement Item</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement.item</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree</field>
         <field name="domain">[('product_tmpl_id', '=', active_id)]</field>
         <field name="context">{'search_default_current_agreements': 1}</field>
@@ -111,7 +97,6 @@
         <field name="name">Agreement Item</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement.item</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree</field>
         <field name="context">{'search_default_current_agreements': 1}</field>
         <field name="domain">[('product_id', '=', active_id)]</field>
@@ -130,7 +115,6 @@
         <field name="name">Agreement Item</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement.item</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree</field>
         <field name="domain">[('plan_definition_id', '=', active_id)]</field>
         <field
@@ -145,7 +129,6 @@
         <field name="name">Agreement Item</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.coverage.agreement.item</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree</field>
         <field name="context">{}</field>
     </record>
