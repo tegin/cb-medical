@@ -5,7 +5,7 @@
 {
     "name": "Medical ICD-10-PCS Codification",
     "summary": "Medical codification base",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "author": "Creu Blanca, Eficent",
     "category": "Medical",
     "website": "https://github.com/OCA/vertical-medical",
