@@ -29,7 +29,6 @@ class MedicalRequest(models.AbstractModel):
         res.append("medical.laboratory.request")
         return res
 
-    @api.multi
     def _compute_laboratory_request_ids(self):
         inverse_field_name = self._get_parent_field_name()
         for rec in self:

@@ -39,8 +39,10 @@ class TestClinicalLaboratory(TransactionCase):
             {"patient_id": self.patient.id}
         )
         self.assertEqual(request.laboratory_event_count, 0)
+        self.assertEqual(request.laboratory_request_count, 0)
         event = request.generate_event()
         self.assertEqual(request.laboratory_event_count, 1)
         self.assertEqual(
             event.id, request.action_view_laboratory_events()["res_id"]
         )
+        request.action_view_request_parameters()
