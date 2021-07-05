@@ -1,3 +1,4 @@
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -95,6 +96,30 @@ class TestSequence(TransactionCase):
     def test_request_group(self):
         self.check_model("medical.request.group", {})
 
+    def test_laboratory_event(self):
+        request = self.env["medical.laboratory.request"].create(
+            {"patient_id": self.patient.id}
+        )
+        self.check_model(
+            "medical.laboratory.event",
+            {
+                "patient_id": self.patient.id,
+                "laboratory_request_id": request.id,
+            },
+        )
+
+    def test_laboratory_request(self):
+        request = self.env["medical.laboratory.request"].create(
+            {"patient_id": self.patient.id}
+        )
+        self.check_model(
+            "medical.laboratory.request",
+            {
+                "patient_id": self.patient.id,
+                "laboratory_request_id": request.id,
+            },
+        )
+
     def test_medication_administration(self):
         self.check_model(
             "medical.medication.administration",
@@ -162,26 +187,22 @@ class TestSequence(TransactionCase):
         )
 
     def test_diagnostic_report(self):
-        model = "medical.diagnostic.report"
-        values = dict(
-            patient_id=self.patient.id, encounter_id=self.encounter.id
+        self.check_model("medical.diagnostic.report", {})
+
+    def test_encounter(self):
+        with self.assertRaises(ValidationError):
+            self.env["medical.encounter"].create(
+                {"patient_id": self.patient.id, "center_id": False}
+            )
+
+    def test_res_partner(self):
+        vals = {"name": "Prova"}
+        exemple = self.env["res.partner"].create(vals)
+        exemple.write(
+            {
+                "encounter_sequence_prefix": self.center.encounter_sequence_prefix
+            }
         )
-        request_2 = self.env[model].create(values)
-        self.assertEqual(
-            request_2.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
-            self.encounter.internal_identifier,
-        )
-        values = dict(patient_id=self.patient.id)
-        request_3 = (
-            self.env[model]
-            .with_context(default_encounter_id=self.encounter.id)
-            .create(values)
-        )
-        self.assertEqual(
-            request_3.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
-            self.encounter.internal_identifier,
+        exemple.write(
+            {"encounter_sequence_prefix": "O", "encounter_sequence_id": 15}
         )

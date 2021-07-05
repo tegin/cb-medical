@@ -34,7 +34,6 @@ class ResPartner(models.Model):
         }
         return vals
 
-    @api.multi
     def write(self, vals):
         prefix = vals.get("encounter_sequence_prefix")
         if prefix:
