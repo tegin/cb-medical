@@ -44,12 +44,10 @@ class MedicalEncounter(models.Model):
             sequence_tuple=True
         ).next_by_id()
 
-    @api.multi
     def get_next_number(self):
         self.ensure_one()
         return _update_nogap(self, 1)
 
-    @api.multi
     def get_next_number_cb(self, number_format):
         self.ensure_one()
         return number_format % self.get_next_number()
