@@ -1,7 +1,7 @@
 # Copyright 2019 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class ProductTemplate(models.Model):
@@ -11,7 +11,6 @@ class ProductTemplate(models.Model):
 
     agreement_comment = fields.Text("Agreement Comment")
 
-    @api.multi
     def write(self, vals):
         res = super().write(vals)
         if "categ_id" in vals:
@@ -24,7 +23,6 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    @api.multi
     def write(self, vals):
         res = super().write(vals)
         if "categ_id" in vals:

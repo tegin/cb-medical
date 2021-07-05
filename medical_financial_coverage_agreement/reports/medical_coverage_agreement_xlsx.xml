@@ -5,7 +5,7 @@
         model="medical.coverage.agreement"
         string="Print to XLSX"
         report_type="xlsx"
-        name="cb_medical_financial_coverage_agreement.mca_xlsx"
+        name="medical_financial_coverage_agreement.mca_xlsx"
         file="medical_coverage_agreement_xlsx"
         attachment_use="False"
     />

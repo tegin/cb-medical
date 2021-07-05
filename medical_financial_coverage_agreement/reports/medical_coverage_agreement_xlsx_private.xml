@@ -3,7 +3,7 @@
     <record id="medical_coverage_agreement_xlsx_private" model="ir.actions.report">
         <field
             name="report_name"
-        >cb_medical_financial_coverage_agreement.mca_xlsx_private</field>
+        >medical_financial_coverage_agreement.mca_xlsx_private</field>
         <field name="name">Print to XLSX (Private)</field>
         <field name="type">ir.actions.report</field>
         <field name="model">medical.coverage.agreement</field>

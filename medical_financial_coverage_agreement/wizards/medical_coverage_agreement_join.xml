@@ -27,10 +27,9 @@
     <act_window
         id="medical_coverage_agreement_join_act_window"
         name="Medical Coverage Agreement Join"
-        src_model="medical.coverage.agreement"
+        binding_model="medical.coverage.agreement"
         res_model="medical.coverage.agreement.join"
         view_mode="form"
         target="new"
-        key2="client_action_multi"
     />
 </odoo>
