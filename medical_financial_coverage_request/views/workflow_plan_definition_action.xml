@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+<odoo>
+    <record model="ir.ui.view" id="workflow_plan_definition_action_tree">
+        <field name="name">workflow.plan.definition.action.tree</field>
+        <field name="model">workflow.plan.definition.action</field>
+        <field
+            name="inherit_id"
+            ref="medical_workflow.workflow_plan_definition_action_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="complete_name" position="after">
+                <field name="service_id" />
+                <field name="performer_id" />
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="workflow_plan_definition_action_form">
+        <field name="name">workflow.plan.definition.action.form</field>
+        <field name="model">workflow.plan.definition.action</field>
+        <field
+            name="inherit_id"
+            ref="medical_workflow.workflow_plan_definition_action_form"
+        />
+        <field name="arch" type="xml">
+            <group name="fees" position="inside">
+                <field name="service_id" />
+                <field name="performer_id" options="{'no_create': True}" />
+                <field name="is_billable" />
+            </group>
+            <field name="name" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="parent_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="plan_definition_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="direct_plan_definition_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <xpath expr="//page[@name='child_actions']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <field name="execute_plan_definition_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

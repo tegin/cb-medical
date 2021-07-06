@@ -47,10 +47,10 @@ class TestCB(TransactionCase):
                 "coverage_template_ids": [(4, self.coverage_template.id)],
                 "company_id": self.company.id,
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.without"
+                    "medical_financial_coverage_request.without"
                 ).id,
                 "authorization_format_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.format_anything"
+                    "medical_financial_coverage_request.format_anything"
                 ).id,
             }
         )
@@ -153,10 +153,10 @@ class TestCB(TransactionCase):
                 "plan_definition_id": self.plan_definition.id,
                 "total_price": 100,
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.without"
+                    "medical_financial_coverage_request.without"
                 ).id,
                 "authorization_format_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.format_anything"
+                    "medical_financial_coverage_request.format_anything"
                 ).id,
             }
         )
@@ -169,10 +169,10 @@ class TestCB(TransactionCase):
                 "plan_definition_id": self.plan_definition.id,
                 "total_price": 100.0,
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.without"
+                    "medical_financial_coverage_request.without"
                 ).id,
                 "authorization_format_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.format_anything"
+                    "medical_financial_coverage_request.format_anything"
                 ).id,
             }
         )
@@ -185,10 +185,10 @@ class TestCB(TransactionCase):
                 "plan_definition_id": self.plan_definition2.id,
                 "total_price": 100.0,
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.without"
+                    "medical_financial_coverage_request.without"
                 ).id,
                 "authorization_format_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.format_anything"
+                    "medical_financial_coverage_request.format_anything"
                 ).id,
             }
         )
@@ -203,14 +203,7 @@ class TestCB(TransactionCase):
 
     def create_practitioner(self, name):
         return self.env["res.partner"].create(
-            {
-                "name": name,
-                "is_practitioner": True,
-                "agent": True,
-                "commission": self.browse_ref(
-                    "cb_medical_commission.commission_01"
-                ).id,
-            }
+            {"name": name, "is_practitioner": True, "agent": True}
         )
 
     def create_careplan_and_group(self):

@@ -5,7 +5,7 @@
     <record model="ir.ui.view" id="medical_authorization_web_form_view">
         <field
             name="name"
-        >medical.authorization.web.form (in cb_medical_financial_coverage_request)</field>
+        >medical.authorization.web.form (in medical_financial_coverage_request)</field>
         <field name="model">medical.authorization.web</field>
         <field name="arch" type="xml">
             <form>
@@ -25,7 +25,7 @@
     <record model="ir.ui.view" id="medical_authorization_web_search_view">
         <field
             name="name"
-        >medical.authorization.web.search (in cb_medical_financial_coverage_request)</field>
+        >medical.authorization.web.search (in medical_financial_coverage_request)</field>
         <field name="model">medical.authorization.web</field>
         <field name="arch" type="xml">
             <search>
@@ -39,7 +39,7 @@
     <record model="ir.ui.view" id="medical_authorization_web_tree_view">
         <field
             name="name"
-        >medical.authorization.web.tree (in cb_medical_financial_coverage_request)</field>
+        >medical.authorization.web.tree (in medical_financial_coverage_request)</field>
         <field name="model">medical.authorization.web</field>
         <field name="arch" type="xml">
             <tree>

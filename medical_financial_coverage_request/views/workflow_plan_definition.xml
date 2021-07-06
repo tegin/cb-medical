@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2017 Creu Blanca
+    Copyright 2017 Eficent Business and IT Consulting Services, S.L.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+<odoo>
+    <record model="ir.ui.view" id="workflow_plan_definition_form">
+        <field name="name">workflow.plan.definition.form</field>
+        <field name="model">workflow.plan.definition</field>
+        <field name="inherit_id" ref="medical_workflow.workflow_plan_definition_form" />
+        <field name="arch" type="xml">
+            <group name="medical" position="inside">
+                <field name="is_billable" />
+                <field name="third_party_bill" />
+                <field name="is_breakdown" />
+                <field name="performer_required" />
+            </group>
+            <xpath
+                expr="//page[@name='actions']/field[@name='direct_action_ids']/tree/field[@name='execute_plan_definition_id']"
+                position="after"
+            >
+                <field name="is_billable" />
+            </xpath>
+            <xpath expr="//page[@name='actions_list']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
