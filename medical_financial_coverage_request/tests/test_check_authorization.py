@@ -48,7 +48,7 @@ class TestCB(TransactionCase):
             }
         )
         self.method = self.browse_ref(
-            "cb_medical_financial_coverage_request.only_number"
+            "medical_financial_coverage_request.only_number"
         )
         self.agreement = self.env["medical.coverage.agreement"].create(
             {
@@ -101,7 +101,7 @@ class TestCB(TransactionCase):
                 "plan_definition_id": self.plan_definition.id,
                 "total_price": 100,
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.only_number"
+                    "medical_financial_coverage_request.only_number"
                 ).id,
                 "authorization_format_id": self.format.id,
             }
@@ -117,14 +117,7 @@ class TestCB(TransactionCase):
 
     def create_practitioner(self, name):
         return self.env["res.partner"].create(
-            {
-                "name": name,
-                "is_practitioner": True,
-                "agent": True,
-                "commission": self.browse_ref(
-                    "cb_medical_commission.commission_01"
-                ).id,
-            }
+            {"name": name, "is_practitioner": True, "agent": True}
         )
 
     def create_careplan_and_group(self, number=False):
@@ -181,7 +174,7 @@ class TestCB(TransactionCase):
         self.agreement_line.write(
             {
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.without"
+                    "medical_financial_coverage_request.without"
                 ).id
             }
         )

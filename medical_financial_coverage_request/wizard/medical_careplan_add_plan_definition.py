@@ -72,9 +72,7 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
     @api.depends("coverage_template_id", "center_id")
     def _compute_agreements(self):
         for rec in self:
-            date = fields.Date.to_string(
-                fields.Datetime.from_string(rec._get_careplan_date())
-            )
+            date = rec._get_careplan_date()
             rec.agreement_ids = self.env["medical.coverage.agreement"].search(
                 [
                     (

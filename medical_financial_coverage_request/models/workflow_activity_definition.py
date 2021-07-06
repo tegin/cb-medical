@@ -23,14 +23,28 @@ class ActivityDefinition(models.Model):
         self, vals, parent=False, plan=False, action=False
     ):
         res = super()._get_medical_values(vals, parent, plan, action)
-
+        res["is_billable"] = False if action else plan.is_billable
+        res["is_breakdown"] = plan.is_breakdown if not action else False
         res["coverage_agreement_item_id"] = False
         res["coverage_agreement_id"] = False
         res["authorization_method_id"] = False
-        res["is_billable"] = False
         if parent:
             res["parent_model"] = parent._name
             res["parent_id"] = parent.id
+        if parent and not res.get("center_id", False):
+            res["center_id"] = parent.center_id.id
+        elif res.get("careplan_id", False) and not res.get("center_id", False):
+            res["center_id"] = (
+                self.env["medical.careplan"]
+                .browse(res["careplan_id"])
+                .center_id.id
+            )
+        if not self.env[self.model_id.model]._pass_performer(
+            self, parent, plan, action
+        ):
+            res["performer_id"] = False
+        if action.performer_id:
+            res["performer_id"] = action.performer_id.id
         return res
 
     def _get_request_group_values(
