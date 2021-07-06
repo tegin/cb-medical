@@ -25,7 +25,6 @@
         <field name="name">Document Actions</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.document.type</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('document_type', '=', 'zpl2')]</field>
         <field name="context">{'default_document_type': 'zpl2'}</field>

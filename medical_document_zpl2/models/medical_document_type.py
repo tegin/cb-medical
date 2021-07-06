@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalDocumentType(models.Model):
@@ -11,7 +11,6 @@ class MedicalDocumentType(models.Model):
         "printing.label.zpl2", states={"current": [("readonly", True)]}
     )
 
-    @api.multi
     def post(self):
         self.ensure_one()
         if self.document_type == "zpl2":
