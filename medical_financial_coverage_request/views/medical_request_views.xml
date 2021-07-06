@@ -11,6 +11,13 @@
         <field name="inherit_id" ref="medical_workflow.medical_request_form" />
         <field name="priority" eval="16" />
         <field name="arch" type="xml">
+            <field name="encounter_id" position="after">
+                <field
+                    name="center_id"
+                    options="{'no_create': True, 'no_open': True}"
+                    attrs="{'readonly': [('is_editable', '=', False)]}"
+                />
+            </field>
             <notebook position="inside">
                 <page name="payor" string="Payor">
                     <group>
@@ -44,12 +51,16 @@
         <field name="inherit_id" ref="medical_request_form" />
         <field
             name="groups_id"
-            eval="[(4, ref('medical_financial_coverage.group_medical_coverage_list'))]"
+            eval="[(4, ref('medical_financial_coverage.group_medical_coverage_list')),(4, ref('medical_administration_location.group_medical_location_list'))]"
         />
         <field name="arch" type="xml">
             <field name="coverage_id" position="attributes">
                 <attribute name="options">{'no_open': False, 'no_create':
                     True}
+                </attribute>
+            </field>
+            <field name="center_id" position="attributes">
+                <attribute name="options">{'no_open': False, 'no_create': True}
                 </attribute>
             </field>
         </field>

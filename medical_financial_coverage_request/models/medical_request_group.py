@@ -7,7 +7,8 @@ from odoo.tools.safe_eval import safe_eval
 
 
 class MedicalRequestGroup(models.Model):
-    _inherit = "medical.request.group"
+    _name = "medical.request.group"
+    _inherit = ["medical.request.group", "medical.request"]
 
     can_change_plan = fields.Boolean(compute="_compute_can_change_plan")
     child_model = fields.Char()
@@ -34,7 +35,7 @@ class MedicalRequestGroup(models.Model):
     def check_authorization_action(self):
         self.ensure_one()
         action = self.env.ref(
-            "cb_medical_financial_coverage_request."
+            "medical_financial_coverage_request."
             "medical_request_group_check_authorization_action"
         )
         result = action.read()[0]
@@ -42,3 +43,7 @@ class MedicalRequestGroup(models.Model):
         ctx.update(self._get_authorization_context())
         result["context"] = ctx
         return result
+
+    @api.model
+    def _pass_performer(self, activity, parent, plan, action):
+        return True
