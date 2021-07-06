@@ -4,7 +4,6 @@ from odoo import api, models
 class MedicalEvent(models.AbstractModel):
     _inherit = "medical.event"
 
-    @api.multi
     @api.depends("name", "internal_identifier")
     def name_get(self):
         result = []

@@ -2,7 +2,7 @@
 <odoo>
     <record id="view_account_invoice_refund_lines" model="ir.ui.view">
         <field name="name">account.invoice.refund.lines.form</field>
-        <field name="model">account.invoice.refund</field>
+        <field name="model">account.move.reversal</field>
         <field
             name="inherit_id"
             ref="account_invoice_refund_line_selection.view_account_invoice_refund_lines"

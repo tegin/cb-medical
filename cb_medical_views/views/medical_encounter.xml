@@ -10,7 +10,6 @@
         name="Find encounter"
         res_model="barcode.action"
         view_mode="form"
-        view_type="form"
         context="{'default_model': 'medical.encounter', 'default_method': 'find_encounter_by_barcode'}"
         target="new"
     />

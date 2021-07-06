@@ -4,14 +4,15 @@
 
 {
     "name": "CB Medical Views",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": [
+        "account",
         "barcode_action",
         "cb_medical_careplan_sale",
         "l10n_es_partner",
+        "l10n_es",
         "account_invoice_refund_line_selection",
-        "cb_medical_sale_invoice",
     ],
     "data": [
         "security/medical_encounter_create_group.xml",
