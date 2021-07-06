@@ -11,7 +11,7 @@ class MedicalRequest(models.AbstractModel):
 
     coverage_id = fields.Many2one(
         "medical.coverage",
-        track_visibility=True,
+        tracking=True,
         required=False,
         domain="[('patient_id', '=', patient_id)]",
     )
@@ -23,11 +23,11 @@ class MedicalRequest(models.AbstractModel):
     )
     authorization_method_id = fields.Many2one(
         comodel_name="medical.authorization.method",
-        track_visibility=True,
+        tracking=True,
         readonly=True,
         ondelete="restrict",
     )
-    authorization_number = fields.Char(track_visibility=True)
+    authorization_number = fields.Char(tracking=True)
     authorization_status = fields.Selection(
         [
             ("pending", "Pending authorization"),

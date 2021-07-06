@@ -85,7 +85,6 @@ class MedicalRequestGroupChangePlan(models.TransientModel):
                 ]
             )
 
-    @api.multi
     def run(self):
         self.ensure_one()
         self.request_group_id.change_plan_definition(self.agreement_line_id)
