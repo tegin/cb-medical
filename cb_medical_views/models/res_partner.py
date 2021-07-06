@@ -1,10 +1,9 @@
-from odoo import api, models
+from odoo import models
 
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    @api.multi
     def name_get(self):
         orig = super().name_get()
         if not self.env.context.get("cb_display", False):
