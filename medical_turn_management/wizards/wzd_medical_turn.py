@@ -3,7 +3,7 @@
 
 from datetime import timedelta
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class WzdMedicalTurn(models.TransientModel):
@@ -19,7 +19,6 @@ class WzdMedicalTurn(models.TransientModel):
             return self.turn_specialty_ids
         return self.env["medical.turn.specialty"].search([])
 
-    @api.multi
     def doit(self):
         self.ensure_one()
         specialties = self._get_specialties()

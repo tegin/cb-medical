@@ -15,32 +15,29 @@ class MedicalTurn(models.Model):
         required=True,
         comodel_name="res.partner",
         domain=[("is_center", "=", True)],
-        track_visibility="onchange",
+        tracking=True,
     )
     practitioner_id = fields.Many2one(
-        string="Practitioner",
-        comodel_name="res.partner",
-        track_visibility="onchange",
+        string="Practitioner", comodel_name="res.partner", tracking=True,
     )
     specialty_id = fields.Many2one(
-        "medical.turn.specialty", track_visibility="onchange", required=True
+        "medical.turn.specialty", tracking=True, required=True
     )
     date = fields.Datetime(
         required=True,
         copy=False,
         index=True,
-        track_visibility="onchange",
+        tracking=True,
         default=lambda r: fields.Datetime.now(),
     )
     duration = fields.Float(
-        "Duration (in hours)", track_visibility="onchange", required=True
+        "Duration (in hours)", tracking=True, required=True
     )
 
     @api.depends("practitioner_id", "center_ids", "specialty_id")
     def _compute_display_name(self):
         return super()._compute_display_name()
 
-    @api.multi
     def name_get(self):
         result = []
         for rec in self:

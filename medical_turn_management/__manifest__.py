@@ -5,7 +5,7 @@
     "name": "Medical Turn Management",
     "summary": """
         Manage Profesional turn management""",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "license": "AGPL-3",
     "author": "Creu Blanca,Odoo Community Association (OCA)",
     "website": "www.creublanca.es",
@@ -13,7 +13,7 @@
         "medical_administration_practitioner",
         "web_view_calendar_list",
         "medical_clinical",
-        "cb_medical_administration_center",
+        "medical_administration_center",
     ],
     "data": [
         "security/medical_security.xml",
