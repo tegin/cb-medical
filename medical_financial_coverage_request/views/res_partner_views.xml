@@ -8,7 +8,10 @@
     <record id="res_partner_view_form" model="ir.ui.view">
         <field name="name">res.partner.view.form</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="cb_medical_identifier.res_partner_view_form" />
+        <field
+            name="inherit_id"
+            ref="medical_encounter_identifier.res_partner_view_form"
+        />
         <field name="arch" type="xml">
             <field name="center_alias" position="after">
                 <field
