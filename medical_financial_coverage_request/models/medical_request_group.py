@@ -31,7 +31,6 @@ class MedicalRequestGroup(models.Model):
             ),
         }
 
-    @api.multi
     def check_authorization_action(self):
         self.ensure_one()
         action = self.env.ref(
