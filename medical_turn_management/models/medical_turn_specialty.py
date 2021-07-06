@@ -68,7 +68,7 @@ class MedicalTurnSpecialtyRule(models.Model):
         required=True,
         comodel_name="res.partner",
         domain=[("is_center", "=", True)],
-        track_visibility="onchange",
+        tracking=True,
     )
 
     def _generate_record(self, date):
