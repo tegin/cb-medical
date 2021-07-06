@@ -65,7 +65,7 @@ class TestWizard(TransactionCase):
                 ],
                 "company_id": self.browse_ref("base.main_company").id,
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.only_number"
+                    "medical_financial_coverage_request.only_number"
                 ).id,
                 "authorization_format_id": self.format.id,
             }

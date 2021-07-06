@@ -19,10 +19,10 @@ class TestAgreementTemplate(TransactionCase):
                 "name": "Template",
                 "company_id": self.company.id,
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.without"
+                    "medical_financial_coverage_request.without"
                 ).id,
                 "authorization_format_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.format_anything"
+                    "medical_financial_coverage_request.format_anything"
                 ).id,
                 "is_template": True,
             }
@@ -43,10 +43,10 @@ class TestAgreementTemplate(TransactionCase):
                     "name": "Template",
                     "company_id": self.company.id,
                     "authorization_method_id": self.browse_ref(
-                        "cb_medical_financial_coverage_request.without"
+                        "medical_financial_coverage_request.without"
                     ).id,
                     "authorization_format_id": self.browse_ref(
-                        "cb_medical_financial_coverage_request.format_anything"
+                        "medical_financial_coverage_request.format_anything"
                     ).id,
                     "template_id": self.template.id,
                     "is_template": True,
@@ -69,10 +69,10 @@ class TestAgreementTemplate(TransactionCase):
                 "name": "Template",
                 "company_id": self.company.id,
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.without"
+                    "medical_financial_coverage_request.without"
                 ).id,
                 "authorization_format_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.format_anything"
+                    "medical_financial_coverage_request.format_anything"
                 ).id,
             }
         )
@@ -88,10 +88,10 @@ class TestAgreementTemplate(TransactionCase):
                 "name": "Template",
                 "company_id": self.company.id,
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.without"
+                    "medical_financial_coverage_request.without"
                 ).id,
                 "authorization_format_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.format_anything"
+                    "medical_financial_coverage_request.format_anything"
                 ).id,
             }
         )
@@ -120,10 +120,10 @@ class TestAgreementTemplate(TransactionCase):
                 "name": "Template",
                 "company_id": self.company.id,
                 "authorization_method_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.without"
+                    "medical_financial_coverage_request.without"
                 ).id,
                 "authorization_format_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.format_anything"
+                    "medical_financial_coverage_request.format_anything"
                 ).id,
             }
         )

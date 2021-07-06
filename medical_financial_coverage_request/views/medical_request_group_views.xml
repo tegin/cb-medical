@@ -17,7 +17,7 @@
             <button name="draft2active" position="after">
                 <field name="can_change_plan" invisible="1" />
                 <button
-                    name="%(cb_medical_financial_coverage_request.action_medical_request_group_change_plan)d"
+                    name="%(medical_financial_coverage_request.action_medical_request_group_change_plan)d"
                     type="action"
                     string="Change plan"
                     class="oe_highlight"
