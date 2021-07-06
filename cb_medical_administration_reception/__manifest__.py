@@ -9,7 +9,7 @@
     "website": "https://github.com/tegin/cb-addons",
     "author": "Creu Blanca, Eficent",
     "license": "AGPL-3",
-    "depends": ["cb_medical_administration_center"],
+    "depends": ["medical_administration_center"],
     "data": [
         "security/medical_security.xml",
         "data/ir_sequence_data.xml",
