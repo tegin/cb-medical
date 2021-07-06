@@ -4,7 +4,6 @@ from odoo import api, models
 class MedicalCoverageTemplate(models.Model):
     _inherit = "medical.coverage.template"
 
-    @api.multi
     @api.depends("name", "internal_identifier", "payor_id.display_name")
     def name_get(self):
         result = []

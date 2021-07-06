@@ -7,7 +7,6 @@ from odoo.tools.safe_eval import safe_eval
 class MedicalEncounter(models.Model):
     _inherit = "medical.encounter"
 
-    @api.multi
     def find_encounter_by_barcode(self, barcode):
         encounter = self.search([("internal_identifier", "=", barcode)])
         if not encounter:
@@ -38,7 +37,6 @@ class MedicalEncounter(models.Model):
         result["res_id"] = encounter.id
         return result
 
-    @api.multi
     @api.depends("name", "internal_identifier")
     def name_get(self):
         result = []
