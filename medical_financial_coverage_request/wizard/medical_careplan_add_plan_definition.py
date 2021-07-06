@@ -105,7 +105,6 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
             values["performer_id"] = self.performer_id.id
         return values
 
-    @api.multi
     def _run(self):
         res = super()._run()
         if res and not self.careplan_id.service_id:

@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import _, api, models
+from odoo import _, models
 from odoo.exceptions import ValidationError
 
 
@@ -62,7 +62,6 @@ class ActivityDefinition(models.Model):
             res.update(new_vals)
         return res
 
-    @api.multi
     def execute_activity(self, vals, parent=False, plan=False, action=False):
         self.ensure_one()
         if action.id in vals.get("relations", {}):

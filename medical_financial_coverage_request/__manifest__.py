@@ -5,14 +5,14 @@
 {
     "name": "Medical Coverage Request",
     "summary": "Medical financial coverage request",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "author": "Creu Blanca, Eficent",
     "website": "https://github.com/tegin/cb_addons",
     "license": "AGPL-3",
     "depends": [
         "cb_medical_workflow_plandefinition",
-        "cb_medical_financial_coverage_agreement",
-        "cb_medical_identifier",
+        "medical_financial_coverage_agreement",
+        "medical_encounter_identifier",
     ],
     "data": [
         "views/medical_authorization_web.xml",

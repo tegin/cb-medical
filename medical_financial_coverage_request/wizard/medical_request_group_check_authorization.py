@@ -77,7 +77,6 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
             "authorization_method_id": self.authorization_method_id.id,
         }
 
-    @api.multi
     def run(self):
         self.ensure_one()
         self.request_group_id.change_authorization(
