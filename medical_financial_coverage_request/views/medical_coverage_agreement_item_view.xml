@@ -10,7 +10,7 @@
         <field name="model">medical.coverage.agreement.item</field>
         <field
             name="inherit_id"
-            ref="cb_medical_financial_coverage_agreement.medical_coverage_agreement_item_view_tree"
+            ref="medical_financial_coverage_agreement.medical_coverage_agreement_item_view_tree"
         />
         <field name="arch" type="xml">
             <field name="plan_definition_id" position="after">
