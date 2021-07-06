@@ -13,10 +13,10 @@ class MedicalAuthorizationFormat(models.Model):
 
     code = fields.Char(required=True)
     name = fields.Char(required=True)
-    authorization_format = fields.Char(track_visibility=True)
+    authorization_format = fields.Char(tracking=True)
     authorization_information = fields.Text()
     always_authorized = fields.Boolean(
-        default=False, track_visibility=True, required=True
+        default=False, tracking=True, required=True
     )
 
     def check_value(self, value):
