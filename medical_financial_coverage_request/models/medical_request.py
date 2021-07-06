@@ -39,6 +39,18 @@ class MedicalRequest(models.AbstractModel):
     can_deactivate = fields.Boolean(compute="_compute_can_deactivate")
     parent_id = fields.Integer(index=True)
     parent_model = fields.Char(index=True)
+    is_billable = fields.Boolean(
+        string="Is billable?", default=False, tracking=True
+    )
+    is_breakdown = fields.Boolean(default=False, tracking=True)
+    third_party_bill = fields.Boolean(default=False, tracking=True)
+    center_id = fields.Many2one(
+        "res.partner",
+        domain=[("is_center", "=", True)],
+        required=True,
+        tracking=True,
+    )
+    active = fields.Boolean(default=True)
 
     @api.depends("state")
     def _compute_can_deactivate(self):
@@ -179,3 +191,7 @@ class MedicalRequest(models.AbstractModel):
         self.write(
             self._update_related_activity_vals(vals, parent, plan, action)
         )
+
+    @api.model
+    def _pass_performer(self, activity, parent, plan, action):
+        return False
