@@ -57,7 +57,6 @@
         name="Sort preinvoice"
         res_model="wizard.sale.preinvoice.group.barcode"
         view_mode="form"
-        view_type="form"
         context="{'default_preinvoice_group_id': active_id}"
         target="new"
     />

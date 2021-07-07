@@ -96,7 +96,7 @@ class SaleOrder(models.Model):
             customers = self.env.context.get("customers")
             if customers:
                 domain.append(("partner_id", "in", customers))
-            draft_inv = self.env["account.invoice"].search(domain)
+            draft_inv = self.env["account.move"].search(domain)
             for inv in draft_inv:
                 for line in inv.invoice_line_ids.mapped("sale_line_ids"):
                     ref_order = self._get_invoice_group_line_key(line)
@@ -104,7 +104,6 @@ class SaleOrder(models.Model):
                     invoices[ref_order] = inv
         return invoices, references
 
-    @api.multi
     def _prepare_invoice(self):
         res = super()._prepare_invoice()
         if self.encounter_id and self.coverage_agreement_id:
