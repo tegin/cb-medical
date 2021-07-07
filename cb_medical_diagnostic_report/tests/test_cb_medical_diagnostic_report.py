@@ -12,13 +12,29 @@ from odoo.tests import TransactionCase, tagged
 class TestCbMedicalDiagnosticReport(TransactionCase):
     def setUp(self):
         super(TestCbMedicalDiagnosticReport, self).setUp()
+        self.user_1 = self.env["res.users"].create(
+            {
+                "name": "Test user",
+                "login": "test_report_user",
+                "groups_id": [
+                    (
+                        4,
+                        self.env.ref(
+                            "medical_diagnostic_report."
+                            "group_medical_diagnostic_report_manager"
+                        ).id,
+                    )
+                ],
+            }
+        )
         self.department_1 = self.env["medical.department"].create(
             {
                 "name": "Department 1",
                 "diagnostic_report_header": " Report Header 1",
+                "user_ids": [(4, self.user_1.id)],
             }
         )
-        self.department_1 = self.env["medical.department"].create(
+        self.department_2 = self.env["medical.department"].create(
             {
                 "name": "Department 2",
                 "diagnostic_report_header": " Report Header 2",
@@ -96,21 +112,6 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         self.env.user.current_signature_id = self.signature_1.id
 
     def test_security(self):
-        user_1 = self.env["res.users"].create(
-            {
-                "name": "Test user",
-                "login": "test_report_user",
-                "groups_id": [
-                    (
-                        4,
-                        self.env.ref(
-                            "medical_diagnostic_report."
-                            "group_medical_diagnostic_report_manager"
-                        ).id,
-                    )
-                ],
-            }
-        )
         user_2 = self.env["res.users"].create(
             {
                 "name": "Test user",
@@ -122,11 +123,10 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
                             "medical_diagnostic_report."
                             "group_medical_diagnostic_report_manager"
                         ).id,
-                    )
+                    ),
                 ],
             }
         )
-        self.department_1.user_ids = user_1
         department_2 = self.env["medical.department"].create(
             {
                 "name": "Department 2",
@@ -137,30 +137,27 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         category_3 = self.env["medical.report.category"].create(
             {"name": "Category 3", "medical_department_id": department_2.id}
         )
-        template_1 = self.env["medical.diagnostic.report.template"].create(
-            {"name": "Template", "report_category_id": self.category_1.id}
-        )
-        report_1 = self._generate_report(template_1)
-        self.assertTrue(report_1.sudo(user_1.id).is_editable)
-        self.assertFalse(report_1.sudo(user_2.id).is_editable)
-        self.assertTrue(report_1.sudo(user_1.id).is_cancellable)
-        self.assertFalse(report_1.sudo(user_2.id).is_cancellable)
+        report_1 = self._generate_report(self.template_1)
+        self.assertTrue(report_1.with_user(self.user_1).is_editable)
+        self.assertFalse(report_1.with_user(user_2.id).is_editable)
+        self.assertTrue(report_1.with_user(self.user_1.id).is_cancellable)
+        self.assertFalse(report_1.with_user(user_2.id).is_cancellable)
         template_2 = self.env["medical.diagnostic.report.template"].create(
             {"name": "Template", "report_category_id": self.category_2.id}
         )
         report_2 = self._generate_report(template_2)
-        self.assertTrue(report_2.sudo(user_1.id).is_editable)
-        self.assertTrue(report_2.sudo(user_2.id).is_editable)
-        self.assertTrue(report_2.sudo(user_1.id).is_cancellable)
-        self.assertTrue(report_2.sudo(user_2.id).is_cancellable)
+        self.assertTrue(report_2.with_user(self.user_1.id).is_editable)
+        self.assertTrue(report_2.with_user(user_2.id).is_editable)
+        self.assertTrue(report_2.with_user(self.user_1.id).is_cancellable)
+        self.assertTrue(report_2.with_user(user_2.id).is_cancellable)
         template_3 = self.env["medical.diagnostic.report.template"].create(
             {"name": "Template", "report_category_id": category_3.id}
         )
         report_3 = self._generate_report(template_3)
-        self.assertFalse(report_3.sudo(user_1.id).is_editable)
-        self.assertTrue(report_3.sudo(user_2.id).is_editable)
-        self.assertFalse(report_3.sudo(user_1.id).is_cancellable)
-        self.assertTrue(report_3.sudo(user_2.id).is_cancellable)
+        self.assertFalse(report_3.with_user(self.user_1.id).is_editable)
+        self.assertTrue(report_3.with_user(user_2.id).is_editable)
+        self.assertFalse(report_3.with_user(self.user_1.id).is_cancellable)
+        self.assertTrue(report_3.with_user(user_2.id).is_cancellable)
 
     def _generate_report(self, template):
         report_generation = self.env[
