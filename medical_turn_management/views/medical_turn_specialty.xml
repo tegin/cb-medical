@@ -35,7 +35,7 @@
                                     <field name="duration" widget="float_time" />
                                     <field
                                         name="default_practitioner_id"
-                                        domain="[('turn_specialty_ids', '=', parent.id), ('is_practitioner', '=', True)]"
+                                        domain="[('id', 'in', parent.practitioner_ids), ('is_practitioner', '=', True)]"
                                     />
                                     <field name="center_ids" widget="many2many_tags" />
                                 </tree>
