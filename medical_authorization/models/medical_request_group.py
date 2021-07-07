@@ -1,14 +1,13 @@
 # Copyright 2020 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import models
 
 
 class MedicalRequestGroup(models.Model):
 
     _inherit = "medical.request.group"
 
-    @api.multi
     def check_authorization_action(self):
         result = super(MedicalRequestGroup, self).check_authorization_action()
         if (

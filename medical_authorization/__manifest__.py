@@ -5,11 +5,11 @@
 {
     "name": "Medical Authorization",
     "summary": "Medical financial coverage request",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "author": "Creu Blanca, Eficent",
     "website": "https://github.com/OCA/vertical-medical",
     "license": "AGPL-3",
-    "depends": ["cb_medical_financial_coverage_request"],
+    "depends": ["medical_financial_coverage_request"],
     "data": [
         "wizards/medical_request_group_uncheck_authorization.xml",
         "views/medical_authorization_method_view.xml",
