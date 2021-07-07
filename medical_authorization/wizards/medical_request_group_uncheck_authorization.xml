@@ -30,7 +30,6 @@
         id="medical_request_group_uncheck_authorization_act_window"
     >
         <field name="name">Medical Request Group Uncheck Authorization</field>
-        <!-- TODO -->
         <field name="res_model">medical.request.group.uncheck.authorization</field>
         <field name="view_mode">form</field>
         <field name="context">{}</field>
