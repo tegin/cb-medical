@@ -4,7 +4,7 @@
 {
     "name": "Cb Medical Diagnostic Report",
     "summary": """Allows the creation of medical diagnostic reports""",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "license": "AGPL-3",
     "author": "Creu Blanca",
     "website": "https://github.com/tegin/medical-fhir",
