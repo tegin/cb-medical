@@ -8,6 +8,7 @@ from odoo import _, fields, models
 class WizardSalePreinvoiceGroup(models.TransientModel):
     _name = "wizard.sale.preinvoice.group.barcode"
     _inherit = "barcodes.barcode_events_mixin"
+    _description = "Barcode handler for preinvoices"
 
     preinvoice_group_id = fields.Many2one(
         "sale.preinvoice.group", required=True

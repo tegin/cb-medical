@@ -2,15 +2,14 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, models
+from odoo import models
 
 
-class AccountInvoiceLine(models.Model):
-    _inherit = "account.invoice.line"
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
 
-    @api.multi
     def unlink(self):
         sale_lines = self.mapped("sale_line_ids")
-        res = super(AccountInvoiceLine, self).unlink()
+        res = super().unlink()
         sale_lines.write({"preinvoice_group_id": False})
         return res
