@@ -37,7 +37,7 @@ class SaleOrderLine(models.Model):
     )
     authorization_method_id = fields.Many2one(
         "medical.authorization.method",
-        track_visibility=True,
+        tracking=True,
         readonly=True,
         index=True,
     )

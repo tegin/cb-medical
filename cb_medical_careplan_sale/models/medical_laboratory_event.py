@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class LaboratoryEvent(models.Model):
@@ -31,11 +31,10 @@ class LaboratoryEvent(models.Model):
     invoice_group_method_id = fields.Many2one(
         string="Invoice Group Method",
         comodel_name="invoice.group.method",
-        track_visibility=True,
+        tracking=True,
         readonly=True,
     )
 
-    @api.multi
     def get_sale_order_query(self):
         query = []
         for request in self.filtered(lambda r: r.state not in ["aborted"]):

@@ -69,8 +69,6 @@ class MedicalCareplan(models.Model):
         agreement_line.ensure_one()
         write_vals = {"agreement_line_id": agreement_line.id}
         if agreement_line.plan_definition_id.performer_required:
-            if isinstance(performer, int):
-                performer = self.env["res.partner"].browse(performer)
             write_vals["performer_id"] = performer.id
         call.write(write_vals)
         return call._run()

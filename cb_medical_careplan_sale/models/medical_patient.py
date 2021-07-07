@@ -2,13 +2,12 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, models
+from odoo import models
 
 
 class MedicalPatient(models.Model):
     _inherit = "medical.patient"
 
-    @api.multi
     def get_coverage(self, template, coverage, **kwargs):
         self.ensure_one()
         magnetic_str = kwargs["magnetic_str"]
