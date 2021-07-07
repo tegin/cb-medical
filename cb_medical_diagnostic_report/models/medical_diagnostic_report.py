@@ -51,11 +51,21 @@ class MedicalDiagnosticReport(models.Model):
             not department or self.env.user in department.user_ids
         )
 
+    @api.depends_context("uid")
+    @api.depends("medical_department_id", "medical_department_id.user_ids")
+    def _compute_is_editable(self):
+        super()._compute_is_editable()
+
     def _is_cancellable(self):
         department = self.medical_department_id
         return super()._is_cancellable() and (
             not department or self.env.user in department.user_ids
         )
+
+    @api.depends_context("uid")
+    @api.depends("medical_department_id", "medical_department_id.user_ids")
+    def _compute_is_cancellable(self):
+        super()._compute_is_cancellable()
 
     def copy_action(self):
         self.ensure_one()
