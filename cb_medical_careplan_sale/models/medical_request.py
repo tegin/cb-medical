@@ -26,12 +26,12 @@ class MedicalRequest(models.AbstractModel):
         readonly=True,
     )
     authorization_method_id = fields.Many2one(
-        "medical.authorization.method", track_visibility=True, readonly=True
+        "medical.authorization.method", tracking=True, readonly=True
     )
     invoice_group_method_id = fields.Many2one(
         "invoice.group.method",
         string="Invoice Group Method",
-        track_visibility=True,
+        tracking=True,
         readonly=True,
     )
     qty = fields.Integer(default=1, required=True)
@@ -134,7 +134,6 @@ class MedicalRequest(models.AbstractModel):
             raise ValidationError(_("Agreement must be defined"))
         return self.is_billable
 
-    @api.multi
     def breakdown(self):
         self.ensure_one()
         if not self.is_billable or not self.is_breakdown:
@@ -159,7 +158,6 @@ class MedicalRequest(models.AbstractModel):
                 if not request.check_is_billable():
                     request.is_billable = True
 
-    @api.multi
     def get_sale_order_query(self):
         query = []
         fieldname = self._get_parent_field_name()
