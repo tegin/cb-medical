@@ -18,12 +18,10 @@ class SaleOrderLine(models.Model):
     is_validated = fields.Boolean(track_visibility=True)
     sequence = fields.Integer(string="Sequence", default="999999")
 
-    @api.multi
     def validate_line(self):
         self.ensure_one()
         self.preinvoice_group_id.validate_line(self)
 
-    @api.multi
     def invalidate_line(self):
         self.ensure_one()
         self.preinvoice_group_id.invalidate_line(self)
@@ -57,6 +55,6 @@ class SaleOrderLine(models.Model):
         return super()._do_not_invoice()
 
     def _prepare_invoice(self):
-        res = super()._prepare_invoice()
+        res = self.order_id._prepare_invoice()
         res["invoice_group_method_id"] = self.invoice_group_method_id.id
         return res
