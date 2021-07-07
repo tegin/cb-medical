@@ -63,21 +63,19 @@ class MedicalEncounter(models.Model):
             and r.partner_id.id == partner
         )
         if not order:
-            order = self.env["sale.order"].create(
-                self._get_sale_order_vals(
-                    partner, cov, agreement, third_party_partner, is_insurance
-                )
+            vals = self._get_sale_order_vals(
+                partner, cov, agreement, third_party_partner, is_insurance
+            )
+            order = (
+                self.env["sale.order"]
+                .with_context(force_company=vals.get("company_id"))
+                .create(vals)
             )
             order.onchange_partner_id()
         order.ensure_one()
-        for order_line in order_lines:
-            order_line["order_id"] = order.id
-            line = (
-                self.env["sale.order.line"]
-                .with_context(force_company=order.company_id.id)
-                .create(order_line)
-            )
-            line.change_company_id()
+        order.with_context(force_company=order.company_id.id).write(
+            {"order_line": [(0, 0, order_line) for order_line in order_lines]}
+        )
         return order
 
     def get_patient_partner(self):
