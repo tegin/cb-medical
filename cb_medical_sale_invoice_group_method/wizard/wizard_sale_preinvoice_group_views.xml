@@ -42,7 +42,6 @@
         name="Generate preinvoices"
         res_model="wizard.sale.preinvoice.group"
         view_mode="form"
-        view_type="form"
         target="new"
     />
     <menuitem

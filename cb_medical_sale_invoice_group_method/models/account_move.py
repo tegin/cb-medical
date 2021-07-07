@@ -5,8 +5,8 @@
 from odoo import fields, models
 
 
-class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
+class AccountMove(models.Model):
+    _inherit = "account.move"
 
     agreement_id = fields.Many2one(
         comodel_name="medical.coverage.agreement",
