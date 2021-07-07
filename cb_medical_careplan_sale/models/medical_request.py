@@ -19,6 +19,9 @@ class MedicalRequest(models.AbstractModel):
         inverse_name="medical_res_id",
         domain=lambda self: self._get_sale_order_domain(),
     )
+    sale_order_line_count = fields.Integer(
+        compute="_compute_sale_order_line_count"
+    )
     is_sellable_insurance = fields.Boolean(compute="_compute_is_sellable")
     is_sellable_private = fields.Boolean(compute="_compute_is_sellable")
     sub_payor_id = fields.Many2one(
@@ -45,6 +48,11 @@ class MedicalRequest(models.AbstractModel):
         "medical.sale.discount", readonly=True
     )
     discount = fields.Float(readonly=True, digits="Discount")
+
+    @api.depends("sale_order_line_ids")
+    def _compute_sale_order_line_count(self):
+        for record in self:
+            record.sale_order_line_count = len(record.sale_order_line_ids)
 
     def get_third_party_partner(self):
         return False
@@ -119,6 +127,9 @@ class MedicalRequest(models.AbstractModel):
         if is_insurance:
             res["invoice_group_method_id"] = self.invoice_group_method_id.id
             res["authorization_method_id"] = self.authorization_method_id.id
+            res["patient_name"] = self.patient_id.display_name
+            res["authorization_number"] = self.authorization_number
+            res["subscriber_id"] = self.coverage_id.subscriber_id
         if self.medical_sale_discount_id:
             res["discount"] = self.discount or 0.0
             res["medical_sale_discount_id"] = self.medical_sale_discount_id.id
