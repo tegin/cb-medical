@@ -26,7 +26,7 @@ class SalePreinvoiceGroup(models.Model):
         required=True,
         readonly=True,
     )
-    invoice_id = fields.Many2one("account.invoice", "Invoice", readonly=True)
+    move_id = fields.Many2one("account.move", "Invoice", readonly=True)
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Partner",
@@ -133,7 +133,6 @@ class SalePreinvoiceGroup(models.Model):
             inv_data["journal_id"] = journal.id
         return inv_data
 
-    @api.multi
     def close(self):
         self.ensure_one()
         for line in self.non_validated_line_ids:
@@ -142,45 +141,41 @@ class SalePreinvoiceGroup(models.Model):
             self.validated_line_ids
             and not self.invoice_group_method_id.no_invoice
         ):
-            self.invoice_id = self.env["account.invoice"].search(
+            self.move_id = self.env["account.move"].search(
                 self.invoice_domain(), limit=1
             )
-            if not self.invoice_id:
-                self.invoice_id = (
-                    self.env["account.invoice"]
+            if not self.move_id:
+                self.move_id = (
+                    self.env["account.move"]
                     .with_context(mail_auto_subscribe_no_notify=True)
                     .create(self.create_invoice_values())
                 )
             else:
-                self.invoice_id.write(
+                self.move_id.write(
                     {
                         "name": ",".join(
-                            [self.invoice_id.name, self.internal_identifier]
+                            [self.move_id.name, self.internal_identifier]
                         )
                     }
                 )
-            seq = len(self.invoice_id.invoice_line_ids) + 1
+            seq = len(self.move_id.invoice_line_ids) + 1
+            data = []
             for line in self.validated_line_ids:
+                # TODO: Do this in batch, it will be faster...
                 line.write({"sequence": seq})
                 seq += 1
-                line.invoice_line_create(
-                    self.invoice_id.id, line.product_uom_qty
-                )
-            if self.validated_line_ids:
-                self.invoice_id.compute_taxes()
+                data.append((0, 0, line._prepare_invoice_line()))
+            self.move_id.write({"invoice_line_ids": data})
         self.write({"state": "closed"})
 
-    @api.multi
     def start(self):
         self.ensure_one()
         self.write({"state": "in_progress"})
 
-    @api.multi
     def close_sorting(self):
         self.ensure_one()
         self.write({"state": "validation"})
 
-    @api.multi
     def cancel(self):
         self.ensure_one()
         for line in self.line_ids:

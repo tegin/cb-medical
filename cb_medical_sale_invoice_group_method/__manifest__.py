@@ -4,15 +4,14 @@
 
 {
     "name": "Medical Sale Invoice Group Method",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "category": "Medical",
     "depends": [
         "medical_base",
-        "cb_medical_sale_invoice",
+        "cb_medical_careplan_sale",
         "barcodes",
         "medical_administration_encounter",
-        "sale_merge_draft_invoice",
     ],
     "data": [
         "views/medical_authorization_method.xml",
