@@ -16,6 +16,10 @@
             <field name="company_id" position="after">
                 <field name="invoice_group_method_id" options="{'no_create': True}" />
             </field>
+            <field name="principal_concept" position="after">
+                <field name="file_reference" />
+                <field name="discount" />
+            </field>
         </field>
     </record>
 </odoo>
