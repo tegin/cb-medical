@@ -41,6 +41,11 @@ class MedicalRequest(models.AbstractModel):
     )
     qty = fields.Integer(default=1, required=True)
 
+    medical_sale_discount_id = fields.Many2one(
+        "medical.sale.discount", readonly=True
+    )
+    discount = fields.Float(readonly=True, digits="Discount")
+
     def get_third_party_partner(self):
         return False
 
@@ -114,6 +119,9 @@ class MedicalRequest(models.AbstractModel):
         if is_insurance:
             res["invoice_group_method_id"] = self.invoice_group_method_id.id
             res["authorization_method_id"] = self.authorization_method_id.id
+        if self.medical_sale_discount_id:
+            res["discount"] = self.discount or 0.0
+            res["medical_sale_discount_id"] = self.medical_sale_discount_id.id
         return res
 
     def check_is_billable(self):

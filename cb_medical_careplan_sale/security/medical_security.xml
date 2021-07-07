@@ -31,4 +31,18 @@
         <field name="perm_unlink" eval="False" />
         <field name="perm_read" eval="True" />
     </record>
+    <record id="group_medical_sale_discount_manager" model="res.groups">
+        <field name="name">Sale discount manager</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+        <field
+            name="implied_ids"
+            eval="[(4, ref('medical_base.group_medical_root_menu')), (4, ref('medical_base.group_medical_administration_menu'))]"
+        />
+    </record>
+    <record id="medical_base.group_medical_configurator" model="res.groups">
+        <field
+            name="implied_ids"
+            eval="[(4, ref('group_medical_sale_discount_manager'))]"
+        />
+    </record>
 </odoo>

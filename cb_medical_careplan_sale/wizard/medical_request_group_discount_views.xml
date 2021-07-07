@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="medical_request_group_discount_form">
+        <field name="name">medical.request.group.discount.form</field>
+        <field name="model">medical.request.group.discount</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Apply discount">
+                <group>
+                    <field name="request_group_id" invisible="1" />
+                    <field
+                        name="medical_sale_discount_id"
+                        options="{'no_create': True}"
+                    />
+                    <field name="is_fixed" invisible="1" />
+                    <label for="discount" />
+                    <div name="discount">
+                        <field
+                            name="discount"
+                            class="oe_inline"
+                            attrs="{'invisible': [('is_fixed', '=', True)]}"
+                        />
+                        <field
+                            name="percentage"
+                            attrs="{'invisible': [('is_fixed', '=', False)]}"
+                            class="oe_inline"
+                        />
+                        %%
+                    </div>
+                </group>
+                <footer>
+                    <button
+                        string="Apply"
+                        name="run"
+                        type="object"
+                        default_focus="1"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="medical_request_group_discount_action" model="ir.actions.act_window">
+        <field name="name">Apply discount</field>
+        <field name="res_model">medical.request.group.discount</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_request_group_id': active_id}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

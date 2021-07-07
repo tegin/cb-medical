@@ -37,6 +37,10 @@
                                 name="coverage_agreement_item_id"
                                 options="{'no_create': True, 'no_open': True}"
                             />
+                            <newline />
+                            <field name="discount" />
+                            <newline />
+                            <field name="medical_sale_discount_id" />
                             <field
                                 name="qty"
                                 attrs="{'readonly': [('is_editable', '=', False)]}"
