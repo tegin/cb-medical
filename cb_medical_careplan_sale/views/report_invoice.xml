@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+        <xpath
+            expr="//table[@name='invoice_line_table']/thead/tr/th[1]"
+            position="after"
+        >
+            <th t-if="o.is_medical and o.show_patient">Patient</th>
+            <th t-if="o.is_medical">Date</th>
+            <th t-if="o.is_medical and o.show_subscriber">Subscriber</th>
+            <th t-if="o.is_medical and o.show_authorization">Authorization</th>
+        </xpath>
+        <xpath
+            expr="//table[@name='invoice_line_table']/tbody/t/tr[1]/t/td[1]"
+            position="after"
+        >
+            <td t-if="o.is_medical and o.show_patient">
+                <span t-field="line.patient_name" />
+            </td>
+            <td t-if="o.is_medical">
+                <span
+                    t-field="line.encounter_id.create_date"
+                    t-options="{'widget': 'date'}"
+                />
+            </td>
+            <td t-if="o.is_medical and o.show_subscriber">
+                <span t-field="line.subscriber_id" />
+            </td>
+            <td t-if="o.is_medical and o.show_authorization">
+                <span t-field="line.authorization_number" />
+            </td>
+        </xpath>
+        <xpath
+            expr="//table[@name='invoice_line_table']/tbody/t/t/tr[1]/td[1]"
+            position="after"
+        >
+            <td t-if="o.is_medical and o.show_patient" />
+            <td t-if="o.is_medical" />
+            <td t-if="o.is_medical and o.show_subscriber" />
+            <td t-if="o.is_medical and o.show_authorization" />
+        </xpath>
+        <!-- hide fields -->
+        <xpath expr="//div[@t-if='o.invoice_origin']" position="attributes">
+            <attribute
+                name="t-if"
+            >o.invoice_origin and o.type == 'out_refund'</attribute>
+        </xpath>
+        <xpath expr="//div[@t-if='o.partner_id.ref']" position="attributes">
+            <attribute name="t-if">o.is_medical and not o.encounter_id</attribute>
+        </xpath>
+    </template>
+    <template
+        id="report_invoice_document_inherit_medical_invoice"
+        inherit_id="sale.report_invoice_document_inherit_sale"
+    >
+        <xpath expr="//address" position="before">
+            <br />
+            <br />
+            <br />
+        </xpath>
+    </template>
+</odoo>

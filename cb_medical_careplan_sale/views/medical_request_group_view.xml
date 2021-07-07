@@ -30,8 +30,9 @@
                     string="Apply discount"
                     class="oe_stat_button"
                     icon="fa-percent"
-                    attrs="{'invisible': ['|', ('sale_order_line_ids', '!=', False), ('is_billable', '=', False)]}"
+                    attrs="{'invisible': ['|', ('sale_order_line_count', '!=', 0), ('is_billable', '=', False)]}"
                 />
+                <field name="sale_order_line_count" invisible="1" />
                 <field name="sale_order_line_ids" invisible="1" />
             </xpath>
         </field>

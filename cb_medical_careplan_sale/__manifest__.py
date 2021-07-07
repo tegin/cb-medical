@@ -11,6 +11,7 @@
         "sale_third_party",
         "medical_authorization",
         "cb_medical_coverage_magnetic_str",
+        "cb_sale_report_invoice",
     ],
     "data": [
         "security/medical_security.xml",
@@ -21,6 +22,9 @@
         "wizard/medical_encounter_add_careplan.xml",
         "wizard/medical_request_group_discount_views.xml",
         "reports/sale_report_templates.xml",
+        "views/account_invoice_views.xml",
+        "views/nomenclature_menu.xml",
+        "views/report_invoice.xml",
         "views/medical_request_group_view.xml",
         "views/medical_encounter_views.xml",
         "views/medical_request_views.xml",

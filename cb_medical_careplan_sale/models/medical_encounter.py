@@ -11,10 +11,28 @@ class MedicalEncounter(models.Model):
 
     sale_order_count = fields.Integer(compute="_compute_sale_order_count")
 
+    invoice_count = fields.Integer(compute="_compute_invoice_count")
+
+    invoice_line_ids = fields.One2many(
+        comodel_name="account.move.line",
+        inverse_name="encounter_id",
+        string="Invoice Lines",
+    )
+
     @api.depends("sale_order_ids")
     def _compute_sale_order_count(self):
         for record in self:
             record.sale_order_count = len(record.sale_order_ids)
+
+    @api.depends("invoice_line_ids")
+    def _compute_invoice_count(self):
+        for record in self:
+            invoices = (
+                self.env["account.move.line"]
+                .search([("encounter_id", "=", record.id)])
+                .mapped("move_id")
+            )
+            record.invoice_count = len(invoices)
 
     def _get_sale_order_vals(
         self, partner, cov, agreement, third_party_partner, is_insurance
@@ -29,6 +47,7 @@ class MedicalEncounter(models.Model):
             "patient_id": self.patient_id.id,
             "coverage_agreement_id": agreement.id,
             "pricelist_id": self.env.ref("product.list0").id,
+            "patient_name": self.patient_id.display_name,
         }
         if is_insurance:
             vals["company_id"] = agreement.company_id.id
@@ -227,3 +246,19 @@ class MedicalEncounter(models.Model):
             **kwargs,
         )
         return careplan
+
+    def action_view_invoice(self):
+        self.ensure_one()
+        action = self.env.ref("account.action_move_out_invoice_type")
+        result = action.read()[0]
+        invoices = (
+            self.env["account.move.line"]
+            .search([("encounter_id", "=", self.id)])
+            .mapped("move_id")
+        )
+        result["domain"] = [("id", "in", invoices.ids)]
+        if len(invoices) == 1:
+            res = self.env.ref("account.view_move_form")
+            result["views"] = [(res and res.id or False, "form")]
+            result["res_id"] = invoices.id
+        return result
