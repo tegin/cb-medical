@@ -33,6 +33,9 @@ class SaleOrderLine(models.Model):
         ],
         readonly=True,
     )
+    medical_sale_discount_id = fields.Many2one(
+        "medical.sale.discount", readonly=True
+    )
 
     def _prepare_third_party_order_line(self):
         res = super()._prepare_third_party_order_line()
