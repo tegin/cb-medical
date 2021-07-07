@@ -17,6 +17,14 @@ class ResPartner(models.Model):
         "res.partner", string="Payor", domain=[("is_payor", "=", True)]
     )
     sub_payor_ids = fields.One2many("res.partner", inverse_name="payor_id")
+    show_patient = fields.Boolean()
+    show_subscriber = fields.Boolean()
+    show_authorization = fields.Boolean()
+    invoice_nomenclature_id = fields.Many2one(
+        "product.nomenclature",
+        "Nomenclature",
+        help="Nomenclature for invoices",
+    )
 
     @api.constrains("is_sub_payor", "payor_id")
     def _check_subpayor(self):

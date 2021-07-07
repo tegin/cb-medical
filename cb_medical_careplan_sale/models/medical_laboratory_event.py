@@ -88,6 +88,13 @@ class LaboratoryEvent(models.Model):
         }
         if is_insurance:
             res["invoice_group_method_id"] = self.invoice_group_method_id.id
+            res["patient_name"] = self.patient_id.display_name
+            res[
+                "authorization_number"
+            ] = self.laboratory_request_id.authorization_number
+            res[
+                "subscriber_id"
+            ] = self.laboratory_request_id.coverage_id.subscriber_id
         return res
 
     def compute_price(self, is_insurance):
