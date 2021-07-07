@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class InvoiceSalesByGroup(models.TransientModel):
@@ -20,7 +20,6 @@ class InvoiceSalesByGroup(models.TransientModel):
         comodel_name="res.company", string="Companies"
     )
 
-    @api.multi
     def invoice_sales_by_group(self):
         domain = [
             ("invoice_status", "=", "to invoice"),
@@ -53,7 +52,7 @@ class InvoiceSalesByGroup(models.TransientModel):
         if len(invoices) > 1:
             result["domain"] = "[('id', 'in', " + str(invoices) + ")]"
         elif len(invoices) == 1:
-            res = self.env.ref("account.invoice.form", False)
+            res = self.env.ref("account.move.form", False)
             result["views"] = [(res and res.id or False, "form")]
             result["res_id"] = invoices[0]
         return result

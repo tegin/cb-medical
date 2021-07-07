@@ -60,7 +60,6 @@
         name="Sales to Invoice by group"
         res_model="invoice.sales.by.group"
         view_mode="form"
-        view_type="form"
         target="new"
     />
     <menuitem
