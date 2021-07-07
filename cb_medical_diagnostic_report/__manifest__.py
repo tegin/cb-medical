@@ -13,7 +13,7 @@
         "medical_administration",
         "medical_signature_storage",
         "sequence_parser",
-        "cb_medical_identifier",
+        "medical_encounter_identifier",
         "web_drop_target",
         "web_tree_image_tooltip",
         "storage_file",
