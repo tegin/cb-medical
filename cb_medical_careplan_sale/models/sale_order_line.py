@@ -2,35 +2,18 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models
+from odoo import _, fields, models
 
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    careplan_id = fields.Many2one(
-        "medical.careplan", readonly=True, index=True
-    )
-    procedure_request_id = fields.Many2one(
-        "medical.procedure.request", readonly=True, index=True
-    )
-    request_group_id = fields.Many2one(
-        "medical.request.group", readonly=True, index=True
-    )
-    medication_request_id = fields.Many2one(
-        "medical.medication.request", readonly=True, index=True
-    )
     encounter_id = fields.Many2one(
         "medical.encounter", readonly=True, index=True
     )
-    document_reference_id = fields.Many2one(
-        "medical.document.reference", readonly=True, index=True
-    )
-    laboratory_request_id = fields.Many2one(
-        "medical.laboratory.request", readonly=True, index=True
-    )
-    laboratory_event_id = fields.Many2one(
-        "medical.laboratory.event", readonly=True, index=True
+    medical_model = fields.Char(index=True)
+    medical_res_id = fields.Many2oneReference(
+        index=True, model_field="medical_model"
     )
     invoice_group_method_id = fields.Many2one(
         "invoice.group.method", readonly=True, index=True
@@ -58,3 +41,13 @@ class SaleOrderLine(models.Model):
         ).id
         res["encounter_id"] = self.encounter_id.id or False
         return res
+
+    def open_medical_record(self):
+        action = {
+            "name": _("Medical Record"),
+            "type": "ir.actions.act_window",
+            "res_model": self.medical_model,
+            "res_id": self.medical_res_id,
+            "view_mode": "form",
+        }
+        return action

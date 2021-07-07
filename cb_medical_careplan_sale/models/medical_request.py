@@ -9,10 +9,15 @@ from odoo.exceptions import ValidationError
 class MedicalRequest(models.AbstractModel):
     _inherit = "medical.request"
 
+    @api.model
+    def _get_sale_order_domain(self):
+        return [("medical_model", "=", self._name)]
+
     sale_order_line_ids = fields.One2many(
         string="Sale order lines",
         comodel_name="sale.order.line",
-        compute="_compute_sale_order_line_ids",
+        inverse_name="medical_res_id",
+        domain=lambda self: self._get_sale_order_domain(),
     )
     is_sellable_insurance = fields.Boolean(compute="_compute_is_sellable")
     is_sellable_private = fields.Boolean(compute="_compute_is_sellable")
@@ -38,15 +43,6 @@ class MedicalRequest(models.AbstractModel):
 
     def get_third_party_partner(self):
         return False
-
-    def _compute_sale_order_line_ids(self):
-        for rec in self:
-            rec.sale_order_line_ids = rec._get_sale_order_lines()
-
-    def _get_sale_order_lines(self):
-        return self.env["sale.order.line"].search(
-            [(self._get_parent_field_name(), "=", self.id)]
-        )
 
     @api.onchange("coverage_id")
     def _onchange_coverage_id(self):
@@ -107,7 +103,8 @@ class MedicalRequest(models.AbstractModel):
         res = {
             "product_id": self.service_id.id,
             "name": self.service_id.name or self.name,
-            self._get_parent_field_name(): self.id,
+            "medical_model": self._name,
+            "medical_res_id": self.id,
             "product_uom_qty": self.qty or 1,
             "product_uom": self.service_id.uom_id.id,
             "price_unit": self.compute_price(is_insurance),
