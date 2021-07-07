@@ -103,7 +103,6 @@ class MedicalEncounterAddCareplan(models.TransientModel):
                 self.coverage_id.subscriber_magnetic_str
             )
 
-    @api.multi
     def run(self):
         self.ensure_one()
         if self.encounter_id.state not in self.get_encounter_states():

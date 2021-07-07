@@ -11,9 +11,7 @@ class ActivityDefinition(models.Model):
     def _get_medical_values(
         self, vals, parent=False, plan=False, action=False
     ):
-        res = super(ActivityDefinition, self)._get_medical_values(
-            vals, parent, plan, action
-        )
+        res = super()._get_medical_values(vals, parent, plan, action)
         if parent:
             res.update({"sub_payor_id": parent.sub_payor_id.id or False})
         if self.model_id.model == "medical.medication.request":
