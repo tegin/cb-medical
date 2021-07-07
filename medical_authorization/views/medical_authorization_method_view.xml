@@ -10,7 +10,7 @@
         <field name="model">medical.authorization.method</field>
         <field
             name="inherit_id"
-            ref="cb_medical_financial_coverage_request.medical_authorization_method_form"
+            ref="medical_financial_coverage_request.medical_authorization_method_form"
         />
         <field name="arch" type="xml">
             <field name="authorization_required" position="after">
