@@ -59,7 +59,7 @@
         <field name="inherit_id" ref="medical_request_form" />
         <field
             name="groups_id"
-            eval="[(4, ref('cb_medical_financial_coverage_agreement.group_medical_agreement_list'))]"
+            eval="[(4, ref('medical_financial_coverage_agreement.group_medical_agreement_list'))]"
         />
         <field name="arch" type="xml">
             <field name="coverage_agreement_id" position="attributes">

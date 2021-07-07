@@ -6,17 +6,27 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
             <xpath
+                expr="//field[@name='order_line']//field[@name='display_type']"
+                position="before"
+            >
+                <div class="oe_button_box" name="button_box">
+                    <button
+                        type="object"
+                        name="open_medical_record"
+                        class="oe_stat_button"
+                        icon="fa-plus-square"
+                        string="Medical Record"
+                    >
+                    </button>
+                </div>
+            </xpath>
+            <xpath
                 expr="//field[@name='order_line']//field[@name='invoice_status']"
                 position="before"
             >
-                <field name="careplan_id" options="{'no_create': True}" />
-                <field name="procedure_request_id" options="{'no_create': True}" />
-                <field name="request_group_id" options="{'no_create': True}" />
-                <field name="medication_request_id" options="{'no_create': True}" />
                 <field name="encounter_id" options="{'no_create': True}" />
-                <field name="document_reference_id" options="{'no_create': True}" />
-                <field name="laboratory_request_id" options="{'no_create': True}" />
-                <field name="laboratory_event_id" options="{'no_create': True}" />
+                <field name="medical_model" options="{'no_create': True}" />
+                <field name="medical_res_id" options="{'no_create': True}" />
                 <field name="invoice_group_method_id" options="{'no_create': True}" />
                 <field name="authorization_method_id" options="{'no_create': True}" />
                 <field name="authorization_checked" options="{'no_create': True}" />

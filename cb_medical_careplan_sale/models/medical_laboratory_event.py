@@ -2,16 +2,21 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class LaboratoryEvent(models.Model):
     _inherit = "medical.laboratory.event"
 
+    @api.model
+    def _get_sale_order_domain(self):
+        return [("medical_model", "=", self._name)]
+
     sale_order_line_ids = fields.One2many(
         string="Sale order lines",
         comodel_name="sale.order.line",
-        inverse_name="laboratory_event_id",
+        inverse_name="medical_res_id",
+        domain=lambda self: self._get_sale_order_domain(),
     )
     coverage_amount = fields.Float(required=True, default=0)
     private_amount = fields.Float(required=True, default=0)
@@ -72,7 +77,9 @@ class LaboratoryEvent(models.Model):
         res = {
             "product_id": self.service_id.id,
             "name": self.name or self.service_id.name,
-            "laboratory_event_id": self.id,
+            # "laboratory_event_id": self.id,
+            "medical_model": self._name,
+            "medical_res_id": self.id,
             "product_uom_qty": 1,
             "product_uom": self.service_id.uom_id.id,
             "price_unit": self.compute_price(is_insurance),
