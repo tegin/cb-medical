@@ -9,6 +9,7 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
     _inherit = "medical.careplan.add.plan.definition"
 
     qty = fields.Integer(default=1)
+    order_by_id = fields.Many2one("res.partner")
 
     def _get_values(self):
         values = super()._get_values()

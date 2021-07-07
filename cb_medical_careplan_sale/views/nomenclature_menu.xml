@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem
+        id="nomenclature_menu"
+        name="Nomenclatures"
+        parent="sale.product_menu_catalog"
+        action="product_nomenclature.product_nomenclature_action"
+        groups="sales_team.group_sale_manager"
+        sequence="35"
+    />
+</odoo>

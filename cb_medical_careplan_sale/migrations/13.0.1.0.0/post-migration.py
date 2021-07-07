@@ -69,3 +69,28 @@ def migrate(env, version):
         WHERE laboratory_event_id is not null
         """,
     )
+    openupgrade.logged_query(
+        env.cr,
+        """
+        UPDATE account_move am
+        SET is_medical = ai.is_medical,
+            show_patient = ai.show_patient
+            show_subscriber = ai.show_subscriber
+            show_authorization = ai.show_authorization
+            encounter_id = ai.encounter_id
+        FROM account_invoice ai
+        WHERE ai.id = am.old_invoice_id""",
+    )
+    openupgrade.logged_query(
+        env.cr,
+        """
+        UPDATE account_move_line aml
+        SET patient_id = ail.patient_id,
+            encounter_id = ail.encounter_id
+            is_medical = ail.is_medical
+            patient_name = ail.patient_name
+            subscriber_id = ail.subscriber_id
+            subscriber_id = ail.authorization_number
+        FROM account_invoice_line ail
+        WHERE ail.id = aml.old_invoice_line_id""",
+    )
