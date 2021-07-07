@@ -9,7 +9,6 @@ class ResConfigSettings(models.TransientModel):
     def_third_party_product = fields.Many2one(
         "product.product",
         "Third party Product",
-        oldname="default_third_party_product",
         domain="[('type', '=', 'service')]",
         help="Default product used for third party sale orders",
     )
@@ -32,7 +31,6 @@ class ResConfigSettings(models.TransientModel):
         res.update(def_third_party_product=def_third_party_product)
         return res
 
-    @api.multi
     def set_values(self):
         res = super(ResConfigSettings, self).set_values()
         self.env["ir.config_parameter"].sudo().set_param(

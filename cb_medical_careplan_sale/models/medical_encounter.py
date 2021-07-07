@@ -34,7 +34,6 @@ class MedicalEncounter(models.Model):
             vals["company_id"] = agreement.company_id.id
         return vals
 
-    @api.multi
     def _generate_sale_order(
         self, key, cov, partner, third_party_partner, order_lines
     ):
@@ -119,14 +118,12 @@ class MedicalEncounter(models.Model):
                             values[key][partner][cov][third_party_partner],
                         )
 
-    @api.multi
     def create_sale_order(self):
         self.ensure_one()
         values = self.get_sale_order_lines()
         self.generate_sale_orders(values)
         return self.action_view_sale_order()
 
-    @api.multi
     def action_view_sale_order(self):
         self.ensure_one()
         action = self.env.ref("sale.action_orders")
