@@ -58,7 +58,6 @@
     >
         <field name="name">Medical Quote Report Configuration</field>
         <field name="res_model">medical.quote.layout_category</field>
-        <field name="view_type">form</field>
         <field name="domain">[('quote_id','=',False)]</field>
         <field name="view_mode">tree,form</field>
     </record>
