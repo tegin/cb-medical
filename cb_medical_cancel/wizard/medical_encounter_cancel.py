@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalEncounterCancel(models.TransientModel):
@@ -12,7 +12,6 @@ class MedicalEncounterCancel(models.TransientModel):
     cancel_reason = fields.Text(string="Description")
     pos_session_id = fields.Many2one("pos.session", required=True)
 
-    @api.multi
     def run(self):
         self.ensure_one()
         return self.encounter_id.cancel(

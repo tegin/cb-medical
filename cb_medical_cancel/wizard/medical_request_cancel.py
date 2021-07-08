@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalCareplanCancel(models.AbstractModel):
@@ -11,7 +11,6 @@ class MedicalCareplanCancel(models.AbstractModel):
     cancel_reason_id = fields.Many2one("medical.cancel.reason", required=True)
     cancel_reason = fields.Text(string="Description")
 
-    @api.multi
     def run(self):
         self.ensure_one()
         self.request_id.with_context(
