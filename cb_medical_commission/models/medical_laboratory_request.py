@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalLaboratoryRequest(models.Model):
@@ -60,7 +60,6 @@ class MedicalLaboratoryRequest(models.Model):
             )
         return res
 
-    @api.multi
     def generate_event(self, vals=False):
         res = super().generate_event(vals=vals)
         for r in res:

@@ -15,7 +15,7 @@ class TestNoInvoiceCommission(TransactionCase):
         )
         self.agent = self.create_agent("Agent 01")
         self.partner = self.env["res.partner"].create(
-            {"name": "Partner", "customer": True}
+            {"name": "Partner", "customer_rank": True}
         )
         self.product = self.env["product.product"].create(
             {"name": "Product", "type": "service"}
@@ -24,7 +24,7 @@ class TestNoInvoiceCommission(TransactionCase):
 
     def create_agent(self, name):
         return self.env["res.partner"].create(
-            {"name": name, "agent": True, "commission": self.commission.id}
+            {"name": name, "agent": True, "commission_id": self.commission.id}
         )
 
     def test_no_invoice_commission(self):
@@ -42,13 +42,13 @@ class TestNoInvoiceCommission(TransactionCase):
                             "product_uom_qty": 1.0,
                             "product_uom": self.ref("uom.product_uom_unit"),
                             "price_unit": self.product.lst_price,
-                            "agents": [
+                            "agent_ids": [
                                 (
                                     0,
                                     0,
                                     {
-                                        "agent": self.agent.id,
-                                        "commission": self.agent.commission.id,
+                                        "agent_id": self.agent.id,
+                                        "commission_id": self.agent.commission_id.id,
                                     },
                                 )
                             ],
@@ -57,9 +57,9 @@ class TestNoInvoiceCommission(TransactionCase):
                 ],
             }
         )
-        self.assertTrue(sale_order.order_line.agents.settled)
+        self.assertTrue(sale_order.order_line.agent_ids.settled)
         sale_order.action_confirm()
-        self.assertFalse(sale_order.order_line.agents.settled)
+        self.assertFalse(sale_order.order_line.agent_ids.settled)
         wizard = self.env["sale.commission.no.invoice.make.settle"].create(
             {"date_to": fields.Datetime.now() + relativedelta(months=1)}
         )
@@ -82,13 +82,13 @@ class TestNoInvoiceCommission(TransactionCase):
                             "product_uom_qty": 1.0,
                             "product_uom": self.ref("uom.product_uom_unit"),
                             "price_unit": self.product.lst_price,
-                            "agents": [
+                            "agent_ids": [
                                 (
                                     0,
                                     0,
                                     {
-                                        "agent": self.agent.id,
-                                        "commission": self.agent.commission.id,
+                                        "agent_id": self.agent.id,
+                                        "commission_id": self.agent.commission_id.id,
                                     },
                                 )
                             ],
@@ -97,9 +97,9 @@ class TestNoInvoiceCommission(TransactionCase):
                 ],
             }
         )
-        self.assertTrue(sale_order.order_line.agents.settled)
+        self.assertTrue(sale_order.order_line.agent_ids.settled)
         sale_order.action_confirm()
-        self.assertTrue(sale_order.order_line.agents.settled)
+        self.assertTrue(sale_order.order_line.agent_ids.settled)
         wizard = self.env["sale.commission.no.invoice.make.settle"].create(
             {
                 "date_to": (

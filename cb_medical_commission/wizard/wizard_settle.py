@@ -1,30 +1,30 @@
 from datetime import date, timedelta
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 
 
 class SaleCommissionMakeSettle(models.TransientModel):
     _name = "sale.commission.no.invoice.make.settle"
     _inherit = "sale.commission.make.settle"
+    _description = "Sale commission no invoice make settle"
 
-    @api.multi
     def action_settle(self):
         self.ensure_one()
         agent_line_obj = self.env["sale.order.line.agent"]
         settlement_obj = self.env["sale.commission.settlement"]
         settlement_line_obj = self.env["sale.commission.settlement.line"]
         settlement_ids = []
-        if not self.agents:
-            self.agents = self.env["res.partner"].search(
+        if not self.agent_ids:
+            self.agent_ids = self.env["res.partner"].search(
                 [("agent", "=", True)]
             )
         date_to = self.date_to
-        for agent in self.agents:
+        for agent in self.agent_ids:
             date_to_agent = self._get_period_start(agent, date_to)
             # Get non settled invoices
             domain = [
                 ("date", "<", date_to_agent),
-                ("agent", "=", agent.id),
+                ("agent_id", "=", agent.id),
                 ("settled", "=", False),
             ]
             agent_lines = agent_line_obj.search(domain)
@@ -56,7 +56,7 @@ class SaleCommissionMakeSettle(models.TransientModel):
                         settlement_ids.append(settlement.id)
                     settlement_line_obj.create(
                         {
-                            "settlement": settlement.id,
+                            "settlement_id": settlement.id,
                             "agent_sale_line": [(6, 0, [line.id])],
                         }
                     )

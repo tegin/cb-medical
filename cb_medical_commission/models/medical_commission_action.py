@@ -57,8 +57,8 @@ class MedicalCommissionAction(models.AbstractModel):
         agent = self._get_agent()
         res = {
             "object_id": line.id,
-            "commission": agent.commission.id,
-            "agent": agent.id,
+            "commission_id": agent.commission_id.id,
+            "agent_id": agent.id,
         }
         return res
 
@@ -67,16 +67,15 @@ class MedicalCommissionAction(models.AbstractModel):
         return {
             "object_id": inv_line.id,
             "commission": agent.commission.id,
-            "agent": agent.id,
+            "agent_id": agent.id,
         }
 
-    @api.multi
     def check_commission(self):
         # We First check that all the line have been created
         agent = self._get_agent()
         for line in self.get_sale_order_lines():
             if (
-                not line.agents.filtered(lambda r: self.check_agents(r))
+                not line.agent_ids.filtered(lambda r: self.check_agents(r))
                 and agent
                 and agent.agent
             ):
@@ -85,11 +84,11 @@ class MedicalCommissionAction(models.AbstractModel):
                 )
             for inv_line in line.invoice_lines:
                 if (
-                    not inv_line.agents.filtered(
+                    not inv_line.agent_ids.filtered(
                         lambda r: self.check_agents(r)
                     )
                     and agent
-                    and agent.agent
+                    and agent.agent_id
                 ):
                     self.env["account.invoice.line.agent"].create(
                         self._get_invoice_line_agent_vals(inv_line)
@@ -102,9 +101,9 @@ class MedicalCommissionAction(models.AbstractModel):
         )
         for sale_agent in sale_agents:
             sale_agent._compute_amount()
-            if sale_agent.agent != agent:
+            if sale_agent.agent_id != agent:
                 sale_agent.change_agent(agent)
         for inv_agent in invoice_agents:
             inv_agent._compute_amount()
-            if inv_agent and inv_agent.agent != agent:
+            if inv_agent and inv_agent.agent_id != agent:
                 inv_agent.change_agent(agent)
