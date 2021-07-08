@@ -14,17 +14,16 @@ class MedicalDocumentReference(models.Model):
     _description = "Medical Document Reference"
     _inherit = ["medical.request", "medical.document.language"]
 
-    internal_identifier = fields.Char(string="Document reference")
-    state = fields.Selection(
-        selection_add=[
+    @api.model
+    def _get_states(self):
+        return [
             ("draft", "Draft"),
             ("current", "Current"),
             ("superseded", "Superseded"),
-        ],
-        required=True,
-        tracking=True,
-        default="draft",
-    )
+        ]
+
+    internal_identifier = fields.Char(string="Document reference")
+    state = fields.Selection(required=True, tracking=True, default="draft",)
     document_type_id = fields.Many2one(
         "medical.document.type",
         required=True,
