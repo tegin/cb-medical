@@ -175,9 +175,9 @@ class SaleOrderLineAgent(models.Model):
         return {
             "parent_agent_line_id": self.id,
             "object_id": self.object_id.id,
-            "commission": self.commission.id,
+            "commission_id": self.commission_id.id,
             "agent_sale_line": False,
-            "agent_id": agent.id if agent else self.agent.id,
+            "agent_id": agent.id if agent else self.agent_id.id,
             "procedure_id": self.procedure_id.id or False,
             "laboratory_event_id": self.laboratory_event_id.id or False,
             "laboratory_request_id": self.laboratory_request_id.id or False,

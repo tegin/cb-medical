@@ -66,7 +66,7 @@ class MedicalCommissionAction(models.AbstractModel):
         agent = self._get_agent()
         return {
             "object_id": inv_line.id,
-            "commission": agent.commission.id,
+            "commission_id": agent.commission_id.id,
             "agent_id": agent.id,
         }
 
@@ -88,7 +88,7 @@ class MedicalCommissionAction(models.AbstractModel):
                         lambda r: self.check_agents(r)
                     )
                     and agent
-                    and agent.agent_id
+                    and agent.agent
                 ):
                     self.env["account.invoice.line.agent"].create(
                         self._get_invoice_line_agent_vals(inv_line)
