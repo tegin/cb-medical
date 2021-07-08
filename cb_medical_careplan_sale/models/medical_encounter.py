@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -35,40 +37,49 @@ class MedicalEncounter(models.Model):
             record.invoice_count = len(invoices)
 
     def _get_sale_order_vals(
-        self, partner, cov, agreement, third_party_partner, is_insurance
+        self,
+        partner=False,
+        coverage=False,
+        agreement=False,
+        third_party_partner=False,
+        invoice_group_method=False,
+        *kwargs
     ):
         vals = {
-            "third_party_order": third_party_partner != 0,
-            "third_party_partner_id": third_party_partner != 0
-            and third_party_partner,
-            "partner_id": partner,
+            "third_party_order": bool(third_party_partner),
+            "third_party_partner_id": third_party_partner.id,
+            "partner_id": partner.id,
             "encounter_id": self.id,
-            "coverage_id": cov,
+            "coverage_id": coverage.id,
             "patient_id": self.patient_id.id,
             "coverage_agreement_id": agreement.id,
             "pricelist_id": self.env.ref("product.list0").id,
             "patient_name": self.patient_id.display_name,
+            "invoice_group_method_id": invoice_group_method.id,
         }
-        if is_insurance:
+        if agreement:
             vals["company_id"] = agreement.company_id.id
         return vals
 
     def _generate_sale_order(
-        self, key, cov, partner, third_party_partner, order_lines
+        self,
+        order_lines,
+        agreement=False,
+        partner=False,
+        coverage=False,
+        third_party_partner=False,
+        invoice_group_method=False,
+        **kwargs
     ):
-        is_insurance = bool(key)
         is_third_party = bool(third_party_partner)
-        agreement = self.env["medical.coverage.agreement"]
-        if is_insurance:
-            agreement = agreement.browse(key)
         order = self.sale_order_ids.filtered(
             lambda r: (
                 (
                     agreement == r.coverage_agreement_id
-                    and is_insurance
-                    and r.coverage_id.id == cov
+                    and agreement
+                    and r.coverage_id == coverage
                 )
-                or (not is_insurance and not r.coverage_agreement_id)
+                or (not agreement and not r.coverage_agreement_id)
             )
             and (
                 (
@@ -79,11 +90,16 @@ class MedicalEncounter(models.Model):
                 or (not is_third_party and not r.third_party_order)
             )
             and r.state == "draft"
-            and r.partner_id.id == partner
+            and r.partner_id == partner
         )
         if not order:
             vals = self._get_sale_order_vals(
-                partner, cov, agreement, third_party_partner, is_insurance
+                partner=partner,
+                coverage=coverage,
+                agreement=agreement,
+                third_party_partner=third_party_partner,
+                invoice_group_method=invoice_group_method,
+                **kwargs,
             )
             order = (
                 self.env["sale.order"]
@@ -98,42 +114,32 @@ class MedicalEncounter(models.Model):
         return order
 
     def get_patient_partner(self):
-        return self.patient_id.partner_id.id
+        return self.patient_id.partner_id
 
     def get_sale_order_lines(self):
-        values = dict()
+        values = defaultdict(lambda: [])
         for careplan in self.careplan_ids:
             query = careplan.get_sale_order_query()
             for el in query:
-                key, partner, cov, is_ins, third_party, request = el
-                if not values.get(key, False):
-                    values[key] = {}
-                if not values[key].get(partner, False):
-                    values[key][partner] = {}
-                if not values[key][partner].get(cov, False):
-                    values[key][partner][cov] = {}
-                if not values[key][partner][cov].get(third_party, False):
-                    values[key][partner][cov][third_party] = []
-                values[key][partner][cov][third_party].append(
-                    request.with_context(
-                        lang=self.env["res.partner"].browse(partner).lang
-                        or self.env.user.lang
-                    ).get_sale_order_line_vals(is_ins)
-                )
+                values[el[1:]].append(el[0])
         return values
 
+    def _get_sale_order_parameters(self):
+        return (
+            "agreement",
+            "partner",
+            "coverage",
+            "third_party_partner",
+            "invoice_group_method",
+        )
+
     def generate_sale_orders(self, values):
-        for key in values.keys():
-            for partner in values[key]:
-                for cov in values[key][partner]:
-                    for third_party_partner in values[key][partner][cov]:
-                        self._generate_sale_order(
-                            key,
-                            cov,
-                            partner,
-                            third_party_partner,
-                            values[key][partner][cov][third_party_partner],
-                        )
+        params = self._get_sale_order_parameters()
+        for vals in values:
+            dict_vals = {}
+            for i in range(0, len(vals)):
+                dict_vals[params[i]] = vals[i]
+            self._generate_sale_order(values[vals], **dict_vals)
 
     def create_sale_order(self):
         self.ensure_one()
