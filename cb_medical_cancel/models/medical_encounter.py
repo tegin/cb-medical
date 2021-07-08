@@ -1,4 +1,4 @@
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -8,11 +8,10 @@ class MedicalEncounter(models.AbstractModel):
     cancel_reason_id = fields.Many2one(
         "medical.cancel.reason",
         readonly=True,
-        track_visibility="onchange",
+        tracking=True,
         string="Cancel reason",
     )
 
-    @api.multi
     def cancel(self, cancel_reason_id, session, cancel_reason=False):
         self.ensure_one()
         models = [
