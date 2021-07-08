@@ -55,7 +55,7 @@ Create a Procedure
 Known Issues / Roadmap
 ======================
 
-* The python files `sale_order.py`, `sale_order_line.py` and `account_invoice.py`
+* The python files `sale_order.py`, `sale_order_line.py` and `account_move.py`
   can't be tested at the moment. They are pending to review when the module
   `careplan_sale` is ready.
 
