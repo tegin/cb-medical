@@ -16,7 +16,6 @@ class SettlementLine(models.Model):
         related=False, compute="_compute_settled_amount"
     )
 
-    @api.multi
     @api.depends("agent_line.amount", "agent_sale_line.amount")
     def _compute_settled_amount(self):
         for record in self:
@@ -25,7 +24,7 @@ class SettlementLine(models.Model):
                 + record.agent_sale_line.mapped("amount")
             )
 
-    @api.constrains("settlement", "agent_line", "agent_sale_line")
+    @api.constrains("settlement_id", "agent_line", "agent_sale_line")
     def _check_company(self):
         super(
             SettlementLine, self.filtered(lambda r: r.agent_line)

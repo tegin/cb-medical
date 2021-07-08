@@ -17,7 +17,7 @@
                     <p
                         colspan="4"
                     >(keep empty for making the settlement of all agents)</p>
-                    <field name="agents" nolabel="1" />
+                    <field name="agent_ids" nolabel="1" />
                 </group>
                 <footer>
                         <button
@@ -25,6 +25,7 @@
                         string="Make settlements"
                         type="object"
                         class="oe_highlight"
+                    />
                     />
                         or
                         <button
@@ -42,7 +43,6 @@
         name="Settle commissions"
         res_model="sale.commission.no.invoice.make.settle"
         view_mode="form"
-        view_type="form"
         target="new"
     />
     <menuitem

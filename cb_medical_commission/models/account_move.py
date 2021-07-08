@@ -5,16 +5,27 @@
 from odoo import api, fields, models
 
 
-class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
+class AccountMove(models.Model):
+    _inherit = "account.move"
 
-    @api.multi
     def recompute_lines_agents(self):
         # Commission on medical sale orders will not be managed by the
         # recompute function
         return super(
-            AccountInvoice, self.filtered(lambda r: not r.is_medical)
+            AccountMove, self.filtered(lambda r: not r.is_medical)
         ).recompute_lines_agents()
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    @api.depends("move_id.partner_id")
+    def _compute_agent_ids(self):
+        if not self.env.context.get("no_change_commission_agent"):
+            super(AccountMoveLine, self)._compute_agent_ids()
+        else:
+            for record in self:
+                record.agent_ids = record.agent_ids
 
 
 class AccountInvoiceLineAgent(models.Model):
@@ -28,7 +39,7 @@ class AccountInvoiceLineAgent(models.Model):
         "medical.laboratory.request", string="Laboratory Request"
     )
 
-    @api.constrains("agent", "amount")
+    @api.constrains("agent_id", "amount")
     def _check_settle_integrity(self):
         if self.env.context.get("check_original_integrity", False):
             return super()._check_settle_integrity()
@@ -43,7 +54,7 @@ class AccountInvoiceLineAgent(models.Model):
                 constraints.append(
                     (
                         key,
-                        "UNIQUE(object_id, agent, parent_agent_line_id, "
+                        "UNIQUE(object_id, agent_id, parent_agent_line_id, "
                         "procedure_id, is_cancel, laboratory_request_id, "
                         "laboratory_event_id)",
                         message,
