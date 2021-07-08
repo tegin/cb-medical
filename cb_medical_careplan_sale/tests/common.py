@@ -138,10 +138,10 @@ class MedicalSavePointCase(SavepointCase):
         )
         self.lang_es = self.env.ref("base.lang_es")
         if not self.lang_es.active:
-            self.lang_es.toggle_active()
+            self.lang_es.active = True
         self.lang_en = self.env.ref("base.lang_en")
         if not self.lang_en.active:
-            self.lang_en.toggle_active()
+            self.lang_en.active = True
         self.env["medical.document.type.lang"].create(
             {
                 "lang": self.lang_es.code,
@@ -196,6 +196,8 @@ class MedicalSavePointCase(SavepointCase):
         self.product_02 = self.create_product("Report")
         self.product_04 = self.create_product("Report 04")
         self.product_05 = self.create_product("Report 05")
+        self.product_06 = self.create_product("Document 06")
+        self.product_07 = self.create_product("Document 07")
         self.service = self.env["product.product"].create(
             {
                 "name": "Service",
@@ -218,6 +220,7 @@ class MedicalSavePointCase(SavepointCase):
         )
         self.product_03.qty_available = 50.0
         self.product_04 = self.create_product("Medical visit")
+        self.product_05 = self.create_product("Extra product")
         self.lab_product = self.create_product("Laboratory Product")
         self.type = self.env.ref("medical_workflow.medical_workflow")
         self.type.model_ids = [
@@ -279,6 +282,7 @@ class MedicalSavePointCase(SavepointCase):
         self.activity3 = self.env["workflow.activity.definition"].create(
             {
                 "name": "Activity3",
+                "service_id": self.product_05.id,
                 "model_id": self.env.ref(
                     "medical_document.model_medical_document_reference"
                 ).id,
@@ -290,6 +294,7 @@ class MedicalSavePointCase(SavepointCase):
         self.activity4 = self.env["workflow.activity.definition"].create(
             {
                 "name": "Activity4",
+                "service_id": self.product_06.id,
                 "model_id": self.env.ref(
                     "medical_document.model_medical_document_reference"
                 ).id,
@@ -313,7 +318,7 @@ class MedicalSavePointCase(SavepointCase):
         self.lab_activity = self.env["workflow.activity.definition"].create(
             {
                 "name": "Laboratory activity",
-                "service_id": self.product_05.id,
+                "service_id": self.product_07.id,
                 "model_id": self.env.ref(
                     "medical_clinical_laboratory."
                     "model_medical_laboratory_request"
@@ -562,6 +567,7 @@ class MedicalSavePointCase(SavepointCase):
             ]
         )
         group.ensure_one()
+        group.refresh()
         self.assertEqual(group.center_id, encounter.center_id)
         return encounter, careplan, group
 

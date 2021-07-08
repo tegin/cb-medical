@@ -18,8 +18,8 @@ class MedicalCareplan(models.Model):
 
     def get_payor(self):
         if self.sub_payor_id:
-            return self.sub_payor_id.id
-        return self.payor_id.id
+            return self.sub_payor_id
+        return self.payor_id
 
     def _add_request_group(
         self,
