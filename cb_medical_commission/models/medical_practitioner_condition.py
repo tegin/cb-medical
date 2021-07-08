@@ -91,7 +91,6 @@ class MedicalPractitionerCondition(models.Model):
             ),
         ]
 
-    @api.multi
     def get_condition(self, service, procedure_service, center):
         for function in self.get_functions(service, procedure_service, center):
             condition = self.filtered(function)

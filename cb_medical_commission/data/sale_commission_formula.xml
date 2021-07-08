@@ -26,7 +26,7 @@ if line._name == 'sale.order.line':
         variable_fee = sum(requests.mapped('variable_fee'))
         fixed_fee = sum(requests.mapped('fixed_fee'))
         result += (variable_fee/100 * line.price_subtotal) + fixed_fee * line.product_uom_qty
-if line._name == 'account.invoice.line':
+if line._name == 'account.move.line':
     if procedures:
         variable_fee = sum(procedures.mapped('variable_fee'))
         fixed_fee = sum(procedures.mapped('fixed_fee'))

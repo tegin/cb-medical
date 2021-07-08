@@ -30,17 +30,16 @@ class SaleOrderLine(models.Model):
         string="Laboratory requests",
     )
 
-    @api.multi
-    def _prepare_invoice_line(self, qty):
-        vals = super()._prepare_invoice_line(qty)
+    def _prepare_invoice_line(self):
+        vals = super()._prepare_invoice_line()
         if self.encounter_id:
-            vals["agents"] = [
+            vals["agent_ids"] = [
                 (
                     0,
                     0,
                     {
-                        "agent": x.agent.id,
-                        "commission": x.commission.id,
+                        "agent_id": x.agent_id.id,
+                        "commission_id": x.commission_id.id,
                         "procedure_id": x.procedure_id.id or False,
                         "laboratory_request_id": x.laboratory_request_id.id
                         or False,
@@ -48,7 +47,7 @@ class SaleOrderLine(models.Model):
                         or False,
                     },
                 )
-                for x in self.agents
+                for x in self.agent_ids
             ]
         return vals
 
@@ -92,7 +91,7 @@ class SaleOrderLineAgent(models.Model):
     )
     date = fields.Datetime(
         string="Date",
-        related="object_id.order_id.confirmation_date",
+        related="object_id.order_id.date_order",
         store=True,
         readonly=True,
     )
@@ -113,7 +112,7 @@ class SaleOrderLineAgent(models.Model):
                 constraints.append(
                     (
                         key,
-                        "UNIQUE(object_id, agent, parent_agent_line_id, "
+                        "UNIQUE(object_id, agent_id, parent_agent_line_id, "
                         "is_cancel, procedure_id, laboratory_event_id, "
                         "laboratory_request_id)",
                         message,
@@ -126,7 +125,7 @@ class SaleOrderLineAgent(models.Model):
 
     @api.depends(
         "agent_sale_line",
-        "agent_sale_line.settlement.state",
+        "agent_sale_line.settlement_id.state",
         "invoice_group_method_id",
         "object_id.order_id.state",
     )
@@ -139,7 +138,7 @@ class SaleOrderLineAgent(models.Model):
                 or not line.invoice_group_method_id.no_invoice
                 or line.object_id.order_id.state not in ("sale", "done")
                 or any(
-                    x.settlement.state != "cancel"
+                    x.settlement_id.state != "cancel"
                     for x in line.agent_sale_line
                 )
             )
@@ -178,7 +177,7 @@ class SaleOrderLineAgent(models.Model):
             "object_id": self.object_id.id,
             "commission": self.commission.id,
             "agent_sale_line": False,
-            "agent": agent.id if agent else self.agent.id,
+            "agent_id": agent.id if agent else self.agent.id,
             "procedure_id": self.procedure_id.id or False,
             "laboratory_event_id": self.laboratory_event_id.id or False,
             "laboratory_request_id": self.laboratory_request_id.id or False,
@@ -187,10 +186,10 @@ class SaleOrderLineAgent(models.Model):
 
     def change_agent(self, agent):
         self.ensure_one()
-        if agent == self.agent:
+        if agent == self.agent_id:
             return
         if not self.agent_sale_line:
-            self.agent = agent
+            self.agent_id = agent
             return
         self.create(self.get_commission_cancel_vals())
         self.create(self.get_commission_cancel_vals(agent))
