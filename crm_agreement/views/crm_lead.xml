@@ -2,10 +2,10 @@
 <!-- Copyright 2019 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-    <record model="ir.ui.view" id="crm_case_form_view_leads">
+    <record model="ir.ui.view" id="crm_lead_view_form">
         <field name="name">crm.lead.form (in crm_agreement)</field>
         <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_case_form_view_leads" />
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
         <field name="arch" type="xml">
             <field name="partner_id" position="attributes">
                 <attribute
@@ -17,6 +17,12 @@
                 <field name="agreement_ids" invisible="1" />
                 <field name="medical_quote_ids" invisible="1" />
             </field>
+            <label for="planned_revenue" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </label>
+            <xpath expr="//field[@name='planned_revenue']/.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <xpath expr="//button[@name='action_set_lost']" position="after">
                 <button
                     name="send_email_from_lead"
@@ -25,7 +31,7 @@
                     class="btn-primary"
                 />
             </xpath>
-            <xpath expr="//div[@name='button_box']" position="inside">
+            <div class="oe_button_box" name="button_box">
                 <button
                     type="object"
                     icon="fa-hand-holding-usd"
@@ -65,25 +71,7 @@
                     string="Generate quote"
                 >
                 </button>
-            </xpath>
-        </field>
-    </record>
-    <record model="ir.ui.view" id="view_create_opportunity_simplified">
-        <field name="name">crm.lead.form.simple (in crm_agreement)</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.view_create_opportunity_simplified" />
-        <field name="arch" type="xml">
-            <field name="partner_id" position="attributes">
-                <attribute
-                    name="domain"
-                >['|',('commercial_partner_id.is_payor', '=', True), ('commercial_partner_id.is_requester', '=', True)]</attribute>
-            </field>
-            <label for="planned_revenue" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </label>
-            <xpath expr="//field[@name='planned_revenue']/.." position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
+            </div>
         </field>
     </record>
     <record model="ir.ui.view" id="crm_case_kanban_view_leads">
@@ -93,84 +81,6 @@
         <field name="arch" type="xml">
             <xpath expr="progressbar" position="attributes">
                 <attribute name="sum_field" eval="" />
-            </xpath>
-        </field>
-    </record>
-    <record model="ir.actions.act_window" id="crm.crm_lead_opportunities_tree_view">
-        <field name="context">{'default_type': 'opportunity'}</field>
-    </record>
-    <record model="ir.ui.view" id="crm_case_form_view_oppor">
-        <field name="name">crm.lead.form (in crm_agreement)</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
-        <field name="arch" type="xml">
-            <xpath
-                expr="//button[@name='%(crm.crm_lead_lost_action)d']"
-                position="after"
-            >
-                <button
-                    name="send_email_from_lead"
-                    string="Send Email"
-                    type="object"
-                    class="btn-primary"
-                />
-            </xpath>
-            <field name="partner_id" position="attributes">
-                <attribute
-                    name="domain"
-                >['|', ('commercial_partner_id.is_payor', '=', True), ('commercial_partner_id.is_requester', '=', True)]</attribute>
-            </field>
-            <field name="partner_id" position="after">
-                <field name="is_payor" invisible="1" />
-                <field name="agreement_ids" invisible="1" />
-                <field name="medical_quote_ids" invisible="1" />
-            </field>
-            <xpath
-                expr="//field[@name='planned_revenue']/../../.."
-                position="attributes"
-            >
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <button
-                    type="object"
-                    icon="fa-hand-holding-usd"
-                    attrs="{'invisible': [('is_payor', '=', False)]}"
-                    name="view_agreements"
-                >
-                    <field
-                        string="Agreements"
-                        name="agreement_count"
-                        widget="statinfo"
-                    />
-                </button>
-                <button
-                    name="%(crm_agreement.crm_lead_add_agreement_act_window)s"
-                    type="action"
-                    icon="fa-plus"
-                    attrs="{'invisible': [('is_payor', '=', False)]}"
-                    string="Add agreement"
-                />
-                <button
-                    type="object"
-                    icon="fa-hand-holding-usd"
-                    attrs="{'invisible': [('is_payor', '=', False)]}"
-                    name="view_medical_quotes"
-                >
-                    <field
-                        string="Quotes"
-                        name="medical_quote_count"
-                        widget="statinfo"
-                    />
-                </button>
-                <button
-                    name="generate_quote"
-                    type="object"
-                    icon="fa-plus"
-                    attrs="{'invisible': [('is_payor', '=', False)]}"
-                    string="Generate quote"
-                >
-                </button>
             </xpath>
         </field>
     </record>

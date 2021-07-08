@@ -1,7 +1,7 @@
 # Copyright 2019 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 
 
 class CrmLeadAddAgreement(models.TransientModel):
@@ -22,13 +22,11 @@ class CrmLeadAddAgreement(models.TransientModel):
         string="Current agreement ids",
     )
 
-    @api.multi
     def link_to_existing(self):
         self.ensure_one()
         self.lead_id.write({"agreement_ids": [(4, self.agreement_id.id)]})
         return {}
 
-    @api.multi
     def generate_new(self):
         self.ensure_one()
         vals = self.agreement_id.copy_data()[0]
