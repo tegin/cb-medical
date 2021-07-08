@@ -47,8 +47,3 @@ class SaleOrderLine(models.Model):
                 line.qty_to_invoice = 0
             else:
                 super(SaleOrderLine, line)._get_to_invoice_qty()
-
-    def _prepare_invoice(self):
-        res = self.order_id._prepare_invoice()
-        res["invoice_group_method_id"] = self.invoice_group_method_id.id
-        return res
