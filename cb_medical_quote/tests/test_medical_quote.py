@@ -53,7 +53,7 @@ class TestMedicalQuote(TransactionCase):
             "company_id": self.ref("base.main_company"),
             "authorization_method_id": auth_method.id,
             "authorization_format_id": self.browse_ref(
-                "cb_medical_financial_coverage_request.format_anything"
+                "medical_financial_coverage_request.format_anything"
             ).id,
         }
         self.coverage_agreement = self.coverage_agreement_model.create(
@@ -67,7 +67,7 @@ class TestMedicalQuote(TransactionCase):
                 "coverage_percentage": 40.0,
                 "authorization_method_id": auth_method.id,
                 "authorization_format_id": self.browse_ref(
-                    "cb_medical_financial_coverage_request.format_anything"
+                    "medical_financial_coverage_request.format_anything"
                 ).id,
                 "total_price": 200,
             }
