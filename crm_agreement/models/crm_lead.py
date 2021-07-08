@@ -43,11 +43,10 @@ class CrmLead(models.Model):
         for record in self:
             record.agreement_count = len(record.agreement_ids)
 
-    @api.multi
     def view_agreements(self):
         self.ensure_one()
         action = self.env.ref(
-            "cb_medical_financial_coverage_agreement."
+            "medical_financial_coverage_agreement."
             "medical_coverage_agreement_action"
         ).read()[0]
         action["context"] = ast.literal_eval(action["context"])
@@ -58,7 +57,6 @@ class CrmLead(models.Model):
             action["views"] = [(False, "form")]
         return action
 
-    @api.multi
     def view_medical_quotes(self):
         self.ensure_one()
         action = self.env.ref("cb_medical_quote.action_quotes").read()[0]
@@ -133,7 +131,6 @@ class CrmLead(models.Model):
         }
         return {
             "type": "ir.actions.act_window",
-            "view_type": "form",
             "view_mode": "form",
             "res_model": "mail.compose.message",
             "views": [(compose_form_id, "form")],
