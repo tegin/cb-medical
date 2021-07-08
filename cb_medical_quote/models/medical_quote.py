@@ -126,13 +126,13 @@ class MedicalQuote(models.Model):
     def _set_note1(self):
         comment = self.comment_template1_id
         if comment:
-            self.note1 = comment.get_value()
+            self.note1 = comment.name_get()
 
     @api.onchange("comment_template2_id")
     def _set_note2(self):
         comment = self.comment_template2_id
         if comment:
-            self.note2 = comment.get_value()
+            self.note2 = comment.name_get()
 
     @api.model
     def _get_agreements_domain(self):
@@ -258,28 +258,23 @@ class MedicalQuote(models.Model):
             "coverage_agreement_id": item[0].coverage_agreement_id.id,
         }
 
-    @api.multi
     def button_send(self):
         for rec in self:
             rec.state = "sent"
 
-    @api.multi
     def button_confirm(self):
         for rec in self:
             rec.state = "confirm"
             rec.confirmation_date = fields.Date.today()
 
-    @api.multi
     def button_cancel(self):
         for rec in self:
             rec.state = "cancel"
 
-    @api.multi
     def button_draft(self):
         for rec in self:
             rec.state = "draft"
 
-    @api.multi
     def _prepare_medical_quote_layout_category(self):
         self.ensure_one()
         return {
@@ -287,7 +282,6 @@ class MedicalQuote(models.Model):
             "quote_id": self.id,
         }
 
-    @api.multi
     def button_add_line(self):
         self.ensure_one()
         items = self._search_agreement_items()
@@ -334,7 +328,6 @@ class MedicalQuote(models.Model):
             vals["name"] = self._get_name(vals)
         return super(MedicalQuote, self).create(vals)
 
-    @api.multi
     def lines_layouted(self):
         """
         Returns the lines classified by sale_layout_category and separated in
@@ -470,7 +463,6 @@ class MedicalQuoteLine(models.Model):
     )
     layout_category_sequence = fields.Integer(string="Layout Sequence")
 
-    @api.multi
     @api.depends("price", "quantity")
     def _compute_amount(self):
         for rec in self:
