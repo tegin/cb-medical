@@ -27,6 +27,9 @@ class SaleOrder(models.AbstractModel):
     subscriber_id = fields.Char(
         states={"draft": [("readonly", False)], "sent": [("readonly", False)]}
     )
+    invoice_group_method_id = fields.Many2one(
+        "invoice.group.method", readonly=True, index=True
+    )
 
     def create_third_party_move(self):
         if self.coverage_agreement_id:

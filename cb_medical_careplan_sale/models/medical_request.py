@@ -55,7 +55,7 @@ class MedicalRequest(models.AbstractModel):
             record.sale_order_line_count = len(record.sale_order_line_ids)
 
     def get_third_party_partner(self):
-        return False
+        return self.env["res.partner"]
 
     @api.onchange("coverage_id")
     def _onchange_coverage_id(self):
@@ -174,37 +174,37 @@ class MedicalRequest(models.AbstractModel):
                 if not request.check_is_billable():
                     request.is_billable = True
 
+    def _get_sale_order_query_vals(self, is_insurance=False):
+        partner = self._get_sale_order_partner(is_insurance=is_insurance)
+        return (
+            self.with_context(
+                lang=partner.lang or self.env.user.lang
+            ).get_sale_order_line_vals(is_insurance),
+            self.coverage_agreement_id
+            if is_insurance
+            else self.coverage_agreement_id.browse(),
+            partner,
+            self.careplan_id.coverage_id
+            if is_insurance
+            else self.careplan_id.coverage_id.browse(),
+            self.get_third_party_partner(),
+            self.invoice_group_method_id,
+        )
+
+    def _get_sale_order_partner(self, is_insurance=False):
+        if is_insurance:
+            return self.careplan_id.get_payor()
+        return self.encounter_id.get_patient_partner()
+
     def get_sale_order_query(self):
         query = []
         fieldname = self._get_parent_field_name()
         request_models = self._get_request_models()
         for request in self.filtered(lambda r: r.state not in ["cancelled"]):
             if request.is_sellable_insurance:
-                query.append(
-                    (
-                        request.coverage_agreement_id.id,
-                        request.careplan_id.get_payor(),
-                        request.coverage_id.id,
-                        True,
-                        request.get_third_party_partner()
-                        if request.third_party_bill
-                        else 0,
-                        request,
-                    )
-                )
+                query.append(request._get_sale_order_query_vals(True))
             if request.is_sellable_private:
-                query.append(
-                    (
-                        0,
-                        request.encounter_id.get_patient_partner(),
-                        False,
-                        False,
-                        request.get_third_party_partner()
-                        if request.third_party_bill
-                        else 0,
-                        request,
-                    )
-                )
+                query.append(request._get_sale_order_query_vals(False))
             for model in request_models:
                 childs = self.env[model].search(
                     [
