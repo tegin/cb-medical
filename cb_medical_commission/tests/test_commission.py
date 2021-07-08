@@ -1,4 +1,9 @@
+from datetime import timedelta
+
+from dateutil.relativedelta import relativedelta
+from odoo import fields
 from odoo.addons.cb_medical_careplan_sale.tests import common
+from odoo.tests.common import Form
 
 
 class TestCBMedicalCommission(common.MedicalSavePointCase):
@@ -360,3 +365,377 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             self.assertGreater(invoice.commission_total, 0)
             invoice.recompute_lines_agents()
             self.assertGreater(invoice.commission_total, 0)
+
+    def test_no_invoice(self):
+        method = self.browse_ref("cb_medical_careplan_sale.no_invoice")
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        self.company.sale_merge_draft_invoice = True
+        sale_orders = self.env["sale.order"]
+        encounters = self.env["medical.encounter"]
+        for _ in range(1, 10):
+            encounter, careplan, group = self.create_careplan_and_group(
+                self.agreement_line3
+            )
+            self.assertTrue(group.procedure_request_ids)
+            self.assertTrue(
+                group.is_sellable_insurance or group.is_sellable_private
+            )
+            self.assertFalse(group.third_party_bill)
+            encounter.create_sale_order()
+            encounter.sale_order_ids.action_confirm()
+            self.assertTrue(encounter.sale_order_ids)
+            sale_order = encounter.sale_order_ids
+            self.assertFalse(sale_order.third_party_order)
+            for line in sale_order.order_line:
+                self.assertFalse(line.agent_ids)
+            sale_orders |= sale_order
+            encounters |= encounter
+        for line in sale_orders.mapped("order_line"):
+            self.assertEqual(line.qty_to_invoice, 0)
+        for encounter in encounters:
+            self.assertTrue(
+                encounter.mapped("careplan_ids.procedure_request_ids")
+            )
+            for request in encounter.mapped(
+                "careplan_ids.procedure_request_ids"
+            ):
+                request.draft2active()
+                self.assertEqual(request.center_id, encounter.center_id)
+                procedure = request.generate_event()
+                procedure.performer_id = self.practitioner_01
+                procedure.commission_agent_id = self.practitioner_01
+                procedure.performer_id = self.practitioner_02
+                procedure._onchange_performer_id()
+                self.assertEqual(
+                    procedure.commission_agent_id, self.practitioner_02
+                )
+            encounter.refresh()
+            encounter.recompute_commissions()
+            encounter.refresh()
+            for line in encounter.sale_order_ids.mapped("order_line"):
+                self.assertTrue(line.agent_ids)
+        # Settle the payments
+        wizard = self.env["sale.commission.no.invoice.make.settle"].create(
+            {
+                "date_to": (
+                    fields.Datetime.from_string(fields.Datetime.now())
+                    + relativedelta(months=1)
+                )
+            }
+        )
+        settlements = self.env["sale.commission.settlement"].browse(
+            wizard.action_settle()["domain"][0][2]
+        )
+        self.assertTrue(settlements)
+        for encounter in encounters:
+            for request in encounter.careplan_ids.mapped(
+                "procedure_request_ids"
+            ):
+                procedure = request.procedure_ids
+                self.assertEqual(len(procedure.sale_agent_ids), 1)
+                self.assertEqual(len(procedure.invoice_agent_ids), 0)
+                procedure.performer_id = self.practitioner_01
+                procedure.commission_agent_id = self.practitioner_01
+                procedure.check_commission()
+                self.assertEqual(len(procedure.sale_agent_ids), 3)
+                self.assertEqual(len(procedure.invoice_agent_ids), 0)
+
+    def test_monthly_invoice(self):
+        method = self.browse_ref("cb_medical_careplan_sale.by_customer")
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        nomenclature_product = self.env["product.nomenclature.product"].create(
+            {
+                "nomenclature_id": self.nomenclature.id,
+                "product_id": self.agreement_line3.product_id.id,
+                "name": "nomenclature_name",
+                "code": "nomenclature_code",
+            }
+        )
+        self.company.sale_merge_draft_invoice = True
+        sale_orders = self.env["sale.order"]
+        encounters = self.env["medical.encounter"]
+        for _i in range(1, 10):
+            encounter, careplan, group = self.create_careplan_and_group(
+                self.agreement_line3
+            )
+            self.assertTrue(group.procedure_request_ids)
+            self.assertTrue(
+                group.is_sellable_insurance or group.is_sellable_private
+            )
+            self.assertFalse(group.third_party_bill)
+            encounter.create_sale_order()
+            encounter.sale_order_ids.action_confirm()
+            self.assertTrue(encounter.sale_order_ids)
+            sale_order = encounter.sale_order_ids
+            self.assertFalse(sale_order.third_party_order)
+            for line in sale_order.order_line:
+                self.assertFalse(line.agent_ids)
+            sale_orders |= sale_order
+            encounters |= encounter
+            sale_order.flush()
+        action = (
+            self.env["invoice.sales.by.group"]
+            .create(
+                {
+                    "invoice_group_method_id": method.id,
+                    "date_to": fields.Date.today() + timedelta(days=-1),
+                    "company_ids": [(6, 0, self.company.ids)],
+                }
+            )
+            .invoice_sales_by_group()
+        )
+        self.assertFalse(action)
+        action = (
+            self.env["invoice.sales.by.group"]
+            .create(
+                {
+                    "invoice_group_method_id": method.id,
+                    "customer_ids": [(4, self.payor.id)],
+                    "date_to": fields.Date.today() + timedelta(days=1),
+                    "company_ids": [(6, 0, self.company.ids)],
+                }
+            )
+            .invoice_sales_by_group()
+        )
+        self.assertTrue(action.get("res_id", False))
+        invoice = self.env[action["res_model"]].browse(
+            action.get("res_id", False)
+        )
+        invoice.post()
+        for line in invoice.invoice_line_ids:
+            self.assertEqual(line.name, nomenclature_product.name)
+        for sale_order in sale_orders:
+            self.assertTrue(sale_order.invoice_status == "invoiced")
+        for encounter in encounters:
+            for request in encounter.careplan_ids.mapped(
+                "procedure_request_ids"
+            ):
+                request.draft2active()
+                self.assertEqual(request.center_id, encounter.center_id)
+                procedure = request.generate_event()
+                procedure.performer_id = self.practitioner_01
+                procedure.commission_agent_id = self.practitioner_01
+                procedure.performer_id = self.practitioner_02
+                procedure._onchange_performer_id()
+                self.assertEqual(
+                    procedure.commission_agent_id, self.practitioner_02
+                )
+            encounter.recompute_commissions()
+            for line in encounter.sale_order_ids.mapped("order_line"):
+                self.assertTrue(line.agent_ids)
+        # Settle the payments
+        wizard = self.env["sale.commission.make.settle"].create(
+            {"date_to": fields.Datetime.now() + relativedelta(months=1)}
+        )
+        settlements = self.env["sale.commission.settlement"].browse(
+            wizard.action_settle()["domain"][0][2]
+        )
+        self.assertTrue(settlements)
+        for encounter in encounters:
+            for request in encounter.careplan_ids.mapped(
+                "procedure_request_ids"
+            ):
+                procedure = request.procedure_ids
+                self.assertEqual(len(procedure.sale_agent_ids), 1)
+                self.assertEqual(len(procedure.invoice_agent_ids), 1)
+                procedure.performer_id = self.practitioner_01
+                procedure.commission_agent_id = self.practitioner_01
+                procedure.check_commission()
+                self.assertEqual(len(procedure.sale_agent_ids), 1)
+                self.assertEqual(len(procedure.invoice_agent_ids), 3)
+
+    def test_sale_laboratory(self):
+        self.env["workflow.plan.definition.action"].create(
+            {
+                "activity_definition_id": self.lab_activity.id,
+                "direct_plan_definition_id": self.plan_definition.id,
+                "is_billable": False,
+                "name": "Action4",
+                "performer_id": self.practitioner_01.id,
+            }
+        )
+
+        self.env["medical.coverage.agreement.item"].create(
+            {
+                "product_id": self.product_07.id,
+                "coverage_agreement_id": self.agreement.id,
+                "total_price": 0.0,
+                "coverage_percentage": 50.0,
+                "authorization_method_id": self.browse_ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": self.browse_ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line
+        )
+        lab_req = group.laboratory_request_ids
+        event = lab_req.generate_event(
+            {
+                "is_sellable_private": True,
+                "is_sellable_insurance": True,
+                "private_amount": 20,
+                "coverage_amount": 10,
+                "private_cost": 10,
+                "coverage_cost": 5,
+            }
+        )
+        self.assertEqual(event.performer_id, self.practitioner_01)
+        self.assertEqual(event.commission_agent_id, self.practitioner_01)
+        encounter.create_sale_order()
+        encounter.recompute_commissions()
+        encounter.refresh()
+        self.assertTrue(
+            encounter.sale_order_ids.mapped("order_line").filtered(
+                lambda r: r.medical_model == "medical.laboratory.event"
+            )
+        )
+        for line in encounter.sale_order_ids.mapped("order_line").filtered(
+            lambda r: r.medical_model == "medical.laboratory.event"
+        ):
+            action = line.open_medical_record()
+            self.assertEqual(
+                event, self.env[action["res_model"]].browse(action["res_id"])
+            )
+        self.assertEqual(
+            len(
+                encounter.sale_order_ids.mapped("order_line").filtered(
+                    lambda r: r.medical_model == "medical.laboratory.event"
+                )
+            ),
+            2,
+        )
+        self.assertTrue(
+            encounter.sale_order_ids.mapped("order_line")
+            .filtered(lambda r: r.medical_model == "medical.laboratory.event")
+            .mapped("agent_ids")
+        )
+        self.assertGreater(
+            sum(
+                a.amount
+                for a in encounter.sale_order_ids.mapped("order_line")
+                .filtered(
+                    lambda r: r.medical_model == "medical.laboratory.event"
+                )
+                .mapped("agent_ids")
+            ),
+            0,
+        )
+        self.assertEqual(encounter.invoice_count, 0)
+        sale_orders = encounter.sale_order_ids
+        for sale_order in sale_orders:
+            sale_order.action_confirm()
+            sale_order._create_invoices()
+        self.assertEqual(encounter.invoice_count, 2)
+        self.assertGreater(
+            sum(
+                a.amount
+                for a in encounter.mapped(
+                    "sale_order_ids.invoice_ids.invoice_line_ids.agent_ids"
+                ).filtered(lambda r: r.laboratory_event_id)
+            ),
+            0,
+        )
+
+    def test_sale_onchange_performer_01(self):
+        practitioner_03 = self.create_practitioner("Practitioner 03")
+        self.env["workflow.plan.definition.action"].create(
+            {
+                "activity_definition_id": self.lab_activity.id,
+                "direct_plan_definition_id": self.plan_definition.id,
+                "is_billable": False,
+                "name": "Action4",
+                "performer_id": practitioner_03.id,
+            }
+        )
+        self.practitioner_01.commission_agent_ids = self.practitioner_02
+        self.env["medical.coverage.agreement.item"].create(
+            {
+                "product_id": self.product_07.id,
+                "coverage_agreement_id": self.agreement.id,
+                "total_price": 0.0,
+                "coverage_percentage": 50.0,
+                "authorization_method_id": self.browse_ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": self.browse_ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line
+        )
+        lab_req = group.laboratory_request_ids
+        event = lab_req.generate_event(
+            {
+                "is_sellable_private": True,
+                "is_sellable_insurance": True,
+                "private_amount": 20,
+                "coverage_amount": 10,
+                "private_cost": 10,
+                "coverage_cost": 5,
+            }
+        )
+        with Form(event) as form_event:
+            form_event.performer_id = self.practitioner_01
+            self.assertEqual(
+                form_event.commission_agent_id, self.practitioner_02
+            )
+
+    def test_sale_onchange_performer_02(self):
+        practitioner_03 = self.create_practitioner("Practitioner 03")
+        self.env["workflow.plan.definition.action"].create(
+            {
+                "activity_definition_id": self.lab_activity.id,
+                "direct_plan_definition_id": self.plan_definition.id,
+                "is_billable": False,
+                "name": "Action4",
+                "performer_id": self.practitioner_02.id,
+            }
+        )
+        self.practitioner_01.commission_agent_ids = (
+            self.practitioner_02 | practitioner_03
+        )
+        self.env["medical.coverage.agreement.item"].create(
+            {
+                "product_id": self.product_07.id,
+                "coverage_agreement_id": self.agreement.id,
+                "total_price": 0.0,
+                "coverage_percentage": 50.0,
+                "authorization_method_id": self.browse_ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": self.browse_ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line
+        )
+        lab_req = group.laboratory_request_ids
+        event = lab_req.generate_event(
+            {
+                "is_sellable_private": True,
+                "is_sellable_insurance": True,
+                "private_amount": 20,
+                "coverage_amount": 10,
+                "private_cost": 10,
+                "coverage_cost": 5,
+            }
+        )
+        with Form(event) as form_event:
+            form_event.performer_id = self.practitioner_01
+            self.assertFalse(form_event.commission_agent_id)
