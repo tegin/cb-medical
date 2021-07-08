@@ -48,7 +48,6 @@ class MedicalRequest(models.AbstractModel):
             )
         )
 
-    @api.multi
     def check_cancellable(self):
         result = True
         if not self._check_cancellable():
@@ -72,7 +71,6 @@ class MedicalRequest(models.AbstractModel):
     def cancellation_domain(self):
         return [("state", "!=", "cancelled")]
 
-    @api.multi
     def cancel(self):
         if not self.check_cancellable():
             raise ValidationError(_("It is not cancelable"))
