@@ -2,6 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 from odoo.exceptions import ValidationError
+from odoo.tests.common import Form
 
 from ..tests import common
 
@@ -90,7 +91,6 @@ class TestCBSale(common.MedicalSavePointCase):
         self.plan_definition.is_billable = True
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
-        self.company.sale_merge_draft_invoice = True
         encounter, careplan, group = self.create_careplan_and_group(
             self.agreement_line3
         )
@@ -102,13 +102,74 @@ class TestCBSale(common.MedicalSavePointCase):
         discount._onchange_discount()
         discount.run()
         self.assertEqual(discount.discount, self.discount.percentage)
+        self.assertFalse(group.sale_order_line_ids)
+        self.assertEqual(group.sale_order_line_count, 0)
+        self.assertEqual(encounter.sale_order_count, 0)
+        self.assertEqual(encounter.invoice_count, 0)
         encounter.create_sale_order()
         self.assertTrue(encounter.sale_order_ids)
         sale_order = encounter.sale_order_ids
+        self.assertEqual(encounter.sale_order_count, 1)
+        group.refresh()
+        self.assertTrue(group.sale_order_line_ids)
+        self.assertEqual(group.sale_order_line_count, 1)
+        self.assertEqual(sale_order.patient_name, "Patient 01")
+        self.assertEqual(sale_order.order_line.patient_name, "Patient 01")
         self.assertEqual(sale_order.amount_total, 50)
         self.assertEqual(sale_order.order_line.discount, 50)
+        sale_order.patient_name = "OTHER NAME"
+        sale_order.flush()
+        self.assertEqual(sale_order.order_line.patient_name, "OTHER NAME")
+        sale_order.order_line.patient_name = "Patient 01"
+        sale_order.order_line.flush()
+        self.assertEqual(sale_order.patient_name, "Patient 01")
+        self.assertEqual(encounter.invoice_count, 0)
+        sale_order.action_confirm()
+        sale_order._create_invoices()
+        self.assertEqual(encounter.invoice_count, 1)
+        action = encounter.action_view_invoice()
+        self.assertEqual(
+            self.env[action["res_model"]].browse(action["res_id"]),
+            sale_order.invoice_ids,
+        )
+        invoice = sale_order.invoice_ids
+        self.assertEqual(invoice.amount_total, 50)
+        self.assertEqual(invoice.invoice_line_ids.discount, 50)
 
-    def test_careplan_add_function(self):
+    def test_agreement_discount(self):
+        method = self.browse_ref("cb_medical_careplan_sale.no_invoice")
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        self.agreement.discount = 50
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.assertFalse(group.medical_sale_discount_id)
+        encounter.create_sale_order()
+        self.assertTrue(encounter.sale_order_ids)
+        sale_order = encounter.sale_order_ids
+        self.assertEqual(encounter.sale_order_count, 1)
+        group.refresh()
+        self.assertTrue(group.sale_order_line_ids)
+        self.assertEqual(group.sale_order_line_count, 1)
+        self.assertEqual(sale_order.amount_total, 100)
+        self.assertEqual(sale_order.order_line.discount, 0)
+        sale_order.action_confirm()
+        sale_order._create_invoices()
+        self.assertEqual(encounter.invoice_count, 1)
+        action = encounter.action_view_invoice()
+        self.assertEqual(
+            self.env[action["res_model"]].browse(action["res_id"]),
+            sale_order.invoice_ids,
+        )
+        invoice = sale_order.invoice_ids
+        self.assertEqual(invoice.invoice_line_ids.discount, 50)
+        self.assertEqual(invoice.amount_total, 50)
+
+    def test_careplan_add_function_01(self):
         encounter_action = self.env["medical.encounter"].create_encounter(
             patient=self.patient_01.id,
             center=self.center.id,
@@ -126,6 +187,236 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertTrue(encounter.careplan_ids)
         encounter.careplan_ids.refresh()
         self.assertTrue(encounter.careplan_ids.request_group_ids)
+
+    def test_careplan_add_function_02(self):
+        encounter_action = self.env["medical.encounter"].create_encounter(
+            patient=self.patient_01.id,
+            center=self.center.id,
+            careplan_data=[
+                {
+                    "payor": self.payor.id,
+                    "coverage_template": self.coverage_template.id,
+                    "service": self.agreement_line3.product_id,
+                }
+            ],
+        )
+        encounter = self.env["medical.encounter"].browse(
+            encounter_action["res_id"]
+        )
+        self.assertTrue(encounter)
+        self.assertTrue(encounter.careplan_ids)
+        encounter.careplan_ids.refresh()
+        self.assertTrue(encounter.careplan_ids.request_group_ids)
+
+    def test_careplan_add_function_sub_payor(self):
+        encounter_action = self.env["medical.encounter"].create_encounter(
+            patient=self.patient_01.id,
+            center=self.center.id,
+            careplan_data=[
+                {
+                    "payor": self.payor.id,
+                    "coverage_template": self.coverage_template.id,
+                    "sub_payor": self.sub_payor.id,
+                    "service": self.agreement_line3.product_id,
+                }
+            ],
+        )
+        encounter = self.env["medical.encounter"].browse(
+            encounter_action["res_id"]
+        )
+        self.assertTrue(encounter)
+        self.assertTrue(encounter.careplan_ids)
+        encounter.careplan_ids.refresh()
+        self.assertEqual(encounter.careplan_ids.sub_payor_id, self.sub_payor)
+        self.assertEqual(
+            encounter.careplan_ids.request_group_ids.sub_payor_id,
+            self.sub_payor,
+        )
+
+    def test_careplan_add_function_performer(self):
+        self.plan_definition2.performer_required = True
+        encounter_action = self.env["medical.encounter"].create_encounter(
+            patient=self.patient_01.id,
+            center=self.center.id,
+            careplan_data=[
+                {
+                    "payor": self.payor.id,
+                    "coverage_template": self.coverage_template.id,
+                    "sub_payor": self.sub_payor.id,
+                    "service": self.agreement_line3.product_id,
+                    "order_by": self.practitioner_01.id,
+                    "performer": self.practitioner_02.id,
+                }
+            ],
+        )
+        encounter = self.env["medical.encounter"].browse(
+            encounter_action["res_id"]
+        )
+        self.assertTrue(encounter)
+        self.assertTrue(encounter.careplan_ids)
+        encounter.careplan_ids.refresh()
+        self.assertEqual(encounter.careplan_ids.sub_payor_id, self.sub_payor)
+        self.assertEqual(
+            encounter.careplan_ids.request_group_ids.order_by_id,
+            self.practitioner_01,
+        )
+        self.assertEqual(
+            encounter.careplan_ids.request_group_ids.performer_id,
+            self.practitioner_02,
+        )
+
+    def test_careplan_raises_01(self):
+        self.coverage_01.patient_id = self.create_patient("ANOTHER PATIENT")
+        with self.assertRaises(ValidationError):
+            self.env["medical.encounter"].create_encounter(
+                patient=self.patient_01.id,
+                center=self.center.id,
+                careplan_data=[
+                    {
+                        "coverage": self.coverage_01,
+                        "service": self.agreement_line3.product_id.id,
+                    }
+                ],
+            )
+
+    def test_careplan_raises_02(self):
+        with self.assertRaises(ValidationError):
+            self.env["medical.encounter"].create_encounter(
+                patient=self.patient_01.id,
+                center=self.center.id,
+                careplan_data=[
+                    {"service": self.agreement_line3.product_id.id}
+                ],
+            )
+
+    def test_careplan_raises_03(self):
+        with self.assertRaises(ValidationError):
+            self.env["medical.encounter"].create_encounter(
+                patient=self.patient_01.id,
+                center=self.center.id,
+                careplan_data=[
+                    {
+                        "payor": self.payor,
+                        "service": self.agreement_line3.product_id.id,
+                    }
+                ],
+            )
+
+    def test_careplan_raises_04(self):
+        with self.assertRaises(ValidationError):
+            self.env["medical.encounter"].create_encounter(
+                patient=self.patient_01.id,
+                center=self.center.id,
+                careplan_data=[
+                    {
+                        "payor": self.payor,
+                        "coverage_template": self.coverage_template,
+                    }
+                ],
+            )
+
+    def test_careplan_add_function_breakdown_raises_01(self):
+        self.plan_definition2.third_party_bill = False
+        encounter_action = self.env["medical.encounter"].create_encounter(
+            patient=self.patient_01.id,
+            center=self.center.id,
+            careplan_data=[
+                {
+                    "coverage": self.coverage_01.id,
+                    "service": self.agreement_line3.product_id.id,
+                }
+            ],
+        )
+        encounter = self.env["medical.encounter"].browse(
+            encounter_action["res_id"]
+        )
+        self.assertTrue(encounter)
+        self.assertTrue(encounter.careplan_ids)
+        encounter.careplan_ids.refresh()
+        with self.assertRaises(ValidationError):
+            encounter.careplan_ids.request_group_ids.breakdown()
+
+    def test_careplan_add_function_breakdown_raises_02(self):
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition2.is_breakdown = True
+        encounter_action = self.env["medical.encounter"].create_encounter(
+            patient=self.patient_01.id,
+            center=self.center.id,
+            careplan_data=[
+                {
+                    "coverage": self.coverage_01.id,
+                    "service": self.agreement_line3.product_id.id,
+                }
+            ],
+        )
+        encounter = self.env["medical.encounter"].browse(
+            encounter_action["res_id"]
+        )
+        self.assertTrue(encounter)
+        self.assertTrue(encounter.careplan_ids)
+        encounter.create_sale_order()
+        encounter.careplan_ids.refresh()
+        with self.assertRaises(ValidationError):
+            encounter.careplan_ids.request_group_ids.breakdown()
+
+    def test_careplan_add_function_breakdown_raises_03(self):
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition2.is_breakdown = True
+        encounter_action = self.env["medical.encounter"].create_encounter(
+            patient=self.patient_01.id,
+            center=self.center.id,
+            careplan_data=[
+                {
+                    "coverage": self.coverage_01.id,
+                    "service": self.agreement_line3.product_id.id,
+                }
+            ],
+        )
+        encounter = self.env["medical.encounter"].browse(
+            encounter_action["res_id"]
+        )
+        self.assertTrue(encounter)
+        self.assertTrue(encounter.careplan_ids)
+        encounter.careplan_ids.refresh()
+        with self.assertRaises(ValidationError):
+            encounter.careplan_ids.request_group_ids.breakdown()
+
+    def test_careplan_add_function_breakdown(self):
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition2.is_breakdown = True
+        self.agreement_line = self.env[
+            "medical.coverage.agreement.item"
+        ].create(
+            {
+                "product_id": self.product_02.id,
+                "coverage_agreement_id": self.agreement.id,
+                "total_price": 100,
+                "coverage_percentage": 50,
+                "authorization_method_id": self.env.ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": self.env.ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
+            }
+        )
+        encounter_action = self.env["medical.encounter"].create_encounter(
+            patient=self.patient_01.id,
+            center=self.center.id,
+            careplan_data=[
+                {
+                    "coverage": self.coverage_01.id,
+                    "service": self.agreement_line3.product_id.id,
+                }
+            ],
+        )
+        encounter = self.env["medical.encounter"].browse(
+            encounter_action["res_id"]
+        )
+        self.assertTrue(encounter)
+        self.assertTrue(encounter.careplan_ids)
+        encounter.careplan_ids.refresh()
+        encounter.careplan_ids.request_group_ids.breakdown()
 
     def test_careplan_add_wizard(self):
         encounter = self.env["medical.encounter"].create(
@@ -176,3 +467,99 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertEqual(encounter.center_id, careplan_wizard_3.center_id)
         cp_3 = careplan_wizard_3.run()
         self.assertNotEqual(cp_3, careplan)
+
+    def test_sale_laboratory(self):
+        self.env["workflow.plan.definition.action"].create(
+            {
+                "activity_definition_id": self.lab_activity.id,
+                "direct_plan_definition_id": self.plan_definition.id,
+                "is_billable": False,
+                "name": "Action4",
+            }
+        )
+
+        self.env["medical.coverage.agreement.item"].create(
+            {
+                "product_id": self.product_07.id,
+                "coverage_agreement_id": self.agreement.id,
+                "total_price": 0.0,
+                "coverage_percentage": 50.0,
+                "authorization_method_id": self.browse_ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": self.browse_ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line
+        )
+        lab_req = group.laboratory_request_ids
+        event = lab_req.generate_event(
+            {
+                "is_sellable_private": True,
+                "is_sellable_insurance": True,
+                "private_amount": 20,
+                "performer_id": self.practitioner_01.id,
+                "coverage_amount": 10,
+            }
+        )
+        encounter.create_sale_order()
+        encounter.refresh()
+        self.assertTrue(
+            encounter.sale_order_ids.mapped("order_line").filtered(
+                lambda r: r.medical_model == "medical.laboratory.event"
+            )
+        )
+        for line in encounter.sale_order_ids.mapped("order_line").filtered(
+            lambda r: r.medical_model == "medical.laboratory.event"
+        ):
+            action = line.open_medical_record()
+            self.assertEqual(
+                event, self.env[action["res_model"]].browse(action["res_id"])
+            )
+        self.assertEqual(
+            len(
+                encounter.sale_order_ids.mapped("order_line").filtered(
+                    lambda r: r.medical_model == "medical.laboratory.event"
+                )
+            ),
+            2,
+        )
+        self.assertEqual(encounter.invoice_count, 0)
+        sale_orders = encounter.sale_order_ids
+        for sale_order in sale_orders:
+            sale_order.action_confirm()
+            sale_order._create_invoices()
+        self.assertEqual(encounter.invoice_count, 2)
+
+    def test_add_careplan_form(self):
+        encounter = self.env["medical.encounter"].create(
+            {"patient_id": self.patient_01.id, "center_id": self.center.id}
+        )
+        payor = self.env["res.partner"].create(
+            {
+                "name": "Payor",
+                "is_payor": True,
+                "is_medical": True,
+                "invoice_nomenclature_id": self.nomenclature.id,
+            }
+        )
+        careplan_wizard = Form(
+            self.env["medical.encounter.add.careplan"].with_context(
+                default_encounter_id=encounter.id
+            )
+        )
+        careplan_wizard.coverage_id = self.coverage_01
+        self.assertEqual(careplan_wizard.payor_id, self.payor)
+        self.assertEqual(
+            careplan_wizard.coverage_template_id, self.coverage_template
+        )
+        careplan_wizard.coverage_template_id = self.coverage_template_2
+        self.assertFalse(careplan_wizard.coverage_id)
+        careplan_wizard.sub_payor_id = self.sub_payor
+        self.assertTrue(careplan_wizard.coverage_template_id)
+        careplan_wizard.payor_id = payor
+        self.assertFalse(careplan_wizard.coverage_template_id)
+        self.assertFalse(careplan_wizard.sub_payor_id)

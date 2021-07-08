@@ -90,8 +90,9 @@ class SaleOrderLine(models.Model):
             res["authorization_number"] = self.authorization_number
             agreement = self.order_id.coverage_agreement_id
             if agreement:
-                if agreement.file_reference:
-                    res["facturae_file_reference"] = agreement.file_reference
+                # TODO: Pass this to cb_facturae
+                # if agreement.file_reference:
+                #     res["facturae_file_reference"] = agreement.file_reference
                 if agreement.discount and agreement.discount > 0.0:
                     res["discount"] = agreement.discount
         if self.coverage_template_id:
