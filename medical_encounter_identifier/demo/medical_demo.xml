@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="medical_administration_center.partner_center_1" model="res.partner">
+        <field name="encounter_sequence_prefix">1</field>
+    </record>
+</odoo>

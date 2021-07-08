@@ -19,6 +19,7 @@
         "medical_administration_center",
         "sequence_safe",
     ],
+    "demo": ["demo/medical_demo.xml"],
     "data": [
         "data/config_parameter.xml",
         "views/res_partner_views.xml",
