@@ -42,7 +42,6 @@ class MedicalCoverageAgreement(models.Model):
         for record in self:
             record.lead_count = len(record.lead_ids)
 
-    @api.multi
     def view_leads(self):
         self.ensure_one()
         action = self.env.ref("crm.crm_lead_opportunities").read()[0]
