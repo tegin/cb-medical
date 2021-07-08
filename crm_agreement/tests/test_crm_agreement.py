@@ -62,10 +62,10 @@ class TestCrmAgreement(TransactionCase):
                 }
             )
         )
+        agreement.refresh()
         self.assertIn(self.template_1, agreement.coverage_template_ids)
         self.assertIn(self.template_2, agreement.coverage_template_ids)
         self.assertIn(lead, agreement.lead_ids)
-        lead.refresh()
         self.assertIn(agreement, lead.agreement_ids)
         self.assertEqual(1, lead.agreement_count)
         agreement_action = lead.view_agreements()
@@ -177,8 +177,8 @@ class TestCrmAgreement(TransactionCase):
             }
         )
         lead.partner_id = self.contact
-        lead._onchange_partner_id()
-        self.assertIn(agreement, lead.agreement_ids)
+        lead._onchange_partner_id_values(lead.partner_id.id)
+        self.assertIn(agreement.id, lead.agreement_ids.ids)
         payor2 = self.env["res.partner"].create(
             {"name": "Payor2", "is_medical": True, "is_payor": True}
         )
