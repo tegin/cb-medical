@@ -48,12 +48,6 @@ class SaleOrderLine(models.Model):
             else:
                 super(SaleOrderLine, line)._get_to_invoice_qty()
 
-    def _do_not_invoice(self):
-        group = self.env.context.get("invoice_group_method_id", False)
-        if group and group != self.invoice_group_method_id.id:
-            return True
-        return super()._do_not_invoice()
-
     def _prepare_invoice(self):
         res = self.order_id._prepare_invoice()
         res["invoice_group_method_id"] = self.invoice_group_method_id.id
