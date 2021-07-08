@@ -44,68 +44,9 @@ class SaleOrder(models.Model):
             else:
                 order.preinvoice_status = "draft"
 
-    def action_invoice_by_group_create(self, invoice_group_method_id, company):
-        journal = invoice_group_method_id.get_journal(company)
-        ctx = {"invoice_group_method_id": invoice_group_method_id.id}
-        if journal:
-            ctx["default_journal_id"] = journal.id
-        invoices = self.with_context(**ctx).action_invoice_create()
-        return invoices
-
-    @api.model
-    def _get_invoice_group_key(self, order):
-        if order.coverage_agreement_id:
-            return (
-                order.partner_invoice_id.id,
-                order.currency_id.id,
-                order.company_id.id,
-                order.coverage_agreement_id.id,
-                order.coverage_template_id.id,
-            )
-        return super()._get_invoice_group_key(order)
-
-    @api.model
-    def _get_invoice_group_line_key(self, line):
-        if line.invoice_group_method_id and not self.env.context.get(
-            "no_split_invoices", False
-        ):
-            return (
-                line.order_id.partner_invoice_id.id,
-                line.order_id.currency_id.id,
-                line.order_id.company_id.id,
-                line.order_id.coverage_agreement_id.id,
-                line.invoice_group_method_id.id,
-                line.coverage_template_id.id,
-            )
-        return super()._get_invoice_group_line_key(line)
-
-    @api.model
-    def _get_draft_invoices(self, invoices, references):
-        invoices, references = super()._get_draft_invoices(
-            invoices, references
-        )
-        method = self.env.context.get("invoice_group_method_id", False)
-        if method and self.env.context.get("cb_merge_draft_invoice", False):
-            domain = [
-                ("state", "=", "draft"),
-                ("invoice_group_method_id", "=", method),
-            ]
-            companies = self.env.context.get("companies")
-            if companies:
-                domain.append(("company_id", "in", companies))
-            customers = self.env.context.get("customers")
-            if customers:
-                domain.append(("partner_id", "in", customers))
-            draft_inv = self.env["account.move"].search(domain)
-            for inv in draft_inv:
-                for line in inv.invoice_line_ids.mapped("sale_line_ids"):
-                    ref_order = self._get_invoice_group_line_key(line)
-                    references[inv] = line.order_id
-                    invoices[ref_order] = inv
-        return invoices, references
-
     def _prepare_invoice(self):
         res = super()._prepare_invoice()
         if self.encounter_id and self.coverage_agreement_id:
             res["agreement_id"] = self.coverage_agreement_id.id
+            res["invoice_group_method_id"] = self.invoice_group_method_id.id
         return res
