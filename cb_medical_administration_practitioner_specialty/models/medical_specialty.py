@@ -52,11 +52,8 @@ class MedicalSpecialty(models.Model):
         an ir.sequence or an ir.sequence.date_range.
         """
         for record in self:
-            if record.sequence_id:
-                sequence = record.sequence_id._get_current_sequence()
-                record.sequence_number_next = sequence.number_next_actual
-            else:
-                record.sequence_number_next = 1
+            sequence = record.sequence_id._get_current_sequence()
+            record.sequence_number_next = sequence.number_next_actual
 
     def _inverse_seq_number_next(self):
         """Inverse 'sequence_number_next' to edit the current sequence next number.
