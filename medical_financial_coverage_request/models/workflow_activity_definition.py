@@ -9,16 +9,6 @@ from odoo.exceptions import ValidationError
 class ActivityDefinition(models.Model):
     _inherit = "workflow.activity.definition"
 
-    def _get_activity_values(
-        self, vals, parent=False, plan=False, action=False
-    ):
-        res = super()._get_activity_values(vals, parent, plan, action)
-        if "relations" in res.keys() and self.type_id == self.env.ref(
-            "medical_workflow.medical_workflow"
-        ):
-            del res["relations"]
-        return res
-
     def _get_medical_values(
         self, vals, parent=False, plan=False, action=False
     ):
@@ -78,12 +68,6 @@ class ActivityDefinition(models.Model):
 
     def execute_activity(self, vals, parent=False, plan=False, action=False):
         self.ensure_one()
-        if action.id in vals.get("relations", {}):
-            activity = self.env[self.model_id.model].browse(
-                vals["relations"][action.id]
-            )
-            activity._update_related_activity(vals, parent, plan, action)
-            return activity
         if parent and action.is_billable:
             group_obj = self.env["medical.request.group"]
             request_vals = self._get_request_group_values(

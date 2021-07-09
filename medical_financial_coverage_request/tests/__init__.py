@@ -8,3 +8,4 @@ from . import test_encounter_sequence
 from . import test_wizard
 from . import test_recursion
 from . import test_third_party
+from . import test_encounter_creation
