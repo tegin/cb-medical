@@ -2,7 +2,7 @@
 <odoo>
     <template id="report_invoice_document" inherit_id="account.report_invoice_document">
         <xpath
-            expr="//table[@name='invoice_line_table']/tbody/t[@t-foreach='o.invoice_line_ids']"
+            expr="//table[@name='invoice_line_table']/tbody/t[@t-foreach='lines']"
             position="attributes"
         >
             <attribute name="t-foreach">o.invoice_line_ids.filtered(lambda r:

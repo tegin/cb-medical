@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class WizardMedicalEncounterClose(models.TransientModel):
@@ -22,7 +22,6 @@ class WizardMedicalEncounterClose(models.TransientModel):
         required=True,
     )
 
-    @api.multi
     def run(self):
         self.ensure_one()
         # It could be changed if it need a finished option
