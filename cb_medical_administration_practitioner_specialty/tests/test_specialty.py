@@ -2,21 +2,22 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo.tests.common import TransactionCase
+from odoo.exceptions import ValidationError
+from odoo.tests.common import SavepointCase
 
 
-class TestMedicalCommission(TransactionCase):
-    def setUp(self):
-        super(TestMedicalCommission, self).setUp()
-        self.specialty = self.env["medical.specialty"].create(
+class TestMedicalCommission(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.specialty = cls.env["medical.specialty"].create(
             {"name": "Trauma", "description": "Traumatology", "code": "TRA"}
         )
-        self.doctor = self.browse_ref(
-            "medical_administration_practitioner.doctor"
-        )
+        cls.specialty.sequence_number_next = 21
+        cls.doctor = cls.env.ref("medical_administration_practitioner.doctor")
+        cls.ict = cls.env.ref("medical_administration_practitioner.ict")
 
-    def test_create_practitioner(self):
-        self.specialty.sequence_number_next = 21
+    def test_create_practitioner_doctor(self):
         practitoner = self.env["res.partner"].create(
             {
                 "name": "Doctor",
@@ -35,3 +36,45 @@ class TestMedicalCommission(TransactionCase):
         )
         self.specialty._compute_seq_number_next()
         self.assertEqual(self.specialty.sequence_number_next, 22)
+
+        self.assertEqual(self.specialty, practitoner.specialty_ids)
+
+    def test_create_practitioner_doctor_search(self):
+        practitoner = self.env["res.partner"].create(
+            {
+                "name": "Doctor",
+                "is_practitioner": True,
+                "practitioner_role_ids": [(4, self.doctor.id)],
+                "specialty_ids": [(4, self.specialty.id)],
+            }
+        )
+        self.assertEqual(self.specialty, practitoner.specialty_id)
+        pracs = self.env["res.partner"].search(
+            [("specialty_id", "=", self.specialty.id)]
+        )
+        self.assertEqual(pracs, practitoner)
+
+    def test_create_practitioner_it(self):
+        practitoner = self.env["res.partner"].create(
+            {
+                "name": "Doctor",
+                "is_practitioner": True,
+                "practitioner_role_ids": [(4, self.ict.id)],
+            }
+        )
+        self.assertNotEqual(practitoner.practitioner_identifier, "TRA021")
+        self.assertRegex(practitoner.practitioner_identifier, r"^PRA.*$")
+        self.assertEqual(self.ict, practitoner.practitioner_role_id)
+        self.assertEqual(self.ict, practitoner.practitioner_role_ids)
+
+    def test_constrain_01(self):
+        practitoner = self.env["res.partner"].create(
+            {
+                "name": "Doctor",
+                "is_practitioner": True,
+                "practitioner_role_id": self.doctor.id,
+                "specialty_id": self.specialty.id,
+            }
+        )
+        with self.assertRaises(ValidationError):
+            practitoner.practitioner_role_ids |= self.ict
