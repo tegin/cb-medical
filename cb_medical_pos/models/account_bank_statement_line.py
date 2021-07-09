@@ -1,7 +1,7 @@
 # Copyright (C) 2017 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -12,7 +12,6 @@ class AccountBankStatementLine(models.Model):
         "sale.order", string="Sale Order", readonly=True
     )
 
-    @api.multi
     def fast_counterpart_creation(self):
         for st_line in self:
             company = st_line.statement_id.company_id

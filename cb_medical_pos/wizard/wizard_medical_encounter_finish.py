@@ -24,16 +24,18 @@ class WizardMedicalEncounterFinish(models.TransientModel):
     pos_config_id = fields.Many2one(
         "pos.config", related="pos_session_id.config_id", readonly=True
     )
-    journal_ids = fields.Many2many(
-        "account.journal",
-        related="pos_session_id.config_id.journal_ids",
+    payment_method_ids = fields.Many2many(
+        "pos.payment.method",
+        related="pos_session_id.config_id.payment_method_ids",
         readonly=True,
     )
-    journal_id = fields.Many2one(
-        "account.journal", domain="[('id', 'in', journal_ids)]", required=True
+    payment_method_id = fields.Many2one(
+        "pos.payment.method",
+        domain="[('id', 'in', payment_method_ids)]",
+        required=True,
     )
     currency_id = fields.Many2one(
-        "res.currency", related="journal_id.currency_id", readonly=True
+        "res.currency", related="pos_session_id.currency_id", readonly=True
     )
     amount = fields.Monetary(
         related="encounter_id.pending_private_amount", readonly=True
@@ -42,13 +44,12 @@ class WizardMedicalEncounterFinish(models.TransientModel):
 
     @api.onchange("pos_session_id")
     def _onchange_session(self):
-        self.journal_id = False
+        self.payment_method_id = False
 
-    @api.multi
     def run(self):
         self.ensure_one()
         self.encounter_id.with_context(
             pos_session_id=self.pos_session_id.id,
-            journal_id=self.journal_id.id,
+            payment_method_id=self.payment_method_id.id,
             encounter_finish_dont_pay=self.dont_pay,
         ).onleave2finished()
