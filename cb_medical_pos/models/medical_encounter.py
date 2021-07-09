@@ -14,13 +14,16 @@ class MedicalEncounter(models.Model):
         comodel_name="pos.session",
         string="PoS Session",
         readonly=1,
-        track_visibility=True,
+        tracking=True,
+    )
+    pos_payment_ids = fields.One2many(
+        "pos.payment", inverse_name="encounter_id"
     )
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
         readonly=1,
-        track_visibility=True,
+        tracking=True,
     )
     currency_id = fields.Many2one(
         "res.currency", related="company_id.currency_id", readonly=True
@@ -35,9 +38,8 @@ class MedicalEncounter(models.Model):
     @api.depends(
         "sale_order_ids.coverage_agreement_id",
         "sale_order_ids.amount_total",
-        "sale_order_ids.bank_statement_line_ids",
+        "pos_payment_ids",
         "sale_order_ids.invoice_ids.amount_total",
-        "sale_order_ids.invoice_ids.bank_statement_line_ids",
     )
     def _compute_pending_private_amount(self):
         for record in self:
@@ -58,29 +60,31 @@ class MedicalEncounter(models.Model):
                         "amount_total"
                     )
                 )
-                - sum(
-                    inv.mapped("bank_statement_line_ids")
-                    .filtered(lambda r: r.statement_id.pos_session_id)
-                    .mapped("amount")
-                )
                 + sum(o.amount_total for o in orders)
-                - sum(
-                    orders.mapped("bank_statement_line_ids")
-                    .filtered(lambda r: r.statement_id.pos_session_id)
-                    .mapped("amount")
-                )
+                - sum(record.mapped("pos_payment_ids.amount"))
             )
 
     def _get_sale_order_vals(
-        self, partner, cov, agreement, third_party_partner, is_insurance
+        self,
+        partner=False,
+        coverage=False,
+        agreement=False,
+        third_party_partner=False,
+        invoice_group_method=False,
+        *kwargs
     ):
         vals = super()._get_sale_order_vals(
-            partner, cov, agreement, third_party_partner, is_insurance
+            partner=partner,
+            coverage=coverage,
+            agreement=agreement,
+            third_party_partner=third_party_partner,
+            invoice_group_method=invoice_group_method,
+            *kwargs,
         )
         session = self.pos_session_id.id or self._context.get("pos_session_id")
         if session:
             vals["pos_session_id"] = session
-        if not is_insurance:
+        if not agreement:
             if not self.company_id.id and not self._context.get("company_id"):
                 raise ValidationError(
                     _("Company is required in order to create Sale Orders")
@@ -88,11 +92,7 @@ class MedicalEncounter(models.Model):
             vals["company_id"] = self.company_id.id or self._context.get(
                 "company_id"
             )
-        partner_obj = (
-            self.env["res.partner"]
-            .browse(partner)
-            .with_context(force_company=vals["company_id"])
-        )
+        partner_obj = partner.with_context(force_company=vals["company_id"])
         if "payment_term_id" not in vals:
             term = partner_obj.property_payment_term_id
             if term:
@@ -118,7 +118,6 @@ class MedicalEncounter(models.Model):
             res["pos_session_id"] = self._context.get("pos_session_id", False)
         return res
 
-    @api.multi
     def inprogress2onleave(self):
         if self.laboratory_request_ids.filtered(
             lambda r: not r.laboratory_event_ids and r.state != "cancelled"
@@ -152,23 +151,22 @@ class MedicalEncounter(models.Model):
             line.qty_delivered = line.product_uom_qty
         cash_vals = {}
         if not sale_order.third_party_order:
-            model = "cash.invoice.out"
+            model = "pos.box.cash.invoice.out"
             patient_journal = sale_order.company_id.patient_journal_id.id
-            invoice = self.env["account.invoice"].browse(
-                sale_order.with_context(
-                    default_journal_id=patient_journal,
-                    no_check_lines=True,
-                    no_split_invoices=True,
-                ).action_invoice_create()
-            )
-            invoice.action_invoice_open()
-            # Invoice has been created
-            if invoice.amount_total == 0:
-                return
+            invoice = sale_order.with_context(
+                default_journal_id=patient_journal,
+                no_check_lines=True,
+                no_split_invoices=True,
+            )._create_invoices()
+
             amount = invoice.amount_total
-            if invoice.type == "out_refund":
-                amount = -amount
-            cash_vals.update({"invoice_id": invoice.id, "amount": amount})
+            if amount < 0:
+                invoice.action_switch_invoice_into_refund_credit_note()
+            invoice.post()
+            # Invoice has been created
+            if amount == 0:
+                return
+            cash_vals.update({"move_id": invoice.id, "amount": amount})
         else:
             model = "cash.sale.order.out"
             cash_vals.update(
@@ -180,17 +178,18 @@ class MedicalEncounter(models.Model):
         if cash_vals["amount"] != 0 and not self._context.get(
             "encounter_finish_dont_pay", False
         ):
-            if not self._context.get("journal_id", False):
+            if not self._context.get("payment_method_id", False):
                 raise ValidationError(
                     _(
-                        "Payment journal is necessary in order to "
+                        "Payment method is necessary in order to "
                         "finish sale orders"
                     )
                 )
-            journal_id = self._context.get("journal_id", False)
+            payment_method_id = self._context.get("payment_method_id", False)
             pos_session_id = self._context.get("pos_session_id", False)
-            cash_vals["journal_id"] = journal_id
+            cash_vals["payment_method_id"] = payment_method_id
             # We are going to pay the invoice / third party sale.order
+            cash_vals["session_id"] = pos_session_id
             process = (
                 self.env[model]
                 .with_context(
@@ -198,7 +197,7 @@ class MedicalEncounter(models.Model):
                 )
                 .create(cash_vals)
             )
-            process.run()
+            process.with_context(default_encounter_id=self.id).run()
 
     def onleave2finished_values(self):
         res = super().onleave2finished_values()
@@ -206,7 +205,6 @@ class MedicalEncounter(models.Model):
             res["pos_session_id"] = self._context.get("pos_session_id", False)
         return res
 
-    @api.multi
     def onleave2finished(self):
         for res in self.filtered(lambda r: r.state == "onleave"):
             extra_down_payment = res.sale_order_ids.filtered(
@@ -264,23 +262,37 @@ class MedicalEncounter(models.Model):
             lambda r: r.is_down_payment
         )
         if down_payments:
-            if 0 not in values:
-                values[0] = {}
-            if self.get_patient_partner() not in values[0]:
-                values[0][self.get_patient_partner()] = {}
-            if 0 not in values[0][self.get_patient_partner()]:
-                values[0][self.get_patient_partner()][0] = {}
-            if 0 not in values[0][self.get_patient_partner()][0]:
-                values[0][self.get_patient_partner()][0][0] = []
+            key = (
+                self.env["medical.coverage.agreement"],
+                self.get_patient_partner(),
+                self.env["medical.coverage"],
+                self.env["res.partner"],
+                self.env["invoice.group.method"],
+            )
+            if key not in values:
+                values[key] = []
         return values
 
     def _generate_sale_order(
-        self, key, cov, partner, third_party_partner, order_lines
+        self,
+        order_lines,
+        agreement=False,
+        partner=False,
+        coverage=False,
+        third_party_partner=False,
+        invoice_group_method=False,
+        **kwargs
     ):
         order = super()._generate_sale_order(
-            key, cov, partner, third_party_partner, order_lines
+            order_lines,
+            agreement=agreement,
+            partner=partner,
+            coverage=coverage,
+            third_party_partner=third_party_partner,
+            invoice_group_method=invoice_group_method,
+            **kwargs,
         )
-        if key == 0 and not third_party_partner:
+        if not agreement and not third_party_partner:
             orders = self.sale_order_ids.filtered(lambda r: r.is_down_payment)
             for pay in orders:
                 for line in pay.order_line:

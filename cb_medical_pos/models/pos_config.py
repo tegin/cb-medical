@@ -37,7 +37,6 @@ class PosConfig(models.Model):
         }
         return vals
 
-    @api.multi
     def write(self, vals):
         prefix = vals.get("session_sequence_prefix", False)
         if prefix:

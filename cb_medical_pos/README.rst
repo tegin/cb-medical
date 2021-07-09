@@ -1,9 +1,8 @@
-=======
-CB Test
-=======
+===============
+CB Medical Pos
+===============
 
-This module test cb-addons workflow in a single test
-
+This module adapts pos for medical usage.
 Contributors
 ------------
 
