@@ -1,39 +1,52 @@
+from datetime import date, timedelta
+
 from odoo.exceptions import ValidationError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 
-class TestAgreementTemplate(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.company = self.browse_ref("base.main_company")
-        self.product_01 = self.env["product.product"].create(
+class TestAgreementTemplate(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env.ref("base.main_company")
+        cls.product_01 = cls.env["product.product"].create(
             {"name": "Product 01"}
         )
-        self.product_02 = self.env["product.product"].create(
+        cls.product_02 = cls.env["product.product"].create(
             {"name": "Product 02"}
         )
-        self.products = self.product_01
-        self.products |= self.product_02
-        self.template = self.env["medical.coverage.agreement"].create(
+        cls.products = cls.product_01 | cls.product_02
+        cls.template = cls.env["medical.coverage.agreement"].create(
             {
                 "name": "Template",
-                "company_id": self.company.id,
-                "authorization_method_id": self.browse_ref(
+                "company_id": cls.company.id,
+                "authorization_method_id": cls.env.ref(
                     "medical_financial_coverage_request.without"
                 ).id,
-                "authorization_format_id": self.browse_ref(
+                "authorization_format_id": cls.env.ref(
                     "medical_financial_coverage_request.format_anything"
                 ).id,
                 "is_template": True,
             }
         )
-        self.env["medical.coverage.agreement.item"].with_context(
-            default_coverage_agreement_id=self.template.id
-        ).create({"product_id": self.product_01.id, "total_price": 10})
-        self.item = (
-            self.env["medical.coverage.agreement.item"]
-            .with_context(default_coverage_agreement_id=self.template.id)
-            .create({"product_id": self.product_02.id, "total_price": 10})
+        cls.center = cls.env["res.partner"].create(
+            {"name": "Center", "is_center": True}
+        )
+        cls.item_01 = (
+            cls.env["medical.coverage.agreement.item"]
+            .with_context(default_coverage_agreement_id=cls.template.id)
+            .create({"product_id": cls.product_01.id, "total_price": 10})
+        )
+        cls.item_02 = (
+            cls.env["medical.coverage.agreement.item"]
+            .with_context(default_coverage_agreement_id=cls.template.id)
+            .create({"product_id": cls.product_02.id, "total_price": 10})
+        )
+        cls.payor = cls.env["res.partner"].create(
+            {"is_medical": True, "is_payor": True, "name": "Payor"}
+        )
+        cls.coverage = cls.env["medical.coverage.template"].create(
+            {"payor_id": cls.payor.id}
         )
 
     def test_constrain_01(self):
@@ -54,14 +67,10 @@ class TestAgreementTemplate(TransactionCase):
             )
 
     def test_constrain_02(self):
-        payor = self.env["res.partner"].create(
-            {"is_medical": True, "is_payor": True, "name": "Payor"}
-        )
-        coverage = self.env["medical.coverage.template"].create(
-            {"payor_id": payor.id}
-        )
         with self.assertRaises(ValidationError):
-            self.template.write({"coverage_template_ids": [(4, coverage.id)]})
+            self.template.write(
+                {"coverage_template_ids": [(4, self.coverage.id)]}
+            )
 
     def test_copy_agreement_without_items(self):
         agreement = self.env["medical.coverage.agreement"].create(
@@ -163,7 +172,71 @@ class TestAgreementTemplate(TransactionCase):
             ).create({"product_id": self.product_02.id, "total_price": 10})
 
     def test_no_constrains(self):
-        self.item.write({"active": False})
+        self.item_02.write({"active": False})
         self.env["medical.coverage.agreement.item"].with_context(
             default_coverage_agreement_id=self.template.id
         ).create({"product_id": self.product_02.id, "total_price": 10})
+
+    def test_get_item_01(self):
+        self.template.is_template = False
+        self.template.coverage_template_ids = self.coverage
+        self.template.center_ids = self.center
+        item = self.env["medical.coverage.agreement.item"].get_item(
+            self.product_01, self.coverage, self.center
+        )
+        self.assertEqual(item, self.item_01)
+
+    def test_get_item_02(self):
+        self.template.is_template = False
+        self.template.coverage_template_ids = self.coverage
+        self.template.center_ids = self.center
+        item = self.env["medical.coverage.agreement.item"].get_item(
+            self.product_01.id, self.coverage.id, self.center.id
+        )
+        self.assertEqual(item, self.item_01)
+
+    def test_get_item_03(self):
+        self.template.is_template = False
+        self.template.coverage_template_ids = self.coverage
+        self.template.center_ids = self.center
+        item = self.env["medical.coverage.agreement.item"].get_item(
+            self.product_01.id, self.coverage.id, self.center.id, plan=True
+        )
+        self.assertFalse(item)
+
+    def test_get_item_04(self):
+        self.template.is_template = False
+        self.template.coverage_template_ids = self.coverage
+        self.template.center_ids = self.center
+        self.template.date_from = date.today() + timedelta(days=1)
+        item = self.env["medical.coverage.agreement.item"].get_item(
+            self.product_01.id, self.coverage.id, self.center.id
+        )
+        self.assertFalse(item)
+
+    def test_get_item_05(self):
+        self.template.is_template = False
+        self.template.coverage_template_ids = self.coverage
+        self.template.center_ids = self.center
+        self.template.date_from = date.today()
+        item = self.env["medical.coverage.agreement.item"].get_item(
+            self.product_01.id,
+            self.coverage.id,
+            self.center.id,
+            date=date.today() + timedelta(days=-1),
+        )
+        self.assertFalse(item)
+
+    def test_get_item_06(self):
+        self.template.is_template = False
+        self.template.coverage_template_ids = self.coverage
+        self.template.center_ids = self.center
+        self.template.date_from = date.today()
+        self.template.date_to = date.today() + timedelta(days=1)
+        item = self.env["medical.coverage.agreement.item"].get_item(
+            self.product_01.id,
+            self.coverage.id,
+            self.center.id,
+            date=date.today() + timedelta(days=2),
+        )
+        self.assertFalse(item)
