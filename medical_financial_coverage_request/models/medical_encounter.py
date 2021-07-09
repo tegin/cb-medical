@@ -11,18 +11,12 @@ class MedicalEncounter(models.Model):
 
     @api.model
     def create_encounter(
-        self,
-        patient=False,
-        patient_vals=False,
-        center=False,
-        careplan_data=False,
-        **kwargs
+        self, patient=False, patient_vals=False, center=False, **kwargs
     ):
         encounter = self._create_encounter(
             patient=patient,
             patient_vals=patient_vals,
             center=center,
-            careplan_data=careplan_data,
             **kwargs,
         )
         action = self.env.ref(
