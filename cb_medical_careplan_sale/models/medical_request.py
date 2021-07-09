@@ -188,7 +188,9 @@ class MedicalRequest(models.AbstractModel):
             if is_insurance
             else self.careplan_id.coverage_id.browse(),
             self.get_third_party_partner(),
-            self.invoice_group_method_id,
+            self.invoice_group_method_id
+            if is_insurance
+            else self.invoice_group_method_id.browse(),
         )
 
     def _get_sale_order_partner(self, is_insurance=False):
