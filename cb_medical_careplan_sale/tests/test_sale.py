@@ -1,6 +1,8 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+
+from mock import patch
 from odoo.exceptions import ValidationError
 from odoo.tests.common import Form
 
@@ -563,3 +565,49 @@ class TestCBSale(common.MedicalSavePointCase):
         careplan_wizard.payor_id = payor
         self.assertFalse(careplan_wizard.coverage_template_id)
         self.assertFalse(careplan_wizard.sub_payor_id)
+
+    @patch(
+        "odoo.addons.base_report_to_printer.models.printing_printer."
+        "PrintingPrinter.print_file"
+    )
+    def test_document(self, mock):
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.patient_01.lang = self.lang_en.code
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line
+        )
+        self.assertTrue(careplan.document_reference_ids)
+        self.assertTrue(group.document_reference_ids)
+        action = group.with_context(
+            model_name="medical.document.reference"
+        ).action_view_request()
+        self.assertEqual(
+            self.env[action["res_model"]].search(action["domain"]),
+            group.document_reference_ids,
+        )
+        documents = group.document_reference_ids.filtered(
+            lambda r: r.document_type == "action"
+        )
+        self.assertTrue(documents)
+        for document in documents:
+            document.view()
+        self.assertTrue(group.is_billable)
+        self.assertTrue(group.is_breakdown)
+        self.env["medical.coverage.agreement.item"].create(
+            {
+                "product_id": self.product_02.id,
+                "coverage_agreement_id": self.agreement.id,
+                "total_price": 110,
+                "coverage_percentage": 0.5,
+                "authorization_method_id": self.browse_ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": self.browse_ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
+            }
+        )
+        group.breakdown()
+        self.assertFalse(group.is_billable)
+        self.assertFalse(group.is_breakdown)
