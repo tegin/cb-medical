@@ -69,6 +69,5 @@ class ResPartner(models.Model):
                 specialty = self.env["medical.specialty"].browse(
                     vals["specialty_id"]
                 )
-                if specialty.sequence_id:
-                    return specialty.sequence_id._next()
+                return specialty.sequence_id._next()
         return super(ResPartner, self)._get_practitioner_identifier(vals)
