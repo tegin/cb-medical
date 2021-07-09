@@ -23,7 +23,7 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
                     "payments in the system configuration parameters."
                 )
             )
-        return self.env["product.product"].browse(product_id)
+        return self.env["product.product"].browse(int(product_id))
 
     pos_session_id = fields.Many2one(
         comodel_name="pos.session",
@@ -41,20 +41,19 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
         related="pos_session_id.config_id.company_id",
         readonly=True,
     )
-    journal_ids = fields.Many2many(
-        comodel_name="account.journal",
-        related="pos_session_id.journal_ids",
+    payment_method_ids = fields.Many2many(
+        "pos.payment.method",
+        related="pos_session_id.config_id.payment_method_ids",
         readonly=True,
     )
-    journal_id = fields.Many2one(
-        comodel_name="account.journal",
-        string="Journal",
+    payment_method_id = fields.Many2one(
+        "pos.payment.method",
+        domain="[('id', 'in', payment_method_ids)]",
         required=True,
-        domain="[('id', 'in', journal_ids)]",
     )
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        related="journal_id.currency_id",
+        related="pos_session_id.currency_id",
         readonly=True,
     )
     product_id = fields.Many2one(
@@ -96,7 +95,6 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
             "price_unit": self.amount,
         }
 
-    @api.multi
     def run(self):
         self._run()
 
@@ -118,22 +116,23 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
             line.qty_delivered = line.product_uom_qty
         invoice_ids = order.with_context(
             force_company=order.company_id.id
-        ).action_invoice_create()
-        invoice = self.env["account.invoice"].browse(invoice_ids)
+        )._create_invoices()
+        invoice = self.env["account.move"].browse(invoice_ids).id
         invoice.ensure_one()
-        invoice.action_invoice_open()
+        invoice.action_post()
         process = (
-            self.env["cash.invoice.out"]
+            self.env["pos.box.cash.invoice.out"]
             .with_context(
                 active_ids=self.pos_session_id.ids, active_model="pos.session"
             )
             .create(
                 {
-                    "journal_id": self.journal_id.id,
-                    "invoice_id": invoice.id,
+                    "payment_method_id": self.payment_method_id.id,
+                    "move_id": invoice.id,
                     "amount": self.amount,
+                    "session_id": self.pos_session_id.id,
                 }
             )
         )
-        process.run()
+        process.with_context(default_encounter_id=self.encounter_id.id).run()
         return invoice
