@@ -57,7 +57,6 @@ class PosSession(models.Model):
             PosSession, self.with_context(ignore_balance_start=True)
         ).create(vals)
 
-    @api.multi
     def action_view_encounters(self):
         self.ensure_one()
         action = self.env.ref(
@@ -70,7 +69,6 @@ class PosSession(models.Model):
             result["res_id"] = self.encounter_ids.id
         return result
 
-    @api.multi
     def action_view_sale_orders(self):
         self.ensure_one()
         action = self.env.ref("sale.action_orders")
