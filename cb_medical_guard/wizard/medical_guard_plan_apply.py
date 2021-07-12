@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -11,7 +11,6 @@ class MedicalGuardPlanApply(models.TransientModel):
     start_date = fields.Date(required=True, default=fields.Date.today())
     end_date = fields.Date(required=True)
 
-    @api.multi
     def run(self):
         self.ensure_one()
         guards = self.env["medical.guard"].search(

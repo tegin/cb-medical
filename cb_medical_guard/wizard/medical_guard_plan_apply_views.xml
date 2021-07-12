@@ -41,7 +41,6 @@
         name="Apply Guard plans"
         res_model="medical.guard.plan.apply"
         view_mode="form"
-        view_type="form"
         target="new"
     />
     <menuitem
