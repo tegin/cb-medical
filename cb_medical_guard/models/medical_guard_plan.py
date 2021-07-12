@@ -1,7 +1,7 @@
 from datetime import date, datetime, timedelta
 
 import pytz
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -86,7 +86,6 @@ class MedicalGuardPlan(models.Model):
                 return True
         return False
 
-    @api.multi
     def check_date(self, date_str):
         date = date_str
         if isinstance(date_str, str):
@@ -121,6 +120,5 @@ class MedicalGuardPlan(models.Model):
             "plan_guard_id": self.id,
         }
 
-    @api.multi
     def apply_plan(self, date):
         return self.env["medical.guard"].create(self._prepare_guard_vals(date))

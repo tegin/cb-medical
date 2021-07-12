@@ -41,7 +41,6 @@
         name="Invoice guards"
         res_model="medical.guard.invoice"
         view_mode="form"
-        view_type="form"
         target="new"
     />
     <menuitem
