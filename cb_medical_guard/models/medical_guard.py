@@ -51,10 +51,9 @@ class MedicalGuard(models.Model):
     )
     plan_guard_id = fields.Many2one("medical.guard.plan", readonly=True)
     invoice_line_ids = fields.One2many(
-        "account.invoice.line", inverse_name="guard_id"
+        "account.move.line", inverse_name="guard_id"
     )
 
-    @api.multi
     @api.depends("internal_identifier")
     def name_get(self):
         result = []
@@ -69,7 +68,6 @@ class MedicalGuard(models.Model):
     def _complete_vals(self):
         return {"state": "completed"}
 
-    @api.multi
     def complete(self):
         self.ensure_one()
         if not self.practitioner_id:
@@ -78,7 +76,7 @@ class MedicalGuard(models.Model):
 
     def _get_invoice_vals(self):
         journal = self.location_id.guard_journal_id
-        invoice = self.env["account.invoice"].new(
+        invoice = self.env["account.move"].new(
             {
                 "partner_id": self.practitioner_id.id,
                 "type": (
@@ -91,13 +89,13 @@ class MedicalGuard(models.Model):
         )
         # Get other invoice values from onchanges
         invoice._onchange_partner_id()
-        invoice._onchange_journal_id()
+        invoice._onchange_journal()
         return invoice._convert_to_write(invoice._cache)
 
     def _get_invoice_line_vals(self, invoice):
-        invoice_line = self.env["account.invoice.line"].new(
+        invoice_line = self.env["account.move.line"].new(
             {
-                "invoice_id": invoice.id,
+                "move_id": invoice.id,
                 "product_id": self.product_id.id,
                 "quantity": self.delay,
                 "guard_id": self.id,
@@ -131,7 +129,7 @@ class MedicalGuard(models.Model):
             partner = partner.commission_agent_ids[0]
         if self.practitioner_id.commission_agent_ids:
             partner = self.practitioner_id.commission_agent_ids[0]
-        inv = self.env["account.invoice"].search(
+        inv = self.env["account.move"].search(
             [
                 ("partner_id", "=", partner.id),
                 (
@@ -153,8 +151,7 @@ class MedicalGuard(models.Model):
 
     def make_invoice(self):
         inv = self.get_invoice()
-        self.env["account.invoice.line"].create(
-            self._get_invoice_line_vals(inv)
+        inv.write(
+            {"invoice_line_ids": [(0, 0, self._get_invoice_line_vals(inv))]}
         )
-        inv.compute_taxes()
         return inv
