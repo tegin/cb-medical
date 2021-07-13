@@ -10,4 +10,9 @@ class ProcurementGroup(models.Model):
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    encounter_id = fields.Many2one("medical.encounter", readonly=True)
+    encounter_id = fields.Many2one(
+        "medical.encounter",
+        related="group_id.encounter_id",
+        store=True,
+        readonly=False,
+    )
