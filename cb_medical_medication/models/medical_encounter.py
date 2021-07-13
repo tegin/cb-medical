@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalEncounter(models.Model):
@@ -15,14 +15,6 @@ class MedicalEncounter(models.Model):
     )
     procurement_group_id = fields.Many2one("procurement.group", readonly=True)
     picking_ids = fields.One2many("stock.picking", inverse_name="encounter_id")
-
-    def _get_procurement_group_values(self):
-        return {
-            "encounter_id": self.id,
-            "name": self.internal_identifier,
-            "move_type": "one",
-            "partner_id": self.patient_id.partner_id.id,
-        }
 
     def _add_medication_vals(self, location, product, qty, is_phantom):
         return {
@@ -53,7 +45,6 @@ class MedicalEncounter(models.Model):
             )
         self._add_medication(location, product, qty, is_phantom=True)
 
-    @api.multi
     def inprogress2onleave(self):
         data = {}
         for item in self.medication_item_ids.filtered(
@@ -65,7 +56,6 @@ class MedicalEncounter(models.Model):
             data[product][loc_type] = request
         return super().inprogress2onleave()
 
-    @api.multi
     def onleave2finished(self):
         for careplan in self.careplan_ids:
             for req in careplan.medication_request_ids:
