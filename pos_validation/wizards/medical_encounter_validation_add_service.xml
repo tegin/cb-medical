@@ -8,7 +8,7 @@
         <field name="mode">primary</field>
         <field
             name="inherit_id"
-            ref="cb_medical_financial_coverage_request.medical_add_plan_definition_form"
+            ref="medical_financial_coverage_request.medical_add_plan_definition_form"
         />
         <field name="arch" type="xml">
             <form position="attributes">

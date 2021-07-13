@@ -7,6 +7,7 @@ from odoo import api, fields, models
 class MedicalEncounterValidationAddService(models.TransientModel):
     _name = "medical.encounter.validation.add.service"
     _inherit = "medical.careplan.add.plan.definition"
+    _description = "add service on validation"
 
     encounter_id = fields.Many2one("medical.encounter", required=True)
     action_type = fields.Selection(

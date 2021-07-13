@@ -75,27 +75,17 @@ class SalerOrderLine(models.Model):
             line.invoice_status = "no"
         return res
 
-    @api.multi
     def check_authorization_action(self):
         self.ensure_one()
-        group = False
-        if self.request_group_id:
-            group = self.request_group_id
-        elif self.procedure_request_id:
-            group = self.procedure_request_id.request_group_id
-        elif self.medication_request_id:
-            group = self.medication_request_id.request_group_id
-        elif self.document_reference_id:
-            group = self.document_reference_id.request_group_id
-        elif self.laboratory_request_id:
-            group = self.laboratory_request_id.request_group_id
-        elif self.laboratory_event_id:
-            group = (
-                self.laboratory_event_id.laboratory_request_id.request_group_id
-            )
-        return group.check_authorization_action()
+        request = self.env[self.medical_model].browse(self.medical_res_id)
+        if request._name == "medical.request.group":
+            pass
+        elif request._name == "medical.laboratory.event":
+            request = request.laboratory_request_id.request_group_id
+        else:
+            request = request.request_group_id
+        return request.check_authorization_action()
 
-    @api.multi
     def medical_cancel(self, cancel_reason):
         if not self.env.user.has_group(
             "pos_validation.group_medical_encounter_validation"
@@ -109,17 +99,12 @@ class SalerOrderLine(models.Model):
                     _("Only on draft orders you can cancel an element")
                 )
             request = False
-            for element in [
-                rec.request_group_id,
-                rec.procedure_request_id,
-                rec.medication_request_id,
-                rec.document_reference_id,
-                rec.laboratory_request_id,
-                rec.laboratory_event_id,
-            ]:
-                if element:
-                    request = element
-                    break
+            if rec.medical_model:
+                request = (
+                    self.env[rec.medical_model]
+                    .browse(rec.medical_res_id)
+                    .exists()
+                )
             if not request:
                 raise UserError(_("This is not a medical line"))
             request.with_context(
@@ -128,14 +113,15 @@ class SalerOrderLine(models.Model):
                 validation_cancel=True,
             ).cancel()
 
-    @api.multi
     def change_plan(self, service):
         self.ensure_one()
         if self.order_id.state != "draft":
             raise UserError(
                 _("Change of plan can only be applied to draft orders")
             )
-        request = self.request_group_id
+        request = (
+            self.env[self.medical_model].browse(self.medical_res_id).exists()
+        )
         if not request:
             raise UserError(
                 _("Change of plan can only be applied to request groups")
