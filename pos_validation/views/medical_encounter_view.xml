@@ -190,7 +190,7 @@
                             />
                             <field name="authorization_status" />
                             <field name="state" invisible="1" />
-                            <field name="agents" />
+                            <field name="agent_ids" />
                             <field name="validation_status" invisible="1" />
                             <button
                                 name="%(pos_validation.sale_order_line_cancel_act_window)s"
@@ -220,6 +220,7 @@
                                         readonly="1"
                                         sum="Total"
                                     />
+                                    <field name="company_id" invisible="1" />
                                     <field
                                         name="subscriber_id"
                                         attrs="{'readonly': [('state', '!=', 'draft')]}"
@@ -253,9 +254,9 @@
                                         </field>
                                     </page>
                                     <page name="agent" string="Commissions">
-                                        <field name="agents">
+                                        <field name="agent_ids">
                                             <tree>
-                                                <field name="agent" />
+                                                <field name="agent_id" />
                                                 <field name="procedure_id" />
                                                 <field name="amount" />
                                             </tree>

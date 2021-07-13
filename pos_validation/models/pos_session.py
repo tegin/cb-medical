@@ -19,9 +19,7 @@ class PosSession(models.Model):
         default="draft",
         required=True,
     )
-    invoice_ids = fields.One2many(
-        "account.invoice", compute="_compute_invoices"
-    )
+    invoice_ids = fields.One2many("account.move", compute="_compute_invoices")
     sale_order_line_ids = fields.One2many(
         "sale.order.line", inverse_name="pos_session_id", readonly=1
     )
@@ -50,7 +48,11 @@ class PosSession(models.Model):
                 )
             )
 
-    @api.depends("sale_order_ids.coverage_agreement_id")
+    @api.depends(
+        "sale_order_ids",
+        "sale_order_ids.coverage_agreement_id",
+        "sale_order_ids.invoice_ids",
+    )
     def _compute_invoices(self):
         for record in self:
             record.invoice_ids = record.sale_order_ids.filtered(
@@ -65,22 +67,30 @@ class PosSession(models.Model):
             )
 
     @api.depends(
-        "sale_order_line_ids.request_group_id",
-        "sale_order_line_ids.procedure_request_id",
+        "sale_order_line_ids.medical_model",
+        "sale_order_line_ids.medical_res_id",
+        "sale_order_line_ids.procedure_ids",
     )
     def _compute_lines(self):
         for record in self:
-            record.request_group_ids = record.sale_order_line_ids.mapped(
-                "request_group_id"
+            record.request_group_ids = self.env[
+                "medical.request.group"
+            ].browse(
+                record.sale_order_line_ids.filtered(
+                    lambda r: r.medical_model == "medical.request.group"
+                ).mapped("medical_res_id")
             )
-            record.procedure_request_ids = record.sale_order_line_ids.mapped(
-                "procedure_request_id"
+            record.procedure_request_ids = self.env[
+                "medical.procedure.request"
+            ].browse(
+                record.sale_order_line_ids.filtered(
+                    lambda r: r.medical_model == "medical.procedure.request"
+                ).mapped("medical_res_id")
             )
             record.procedure_ids = record.sale_order_line_ids.mapped(
                 "procedure_ids"
             )
 
-    @api.multi
     def action_pos_session_close(self):
         #  Unfinished encounter should be taken of the session
         self.encounter_ids.filtered(lambda r: r.state != "finished").write(
@@ -92,12 +102,10 @@ class PosSession(models.Model):
             self.action_validation_finish()
         return res
 
-    @api.multi
     def action_validation_finish(self):
         self.ensure_one()
         self.write({"validation_status": "finished"})
 
-    @api.multi
     def open_validation_encounter(self, barcode):
         self.ensure_one()
         encounter = self.env["medical.encounter"].search(
@@ -129,7 +137,6 @@ class PosSession(models.Model):
         result["res_id"] = encounter.id
         return result
 
-    @api.multi
     def action_view_non_validated_encounters(self):
         self.ensure_one()
         action = self.env.ref(
