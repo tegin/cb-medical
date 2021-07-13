@@ -5,8 +5,8 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        res = super().name_search(
+    def _name_search(self, name="", args=None, operator="ilike", limit=100):
+        res = super()._name_search(
             name=name, args=args, operator=operator, limit=limit
         )
         if not res and self.env.context.get("search_on_supplier"):
