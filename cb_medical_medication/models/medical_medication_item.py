@@ -39,7 +39,6 @@ class MedicalMedicationItem(models.Model):
     def _onchange_product(self):
         self.price = self.product_id.list_price
 
-    @api.multi
     def _to_medication_request(self, data):
         product = self.product_id.categ_id.category_product_id
         if data.get(product.id, {}).get(

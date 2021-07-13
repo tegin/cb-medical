@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalCareplanMedication(models.TransientModel):
@@ -22,7 +22,6 @@ class MedicalCareplanMedication(models.TransientModel):
         required=True,
     )
 
-    @api.multi
     def run(self):
         return self.medical_id.add_medication(
             self.location_id, self.product_id

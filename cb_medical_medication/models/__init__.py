@@ -11,3 +11,5 @@ from . import stock
 from . import workflow_activity_definition
 from . import workflow_plan_definition_action
 from . import product
+from . import medical_medication_administration
+from . import medical_request_group
