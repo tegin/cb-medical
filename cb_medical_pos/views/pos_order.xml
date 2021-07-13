@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<!--
+    <record model="ir.ui.view" id="pos_order_form_view">
+        <field name="name">pos.order.form (in cb_medical_pos)</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="arch" type="xml">
+
+        </field>
+    </record>
+-->
+
+
+</odoo>
