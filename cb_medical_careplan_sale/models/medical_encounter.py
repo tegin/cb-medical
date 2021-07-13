@@ -91,6 +91,7 @@ class MedicalEncounter(models.Model):
             )
             and r.state == "draft"
             and r.partner_id == partner
+            and r.invoice_group_method_id == invoice_group_method
         )
         if not order:
             vals = self._get_sale_order_vals(
