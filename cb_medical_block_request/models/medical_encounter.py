@@ -1,10 +1,9 @@
-from odoo import api, models
+from odoo import models
 
 
 class MedicalEncounter(models.Model):
     _inherit = "medical.encounter"
 
-    @api.multi
     def inprogress2onleave(self):
         self._blocking_childs()
         return super().inprogress2onleave()
