@@ -21,6 +21,10 @@ class MedicalMedicationRequest(models.Model):
             res["amount"] = self.env.context.get("amount", 0)
         if self.env.context.get("location_id", False):
             res["location_id"] = self.env.context.get("location_id")
+        if self.env.context.get("stock_location_id", False):
+            res["stock_location_id"] = self.env.context.get(
+                "stock_location_id"
+            )
         return res
 
     def _add_medication_item(self, item):
@@ -33,6 +37,7 @@ class MedicalMedicationRequest(models.Model):
             amount=item.price * item.qty,
             location_id=item.location_id.id,
             tracking_disable=True,
+            stock_location_id=item.location_id.stock_location_id.id,
         ).generate_event()
         administration.preparation2in_progress()
         if not self.env.context.get("no_complete_administration", False):
@@ -40,11 +45,3 @@ class MedicalMedicationRequest(models.Model):
                 no_post_move=True
             ).in_progress2completed()
         return administration
-
-    def get_sale_order_line_vals(self, is_insurance):
-        res = super().get_sale_order_line_vals(is_insurance)
-        if self.location_type_id:
-            res["name"] = "{} en {}".format(
-                res["name"], self.location_type_id.name,
-            )
-        return res
