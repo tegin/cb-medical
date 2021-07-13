@@ -71,7 +71,6 @@ class MedicalLaboratoryService(models.Model):
             )
         return res
 
-    @api.multi
     def name_get(self):
         result = []
         orig_name = dict(super().name_get())
