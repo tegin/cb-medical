@@ -12,6 +12,7 @@
         "pos_inter_company",
     ],
     "data": [
+        "views/pos_order.xml",
         "views/pos_payment.xml",
         "data/ir_sequence_data.xml",
         "security/cb_medical_pos_security.xml",
