@@ -137,6 +137,9 @@ class MedicalEncounter(models.Model):
         action = self.env.ref(
             "cb_medical_pos.wizard_medical_encounter_close_action"
         ).read()[0]
+        action["context"] = {
+            "default_encounter_id": self.id,
+        }
         return action
 
     def finish_sale_order(self, sale_order):
