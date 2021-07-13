@@ -25,7 +25,6 @@
         <field name="name">Close encounter</field>
         <field name="res_model">wizard.medical.encounter.close</field>
         <field name="view_mode">form</field>
-        <field name="context">{'default_encounter_id': active_id}</field>
         <field name="target">new</field>
     </record>
 </odoo>
