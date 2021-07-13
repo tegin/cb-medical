@@ -60,7 +60,7 @@ class MedicalEncounter(models.Model):
         "sale_order_ids.order_line.authorization_format_id",
         "sale_order_ids.order_line.authorization_method_id",
         "sale_order_ids.order_line.authorization_status",
-        "sale_order_ids.order_line.agents.amount",
+        "sale_order_ids.order_line.agent_ids.amount",
         "sale_order_ids.order_line.price_subtotal",
     )
     def _compute_validation_values(self):
@@ -112,7 +112,7 @@ class MedicalEncounter(models.Model):
                 )
             )
             rec.commission_issue = any(
-                line.price_subtotal < sum(a.amount for a in line.agents)
+                line.price_subtotal < sum(a.amount for a in line.agent_ids)
                 for line in rec.sale_order_line_ids
             )
 
@@ -121,7 +121,6 @@ class MedicalEncounter(models.Model):
         res["validation_status"] = "draft"
         return res
 
-    @api.multi
     def close_view(self):
         actions = [{"type": "ir.actions.client", "tag": "history_back"}]
         if self.env.context.get("from_barcode_reader", False):
@@ -169,7 +168,6 @@ class MedicalEncounter(models.Model):
     def _admin_validation_values(self):
         return {"validation_status": "finished"}
 
-    @api.multi
     def admin_validate(self):
         self.ensure_one()
         self.check_validation()
@@ -203,19 +201,12 @@ class MedicalEncounter(models.Model):
 
     def create_invoice(self, sale_order):
         """Hook in order to add more functionality"""
-        invoices = self.env["account.invoice"]
-        for group in sale_order.order_line.mapped(
-            "invoice_group_method_id"
-        ).filtered(lambda r: r.invoice_at_validation):
-            invoice = self.env["account.invoice"].browse(
-                sale_order.with_context(
-                    invoice_group_method_id=group.id
-                ).action_invoice_create()
-            )
-            self.post_process_invoice(invoice, group)
-            invoice.action_invoice_open()
-            invoices |= invoice
-        return invoices
+        if not sale_order.invoice_group_method_id.invoice_at_validation:
+            return self.env["account.move"]
+        invoice = sale_order._create_invoices()
+        self.post_process_invoice(invoice, sale_order.invoice_group_method_id)
+        invoice.post()
+        return invoice
 
     def post_process_invoice(self, invoice, group):
         pass
