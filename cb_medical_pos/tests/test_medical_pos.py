@@ -1,4 +1,4 @@
-from odoo.addons.cb_medical_careplan_sale.tests import common
+from ..tests import common
 
 
 class TestCBMedicalCommission(common.MedicalSavePointCase):
