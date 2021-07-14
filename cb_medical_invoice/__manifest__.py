@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 {
-    "name": "CB Medical sequence configuration",
-    "version": "12.0.1.2.0",
+    "name": "CB Medical Invoice",
+    "version": "13.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "depends": ["pos_validation", "account_invoice_supplier_self_invoice"],
     "data": [
