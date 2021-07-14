@@ -28,6 +28,7 @@ addon | version | summary
 [cb_medical_coverage_magnetic_str](cb_medical_coverage_magnetic_str/) | 13.0.1.0.0 | CB medical location data
 [cb_medical_diagnostic_report](cb_medical_diagnostic_report/) | 13.0.1.0.0 | Allows the creation of medical diagnostic reports
 [cb_medical_guard](cb_medical_guard/) | 13.0.1.0.0 | CB medical location data
+[cb_medical_invoice](cb_medical_invoice/) | 13.0.1.0.0 | CB Medical Invoice
 [cb_medical_medication](cb_medical_medication/) | 13.0.1.0.0 | CB Medical sequence configuration
 [cb_medical_pos](cb_medical_pos/) | 13.0.1.0.0 | CB Medical link to PoS
 [cb_medical_quote](cb_medical_quote/) | 13.0.1.0.0 | CB Medical Quote
