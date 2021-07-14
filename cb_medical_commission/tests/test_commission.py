@@ -636,6 +636,10 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         sale_orders = encounter.sale_order_ids
         for sale_order in sale_orders:
             sale_order.action_confirm()
+            if sale_order.invoice_group_method_id == self.env.ref(
+                "cb_medical_careplan_sale.by_preinvoicing"
+            ):
+                continue
             sale_order._create_invoices()
         self.assertEqual(encounter.invoice_count, 2)
         self.assertGreater(
