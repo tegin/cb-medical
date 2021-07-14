@@ -68,8 +68,8 @@ class TestCBInvoicing(common.MedicalSavePointCase):
             )
             encounter.create_sale_order()
             self.assertTrue(encounter.sale_order_ids)
-            sale_order = encounter.sale_order_ids
-            self.assertFalse(sale_order.third_party_order)
+            for sale_order in encounter.sale_order_ids:
+                self.assertFalse(sale_order.third_party_order)
         for encounter in encounters:
             encounter.sale_order_ids.action_confirm()
             encounter.sale_order_ids._create_invoices()
