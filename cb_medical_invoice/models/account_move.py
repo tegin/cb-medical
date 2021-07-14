@@ -1,14 +1,13 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
-class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
+class AccountMove(models.Model):
+    _inherit = "account.move"
 
     encounter_final_invoice = fields.Boolean(readonly=True)
 
-    @api.multi
-    def invoice_validate(self):
-        res = super(AccountInvoice, self).invoice_validate()
+    def post(self):
+        res = super().post()
         for invoice in self:
             partner = invoice.partner_id
             if (
