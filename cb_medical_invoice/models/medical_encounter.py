@@ -1,5 +1,6 @@
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
+from odoo.tests.common import Form
 
 
 class MedicalEncounter(models.Model):
@@ -18,83 +19,78 @@ class MedicalEncounter(models.Model):
         )
         final_inv = invoices.filtered(lambda r: r.encounter_final_invoice)
         final_sos = sos.filtered(lambda r: r.encounter_final_sale_order)
-        inv_res = self.env["account.invoice"]
+        inv_res = self.env["account.move"]
         sos_res = self.env["sale.order"]
         if not final_inv:
             final_inv = invoices
         if not final_sos:
             final_sos = sos
         if final_inv and final_inv.partner_id != partner:
-            invoice_new_partner = (
-                self.env["account.invoice"]
-                .with_context(
-                    default_comnpany_id=final_inv.company_id.id,
+            invoice_new_partner = Form(
+                self.env["account.move"].with_context(
+                    default_company_id=final_inv.company_id.id,
                     force_company=final_inv.company_id.id,
-                )
-                .new(
-                    {
-                        "partner_id": partner.id,
-                        "company_id": final_inv.company_id.id,
-                        "journal_id": final_inv.journal_id.id,
-                        "type": "out_invoice",
-                        "origin": final_inv.number,
-                        "currency_id": final_inv.currency_id.id,
-                        "encounter_final_invoice": True,
-                    }
+                    default_type="out_invoice",
+                    default_invoice_origin=final_inv.name,
                 )
             )
-            invoice_new_partner._onchange_partner_id()
-            vals = invoice_new_partner._convert_to_write(
-                invoice_new_partner._cache
-            )
-            invoice_new_partner = self.env["account.invoice"].create(vals)
+            invoice_new_partner.journal_id = final_inv.journal_id
+            invoice_new_partner.currency_id = final_inv.currency_id
+            invoice_new_partner.partner_id = partner
+            invoice_new_partner = invoice_new_partner.save()
+            invoice_line_vals = []
             for il in final_inv.invoice_line_ids.filtered(
                 lambda r: not r.down_payment_line_id
             ):
                 default_data = {
-                    "invoice_id": invoice_new_partner.id,
+                    "move_id": False,
                     "sale_line_ids": [(4, id) for id in il.sale_line_ids.ids],
                 }
-                if il.invoice_id.type == "out_refund":
+                # This should never happen, but we leave it JIC.
+                if il.move_id.type == "out_refund":
                     default_data["quantity"] = -1 * il.quantity
-                il.copy(default=default_data)
-            if invoice_new_partner.amount_total_company_signed < 0.0:
+                invoice_line_vals.append(
+                    (0, 0, il.copy_data(default=default_data)[0])
+                )
+            invoice_new_partner.write(
+                {
+                    "invoice_line_ids": invoice_line_vals,
+                    "encounter_final_invoice": True,
+                }
+            )
+            if invoice_new_partner.amount_total_signed < 0.0:
                 for il in invoice_new_partner.invoice_line_ids:
                     il.quantity *= -1
                 invoice_new_partner.type = "out_refund"
-            invoice_new_partner.compute_taxes()
-            invoice_new_partner.action_invoice_open()
+            invoice_new_partner.post()
             inv_res |= invoice_new_partner
-            invoice_refund = (
-                self.env["account.invoice"]
-                .with_context(
+            invoice_refund = Form(
+                self.env["account.move"].with_context(
                     default_comnpany_id=final_inv.company_id.id,
                     force_company=final_inv.company_id.id,
-                )
-                .new(
-                    {
-                        "partner_id": final_inv.partner_id.id,
-                        "company_id": final_inv.company_id.id,
-                        "journal_id": final_inv.journal_id.id,
-                        "type": "out_refund",
-                        "origin": final_inv.number,
-                        "currency_id": final_inv.currency_id.id,
-                    }
+                    default_type="out_refund",
+                    default_invoice_origin=final_inv.name,
                 )
             )
-            invoice_refund._onchange_partner_id()
-            vals = invoice_refund._convert_to_write(invoice_refund._cache)
-            invoice_refund = self.env["account.invoice"].create(vals)
+            invoice_refund.partner_id = final_inv.partner_id
+            invoice_refund.company_id = final_inv.company_id
+            invoice_refund.journal_id = final_inv.journal_id
+            invoice_refund.currency_id = final_inv.currency_id
+            invoice_refund = invoice_refund.save()
+            invoice_line_vals = []
             for il in final_inv.invoice_line_ids.filtered(
                 lambda r: not r.down_payment_line_id
             ):
                 default_data = {
-                    "invoice_id": invoice_refund.id,
+                    "move_id": invoice_refund.id,
                     "sale_line_ids": [(4, id) for id in il.sale_line_ids.ids],
                 }
-                il.copy(default=default_data)
-            invoice_refund.compute_taxes()
-            invoice_refund.action_invoice_open()
+                invoice_line_vals.append(
+                    (0, 0, il.copy_data(default=default_data)[0])
+                )
+
+            invoice_refund.write({"invoice_line_ids": invoice_line_vals})
+            invoice_refund.post()
             inv_res |= invoice_refund
             final_inv.write({"encounter_final_invoice": False})
             if invoice_refund.amount_total != invoice_new_partner.amount_total:
@@ -106,17 +102,12 @@ class MedicalEncounter(models.Model):
             )
             move = self.env["account.move"].create(move_vals)
             move.post()
-            ref_iml = invoice_refund.mapped("move_id.line_ids").filtered(
-                lambda r: (
-                    r.account_id == invoice_refund.account_id
-                    and r.partner_id == invoice_refund.partner_id
-                )
+            ref_iml = invoice_refund.line_ids.filtered(
+                lambda r: r.account_id.user_type_id.type
+                in ("receivable", "payable")
             )
             ref_move_iml = move.line_ids.filtered(
-                lambda r: (
-                    r.account_id == invoice_refund.account_id
-                    and r.partner_id == invoice_refund.partner_id
-                )
+                lambda r: (r.partner_id == invoice_refund.partner_id)
             )
             self.env["account.reconciliation.widget"].process_move_lines(
                 [
@@ -128,17 +119,12 @@ class MedicalEncounter(models.Model):
                     }
                 ]
             )
-            inv_iml = invoice_new_partner.mapped("move_id.line_ids").filtered(
-                lambda r: (
-                    r.account_id == invoice_new_partner.account_id
-                    and r.partner_id == invoice_new_partner.partner_id
-                )
+            inv_iml = invoice_new_partner.line_ids.filtered(
+                lambda r: r.account_id.user_type_id.type
+                in ("receivable", "payable")
             )
             inv_move_iml = move.line_ids.filtered(
-                lambda r: (
-                    r.account_id == invoice_new_partner.account_id
-                    and r.partner_id == invoice_new_partner.partner_id
-                )
+                lambda r: r.partner_id == invoice_new_partner.partner_id
             )
             self.env["account.reconciliation.widget"].process_move_lines(
                 [
@@ -180,11 +166,18 @@ class MedicalEncounter(models.Model):
     def _change_invoice_partner_iml_vals(self, invoice):
         vals = {
             "name": "",
-            "account_id": invoice.account_id.id,
+            "account_id": invoice.line_ids.filtered(
+                lambda r: r.account_id.user_type_id.type
+                in ("receivable", "payable")
+            )
+            .mapped("account_id")
+            .id,
             "partner_id": invoice.partner_id.id,
             "credit": 0.0,
             "debit": 0.0,
-            "currency_id": invoice.currency_id.id,
+            "currency_id": invoice.currency_id.id
+            if invoice.currency_id != invoice.company_id.currency_id
+            else False,
         }
         if invoice.type in ["out_invoice", "in_refund"]:
             vals["credit"] = invoice.amount_total
