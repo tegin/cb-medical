@@ -3,7 +3,7 @@ import os
 from setuptools_odoo.manifest import read_manifest
 import setuptools
 
-repo_name = "cb-addons"
+repo_name = "cb-medical"
 branch = "13.0"
 organization = "tegin"
 
