@@ -17,6 +17,10 @@ class MedicalDepartment(models.Model):
         inverse_name="medical_department_id",
     )
     user_ids = fields.Many2many("res.users")
+    without_practitioner = fields.Boolean(
+        help="When marked, the practitioner "
+        "will not appear in the report when validated"
+    )
 
     def _get_internal_identifier(self, vals):
         return (
