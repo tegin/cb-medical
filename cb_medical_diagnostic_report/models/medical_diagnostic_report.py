@@ -42,7 +42,8 @@ class MedicalDiagnosticReport(models.Model):
 
     def registered2final_change_state(self):
         res = super().registered2final_change_state()
-        res["signature_id"] = self.env.user.current_signature_id.id
+        if not self.medical_department_id.without_practitioner:
+            res["signature_id"] = self.env.user.current_signature_id.id
         return res
 
     def _is_editable(self):
