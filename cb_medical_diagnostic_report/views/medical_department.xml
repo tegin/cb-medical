@@ -17,6 +17,7 @@
                     </h2>
                     <group>
                         <field name="name" />
+                        <field name="without_practitioner" />
                     </group>
                     <notebook>
                         <page name="diagnostic_report_header" string="Report Header">
