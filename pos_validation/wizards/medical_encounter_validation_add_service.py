@@ -1,6 +1,8 @@
 # Copyright 2018 CreuBlanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from collections import defaultdict
+
 from odoo import api, fields, models
 
 
@@ -100,24 +102,13 @@ class MedicalEncounterValidationAddService(models.TransientModel):
             MedicalEncounterValidationAddService,
             self.with_context(on_validation=True),
         )._run()
-        values = dict()
+        values = defaultdict(lambda: [])
         self.careplan_id.refresh()
         res = self.careplan_id.request_group_ids - groups
         assert result in res
         self.post_process_request(res)
         query = res.get_sale_order_query()
         for el in query:
-            key, partner, cov, is_ins, third_party, request = el
-            if not values.get(key, False):
-                values[key] = {}
-            if not values[key].get(partner, False):
-                values[key][partner] = {}
-            if not values[key][partner].get(cov, False):
-                values[key][partner][cov] = {}
-            if not values[key][partner][cov].get(third_party, False):
-                values[key][partner][cov][third_party] = []
-            values[key][partner][cov][third_party].append(
-                request.get_sale_order_line_vals(is_ins)
-            )
+            values[el[1:]].append(el[0])
         self.encounter_id.generate_sale_orders(values)
         return
