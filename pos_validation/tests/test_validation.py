@@ -710,3 +710,24 @@ class TestPosValidation(common.MedicalSavePointCase):
     def test_validation_no_invoices(self):
         self.session.action_pos_session_close()
         self.assertEqual(self.session.validation_status, "finished")
+
+    def test_validation_add_service(self):
+        self.plan_definition2.write({"third_party_bill": False})
+        self.agreement_line3.write({"coverage_percentage": 100})
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.assertEqual(encounter.careplan_ids, careplan)
+        self.agreement.write(
+            {"coverage_template_ids": [(4, self.coverage_template_2.id)]}
+        )
+        self.env["medical.encounter.validation.add.service"].create(
+            {
+                "encounter_id": encounter.id,
+                "action_type": "new",
+                "coverage_template_id": self.coverage_template_2.id,
+                "payor_id": self.payor.id,
+                "agreement_line_id": self.agreement_line3.id,
+            }
+        ).run()
+        self.assertEqual(2, len(encounter.careplan_ids))
