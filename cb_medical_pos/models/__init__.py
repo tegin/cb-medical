@@ -10,3 +10,5 @@ from . import pos_config
 from . import res_company
 from . import pos_payment
 from . import pos_order
+from . import product_template
+from . import product_medical_center_company
