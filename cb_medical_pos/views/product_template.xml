@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field
+            name="groups_id"
+            eval="[(4, ref('medical_base.group_medical_configurator'))]"
+        />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page
+                    name="medical_center"
+                    string="Medical centers"
+                    attrs="{'invisible': [('type', '!=', 'service')]}"
+                >
+                    <field name="medical_center_company_ids" />
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
