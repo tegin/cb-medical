@@ -10,3 +10,5 @@ from . import medical_encounter
 from . import pos_config
 from . import res_company
 from . import account_bank_statement
+from . import product_template
+from . import product_medical_center_company

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="product_medical_center_company_form_view">
+        <field
+            name="name"
+        >product.medical.center.company.form (in cb_medical_pos)</field>
+        <field name="model">product.medical.center.company</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <group>
+                        <field name="center_id" />
+                        <field name="company_id" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="product_medical_center_company_tree_view">
+        <field
+            name="name"
+        >product.medical.center.company.tree (in cb_medical_pos)</field>
+        <field name="model">product.medical.center.company</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="center_id" />
+                <field name="company_id" />
+            </tree>
+        </field>
+    </record>
+</odoo>

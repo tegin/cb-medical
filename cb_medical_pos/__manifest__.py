@@ -13,6 +13,9 @@
         "account_cash_invoice_inter_company",
     ],
     "data": [
+        "security/ir.model.access.csv",
+        "views/product_medical_center_company.xml",
+        "views/product_template.xml",
         "data/ir_sequence_data.xml",
         "security/cb_medical_pos_security.xml",
         "wizard/wizard_medical_encounter_close_view.xml",
