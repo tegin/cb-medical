@@ -12,6 +12,9 @@
         "pos_inter_company",
     ],
     "data": [
+        "security/ir.model.access.csv",
+        "views/product_medical_center_company.xml",
+        "views/product_template.xml",
         "views/pos_order.xml",
         "views/pos_payment.xml",
         "data/ir_sequence_data.xml",
