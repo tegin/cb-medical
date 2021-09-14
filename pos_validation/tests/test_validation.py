@@ -392,13 +392,7 @@ class TestPosValidation(common.MedicalSavePointCase):
                 request.draft2active()
                 self.assertEqual(request.center_id, encounter.center_id)
                 procedure = request.generate_event()
-                procedure.performer_id = self.practitioner_01
-                procedure.commission_agent_id = self.practitioner_01
                 procedure.performer_id = self.practitioner_02
-                procedure._onchange_performer_id()
-                self.assertEqual(
-                    procedure.commission_agent_id, self.practitioner_02
-                )
             encounter.refresh()
             encounter.recompute_commissions()
             encounter.refresh()
@@ -425,7 +419,6 @@ class TestPosValidation(common.MedicalSavePointCase):
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 0)
                 procedure.performer_id = self.practitioner_01
-                procedure.commission_agent_id = self.practitioner_01
                 procedure.check_commission()
                 self.assertEqual(len(procedure.sale_agent_ids), 3)
                 self.assertEqual(len(procedure.invoice_agent_ids), 0)
@@ -515,13 +508,7 @@ class TestPosValidation(common.MedicalSavePointCase):
                 request.draft2active()
                 self.assertEqual(request.center_id, encounter.center_id)
                 procedure = request.generate_event()
-                procedure.performer_id = self.practitioner_01
-                procedure.commission_agent_id = self.practitioner_01
                 procedure.performer_id = self.practitioner_02
-                procedure._onchange_performer_id()
-                self.assertEqual(
-                    procedure.commission_agent_id, self.practitioner_02
-                )
             encounter.recompute_commissions()
             for line in encounter.sale_order_ids.mapped("order_line"):
                 self.assertTrue(line.agent_ids)
@@ -541,7 +528,6 @@ class TestPosValidation(common.MedicalSavePointCase):
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 1)
                 procedure.performer_id = self.practitioner_01
-                procedure.commission_agent_id = self.practitioner_01
                 procedure.check_commission()
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 3)
