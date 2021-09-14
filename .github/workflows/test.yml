@@ -50,10 +50,10 @@ jobs:
                   git+https://github.com/OCA/report-print-send.git@refs/pull/251/merge#subdirectory=setup/remote_report_to_printer
             - run:
                   pip install
-                  git+https://github.com/OCA/web.git@refs/pull/1958/merge#subdirectory=setup/web_view_calendar_list
+                  git+https://github.com/OCA/pos.git@refs/pull/674/merge#subdirectory=setup/pos_session_pay_invoice
             - run:
                   pip install
-                  git+https://github.com/OCA/pos.git@refs/pull/674/merge#subdirectory=setup/pos_session_pay_invoice
+                  git+https://github.com/OCA/commission.git@refs/pull/311/merge#subdirectory=setup/sale_commission_delegated_partner
             - run:
                   pip install
                   git+https://github.com/tegin/cb-addons.git@13.0#subdirectory=setup

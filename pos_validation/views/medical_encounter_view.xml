@@ -249,7 +249,6 @@
                                                     readonly="1"
                                                 />
                                                 <field name="fixed_fee" readonly="1" />
-                                                <field name="commission_agent_id" />
                                             </tree>
                                         </field>
                                     </page>
