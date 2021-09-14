@@ -37,19 +37,7 @@ class MedicalLaboratoryRequest(models.Model):
 
     def _get_event_values(self, vals=False):
         res = super()._get_event_values(vals=vals)
-        self.commission_agent_id = False
-        valid_performer_ids = self.performer_id.commission_agent_ids
-        if not valid_performer_ids:
-            valid_performer_ids += self.performer_id
-        if len(valid_performer_ids) == 1:
-            self.commission_agent_id = valid_performer_ids[0]
-        res.update(
-            {
-                "commission_agent_id": self.commission_agent_id
-                and self.commission_agent_id.id,
-                "service_id": self.service_id.id,
-            }
-        )
+        res.update({"service_id": self.service_id.id})
         conditions = self.performer_id.practitioner_condition_ids
         practitioner_condition_id = conditions.get_condition(
             self.request_group_id.service_id, self.service_id, self.center_id

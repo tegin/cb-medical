@@ -3,7 +3,6 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from odoo import fields
 from odoo.addons.cb_medical_careplan_sale.tests import common
-from odoo.tests.common import Form
 
 
 class TestCBMedicalCommission(common.MedicalSavePointCase):
@@ -53,13 +52,8 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             procedure = request.generate_event()
             self.assertEqual(request.state, "active")
             procedure.performer_id = self.practitioner_01
-            procedure.commission_agent_id = self.practitioner_01
             procedure.performer_id = self.practitioner_02
-            procedure._onchange_performer_id()
             procedure._onchange_check_condition()
-            self.assertEqual(
-                procedure.commission_agent_id, self.practitioner_02
-            )
             self.assertFalse(procedure.practitioner_condition_id)
             self.assertEqual(request.variable_fee, 0)
             self.assertEqual(request.fixed_fee, 10)
@@ -185,17 +179,8 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             self.assertEqual(request.center_id, encounter.center_id)
             self.assertEqual(request.state, "draft")
             procedure = request.generate_event()
-            procedure.write(
-                {
-                    "performer_id": self.practitioner_01.id,
-                    "commission_agent_id": self.practitioner_01.id,
-                }
-            )
+            procedure.write({"performer_id": self.practitioner_01.id})
             procedure.performer_id = self.practitioner_02
-            procedure._onchange_performer_id()
-            self.assertEqual(
-                procedure.commission_agent_id, self.practitioner_02
-            )
             procedure.preparation2in_progress()
             procedure.in_progress2completed()
         for group in careplan.request_group_ids:
@@ -406,13 +391,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 request.draft2active()
                 self.assertEqual(request.center_id, encounter.center_id)
                 procedure = request.generate_event()
-                procedure.performer_id = self.practitioner_01
-                procedure.commission_agent_id = self.practitioner_01
                 procedure.performer_id = self.practitioner_02
-                procedure._onchange_performer_id()
-                self.assertEqual(
-                    procedure.commission_agent_id, self.practitioner_02
-                )
             encounter.refresh()
             encounter.recompute_commissions()
             encounter.refresh()
@@ -439,7 +418,6 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 0)
                 procedure.performer_id = self.practitioner_01
-                procedure.commission_agent_id = self.practitioner_01
                 procedure.check_commission()
                 self.assertEqual(len(procedure.sale_agent_ids), 3)
                 self.assertEqual(len(procedure.invoice_agent_ids), 0)
@@ -521,13 +499,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 request.draft2active()
                 self.assertEqual(request.center_id, encounter.center_id)
                 procedure = request.generate_event()
-                procedure.performer_id = self.practitioner_01
-                procedure.commission_agent_id = self.practitioner_01
                 procedure.performer_id = self.practitioner_02
-                procedure._onchange_performer_id()
-                self.assertEqual(
-                    procedure.commission_agent_id, self.practitioner_02
-                )
             encounter.recompute_commissions()
             for line in encounter.sale_order_ids.mapped("order_line"):
                 self.assertTrue(line.agent_ids)
@@ -547,7 +519,6 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 1)
                 procedure.performer_id = self.practitioner_01
-                procedure.commission_agent_id = self.practitioner_01
                 procedure.check_commission()
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 3)
@@ -592,7 +563,6 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             }
         )
         self.assertEqual(event.performer_id, self.practitioner_01)
-        self.assertEqual(event.commission_agent_id, self.practitioner_01)
         encounter.create_sale_order()
         encounter.recompute_commissions()
         encounter.refresh()
@@ -651,95 +621,3 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             ),
             0,
         )
-
-    def test_sale_onchange_performer_01(self):
-        practitioner_03 = self.create_practitioner("Practitioner 03")
-        self.env["workflow.plan.definition.action"].create(
-            {
-                "activity_definition_id": self.lab_activity.id,
-                "direct_plan_definition_id": self.plan_definition.id,
-                "is_billable": False,
-                "name": "Action4",
-                "performer_id": practitioner_03.id,
-            }
-        )
-        self.practitioner_01.commission_agent_ids = self.practitioner_02
-        self.env["medical.coverage.agreement.item"].create(
-            {
-                "product_id": self.product_07.id,
-                "coverage_agreement_id": self.agreement.id,
-                "total_price": 0.0,
-                "coverage_percentage": 50.0,
-                "authorization_method_id": self.browse_ref(
-                    "medical_financial_coverage_request.without"
-                ).id,
-                "authorization_format_id": self.browse_ref(
-                    "medical_financial_coverage_request.format_anything"
-                ).id,
-            }
-        )
-        encounter, careplan, group = self.create_careplan_and_group(
-            self.agreement_line
-        )
-        lab_req = group.laboratory_request_ids
-        event = lab_req.generate_event(
-            {
-                "is_sellable_private": True,
-                "is_sellable_insurance": True,
-                "private_amount": 20,
-                "coverage_amount": 10,
-                "private_cost": 10,
-                "coverage_cost": 5,
-            }
-        )
-        with Form(event) as form_event:
-            form_event.performer_id = self.practitioner_01
-            self.assertEqual(
-                form_event.commission_agent_id, self.practitioner_02
-            )
-
-    def test_sale_onchange_performer_02(self):
-        practitioner_03 = self.create_practitioner("Practitioner 03")
-        self.env["workflow.plan.definition.action"].create(
-            {
-                "activity_definition_id": self.lab_activity.id,
-                "direct_plan_definition_id": self.plan_definition.id,
-                "is_billable": False,
-                "name": "Action4",
-                "performer_id": self.practitioner_02.id,
-            }
-        )
-        self.practitioner_01.commission_agent_ids = (
-            self.practitioner_02 | practitioner_03
-        )
-        self.env["medical.coverage.agreement.item"].create(
-            {
-                "product_id": self.product_07.id,
-                "coverage_agreement_id": self.agreement.id,
-                "total_price": 0.0,
-                "coverage_percentage": 50.0,
-                "authorization_method_id": self.browse_ref(
-                    "medical_financial_coverage_request.without"
-                ).id,
-                "authorization_format_id": self.browse_ref(
-                    "medical_financial_coverage_request.format_anything"
-                ).id,
-            }
-        )
-        encounter, careplan, group = self.create_careplan_and_group(
-            self.agreement_line
-        )
-        lab_req = group.laboratory_request_ids
-        event = lab_req.generate_event(
-            {
-                "is_sellable_private": True,
-                "is_sellable_insurance": True,
-                "private_amount": 20,
-                "coverage_amount": 10,
-                "private_cost": 10,
-                "coverage_cost": 5,
-            }
-        )
-        with Form(event) as form_event:
-            form_event.performer_id = self.practitioner_01
-            self.assertFalse(form_event.commission_agent_id)

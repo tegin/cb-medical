@@ -31,7 +31,7 @@ class RequestGroup(models.Model):
                     )
                 )
             procedure.ensure_one()
-            partner = procedure.commission_agent_id or procedure.performer_id
+            partner = procedure.performer_id
             if partner.third_party_sequence_id:
                 return partner
         return super().get_third_party_partner()
