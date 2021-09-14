@@ -14,8 +14,6 @@
         />
         <field name="arch" type="xml">
             <field name="private_amount" position="after">
-                <field name="commission_agent_ids" invisible="1" />
-                <field name="commission_agent_id" />
                 <field name="private_cost" />
                 <field name="coverage_cost" />
             </field>

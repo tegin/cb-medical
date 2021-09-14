@@ -42,7 +42,7 @@ class MedicalProcedure(models.Model):
     invoice_agent_ids = fields.One2many(inverse_name="procedure_id")
 
     @api.constrains(
-        "commission_agent_id",
+        "performer_id",
         "practitioner_condition_id",
         "variable_fee",
         "fixed_fee",

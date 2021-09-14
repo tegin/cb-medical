@@ -13,18 +13,6 @@
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page
-                    name="commission"
-                    string="Commission Agents"
-                    attrs="{'invisible': ['|', ('is_practitioner', '=', False), ('agent', '=', False)]}"
-                    groups="medical_administration_practitioner.group_medical_practitioner_manager"
-                >
-                    <field
-                        name="commission_agent_ids"
-                        nolabel="1"
-                        options="{'no_create': True}"
-                    />
-                </page>
-                <page
                     name="practitoner_condition"
                     string="Practitioner conditions"
                     attrs="{'invisible': ['|', ('is_practitioner', '=', False), ('agent', '=', False)]}"
@@ -44,9 +32,6 @@
             eval="[(4, ref('sales_team.group_sale_salesman')), (4, ref('medical_administration_practitioner.group_medical_practitioner_manager'))]"
         />
         <field name="arch" type="xml">
-            <field name="commission_agent_ids" position="attributes">
-                <attribute name="readonly">0</attribute>
-            </field>
             <field name="practitioner_condition_ids" position="attributes">
                 <attribute name="readonly">0</attribute>
             </field>
