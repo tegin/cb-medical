@@ -226,13 +226,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             request.draft2active()
             self.assertEqual(request.center_id, encounter.center_id)
             procedure = request.generate_event()
-            procedure.performer_id = self.practitioner_01
-            procedure.commission_agent_id = self.practitioner_01
             procedure.performer_id = self.practitioner_02
-            procedure._onchange_performer_id()
-            self.assertEqual(
-                procedure.commission_agent_id, self.practitioner_02
-            )
         self.practitioner_02.third_party_sequence_id = self.env[
             "ir.sequence"
         ].create({"name": "sequence"})
@@ -307,13 +301,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             request.draft2active()
             self.assertEqual(request.center_id, encounter.center_id)
             procedure = request.generate_event()
-            procedure.performer_id = self.practitioner_01
-            procedure.commission_agent_id = self.practitioner_01
             procedure.performer_id = self.practitioner_02
-            procedure._onchange_performer_id()
-            self.assertEqual(
-                procedure.commission_agent_id, self.practitioner_02
-            )
         self.practitioner_02.third_party_sequence_id = self.env[
             "ir.sequence"
         ].create({"name": "sequence"})
