@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class MedicalCommissionAction(models.AbstractModel):
@@ -10,32 +10,12 @@ class MedicalCommissionAction(models.AbstractModel):
         comodel_name="res.partner",
         domain=[("is_practitioner", "=", True)],
     )
-    commission_agent_id = fields.Many2one(
-        string="Commission Agent",
-        comodel_name="res.partner",
-        domain="[('id', 'in', commission_agent_ids)]",
-    )
-    commission_agent_ids = fields.Many2many(
-        comodel_name="res.partner",
-        related="performer_id.commission_agent_ids",
-        readonly=True,
-    )
     sale_agent_ids = fields.One2many(
         "sale.order.line.agent", inverse_name="id", readonly=True
     )
     invoice_agent_ids = fields.One2many(
         "account.invoice.line.agent", inverse_name="id", readonly=True
     )
-
-    @api.onchange("performer_id")
-    def _onchange_performer_id(self):
-        valid_performer_ids = self.performer_id.commission_agent_ids
-        if not valid_performer_ids:
-            self.commission_agent_id = self.performer_id
-        elif len(valid_performer_ids) == 1:
-            self.commission_agent_id = valid_performer_ids[0]
-        else:
-            self.commission_agent_id = False
 
     def check_agents(self, agent):
         pass
@@ -44,14 +24,7 @@ class MedicalCommissionAction(models.AbstractModel):
         pass
 
     def _get_agent(self):
-        performer_agent = False
-        valid_agent_ids = self.performer_id.commission_agent_ids
-        if not valid_agent_ids:
-            valid_agent_ids += self.performer_id
-        if len(valid_agent_ids) == 1:
-            performer_agent = valid_agent_ids[0]
-        agent = self.commission_agent_id or performer_agent
-        return agent
+        return self.performer_id
 
     def _get_sale_order_line_agent_vals(self, line):
         agent = self._get_agent()
