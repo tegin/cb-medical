@@ -35,7 +35,7 @@
             eval="[(4, ref('pos_validation.group_medical_encounter_validation'))]"
         />
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']" position="before">
+            <xpath expr="//div[@name='button_box']" position="after">
                 <flagbox
                     attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
                 >
