@@ -8,17 +8,11 @@ def migrate(env, version):
     openupgrade.logged_query(
         env.cr,
         """
-        UPDATE account_move am
-        SET bank_statement_line_ids = ai.bank_statement_line_ids,
-        FROM account_invoice ai
-        WHERE ai.id = am.old_invoice_id and ai.bank_statement_line_ids is not null""",
-    )
-
-    openupgrade.logged_query(
-        env.cr,
-        """
         UPDATE account_move_line aml
-        SET down_payment_line_id = ail.down_payment_line_id,
+        SET down_payment_line_id = aml2.id
         FROM account_invoice_line ail
-        WHERE ail.id = aml.old_invoice_id and ail.down_payment_line_id is not null""",
+        INNER JOIN account_move_line aml2
+            ON aml2.old_invoice_line_id = ail.down_payment_line_id
+        WHERE ail.id = aml.old_invoice_line_id
+            and ail.down_payment_line_id is not null""",
     )
