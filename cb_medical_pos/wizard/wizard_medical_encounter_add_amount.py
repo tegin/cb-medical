@@ -32,9 +32,7 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
         domain=[("state", "=", "opened")],
     )
     partner_invoice_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Partner invoice",
-        domain=[("customer", "=", True)],
+        comodel_name="res.partner", string="Partner invoice",
     )
     company_id = fields.Many2one(
         comodel_name="res.company",
