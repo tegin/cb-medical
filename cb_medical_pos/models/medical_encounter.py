@@ -247,7 +247,7 @@ class MedicalEncounter(models.Model):
             "name": line.name,
             "product_uom_qty": line.product_uom_qty,
             "product_uom": line.product_uom.id,
-            "price_unit": -line.price_unit,
+            "price_unit": -line.price_unit * (1.0 - line.discount / 100.0),
             "down_payment_sale_line_id": line.id,
         }
         if line.invoice_lines:
