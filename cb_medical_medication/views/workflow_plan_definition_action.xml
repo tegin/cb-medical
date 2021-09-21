@@ -14,7 +14,7 @@
         />
         <field name="priority" eval="16" />
         <field name="arch" type="xml">
-            <field name="service_id" position="after">
+            <field name="parent_id" position="after">
                 <field name="model_id" invisible="1" />
                 <field
                     name="location_type_id"
