@@ -116,7 +116,7 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
             line.qty_delivered = line.product_uom_qty
         invoice_ids = order.with_context(
             force_company=order.company_id.id
-        )._create_invoices()
+        )._create_invoices(final=True)
         invoice = self.env["account.move"].browse(invoice_ids).id
         invoice.ensure_one()
         invoice.action_post()
