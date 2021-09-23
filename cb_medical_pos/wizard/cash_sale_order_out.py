@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo import api, fields, models
+from odoo.fields import first
 from odoo.tools import float_is_zero
 
 
@@ -9,6 +10,12 @@ class CashSaleOrderOut(models.TransientModel):
     _name = "cash.sale.order.out"
     _inherit = "cash.box.out"
     _description = "Pos Cash Box a Third party Sale Order"
+
+    def _default_payment_method(self):
+        session = self.env["pos.session"].browse(
+            self.env.context.get("default_session_id")
+        )
+        return first(session.payment_method_ids)
 
     session_id = fields.Many2one("pos.session", required=True)
     sale_order_id = fields.Many2one(
