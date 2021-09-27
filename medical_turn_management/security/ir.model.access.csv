@@ -6,3 +6,5 @@ access_specialty,Access specialty,model_medical_turn_specialty,group_medical_spe
 manage_specialty,Manage specialty,model_medical_turn_specialty,group_medical_specialty_turn_manager,1,1,1,0
 access_specialty_rule,Access specialty rule,model_medical_turn_specialty_rule,group_medical_specialty_turn_display,1,0,0,0
 manage_specialty_rule,Manage specialty rule,model_medical_turn_specialty_rule,group_medical_specialty_turn_manager,1,1,1,1
+access_turn_tag,Access Turn Tag,model_medical_turn_tag,group_medical_specialty_turn_display,1,0,0,0
+manage_turn_tag,Manage Turn Tag,model_medical_turn_tag,group_medical_specialty_turn_manager,1,1,1,0

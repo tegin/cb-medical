@@ -25,6 +25,7 @@ class MedicalTurnSpecialty(models.Model):
         string="Practitioners",
         domain=[("is_practitioner", "=", True)],
     )
+    turn_tag_ids = fields.Many2many(comodel_name="medical.turn.tag")
 
     def _execute_rules(self, start_date, end_date):
         results = self.env["medical.turn"]
