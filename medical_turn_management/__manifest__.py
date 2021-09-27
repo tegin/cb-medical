@@ -23,5 +23,6 @@
         "views/res_partner.xml",
         "views/medical_turn_specialty.xml",
         "views/medical_turn.xml",
+        "views/medical_turn_tag.xml",
     ],
 }
