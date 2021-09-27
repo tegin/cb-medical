@@ -23,6 +23,9 @@ class MedicalTurn(models.Model):
     specialty_id = fields.Many2one(
         "medical.turn.specialty", tracking=True, required=True
     )
+    turn_tag_ids = fields.Many2many(
+        comodel_name="medical.turn.tag", related="specialty_id.turn_tag_ids"
+    )
     date = fields.Datetime(
         required=True,
         copy=False,
