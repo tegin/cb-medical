@@ -25,6 +25,11 @@
                             widget="many2many_tags"
                             options="{'no_create': True}"
                         />
+                        <field
+                            name="turn_tag_ids"
+                            widget="many2many_tags"
+                            options="{'no_create': True}"
+                        />
                     </group>
                     <notebook>
                         <page name="rule" string="Rules">
