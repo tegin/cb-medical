@@ -11,5 +11,5 @@ def migrate(env, version):
         UPDATE account_move_line aml
         SET guard_id = ail.guard_id
         FROM account_invoice_line ail
-        WHERE ail.id = aml.old_invoice_line_id""",
+        WHERE ail.id = aml.old_invoice_line_id AND ail.guard_id is not NULL""",
     )
