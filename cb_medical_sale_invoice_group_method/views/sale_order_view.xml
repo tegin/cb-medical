@@ -21,11 +21,7 @@
                 expr="//field[@name='order_line']/tree/field[@name='discount']"
                 position="after"
             >
-                <field
-                    name="invoice_group_method_id"
-                    options="{'no_create': True}"
-                    attrs="{'readonly': [('parent.state', 'in', ['sale', 'done'])]}"
-                />
+                <field name="invoice_group_method_id" options="{'no_create': True}" />
             </xpath>
         </field>
     </record>

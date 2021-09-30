@@ -25,3 +25,27 @@ def migrate(env, version):
         FROM account_invoice ai
         WHERE ai.id = am.old_invoice_id""",
     )
+    openupgrade.logged_query(
+        env.cr,
+        """
+        UPDATE sale_order so
+        SET invoice_group_method_id = igm.id
+        FROM sale_order_line sol
+            INNER JOIN invoice_group_method igm ON igm.id = sol.invoice_group_method_id
+        WHERE so.invoice_group_method_id IS NULL
+            AND (igm.no_invoice is NULL OR NOT igm.no_invoice)
+            AND sol.order_id = so.id
+        """,
+    )
+    openupgrade.logged_query(
+        env.cr,
+        """
+        UPDATE sale_order so
+        SET invoice_group_method_id = igm.id
+        FROM sale_order_line sol
+            INNER JOIN invoice_group_method igm ON igm.id = sol.invoice_group_method_id
+        WHERE so.invoice_group_method_id IS NULL
+            AND igm.no_invoice
+            AND sol.order_id = so.id
+        """,
+    )
