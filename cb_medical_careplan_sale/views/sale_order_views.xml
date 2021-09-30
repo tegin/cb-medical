@@ -27,6 +27,11 @@
                     attrs="{'invisible': [('encounter_id', '=', False)]}"
                 />
                 <field
+                    name="invoice_group_method_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': [('encounter_id', '=', False)]}"
+                />
+                <field
                     name="patient_name"
                     attrs="{'invisible': [('encounter_id', '=', False)]}"
                 />
