@@ -9,4 +9,8 @@ class MedicalLaboratoryEvent(models.Model):
     _inherit = "medical.laboratory.event"
 
     def _change_authorization(self, vals, **kwargs):
-        self.write(vals)
+        new_vals = {}
+        for key in vals:
+            if key in self._fields:
+                new_vals[key] = vals[key]
+        self.write(new_vals)
