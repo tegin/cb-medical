@@ -126,13 +126,13 @@ class MedicalQuote(models.Model):
     def _set_note1(self):
         comment = self.comment_template1_id
         if comment:
-            self.note1 = comment.name_get()
+            self.note1 = comment.get_value()
 
     @api.onchange("comment_template2_id")
     def _set_note2(self):
         comment = self.comment_template2_id
         if comment:
-            self.note2 = comment.name_get()
+            self.note2 = comment.get_value()
 
     @api.model
     def _get_agreements_domain(self):
