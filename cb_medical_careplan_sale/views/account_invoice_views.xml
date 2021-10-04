@@ -13,6 +13,18 @@
                 <field name="subscriber_id" />
                 <field name="authorization_number" />
             </xpath>
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form//field[@name='product_id']"
+                position="after"
+            >
+                <field name="encounter_id" />
+            </xpath>
+            <xpath
+                expr="//group[@id='other_tab_group']//field[@name='invoice_origin']"
+                position="after"
+            >
+                <field name="encounter_id" />
+            </xpath>
         </field>
     </record>
     <record id="view_invoice_line_form" model="ir.ui.view">
