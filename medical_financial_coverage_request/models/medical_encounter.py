@@ -48,6 +48,7 @@ class MedicalEncounter(models.Model):
                     new_patient_vals[field] = patient_vals[field]
             if new_patient_vals:
                 patient.write(new_patient_vals)
+                patient.flush()
         if isinstance(center, int):
             center = self.env["res.partner"].browse(center)
         return self.create(
