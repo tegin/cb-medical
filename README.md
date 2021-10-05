@@ -32,7 +32,7 @@ addon | version | maintainers | summary
 [cb_medical_medication](cb_medical_medication/) | 13.0.1.0.0 |  | CB Medical sequence configuration
 [cb_medical_pos](cb_medical_pos/) | 13.0.1.0.0 |  | CB Medical link to PoS
 [cb_medical_quote](cb_medical_quote/) | 13.0.1.0.0 |  | CB Medical Quote
-[cb_medical_sale_invoice_group_method](cb_medical_sale_invoice_group_method/) | 13.0.1.0.0 |  | Medical Sale Invoice Group Method
+[cb_medical_sale_invoice_group_method](cb_medical_sale_invoice_group_method/) | 13.0.1.0.1 |  | Medical Sale Invoice Group Method
 [cb_medical_views](cb_medical_views/) | 13.0.1.0.0 |  | CB Medical Views
 [cb_medical_workflow_activity](cb_medical_workflow_activity/) | 13.0.1.0.0 |  | CB Medical Workflow Activity
 [cb_mgmtsystem_issue](cb_mgmtsystem_issue/) | 13.0.1.0.0 |  | Managemente System Issues
