@@ -116,7 +116,7 @@
                             type="action"
                             icon="fa-barcode"
                             string="Scan"
-                            context="{'default_model': 'sale.preinvoice.group', 'default_res_id': active_id, 'default_method': 'scan_barcode_preinvoice'}"
+                            context="{'default_model': 'sale.preinvoice.group', 'default_res_id': id, 'default_method': 'scan_barcode_preinvoice'}"
                             states="in_progress"
                         />
                     </div>
