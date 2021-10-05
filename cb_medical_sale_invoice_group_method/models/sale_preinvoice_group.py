@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class SalePreinvoiceGroup(models.Model):
@@ -181,3 +181,65 @@ class SalePreinvoiceGroup(models.Model):
         for line in self.line_ids:
             line.preinvoice_group_id = False
         self.write({"state": "cancelled"})
+
+    def _show_lines(self, encounter, processed_lines):
+        show_lines = (
+            _(
+                "The following lines have been processed from "
+                "Encounter %s:\n"
+            )
+            % encounter.display_name
+        )
+        for line in processed_lines:
+            show_lines = "{} {} [{}]\n".format(
+                show_lines, line.product_id.name, line.order_id.name,
+            )
+        return show_lines + _(
+            "Scan the next barcode or press Close to " "finish scanning."
+        )
+
+    def scan_barcode_preinvoice(self, barcode):
+        encounter_id = self.env["medical.encounter"].search(
+            [("internal_identifier", "=", barcode)]
+        )
+        if not encounter_id:
+            status = (
+                _(
+                    "Barcode %s does not correspond to any "
+                    "Encounter. Try with another barcode or "
+                    "press Close to finish scanning."
+                )
+                % barcode
+            )
+            status_state = 1
+        else:
+            processed_lines = self.line_ids.filtered(
+                lambda r: r.encounter_id.id == encounter_id.id
+                and not r.is_validated
+            )
+            if not processed_lines:
+                status = (
+                    _(
+                        "The Encounter %s does not belong to this pre-invoice "
+                        "group. Try with another barcode or press Close to finish "
+                        "scanning."
+                    )
+                    % encounter_id.display_name
+                )
+                status_state = 1
+            else:
+                for line in processed_lines:
+                    self.validate_line(line)
+                status = self._show_lines(encounter_id, processed_lines)
+                status_state = 0
+                self._compute_lines()
+        action = self.env.ref("barcode_action.barcode_action_action")
+        result = action.read()[0]
+        result["context"] = {
+            "default_model": self._name,
+            "default_method": "scan_barcode_preinvoice",
+            "default_res_id": self.id,
+            "default_status": status,
+            "default_status_state": status_state,
+        }
+        return result
