@@ -169,15 +169,17 @@ class TestCBSale(common.MedicalSavePointCase):
         for preinvoice in preinvoices:
             self.assertFalse(preinvoice.validated_line_ids)
             preinvoice.start()
-            barcode = self.env["wizard.sale.preinvoice.group.barcode"].create(
-                {"preinvoice_group_id": preinvoice.id}
+
+            result = preinvoice.scan_barcode_preinvoice(
+                encounter.internal_identifier
             )
-            barcode.on_barcode_scanned(encounter.internal_identifier)
-            self.assertEqual(barcode.status_state, 0)
-            barcode.on_barcode_scanned("No Barcode")
-            self.assertEqual(barcode.status_state, 1)
-            barcode.on_barcode_scanned(encounter_02.internal_identifier)
-            self.assertEqual(barcode.status_state, 1)
+            self.assertEqual(result["context"]["default_status_state"], 0)
+            result = preinvoice.scan_barcode_preinvoice("No Barcode")
+            self.assertEqual(result["context"]["default_status_state"], 1)
+            result = preinvoice.scan_barcode_preinvoice(
+                encounter_02.internal_identifier
+            )
+            self.assertEqual(result["context"]["default_status_state"], 1)
             preinvoice.close_sorting()
             preinvoice.close()
             self.assertTrue(preinvoice.move_id)
