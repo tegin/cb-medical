@@ -4,13 +4,14 @@
 
 {
     "name": "Medical Sale Invoice Group Method",
-    "version": "13.0.1.0.0",
+    "version": "13.0.1.0.1",
     "author": "Eficent, Creu Blanca",
     "category": "Medical",
     "depends": [
         "medical_base",
         "cb_medical_careplan_sale",
         "barcodes",
+        "barcode_action",
         "medical_administration_encounter",
     ],
     "data": [
@@ -22,7 +23,6 @@
         "views/medical_preinvoice_group_menu.xml",
         "views/report_invoice.xml",
         "wizard/wizard_sale_preinvoice_group_views.xml",
-        "wizard/wizard_barcode_handler_views.xml",
         "wizard/invoice_sales_by_group_view.xml",
         "views/medical_preinvoice_group_line_view.xml",
         "views/res_company_views.xml",
