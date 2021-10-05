@@ -24,8 +24,11 @@ class MedicalLaboratoryEvent(models.Model):
 
     def _change_authorization(self, vals, **kwargs):
         res = super()._change_authorization(vals, **kwargs)
-        if self.mapped("sale_order_line_ids"):
-            self.mapped("sale_order_line_ids").filtered(
-                lambda r: not r.is_private
-            ).write(vals)
+        so_lines = self.mapped("sale_order_line_ids")
+        if so_lines:
+            new_vals = {}
+            for key in vals:
+                if key in so_lines._fields:
+                    new_vals[key] = vals[key]
+            so_lines.filtered(lambda r: not r.is_private).write(new_vals)
         return res
