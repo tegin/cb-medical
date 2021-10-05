@@ -19,11 +19,14 @@ class MedicalRequest(models.AbstractModel):
 
     def _change_authorization(self, vals, **kwargs):
         res = super()._change_authorization(vals, **kwargs)
-        if self.mapped("sale_order_line_ids"):
-            self.mapped("sale_order_line_ids").filtered(
-                lambda r: not r.is_private
-            ).write(vals)
-            for sale_line in self.mapped("sale_order_line_ids"):
+        so_lines = self.mapped("sale_order_line_ids")
+        if so_lines:
+            new_vals = {}
+            for key in vals:
+                if key in so_lines._fields:
+                    new_vals[key] = vals[key]
+            so_lines.filtered(lambda r: not r.is_private).write(new_vals)
+            for sale_line in so_lines:
                 if (
                     sale_line.order_id.invoice_group_method_id
                     == sale_line.invoice_group_method_id
