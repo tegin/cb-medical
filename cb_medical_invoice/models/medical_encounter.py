@@ -62,7 +62,7 @@ class MedicalEncounter(models.Model):
                 for il in invoice_new_partner.invoice_line_ids:
                     il.quantity *= -1
                 invoice_new_partner.type = "out_refund"
-            invoice_new_partner.post()
+            invoice_new_partner.sudo().post()
             inv_res |= invoice_new_partner
             invoice_refund = Form(
                 self.env["account.move"].with_context(
@@ -90,7 +90,7 @@ class MedicalEncounter(models.Model):
                 )
 
             invoice_refund.write({"invoice_line_ids": invoice_line_vals})
-            invoice_refund.post()
+            invoice_refund.sudo().post()
             inv_res |= invoice_refund
             final_inv.write({"encounter_final_invoice": False})
             if invoice_refund.amount_total != invoice_new_partner.amount_total:
@@ -100,8 +100,8 @@ class MedicalEncounter(models.Model):
             move_vals = self._change_invoice_partner_move_vals(
                 invoice_refund, invoice_new_partner
             )
-            move = self.env["account.move"].create(move_vals)
-            move.post()
+            move = self.env["account.move"].sudo().create(move_vals)
+            move.sudo().post()
             ref_iml = invoice_refund.line_ids.filtered(
                 lambda r: r.account_id.user_type_id.type
                 in ("receivable", "payable")
@@ -109,7 +109,9 @@ class MedicalEncounter(models.Model):
             ref_move_iml = move.line_ids.filtered(
                 lambda r: (r.partner_id == invoice_refund.partner_id)
             )
-            self.env["account.reconciliation.widget"].process_move_lines(
+            self.env[
+                "account.reconciliation.widget"
+            ].sudo().process_move_lines(
                 [
                     {
                         "mv_line_ids": ref_iml.ids + ref_move_iml.ids,
@@ -126,7 +128,9 @@ class MedicalEncounter(models.Model):
             inv_move_iml = move.line_ids.filtered(
                 lambda r: r.partner_id == invoice_new_partner.partner_id
             )
-            self.env["account.reconciliation.widget"].process_move_lines(
+            self.env[
+                "account.reconciliation.widget"
+            ].sudo().process_move_lines(
                 [
                     {
                         "mv_line_ids": inv_iml.ids + inv_move_iml.ids,
