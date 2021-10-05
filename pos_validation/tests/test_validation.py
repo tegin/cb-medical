@@ -636,12 +636,11 @@ class TestPosValidation(common.MedicalSavePointCase):
         for preinvoice in preinvoices:
             self.assertFalse(preinvoice.validated_line_ids)
             preinvoice.start()
-            barcode = self.env["wizard.sale.preinvoice.group.barcode"].create(
-                {"preinvoice_group_id": preinvoice.id}
-            )
             for encounter in self.session.encounter_ids:
-                barcode.on_barcode_scanned(encounter.internal_identifier)
-                self.assertEqual(barcode.status_state, 0)
+                result = preinvoice.scan_barcode_preinvoice(
+                    encounter.internal_identifier
+                )
+                self.assertEqual(result["context"]["default_status_state"], 0)
             preinvoice.close_sorting()
             preinvoice.close()
             self.assertFalse(preinvoice.move_id)
