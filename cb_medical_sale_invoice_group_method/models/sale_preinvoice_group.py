@@ -127,7 +127,7 @@ class SalePreinvoiceGroup(models.Model):
     def create_invoice_values(self):
         inv_data = self.validated_line_ids[0].order_id._prepare_invoice()
         inv_data["agreement_id"] = self.agreement_id.id or False
-        inv_data["name"] = self.internal_identifier
+        inv_data["invoice_origin"] = self.internal_identifier
         journal = self.invoice_group_method_id.get_journal(self.company_id)
         if journal:
             inv_data["journal_id"] = journal.id
