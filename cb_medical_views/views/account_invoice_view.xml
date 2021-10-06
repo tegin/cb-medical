@@ -11,15 +11,4 @@
             </field>
         </field>
     </record>
-    <record model="ir.ui.view" id="account_invoice_line_search">
-        <field name="name">account.invoice.line.search</field>
-        <field name="model">account.move.line</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="product_id" />
-                <field name="name" />
-                <field name="patient_name" />
-            </search>
-        </field>
-    </record>
 </odoo>
