@@ -211,7 +211,7 @@ class SalePreinvoiceGroup(models.Model):
                 )
                 % barcode
             )
-            status_state = 1
+            status_state = "warning"
         else:
             processed_lines = self.line_ids.filtered(
                 lambda r: r.encounter_id.id == encounter_id.id
@@ -226,12 +226,12 @@ class SalePreinvoiceGroup(models.Model):
                     )
                     % encounter_id.display_name
                 )
-                status_state = 1
+                status_state = "warning"
             else:
                 for line in processed_lines:
                     self.validate_line(line)
                 status = self._show_lines(encounter_id, processed_lines)
-                status_state = 0
+                status_state = "waiting"
                 self._compute_lines()
         action = self.env.ref("barcode_action.barcode_action_action")
         result = action.read()[0]
@@ -240,6 +240,6 @@ class SalePreinvoiceGroup(models.Model):
             "default_method": "scan_barcode_preinvoice",
             "default_res_id": self.id,
             "default_status": status,
-            "default_status_state": status_state,
+            "default_state": status_state,
         }
         return result
