@@ -115,7 +115,7 @@ class PosSession(models.Model):
                 company = data["inter_company_map"][company].company_id
                 commercial_partner = partner.commercial_partner_id
                 partner_account_id = commercial_partner.with_context(
-                    force_company=company
+                    force_company=company.id
                 ).property_third_party_customer_account_id.id
                 inter_company_receivable_vals[company][
                     partner_account_id
