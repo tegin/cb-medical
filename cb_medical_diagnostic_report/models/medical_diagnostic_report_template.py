@@ -16,8 +16,8 @@ class MedicalDiagnosticReportTemplate(models.Model):
         related="medical_department_id.diagnostic_report_header", readonly=True
     )
 
-    def _generate_report_vals(self, encounter):
-        result = super()._generate_report_vals(encounter)
+    def _generate_report_vals(self, encounter=None, **kwargs):
+        result = super()._generate_report_vals(encounter=encounter, **kwargs)
         result.update(
             {
                 "with_department": True
