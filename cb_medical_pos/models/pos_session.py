@@ -112,7 +112,6 @@ class PosSession(models.Model):
             invoice_receivables,
         ) in inter_company_tp_receivables.items():
             for partner, amounts in invoice_receivables.items():
-                company = data["inter_company_map"][company].company_id.id
                 commercial_partner = partner.commercial_partner_id
                 partner_account_id = commercial_partner.with_context(
                     force_company=company
@@ -195,3 +194,4 @@ class PosSession(models.Model):
                 {"amount": order._get_amount_receivable()},
                 order.date_order,
             )
+        data.update({"inter_company_amounts": inter_company_amounts})
