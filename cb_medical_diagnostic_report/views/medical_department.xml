@@ -18,9 +18,17 @@
                     <group>
                         <field name="name" />
                         <field name="without_practitioner" />
+                        <field
+                            name="with_department_report_header"
+                            sting="Report with header"
+                        />
                     </group>
                     <notebook>
-                        <page name="diagnostic_report_header" string="Report Header">
+                        <page
+                            name="diagnostic_report_header"
+                            string="Report Header"
+                            attrs="{'invisible': [('with_department_report_header', '=', False)]}"
+                        >
                             <field name="diagnostic_report_header" />
                         </page>
                         <page name="user" string="Users">
