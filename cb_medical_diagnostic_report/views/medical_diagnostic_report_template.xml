@@ -13,12 +13,13 @@
             <field name="with_conclusion" position="after">
                 <field name="report_category_id" />
                 <field name="medical_department_id" />
+                <field name="with_department_report_header" invisible="1" />
             </field>
             <xpath expr="//notebook/page[last()]" position="after">
                 <page
                     name="medical_department_header"
                     string="Medical Department"
-                    attrs="{'invisible': [('medical_department_id', '=', False)]}"
+                    attrs="{'invisible': [('with_department_report_header', '=', False)]}"
                 >
                     <field name="medical_department_header" />
                 </page>
