@@ -30,6 +30,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         self.department_1 = self.env["medical.department"].create(
             {
                 "name": "Department 1",
+                "with_department_report_header": True,
                 "diagnostic_report_header": " Report Header 1",
                 "user_ids": [(4, self.user_1.id)],
             }
@@ -37,6 +38,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         self.department_2 = self.env["medical.department"].create(
             {
                 "name": "Department 2",
+                "with_department_report_header": True,
                 "diagnostic_report_header": " Report Header 2",
             }
         )

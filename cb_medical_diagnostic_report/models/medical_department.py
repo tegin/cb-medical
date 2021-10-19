@@ -11,6 +11,7 @@ class MedicalDepartment(models.Model):
     _description = "Medical Department"
 
     name = fields.Char(required=True)
+    with_department_report_header = fields.Boolean(default=True)
     diagnostic_report_header = fields.Html(translate=True, sanitize=False)
     report_category_ids = fields.One2many(
         comodel_name="medical.report.category",

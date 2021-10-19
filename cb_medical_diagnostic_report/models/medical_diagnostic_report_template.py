@@ -15,6 +15,9 @@ class MedicalDiagnosticReportTemplate(models.Model):
     medical_department_header = fields.Html(
         related="medical_department_id.diagnostic_report_header", readonly=True
     )
+    with_department_report_header = fields.Boolean(
+        related="medical_department_id.with_department_report_header"
+    )
 
     def _generate_report_vals(self, encounter=None, **kwargs):
         result = super()._generate_report_vals(encounter=encounter, **kwargs)
@@ -23,7 +26,9 @@ class MedicalDiagnosticReportTemplate(models.Model):
                 "with_department": True
                 if self.medical_department_id
                 else False,
-                "medical_department_header": self.medical_department_header,
+                "medical_department_header": self.medical_department_header
+                if self.with_department_report_header
+                else False,
                 "report_category_id": self.report_category_id.id,
             }
         )
