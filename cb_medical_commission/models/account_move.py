@@ -21,7 +21,7 @@ class AccountMoveLine(models.Model):
 
     @api.depends("move_id.partner_id")
     def _compute_agent_ids(self):
-        if not self.env.context.get("no_change_commission_agent"):
+        if self.env.context.get("original_compute_agent_ids"):
             super(AccountMoveLine, self)._compute_agent_ids()
         else:
             for record in self:
