@@ -20,4 +20,5 @@ from . import sale_order_line
 from . import settlement
 from . import workflow_activity_definition
 from . import workflow_plan_definition_action
-from . import sale_preinvoice_group
+
+# from . import sale_preinvoice_group
