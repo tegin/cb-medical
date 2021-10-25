@@ -160,6 +160,7 @@ class MedicalEncounter(models.Model):
                 default_journal_id=patient_journal,
                 no_check_lines=True,
                 no_split_invoices=True,
+                active_model=sale_order._name,
             )._create_invoices()
 
             amount = invoice.amount_total
