@@ -203,7 +203,9 @@ class MedicalEncounter(models.Model):
         """Hook in order to add more functionality"""
         if not sale_order.invoice_group_method_id.invoice_at_validation:
             return self.env["account.move"]
-        invoice = sale_order._create_invoices()
+        invoice = sale_order.with_context(
+            active_model=sale_order._name
+        )._create_invoices()
         self.post_process_invoice(invoice, sale_order.invoice_group_method_id)
         invoice.post()
         return invoice
