@@ -121,4 +121,6 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         )
         encounter.sale_order_ids.action_confirm()
         with self.assertRaises(UserError):
-            encounter.sale_order_ids._create_invoices()
+            encounter.sale_order_ids.with_context(
+                active_model=encounter.sale_order_ids._name
+            )._create_invoices()
