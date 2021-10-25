@@ -39,7 +39,9 @@ class InvoiceSalesByGroup(models.TransientModel):
             )
             if not sales:
                 continue
-            invoices |= sales._create_invoices()
+            invoices |= sales.with_context(
+                active_model=sales._name
+            )._create_invoices()
         if not invoices:
             return
         action = self.env.ref("account.action_move_out_invoice_type")

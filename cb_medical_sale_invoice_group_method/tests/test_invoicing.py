@@ -72,7 +72,9 @@ class TestCBInvoicing(common.MedicalSavePointCase):
                 self.assertFalse(sale_order.third_party_order)
         for encounter in encounters:
             encounter.sale_order_ids.action_confirm()
-            encounter.sale_order_ids._create_invoices()
+            encounter.sale_order_ids.with_context(
+                active_model=encounter.sale_order_ids._name
+            )._create_invoices()
         wzd = self.env["invoice.sales.by.group"].create(
             {
                 "invoice_group_method_id": method_2.id,
