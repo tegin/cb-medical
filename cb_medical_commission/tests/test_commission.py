@@ -602,7 +602,9 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 "cb_medical_careplan_sale.by_preinvoicing"
             ):
                 continue
-            sale_order._create_invoices()
+            sale_order.with_context(
+                active_model=sale_order._name
+            )._create_invoices()
         self.assertEqual(encounter.invoice_count, 2)
         self.assertGreater(
             sum(
