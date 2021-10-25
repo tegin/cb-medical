@@ -127,7 +127,9 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertEqual(sale_order.patient_name, "Patient 01")
         self.assertEqual(encounter.invoice_count, 0)
         sale_order.action_confirm()
-        sale_order._create_invoices()
+        sale_order.with_context(
+            active_model=sale_order._name
+        )._create_invoices()
         self.assertEqual(encounter.invoice_count, 1)
         action = encounter.action_view_invoice()
         self.assertEqual(
@@ -160,7 +162,9 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertEqual(sale_order.amount_total, 100)
         self.assertEqual(sale_order.order_line.discount, 0)
         sale_order.action_confirm()
-        sale_order._create_invoices()
+        sale_order.with_context(
+            active_model=sale_order._name
+        )._create_invoices()
         self.assertEqual(encounter.invoice_count, 1)
         action = encounter.action_view_invoice()
         self.assertEqual(
@@ -533,7 +537,9 @@ class TestCBSale(common.MedicalSavePointCase):
         sale_orders = encounter.sale_order_ids
         for sale_order in sale_orders:
             sale_order.action_confirm()
-            sale_order._create_invoices()
+            sale_order.with_context(
+                active_model=sale_order._name
+            )._create_invoices()
         self.assertEqual(encounter.invoice_count, 2)
 
     def test_add_careplan_form(self):
