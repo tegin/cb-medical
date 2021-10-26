@@ -16,7 +16,7 @@ class MedicalRequestGroup(models.Model):
         ):
             return result
         action = self.env.ref(
-            "cb_medical_authorization."
+            "medical_authorization."
             "medical_request_group_uncheck_authorization_act_window"
         )
         new_result = action.read()[0]
