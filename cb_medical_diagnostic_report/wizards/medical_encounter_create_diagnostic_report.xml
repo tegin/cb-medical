@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record
+        model="ir.ui.view"
+        id="medical_encounter_create_diagnostic_report_form_view"
+    >
+        <field
+            name="name"
+        >medical.encounter.create.diagnostic.report.form (in medical_diagnostic_report)</field>
+        <field name="model">medical.encounter.create.diagnostic.report</field>
+        <field
+            name="inherit_id"
+            ref="medical_diagnostic_report.medical_encounter_create_diagnostic_report_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="template_id" position="after">
+                <field
+                    name="study_ids"
+                    domain="[('encounter_id', '=', encounter_id), ('modality_ids', 'in', image_modality_id)]"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': [('image_modality_id', '=', False)]}"
+                    readonly="0"
+                />
+                <!-- This readonly is needed because if not is readonly by default-->
+                <field name="image_modality_id" invisible="1" />
+            </field>
+        </field>
+    </record>
+</odoo>

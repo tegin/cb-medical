@@ -2,13 +2,37 @@
 <!-- Copyright 2021 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-    <record id="category_demo_1" model="medical.report.category">
-        <field name="name">Demo category</field>
+    <record id="department_01" model="medical.department">
+        <field name="name">Laboratory</field>
+        <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]" />
+    </record>
+    <record id="category_01" model="medical.report.category">
+        <field name="name">Analytics</field>
+        <field name="medical_department_id" ref="department_01" />
+    </record>
+    <record id="department_02" model="medical.department">
+        <field name="name">Ultrasound</field>
+        <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]" />
+    </record>
+    <record id="category_02" model="medical.report.category">
+        <field name="name">Ultrasound</field>
+        <field name="medical_department_id" ref="department_02" />
+        <field name="import_study_images_automatically" eval="True" />
+        <field name="image_modality_id" ref="medical_imaging_study.modality_us" />
     </record>
     <record
         model="medical.diagnostic.report.template"
         id="medical_diagnostic_report.medical_diagnostic_report_template_demo_1"
     >
-        <field name="report_category_id" ref="category_demo_1" />
+        <field name="report_category_id" ref="category_01" />
+    </record>
+    <record
+        model="medical.diagnostic.report.template"
+        id="medical_diagnostic_report_template_demo_2"
+    >
+        <field name="name">Cardiac Ultrasound</field>
+        <field name="title">Cardiac Ultrasound</field>
+        <field name="with_composition" eval="True" />
+        <field name="report_category_id" ref="category_02" />
     </record>
 </odoo>

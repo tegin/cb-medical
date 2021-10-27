@@ -20,6 +20,7 @@ class MedicalDiagnosticReport(models.Model):
         copy=True,
         readonly=True,
     )
+    study_ids = fields.Many2many("medical.imaging.study")
 
     def _generate_serializer(self):
         result = super(MedicalDiagnosticReport, self)._generate_serializer()

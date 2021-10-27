@@ -15,6 +15,11 @@ class MedicalReportCategory(models.Model):
     medical_department_id = fields.Many2one("medical.department")
     sequence = fields.Integer(default=20)
 
+    import_study_images_automatically = fields.Boolean()
+    image_modality_id = fields.Many2one(
+        comodel_name="medical.imaging.acquisition.modality"
+    )
+
     def _get_internal_identifier(self, vals):
         return (
             self.env["ir.sequence"].next_by_code("medical.report.category")
