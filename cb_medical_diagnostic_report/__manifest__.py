@@ -17,7 +17,10 @@
         "web_drop_target",
         "web_tree_image_tooltip",
         "storage_file",
+        "medical_imaging_study",
+        "web_domain_field",
     ],
+    "external_dependencies": {"python": ["dicomweb_client", "SimpleITK"]},
     "data": [
         "data/ir_parameter.xml",
         "security/department_security.xml",
@@ -29,7 +32,8 @@
         "views/medical_report_category.xml",
         "reports/medical_diagnostic_report_template.xml",
         "wizards/medical_diagnostic_report_expand.xml",
+        "wizards/medical_encounter_create_diagnostic_report.xml",
         "templates/assets.xml",
     ],
-    "demo": ["demo/medical_diagnostic_report.xml"],
+    "demo": ["demo/medical_diagnostic_report.xml", "demo/medical_demo.xml"],
 }

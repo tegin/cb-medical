@@ -19,6 +19,13 @@
                         <field name="name" />
                         <field name="medical_department_id" />
                     </group>
+                    <group>
+                        <field name="import_study_images_automatically" />
+                        <field
+                            name="image_modality_id"
+                            attrs="{'invisible': [('import_study_images_automatically','=',False)]}"
+                        />
+                    </group>
                 </sheet>
             </form>
         </field>

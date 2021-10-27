@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="endpoint_wado" model="medical.imaging.endpoint">
+        <field name="name">Wado</field>
+        <field name="connection_type">dicom-wado-rs</field>
+        <field name="tech_name">pacs_wado</field>
+        <field name="storage_id" ref="medical_imaging_study.storage_pacs" />
+    </record>
+</odoo>
