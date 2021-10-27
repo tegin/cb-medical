@@ -1,5 +1,8 @@
+from itertools import groupby
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tests.common import Form
 
 
 class MedicalGuard(models.Model):
@@ -74,80 +77,71 @@ class MedicalGuard(models.Model):
             raise ValidationError(_("Practitioner is required"))
         self.write(self._complete_vals())
 
-    def _get_invoice_vals(self):
-        journal = self.location_id.guard_journal_id
-        invoice = self.env["account.move"].new(
-            {
-                "partner_id": self.practitioner_id.id,
-                "type": (
-                    "in_invoice" if journal.type == "purchase" else "in_refund"
-                ),
-                "journal_id": journal.id,
-                "company_id": journal.company_id.id,
-                "state": "draft",
-            }
+    def _prepare_invoice(self):
+        journal = self[0].location_id.guard_journal_id
+        move_type = "in_invoice" if journal.type == "purchase" else "in_refund"
+        move_form = Form(
+            self.env["account.move"].with_context(default_type=move_type)
         )
-        # Get other invoice values from onchanges
-        invoice._onchange_partner_id()
-        invoice._onchange_journal()
-        return invoice._convert_to_write(invoice._cache)
-
-    def _get_invoice_line_vals(self, invoice):
-        invoice_line = self.env["account.move.line"].new(
-            {
-                "move_id": invoice.id,
-                "product_id": self.product_id.id,
-                "quantity": self.delay,
-                "guard_id": self.id,
-            }
-        )
-        # Get other invoice line values from product onchange
-        invoice_line._onchange_product_id()
-        invoice_line_vals = invoice_line._convert_to_write(invoice_line._cache)
-        lang = self.env["res.lang"].search(
-            [
-                (
-                    "code",
-                    "=",
-                    invoice.partner_id.lang
-                    or self.env.context.get("lang", "en_US"),
+        partner = self._get_invoice_partner()
+        move_form.partner_id = partner
+        move_form.journal_id = journal
+        for guard in self:
+            with move_form.invoice_line_ids.new() as line_form:
+                line_form.product_id = self.product_id
+                line_form.quantity = self.delay
+                # Put period string
+                lang = self.env["res.lang"].search(
+                    [
+                        (
+                            "code",
+                            "=",
+                            partner.lang
+                            or self.env.context.get("lang", "en_US"),
+                        )
+                    ]
                 )
-            ]
-        )
-        date = fields.Date.from_string(self.date)
-        invoice_line_vals["name"] = _("%s at %s on %s") % (
-            self.product_id.name,
-            self.practitioner_id.name,
-            date.strftime(lang.date_format),
-        )
-        return invoice_line_vals
+                line_form.name = _("%s at %s on %s") % (
+                    guard.product_id.name,
+                    guard.practitioner_id.name,
+                    self.date.strftime(lang.date_format),
+                )
+                line_form.guard_id = guard
+        vals = move_form._values_to_save(all_fields=True)
+        return vals
 
-    def get_invoice(self):
-        journal = self.location_id.guard_journal_id
-        partner = self.practitioner_id
-        inv = self.env["account.move"].search(
-            [
-                ("partner_id", "=", partner.id),
-                (
-                    "type",
-                    "=",
-                    (
-                        "in_invoice"
-                        if journal.type == "purchase"
-                        else "in_refund"
-                    ),
+    def _get_invoice_grouping_keys(self):
+        return ["practitioner_id", "location_id"]
+
+    def _get_invoice_partner(self):
+        agent = self[0].practitioner_id
+        if agent.delegated_agent_id:
+            return agent.delegated_agent_id
+        return agent
+
+    def make_invoice(self, grouped=True):
+        invoice_vals_list = []
+        medical_guard_obj = self.env[self._name]
+        if grouped:
+            invoice_grouping_keys = self._get_invoice_grouping_keys()
+            medical_guards = groupby(
+                self.sorted(
+                    key=lambda x: [
+                        x[grouping_key]
+                        for grouping_key in invoice_grouping_keys
+                    ],
                 ),
-                ("state", "=", "draft"),
-                ("journal_id", "=", journal.id),
+                key=lambda x: [
+                    x[grouping_key] for grouping_key in invoice_grouping_keys
+                ],
+            )
+            grouped_medical_guards = [
+                medical_guard_obj.union(*list(sett))
+                for _grouping_keys, sett in medical_guards
             ]
-        )
-        if not inv:
-            inv = inv.create(self._get_invoice_vals())
-        return inv
-
-    def make_invoice(self):
-        inv = self.get_invoice()
-        inv.write(
-            {"invoice_line_ids": [(0, 0, self._get_invoice_line_vals(inv))]}
-        )
-        return inv
+        else:
+            grouped_medical_guards = self
+        for medical_guard in grouped_medical_guards:
+            invoice_vals = medical_guard._prepare_invoice()
+            invoice_vals_list.append(invoice_vals)
+        return self.env["account.move"].create(invoice_vals_list)
