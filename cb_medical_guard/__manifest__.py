@@ -22,5 +22,6 @@
         "views/medical_guard_views.xml",
         "views/medical_guard_plan_views.xml",
         "views/res_partner_views.xml",
+        "views/account_move_views.xml",
     ],
 }

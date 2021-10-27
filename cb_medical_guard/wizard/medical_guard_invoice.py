@@ -35,9 +35,7 @@ class MedicalGuardPlanApply(models.TransientModel):
     def run(self):
         self.ensure_one()
         guards = self.env["medical.guard"].search(self.get_guard_domain())
-        for guard in guards:
-            guard.make_invoice()
-        invoices = guards.mapped("invoice_line_ids").mapped("move_id")
+        invoices = guards.make_invoice()
         if len(invoices):
             return {
                 "name": _("Created Invoices"),
