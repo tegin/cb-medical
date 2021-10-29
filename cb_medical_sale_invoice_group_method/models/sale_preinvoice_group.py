@@ -153,8 +153,11 @@ class SalePreinvoiceGroup(models.Model):
             else:
                 self.move_id.write(
                     {
-                        "name": ",".join(
-                            [self.move_id.name, self.internal_identifier]
+                        "invoice_origin": ",".join(
+                            [
+                                self.move_id.invoice_origin,
+                                self.internal_identifier,
+                            ]
                         )
                     }
                 )
