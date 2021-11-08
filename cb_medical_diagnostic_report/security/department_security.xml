@@ -3,7 +3,7 @@
     Copyright 2021 Creu Blanca
     # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-<odoo>
+<odoo noupdate="0">
     <record id="group_medical_department_display" model="res.groups">
         <field name="name">Department Display</field>
         <field name="category_id" ref="base.module_category_hidden" />
@@ -57,19 +57,69 @@
             eval="[(4, ref('group_medical_department_manager')), (4, ref('group_medical_category_manager'))]"
         />
     </record>
-    <record model="ir.rule" id="storage_file_diagnostic_report_image_rule">
-        <field name="name">Storage File for diagnostic_report_image</field>
-        <field name="model_id" ref="model_storage_file" />
+    <record id="group_medical_template_manager_department" model="res.groups">
+        <field name="name">Diagnostic Template Manager Department</field>
+        <field name="category_id" ref="base.module_category_hidden" />
         <field
-            name="domain_force"
-        >[('file_type','=', 'diagnostic_report_image')]</field>
-        <field name="perm_read" eval="0" />
-        <field name="perm_create" eval="1" />
-        <field name="perm_write" eval="1" />
-        <field name="perm_unlink" eval="1" />
-        <field
-            name="groups"
-            eval="[(4, ref('medical_diagnostic_report.group_medical_diagnostic_report_manager'))]"
+            name="implied_ids"
+            eval="[(4, ref('medical_diagnostic_report.group_medical_diagnostic_report_template_manager'))]"
         />
     </record>
+    <record id="group_medical_template_manager_all" model="res.groups">
+        <field name="name">Diagnostic Template Manager All</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+        <field
+            name="implied_ids"
+            eval="[(4, ref('group_medical_template_manager_department'))]"
+        />
+    </record>
+    <data noupdate="1">
+        <record model="ir.rule" id="storage_file_diagnostic_report_image_rule">
+            <field name="name">Storage File for diagnostic_report_image</field>
+            <field name="model_id" ref="model_storage_file" />
+            <field
+                name="domain_force"
+            >[('file_type','=', 'diagnostic_report_image')]</field>
+            <field name="perm_read" eval="0" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_unlink" eval="1" />
+            <field
+                name="groups"
+                eval="[(4, ref('medical_diagnostic_report.group_medical_diagnostic_report_manager'))]"
+            />
+        </record>
+        <record model="ir.rule" id="manage_diagnostic_template_own_department_rule">
+            <field
+                name="name"
+            >Manage diagnostic report templates of own department</field>
+            <field name="model_id" ref="model_medical_diagnostic_report_template" />
+            <field
+                name="domain_force"
+            >[('medical_department_id.user_ids' ,'=', user.id)]</field>
+            <field name="perm_read" eval="0" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_unlink" eval="0" />
+            <field
+                name="groups"
+                eval="[(4, ref('group_medical_template_manager_department'))]"
+            />
+        </record>
+        <record model="ir.rule" id="manage_diagnostic_template_all_department_rule">
+            <field
+                name="name"
+            >Manage diagnostic report templates of own department</field>
+            <field name="model_id" ref="model_medical_diagnostic_report_template" />
+            <field name="domain_force">[(1 ,'=',1)]</field>
+            <field name="perm_read" eval="0" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_unlink" eval="0" />
+            <field
+                name="groups"
+                eval="[(4, ref('group_medical_template_manager_all'))]"
+            />
+        </record>
+    </data>
 </odoo>
