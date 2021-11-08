@@ -149,7 +149,11 @@ class MedicalEncounter(models.Model):
                     "Payment journal is necessary in order to finish sale orders"
                 )
             )
-        sale_order.action_confirm()
+        if sale_order.state == "draft":
+            sale_order.action_confirm()
+        if sale_order.invoice_status == "invoiced":
+            # This was already invoiced, not managed here...
+            return
         for line in sale_order.order_line:
             line.qty_delivered = line.product_uom_qty
         cash_vals = {}
