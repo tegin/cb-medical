@@ -640,7 +640,7 @@ class TestPosValidation(common.MedicalSavePointCase):
                 result = preinvoice.scan_barcode_preinvoice(
                     encounter.internal_identifier
                 )
-                self.assertEqual(result["context"]["default_status_state"], 0)
+                self.assertEqual(result["context"]["default_state"], "waiting")
             preinvoice.close_sorting()
             preinvoice.close()
             self.assertFalse(preinvoice.move_id)
