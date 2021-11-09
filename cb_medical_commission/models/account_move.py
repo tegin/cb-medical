@@ -19,6 +19,8 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
+    agent_ids = fields.One2many(compute=None)
+
     @api.depends("move_id.partner_id")
     def _compute_agent_ids(self):
         if self.env.context.get("original_compute_agent_ids"):
