@@ -1,6 +1,7 @@
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
 from odoo.tests.common import Form
+from odoo.tools.float_utils import float_compare
 
 
 class MedicalEncounter(models.Model):
@@ -97,7 +98,14 @@ class MedicalEncounter(models.Model):
             invoice_refund.sudo().post()
             inv_res |= invoice_refund
             final_inv.write({"encounter_final_invoice": False})
-            if invoice_refund.amount_total != invoice_new_partner.amount_total:
+            if (
+                float_compare(
+                    invoice_refund.amount_total,
+                    invoice_new_partner.amount_total,
+                    precision_rounding=invoice_new_partner.currency_id.rounding,
+                )
+                != 0
+            ):
                 raise ValidationError(
                     _("Amount of both invoices must be the same")
                 )
