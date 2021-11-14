@@ -25,7 +25,7 @@ class SaleOrder(models.Model):
         "order_line.invoice_group_method_id",
         "order_line.invoice_group_method_id.invoice_by_preinvoice",
         "order_line.qty_invoiced",
-        "order_line.product_uom_qty",
+        "order_line.qty_delivered",
         "order_line.preinvoice_group_id",
     )
     def _compute_preinvoice_status(self):
@@ -34,8 +34,8 @@ class SaleOrder(models.Model):
                 if order.third_party_order or all(
                     line.preinvoice_group_id
                     for line in order.order_line.filtered(
-                        lambda r: r.invoice_group_method_id.invoice_by_preinvoice
-                        or r.qty_invoiced == r.product_uom_qty
+                        lambda r: r.qty_invoiced != r.qty_delivered
+                        and r.invoice_group_method_id.invoice_by_preinvoice
                     )
                 ):
                     order.preinvoice_status = "preinvoiced"
