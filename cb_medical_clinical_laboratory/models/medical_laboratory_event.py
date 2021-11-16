@@ -19,6 +19,10 @@ class MedicalLaboratoryEvent(models.Model):
             "in-progress": [("readonly", False)],
         },
     )
+    laboratory_service_ids = fields.Many2many(
+        "medical.laboratory.service",
+        related="laboratory_request_id.laboratory_service_ids",
+    )
 
     @api.constrains("laboratory_code", "laboratory_service_id")
     def _check_code(self):
@@ -31,7 +35,7 @@ class MedicalLaboratoryEvent(models.Model):
         ):
             raise ValidationError(_("Code must be the same"))
 
-    @api.onchange("laboratory_service_id")
+    @api.onchange("laboratory_service_id", "laboratory_request_id")
     def _onchange_laboratory_service(self):
         for rec in self:
             rec.laboratory_code = rec.laboratory_service_id.laboratory_code
@@ -45,8 +49,8 @@ class MedicalLaboratoryEvent(models.Model):
                 self.service_id, cov, self.laboratory_request_id.center_id
             )
             if (
-                rec.laboratory_service_id
-                in rec.laboratory_request_id.laboratory_service_ids
+                rec.laboratory_service_id.id
+                in rec.laboratory_request_id.laboratory_service_ids.ids
             ):
                 rec.is_sellable_insurance = False
                 rec.is_sellable_private = False
