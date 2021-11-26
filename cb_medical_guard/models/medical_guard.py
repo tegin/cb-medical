@@ -81,15 +81,17 @@ class MedicalGuard(models.Model):
         journal = self[0].location_id.guard_journal_id
         move_type = "in_invoice" if journal.type == "purchase" else "in_refund"
         move_form = Form(
-            self.env["account.move"].with_context(default_type=move_type)
+            self.env["account.move"].with_context(
+                default_type=move_type, force_company=journal.company_id.id
+            )
         )
         partner = self._get_invoice_partner()
         move_form.partner_id = partner
         move_form.journal_id = journal
         for guard in self:
             with move_form.invoice_line_ids.new() as line_form:
-                line_form.product_id = self.product_id
-                line_form.quantity = self.delay
+                line_form.product_id = guard.product_id
+                line_form.quantity = guard.delay
                 # Put period string
                 lang = self.env["res.lang"].search(
                     [
@@ -104,7 +106,7 @@ class MedicalGuard(models.Model):
                 line_form.name = _("%s at %s on %s") % (
                     guard.product_id.name,
                     guard.practitioner_id.name,
-                    self.date.strftime(lang.date_format),
+                    guard.date.strftime(lang.date_format),
                 )
                 line_form.guard_id = guard
         vals = move_form._values_to_save(all_fields=True)
@@ -127,12 +129,17 @@ class MedicalGuard(models.Model):
             medical_guards = groupby(
                 self.sorted(
                     key=lambda x: [
-                        x[grouping_key]
+                        x._fields[grouping_key].convert_to_write(
+                            x[grouping_key], x
+                        )
                         for grouping_key in invoice_grouping_keys
                     ],
                 ),
                 key=lambda x: [
-                    x[grouping_key] for grouping_key in invoice_grouping_keys
+                    x._fields[grouping_key].convert_to_write(
+                        x[grouping_key], x
+                    )
+                    for grouping_key in invoice_grouping_keys
                 ],
             )
             grouped_medical_guards = [
