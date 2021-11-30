@@ -48,3 +48,9 @@ class ResPartner(models.Model):
     @api.model
     def _get_sub_payor_identifier(self, vals):
         return self.env["ir.sequence"].next_by_code("medical.sub.payor") or "/"
+
+    @api.model
+    def default_medical_fields(self):
+        result = super(ResPartner, self).default_medical_fields()
+        result.append("is_sub_payor")
+        return result
