@@ -41,6 +41,9 @@ class SaleOrder(models.AbstractModel):
         res = super(SaleOrder, self)._prepare_third_party_order()
         res["encounter_id"] = self.encounter_id.id or False
         res["patient_id"] = self.patient_id.id or False
+        res["invoice_group_method_id"] = self.env.ref(
+            "cb_medical_careplan_sale.third_party"
+        ).id
         return res
 
     def _prepare_invoice(self):
