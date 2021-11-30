@@ -49,3 +49,9 @@ class ResPartner(models.Model):
     @api.model
     def _get_reception_identifier(self, vals):
         return self.env["ir.sequence"].next_by_code("medical.reception") or "/"
+
+    @api.model
+    def default_medical_fields(self):
+        result = super(ResPartner, self).default_medical_fields()
+        result.append("is_reception")
+        return result
