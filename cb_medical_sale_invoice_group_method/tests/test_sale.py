@@ -97,6 +97,8 @@ class TestCBSale(common.MedicalSavePointCase):
         for sale_order in encounter.sale_order_ids:
             sale_order.action_confirm()
             self.assertIn(sale_order.state, ["done", "sale"])
+            for line in sale_order.order_line:
+                line.qty_delivered = line.product_uom_qty
         self.assertTrue(
             encounter.sale_order_ids.filtered(
                 lambda r: r.preinvoice_status == "to preinvoice"
@@ -173,13 +175,13 @@ class TestCBSale(common.MedicalSavePointCase):
             result = preinvoice.scan_barcode_preinvoice(
                 encounter.internal_identifier
             )
-            self.assertEqual(result["context"]["default_status_state"], 0)
+            self.assertEqual(result["context"]["default_state"], "waiting")
             result = preinvoice.scan_barcode_preinvoice("No Barcode")
-            self.assertEqual(result["context"]["default_status_state"], 1)
+            self.assertEqual(result["context"]["default_state"], "warning")
             result = preinvoice.scan_barcode_preinvoice(
                 encounter_02.internal_identifier
             )
-            self.assertEqual(result["context"]["default_status_state"], 1)
+            self.assertEqual(result["context"]["default_state"], "warning")
             preinvoice.close_sorting()
             preinvoice.close()
             self.assertTrue(preinvoice.move_id)
