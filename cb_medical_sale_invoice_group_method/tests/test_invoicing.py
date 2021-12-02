@@ -225,6 +225,8 @@ class TestCBInvoicing(common.MedicalSavePointCase):
         )
         for sale_order in sale_orders:
             sale_order.action_confirm()
+            for line in sale_order.order_line:
+                line.qty_delivered = line.product_uom_qty
         self.env["wizard.sale.preinvoice.group"].create(
             {
                 "company_ids": [(6, 0, self.company.ids)],
@@ -268,7 +270,7 @@ class TestCBInvoicing(common.MedicalSavePointCase):
                 result = preinvoice.scan_barcode_preinvoice(
                     encounter.internal_identifier
                 )
-                self.assertEqual(result["context"]["default_status_state"], 0)
+                self.assertEqual(result["context"]["default_state"], "waiting")
             preinvoice.close_sorting()
             preinvoice.close()
             self.assertFalse(preinvoice.move_id)
