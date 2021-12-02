@@ -39,15 +39,7 @@ jobs:
                   apt install cups libcups2-dev libzbar-dev libxmlsec1-dev zip
                   libxmlsec1-openssl openssl -y
             - run: pip install setuptools-odoo
-            - run:
-                  pip install
-                  git+https://github.com/forgeflow/multicompany-fixes.git@13.0#subdirectory=setup
-            - run:
-                  pip install
-                  git+https://github.com/tegin/archive-management.git@13.0#subdirectory=setup
-            - run:
-                  pip install
-                  git+https://github.com/tegin/medical-fhir.git@13.0#subdirectory=setup
+            - run: pip install -r cb-requirements.txt
             - run:
                   pip install
                   git+https://github.com/tegin/cb-addons.git@13.0#subdirectory=setup
