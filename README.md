@@ -16,6 +16,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
+[cb_invoice_views](cb_invoice_views/) | 13.0.1.0.0 |  | Modify invoice views css
 [cb_medical_administration_flag](cb_medical_administration_flag/) | 13.0.1.0.0 |  | CB Medical Patient Flag
 [cb_medical_administration_practitioner_specialty](cb_medical_administration_practitioner_specialty/) | 13.0.1.0.0 |  | Medical Administration Practitioner Specialty
 [cb_medical_administration_reception](cb_medical_administration_reception/) | 13.0.1.0.0 |  | Medical Administration Location
