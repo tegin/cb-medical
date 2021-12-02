@@ -31,7 +31,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
             {
                 "name": "Department 1",
                 "with_department_report_header": True,
-                "diagnostic_report_header": " Report Header 1",
+                "diagnostic_report_header": "Report Header 1",
                 "user_ids": [(4, self.user_1.id)],
             }
         )
@@ -39,7 +39,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
             {
                 "name": "Department 2",
                 "with_department_report_header": True,
-                "diagnostic_report_header": " Report Header 2",
+                "diagnostic_report_header": "Report Header 2",
             }
         )
         self.category_1 = self.env["medical.report.category"].create(
@@ -132,7 +132,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         department_2 = self.env["medical.department"].create(
             {
                 "name": "Department 2",
-                "diagnostic_report_header": " Report Header 2",
+                "diagnostic_report_header": "Report Header 2",
                 "user_ids": [(4, user_2.id)],
             }
         )
@@ -179,8 +179,8 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         self.assertTrue(self.template_1.medical_department_id.id)
         self.assertTrue(self.report.with_department)
         self.assertRegex(
-            self.template_1.medical_department_header,
             self.report.medical_department_header,
+            self.template_1.medical_department_header,
         )
 
     def test_finalization(self):
@@ -188,8 +188,8 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         self.report.registered2final_action()
         self.assertTrue(self.report.with_department)
         self.assertRegex(
-            self.template_1.medical_department_header,
             self.report.medical_department_header,
+            self.template_1.medical_department_header,
         )
         self.assertTrue(self.report.signature_id.id)
         self.assertEqual(
