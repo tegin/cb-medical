@@ -44,6 +44,27 @@ class SalerOrderLine(models.Model):
         readonly=True,
     )
     authorization_number = fields.Char(readonly=True)
+    invoiced_agent_ids = fields.Many2many(
+        "account.invoice.line.agent", compute="_compute_invoiced_agent_ids"
+    )
+
+    @api.depends("medical_model", "medical_res_id")
+    def _compute_invoiced_agent_ids(self):
+        for record in self:
+            invoiced_agent_ids = self.env["account.invoice.line.agent"]
+            if record.medical_model:
+                request = self.env[record.medical_model].browse(
+                    record.medical_res_id
+                )
+                lab_req = request.mapped("laboratory_request_ids")
+                invoiced_agent_ids = (
+                    request.mapped(
+                        "procedure_request_ids.procedure_ids.invoice_agent_ids"
+                    )
+                    | lab_req.mapped("invoice_agent_ids")
+                    | lab_req.mapped("laboratory_event_ids.invoice_agent_ids")
+                )
+            record.invoiced_agent_ids = invoiced_agent_ids
 
     @api.depends("order_id.coverage_agreement_id")
     def _compute_is_private(self):
