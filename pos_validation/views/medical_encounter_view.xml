@@ -260,6 +260,18 @@
                                             </tree>
                                         </field>
                                     </page>
+                                    <page
+                                        name="invoice agent"
+                                        string="Invoiced Commissions"
+                                    >
+                                        <field name="invoiced_agent_ids">
+                                            <tree>
+                                                <field name="agent_id" />
+                                                <field name="procedure_id" />
+                                                <field name="amount" />
+                                            </tree>
+                                        </field>
+                                    </page>
                                 </notebook>
                             </sheet>
                         </form>
