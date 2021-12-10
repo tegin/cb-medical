@@ -56,14 +56,29 @@ class SalerOrderLine(models.Model):
                 request = self.env[record.medical_model].browse(
                     record.medical_res_id
                 )
-                lab_req = request.mapped("laboratory_request_ids")
-                invoiced_agent_ids = (
-                    request.mapped(
-                        "procedure_request_ids.procedure_ids.invoice_agent_ids"
+                if request._name == "medical.laboratory.event":
+                    invoiced_agent_ids = request.invoice_agent_ids
+                elif request._name == "medical.procedure.request":
+                    invoiced_agent_ids = request.mapped(
+                        "invoice_agent_ids"
+                    ) | request.mapped(
+                        "laboratory_event_ids.invoice_agent_ids"
                     )
-                    | lab_req.mapped("invoice_agent_ids")
-                    | lab_req.mapped("laboratory_event_ids.invoice_agent_ids")
-                )
+                elif request._name == "medical.laboratory.request":
+                    invoiced_agent_ids = request.mapped(
+                        "procedure_ids.invoice_agent_ids"
+                    )
+                else:
+                    lab_req = request.mapped("laboratory_request_ids")
+                    invoiced_agent_ids = (
+                        request.mapped(
+                            "procedure_request_ids.procedure_ids.invoice_agent_ids"
+                        )
+                        | lab_req.mapped("invoice_agent_ids")
+                        | lab_req.mapped(
+                            "laboratory_event_ids.invoice_agent_ids"
+                        )
+                    )
             record.invoiced_agent_ids = invoiced_agent_ids
 
     @api.depends("order_id.coverage_agreement_id")
