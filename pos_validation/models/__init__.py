@@ -9,3 +9,4 @@ from . import pos_session
 from . import sale_order
 from . import medical_laboratory_event
 from . import medical_laboratory_request
+from . import account_invoice_line_agent

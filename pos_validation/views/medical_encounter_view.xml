@@ -265,10 +265,16 @@
                                         string="Invoiced Commissions"
                                     >
                                         <field name="invoiced_agent_ids">
-                                            <tree>
+                                            <tree decoration-success="settled">
                                                 <field name="agent_id" />
                                                 <field name="procedure_id" />
                                                 <field name="amount" />
+                                                <field name="settled" invisible="1" />
+                                                <button
+                                                    name="action_settlement_invoice"
+                                                    type="object"
+                                                    icon="fa-file-invoice-dollar"
+                                                />
                                             </tree>
                                         </field>
                                     </page>
