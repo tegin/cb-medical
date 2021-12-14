@@ -70,6 +70,21 @@ class MedicalCoverageAgreement(models.Model):
         readonly=True,
         tracking=True,
     )
+    parent_id = fields.Many2one(
+        "medical.coverage.agreement", copy=False, readonly=True
+    )
+    child_ids = fields.One2many(
+        "medical.coverage.agreement",
+        inverse_name="parent_id",
+        copy=False,
+        readonly=True,
+    )
+    child_count = fields.Integer(compute="_compute_child_count")
+
+    @api.depends("child_ids")
+    def _compute_child_count(self):
+        for record in self:
+            record.child_count = len(record.child_ids)
 
     @api.constrains(
         "date_to", "date_from", "coverage_template_ids", "center_ids"

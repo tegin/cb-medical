@@ -5,3 +5,4 @@
 from . import medical_agreement_change_prices
 from . import medical_coverage_agreement_template
 from . import medical_coverage_agreement_join
+from . import medical_agreement_expand
