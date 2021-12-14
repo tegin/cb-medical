@@ -59,6 +59,15 @@
                         />
                         <button
                             type="action"
+                            name="%(medical_financial_coverage_agreement.medical_agreement_expand_act_window)s"
+                            class="oe_stat_button"
+                            icon="fa-expand-alt"
+                            context="{'default_agreement_id': id, 'default_name': name}"
+                            attrs="{'invisible': ['|', ('is_template', '=', True), ('date_to', '=', False)]}"
+                            string="Expand"
+                        />
+                        <button
+                            type="action"
                             name="%(medical_financial_coverage_agreement.medical_agreement_change_prices_action)s"
                             class="oe_stat_button"
                             icon="fa-percent"
@@ -130,6 +139,14 @@
                                     </tree>
                                 </field>
                             </group>
+                        </page>
+                        <field name="child_count" invisible="1" />
+                        <page
+                            name="child"
+                            string="Childs"
+                            attrs="{'invisible': [('child_count', '=', 0)]}"
+                        >
+                            <field name="child_ids" />
                         </page>
                     </notebook>
                 </sheet>
