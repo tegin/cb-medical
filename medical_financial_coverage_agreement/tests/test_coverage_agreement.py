@@ -3,9 +3,11 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 import logging
+from datetime import timedelta
 from io import BytesIO
 
 import pandas
+from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests.common import Form
 
@@ -147,6 +149,58 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         item_1.refresh()
         self.assertEquals(item_1.coverage_price, 150)
         self.assertEquals(item_1.private_price, 150)
+
+    def test_expand(self):
+        # case 1
+        coverage_agreement_vals = {
+            "name": "test coverage agreement",
+            "center_ids": [(6, 0, [self.center_1.id])],
+            "company_id": self.ref("base.main_company"),
+            "date_to": fields.Date.today(),
+            "coverage_template_ids": [(4, self.coverage_template_1.id)],
+        }
+        coverage_agreement = self.coverage_agreement_model.create(
+            coverage_agreement_vals
+        )
+        self.assertNotEquals(coverage_agreement, False)
+        item_1 = self.coverage_agreement_model_item.create(
+            {
+                "coverage_agreement_id": coverage_agreement.id,
+                "plan_definition_id": self.plan_1.id,
+                "product_id": self.product_1.id,
+                "coverage_percentage": 50.0,
+                "total_price": 200,
+            }
+        )
+        self.assertEquals(item_1.coverage_price, 100)
+        self.assertEquals(item_1.private_price, 100)
+        wiz = (
+            self.env["medical.agreement.expand"]
+            .with_context(
+                default_agreement_id=coverage_agreement.id,
+                default_name=coverage_agreement.name,
+            )
+            .create(
+                {
+                    "difference": 50.0,
+                    "date_to": fields.Date.today() + timedelta(days=1),
+                }
+            )
+        )
+        action = wiz.expand()
+        item_1.refresh()
+        self.assertEquals(item_1.coverage_price, 100)
+        self.assertEquals(item_1.private_price, 100)
+        new_agreement = self.env[action["res_model"]].browse(action["res_id"])
+        self.assertEqual(
+            new_agreement.coverage_template_ids,
+            coverage_agreement.coverage_template_ids,
+        )
+        new_item_1 = new_agreement.item_ids.filtered(
+            lambda r: r.product_id == self.product_1
+        )
+        self.assertEquals(new_item_1.coverage_price, 150)
+        self.assertEquals(new_item_1.private_price, 150)
 
     def test_agreement_report(self):
 
