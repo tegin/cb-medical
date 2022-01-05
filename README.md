@@ -37,6 +37,7 @@ addon | version | maintainers | summary
 [cb_medical_views](cb_medical_views/) | 13.0.1.0.0 |  | CB Medical Views
 [cb_medical_workflow_activity](cb_medical_workflow_activity/) | 13.0.1.0.0 |  | CB Medical Workflow Activity
 [cb_mgmtsystem_issue](cb_mgmtsystem_issue/) | 13.0.1.0.0 |  | Managemente System Issues
+[cb_mgmtsystem_issue_product](cb_mgmtsystem_issue_product/) | 13.0.1.0.0 |  | Enables to relate quality issues with products
 [cb_mgmtsystem_issue_purchase](cb_mgmtsystem_issue_purchase/) | 13.0.1.0.0 |  | Cb Management system Issue Purchase
 [cb_nonconformity_encounter](cb_nonconformity_encounter/) | 13.0.1.1.0 |  | CB custom nonconformity management
 [crm_agreement](crm_agreement/) | 13.0.1.0.0 |  | Link of Medical Agreements and CRM
