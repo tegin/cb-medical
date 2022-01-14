@@ -43,3 +43,11 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
         cls.env["ir.config_parameter"].set_param(
             "cb.default_third_party_product", cls.def_third_party_product.id
         )
+        cls.company.patient_journal_id = cls.env["account.journal"].create(
+            {
+                "name": "Sale Journal",
+                "code": "SALES",
+                "company_id": cls.company.id,
+                "type": "sale",
+            }
+        )
