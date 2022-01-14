@@ -81,6 +81,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             )
             ._run()
         )
+        self.assertEqual(invoice.journal_id, self.company.patient_journal_id)
         for line in invoice.invoice_line_ids:
             self.assertNotEqual(line.name, "/")
         wizard = self.env["medical.careplan.add.plan.definition"].create(
