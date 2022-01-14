@@ -50,14 +50,6 @@ class MedicalSavePointCase(SavepointCase):
         ):
             # We cancel all demo orders just in case
             order.action_cancel()
-        self.company.patient_journal_id = self.env["account.journal"].create(
-            {
-                "name": "Sale Journal",
-                "code": "SALES",
-                "company_id": self.company.id,
-                "type": "sale",
-            }
-        )
         self.company.third_party_journal_id = self.env[
             "account.journal"
         ].create(
