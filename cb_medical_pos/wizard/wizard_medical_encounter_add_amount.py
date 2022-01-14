@@ -32,7 +32,9 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
         domain=[("state", "=", "opened")],
     )
     partner_invoice_id = fields.Many2one(
-        comodel_name="res.partner", string="Partner invoice",
+        comodel_name="res.partner",
+        string="Partner invoice",
+        domain=[("customer", "=", True)],
     )
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -112,8 +114,11 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
         order.with_context(force_company=order.company_id.id).action_confirm()
         for line in order.order_line:
             line.qty_delivered = line.product_uom_qty
+        patient_journal = order.company_id.patient_journal_id.id
         invoice_ids = order.with_context(
-            force_company=order.company_id.id, active_model=order._name,
+            force_company=order.company_id.id,
+            active_model=order._name,
+            default_journal_id=patient_journal,
         )._create_invoices(final=True)
         invoice = self.env["account.move"].browse(invoice_ids).id
         invoice.ensure_one()
