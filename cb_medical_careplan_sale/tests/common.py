@@ -523,14 +523,16 @@ class MedicalSavePointCase(SavepointCase):
             }
         )
 
-    def create_careplan_and_group(self, agreement_line):
+    def create_careplan_and_group(self, agreement_line, coverage=False):
+        if not coverage:
+            coverage = self.coverage_01
         encounter = self.env["medical.encounter"].create(
             {"patient_id": self.patient_01.id, "center_id": self.center.id}
         )
         careplan_wizard = (
             self.env["medical.encounter.add.careplan"]
             .with_context(default_encounter_id=encounter.id)
-            .new({"coverage_id": self.coverage_01.id})
+            .new({"coverage_id": coverage.id})
         )
         careplan_wizard.onchange_coverage()
         careplan_wizard.onchange_coverage_template()

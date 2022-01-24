@@ -34,6 +34,62 @@ class TestCBSale(common.MedicalSavePointCase):
         with self.assertRaises(ValidationError):
             wizard.run()
 
+    def test_invoice_multiple_coverage_template(self):
+        method = self.browse_ref("cb_medical_careplan_sale.by_customer")
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        self.agreement.write(
+            {"coverage_template_ids": [(4, self.coverage_template_2.id)]}
+        )
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        encounter.create_sale_order()
+        self.assertTrue(encounter.sale_order_ids)
+        encounter_02, careplan_02, group_02 = self.create_careplan_and_group(
+            self.agreement_line3, coverage=self.coverage_02
+        )
+        encounter_02.create_sale_order()
+        self.assertTrue(encounter_02.sale_order_ids)
+        sale_orders = encounter.sale_order_ids | encounter_02.sale_order_ids
+        sale_orders.action_confirm()
+        invoices = sale_orders.with_context(
+            active_model=sale_orders._name
+        )._create_invoices()
+        self.assertEqual(2, len(invoices))
+        self.assertEqual(invoices.mapped("partner_id"), self.payor)
+
+    def test_invoice_single_coverage_template(self):
+        method = self.browse_ref("cb_medical_careplan_sale.by_customer")
+        self.plan_definition2.third_party_bill = False
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.coverage_percentage = 100
+        self.agreement.write(
+            {"coverage_template_ids": [(4, self.coverage_template_2.id)]}
+        )
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        encounter.create_sale_order()
+        self.assertTrue(encounter.sale_order_ids)
+        encounter_02, careplan_02, group_02 = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        encounter_02.create_sale_order()
+        self.assertTrue(encounter_02.sale_order_ids)
+        sale_orders = encounter.sale_order_ids | encounter_02.sale_order_ids
+        sale_orders.action_confirm()
+        invoices = sale_orders.with_context(
+            active_model=sale_orders._name
+        )._create_invoices()
+        self.assertEqual(1, len(invoices))
+        self.assertEqual(invoices.mapped("partner_id"), self.payor)
+
     def test_careplan_sale(self):
         encounter = self.env["medical.encounter"].create(
             {"patient_id": self.patient_01.id, "center_id": self.center.id}
