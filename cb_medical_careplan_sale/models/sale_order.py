@@ -58,11 +58,17 @@ class SaleOrder(models.AbstractModel):
                 res["coverage_template_id"] = p.id
             else:
                 res["encounter_id"] = self.encounter_id.id
+                res["coverage_template_id"] = False
         return res
 
     @api.model
     def sale_shared_fields(self):
         return ["patient_name", "subscriber_id"]
+
+    def _get_invoice_grouping_keys(self):
+        result = super()._get_invoice_grouping_keys()
+        result.append("coverage_template_id")
+        return result
 
     def write(self, vals):
         res = super().write(vals)
