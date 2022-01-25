@@ -20,5 +20,6 @@
     </record>
     <record model="invoice.group.method" id="cb_medical_careplan_sale.third_party">
         <field name="third_party" eval="True" />
+        <field name="invoice_by_preinvoice" eval="True" />
     </record>
 </odoo>
