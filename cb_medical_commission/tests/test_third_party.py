@@ -124,3 +124,144 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             encounter.sale_order_ids.with_context(
                 active_model=encounter.sale_order_ids._name
             )._create_invoices()
+
+    def test_preinvoice_third_party(self):
+        self.plan_definition.is_breakdown = True
+        self.plan_definition.is_billable = True
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.assertEqual(encounter.sale_order_count, 0)
+        self.assertTrue(group.procedure_request_ids)
+        for request in group.procedure_request_ids:
+            request.draft2active()
+            self.assertEqual(request.center_id, encounter.center_id)
+            procedure = request.generate_event()
+            procedure.performer_id = self.practitioner_02
+        self.practitioner_02.third_party_sequence_id = self.env[
+            "ir.sequence"
+        ].create({"name": "sequence"})
+        self.assertTrue(
+            group.is_sellable_insurance or group.is_sellable_private
+        )
+        self.assertTrue(group.third_party_bill)
+        encounter.create_sale_order()
+        self.assertGreater(encounter.sale_order_count, 0)
+        self.assertTrue(encounter.sale_order_ids)
+        sale_order = encounter.sale_order_ids
+        self.assertTrue(sale_order.third_party_order)
+        self.assertEqual(
+            sale_order.third_party_partner_id, self.practitioner_02
+        )
+        self.assertTrue(
+            sale_order.third_party_partner_id, self.practitioner_02
+        )
+        encounter.sale_order_ids.action_confirm()
+        self.assertTrue(encounter.sale_order_ids.third_party_order_ids)
+        encounter.sale_order_ids.third_party_order_ids.action_confirm()
+
+        for line in encounter.sale_order_ids.third_party_order_ids.order_line:
+            line.qty_delivered = line.product_uom_qty
+        preinvoice_obj = self.env["sale.preinvoice.group"]
+        self.assertFalse(
+            preinvoice_obj.search(
+                [("partner_id", "=", self.practitioner_02.id)]
+            )
+        )
+        self.env["wizard.sale.preinvoice.group"].create(
+            {
+                "company_ids": [(6, 0, self.company.ids)],
+                "payor_ids": [(6, 0, self.practitioner_02.ids)],
+            }
+        ).run()
+        self.assertTrue(
+            preinvoice_obj.search(
+                [("partner_id", "=", self.practitioner_02.id)]
+            )
+        )
+        preinvoices = preinvoice_obj.search(
+            [
+                ("partner_id", "=", self.practitioner_02.id),
+                ("state", "=", "draft"),
+            ]
+        )
+        self.assertTrue(preinvoices)
+        for preinvoice in preinvoices:
+            self.assertFalse(preinvoice.validated_line_ids)
+            preinvoice.start()
+            result = preinvoice.scan_barcode_preinvoice(
+                encounter.internal_identifier
+            )
+            self.assertEqual(result["context"]["default_state"], "waiting")
+            preinvoice.close_sorting()
+            preinvoice.close()
+            self.assertTrue(preinvoice.move_id)
+        move = preinvoices.mapped("move_id")
+        self.assertTrue(move)
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.assertEqual(encounter.sale_order_count, 0)
+        self.assertTrue(group.procedure_request_ids)
+        for request in group.procedure_request_ids:
+            request.draft2active()
+            self.assertEqual(request.center_id, encounter.center_id)
+            procedure = request.generate_event()
+            procedure.performer_id = self.practitioner_02
+        self.assertTrue(
+            group.is_sellable_insurance or group.is_sellable_private
+        )
+        self.assertTrue(group.third_party_bill)
+        encounter.create_sale_order()
+        self.assertGreater(encounter.sale_order_count, 0)
+        self.assertTrue(encounter.sale_order_ids)
+        sale_order = encounter.sale_order_ids
+        self.assertTrue(sale_order.third_party_order)
+        self.assertEqual(
+            sale_order.third_party_partner_id, self.practitioner_02
+        )
+        self.assertTrue(
+            sale_order.third_party_partner_id, self.practitioner_02
+        )
+        encounter.sale_order_ids.action_confirm()
+        encounter.sale_order_ids.third_party_order_ids.action_confirm()
+        for line in encounter.sale_order_ids.third_party_order_ids.order_line:
+            line.qty_delivered = line.product_uom_qty
+        preinvoice_obj = self.env["sale.preinvoice.group"]
+        self.assertFalse(
+            preinvoice_obj.search(
+                [
+                    ("partner_id", "=", self.practitioner_02.id),
+                    ("state", "=", "draft"),
+                ]
+            )
+        )
+        self.env["wizard.sale.preinvoice.group"].create(
+            {
+                "company_ids": [(6, 0, self.company.ids)],
+                "payor_ids": [(6, 0, self.practitioner_02.ids)],
+            }
+        ).run()
+        self.assertTrue(
+            preinvoice_obj.search(
+                [("partner_id", "=", self.practitioner_02.id)]
+            )
+        )
+        preinvoices = preinvoice_obj.search(
+            [
+                ("partner_id", "=", self.practitioner_02.id),
+                ("state", "=", "draft"),
+            ]
+        )
+        self.assertTrue(preinvoices)
+        for preinvoice in preinvoices:
+            self.assertFalse(preinvoice.validated_line_ids)
+            preinvoice.start()
+            result = preinvoice.scan_barcode_preinvoice(
+                encounter.internal_identifier
+            )
+            self.assertEqual(result["context"]["default_state"], "waiting")
+            preinvoice.close_sorting()
+            preinvoice.close()
+            self.assertTrue(preinvoice.move_id)
+            self.assertEqual(move, preinvoice.move_id)
