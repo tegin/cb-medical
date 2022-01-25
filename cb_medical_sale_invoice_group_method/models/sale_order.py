@@ -48,5 +48,6 @@ class SaleOrder(models.Model):
         res = super()._prepare_invoice()
         if self.encounter_id and self.coverage_agreement_id:
             res["agreement_id"] = self.coverage_agreement_id.id
+        if self.invoice_group_method_id:
             res["invoice_group_method_id"] = self.invoice_group_method_id.id
         return res
