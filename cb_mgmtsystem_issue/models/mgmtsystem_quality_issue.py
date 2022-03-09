@@ -59,8 +59,24 @@ class MgmtsystemQualityIssue(models.Model):
             vals["ref"] = sequence.next_by_id()
         return super().create(vals)
 
+    def _message_auto_subscribe_followers(
+        self, updated_values, default_subtype_ids
+    ):
+        result = super()._message_auto_subscribe_followers(
+            updated_values, default_subtype_ids
+        )
+        for field_name in ["responsible_user_id", "manager_user_id"]:
+            if not updated_values.get(field_name):
+                continue
+            user = self.env["res.users"].browse(updated_values[field_name])
+            result.append((user.partner_id.id, default_subtype_ids, False))
+        return result
+
     def to_accepted(self):
         self.write({"state": "ok"})
+
+    def _creation_subtype(self):
+        return self.env.ref("cb_mgmtsystem_issue.issue_created")
 
     def _create_non_conformity_vals(self):
         return {
@@ -110,3 +126,30 @@ class MgmtsystemQualityIssue(models.Model):
             "res_model": records._name,
             "res_id": records.id,
         }
+
+    @api.onchange("origin_ids")
+    def _default_manager_and_responsible_user_ids(self):
+        if self.origin_ids:
+            managers = self.origin_ids.mapped("manager_user_id")
+            responsible = self.origin_ids.mapped("responsible_user_id")
+            if not self.manager_user_id and managers:
+                self.manager_user_id = managers[0].id
+            if not self.responsible_user_id and responsible:
+                self.responsible_user_id = responsible[0].id
+
+    def post_change_message(self, field_value):
+        user = self.env["res.users"].browse(field_value)
+        for rec in self:
+            rec.message_post(
+                message_type="notification",
+                subtype="mail.mt_comment",
+                body=_("Quality issue reassigned to %s.") % user.name,
+            )
+
+    def write(self, vals):
+        res = super().write(vals)
+        for field_name in ["responsible_user_id", "manager_user_id"]:
+            if field_name not in vals:
+                continue
+            self.post_change_message(vals[field_name])
+        return res
