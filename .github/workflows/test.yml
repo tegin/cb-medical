@@ -35,10 +35,12 @@ jobs:
               with:
                   persist-credentials: false
             - run: apt update
+            - run: pip install setuptools-odoo wheel
             - run:
                   apt install cups libcups2-dev libzbar-dev libxmlsec1-dev zip
-                  libxmlsec1-openssl openssl -y
-            - run: pip install setuptools-odoo
+                  libxmlsec1-openssl openssl mupdf-tools libmupdf-dev mupdf
+                  poppler-utils -y
+            - run: pip install pymupdf==1.16.18
             - run: pip install -r cb-requirements.txt
             - run:
                   pip install
