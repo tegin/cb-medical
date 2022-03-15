@@ -31,4 +31,56 @@ class MedicalLaboratoryEvent(models.Model):
                 if key in so_lines._fields:
                     new_vals[key] = vals[key]
             so_lines.filtered(lambda r: not r.is_private).write(new_vals)
+            for sale_line in so_lines:
+                if (
+                    sale_line.order_id.invoice_group_method_id
+                    == sale_line.invoice_group_method_id
+                ):
+                    continue
+                old_order = sale_line.order_id
+                order = self.encounter_id.sale_order_ids.filtered(
+                    lambda r: (
+                        (
+                            old_order.coverage_agreement_id
+                            == r.coverage_agreement_id
+                            and old_order.coverage_agreement_id
+                            and r.coverage_id == old_order.coverage_id
+                        )
+                        or (
+                            not old_order.coverage_agreement_id
+                            and not r.coverage_agreement_id
+                        )
+                    )
+                    and (
+                        (
+                            sale_line.order_id.third_party_order
+                            and r.third_party_order
+                            and r.third_party_partner_id
+                            == old_order.third_party_partner_id
+                        )
+                        or (
+                            not old_order.third_party_order
+                            and not r.third_party_order
+                        )
+                    )
+                    and r.state == "draft"
+                    and r.partner_id == old_order.partner_id
+                    and r.invoice_group_method_id
+                    == sale_line.invoice_group_method_id
+                )
+                if not order:
+                    vals = self.encounter_id._get_sale_order_vals(
+                        partner=old_order.partner_id,
+                        coverage=old_order.coverage_id,
+                        agreement=old_order.coverage_agreement_id,
+                        third_party_partner=old_order.third_party_partner_id,
+                        invoice_group_method=sale_line.invoice_group_method_id,
+                    )
+                    order = (
+                        self.env["sale.order"]
+                        .with_context(force_company=vals.get("company_id"))
+                        .create(vals)
+                    )
+                    order.onchange_partner_id()
+                sale_line.order_id = order
         return res
