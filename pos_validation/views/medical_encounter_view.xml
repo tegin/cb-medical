@@ -86,7 +86,7 @@
                         icon="fa-radiation"
                         name="toggle_commission_issue_accepted"
                         type="object"
-                        help="Preinvoicing is generated. Documents must be stored"
+                        help="Something happens with the commissions (bigger than amount)"
                         class="flag-danger"
                         attrs="{'invisible': ['|', ('commission_issue', '=', False), ('commission_issue_accepted', '=', True)]}"
                     />
