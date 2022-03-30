@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="medical_product_request_form_view">
+        <field
+            name="name"
+        >medical.product.request.form (in cb_medical_product_request)</field>
+        <field name="model">medical.product.request</field>
+        <field
+            name="inherit_id"
+            ref="medical_product_request.medical_product_request_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="requester_id" position="before">
+                <field
+                    name="expected_dispensation_date"
+                    attrs="{'readonly':[('state', '!=', 'draft')], 'invisible': [('category', '=', 'inpatient')]}"
+                />
+            </field>
+        </field>
+    </record>
+    <!--
+    <record model="ir.ui.view" id="medical_product_request_search_view">
+        <field name="name">medical.product.request.search (in cb_medical_product_request)</field>
+        <field name="model">medical.product.request</field>
+        <field name="inherit_id" ref=""/>
+        <field name="arch" type="xml">
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_product_request_tree_view">
+        <field name="name">medical.product.request.tree (in cb_medical_product_request)</field>
+        <field name="model">medical.product.request</field>
+        <field name="inherit_id" ref=""/>
+        <field name="arch" type="xml">
+        </field>
+    </record> -->
+</odoo>
