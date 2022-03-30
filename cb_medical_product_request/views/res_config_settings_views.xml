@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="medical_base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='medical_medication']" position="after">
+                <h2><i class="fa fa-prescription" aria-hidden="true" />Prescription</h2>
+                <div class="row mt16 o_settings_container" id="medical_prescription">
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Default Center</span>
+                            <div class="text-muted">
+                                 Default center when no encounter is defined on the prescription
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16 row">
+                                    <label
+                                        for="prescription_default_center_id"
+                                        string="Center"
+                                        class="col-3 col-lg-3 o_light_label"
+                                    />
+                                    <field
+                                        name="prescription_default_center_id"
+                                        class="oe_inline"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
