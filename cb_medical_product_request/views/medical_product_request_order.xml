@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="medical_product_request_order_form_view">
+        <field
+            name="name"
+        >medical.product.request.order.form (in cb_medical_product_request)</field>
+        <field name="model">medical.product.request.order</field>
+        <field
+            name="inherit_id"
+            ref="medical_product_request.medical_product_request_order_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="requester_id" position="before">
+                <field
+                    name="expected_dispensation_date"
+                    attrs="{'readonly':[('state', '!=', 'draft')]}"
+                />
+                <field name="center_id" />
+            </field>
+            <!-- TODO: make rate and rate_uom_id invisible -->
+            <field name="duration" position="before">
+                <field
+                    name="specific_rate"
+                    string="Every"
+                    attrs="{'invisible': [('product_type', '!=', 'medication')], 'required': [('product_type', '==', 'medication')]}"
+                />
+                <field
+                    name="specific_rate_uom_id"
+                    string="Uom"
+                    attrs="{'invisible': [('product_type', '!=', 'medication')], 'required': [('product_type', '==', 'medication')]}"
+                    domain="[('measure_type', '=', 'working_time')]"
+                    options="{'no_create': True, 'no_open': True}"
+                />
+            </field>
+            <field name="rate_quantity" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="rate_uom_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="duration_uom_id" position="after">
+                <field
+                    name="pharmacist_information"
+                    attrs="{'column_invisible': [('parent.category', '!=', 'discharge')]}"
+                />
+                <field
+                    name="diagnostic"
+                    attrs="{'column_invisible': [('parent.category', '!=', 'discharge')]}"
+                />
+                <field
+                    name="patient_information"
+                    attrs="{'column_invisible': [('parent.category', '!=', 'discharge')]}"
+                />
+            </field>
+            <field name="observations" position="attributes">
+                <attribute name="attrs">
+                    {'column_invisible': [('parent.category', '=', 'discharge')]}</attribute>
+            </field>
+        </field>
+    </record>
+    <!--  <record model="ir.ui.view" id="medical_product_request_order_search_view">
+        <field name="name">medical.product.request.order.search (in cb_medical_product_request)</field>
+        <field name="model">medical.product.request.order</field>
+        <field name="inherit_id" ref=""/>
+        <field name="arch" type="xml">
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_product_request_order_tree_view">
+        <field name="name">medical.product.request.order.tree (in cb_medical_product_request)</field>
+        <field name="model">medical.product.request.order</field>
+        <field name="inherit_id" ref=""/>
+        <field name="arch" type="xml">
+        </field>
+    </record> -->
+</odoo>
