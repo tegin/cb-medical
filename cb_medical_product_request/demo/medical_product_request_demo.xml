@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record
+        id="medical_product_request.encounter_01_patient_01"
+        model="medical.encounter"
+    >
+        <field name="center_id" ref="medical_administration_center.partner_center_1" />
+    </record>
+    <record
+        id="ibuprofen_cinfa_product_template_commercial"
+        model="medical.product.template.commercial"
+    >
+        <field
+            name="product_tmpl_id"
+            ref="medical_product_request.ibuprofen_medical_product_template"
+        />
+        <field name="laboratory">Cinfa</field>
+        <field name="code">70039</field>
+    </record>
+    <record
+        id="ibuprofen_cinfa_product_product_commercial_01"
+        model="medical.product.product.commercial"
+    >
+        <field
+            name="medical_product_id"
+            ref="medical_product_request.ibuprofen_medical_product_01"
+        />
+        <field
+            name="product_tmpl_commercial_id"
+            ref="ibuprofen_cinfa_product_template_commercial"
+        />
+        <field name="code">661426</field>
+    </record>
+    <record
+        id="ibuprofen_cinfa_product_product_commercial_02"
+        model="medical.product.product.commercial"
+    >
+        <field
+            name="medical_product_id"
+            ref="medical_product_request.ibuprofen_medical_product_02"
+        />
+        <field
+            name="product_tmpl_commercial_id"
+            ref="ibuprofen_cinfa_product_template_commercial"
+        />
+        <field name="code">605721</field>
+    </record>
+    <record
+        id="acular_allergan_product_template_commercial"
+        model="medical.product.template.commercial"
+    >
+        <field
+            name="product_tmpl_id"
+            ref="medical_product_request.acular_medical_product_template"
+        />
+        <field name="laboratory">Allergan S.A</field>
+        <field name="code">61690</field>
+    </record>
+    <record
+        id="acular_allergan_product_product_commercial_01"
+        model="medical.product.product.commercial"
+    >
+        <field
+            name="medical_product_id"
+            ref="medical_product_request.acular_medical_product"
+        />
+        <field
+            name="product_tmpl_commercial_id"
+            ref="acular_allergan_product_template_commercial"
+        />
+        <field name="code">668467</field>
+    </record>
+    <record
+        id="medical_product_request.patient_01_medical_product_request_order_02"
+        model="medical.product.request.order"
+    >
+        <field name="center_id" ref="medical_administration_center.partner_center_1" />
+    </record>
+    <record
+        id="medical_product_request.patient_01_medical_product_request_01_01"
+        model="medical.product.request"
+    >
+        <field name="specific_rate">8</field>
+        <field name="specific_rate_uom_id" ref="uom.product_uom_hour" />
+    </record>
+    <record
+        id="medical_product_request.patient_01_medical_product_request_02_01"
+        model="medical.product.request"
+    >
+        <field name="specific_rate">8</field>
+        <field name="specific_rate_uom_id" ref="uom.product_uom_hour" />
+    </record>
+    <record
+        id="medical_product_request.patient_01_medical_product_request_03_01"
+        model="medical.product.request"
+    >
+        <field name="specific_rate">8</field>
+        <field name="specific_rate_uom_id" ref="uom.product_uom_hour" />
+    </record>
+    <record
+        id="medical_product_request.patient_01_medical_product_request_04_01"
+        model="medical.product.request"
+    >
+        <field name="specific_rate">8</field>
+        <field name="specific_rate_uom_id" ref="uom.product_uom_hour" />
+    </record>
+    <record
+        id="medical_product_request.patient_01_medical_product_request_05_01"
+        model="medical.product.request"
+    >
+        <field name="specific_rate">6</field>
+        <field name="specific_rate_uom_id" ref="uom.product_uom_hour" />
+    </record>
+    <record
+        id="medical_product_request.patient_01_medical_product_request_01_02"
+        model="medical.product.request"
+    >
+        <field name="specific_rate">8</field>
+        <field name="specific_rate_uom_id" ref="uom.product_uom_hour" />
+    </record>
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="medical_product_template_commercial_form_view">
+        <field
+            name="name"
+        >medical.product.template.commercial.form (in cb_medical_product_request)</field>
+        <field name="model">medical.product.template.commercial</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            type="object"
+                            name="action_view_medical_product_commercial_ids"
+                            class="oe_stat_button"
+                            icon="fa-pills"
+                        >
+                            <field
+                                name="product_count"
+                                widget="statinfo"
+                                string="Presentations (NC)"
+                            />
+                        </button>
+                    </div>
+                    <h3>
+                        <field name="name" />
+                    </h3>
+                    <group>
+                        <group name="code" string="Registration Code">
+                            <field name="code" />
+                        </group>
+                        <group name="product_tmpl_id" string="Product Template">
+                            <field name="product_tmpl_id" />
+                        </group>
+                        <group name='laboratory' string='Laboratory'>
+                            <field name="laboratory" />
+                            <field name="laboratory_product_name" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="medical_product_template_commercial_search_view">
+        <field
+            name="name"
+        >medical.product.template.commercial.search (in cb_medical_product_request)</field>
+        <field name="model">medical.product.template.commercial</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="code" />
+                <field name="product_tmpl_id" />
+                <field name="laboratory" />
+                <field name="laboratory_product_name" />
+            </search>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="medical_product_template_commercial_tree_view">
+        <field
+            name="name"
+        >medical.product.template.commercial.tree (in cb_medical_product_request)</field>
+        <field name="model">medical.product.template.commercial</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="code" />
+                <field name="product_tmpl_id" />
+                <field name="laboratory" />
+                <field name="laboratory_product_name" />
+            </tree>
+        </field>
+    </record>
+    <record
+        model="ir.actions.act_window"
+        id="medical_product_template_commercial_act_window"
+    >
+        <field name="name">Medical Product Template Commercial</field>
+        <field name="res_model">medical.product.template.commercial</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+    <record model="ir.ui.menu" id="medical_product_template_commercial_menu">
+        <field name="name">Medical Product Template Commercial</field>
+        <field name="parent_id" ref="medical_product_request.medical_product_menu" />
+        <field name="action" ref="medical_product_template_commercial_act_window" />
+        <field name="sequence" eval="16" />
+    </record>
+</odoo>
