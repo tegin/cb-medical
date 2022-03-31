@@ -15,6 +15,8 @@
         "views/medical_laboratory_request_view.xml",
         "views/workflow_activity_definition_views.xml",
         "views/medical_laboratory_service_view.xml",
+        "views/medical_encounter_views.xml",
+        "views/medical_laboratory_sample_view.xml",
     ],
     "website": "https://github.com/OCA/cb-addons",
     "license": "AGPL-3",
