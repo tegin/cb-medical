@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="medical_encounter_view_form" model="ir.ui.view">
+        <field name="name">medical.encounter.view.form</field>
+        <field name="model">medical.encounter</field>
+        <field
+            name="inherit_id"
+            ref="medical_administration_encounter.medical_encounter_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    type="object"
+                    name="action_view_laboratory_samples"
+                    class="oe_stat_button"
+                    icon="fa-flask"
+                >
+                    <field
+                        name="laboratory_sample_count"
+                        widget="statinfo"
+                        string="Laboratory Samples"
+                    />
+                    <field name='laboratory_sample_ids' invisible="1" />
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>
