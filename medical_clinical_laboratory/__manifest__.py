@@ -13,6 +13,7 @@
         "views/medical_request_views.xml",
         "views/medical_laboratory_event_view.xml",
         "views/medical_laboratory_request_view.xml",
+        "views/medical_laboratory_sample_view.xml",
     ],
     "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
