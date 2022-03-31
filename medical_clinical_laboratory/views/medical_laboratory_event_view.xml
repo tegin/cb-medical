@@ -30,16 +30,20 @@
                     name="laboratory_request_id"
                     options="{'no_open': True, 'no_create': True}"
                 />
+                <field
+                    name="laboratory_sample_id"
+                    options="{'no_open': True, 'no_create': True}"
+                />
             </group>
         </field>
     </record>
-    <record id="medical_laboratory_event_view_form_request" model="ir.ui.view">
+    <record id="medical_laboratory_event_view_form_sample" model="ir.ui.view">
         <field name="name">medical.laboratory.event.view.form</field>
         <field name="model">medical.laboratory.event</field>
         <field name="inherit_id" ref="medical_laboratory_event_view_form" />
         <field name="groups_id" eval="[(4, ref('group_medical_laboratory_list'))]" />
         <field name="arch" type="xml">
-            <field name="laboratory_request_id" position="attributes">
+            <field name="laboratory_sample_id" position="attributes">
                 <attribute
                     name="options"
                 >{'no_open': False, 'no_create': True}</attribute>
@@ -120,7 +124,7 @@
     </record>
     <menuitem
         id="medical_laboratory_event"
-        name="Laboratory events"
+        name="Laboratory Events"
         parent="medical_clinical.medical_clinical_event"
         sequence="10"
         action="medical_laboratory_event_action"

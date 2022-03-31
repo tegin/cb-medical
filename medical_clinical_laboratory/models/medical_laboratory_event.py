@@ -20,6 +20,13 @@ class MedicalLaboratoryEvent(models.Model):
         index=True,
         readonly=True,
     )  # FHIR Field: BasedOn
+    laboratory_sample_id = fields.Many2one(
+        comodel_name="medical.laboratory.sample",
+        string="Laboratory sample",
+        ondelete="restrict",
+        index=True,
+        readonly=True,
+    )
 
     def _get_internal_identifier(self, vals):
         return (
@@ -30,5 +37,6 @@ class MedicalLaboratoryEvent(models.Model):
     @api.constrains("laboratory_request_id", "patient_id")
     def _check_patient_medication(self):
         if not self.env.context.get("no_check_patient", False):
-            if self.patient_id != self.laboratory_request_id.patient_id:
+            if self.patient_id != self.laboratory_request_id.patient_id and \
+                    self.patient_id != self.laboratory_sample_id.patient_id:
                 raise ValidationError(_("Patient inconsistency"))
