@@ -46,7 +46,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         )
         with self.assertRaises(ValidationError):
             self.env["medical.coverage.agreement.join"].with_context(
-                active_model=(agr | agr2)._name, active_ids=(agr | agr2).ids,
+                active_model=(agr | agr2)._name,
+                active_ids=(agr | agr2).ids,
             ).create({}).run()
 
     def test_join_agreements_constrain_02(self):
@@ -63,5 +64,6 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         )
         with self.assertRaises(ValidationError):
             self.env["medical.coverage.agreement.join"].with_context(
-                active_model=(agr | agr2)._name, active_ids=(agr | agr2).ids,
+                active_model=(agr | agr2)._name,
+                active_ids=(agr | agr2).ids,
             ).create({}).run()
