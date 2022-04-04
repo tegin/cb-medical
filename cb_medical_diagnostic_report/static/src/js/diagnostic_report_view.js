@@ -1,4 +1,4 @@
-odoo.define("diagnostic_report.DiagnosticReportView", function(require) {
+odoo.define("diagnostic_report.DiagnosticReportView", function (require) {
     "use strict";
 
     var registry = require("web.view_registry");
