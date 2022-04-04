@@ -19,7 +19,9 @@ class TestEncounterCreate(SavepointCase):
 
     def test_create_encounter_constrain_01(self):
         with self.assertRaises(ValidationError):
-            self.env["medical.encounter"].create_encounter(center=self.center,)
+            self.env["medical.encounter"].create_encounter(
+                center=self.center,
+            )
 
     def test_create_encounter_constrain_02(self):
         with self.assertRaises(ValidationError):
