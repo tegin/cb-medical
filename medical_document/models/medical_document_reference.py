@@ -23,7 +23,11 @@ class MedicalDocumentReference(models.Model):
         ]
 
     internal_identifier = fields.Char(string="Document reference")
-    state = fields.Selection(required=True, tracking=True, default="draft",)
+    state = fields.Selection(
+        required=True,
+        tracking=True,
+        default="draft",
+    )
     document_type_id = fields.Many2one(
         "medical.document.type",
         required=True,
