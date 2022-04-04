@@ -18,7 +18,9 @@ class MedicalTurn(models.Model):
         tracking=True,
     )
     practitioner_id = fields.Many2one(
-        string="Practitioner", comodel_name="res.partner", tracking=True,
+        string="Practitioner",
+        comodel_name="res.partner",
+        tracking=True,
     )
     specialty_id = fields.Many2one(
         "medical.turn.specialty", tracking=True, required=True
