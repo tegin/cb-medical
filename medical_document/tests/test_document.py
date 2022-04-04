@@ -114,7 +114,8 @@ class TestDocument(SavepointCase):
         self.assertEqual(document.state, "superseded")
         self.assertIsInstance(document.render(), bytes)
         with patch(
-            "odoo.addons.base_remote.models.base.Base.remote", new=self.remote,
+            "odoo.addons.base_remote.models.base.Base.remote",
+            new=self.remote,
         ):
             document.print()
         mck.assert_not_called()
@@ -126,7 +127,8 @@ class TestDocument(SavepointCase):
             }
         )
         with patch(
-            "odoo.addons.base_remote.models.base.Base.remote", new=self.remote,
+            "odoo.addons.base_remote.models.base.Base.remote",
+            new=self.remote,
         ):
             document.print()
         mck.assert_called_once()
