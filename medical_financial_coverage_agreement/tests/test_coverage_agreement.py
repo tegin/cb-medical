@@ -33,8 +33,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
             coverage_agreement, self.product_1
         )
         coverage_agreement.action_search_item()
-        self.assertEquals(item_1.coverage_price, 100)
-        self.assertEquals(item_1.private_price, 0)
+        self.assertEqual(item_1.coverage_price, 100)
+        self.assertEqual(item_1.private_price, 0)
 
     def test_add_agreement_items_and_inactive(self):
         coverage_template = self._create_coverage_template()
@@ -46,7 +46,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
             "total_price": 100,
         }
         self.coverage_agreement_model_item.create(vals)
-        self.assertEquals(len(coverage_agreement.item_ids), 1)
+        self.assertEqual(len(coverage_agreement.item_ids), 1)
         coverage_agreement.toggle_active()
         self.assertFalse(coverage_agreement.item_ids.active)
 
@@ -140,15 +140,15 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
                 "total_price": 200,
             }
         )
-        self.assertEquals(item_1.coverage_price, 100)
-        self.assertEquals(item_1.private_price, 100)
+        self.assertEqual(item_1.coverage_price, 100)
+        self.assertEqual(item_1.private_price, 100)
         wiz = self.env["medical.agreement.change.prices"].create(
             {"difference": 50.0}
         )
         wiz.with_context(active_ids=[coverage_agreement.id]).change_prices()
         item_1.refresh()
-        self.assertEquals(item_1.coverage_price, 150)
-        self.assertEquals(item_1.private_price, 150)
+        self.assertEqual(item_1.coverage_price, 150)
+        self.assertEqual(item_1.private_price, 150)
 
     def test_expand(self):
         # case 1
@@ -172,8 +172,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
                 "total_price": 200,
             }
         )
-        self.assertEquals(item_1.coverage_price, 100)
-        self.assertEquals(item_1.private_price, 100)
+        self.assertEqual(item_1.coverage_price, 100)
+        self.assertEqual(item_1.private_price, 100)
         wiz = (
             self.env["medical.agreement.expand"]
             .with_context(
@@ -189,8 +189,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         )
         action = wiz.expand()
         item_1.refresh()
-        self.assertEquals(item_1.coverage_price, 100)
-        self.assertEquals(item_1.private_price, 100)
+        self.assertEqual(item_1.coverage_price, 100)
+        self.assertEqual(item_1.private_price, 100)
         new_agreement = self.env[action["res_model"]].browse(action["res_id"])
         self.assertEqual(
             new_agreement.coverage_template_ids,
@@ -199,8 +199,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         new_item_1 = new_agreement.item_ids.filtered(
             lambda r: r.product_id == self.product_1
         )
-        self.assertEquals(new_item_1.coverage_price, 150)
-        self.assertEquals(new_item_1.private_price, 150)
+        self.assertEqual(new_item_1.coverage_price, 150)
+        self.assertEqual(new_item_1.private_price, 150)
 
     def test_agreement_report(self):
 
@@ -227,7 +227,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         data = coverage_agreement._agreement_report_data()
         self.assertTrue(data)
         self.assertEqual(
-            data[0]["category"], self.env.ref("product.product_category_all"),
+            data[0]["category"],
+            self.env.ref("product.product_category_all"),
         )
         self.assertFalse(data[0]["childs"])
         self.assertEqual(item, data[0]["data"][0]["item"])
@@ -242,7 +243,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         data = coverage_agreement._agreement_report_data()
         self.assertTrue(data)
         self.assertEqual(
-            data[0]["category"], self.env.ref("product.product_category_all"),
+            data[0]["category"],
+            self.env.ref("product.product_category_all"),
         )
         self.assertTrue(data[0]["childs"])
         self.assertFalse(data[0]["data"])
@@ -351,7 +353,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
             }
         )
         self.env["medical.coverage.agreement.join"].with_context(
-            active_model=(agr | agr2)._name, active_ids=(agr | agr2).ids,
+            active_model=(agr | agr2)._name,
+            active_ids=(agr | agr2).ids,
         ).create({}).run()
         joined = (agr | agr2).filtered(lambda r: r.item_ids)
         self.assertEqual(len(joined), 1)
@@ -366,7 +369,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         (agr | agr2).write({"center_ids": [(4, self.center_1.id)]})
         with self.assertRaises(ValidationError):
             self.env["medical.coverage.agreement.join"].with_context(
-                active_model=(agr | agr2)._name, active_ids=(agr | agr2).ids,
+                active_model=(agr | agr2)._name,
+                active_ids=(agr | agr2).ids,
             ).create({}).run()
 
     def test_join_agreements_constrain_02(self):
@@ -379,7 +383,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         agr.center_ids = self._create_center()
         with self.assertRaises(ValidationError):
             self.env["medical.coverage.agreement.join"].with_context(
-                active_model=(agr | agr2)._name, active_ids=(agr | agr2).ids,
+                active_model=(agr | agr2)._name,
+                active_ids=(agr | agr2).ids,
             ).create({}).run()
 
     def test_join_agreements_constrain_03(self):
@@ -389,7 +394,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         agr.center_ids = self._create_center()
         with self.assertRaises(ValidationError):
             self.env["medical.coverage.agreement.join"].with_context(
-                active_model=agr._name, active_ids=agr.ids,
+                active_model=agr._name,
+                active_ids=agr.ids,
             ).create({}).run()
 
     def test_join_agreements_constrain_04(self):
@@ -409,7 +415,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         )
         with self.assertRaises(ValidationError):
             self.env["medical.coverage.agreement.join"].with_context(
-                active_model=(agr | agr2)._name, active_ids=(agr | agr2).ids,
+                active_model=(agr | agr2)._name,
+                active_ids=(agr | agr2).ids,
             ).create({}).run()
 
     def test_template_constrain_01(self):
