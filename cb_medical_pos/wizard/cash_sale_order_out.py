@@ -45,7 +45,8 @@ class CashSaleOrderOut(models.TransientModel):
         default=lambda self: self._default_payment_method(),
     )
     payment_method_count = fields.Integer(
-        compute="_compute_payment_method_count", readonly=True,
+        compute="_compute_payment_method_count",
+        readonly=True,
     )
 
     @api.depends("payment_method_ids")
