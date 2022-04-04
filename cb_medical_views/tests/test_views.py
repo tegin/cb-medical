@@ -80,14 +80,14 @@ class TestCBSale(common.MedicalSavePointCase):
         )
 
     def test_coverage_display(self):
-        self.assertEquals(
+        self.assertEqual(
             self.coverage_01.display_name, self.coverage_01.internal_identifier
         )
         self.coverage_01.name = "COVERAGE NAME"
-        self.assertEquals(self.coverage_01.display_name, "COVERAGE NAME")
+        self.assertEqual(self.coverage_01.display_name, "COVERAGE NAME")
         self.coverage_01.refresh()
         self.coverage_01.subscriber_id = "1234"
-        self.assertEquals(self.coverage_01.display_name, "1234")
+        self.assertEqual(self.coverage_01.display_name, "1234")
 
     def test_coverage_template_display(self):
         display_name = self.coverage_template.display_name
