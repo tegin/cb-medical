@@ -56,8 +56,7 @@ class MedicalSpecialty(models.Model):
             record.sequence_number_next = sequence.number_next_actual
 
     def _inverse_seq_number_next(self):
-        """Inverse 'sequence_number_next' to edit the current sequence next number.
-        """
+        """Inverse 'sequence_number_next' to edit the current sequence next number."""
         for record in self:
             if record.sequence_id and record.sequence_number_next:
                 sequence = record.sequence_id._get_current_sequence()

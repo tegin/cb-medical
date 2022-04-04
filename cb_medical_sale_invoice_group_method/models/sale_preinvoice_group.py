@@ -192,7 +192,9 @@ class SalePreinvoiceGroup(models.Model):
         )
         for line in processed_lines:
             show_lines = "{} {} [{}]\n".format(
-                show_lines, line.product_id.name, line.order_id.name,
+                show_lines,
+                line.product_id.name,
+                line.order_id.name,
             )
         return show_lines + _(
             "Scan the next barcode or press Close to " "finish scanning."

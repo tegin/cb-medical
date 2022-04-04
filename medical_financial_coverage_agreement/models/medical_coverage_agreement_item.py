@@ -218,7 +218,7 @@ class MedicalCoverageAgreementItem(models.Model):
         limit=100,
         name_get_uid=None,
     ):
-        """ search full name and barcode """
+        """search full name and barcode"""
         args = args or []
         domain = []
         if name:

@@ -1,4 +1,4 @@
-odoo.define("diagnostic_report.DiagnosticReportRenderer", function(require) {
+odoo.define("diagnostic_report.DiagnosticReportRenderer", function (require) {
     "use strict";
 
     var FormRenderer = require("web.FormRenderer");
@@ -7,7 +7,7 @@ odoo.define("diagnostic_report.DiagnosticReportRenderer", function(require) {
         events: _.extend({}, FormRenderer.prototype.events, {
             paste: "_onPaste",
         }),
-        _onPaste: function(e) {
+        _onPaste: function (e) {
             if (this.mode !== "readonly") {
                 return;
             }
