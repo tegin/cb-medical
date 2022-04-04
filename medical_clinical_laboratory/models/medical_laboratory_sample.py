@@ -22,48 +22,6 @@ class MedicalLaboratorySample(models.Model):
         string="# of Events",
         copy=False,
     )
-    encounter_id = fields.Many2one(
-        comodel_name="medical.encounter",
-        ondelete="restrict",
-        index=True,
-        readonly=True,
-    )
-
-    def draft2active_values(self):
-        return {"state": "active"}
-
-    def draft2active(self):
-        self.write(self.draft2active_values())
-
-    def active2suspended_values(self):
-        return {"state": "suspended"}
-
-    def active2suspended(self):
-        self.write(self.active2suspended_values())
-
-    def active2completed_values(self):
-        return {"state": "completed"}
-
-    def active2completed(self):
-        self.write(self.active2completed_values())
-
-    def active2error_values(self):
-        return {"state": "entered-in-error"}
-
-    def active2error(self):
-        self.write(self.active2error_values())
-
-    def reactive_values(self):
-        return {"state": "active"}
-
-    def reactive(self):
-        self.write(self.reactive_values())
-
-    def cancel_values(self):
-        return {"state": "cancelled"}
-
-    def cancel(self):
-        self.write(self.cancel_values())
 
     # LABORATORY EVENT RELATED
     @api.depends("laboratory_event_ids")
@@ -79,7 +37,7 @@ class MedicalLaboratorySample(models.Model):
 
     def action_view_request_parameters(self):
         return {
-            "view": "medical_clinical_laboratory." "medical_laboratory_sample_action",
+            "view": "medical_clinical_laboratory.medical_laboratory_sample_action",
             "view_form": "medical.procedure.sample.view.form",
         }
 
@@ -114,7 +72,7 @@ class MedicalLaboratorySample(models.Model):
             "default_laboratory_request_id": self.id,
             "default_name": self.name,
         }
-        result["domain"] = "[('laboratory_sample_id', '=', " + str(self.id) + ")]"
+        result["domain"] = [("laboratory_sample_id", "=", self.id)]
         if len(self.laboratory_event_ids) == 1:
             res = self.env.ref("medical.laboratory.event.view.form", False)
             result["views"] = [(res and res.id or False, "form")]

@@ -6,7 +6,7 @@
     "name": "Medical Laboratory",
     "version": "14.0.1.0.0",
     "author": "Eficent, CreuBlanca",
-    "depends": ["medical_workflow", "medical_base"],
+    "depends": ["medical_administration_encounter_careplan"],
     "data": [
         "security/ir.model.access.csv",
         "data/ir_sequence_data.xml",
