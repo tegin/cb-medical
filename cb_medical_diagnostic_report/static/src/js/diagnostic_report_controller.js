@@ -1,5 +1,5 @@
 /* global Uint8Array base64js*/
-odoo.define("diagnostic_report.DiagnosticReportController", function(require) {
+odoo.define("diagnostic_report.DiagnosticReportController", function (require) {
     "use strict";
 
     var FormController = require("web.FormController");
@@ -8,7 +8,7 @@ odoo.define("diagnostic_report.DiagnosticReportController", function(require) {
         custom_events: _.extend({}, FormController.prototype.custom_events, {
             paste_file: "_onPaste",
         }),
-        _onPaste: function(e) {
+        _onPaste: function (e) {
             var clipboardData = e.data.clipboardData;
             var self = this;
             if (clipboardData && clipboardData.items && clipboardData.items.length) {
@@ -20,13 +20,13 @@ odoo.define("diagnostic_report.DiagnosticReportController", function(require) {
                 }
             }
         },
-        _handle_drop_items: function(drop_items, e) {
+        _handle_drop_items: function (drop_items, e) {
             if (this.mode !== "readonly") {
                 return this._super(drop_items, e);
             }
             var new_drop_items = [];
             var self = this;
-            _.each(drop_items, function(file) {
+            _.each(drop_items, function (file) {
                 if (self._isImage(file)) {
                     self._generateImage(file, e);
                 } else {
@@ -35,7 +35,7 @@ odoo.define("diagnostic_report.DiagnosticReportController", function(require) {
             });
             return this._super(new_drop_items, e);
         },
-        _generateImage: function(file, e) {
+        _generateImage: function (file, e) {
             var self = this;
             if (!file || !(file instanceof Blob)) {
                 return;
@@ -54,7 +54,7 @@ odoo.define("diagnostic_report.DiagnosticReportController", function(require) {
             reader.onerror = self.proxy("_file_reader_error_handler");
             reader.readAsArrayBuffer(file);
         },
-        _generateAttachmentImage: function(file, reader, e, res_model, res_id) {
+        _generateAttachmentImage: function (file, reader, e, res_model, res_id) {
             var self = this;
             return this._rpc({
                 model: res_model,
@@ -64,11 +64,11 @@ odoo.define("diagnostic_report.DiagnosticReportController", function(require) {
                     name: file.name,
                     datas: base64js.fromByteArray(new Uint8Array(reader.result)),
                 },
-            }).then(function() {
+            }).then(function () {
                 self.trigger_up("reload");
             });
         },
-        _isImage: function(item) {
+        _isImage: function (item) {
             if (item.type.indexOf("image/") !== -1) {
                 return true;
             }
