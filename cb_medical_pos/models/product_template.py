@@ -9,5 +9,6 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     medical_center_company_ids = fields.One2many(
-        "product.medical.center.company", inverse_name="product_tmpl_id",
+        "product.medical.center.company",
+        inverse_name="product_tmpl_id",
     )
