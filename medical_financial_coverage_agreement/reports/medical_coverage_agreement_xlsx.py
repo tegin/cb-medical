@@ -10,7 +10,7 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
         return (
             1
             if not item["childs"]
-            else max([self.tree_height(child) for child in item["childs"]]) + 1
+            else max(self.tree_height(child) for child in item["childs"]) + 1
         )
 
     def generate_sub_tree(self, workbook, sheet, level, item, i, th):
@@ -54,7 +54,7 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
             )
             i = 0
             if items:
-                th = max([self.tree_height(item) for item in items])
+                th = max(self.tree_height(item) for item in items)
                 for item in items:
                     level = 0
                     sheet, i = self.generate_sub_tree(

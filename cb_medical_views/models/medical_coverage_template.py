@@ -11,7 +11,6 @@ class MedicalCoverageTemplate(models.Model):
             name = "{payor} - {name}".format(
                 name=rec.name,
                 payor=rec.payor_id.display_name,
-                internal_identifier=rec.internal_identifier,
             )
             result.append((rec.id, name))
         return result

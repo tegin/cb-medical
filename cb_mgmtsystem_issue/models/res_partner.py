@@ -8,7 +8,8 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     quality_issue_ids = fields.One2many(
-        "mgmtsystem.quality.issue", inverse_name="partner_id",
+        "mgmtsystem.quality.issue",
+        inverse_name="partner_id",
     )
     quality_issue_count = fields.Integer(
         compute="_compute_quality_issue_count"
