@@ -21,7 +21,9 @@ class MedicalAuthorizationMethod(models.Model):
         tracking=True, required=True, default=False
     )
     authorization_required = fields.Boolean(
-        tracking=True, required=True, default=False,
+        tracking=True,
+        required=True,
+        default=False,
     )
     auxiliary_method_id = fields.Many2one(
         comodel_name="medical.authorization.method", required=False
