@@ -37,6 +37,8 @@ class MedicalLaboratoryEvent(models.Model):
     @api.constrains("laboratory_request_id", "patient_id")
     def _check_patient_medication(self):
         if not self.env.context.get("no_check_patient", False):
-            if self.patient_id != self.laboratory_request_id.patient_id and \
-                    self.patient_id != self.laboratory_sample_id.patient_id:
+            if (
+                self.patient_id != self.laboratory_request_id.patient_id
+                and self.patient_id != self.laboratory_sample_id.patient_id
+            ):
                 raise ValidationError(_("Patient inconsistency"))
