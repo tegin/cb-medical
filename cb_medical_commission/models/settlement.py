@@ -13,7 +13,9 @@ class SettlementLine(models.Model):
         required=True,
     )
     settled_amount = fields.Float(
-        related=False, compute="_compute_settled_amount", store=True,
+        related=False,
+        compute="_compute_settled_amount",
+        store=True,
     )
 
     @api.depends("agent_line.amount", "agent_sale_line.amount")
