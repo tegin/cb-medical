@@ -530,7 +530,7 @@ class TestCBSale(common.MedicalSavePointCase):
         cp_3 = careplan_wizard_3.run()
         self.assertNotEqual(cp_3, careplan)
 
-    def test_sale_laboratory(self):
+    def test_sale_laboratory_no_parameter(self):
         self.env["workflow.plan.definition.action"].create(
             {
                 "activity_definition_id": self.lab_activity.id,
@@ -558,14 +558,76 @@ class TestCBSale(common.MedicalSavePointCase):
             self.agreement_line
         )
         lab_req = group.laboratory_request_ids
-        event = lab_req.generate_event(
+        event = (
+            self.env["medical.laboratory.sample"]
+            .search([("encounter_id", "=", encounter.id)])
+            .generate_event(
+                {
+                    "service_id": self.laboratory_parameter.id,
+                    "performer_id": self.practitioner_01.id,
+                }
+            )
+        )
+        event.flush()
+        with self.assertRaises(ValidationError):
+            event.laboratory_request_id = lab_req
+            event.flush()
+
+    def test_sale_laboratory(self):
+        self.env["workflow.plan.definition.action"].create(
             {
-                "is_sellable_private": True,
-                "is_sellable_insurance": True,
-                "private_amount": 20,
-                "performer_id": self.practitioner_01.id,
-                "coverage_amount": 10,
+                "activity_definition_id": self.lab_activity.id,
+                "direct_plan_definition_id": self.plan_definition.id,
+                "is_billable": False,
+                "name": "Action4",
             }
+        )
+
+        self.env["medical.coverage.agreement.item"].create(
+            {
+                "product_id": self.product_07.id,
+                "coverage_agreement_id": self.agreement.id,
+                "total_price": 0.0,
+                "coverage_percentage": 50.0,
+                "authorization_method_id": self.browse_ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": self.browse_ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
+            }
+        )
+        self.env["medical.coverage.agreement.item"].create(
+            {
+                "product_id": self.laboratory_parameter.id,
+                "coverage_agreement_id": self.agreement.id,
+                "total_price": 20.0,
+                "coverage_percentage": 50.0,
+                "authorization_method_id": self.browse_ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": self.browse_ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line
+        )
+        encounter.refresh()
+        event = (
+            self.env["medical.laboratory.sample"]
+            .search([("encounter_id", "=", encounter.id)])
+            .generate_event(
+                {
+                    "service_id": self.laboratory_parameter.id,
+                    "performer_id": self.practitioner_01.id,
+                }
+            )
+        )
+        event.flush()
+        self.assertEqual(
+            event.laboratory_request_id, encounter.laboratory_request_ids
         )
         encounter.create_sale_order()
         encounter.refresh()
