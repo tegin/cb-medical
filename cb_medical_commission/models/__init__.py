@@ -8,6 +8,7 @@ from . import medical_encounter
 from . import medical_event
 from . import medical_laboratory_event
 from . import medical_laboratory_request
+from . import medical_laboratory_sample
 from . import medical_request_group
 from . import medical_practitioner_condition
 from . import medical_procedure
