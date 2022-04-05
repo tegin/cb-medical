@@ -496,7 +496,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 3)
 
-    def test_sale_laboratory(self):
+    def test_01_sale_laboratory(self):
         self.env["workflow.plan.definition.action"].create(
             {
                 "activity_definition_id": self.lab_activity.id,
@@ -521,34 +521,39 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 ).id,
             }
         )
-        encounter, careplan, group = self.create_careplan_and_group(self.agreement_line)
-        lab_req = group.laboratory_request_ids
-        event = lab_req.generate_event(
+        self.env["medical.coverage.agreement.item"].create(
             {
-                "is_sellable_private": True,
-                "is_sellable_insurance": True,
-                "private_amount": 20,
-                "coverage_amount": 10,
-                "private_cost": 10,
-                "coverage_cost": 5,
+                "product_id": self.laboratory_parameter.id,
+                "coverage_agreement_id": self.agreement.id,
+                "total_price": 20.0,
+                "coverage_percentage": 50.0,
+                "authorization_method_id": self.browse_ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": self.browse_ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
             }
         )
+        encounter, careplan, group = self.create_careplan_and_group(self.agreement_line)
+        event = (
+            self.env["medical.laboratory.sample"]
+            .search([("encounter_id", "=", encounter.id)])
+            .generate_event(
+                {
+                    "service_id": self.laboratory_parameter.id,
+                    "coverage_cost": 1,
+                    "private_cost": 1,
+                    # This is maintained by legacy...
+                }
+            )
+        )
+        event.flush()
+        self.assertEqual(event.laboratory_request_id, encounter.laboratory_request_ids)
         self.assertEqual(event.performer_id, self.practitioner_01)
         encounter.create_sale_order()
         encounter.recompute_commissions()
         encounter.refresh()
-        self.assertTrue(
-            encounter.sale_order_ids.mapped("order_line").filtered(
-                lambda r: r.medical_model == "medical.laboratory.event"
-            )
-        )
-        for line in encounter.sale_order_ids.mapped("order_line").filtered(
-            lambda r: r.medical_model == "medical.laboratory.event"
-        ):
-            action = line.open_medical_record()
-            self.assertEqual(
-                event, self.env[action["res_model"]].browse(action["res_id"])
-            )
         self.assertEqual(
             len(
                 encounter.sale_order_ids.mapped("order_line").filtered(
@@ -557,6 +562,14 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             ),
             2,
         )
+        for line in encounter.sale_order_ids.mapped("order_line").filtered(
+            lambda r: r.medical_model == "medical.laboratory.event"
+        ):
+            action = line.open_medical_record()
+            self.assertEqual(
+                event, self.env[action["res_model"]].browse(action["res_id"])
+            )
+
         self.assertTrue(
             encounter.sale_order_ids.mapped("order_line")
             .filtered(lambda r: r.medical_model == "medical.laboratory.event")
@@ -573,16 +586,20 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         )
         self.assertEqual(encounter.invoice_count, 0)
         sale_orders = encounter.sale_order_ids
+        self.assertEqual(2, len(sale_orders))
+        group = self.env.ref("cb_medical_careplan_sale.by_preinvoicing")
+        self.assertEqual(
+            1,
+            len(sale_orders.filtered(lambda r: r.invoice_group_method_id == group)),
+        )
         for sale_order in sale_orders:
             sale_order.action_confirm()
-            for line in sale_order.mapped("order_line"):
-                line.qty_delivered = line.product_uom_qty
-            if sale_order.invoice_group_method_id == self.env.ref(
-                "cb_medical_careplan_sale.by_preinvoicing"
-            ):
+            if sale_order.invoice_group_method_id == group:
                 continue
             sale_order.with_context(active_model=sale_order._name)._create_invoices()
-        self.assertEqual(encounter.invoice_count, 2)
+            sale_order.flush()
+        encounter.refresh()
+        self.assertEqual(encounter.invoice_count, 1)
         self.assertGreater(
             sum(
                 a.amount

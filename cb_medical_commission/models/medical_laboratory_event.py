@@ -8,8 +8,11 @@ from odoo import fields, models
 class MedicalLaboratoryEvent(models.Model):
     _inherit = "medical.laboratory.event"
 
+    # TODO: Remove this on the future
     private_cost = fields.Float(required=True, default=0)
+    # TODO: Remove this on the future
     coverage_cost = fields.Float(required=True, default=0)
+
     commission_sale_order_line_ids = fields.Many2many(
         "sale.order.line",
         relation="sale_order_line_commission_medical_laboratory_event",
@@ -40,6 +43,8 @@ class MedicalLaboratoryEvent(models.Model):
         if req.sale_order_line_ids:
             self.commission_sale_order_line_ids = req.sale_order_line_ids
             return self.check_commission()
+        if not request and not self.laboratory_request_id:
+            return
         if not request:
             return self.compute_commission(self.laboratory_request_id)
         if request.parent_model and request.parent_id:
