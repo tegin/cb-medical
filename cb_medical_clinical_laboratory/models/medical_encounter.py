@@ -39,7 +39,7 @@ class MedicalEncounter(models.Model):
             "default_laboratory_request_id": self.id,
             "default_name": self.name,
         }
-        result["domain"] = "[('encounter_id', '=', " + str(self.id) + ")]"
+        result["domain"] = [("encounter_id", "=", self.id)]
         if len(self.laboratory_sample_ids) == 1:
             res = self.env.ref("medical.laboratory.sample.view.form", False)
             result["views"] = [(res and res.id or False, "form")]

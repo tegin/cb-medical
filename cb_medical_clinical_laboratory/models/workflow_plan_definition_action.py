@@ -4,7 +4,9 @@ from odoo import api, fields, models
 class WorkflowPlanDefinitinoAction(models.Model):
     _inherit = "workflow.plan.definition.action"
 
-    laboratory_service_ids = fields.Many2many("medical.laboratory.service")
+    laboratory_service_ids = fields.Many2many(
+        "product.product", domain=[("laboratory_request_ok", "=", True)]
+    )
 
     @api.onchange("activity_definition_id")
     def _onchange_activity_definition(self):
