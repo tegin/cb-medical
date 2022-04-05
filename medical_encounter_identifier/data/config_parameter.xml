@@ -82,6 +82,14 @@
             <field name="value">LE%02d</field>
         </record>
         <record
+            id="medical_laboratory_sample_identifier_format"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
+            <field name="key">medical.laboratory.sample.identifier</field>
+            <field name="value">LS%02d</field>
+        </record>
+        <record
             id="medical_diagnostic_report_identifier_format"
             model="ir.config_parameter"
             forcecreate="True"
