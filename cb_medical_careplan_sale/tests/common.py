@@ -182,6 +182,7 @@ class MedicalSavePointCase(SavepointCase):
         self.product_05 = self.create_product("Report 05")
         self.product_06 = self.create_product("Document 06")
         self.product_07 = self.create_product("Document 07")
+        self.laboratory_parameter = self.create_product("Laboratory Parameter")
         self.service = self.env["product.product"].create(
             {
                 "name": "Service",

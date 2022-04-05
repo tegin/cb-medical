@@ -20,6 +20,12 @@ class MedicalEncounter(models.Model):
         inverse_name="encounter_id",
         string="Invoice Lines",
     )
+    laboratory_request_ids = fields.One2many(
+        string="Laboratory Requests",
+        comodel_name="medical.laboratory.request",
+        inverse_name="encounter_id",
+        readonly=True,
+    )
 
     @api.depends("sale_order_ids")
     def _compute_sale_order_count(self):
