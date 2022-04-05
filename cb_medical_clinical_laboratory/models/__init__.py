@@ -7,5 +7,5 @@ from . import medical_laboratory_event
 from . import medical_laboratory_request
 from . import workflow_activity_definition
 from . import workflow_plan_definition_action
-from . import medical_laboratory_service
 from . import medical_encounter
+from . import product_template

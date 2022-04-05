@@ -25,24 +25,74 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
                 ).id,
             }
         )
-        cls.lab_service = cls.env["medical.laboratory.service"].create(
+        cls.lab_service = cls.env["product.product"].create(
             {
-                "name": "Lab service 1",
-                "code": "INTERNAL_CODE",
-                "laboratory_code": "LAB_CODE",
-                "service_price_ids": [
-                    (0, 0, {"laboratory_code": "1", "amount": 10, "cost": 5})
+                "default_code": "INTERNAL_CODE",
+                "name": "name",
+                "laboratory_request_ok": True,
+                "type": "service",
+                "seller_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": cls.practitioner_01.id,
+                            "product_code": "LAB_01",
+                            "price": 5,
+                        },
+                    )
                 ],
             }
         )
-        cls.lab_service_2 = cls.env["medical.laboratory.service"].create(
+        cls.lab_service_2 = cls.env["product.product"].create(
             {
-                "name": "Lab service 2",
-                "code": "INTERNAL_CODE2",
-                "laboratory_code": "LAB_CODE2",
-                "service_price_ids": [
-                    (0, 0, {"laboratory_code": "1", "amount": 10, "cost": 5})
+                "default_code": "INTERNAL_CODE2",
+                "name": "name",
+                "laboratory_request_ok": True,
+                "type": "service",
+                "seller_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": cls.practitioner_01.id,
+                            "product_code": "LAB_02",
+                            "price": 5,
+                        },
+                    )
                 ],
+            }
+        )
+        cls.lab_service_agreement = cls.env[
+            "medical.coverage.agreement.item"
+        ].create(
+            {
+                "product_id": cls.lab_service.id,
+                "coverage_agreement_id": cls.agreement.id,
+                "total_price": 10.0,
+                "coverage_percentage": 50.0,
+                "authorization_method_id": cls.env.ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": cls.env.ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
+            }
+        )
+        cls.lab_service_2_agreement = cls.env[
+            "medical.coverage.agreement.item"
+        ].create(
+            {
+                "product_id": cls.lab_service_2.id,
+                "coverage_agreement_id": cls.agreement.id,
+                "total_price": 10.0,
+                "coverage_percentage": 50.0,
+                "authorization_method_id": cls.env.ref(
+                    "medical_financial_coverage_request.without"
+                ).id,
+                "authorization_format_id": cls.env.ref(
+                    "medical_financial_coverage_request.format_anything"
+                ).id,
             }
         )
         cls.plan_definition.is_billable = True
@@ -63,79 +113,47 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
             self.agreement_line
         )
 
-    def test_laboratory_onchange_error(self):
+    def test_laboratory_views(self):
         lab_req = self.group.laboratory_request_ids.filtered(
             lambda r: self.lab_service in r.laboratory_service_ids
         )
         self.assertTrue(lab_req)
-        self.assertTrue(lab_req)
-        event = lab_req.generate_event(
-            {
-                "is_sellable_insurance": False,
-                "is_sellable_private": False,
-                "private_amount": 20,
-                "laboratory_code": self.lab_service.laboratory_code,
-                "performer_id": self.practitioner_01.id,
-                "coverage_amount": 10,
-                "private_cost": 18,
-                "coverage_cost": 9,
-            }
-        )
-        event.laboratory_service_id = self.lab_service
-        event._onchange_laboratory_service()
-        self.assertFalse(event.is_sellable_private)
-        self.assertFalse(event.is_sellable_insurance)
+        samples = self.enc.laboratory_sample_ids
+        self.assertTrue(samples)
+        self.assertEqual(1, self.enc.laboratory_sample_count)
+        action = self.enc.action_view_laboratory_samples()
         self.assertEqual(
-            event.laboratory_code, self.lab_service.laboratory_code
+            self.env[action["res_model"]].browse(action["res_id"]), samples
         )
-        event.write(
-            {
-                "laboratory_service_id": self.lab_service_2.id,
-                "laboratory_code": self.lab_service_2.laboratory_code,
-            }
+        self.assertEqual(
+            self.env[action["res_model"]].search(action["domain"]), samples
         )
-        with self.assertRaises(ValidationError):
-            event._onchange_laboratory_service()
 
     def test_laboratory_onchange_100_0(self):
         lab_req = self.group.laboratory_request_ids.filtered(
             lambda r: self.lab_service in r.laboratory_service_ids
         )
         self.assertTrue(lab_req)
-        self.assertTrue(lab_req)
-        event = lab_req.generate_event(
+        sample = self.enc.laboratory_sample_ids
+        event = sample.generate_event(
             {
-                "is_sellable_insurance": False,
-                "is_sellable_private": False,
-                "private_amount": 20,
-                "laboratory_code": "TEST",
+                "service_id": self.lab_service.id,
                 "performer_id": self.practitioner_01.id,
-                "coverage_amount": 10,
                 "private_cost": 18,
                 "coverage_cost": 9,
             }
         )
-        self.env["medical.coverage.agreement.item"].create(
+        self.lab_service_2_agreement.write(
             {
-                "product_id": self.product_07.id,
-                "coverage_agreement_id": self.agreement.id,
-                "total_price": 0.0,
                 "coverage_percentage": 100.0,
-                "authorization_method_id": self.browse_ref(
-                    "medical_financial_coverage_request.without"
-                ).id,
-                "authorization_format_id": self.browse_ref(
-                    "medical_financial_coverage_request.format_anything"
-                ).id,
             }
         )
         event.write(
             {
-                "laboratory_service_id": self.lab_service_2.id,
-                "laboratory_code": self.lab_service_2.laboratory_code,
+                "service_id": self.lab_service_2.id,
             }
         )
-        event._onchange_laboratory_service()
+        event.flush()
         self.assertFalse(event.is_sellable_private)
         self.assertTrue(event.is_sellable_insurance)
         self.assertEqual(event.coverage_amount, 10)
@@ -149,39 +167,26 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
         )
         self.assertTrue(lab_req)
         self.assertTrue(lab_req)
-        event = lab_req.generate_event(
+        sample = self.enc.laboratory_sample_ids
+        event = sample.generate_event(
             {
-                "is_sellable_insurance": False,
-                "is_sellable_private": False,
-                "private_amount": 20,
-                "laboratory_code": "TEST",
+                "service_id": self.lab_service.id,
                 "performer_id": self.practitioner_01.id,
-                "coverage_amount": 10,
                 "private_cost": 18,
                 "coverage_cost": 9,
             }
         )
-        self.env["medical.coverage.agreement.item"].create(
+        self.lab_service_2_agreement.write(
             {
-                "product_id": self.product_07.id,
-                "coverage_agreement_id": self.agreement.id,
-                "total_price": 0.0,
                 "coverage_percentage": 50.0,
-                "authorization_method_id": self.browse_ref(
-                    "medical_financial_coverage_request.without"
-                ).id,
-                "authorization_format_id": self.browse_ref(
-                    "medical_financial_coverage_request.format_anything"
-                ).id,
             }
         )
         event.write(
             {
-                "laboratory_service_id": self.lab_service_2.id,
-                "laboratory_code": self.lab_service_2.laboratory_code,
+                "service_id": self.lab_service_2.id,
             }
         )
-        event._onchange_laboratory_service()
+        event.flush()
         self.assertTrue(event.is_sellable_private)
         self.assertTrue(event.is_sellable_insurance)
         self.assertEqual(event.coverage_amount, 5)
@@ -195,70 +200,34 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
         )
         self.assertTrue(lab_req)
         self.assertTrue(lab_req)
-        event = lab_req.generate_event(
+        sample = self.enc.laboratory_sample_ids
+        event = sample.generate_event(
             {
-                "is_sellable_insurance": False,
-                "is_sellable_private": False,
-                "private_amount": 20,
-                "laboratory_code": "TEST",
+                "service_id": self.lab_service.id,
                 "performer_id": self.practitioner_01.id,
-                "coverage_amount": 10,
                 "private_cost": 18,
                 "coverage_cost": 9,
             }
         )
         self.assertFalse(lab_req.event_coverage_agreement_id)
-        self.env["medical.coverage.agreement.item"].create(
+        self.lab_service_2_agreement.write(
             {
-                "product_id": self.product_07.id,
-                "coverage_agreement_id": self.agreement.id,
-                "total_price": 0.0,
                 "coverage_percentage": 0.0,
-                "authorization_method_id": self.browse_ref(
-                    "medical_financial_coverage_request.without"
-                ).id,
-                "authorization_format_id": self.browse_ref(
-                    "medical_financial_coverage_request.format_anything"
-                ).id,
             }
         )
         lab_req.refresh()
-        self.assertEqual(lab_req.event_coverage_agreement_id, self.agreement)
         event.write(
             {
-                "laboratory_service_id": self.lab_service_2.id,
-                "laboratory_code": self.lab_service_2.laboratory_code,
+                "service_id": self.lab_service_2.id,
             }
         )
-        event._onchange_laboratory_service()
+        event.flush()
         self.assertTrue(event.is_sellable_private)
         self.assertFalse(event.is_sellable_insurance)
         self.assertEqual(event.coverage_amount, 0)
         self.assertEqual(event.private_amount, 10)
         self.assertEqual(event.coverage_cost, 0)
         self.assertEqual(event.private_cost, 5)
-
-    def test_laboratory_constrains(self):
-        lab_req = self.group.laboratory_request_ids.filtered(
-            lambda r: self.lab_service in r.laboratory_service_ids
-        )
-        self.assertTrue(lab_req)
-        self.assertTrue(lab_req)
-        self.assertFalse(lab_req.event_coverage_agreement_id)
-        event = lab_req.generate_event(
-            {
-                "is_sellable_insurance": False,
-                "is_sellable_private": False,
-                "private_amount": 20,
-                "laboratory_code": self.lab_service.laboratory_code + "111",
-                "performer_id": self.practitioner_01.id,
-                "coverage_amount": 10,
-                "private_cost": 18,
-                "coverage_cost": 9,
-            }
-        )
-        with self.assertRaises(ValidationError):
-            event.laboratory_service_id = self.lab_service
 
     def test_laboratory(self):
         self.assertTrue(self.group.laboratory_request_ids)
@@ -278,30 +247,23 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
             ).run()
         for lab_req in self.group.laboratory_request_ids:
             self.assertEqual(lab_req.laboratory_event_count, 0)
-            event = lab_req.generate_event(
+            event = self.enc.laboratory_sample_ids.generate_event(
                 {
-                    "is_sellable_insurance": True,
-                    "is_sellable_private": True,
-                    "private_amount": 20,
                     "performer_id": self.practitioner_01.id,
-                    "coverage_amount": 10,
                     "private_cost": 18,
                     "coverage_cost": 9,
-                    "laboratory_code": "1234",
+                    "service_id": self.lab_service.id,
                 }
             )
             self.assertEqual(
                 event.id, lab_req.action_view_laboratory_events()["res_id"]
             )
             self.assertEqual(lab_req.laboratory_event_count, 1)
-            lab_req.generate_event(
+            sample = self.enc.laboratory_sample_ids
+            sample.generate_event(
                 {
-                    "is_sellable_insurance": False,
-                    "is_sellable_private": False,
-                    "private_amount": 20,
-                    "laboratory_code": "12345",
+                    "service_id": self.lab_service_2.id,
                     "performer_id": self.practitioner_01.id,
-                    "coverage_amount": 10,
                     "private_cost": 18,
                     "coverage_cost": 9,
                 }
@@ -311,25 +273,20 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
             lambda r: self.lab_service in r.laboratory_service_ids
         )
         self.assertTrue(lab_req)
-        event = lab_req.generate_event(
+        sample = self.enc.laboratory_sample_ids
+        event = sample.generate_event(
             {
-                "is_sellable_insurance": False,
-                "is_sellable_private": False,
-                "private_amount": 20,
-                "laboratory_code": self.lab_service.laboratory_code,
+                "service_id": self.lab_service.id,
                 "performer_id": self.practitioner_01.id,
-                "coverage_amount": 10,
                 "private_cost": 18,
                 "coverage_cost": 9,
             }
         )
-        event.laboratory_service_id = self.lab_service
-        event._onchange_laboratory_service()
+        event.service_id = self.lab_service
+        event.flush()
         self.assertFalse(event.is_sellable_private)
         self.assertFalse(event.is_sellable_insurance)
-        self.assertEqual(
-            event.laboratory_code, self.lab_service.laboratory_code
-        )
+        self.assertEqual(event.laboratory_code, "LAB_01")
         self.env["wizard.medical.encounter.close"].create(
             {"encounter_id": self.enc.id, "pos_session_id": self.session.id}
         ).run()

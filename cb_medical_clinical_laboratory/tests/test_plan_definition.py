@@ -46,14 +46,12 @@ class TestPlanDefinition(TransactionCase):
             }
         )
         self.activity.activate()
-        self.lab_service = self.env["medical.laboratory.service"].create(
+        self.lab_service = self.env["product.product"].create(
             {
-                "code": "INTERNAL_CODE",
+                "default_code": "INTERNAL_CODE",
                 "name": "name",
-                "laboratory_code": "LAB_CODE",
-                "service_price_ids": [
-                    (0, 0, {"laboratory_code": "1", "amount": 10, "cost": 5})
-                ],
+                "laboratory_request_ok": True,
+                "type": "service",
             }
         )
 

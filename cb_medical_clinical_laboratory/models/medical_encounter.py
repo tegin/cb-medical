@@ -39,9 +39,7 @@ class MedicalEncounter(models.Model):
             "default_laboratory_request_id": self.id,
             "default_name": self.name,
         }
-        result["domain"] = (
-                "[('encounter_id', '=', " + str(self.id) + ")]"
-        )
+        result["domain"] = [("encounter_id", "=", self.id)]
         if len(self.laboratory_sample_ids) == 1:
             res = self.env.ref("medical.laboratory.sample.view.form", False)
             result["views"] = [(res and res.id or False, "form")]
@@ -52,6 +50,6 @@ class MedicalEncounter(models.Model):
     def _check_patient_events(self):
         if not self.env.context.get("no_check_patient", False):
             if self.laboratory_sample_ids.filtered(
-                    lambda r: r.patient_id != self.patient_id
+                lambda r: r.patient_id != self.patient_id
             ):
                 raise ValidationError(_("Patient inconsistency"))
