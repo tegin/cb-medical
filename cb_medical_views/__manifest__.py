@@ -12,7 +12,6 @@
         "cb_medical_careplan_sale",
         "l10n_es_partner",
         "l10n_es",
-        "account_invoice_refund_line_selection",
     ],
     "data": [
         "security/medical_encounter_create_group.xml",
@@ -24,7 +23,6 @@
         "views/medical_menu.xml",
         "views/res_partner_views.xml",
         "views/sale_order_view.xml",
-        "wizards/account_invoice_refund_view.xml",
     ],
     "website": "https://github.com/tegin/cb-addons",
     "license": "AGPL-3",
