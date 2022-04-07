@@ -67,9 +67,10 @@
         />
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="encounter_id" options="show" />
-                <field name="subscriber_id" options="show" />
-                <field name="authorization_number" options="show" />
+                <field name="patient_name" optional="show" />
+                <field name="encounter_id" optional="show" />
+                <field name="subscriber_id" optional="show" />
+                <field name="authorization_number" optional="show" />
             </field>
         </field>
     </record>
