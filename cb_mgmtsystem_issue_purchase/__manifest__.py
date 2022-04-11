@@ -8,6 +8,6 @@
     "license": "AGPL-3",
     "author": "Creu Blanca",
     "website": "www.creublanca.es",
-    "depends": ["cb_mgmtsystem_issue", "purchase"],
+    "depends": ["cb_mgmtsystem_issue", "purchase_third_party"],
     "data": ["views/purchase_order.xml"],
 }
