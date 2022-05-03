@@ -234,6 +234,7 @@
                                     />
                                     <field name="authorization_method_id" />
                                     <field name="authorization_status" />
+                                    <field name="preinvoice_group_id" />
                                     <field name="state" invisible="1" />
                                     <field name="is_private" invisible="1" />
                                 </group>
