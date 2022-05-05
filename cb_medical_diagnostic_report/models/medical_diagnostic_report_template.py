@@ -21,7 +21,10 @@ class MedicalDiagnosticReportTemplate(models.Model):
 
     def _generate_report(self, studies=None, **kwargs):
         report = super()._generate_report(studies=studies, **kwargs)
-        if self.report_category_id.import_study_images_automatically:
+        if (
+            self.report_category_id.import_study_images_automatically
+            and studies
+        ):
             series = studies.mapped("series_ids").filtered(
                 lambda r: r.modality_id
                 == self.report_category_id.image_modality_id
@@ -35,7 +38,7 @@ class MedicalDiagnosticReportTemplate(models.Model):
         result = super()._generate_report_vals(**kwargs)
         result.update(
             {
-                "study_ids": [(6, 0, studies.ids)],
+                "study_ids": [(6, 0, studies.ids)] if studies else False,
                 "with_department": True
                 if self.medical_department_id
                 else False,
