@@ -8,10 +8,6 @@ class MedicalEncounterCreateDiagnosticReport(models.TransientModel):
 
     _inherit = "medical.encounter.create.diagnostic.report"
 
-    @api.model
-    def _default_studies(self):
-        return []
-
     template_id = fields.Many2one(
         domain="['|',('medical_department_id','=',False),"
         "('medical_department_id.user_ids','=',uid)]"
@@ -21,7 +17,7 @@ class MedicalEncounterCreateDiagnosticReport(models.TransientModel):
     )
     study_ids = fields.Many2many(
         "medical.imaging.study",
-        default=lambda r: r._default_studies(),
+        compute="_compute_default_studies",
         relation="encounter_create_diagnostic_report_study_rel",
     )
 
@@ -29,3 +25,12 @@ class MedicalEncounterCreateDiagnosticReport(models.TransientModel):
         res = super()._generate_kwargs()
         res["studies"] = self.study_ids
         return res
+
+    @api.depends("template_id", "encounter_id")
+    def _compute_default_studies(self):
+        studies = False
+        if self.encounter_id and self.encounter_id.study_ids:
+            studies = self.encounter_id.study_ids.filtered(
+                lambda r: self.image_modality_id in r.modality_ids
+            )
+        self.study_ids = studies

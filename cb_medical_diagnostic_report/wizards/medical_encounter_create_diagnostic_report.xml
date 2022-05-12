@@ -22,7 +22,9 @@
                     widget="many2many_tags"
                     options="{'no_create': True}"
                     attrs="{'invisible': [('image_modality_id', '=', False)]}"
+                    readonly="0"
                 />
+                <!-- This readonly is needed because if not is readonly by default-->
                 <field name="image_modality_id" invisible="1" />
             </field>
         </field>
