@@ -17,6 +17,7 @@ class MgmtsystemQualityIssue(models.Model):
     res_model = fields.Char(index=True)
     res_id = fields.Integer(index=True)
     ref = fields.Char("Related to", readonly=True, copy=False, default="/")
+    active = fields.Boolean(default=True)
 
     responsible_user_id = fields.Many2one(
         "res.users", "Responsible", track_visibility="onchange"
