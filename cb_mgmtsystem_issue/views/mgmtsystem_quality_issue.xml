@@ -118,6 +118,17 @@
                     string="Non Conformity"
                     domain="[('state', '=', 'no_ok')]"
                 />
+                <separator />
+                <filter
+                    string="Active"
+                    name="active"
+                    domain="[('active', '=', True)]"
+                />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
             </search>
         </field>
     </record>
