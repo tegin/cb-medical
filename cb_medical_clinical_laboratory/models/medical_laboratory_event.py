@@ -22,6 +22,7 @@ class MedicalLaboratoryEvent(models.Model):
     laboratory_service_ids = fields.Many2many(
         "medical.laboratory.service",
         related="laboratory_request_id.laboratory_service_ids",
+        string="Request Laboratory services",
     )
 
     @api.constrains("laboratory_code", "laboratory_service_id")
@@ -39,6 +40,7 @@ class MedicalLaboratoryEvent(models.Model):
     def _onchange_laboratory_service(self):
         for rec in self:
             rec.laboratory_code = rec.laboratory_service_id.laboratory_code
+            rec.name = rec.laboratory_service_id.name
             cov = (
                 rec.laboratory_request_id.careplan_id.coverage_id.coverage_template_id
             )
