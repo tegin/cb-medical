@@ -26,7 +26,7 @@ class MedicalProductTemplateCommercial(models.Model):
 
     product_ids = fields.One2many(
         "medical.product.product.commercial",
-        inverse_name="product_tmpl_commercial",
+        inverse_name="product_tmpl_commercial_id",
     )
 
     product_count = fields.Integer(compute="_compute_commercial_product_ids")
@@ -37,7 +37,7 @@ class MedicalProductTemplateCommercial(models.Model):
             rec.product_count = len(rec.product_ids)
 
     def _get_name_fields(self):
-        return ["product_tmpl_name", "laboratory", "laboratory_product_name"]
+        return ["product_tmpl_name", "laboratory"]
 
     @api.depends(_get_name_fields)
     def _compute_name(self):
@@ -52,7 +52,7 @@ class MedicalProductTemplateCommercial(models.Model):
         action = self.env.ref(
             "cb_medical_product_request.medical_product_product_commercial_act_window"
         ).read()[0]
-        action["domain"] = [("product_tmpl_commercial", "=", self.id)]
+        action["domain"] = [("product_tmpl_commercial_id", "=", self.id)]
         if len(self.product_ids) == 1:
             view = (
                 "cb_medical_product_request."
@@ -96,13 +96,13 @@ class MedicalProductProductCommercial(models.Model):
     product_tmpl_commercial_domain = fields.Char(
         compute="_compute_product_tmpl_commercial_domain"
     )
-    product_tmpl_commercial = fields.Many2one(
+    product_tmpl_commercial_id = fields.Many2one(
         "medical.product.template.commercial"
     )
 
-    laboratory = fields.Char(related="product_tmpl_commercial.laboratory")
+    laboratory = fields.Char(related="product_tmpl_commercial_id.laboratory")
     laboratory_product_name = fields.Char(
-        related="product_tmpl_commercial.laboratory_product_name"
+        related="product_tmpl_commercial_id.laboratory_product_name"
     )
 
     @api.depends("medical_product_id")
@@ -123,12 +123,7 @@ class MedicalProductProductCommercial(models.Model):
             rec.product_tmpl_commercial_domain = domain
 
     def _get_name_fields(self):
-        return [
-            "code",
-            "medical_product_name",
-            "laboratory",
-            "laboratory_product_name",
-        ]
+        return ["code", "medical_product_name", "laboratory"]
 
     @api.depends(_get_name_fields)
     def _compute_name(self):

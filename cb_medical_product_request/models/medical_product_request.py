@@ -49,7 +49,7 @@ class MedicalProductRequest(models.Model):
     # This computation will have sense once we do the electronic prescription.
     # We will have to think about what happens when we have decimals.
     # For example, every 72 hours, which gives 2'33...
-    # Now is it rounded until the most proximal 0.5 up. In this case in would be 2.5.
+    # Now is it rounded until the most proximal 0.5 up. In this case it would be 2.5.
     @api.depends("specific_rate", "specific_rate_uom_id")
     def _compute_rate_from_specific_rate(self):
         for rec in self:

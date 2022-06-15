@@ -368,7 +368,9 @@ ul.auto-toc {
 !! changes will be overwritten.                   !!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external" href="https://github.com/tegin/cb-medical/tree/13.0/cb_medical_product_request"><img alt="tegin/cb-medical" src="https://img.shields.io/badge/github-tegin%2Fcb--medical-lightgray.png?logo=github" /></a></p>
-<p>This addon enables to create medical product requests (as medication prescriptions or internal medical orders)</p>
+<p>This addon expands the functionality of the module medical_product_request by adapting the medical.product.request to the spanish prescription.
+In the spanish prescription the rates must be given as a frequency, for example, 3 times a day. However, in the medical language is more common to say every 8 hours. For this reason, it is introduced the concept of the “Specific Rate” and “Specific Rate Uom”. Its values are then changed to the values that are compatible to the spanish prescription.
+It also adds a report to print the prescription following the spanish model.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">

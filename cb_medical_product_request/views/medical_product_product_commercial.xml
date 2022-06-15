@@ -19,7 +19,7 @@
                             <field name="medical_product_id" />
                         </group>
                         <group
-                            name="product_tmpl_commercial"
+                            name="product_tmpl_commercial_id"
                             string="Commercial Product Template"
                         >
                             <field
@@ -27,7 +27,7 @@
                                 invisible="1"
                             />
                             <field
-                                name="product_tmpl_commercial"
+                                name="product_tmpl_commercial_id"
                                 domain="product_tmpl_commercial_domain"
                             />
                         </group>
@@ -54,7 +54,7 @@
                 <field name="name" />
                 <field name="code" />
                 <field name="medical_product_id" />
-                <field name="product_tmpl_commercial" />
+                <field name="product_tmpl_commercial_id" />
             </search>
         </field>
     </record>
@@ -68,7 +68,7 @@
                 <field name="name" />
                 <field name="code" />
                 <field name="medical_product_id" />
-                <field name="product_tmpl_commercial" />
+                <field name="product_tmpl_commercial_id" />
             </tree>
         </field>
     </record>

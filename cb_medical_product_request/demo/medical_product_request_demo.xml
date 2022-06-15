@@ -26,7 +26,7 @@
             ref="medical_product_request.ibuprofen_medical_product_01"
         />
         <field
-            name="product_tmpl_commercial"
+            name="product_tmpl_commercial_id"
             ref="ibuprofen_cinfa_product_template_commercial"
         />
         <field name="code">661426</field>
@@ -40,7 +40,7 @@
             ref="medical_product_request.ibuprofen_medical_product_02"
         />
         <field
-            name="product_tmpl_commercial"
+            name="product_tmpl_commercial_id"
             ref="ibuprofen_cinfa_product_template_commercial"
         />
         <field name="code">605721</field>
@@ -65,7 +65,7 @@
             ref="medical_product_request.acular_medical_product"
         />
         <field
-            name="product_tmpl_commercial"
+            name="product_tmpl_commercial_id"
             ref="acular_allergan_product_template_commercial"
         />
         <field name="code">668467</field>

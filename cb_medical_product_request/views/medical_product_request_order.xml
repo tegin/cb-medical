@@ -15,11 +15,10 @@
             <field name="requester_id" position="before">
                 <field
                     name="expected_dispensation_date"
-                    attrs="{'readonly':[('state', '!=', 'draft')]}"
+                    attrs="{'readonly':[('state', '!=', 'draft')], 'invisible': [('category', '=', 'inpatient')]}"
                 />
                 <field name="center_id" />
             </field>
-            <!-- TODO: make rate and rate_uom_id invisible -->
             <field name="duration" position="before">
                 <field
                     name="specific_rate"
