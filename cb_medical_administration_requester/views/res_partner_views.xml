@@ -36,6 +36,11 @@
                     readonly="1"
                     attrs="{'invisible': [('is_requester','=',False), ('is_practitioner', '=', False)]}"
                 />
+                <field
+                    name="practitioner_college"
+                    readonly="1"
+                    attrs="{'invisible': [('is_requester','=',False), ('is_practitioner', '=', False)]}"
+                />
             </field>
         </field>
     </record>
@@ -52,6 +57,9 @@
         />
         <field name="arch" type="xml">
             <field name="college_number" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </field>
+            <field name="practitioner_college" position="attributes">
                 <attribute name="readonly">0</attribute>
             </field>
         </field>

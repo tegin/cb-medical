@@ -9,6 +9,7 @@ class ResPartner(models.Model):
     college_number = fields.Char()
     is_requester = fields.Boolean()
     requester_identifier = fields.Char(readonly=True)
+    practitioner_college = fields.Char()
 
     @api.model
     def _get_medical_identifiers(self):
