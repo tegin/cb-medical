@@ -49,6 +49,15 @@ class MedicalDocumentReference(models.Model):
     is_editable = fields.Boolean(compute="_compute_is_editable")
     text = fields.Text(
         string="Document text",
+        compute="_compute_text",
+        inverse="_inverse_text",
+        readonly=True,
+        copy=False,
+        sanitize=True,
+        prefetch=False,
+    )
+    database_text = fields.Text(
+        string="Database stored text",
         readonly=True,
         copy=False,
         sanitize=True,
@@ -60,6 +69,18 @@ class MedicalDocumentReference(models.Model):
         copy=False,
         states={"draft": [("readonly", False)]},
     )
+
+    def _inverse_text(self):
+        for record in self:
+            record.database_text = record.text
+
+    @api.depends("database_text")
+    def _compute_text(self):
+        for record in self:
+            record.text = record._get_text()
+
+    def _get_text(self):
+        return self.database_text
 
     def _get_language(self):
         return self.lang or self.patient_id.lang
