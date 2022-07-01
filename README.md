@@ -47,7 +47,7 @@ addon | version | maintainers | summary
 [medical_administration_second_lastname](medical_administration_second_lastname/) | 13.0.1.0.0 |  | Medical Patient second lastname
 [medical_authorization](medical_authorization/) | 13.0.1.0.0 |  | Medical financial coverage request
 [medical_clinical_laboratory](medical_clinical_laboratory/) | 13.0.1.0.0 |  | Medical Laboratory
-[medical_document](medical_document/) | 13.0.1.0.0 |  | Medical documents
+[medical_document](medical_document/) | 13.0.2.0.0 |  | Medical documents
 [medical_document_zpl2](medical_document_zpl2/) | 13.0.1.0.0 |  | Medical documents
 [medical_encounter_identifier](medical_encounter_identifier/) | 13.0.1.0.0 |  | CB Medical sequence configuration
 [medical_financial_coverage_agreement](medical_financial_coverage_agreement/) | 13.0.1.0.0 |  | Medical Financial Coverage Agreement
