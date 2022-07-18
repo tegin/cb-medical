@@ -1,3 +1,4 @@
+from mock import patch
 from odoo.exceptions import ValidationError
 from odoo.tests.common import SavepointCase
 
@@ -78,3 +79,30 @@ class TestEncounterCreate(SavepointCase):
         self.assertEqual(self.center, encounter.center_id)
         self.assertEqual(self.patient, encounter.patient_id)
         self.assertEqual(self.patient.name, "New patient")
+
+    def test_create_encounter_write_patient_assert(self):
+        with patch.object(
+            type(self.env["medical.patient"]), "write"
+        ) as patient_write:
+            self.env["medical.encounter"].create_encounter(
+                patient_vals={"name": "New patient"},
+                patient=self.patient,
+                center=self.center,
+            )
+            patient_write.assert_called()
+
+    def test_create_encounter_no_write_patient(self):
+        with patch.object(
+            type(self.env["medical.patient"]), "write"
+        ) as patient_write:
+            encounter_action = self.env["medical.encounter"].create_encounter(
+                patient_vals={"name": self.patient.name},
+                patient=self.patient,
+                center=self.center,
+            )
+            patient_write.assert_not_called()
+        encounter = self.env[encounter_action["res_model"]].browse(
+            encounter_action["res_id"]
+        )
+        self.assertEqual(self.center, encounter.center_id)
+        self.assertEqual(self.patient, encounter.patient_id)
