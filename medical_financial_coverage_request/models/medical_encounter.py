@@ -44,7 +44,12 @@ class MedicalEncounter(models.Model):
                 patient = self.env["medical.patient"].browse(patient)
             new_patient_vals = {}
             for field in patient_vals:
-                if patient_vals[field] != patient._fields.get(field):
+                if field not in patient._fields:
+                    continue
+                original_patient_value = patient[field]
+                if isinstance(original_patient_value, models.Model):
+                    original_patient_value = original_patient_value.id
+                if patient_vals[field] != original_patient_value:
                     new_patient_vals[field] = patient_vals[field]
             if new_patient_vals:
                 patient.write(new_patient_vals)
