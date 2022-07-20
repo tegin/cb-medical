@@ -15,7 +15,6 @@
         <field name="arch" type="xml">
             <field name="performer_id" position="after">
                 <field name="delay" />
-                <field name="laboratory_service_id" />
                 <field name="laboratory_code" invisible="1" readonly="0" />
             </field>
         </field>
