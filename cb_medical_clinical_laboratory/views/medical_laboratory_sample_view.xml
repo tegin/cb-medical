@@ -13,17 +13,15 @@
             ref="medical_clinical_laboratory.medical_laboratory_sample_view_form"
         />
         <field name="arch" type="xml">
-            <!--<field name="performer_id" position="after">
+            <field name="performer_id" position="after">
                 <field name="laboratory_service_ids" widget="many2many_tags" />
-                <field name="event_coverage_agreement_id" invisible="1" />
-            </field>-->
+            </field>
             <notebook position="inside">
                 <page string="Events" id="event">
                     <field
                         name="laboratory_event_ids"
                         context="{'default_laboratory_sample_id': id, 'default_encounter_id': encounter_id, 'default_patient_id': patient_id, 'default_service_id': service_id, 'default_performer_id': performer_id, 'tree_view_ref':'cb_medical_clinical_laboratory.medical_laboratory_event_view_tree'}"
                     />
-                    <!-- Removed from context 'default_event_coverage_agreement_id': event_coverage_agreement_id-->
                 </page>
             </notebook>
         </field>

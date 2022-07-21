@@ -6,7 +6,7 @@
     "name": "Medical Clinical Laboratory",
     "version": "13.0.1.0.0",
     "author": "Eficent, Creu Blanca",
-    "depends": ["cb_medical_medication"],
+    "depends": ["cb_medical_medication", "cb_medical_pos"],
     "data": [
         "views/product_template.xml",
         "security/medical_security.xml",

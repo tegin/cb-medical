@@ -23,6 +23,14 @@
                     <field name='laboratory_sample_ids' invisible="1" />
                 </button>
             </xpath>
+            <field name="state" position="before">
+                <button
+                    name="refresh_laboratory_events"
+                    type="object"
+                    string="Refresh laboratory"
+                    attrs="{'invisible': [('laboratory_sample_ids', '=', False)]}"
+                />
+            </field>
         </field>
     </record>
 </odoo>

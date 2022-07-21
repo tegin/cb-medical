@@ -17,6 +17,7 @@ class MedicalLaboratoryRequest(models.Model):
         "medical.coverage.agreement",
         compute="_compute_event_coverage_agreement_id",
     )
+    only_allowed_laboratory_services = fields.Boolean()
 
     @api.depends("service_id", "coverage_id.coverage_template_id", "center_id")
     def _compute_event_coverage_agreement_id(self):
@@ -37,6 +38,22 @@ class MedicalLaboratoryRequest(models.Model):
             (6, 0, self.laboratory_service_ids.ids)
         ]
         return result
+
+    def _check_accept_event(self, event):
+        result = super()._check_accept_event(event)
+        if not result:
+            return result
+        if not self.only_allowed_laboratory_services:
+            return True
+        return event.service_id in self._get_laboratory_services()
+
+    def _get_laboratory_services(self):
+        return (
+            self.laboratory_service_ids
+            | self.laboratory_service_ids.mapped(
+                "laboratory_service_ids.product_variant_ids"
+            )
+        )
 
 
 class MedicalLaboratorySample(models.Model):

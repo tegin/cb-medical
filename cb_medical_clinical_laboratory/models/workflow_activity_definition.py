@@ -9,7 +9,13 @@ class WorkflowActivityDefinition(models.Model):
     ):
         res = super()._get_medical_values(vals, parent, plan, action)
         if action and action.laboratory_service_ids:
-            res["laboratory_service_ids"] = [
-                (6, 0, action.laboratory_service_ids.ids)
-            ]
+            allowed = action.only_allowed_laboratory_services
+            res.update(
+                {
+                    "laboratory_service_ids": [
+                        (6, 0, action.laboratory_service_ids.ids)
+                    ],
+                    "only_allowed_laboratory_services": allowed,
+                }
+            )
         return res

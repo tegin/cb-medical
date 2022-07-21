@@ -13,6 +13,17 @@
                     <label for="laboratory_request_ok" />
                 </div>
             </xpath>
+            <notebook position="inside">
+                <page
+                    name="Laboratory"
+                    attrs="{'invisible': ['|', ('type','!=', 'service'), ('laboratory_request_ok', '=', False)]}"
+                    string="Laboratory"
+                >
+                    <group>
+                        <field name="laboratory_service_ids" widget="many2many_tags" />
+                    </group>
+                </page>
+            </notebook>
         </field>
     </record>
 </odoo>

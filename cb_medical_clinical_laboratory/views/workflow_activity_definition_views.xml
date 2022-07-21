@@ -19,6 +19,10 @@
                     widget="many2many_tags"
                     attrs="{'invisible': [('model_id', '!=', %(medical_clinical_laboratory.model_medical_laboratory_request)s)]}"
                 />
+                <field
+                    name="only_allowed_laboratory_services"
+                    attrs="{'invisible': [('model_id', '!=', %(medical_clinical_laboratory.model_medical_laboratory_request)s)]}"
+                />
                 <field name="model_id" invisible="1" />
             </field>
             <field name="performer_id" position="attributes">

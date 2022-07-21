@@ -9,6 +9,9 @@ class MedicalLaboratoryEvent(models.Model):
     _inherit = "medical.laboratory.event"
 
     delay = fields.Date()
+    service_id = fields.Many2one(
+        domain=[("laboratory_request_ok", "=", True), ("type", "=", "service")]
+    )
     laboratory_code = fields.Char(
         readonly=True,
         store=True,
@@ -17,7 +20,6 @@ class MedicalLaboratoryEvent(models.Model):
     laboratory_service_ids = fields.Many2many(
         related="laboratory_request_id.laboratory_service_ids",
         string="Request Laboratory services",
-        domain=[("laboratory_request_ok", "=", True)],
     )
     # TODO: Remove this on the future
     cost = fields.Float(compute="_compute_is_sellable", store=True)
@@ -50,7 +52,7 @@ class MedicalLaboratoryEvent(models.Model):
         if (
             self.laboratory_request_id
             and self.service_id
-            in self.laboratory_request_id.laboratory_service_ids
+            in self.laboratory_request_id._get_laboratory_services()
         ):
             return False
         return super(MedicalLaboratoryEvent, self)._get_is_billable()
@@ -61,7 +63,7 @@ class MedicalLaboratoryEvent(models.Model):
         )
         for request in requests.filtered(
             lambda r: r.state != "cancelled"
-            and self.service_id in r.laboratory_service_ids
+            and self.service_id in r._get_laboratory_services()
         ):
             return request
         return super(MedicalLaboratoryEvent, self)._check_request()

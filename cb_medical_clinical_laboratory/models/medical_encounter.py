@@ -36,7 +36,7 @@ class MedicalEncounter(models.Model):
 
         result["context"] = {
             "default_patient_id": self.patient_id.id,
-            "default_laboratory_request_id": self.id,
+            "default_encounter_id": self.id,
             "default_name": self.name,
         }
         result["domain"] = [("encounter_id", "=", self.id)]
@@ -53,3 +53,9 @@ class MedicalEncounter(models.Model):
                 lambda r: r.patient_id != self.patient_id
             ):
                 raise ValidationError(_("Patient inconsistency"))
+
+    def refresh_laboratory_events(self):
+        self.ensure_one()
+        self.laboratory_sample_ids.mapped(
+            "laboratory_event_ids"
+        )._check_requests()
