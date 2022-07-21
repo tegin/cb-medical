@@ -222,7 +222,7 @@ class LaboratoryEvent(models.Model):
         for (
             request
         ) in self.laboratory_sample_id.encounter_id.laboratory_request_ids.filtered(
-            lambda r: r.state != "cancelled"
+            lambda r: r._check_accept_event(self)
         ).sorted(
             "coverage_percentage", reverse=True
         ):

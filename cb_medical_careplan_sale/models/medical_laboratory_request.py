@@ -26,3 +26,6 @@ class LaboratoryRequest(models.Model):
         if cai:
             res["coverage_agreement_id"] = cai.coverage_agreement_id.id
         return res
+
+    def _check_accept_event(self, event):
+        return self.state != "cancelled"
