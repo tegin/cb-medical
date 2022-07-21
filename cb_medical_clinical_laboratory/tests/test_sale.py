@@ -325,9 +325,10 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
                     "pos_session_id": self.session.id,
                 }
             ).run()
+        sample = self.enc.laboratory_sample_ids
         for lab_req in self.group.laboratory_request_ids:
             self.assertEqual(lab_req.laboratory_event_count, 0)
-            event = lab_req.generate_event(
+            event = sample.generate_event(
                 {
                     "is_sellable_insurance": True,
                     "is_sellable_private": True,
@@ -336,19 +337,19 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
                     "coverage_amount": 10,
                     "private_cost": 18,
                     "coverage_cost": 9,
-                    "laboratory_code": "1234",
+                    "service_id": self.lab_service.id,
                 }
             )
             self.assertEqual(
                 event.id, lab_req.action_view_laboratory_events()["res_id"]
             )
             self.assertEqual(lab_req.laboratory_event_count, 1)
-            lab_req.generate_event(
+            sample.generate_event(
                 {
                     "is_sellable_insurance": False,
                     "is_sellable_private": False,
                     "private_amount": 20,
-                    "laboratory_code": "12345",
+                    "service_id": self.lab_service.id,
                     "performer_id": self.practitioner_01.id,
                     "coverage_amount": 10,
                     "private_cost": 18,
@@ -361,12 +362,12 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
         )
         self.assertTrue(lab_req)
 
-        event = lab_req.generate_event(
+        event = sample.generate_event(
             {
                 "is_sellable_insurance": False,
                 "is_sellable_private": False,
                 "private_amount": 20,
-                "laboratory_code": self.lab_service.laboratory_code,
+                "service_id": self.lab_service.id,
                 "performer_id": self.practitioner_01.id,
                 "coverage_amount": 10,
                 "private_cost": 18,
@@ -389,13 +390,13 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
             }
         )
         with Form(event) as form:
-            form.laboratory_service_id = self.lab_service_2
+            form.service_id = self.lab_service_2
+        form.save()
+        event.flush()
         self.assertEqual(event.name, self.lab_service_2.name)
         self.assertTrue(event.is_sellable_private)
         self.assertTrue(event.is_sellable_insurance)
-        self.assertEqual(
-            event.laboratory_code, self.lab_service_2.laboratory_code
-        )
+        self.assertEqual(event.laboratory_code, "LAB_02")
         self.env["wizard.medical.encounter.close"].create(
             {"encounter_id": self.enc.id, "pos_session_id": self.session.id}
         ).run()

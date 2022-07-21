@@ -571,7 +571,6 @@ class TestCBSale(common.MedicalSavePointCase):
         event.flush()
         with self.assertRaises(ValidationError):
             event.laboratory_request_id = lab_req
-            event.flush()
 
     def test_sale_laboratory(self):
         self.env["workflow.plan.definition.action"].create(

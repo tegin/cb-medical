@@ -67,3 +67,8 @@ class MedicalLaboratoryEvent(models.Model):
         ):
             return request
         return super(MedicalLaboratoryEvent, self)._check_request()
+
+    @api.onchange("service_id")
+    def _onchange_service(self):
+        for rec in self:
+            rec.name = rec.service_id.name
