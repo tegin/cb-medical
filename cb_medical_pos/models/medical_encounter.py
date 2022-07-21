@@ -126,7 +126,12 @@ class MedicalEncounter(models.Model):
             lambda r: not r.laboratory_event_ids and r.state != "cancelled"
         ):
             raise ValidationError(_("Laboratory requests are not fulfilled."))
-        # TODO: Calculate the right request for each laboratory event
+        if self.laboratory_sample_ids.mapped("laboratory_event_ids").filtered(
+            lambda r: not r.laboratory_request_id
+        ):
+            raise ValidationError(
+                _("Some laboratory events are not assigned to a request")
+            )
         self.create_sale_order()
         res = super().inprogress2onleave()
         sos = self.sale_order_ids.filtered(
