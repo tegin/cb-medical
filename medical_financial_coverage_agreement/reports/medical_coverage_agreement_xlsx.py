@@ -13,7 +13,9 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
             else max(self.tree_height(child) for child in item["childs"]) + 1
         )
 
-    def generate_sub_tree(self, workbook, sheet, level, item, i, th):
+    def generate_sub_tree(
+        self, workbook, sheet, level, item, i, th, private=False
+    ):
         bold = workbook.add_format({"bold": True})
         name = (
             "%s - %s"
@@ -34,7 +36,15 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
             sheet.write(i, level + 1, nomenclature, bold)
             sheet.write(i, level + 2, child["product"].name, bold)
             sheet.write(
-                i, th + 3, str(child["item"].coverage_price) + " €", bold
+                i,
+                th + 3,
+                str(
+                    child["item"][
+                        "coverage_price" if not private else "private_price"
+                    ]
+                )
+                + " €",
+                bold,
             )
             i += 1
 
@@ -58,5 +68,5 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
                 for item in items:
                     level = 0
                     sheet, i = self.generate_sub_tree(
-                        workbook, sheet, level, item, i, th
+                        workbook, sheet, level, item, i, th, private
                     )
