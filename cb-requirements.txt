@@ -1,6 +1,4 @@
 git+https://github.com/tegin/medical-fhir.git@13.0#subdirectory=setup
 git+https://github.com/forgeflow/multicompany-fixes.git@13.0#subdirectory=setup
 git+https://github.com/tegin/archive-management.git@13.0#subdirectory=setup
-git+https://github.com/OCA/server-tools.git@refs/pull/2111/merge#subdirectory=setup/nsca_client
 git+https://github.com/OCA/edi.git@refs/pull/433/merge#subdirectory=setup/edi_pdf2data
-git+https://github.com/OCA/management-system.git@refs/pull/388/merge#subdirectory=setup/mgmtsystem_nonconformity
