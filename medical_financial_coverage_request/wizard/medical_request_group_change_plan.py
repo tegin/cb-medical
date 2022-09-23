@@ -65,9 +65,18 @@ class MedicalRequestGroupChangePlan(models.TransientModel):
         "authorization_required",
     )
     authorization_number = fields.Char()
+    authorization_number_extra_1 = fields.Char()
     authorization_information = fields.Text(
         related="agreement_line_id.authorization_format_id."
         "authorization_information",
+        readonly=True,
+    )
+    authorization_extra_1_information = fields.Text(
+        related="authorization_format_id.authorization_extra_1_information",
+        readonly=True,
+    )
+    requires_authorization_extra_1 = fields.Boolean(
+        related="authorization_format_id.requires_authorization_extra_1",
         readonly=True,
     )
 

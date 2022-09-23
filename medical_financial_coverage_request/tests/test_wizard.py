@@ -150,3 +150,28 @@ class TestWizard(TransactionCase):
         ).run()
 
         self.assertEqual(self.patient.last_coverage_id, self.coverage2)
+
+    def test_wizard_authorization_extra(self):
+        self.format.write(
+            {
+                "requires_authorization_extra_1": True,
+                "authorization_extra_1_format": "^1.*$",
+            }
+        )
+        wizard = self.env["medical.careplan.add.plan.definition"].create(
+            {
+                "careplan_id": self.careplan.id,
+                "agreement_line_id": self.agreement_line.id,
+                "authorization_number": "22",
+                "authorization_number_extra_1": "122",
+            }
+        )
+        self.assertFalse(self.patient.last_coverage_id)
+        self.assertEqual(wizard.patient_id, self.patient)
+        self.assertTrue(wizard.plan_definition_id)
+        wizard.run()
+        careplans = self.env["medical.careplan"].search(
+            [("careplan_id", "=", self.careplan.id)]
+        )
+        self.assertGreater(len(careplans.ids), 0)
+        self.assertEqual(careplans.authorization_number_extra_1, "122")
