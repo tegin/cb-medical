@@ -22,6 +22,7 @@
                 <field name="coverage_template_id" invisible="1" />
                 <field name="authorization_method_id" invisible="1" />
                 <field name="authorization_required" invisible="1" />
+                <field name="requires_authorization_extra_1" invisible="1" />
                 <field
                     name="authorization_number"
                     attrs="{'invisible': [('authorization_required', '=', False)]}"
@@ -30,6 +31,14 @@
                 <field
                     name="authorization_information"
                     attrs="{'invisible': ['|', ('authorization_information', '=', False), ('authorization_required', '=', False)]}"
+                />
+                <field
+                    name="authorization_number_extra_1"
+                    attrs="{'invisible': [('requires_authorization_extra_1', '=', False)]}"
+                />
+                <field
+                    name="authorization_extra_1_information"
+                    attrs="{'invisible': [('requires_authorization_extra_1', '=', False)]}"
                 />
                 <footer>
                     <button

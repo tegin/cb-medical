@@ -28,6 +28,7 @@ class MedicalRequest(models.AbstractModel):
         ondelete="restrict",
     )
     authorization_number = fields.Char(tracking=True)
+    authorization_number_extra_1 = fields.Char(tracking=True)
     authorization_status = fields.Selection(
         [
             ("pending", "Pending authorization"),
