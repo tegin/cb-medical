@@ -98,7 +98,8 @@ class MedicalEncounter(models.Model):
                     and r.authorization_method_id
                     and r.authorization_method_id.authorization_required
                     and not r.authorization_format_id.check_value(
-                        r.authorization_number
+                        authorization_number=r.authorization_number,
+                        ignore_extra=True,
                     )
                 )
             )
