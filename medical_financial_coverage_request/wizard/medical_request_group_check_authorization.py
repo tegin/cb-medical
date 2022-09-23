@@ -38,6 +38,7 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
         related="coverage_agreement_item_id.plan_definition_id",
     )
     authorization_number = fields.Char()
+    authorization_number_extra_1 = fields.Char()
     authorization_method_id = fields.Many2one(
         "medical.authorization.method",
         default=_default_method,
@@ -60,6 +61,14 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
     authorization_required = fields.Boolean(
         related="authorization_method_id.authorization_required", readonly=True
     )
+    authorization_extra_1_information = fields.Text(
+        related="authorization_format_id.authorization_extra_1_information",
+        readonly=True,
+    )
+    requires_authorization_extra_1 = fields.Boolean(
+        related="authorization_format_id.requires_authorization_extra_1",
+        readonly=True,
+    )
 
     @api.depends("request_group_id")
     def _compute_authorization_method_ids(self):
@@ -74,6 +83,7 @@ class MedicalRequestGroupCheckAuthorization(models.TransientModel):
     def _get_kwargs(self):
         return {
             "authorization_number": self.authorization_number,
+            "authorization_number_extra_1": self.authorization_number_extra_1,
             "authorization_method_id": self.authorization_method_id.id,
         }
 

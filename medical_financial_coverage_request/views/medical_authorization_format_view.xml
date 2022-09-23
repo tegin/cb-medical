@@ -21,6 +21,15 @@
                             attrs="{'invisible': [('always_authorized', '=', True)], 'required': [('always_authorized', '=', False)]}"
                         />
                         <field name="authorization_information" />
+                        <field name="requires_authorization_extra_1" />
+                        <field
+                            name="authorization_extra_1_format"
+                            attrs="{'invisible': [('requires_authorization_extra_1', '=', False)], 'required': [('requires_authorization_extra_1', '=', True)]}"
+                        />
+                        <field
+                            name="authorization_extra_1_information"
+                            attrs="{'invisible': [('requires_authorization_extra_1', '=', False)]}"
+                        />
                     </group>
                 </sheet>
             </form>
