@@ -18,13 +18,32 @@ class MedicalAuthorizationFormat(models.Model):
     always_authorized = fields.Boolean(
         default=False, tracking=True, required=True
     )
+    requires_authorization_extra_1 = fields.Boolean()
+    authorization_extra_1_format = fields.Char(tracking=True)
+    authorization_extra_1_information = fields.Text()
 
-    def check_value(self, value):
+    def check_value(
+        self,
+        authorization_number,
+        authorization_number_extra_1=False,
+        ignore_extra=False,
+    ):
         if self.always_authorized:
             return True
+        if not self._check_value(authorization_number, "authorization"):
+            return False
+        if ignore_extra:
+            return True
+        if self.requires_authorization_extra_1:
+            return self._check_value(
+                authorization_number_extra_1, "authorization_extra_1"
+            )
+        return True
+
+    def _check_value(self, value, field):
         if not value:
             return False
-        match = re.match(self.authorization_format, value)
+        match = re.match(self["%s_format" % field], value)
         if match:
             return True
         return False
