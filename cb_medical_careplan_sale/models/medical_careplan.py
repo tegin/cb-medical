@@ -27,6 +27,7 @@ class MedicalCareplan(models.Model):
         qty=1,
         order_by=False,
         authorization_number=False,
+        authorization_number_extra_1=False,
         performer=False,
         agreement_line=False,
         **kwargs
@@ -51,6 +52,7 @@ class MedicalCareplan(models.Model):
                 {
                     "order_by_id": order_by.id or False,
                     "authorization_number": authorization_number,
+                    "authorization_number_extra_1": authorization_number_extra_1,
                     "qty": qty,
                 }
             )
