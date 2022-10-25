@@ -7,7 +7,19 @@
             <search>
                 <field string="Name" name="name" />
                 <field string="VAT" name="vat" />
+                <field string="Birth date" name="birth_date" />
             </search>
+        </field>
+    </record>
+    <record id="medical_patient_tree" model="ir.ui.view">
+        <field name="name">medical.patient.tree</field>
+        <field name="model">medical.patient</field>
+        <field name="inherit_id" ref="medical_administration.medical_patient_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="vat" />
+                <field name="birth_date" />
+            </field>
         </field>
     </record>
     <record
