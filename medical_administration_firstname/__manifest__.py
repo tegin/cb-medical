@@ -9,7 +9,7 @@
     "depends": ["medical_administration", "partner_firstname"],
     "data": ["views/medical_patient_views.xml"],
     "demo": ["demo/medical_demo.xml"],
-    "website": "https://github.com/OCA/cb-addons",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
