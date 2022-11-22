@@ -21,9 +21,7 @@ class MedicalFlag(models.Model):
     name = fields.Char(related="category_id.name", readonly=True, store=True)
     description = fields.Text(required=True)
     closure_date = fields.Datetime(readonly=True)
-    closure_uid = fields.Many2one(
-        "res.users", readonly=True, string="Closure user"
-    )
+    closure_uid = fields.Many2one("res.users", readonly=True, string="Closure user")
 
     @api.model
     def _get_internal_identifier(self, vals):
