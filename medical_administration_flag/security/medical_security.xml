@@ -22,7 +22,7 @@
         <field name="category_id" ref="base.module_category_hidden" />
         <field
             name="implied_ids"
-            eval="[(4, ref('medical_base.group_medical_root_menu')), (4, ref('group_medical_flag_category_display'))]"
+            eval="[(4, ref('medical_base.group_medical_user')), (4, ref('group_medical_flag_category_display'))]"
         />
     </record>
     <record id="group_medical_flag_manager" model="res.groups">

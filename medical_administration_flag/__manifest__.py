@@ -4,9 +4,9 @@
 
 {
     "name": "Medical Patient Flag",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
-    "depends": ["medical_administration"],
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
+    "depends": ["medical_base"],
     "data": [
         "data/ir_sequence_data.xml",
         "security/medical_security.xml",
