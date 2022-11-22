@@ -64,9 +64,7 @@ class MedicalDocumentTemplateLang(models.Model):
     _inherit = "medical.document.language"
     _rec_name = "lang"
 
-    document_template_id = fields.Many2one(
-        "medical.document.template", required=True
-    )
+    document_template_id = fields.Many2one("medical.document.template", required=True)
     text = fields.Html(sanitize=True)
 
     _sql_constraints = [

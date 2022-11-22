@@ -25,14 +25,10 @@ class TestMedicalDocumentType(TransactionCase):
         add_language = self.env["medical.document.type.add.language"].create(
             {"document_type_id": self.document_type.id, "lang_id": lang.id}
         )
-        self.assertTrue(
-            add_language.lang_ids.filtered(lambda r: r.code == lang.code)
-        )
+        self.assertTrue(add_language.lang_ids.filtered(lambda r: r.code == lang.code))
         add_language.run()
         self.assertTrue(self.document_type.lang_ids)
-        self.document_type.lang_ids.filtered(
-            lambda r: r.lang == lang.code
-        ).write(
+        self.document_type.lang_ids.filtered(lambda r: r.lang == lang.code).write(
             {
                 "text": "<p>I, ${object.patient_id.name}, recognize the protocol"
                 " ${object.name} and sign this document.</p>"
@@ -42,9 +38,7 @@ class TestMedicalDocumentType(TransactionCase):
         add_language = self.env["medical.document.type.add.language"].new(
             {"document_type_id": self.document_type.id}
         )
-        self.assertFalse(
-            add_language.lang_id.filtered(lambda r: r.code == lang.code)
-        )
+        self.assertFalse(add_language.lang_id.filtered(lambda r: r.code == lang.code))
 
     def test_document_type(self):
         self.add_language()
@@ -69,9 +63,7 @@ class TestMedicalDocumentType(TransactionCase):
         self.add_language()
         self.document_type.draft2current()
         action = self.document_type.generate_activity_definition()
-        activity = self.env["workflow.activity.definition"].browse(
-            action["res_id"]
-        )
+        activity = self.env["workflow.activity.definition"].browse(action["res_id"])
         self.assertTrue(activity)
         self.assertEqual(activity.document_type_id, self.document_type)
         result = self.document_type.generate_activity_definition()

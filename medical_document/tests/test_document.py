@@ -1,4 +1,5 @@
 from mock import patch
+
 from odoo.exceptions import ValidationError
 from odoo.tests.common import Form, SavepointCase
 
@@ -99,9 +100,9 @@ class TestDocument(SavepointCase):
             "<p>{}</p><p>{}</p>".format(self.patient.lang, self.patient.name),
         )
         language_change = Form(
-            self.env[
-                "medical.document.reference.change.language"
-            ].with_context(default_document_reference_id=document.id)
+            self.env["medical.document.reference.change.language"].with_context(
+                default_document_reference_id=document.id
+            )
         )
         language_change.lang_id = self.lang_es
         language_change.save().run()
