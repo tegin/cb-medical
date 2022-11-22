@@ -8,9 +8,7 @@ from odoo import api, fields, models
 class SaleOrder(models.AbstractModel):
     _inherit = "sale.order"
 
-    encounter_id = fields.Many2one(
-        "medical.encounter", readonly=True, index=True
-    )
+    encounter_id = fields.Many2one("medical.encounter", readonly=True, index=True)
     coverage_id = fields.Many2one("medical.coverage", readonly=True)
     coverage_template_id = fields.Many2one(
         "medical.coverage.template",

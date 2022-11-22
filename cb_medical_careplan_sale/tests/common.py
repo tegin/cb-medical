@@ -37,9 +37,9 @@ class MedicalSavePointCase(SavepointCase):
         self.coverage_template = self.env["medical.coverage.template"].create(
             {"payor_id": self.payor.id, "name": "Coverage"}
         )
-        self.coverage_template_2 = self.env[
-            "medical.coverage.template"
-        ].create({"payor_id": self.payor.id, "name": "Coverage 2"})
+        self.coverage_template_2 = self.env["medical.coverage.template"].create(
+            {"payor_id": self.payor.id, "name": "Coverage 2"}
+        )
         self.company = self.env.ref("base.main_company")
         for order in self.env["sale.order"].search(
             [
@@ -50,9 +50,7 @@ class MedicalSavePointCase(SavepointCase):
         ):
             # We cancel all demo orders just in case
             order.action_cancel()
-        self.company.third_party_journal_id = self.env[
-            "account.journal"
-        ].create(
+        self.company.third_party_journal_id = self.env["account.journal"].create(
             {
                 "name": "Journal",
                 "code": "THIRD",
@@ -65,9 +63,7 @@ class MedicalSavePointCase(SavepointCase):
                 "company_id": self.company.id,
                 "code": "ThirdPartyCust",
                 "name": "Third party customer account",
-                "user_type_id": self.env.ref(
-                    "account.data_account_type_receivable"
-                ).id,
+                "user_type_id": self.env.ref("account.data_account_type_receivable").id,
                 "reconcile": True,
             }
         )
@@ -76,9 +72,7 @@ class MedicalSavePointCase(SavepointCase):
                 "company_id": self.company.id,
                 "code": "ThirdPartySupp",
                 "name": "Third party supplier account",
-                "user_type_id": self.env.ref(
-                    "account.data_account_type_payable"
-                ).id,
+                "user_type_id": self.env.ref("account.data_account_type_payable").id,
                 "reconcile": True,
             }
         )
@@ -111,9 +105,7 @@ class MedicalSavePointCase(SavepointCase):
                 "is_medical": True,
                 "is_location": True,
                 "center_id": self.center.id,
-                "stock_location_id": self.env.ref(
-                    "stock.warehouse0"
-                ).lot_stock_id.id,
+                "stock_location_id": self.env.ref("stock.warehouse0").lot_stock_id.id,
                 "stock_picking_type_id": self.env["stock.picking.type"]
                 .search([], limit=1)
                 .id,
@@ -197,9 +189,7 @@ class MedicalSavePointCase(SavepointCase):
                 "taxes_id": [(6, 0, self.tax.ids)],
             }
         )
-        self.category = self.env["product.category"].create(
-            {"name": "Category"}
-        )
+        self.category = self.env["product.category"].create({"name": "Category"})
         self.product_03 = self.env["product.product"].create(
             {
                 "type": "consu",
@@ -252,8 +242,7 @@ class MedicalSavePointCase(SavepointCase):
                 "name": "Activity",
                 "service_id": self.product_02.id,
                 "model_id": self.env.ref(
-                    "medical_clinical_procedure."
-                    "model_medical_procedure_request"
+                    "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
                 "type_id": self.type.id,
             }
@@ -264,8 +253,7 @@ class MedicalSavePointCase(SavepointCase):
                 "name": "Activity2",
                 "service_id": self.service.id,
                 "model_id": self.env.ref(
-                    "medical_medication_request."
-                    "model_medical_medication_request"
+                    "medical_medication_request." "model_medical_medication_request"
                 ).id,
                 "type_id": self.type.id,
             }
@@ -300,8 +288,7 @@ class MedicalSavePointCase(SavepointCase):
                 "name": "Activity 5",
                 "service_id": self.product_04.id,
                 "model_id": self.env.ref(
-                    "medical_clinical_procedure."
-                    "model_medical_procedure_request"
+                    "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
                 "type_id": self.type.id,
             }
@@ -312,8 +299,7 @@ class MedicalSavePointCase(SavepointCase):
                 "name": "Laboratory activity",
                 "service_id": self.product_07.id,
                 "model_id": self.env.ref(
-                    "medical_clinical_laboratory."
-                    "model_medical_laboratory_request"
+                    "medical_clinical_laboratory." "model_medical_laboratory_request"
                 ).id,
                 "type_id": self.type.id,
             }
@@ -359,9 +345,7 @@ class MedicalSavePointCase(SavepointCase):
                 "name": "Action4",
             }
         )
-        self.agreement_line = self.env[
-            "medical.coverage.agreement.item"
-        ].create(
+        self.agreement_line = self.env["medical.coverage.agreement.item"].create(
             {
                 "product_id": self.product_01.id,
                 "coverage_agreement_id": self.agreement.id,
@@ -376,9 +360,7 @@ class MedicalSavePointCase(SavepointCase):
                 ).id,
             }
         )
-        self.method = self.env.ref(
-            "medical_financial_coverage_request.only_number"
-        )
+        self.method = self.env.ref("medical_financial_coverage_request.only_number")
         self.format = self.env["medical.authorization.format"].create(
             {
                 "name": "Number",
@@ -395,9 +377,7 @@ class MedicalSavePointCase(SavepointCase):
                 "authorization_format": "^[a-zA-Z]*$",
             }
         )
-        self.agreement_line2 = self.env[
-            "medical.coverage.agreement.item"
-        ].create(
+        self.agreement_line2 = self.env["medical.coverage.agreement.item"].create(
             {
                 "product_id": self.service.id,
                 "coverage_agreement_id": self.agreement.id,
@@ -411,9 +391,7 @@ class MedicalSavePointCase(SavepointCase):
                 ).id,
             }
         )
-        self.agreement_line3 = self.env[
-            "medical.coverage.agreement.item"
-        ].create(
+        self.agreement_line3 = self.env["medical.coverage.agreement.item"].create(
             {
                 "product_id": self.product_04.id,
                 "coverage_agreement_id": self.agreement.id,
@@ -428,9 +406,7 @@ class MedicalSavePointCase(SavepointCase):
                 ).id,
             }
         )
-        self.lab_agreement_line = self.env[
-            "medical.coverage.agreement.item"
-        ].create(
+        self.lab_agreement_line = self.env["medical.coverage.agreement.item"].create(
             {
                 "product_id": self.lab_product.id,
                 "coverage_agreement_id": self.agreement.id,
@@ -455,9 +431,7 @@ class MedicalSavePointCase(SavepointCase):
                 "code": "5720SBC",
                 "company_id": self.company.id,
                 "currency_id": self.company.currency_id.id,
-                "user_type_id": self.env.ref(
-                    "account.data_account_type_liquidity"
-                ).id,
+                "user_type_id": self.env.ref("account.data_account_type_liquidity").id,
             }
         )
         self.bank_account = self.env["account.account"].create(
@@ -466,9 +440,7 @@ class MedicalSavePointCase(SavepointCase):
                 "code": "5720BNK",
                 "company_id": self.company.id,
                 "currency_id": self.company.currency_id.id,
-                "user_type_id": self.env.ref(
-                    "account.data_account_type_liquidity"
-                ).id,
+                "user_type_id": self.env.ref("account.data_account_type_liquidity").id,
             }
         )
         self.cash_account = self.env["account.account"].create(
@@ -477,9 +449,7 @@ class MedicalSavePointCase(SavepointCase):
                 "code": "572CSH",
                 "company_id": self.company.id,
                 "currency_id": self.company.currency_id.id,
-                "user_type_id": self.env.ref(
-                    "account.data_account_type_liquidity"
-                ).id,
+                "user_type_id": self.env.ref("account.data_account_type_liquidity").id,
             }
         )
         self.reina = self.env["res.partner"].create(
@@ -567,6 +537,4 @@ class MedicalSavePointCase(SavepointCase):
 
     @classmethod
     def create_practitioner(cls, name):
-        return cls.env["res.partner"].create(
-            {"name": name, "is_practitioner": True}
-        )
+        return cls.env["res.partner"].create({"name": name, "is_practitioner": True})

@@ -1,5 +1,6 @@
-from odoo.addons.medical_financial_coverage_agreement.tests import common
 from odoo.exceptions import ValidationError
+
+from odoo.addons.medical_financial_coverage_agreement.tests import common
 
 
 class TestMedicalCoverageAgreement(common.AgrementSavepointCase):

@@ -58,9 +58,7 @@ class MedicalCareplan(models.Model):
             )
         )
         if not agreement_line:
-            agreement_line = self.env[
-                "medical.coverage.agreement.item"
-            ].search(
+            agreement_line = self.env["medical.coverage.agreement.item"].search(
                 [
                     ("product_id", "=", service.id),
                     ("coverage_agreement_id", "in", call.agreement_ids.ids),

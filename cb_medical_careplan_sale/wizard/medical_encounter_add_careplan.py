@@ -85,10 +85,7 @@ class MedicalEncounterAddCareplan(models.TransientModel):
     @api.onchange("coverage_template_id")
     def onchange_coverage_template(self):
         if self.coverage_template_id:
-            if (
-                self.coverage_template_id
-                != self.coverage_id.coverage_template_id
-            ):
+            if self.coverage_template_id != self.coverage_id.coverage_template_id:
                 self.coverage_id = False
                 self.subscriber_id = False
                 self.subscriber_magnetic_str = False
@@ -99,9 +96,7 @@ class MedicalEncounterAddCareplan(models.TransientModel):
             self.payor_id = self.coverage_id.coverage_template_id.payor_id
             self.coverage_template_id = self.coverage_id.coverage_template_id
             self.subscriber_id = self.coverage_id.subscriber_id
-            self.subscriber_magnetic_str = (
-                self.coverage_id.subscriber_magnetic_str
-            )
+            self.subscriber_magnetic_str = self.coverage_id.subscriber_magnetic_str
 
     def run(self):
         self.ensure_one()
@@ -114,13 +109,9 @@ class MedicalEncounterAddCareplan(models.TransientModel):
                 and (
                     (
                         r.sub_payor_id
-                        and r.sub_payor_id.id
-                        == vals.get("sub_payor_id", False)
+                        and r.sub_payor_id.id == vals.get("sub_payor_id", False)
                     )
-                    or (
-                        not r.sub_payor_id
-                        and not vals.get("sub_payor_id", False)
-                    )
+                    or (not r.sub_payor_id and not vals.get("sub_payor_id", False))
                 )
                 and r.state in self.get_careplan_states()
             )

@@ -90,9 +90,7 @@ class LaboratoryEvent(models.Model):
             res[
                 "authorization_number"
             ] = self.laboratory_request_id.authorization_number
-            res[
-                "subscriber_id"
-            ] = self.laboratory_request_id.coverage_id.subscriber_id
+            res["subscriber_id"] = self.laboratory_request_id.coverage_id.subscriber_id
         return res
 
     def compute_price(self, is_insurance):
