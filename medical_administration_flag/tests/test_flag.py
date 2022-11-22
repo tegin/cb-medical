@@ -7,9 +7,7 @@ from odoo.tests.common import TransactionCase
 
 class TestMedicalAdministrationFlag(TransactionCase):
     def test_service(self):
-        category = self.env["medical.flag.category"].create(
-            {"name": "Category"}
-        )
+        category = self.env["medical.flag.category"].create({"name": "Category"})
         patient = self.env["medical.patient"].create({"name": "Patient"})
         self.assertEqual(patient.medical_flag_count, 0)
         flag = self.env["medical.flag"].create(
