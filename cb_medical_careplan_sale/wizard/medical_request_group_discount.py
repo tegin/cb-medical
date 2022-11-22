@@ -9,9 +9,7 @@ class MedicalRequestGroupDiscount(models.TransientModel):
         "medical.request.group", required=True, readonly=True
     )
     discount = fields.Float(required=True, digits="Discount")
-    medical_sale_discount_id = fields.Many2one(
-        "medical.sale.discount", required=True
-    )
+    medical_sale_discount_id = fields.Many2one("medical.sale.discount", required=True)
     percentage = fields.Float(
         related="medical_sale_discount_id.percentage", readonly=True
     )
@@ -49,7 +47,6 @@ class MedicalRequestGroupDiscount(models.TransientModel):
         vals = self.get_discount_update_vals()
         self.request_group_id.write(vals)
         models = [
-            self.env[model]
-            for model in self.request_group_id._get_request_models()
+            self.env[model] for model in self.request_group_id._get_request_models()
         ]
         self._run_childs(self.request_group_id, models, vals)

@@ -9,12 +9,8 @@ from odoo.tests.common import TransactionCase
 class TestMedicalSubPayor(TransactionCase):
     def setUp(self):
         super(TestMedicalSubPayor, self).setUp()
-        self.payor = self.env["res.partner"].create(
-            {"name": "Payor", "is_payor": True}
-        )
+        self.payor = self.env["res.partner"].create({"name": "Payor", "is_payor": True})
 
     def test_constrain(self):
         with self.assertRaises(ValidationError):
-            self.env["res.partner"].create(
-                {"name": "Sub Payor", "is_sub_payor": True}
-            )
+            self.env["res.partner"].create({"name": "Sub Payor", "is_sub_payor": True})

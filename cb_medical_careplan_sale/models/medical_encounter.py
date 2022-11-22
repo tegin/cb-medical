@@ -162,9 +162,7 @@ class MedicalEncounter(models.Model):
     def _create_encounter(
         self, patient=False, patient_vals=False, center=False, **kwargs
     ):
-        encounter = super()._create_encounter(
-            patient, patient_vals, center, **kwargs
-        )
+        encounter = super()._create_encounter(patient, patient_vals, center, **kwargs)
         careplan_data = kwargs.get("careplan_data") or []
         for careplan_vals in careplan_data:
             careplan_kwargs = kwargs.copy()
