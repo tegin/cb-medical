@@ -5,15 +5,15 @@
     License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
 <odoo>
-    <record id="medical_administration.patient_01_partner" model="res.partner">
+    <record id="medical_base.patient_01_partner" model="res.partner">
         <field name="firstname">Jane</field>
         <field name="lastname">Doe</field>
     </record>
-    <record id="medical_administration.patient_02_partner" model="res.partner">
+    <record id="medical_base.patient_02_partner" model="res.partner">
         <field name="firstname">Vinnie</field>
         <field name="lastname">Boombotz</field>
     </record>
-    <record id="medical_administration.patient_03_partner" model="res.partner">
+    <record id="medical_base.patient_03_partner" model="res.partner">
         <field name="firstname">Lucas</field>
         <field name="lastname">Hood</field>
     </record>
