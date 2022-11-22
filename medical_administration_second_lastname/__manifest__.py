@@ -4,8 +4,8 @@
 
 {
     "name": "Medical Patient second lastname",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
     "depends": ["medical_administration_firstname", "partner_second_lastname"],
     "data": ["views/medical_patient_views.xml"],
     "website": "https://github.com/tegin/cb-medical",
