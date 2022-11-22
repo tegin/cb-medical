@@ -16,14 +16,14 @@ class MedicalDocumentReference(models.Model):
 
     @api.model
     def _get_states(self):
-        return [
-            ("draft", "Draft"),
-            ("current", "Current"),
-            ("superseded", "Superseded"),
-        ]
+        return {
+            "draft": ("Draft", "draft"),
+            "current": ("Current", "done"),
+            "superseded": ("Superseded", "done"),
+        }
 
     internal_identifier = fields.Char(string="Document reference")
-    state = fields.Selection(
+    fhir_state = fields.Selection(
         required=True,
         tracking=True,
         default="draft",
@@ -46,8 +46,7 @@ class MedicalDocumentReference(models.Model):
         copy=False,
         ondelete="restrict",
     )
-    is_editable = fields.Boolean(compute="_compute_is_editable")
-    text = fields.Text(
+    text = fields.Html(
         string="Document text",
         compute="_compute_text",
         inverse="_inverse_text",
@@ -56,7 +55,7 @@ class MedicalDocumentReference(models.Model):
         sanitize=True,
         prefetch=False,
     )
-    database_text = fields.Text(
+    database_text = fields.Html(
         string="Database stored text",
         readonly=True,
         copy=False,
@@ -88,11 +87,6 @@ class MedicalDocumentReference(models.Model):
     def _get_internal_identifier(self, vals):
         return self.env["ir.sequence"].next_by_code("medical.document.reference") or "/"
 
-    @api.depends("state")
-    def _compute_is_editable(self):
-        for rec in self:
-            rec.is_editable = bool(rec.state == "draft")
-
     def action_view_request_parameters(self):
         return {
             "view": "medical_document.medical_document_reference_action",
@@ -113,14 +107,14 @@ class MedicalDocumentReference(models.Model):
 
     def _print(self, action):
         self.ensure_one()
-        if self.state == "draft":
+        if self.fhir_state == "draft":
             return self._draft2current(action)
         return action()
 
     def _render(self):
         return self.with_context(
             lang=self.lang
-        ).document_type_id.report_action_id.render(self.id)
+        ).document_type_id.report_action_id._render(self.id)
 
     def render_report(self):
         return base64.b64encode(self._render()[0])
@@ -173,12 +167,12 @@ class MedicalDocumentReference(models.Model):
 
     def _draft2current(self, action):
         self.ensure_one()
-        if self.state != "draft":
+        if self.fhir_state != "draft":
             raise ValidationError(_("State must be draft"))
         self.write(self.draft2current_values())
         res = action()
         if res:
-            self.write({"state": "current"})
+            self.write({"fhir_state": "current"})
         return res
 
     def render_text(self):
@@ -190,9 +184,9 @@ class MedicalDocumentReference(models.Model):
         raise UserError(_("Function must be defined"))
 
     def current2superseded_values(self):
-        return {"state": "superseded"}
+        return {"fhir_state": "superseded"}
 
     def current2superseded(self):
-        if self.filtered(lambda r: r.state != "current"):
+        if self.filtered(lambda r: r.fhir_state != "current"):
             raise ValidationError(_("State must be Current"))
         self.write(self.current2superseded_values())

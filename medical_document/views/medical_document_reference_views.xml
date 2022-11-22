@@ -52,7 +52,7 @@
                         class="oe_stat_button"
                         icon="fa-language"
                         string="Change Language"
-                        attrs="{'invisible': [('state', '!=', 'current')]}"
+                        attrs="{'invisible': [('fhir_state', '!=', 'current')]}"
                     />
                 </div>
             </xpath>
@@ -68,22 +68,6 @@
             </notebook>
         </field>
     </record>
-    <record id="medical_document_reference_view_form_type" model="ir.ui.view">
-        <field name="name">medical.document.reference.view.form</field>
-        <field name="model">medical.document.reference</field>
-        <field name="inherit_id" ref="medical_document_reference_view_form" />
-        <field
-            name="groups_id"
-            eval="[(4, ref('group_medical_document_reference_list'))]"
-        />
-        <field name="arch" type="xml">
-            <field name="document_type_id" position="attributes">
-                <attribute
-                    name="options"
-                >{'no_open': False, 'no_create': True}</attribute>
-            </field>
-        </field>
-    </record>
     <record id="medical_document_reference_view_search" model="ir.ui.view">
         <field name="name">medical.document.reference.view.search</field>
         <field name="model">medical.document.reference</field>
@@ -92,7 +76,7 @@
                 <field name="internal_identifier" />
                 <field name="name" />
                 <field name="patient_id" />
-                <field name="state" />
+                <field name="fhir_state" />
                 <newline />
                 <group expand="0" name="groupby" string="Group By...">
                     <filter
