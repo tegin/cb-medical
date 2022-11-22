@@ -8,7 +8,7 @@
     "version": "13.0.1.0.0",
     "license": "AGPL-3",
     "author": "Creu Blanca",
-    "website": "www.creublanca.es",
+    "website": "https://github.com/tegin/cb-medical",
     "depends": ["cb_medical_careplan_sale"],
     "data": ["views/theme_default_templates.xml"],
 }
