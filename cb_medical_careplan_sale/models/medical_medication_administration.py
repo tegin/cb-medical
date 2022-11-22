@@ -14,9 +14,7 @@ class MedicalMedicationAdministration(models.Model):
     def create(self, vals):
         if "amount" not in vals:
             vals["amount"] = (
-                self.env["product.product"]
-                .browse(vals["product_id"])
-                .list_price
+                self.env["product.product"].browse(vals["product_id"]).list_price
                 * vals["qty"]
             )
         return super().create(vals)

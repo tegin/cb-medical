@@ -19,9 +19,7 @@ class MedicalRequest(models.AbstractModel):
         inverse_name="medical_res_id",
         domain=lambda self: self._get_sale_order_domain(),
     )
-    sale_order_line_count = fields.Integer(
-        compute="_compute_sale_order_line_count"
-    )
+    sale_order_line_count = fields.Integer(compute="_compute_sale_order_line_count")
     is_sellable_insurance = fields.Boolean(compute="_compute_is_sellable")
     is_sellable_private = fields.Boolean(compute="_compute_is_sellable")
     sub_payor_id = fields.Many2one(
@@ -44,9 +42,7 @@ class MedicalRequest(models.AbstractModel):
     )
     qty = fields.Integer(default=1, required=True)
 
-    medical_sale_discount_id = fields.Many2one(
-        "medical.sale.discount", readonly=True
-    )
+    medical_sale_discount_id = fields.Many2one("medical.sale.discount", readonly=True)
     discount = fields.Float(readonly=True, digits="Discount")
 
     @api.depends("sale_order_line_ids")
@@ -77,8 +73,7 @@ class MedicalRequest(models.AbstractModel):
                 and len(
                     rec.sale_order_line_ids.filtered(
                         lambda r: (
-                            r.state != "cancel"
-                            and not r.order_id.coverage_agreement_id
+                            r.state != "cancel" and not r.order_id.coverage_agreement_id
                         )
                     )
                 )
@@ -156,10 +151,7 @@ class MedicalRequest(models.AbstractModel):
             raise ValidationError(_("Cannot breakdown a not billable line"))
         if self.sale_order_line_ids:
             raise ValidationError(
-                _(
-                    "Sale order is created. "
-                    "It must be deleted in order to breakdown"
-                )
+                _("Sale order is created. " "It must be deleted in order to breakdown")
             )
         self.is_billable = False
         self.is_breakdown = False

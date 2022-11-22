@@ -13,9 +13,7 @@ class MedicalCoverageAgreementJoin(models.TransientModel):
         if len(self.agreement_ids.mapped("invoice_group_method_id")) > 1:
             raise ValidationError(_("Invoice group method must be the same"))
         if (
-            self.agreement_ids.filtered(
-                lambda r: not r.invoice_group_method_id
-            )
+            self.agreement_ids.filtered(lambda r: not r.invoice_group_method_id)
             and len(self.agreement_ids.mapped("invoice_group_method_id")) == 1
         ):
             raise ValidationError(_("Invoice group method must be the same"))
