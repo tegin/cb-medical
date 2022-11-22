@@ -4,18 +4,15 @@
 
 {
     "name": "Medical documents",
-    "version": "13.0.2.0.0",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
     "depends": [
         "medical_workflow",
-        "medical_clinical",
         "remote_report_to_printer",
     ],
     "data": [
-        "security/medical_security.xml",
         "security/ir.model.access.csv",
         "data/ir_sequence_data.xml",
-        "data/medical_workflow.xml",
         "wizard/medical_document_reference_change_language_views.xml",
         "wizard/medical_document_type_add_language_views.xml",
         "views/medical_request_views.xml",

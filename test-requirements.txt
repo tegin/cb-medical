@@ -1,0 +1,1 @@
+git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_administration_practitioner

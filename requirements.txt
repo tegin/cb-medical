@@ -1,2 +1,3 @@
 # generated from manifests external_dependencies
 git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_base
+git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_workflow

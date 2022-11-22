@@ -22,22 +22,21 @@
             </t>
         </t>
     </template>
-    <report
-        id="action_report_document_report_type"
-        model="medical.document.type.lang"
-        string="Preview without headers"
-        report_type="qweb-pdf"
-        name="medical_document.document_report_preview"
-        file="medical_document.document_report_preview"
-        menu="False"
-    />
-    <report
-        id="action_report_document_report_base"
-        model="medical.document.reference"
-        string="default document external"
-        report_type="qweb-pdf"
-        name="medical_document.document_report_base"
-        file="medical_document.document_report_base"
-        menu="False"
-    />
+    <record id="action_report_document_report_type" model="ir.actions.report">
+        <field name="name">Preview without headers</field>
+        <field name="type">ir.actions.report</field>
+        <field name="model">medical.document.type.lang</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">medical_document.document_report_preview</field>
+        <field name="report_file">medical_document.document_report_preview</field>
+    </record>
+
+    <record id="action_report_document_report_base" model="ir.actions.report">
+        <field name="name">Preview without headers</field>
+        <field name="type">ir.actions.report</field>
+        <field name="model">medical.document.reference</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">medical_document.document_report_base</field>
+        <field name="report_file">medical_document.document_report_base</field>
+    </record>
 </odoo>

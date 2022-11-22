@@ -24,6 +24,9 @@ class ActivityDefinition(models.Model):
                 record.model_id.model == "medical.document.reference"
             )
 
+    def _get_medical_models(self):
+        return super()._get_medical_models() + ["medical.document.reference"]
+
     @api.onchange("model_id")
     def _onchange_model(self):
         if self.model_id.model != "medical.document.reference":
