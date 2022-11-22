@@ -17,8 +17,6 @@
                     name="action_view_request"
                     class="oe_stat_button"
                     icon="fa-file-contract"
-                    attrs="{'readonly':[('is_editable', '=', False)]}"
-                    groups="medical_document.group_medical_document_reference_list"
                     context="{'model_name': 'medical.document.reference'}"
                 >
                     <field

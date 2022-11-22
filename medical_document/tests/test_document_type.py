@@ -17,7 +17,6 @@ class TestMedicalDocumentType(TransactionCase):
                 ).id,
             }
         )
-        self.type = self.browse_ref("medical_workflow.medical_workflow")
 
     def add_language(self):
         self.assertFalse(self.document_type.lang_ids)
@@ -57,7 +56,7 @@ class TestMedicalDocumentType(TransactionCase):
         self.assertEqual(self.document_type.state, "current")
         template = self.document_type.current_template_id
         with self.assertRaises(UserError):
-            template.render_template(template._name, template.id)
+            template.render_template(template._name, template.ids)
 
     def test_generate_activity_definition(self):
         self.add_language()
@@ -79,7 +78,6 @@ class TestMedicalDocumentType(TransactionCase):
                 "model_id": self.browse_ref(
                     "medical_document.model_medical_document_reference"
                 ).id,
-                "type_id": self.type.id,
                 "document_type_id": self.document_type.id,
                 "state": "active",
             }

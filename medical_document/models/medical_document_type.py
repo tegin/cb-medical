@@ -112,7 +112,6 @@ class MedicalDocumentType(models.Model):
 
     def _activity_definition_vals(self):
         return {
-            "type_id": self.env.ref("medical_workflow.medical_workflow").id,
             "name": self.name,
             "model_id": self.env.ref(
                 "medical_document.model_medical_document_reference"
