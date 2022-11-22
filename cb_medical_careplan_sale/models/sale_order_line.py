@@ -8,13 +8,9 @@ from odoo import _, fields, models
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    encounter_id = fields.Many2one(
-        "medical.encounter", readonly=True, index=True
-    )
+    encounter_id = fields.Many2one("medical.encounter", readonly=True, index=True)
     medical_model = fields.Char(index=True)
-    medical_res_id = fields.Many2oneReference(
-        index=True, model_field="medical_model"
-    )
+    medical_res_id = fields.Many2oneReference(index=True, model_field="medical_model")
     invoice_group_method_id = fields.Many2one(
         "invoice.group.method", readonly=True, index=True
     )
@@ -33,9 +29,7 @@ class SaleOrderLine(models.Model):
         ],
         readonly=True,
     )
-    medical_sale_discount_id = fields.Many2one(
-        "medical.sale.discount", readonly=True
-    )
+    medical_sale_discount_id = fields.Many2one("medical.sale.discount", readonly=True)
     authorization_number = fields.Char()
     subscriber_id = fields.Char()
     patient_name = fields.Char()
@@ -73,9 +67,9 @@ class SaleOrderLine(models.Model):
                 if key in vals:
                     shared_vals.update({key: vals[key]})
             if shared_vals:
-                self.mapped("order_id").with_context(
-                    not_sale_share_values=True
-                ).write(shared_vals)
+                self.mapped("order_id").with_context(not_sale_share_values=True).write(
+                    shared_vals
+                )
                 self.mapped("order_id").mapped("order_line").filtered(
                     lambda r: r not in self
                 ).with_context(not_sale_share_values=True).write(shared_vals)
