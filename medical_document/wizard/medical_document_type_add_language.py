@@ -38,6 +38,4 @@ class MedicalDocumentTypeAddLanguage(models.TransientModel):
 
     def run(self):
         self.ensure_one()
-        self.env["medical.document.type.lang"].create(
-            self._document_type_vals()
-        )
+        self.env["medical.document.type.lang"].create(self._document_type_vals())

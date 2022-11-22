@@ -29,9 +29,7 @@ class ActivityDefinition(models.Model):
         if self.model_id.model != "medical.document.reference":
             self.document_type_id = False
 
-    def _get_medical_values(
-        self, vals, parent=False, plan=False, action=False
-    ):
+    def _get_medical_values(self, vals, parent=False, plan=False, action=False):
         values = super(ActivityDefinition, self)._get_medical_values(
             vals, parent, plan, action
         )
