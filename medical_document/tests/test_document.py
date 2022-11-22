@@ -76,14 +76,12 @@ class TestDocument(SavepointCase):
                 "document_type_id": self.document_type.id,
             }
         )
-        self.assertEqual(document.state, "draft")
-        self.assertTrue(document.is_editable)
+        self.assertEqual(document.fhir_state, "draft")
         self.assertFalse(document.text)
         # Print the document. Status of the document changes to 'current'
         document.view()
-        self.assertEqual(document.state, "current")
+        self.assertEqual(document.fhir_state, "current")
         # Once the document has been printed is not editable anymore.
-        self.assertFalse(document.is_editable)
         self.assertTrue(document.text)
         self.assertEqual(
             document.text,
@@ -91,7 +89,7 @@ class TestDocument(SavepointCase):
         )
         self.patient.name = self.patient.name + " Other name"
         document.view()
-        self.assertEqual(document.state, "current")
+        self.assertEqual(document.fhir_state, "current")
         self.assertEqual(document.lang, self.patient.lang)
         # Subsequent changes to the patient or other master data
         # Are not reflected in the document.
@@ -112,7 +110,7 @@ class TestDocument(SavepointCase):
             "<p>{}</p><p>{}</p>".format(self.lang_es.code, self.patient.name),
         )
         document.current2superseded()
-        self.assertEqual(document.state, "superseded")
+        self.assertEqual(document.fhir_state, "superseded")
         self.assertIsInstance(document.render(), bytes)
         with patch(
             "odoo.addons.base_remote.models.base.Base.remote",
@@ -152,8 +150,7 @@ class TestDocument(SavepointCase):
                 "document_type_id": self.document_type.id,
             }
         )
-        self.assertEqual(document.state, "draft")
-        self.assertTrue(document.is_editable)
+        self.assertEqual(document.fhir_state, "draft")
         self.assertFalse(document.text)
         # Print the document. Status of the document changes to 'current'
         document.view()
@@ -168,13 +165,12 @@ class TestDocument(SavepointCase):
                 "document_type_id": self.document_type.id,
             }
         )
-        self.assertEqual(document.state, "draft")
-        self.assertTrue(document.is_editable)
+        self.assertEqual(document.fhir_state, "draft")
         self.assertFalse(document.text)
         # Print the document. Status of the document changes to 'current'
         document.view()
         document.current2superseded()
-        self.assertEqual(document.state, "superseded")
+        self.assertEqual(document.fhir_state, "superseded")
         self.assertIsInstance(document.render(), bytes)
         with self.assertRaises(ValidationError):
             document.current2superseded()

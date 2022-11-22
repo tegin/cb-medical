@@ -41,7 +41,7 @@ class MedicalDocumentTemplate(models.Model):
     def unpost(self):
         self.state = "superseded"
 
-    def render_template(self, model, res_ids, post_process=False):
+    def render_template(self, model, res_id, post_process=False):
         if self.document_type == "action":
             if not self.lang_ids:
                 raise UserError(_("No documents can be found"))
@@ -53,8 +53,8 @@ class MedicalDocumentTemplate(models.Model):
             if not lang_id:
                 lang_id = self.lang_ids[0]
             return self.env["mail.template"]._render_template(
-                lang_id.text, model, res_ids, post_process=post_process
-            )
+                lang_id.text, model, [res_id], post_process=post_process
+            )[res_id]
         raise UserError(_("Function must be defined"))
 
 
