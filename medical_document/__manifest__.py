@@ -25,7 +25,7 @@
         "views/workflow_activity_definition.xml",
         "report/document_report.xml",
     ],
-    "website": "https://github.com/OCA/cb-addons",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,

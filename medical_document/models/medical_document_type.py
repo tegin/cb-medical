@@ -49,24 +49,19 @@ class MedicalDocumentType(models.Model):
         for record in self:
             record.current_template_id = record.template_ids.filtered(
                 lambda r: (
-                    r.sequence == record.current_sequence
-                    and r.state == "current"
+                    r.sequence == record.current_sequence and r.state == "current"
                 )
             )
 
     def _get_internal_identifier(self, vals):
-        return (
-            self.env["ir.sequence"].next_by_code("medical.document.template")
-            or "/"
-        )
+        return self.env["ir.sequence"].next_by_code("medical.document.template") or "/"
 
     def get_document_template_vals(self):
         return {
             "document_type_id": self.id,
             "state": "current",
             "lang_ids": [
-                (0, 0, lang.get_document_template_lang_vals())
-                for lang in self.lang_ids
+                (0, 0, lang.get_document_template_lang_vals()) for lang in self.lang_ids
             ],
             "sequence": self.current_sequence,
         }
@@ -78,9 +73,7 @@ class MedicalDocumentType(models.Model):
         template = self.env["medical.document.template"].create(
             self.get_document_template_vals()
         )
-        self.message_post(
-            body=_("Added template with sequence %s") % template.sequence
-        )
+        self.message_post(body=_("Added template with sequence %s") % template.sequence)
         return True
 
     def unpost(self):
@@ -101,9 +94,7 @@ class MedicalDocumentType(models.Model):
 
     def current2superseded(self):
         for record in self:
-            if record.activity_definition_ids.filtered(
-                lambda r: r.state == "active"
-            ):
+            if record.activity_definition_ids.filtered(lambda r: r.state == "active"):
                 raise ValidationError(
                     _("Cannot supersed if it is used on active definitions")
                 )
@@ -131,9 +122,7 @@ class MedicalDocumentType(models.Model):
 
     def generate_activity_definition(self):
         activites = self._generate_activity_definition()
-        action = self.env.ref(
-            "medical_workflow.workflow_activity_definition_action"
-        )
+        action = self.env.ref("medical_workflow.workflow_activity_definition_action")
         result = action.read()[0]
         if len(activites) > 1:
             result["domain"] = "[('id', 'in', " + str(activites.ids) + ")]"
