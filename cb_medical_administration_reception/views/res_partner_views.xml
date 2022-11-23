@@ -32,23 +32,15 @@
             >
                 <field name="is_reception" invisible="1" />
             </xpath>
-            <xpath expr="//h1" position="before">
-                <h1>
-                    <field name="is_reception" invisible="1" />
-                    <field
-                        name="reception_identifier"
-                        attrs="{'invisible': [('is_reception','=',False)]}"
-                        groups="medical_administration_location.group_medical_location_list"
-                    />
-                </h1>
-            </xpath>
+            <field name="is_medical" position="before">
+                <field name="is_reception" />
+            </field>
             <div name="button_box" position="inside">
                 <button
                     type="action"
                     name="%(medical_center_reception_action)d"
                     class="oe_stat_button"
                     icon="fa-registered"
-                    groups="medical_administration_location.group_medical_location_list"
                     attrs="{'invisible': [('is_center', '=', False)]}"
                 >
                     <field
