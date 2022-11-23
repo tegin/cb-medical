@@ -3,4 +3,5 @@ git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/remote_report
 git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_administration_location
 git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_base
 git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_clinical_procedure
+git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_terminology
 git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_workflow
