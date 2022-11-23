@@ -11,7 +11,7 @@
         name="Requester"
         parent="medical_base.medical_root_administration"
         action="medical_requester_action"
-        groups="group_medical_requester_list"
+        groups="medical_base.group_medical_configurator"
         sequence="20"
     />
 </odoo>

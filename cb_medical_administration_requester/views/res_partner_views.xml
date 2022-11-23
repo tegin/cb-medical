@@ -10,10 +10,7 @@
         <field name="name">res.partner.view.form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
-        <field
-            name="groups_id"
-            eval="[(4, ref('cb_medical_administration_requester.group_medical_requester_display'))]"
-        />
+        <field name="groups_id" eval="[(4, ref('medical_base.group_medical_user'))]" />
         <field name="arch" type="xml">
             <xpath
                 expr="//field[@name='child_ids']//form//field[@name='parent_id']"
@@ -21,38 +18,15 @@
             >
                 <field name="is_requester" invisible="1" />
             </xpath>
-            <xpath expr="//h1" position="before">
-                <h1>
-                    <field name="is_requester" invisible="1" />
-                    <field
-                        name="requester_identifier"
-                        attrs="{'invisible': [('is_requester','=',False)]}"
-                    />
-                </h1>
-            </xpath>
+            <field name="is_medical" position="before">
+                <field name="is_requester" />
+            </field>
             <field name="vat" position="after">
                 <field
                     name="college_number"
                     readonly="1"
                     attrs="{'invisible': [('is_requester','=',False), ('is_practitioner', '=', False)]}"
                 />
-            </field>
-        </field>
-    </record>
-    <record id="res_partner_edit_view_form" model="ir.ui.view">
-        <field name="name">res.partner.view.form</field>
-        <field name="model">res.partner</field>
-        <field
-            name="inherit_id"
-            ref="cb_medical_administration_requester.res_partner_view_form"
-        />
-        <field
-            name="groups_id"
-            eval="[(4, ref('cb_medical_administration_requester.group_medical_requester_manager'))]"
-        />
-        <field name="arch" type="xml">
-            <field name="college_number" position="attributes">
-                <attribute name="readonly">0</attribute>
             </field>
         </field>
     </record>
