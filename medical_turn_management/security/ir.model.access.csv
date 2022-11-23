@@ -1,10 +1,16 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_turn,Access turn,model_medical_turn,group_medical_turn_display,1,0,0,0
-use_turn,Use turn,model_medical_turn,group_medical_turn_user,1,1,0,0
-manage_turn,Manage turn,model_medical_turn,group_medical_turn_manager,1,1,1,1
-access_specialty,Access specialty,model_medical_turn_specialty,group_medical_specialty_turn_display,1,0,0,0
-manage_specialty,Manage specialty,model_medical_turn_specialty,group_medical_specialty_turn_manager,1,1,1,0
-access_specialty_rule,Access specialty rule,model_medical_turn_specialty_rule,group_medical_specialty_turn_display,1,0,0,0
-manage_specialty_rule,Manage specialty rule,model_medical_turn_specialty_rule,group_medical_specialty_turn_manager,1,1,1,1
-access_turn_tag,Access Turn Tag,model_medical_turn_tag,group_medical_specialty_turn_display,1,0,0,0
-manage_turn_tag,Manage Turn Tag,model_medical_turn_tag,group_medical_specialty_turn_manager,1,1,1,0
+access_turn,Access turn,model_medical_turn,medical_base.group_medical_user,1,0,0,0
+use_turn,Use turn,model_medical_turn,medical_base.group_medical_assistance_user,1,1,0,0
+manage_turn_doctor,Manage turn Doctor,model_medical_turn,medical_base.group_medical_doctor_manager,1,1,1,1
+manage_turn_nurse,Manage turn Nurse,model_medical_turn,medical_base.group_medical_nurse_manager,1,1,1,1
+manage_turn_technician,Manage turn Technician,model_medical_turn,medical_base.group_medical_technician_manager,1,1,1,1
+access_specialty,Access specialty,model_medical_turn_specialty,medical_base.group_medical_user,1,0,0,0
+manage_specialty,Manage specialty,model_medical_turn_specialty,medical_base.group_medical_configurator,1,1,1,0
+access_specialty_rule,Access specialty rule,model_medical_turn_specialty_rule,medical_base.group_medical_user,1,0,0,0
+manage_specialty_rule,Manage specialty rule,model_medical_turn_specialty_rule,medical_base.group_medical_configurator,1,1,1,1
+access_turn_tag,Access Turn Tag,model_medical_turn_tag,medical_base.group_medical_user,1,0,0,0
+manage_turn_tag,Manage Turn Tag,model_medical_turn_tag,medical_base.group_medical_configurator,1,1,1,0
+
+access_wzd_medical_turn_doctor,access_wzd_medical_turn_doctor,model_wzd_medical_turn,medical_base.group_medical_doctor_manager,1,1,1,0
+access_wzd_medical_turn_nurse,access_wzd_medical_turn_nurse,model_wzd_medical_turn,medical_base.group_medical_nurse_manager,1,1,1,0
+access_wzd_medical_turn_technician,access_wzd_medical_turn_technician,model_wzd_medical_turn,medical_base.group_medical_technician_manager,1,1,1,0
