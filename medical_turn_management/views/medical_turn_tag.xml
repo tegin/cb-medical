@@ -36,10 +36,6 @@
         <field name="name">Medical Turn Tag</field>
         <field name="parent_id" ref="medical_turn_root" />
         <field name="action" ref="medical_turn_tag_act_window" />
-        <field
-            name="groups_id"
-            eval="[(4,ref('medical_turn_management.group_medical_specialty_turn_manager'))]"
-        />
         <field name="sequence" eval="100" />
     </record>
 </odoo>

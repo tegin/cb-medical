@@ -9,10 +9,7 @@
             name="inherit_id"
             ref="medical_administration_practitioner.res_partner_view_form"
         />
-        <field
-            name="groups_id"
-            eval="[(4, ref('medical_administration_practitioner.group_medical_practitioner_display'))]"
-        />
+        <field name="groups_id" eval="[(4, ref('medical_base.group_medical_user'))]" />
         <field name="arch" type="xml">
             <field name="practitioner_role_ids" position="after">
                 <field
@@ -33,7 +30,7 @@
         />
         <field
             name="groups_id"
-            eval="[(4, ref('medical_administration_practitioner.group_medical_practitioner_manager'))]"
+            eval="[(4, ref('medical_base.group_medical_configurator'))]"
         />
         <field name="arch" type="xml">
             <field name="turn_specialty_ids" position="attributes">
