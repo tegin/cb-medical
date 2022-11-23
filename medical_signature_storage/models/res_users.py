@@ -8,9 +8,7 @@ class ResUsers(models.Model):
 
     _inherit = "res.users"
 
-    current_signature_id = fields.Many2one(
-        "res.users.signature", readonly=True
-    )
+    current_signature_id = fields.Many2one("res.users.signature", readonly=True)
     digital_signature = fields.Binary(
         related="current_signature_id.signature", readonly=True
     )
