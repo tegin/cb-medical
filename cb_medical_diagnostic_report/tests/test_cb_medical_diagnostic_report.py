@@ -68,9 +68,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
                 "center_id": self.center_1.id,
             }
         )
-        self.template_1 = self.env[
-            "medical.diagnostic.report.template"
-        ].create(
+        self.template_1 = self.env["medical.diagnostic.report.template"].create(
             {
                 "name": "Template 1",
                 "with_observation": False,
@@ -80,9 +78,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
                 "report_category_id": self.category_1.id,
             }
         )
-        self.template_2 = self.env[
-            "medical.diagnostic.report.template"
-        ].create(
+        self.template_2 = self.env["medical.diagnostic.report.template"].create(
             {
                 "name": "Template 2",
                 "with_observation": False,
@@ -102,9 +98,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
             }
         )
         action = report_generation.generate()
-        self.report = self.env[action.get("res_model")].browse(
-            action.get("res_id")
-        )
+        self.report = self.env[action.get("res_model")].browse(action.get("res_id"))
         self.signature_1 = self.env["res.users.signature"].create(
             {
                 "user_id": self.env.user.id,
@@ -164,9 +158,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
     def _generate_report(self, template):
         report_generation = self.env[
             "medical.encounter.create.diagnostic.report"
-        ].create(
-            {"encounter_id": self.encounter_1.id, "template_id": template.id}
-        )
+        ].create({"encounter_id": self.encounter_1.id, "template_id": template.id})
         action = report_generation.generate()
         return self.env[action.get("res_model")].browse(action.get("res_id"))
 
@@ -210,9 +202,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
         self.assertEqual("medical.diagnostic.report", report_duplicate._name)
         self.assertNotEqual(report_duplicate.id, self.report.id)
         self.assertEqual(report_duplicate.state, "registered")
-        self.assertEqual(
-            report_duplicate.encounter_id, self.report.encounter_id
-        )
+        self.assertEqual(report_duplicate.encounter_id, self.report.encounter_id)
 
     def test_images(self):
         image = tools.file_open(
