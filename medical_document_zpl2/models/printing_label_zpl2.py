@@ -9,9 +9,7 @@ class PrintingLabelZpl2(models.Model):
         for label in self:
             if record._name != label.model_id.model:
                 raise exceptions.UserError(
-                    _("This label cannot be used on {model}").format(
-                        model=record._name
-                    )
+                    _("This label cannot be used on {model}").format(model=record._name)
                 )
             if len(res) > 0:
                 res += "\n"
