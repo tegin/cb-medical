@@ -8,7 +8,7 @@
     "version": "13.0.1.0.0",
     "author": "Creu Blanca, Eficent",
     "category": "Medical",
-    "website": "https://github.com/OCA/vertical-medical",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "depends": ["medical_terminology"],
     "data": [
