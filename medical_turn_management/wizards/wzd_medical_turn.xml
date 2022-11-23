@@ -34,10 +34,6 @@
         <field name="name">Generate turns</field>
         <field name="parent_id" ref="medical_turn_root" />
         <field name="action" ref="wzd_medical_turn_act_window" />
-        <field
-            name="groups_id"
-            eval="[(4,ref('medical_turn_management.group_medical_turn_generator'))]"
-        />
         <field name="sequence" eval="50" />
     </record>
 </odoo>
