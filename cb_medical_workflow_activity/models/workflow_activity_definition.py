@@ -9,9 +9,7 @@ from odoo.exceptions import ValidationError
 class ActivityDefinition(models.Model):
     _inherit = "workflow.activity.definition"
 
-    service_id = fields.Many2one(
-        "product.product", domain=[("type", "=", "service")]
-    )
+    service_id = fields.Many2one("product.product", domain=[("type", "=", "service")])
     service_tmpl_id = fields.Many2one(
         "product.template",
         related="service_id.product_tmpl_id",
@@ -23,16 +21,8 @@ class ActivityDefinition(models.Model):
     def _check_product(self):
         for rec in self.filtered(lambda r: r.service_id):
             if rec.service_id.type != "service":
-                raise ValidationError(
-                    _("Activite are only allowed for services")
-                )
+                raise ValidationError(_("Activite are only allowed for services"))
             if self.search([("service_id", "=", rec.service_id.id)], limit=1):
-                raise ValidationError(
-                    _("Only one activity is allowed for service")
-                )
-            if self.search(
-                [("service_tmpl_id", "=", rec.service_tmpl_id.id)], limit=1
-            ):
-                raise ValidationError(
-                    _("Only one activity is allowed for service")
-                )
+                raise ValidationError(_("Only one activity is allowed for service"))
+            if self.search([("service_tmpl_id", "=", rec.service_tmpl_id.id)], limit=1):
+                raise ValidationError(_("Only one activity is allowed for service"))

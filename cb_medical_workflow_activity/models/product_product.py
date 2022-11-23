@@ -25,9 +25,7 @@ class ProductProduct(models.Model):
         }
 
     def get_activity(self):
-        action = self.env.ref(
-            "medical_workflow.workflow_activity_definition_action"
-        )
+        action = self.env.ref("medical_workflow.workflow_activity_definition_action")
         result = action.read()[0]
         result["domain"] = [("service_id", "=", self.id)]
         if len(self.activity_definition_ids) == 1:
@@ -39,9 +37,7 @@ class ProductProduct(models.Model):
         if self.activity_definition_ids:
             return self.activity_definition_ids
         if self.type != "service":
-            raise ValidationError(
-                _("Activities are only allowed for services")
-            )
+            raise ValidationError(_("Activities are only allowed for services"))
         activity = self.env["workflow.activity.definition"].create(
             self._get_activity_vals()
         )
