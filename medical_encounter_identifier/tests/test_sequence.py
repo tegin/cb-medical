@@ -27,20 +27,14 @@ class TestSequence(TransactionCase):
         values.update(patient_id=self.patient.id)
         request_1 = self.env[model].create(values)
         self.assertNotEqual(
-            request_1.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
+            request_1.internal_identifier[: len(self.encounter.internal_identifier)],
             self.encounter.internal_identifier,
         )
         values = vals.copy()
-        values.update(
-            patient_id=self.patient.id, encounter_id=self.encounter.id
-        )
+        values.update(patient_id=self.patient.id, encounter_id=self.encounter.id)
         request_2 = self.env[model].create(values)
         self.assertEqual(
-            request_2.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
+            request_2.internal_identifier[: len(self.encounter.internal_identifier)],
             self.encounter.internal_identifier,
         )
         values = vals.copy()
@@ -51,9 +45,7 @@ class TestSequence(TransactionCase):
             .create(values)
         )
         self.assertEqual(
-            request_3.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
+            request_3.internal_identifier[: len(self.encounter.internal_identifier)],
             self.encounter.internal_identifier,
         )
         return request_1, request_2, request_3
@@ -71,25 +63,19 @@ class TestSequence(TransactionCase):
         event_1 = request_1.generate_event()
         self.assertFalse(event_1.encounter_id)
         self.assertNotEqual(
-            event_1.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
+            event_1.internal_identifier[: len(self.encounter.internal_identifier)],
             self.encounter.internal_identifier,
         )
         event_2 = request_2.generate_event()
         self.assertTrue(event_2.encounter_id)
         self.assertEqual(
-            event_2.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
+            event_2.internal_identifier[: len(self.encounter.internal_identifier)],
             self.encounter.internal_identifier,
         )
         event_3 = request_3.generate_event()
         self.assertTrue(event_3.encounter_id)
         self.assertEqual(
-            event_3.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
+            event_3.internal_identifier[: len(self.encounter.internal_identifier)],
             self.encounter.internal_identifier,
         )
 
@@ -140,25 +126,19 @@ class TestSequence(TransactionCase):
         event_1 = request_1.generate_event()
         self.assertFalse(event_1.encounter_id)
         self.assertNotEqual(
-            event_1.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
+            event_1.internal_identifier[: len(self.encounter.internal_identifier)],
             self.encounter.internal_identifier,
         )
         event_2 = request_2.generate_event()
         self.assertTrue(event_2.encounter_id)
         self.assertEqual(
-            event_2.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
+            event_2.internal_identifier[: len(self.encounter.internal_identifier)],
             self.encounter.internal_identifier,
         )
         event_3 = request_3.generate_event()
         self.assertTrue(event_3.encounter_id)
         self.assertEqual(
-            event_3.internal_identifier[
-                : len(self.encounter.internal_identifier)
-            ],
+            event_3.internal_identifier[: len(self.encounter.internal_identifier)],
             self.encounter.internal_identifier,
         )
 
@@ -199,10 +179,6 @@ class TestSequence(TransactionCase):
         vals = {"name": "Prova"}
         exemple = self.env["res.partner"].create(vals)
         exemple.write(
-            {
-                "encounter_sequence_prefix": self.center.encounter_sequence_prefix
-            }
+            {"encounter_sequence_prefix": self.center.encounter_sequence_prefix}
         )
-        exemple.write(
-            {"encounter_sequence_prefix": "O", "encounter_sequence_id": 15}
-        )
+        exemple.write({"encounter_sequence_prefix": "O", "encounter_sequence_id": 15})

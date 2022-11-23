@@ -25,7 +25,7 @@
         "views/res_partner_views.xml",
         "views/medical_encounter_view.xml",
     ],
-    "website": "https://github.com/OCA/vertical-medical",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,

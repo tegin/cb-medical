@@ -43,9 +43,7 @@ class ResPartner(models.Model):
                     rec.sudo().encounter_sequence_id.prefix = new_prefix
                 else:
                     seq_vals = self._prepare_ir_encounter_sequence(prefix)
-                    rec.encounter_sequence_id = self.env["ir.sequence"].create(
-                        seq_vals
-                    )
+                    rec.encounter_sequence_id = self.env["ir.sequence"].create(seq_vals)
         return super().write(vals)
 
     @api.model
