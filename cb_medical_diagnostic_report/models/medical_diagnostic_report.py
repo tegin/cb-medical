@@ -6,7 +6,6 @@ from odoo.exceptions import ValidationError
 
 
 class MedicalDiagnosticReport(models.Model):
-
     _inherit = "medical.diagnostic.report"
 
     with_department = fields.Boolean(default=False)
@@ -19,6 +18,7 @@ class MedicalDiagnosticReport(models.Model):
         inverse_name="diagnostic_report_id",
         copy=True,
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     def _generate_serializer(self):
@@ -39,28 +39,6 @@ class MedicalDiagnosticReport(models.Model):
             res["signature_id"] = self.env.user.current_signature_id.id
         return res
 
-    def _is_editable(self):
-        department = self.medical_department_id
-        return super()._is_editable() and (
-            not department or self.env.user in department.user_ids
-        )
-
-    @api.depends_context("uid")
-    @api.depends("medical_department_id", "medical_department_id.user_ids")
-    def _compute_is_editable(self):
-        super()._compute_is_editable()
-
-    def _is_cancellable(self):
-        department = self.medical_department_id
-        return super()._is_cancellable() and (
-            not department or self.env.user in department.user_ids
-        )
-
-    @api.depends_context("uid")
-    @api.depends("medical_department_id", "medical_department_id.user_ids")
-    def _compute_is_cancellable(self):
-        super()._compute_is_cancellable()
-
     def copy_action(self):
         self.ensure_one()
         result = self.copy()
@@ -75,7 +53,7 @@ class MedicalDiagnosticReport(models.Model):
 
     def add_image_attachment(self, name=None, datas=None, **kwargs):
         self.ensure_one()
-        if self.state != "registered":
+        if self.fhir_state != "registered":
             raise ValidationError(_("State must be registered"))
         self.env["medical.diagnostic.report.image"].create(
             self._add_image_attachment_vals(name=name, datas=datas, **kwargs)
