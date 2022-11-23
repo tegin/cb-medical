@@ -21,6 +21,4 @@ class ProductTemplate(models.Model):
     def _check_activities(self):
         for rec in self:
             if rec.type != "service" and rec.activity_tmpl_definition_ids:
-                raise ValidationError(
-                    _("Activities are only allowed for services")
-                )
+                raise ValidationError(_("Activities are only allowed for services"))
