@@ -8,9 +8,7 @@ from odoo import fields, models
 class MedicalCareplanAddPlanDefinition(models.TransientModel):
     _inherit = "medical.careplan.add.plan.definition"
 
-    order_by_id = fields.Many2one(
-        "res.partner", domain=[("is_requester", "=", True)]
-    )
+    order_by_id = fields.Many2one("res.partner", domain=[("is_requester", "=", True)])
 
     def _get_values(self):
         values = super(MedicalCareplanAddPlanDefinition, self)._get_values()

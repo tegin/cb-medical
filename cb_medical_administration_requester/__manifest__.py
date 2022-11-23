@@ -3,10 +3,10 @@
 
 {
     "name": "CB Medical Requester",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "category": "CB",
-    "website": "https://creublanca.es",
-    "author": "Creu Blanca",
+    "website": "https://github.com/tegin/cb-medical",
+    "author": "CreuBlanca",
     "license": "AGPL-3",
     "installable": True,
     "application": False,
@@ -17,8 +17,8 @@
         "medical_clinical_careplan",
     ],
     "data": [
-        "data/ir_sequence_data.xml",
-        "security/medical_security.xml",
+        # "data/ir_sequence_data.xml",
+        # "security/medical_security.xml",
         "views/res_partner_views.xml",
         "views/medical_menu.xml",
         "wizard/medical_careplan_add_plan_definition_views.xml",
