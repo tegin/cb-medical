@@ -59,9 +59,8 @@
     <menuitem
         id="medical_department_menu"
         name="Departments"
-        parent="medical_base.medical_root_administration"
+        parent="medical_base.medical_root_configuration"
         action="medical_department_act_window"
-        groups="group_medical_department_manager"
         sequence="20"
     />
 </odoo>
