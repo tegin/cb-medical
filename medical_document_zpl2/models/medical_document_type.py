@@ -6,7 +6,9 @@ class MedicalDocumentType(models.Model):
     # (https://www.hl7.org/fhir/documentreference.html)
     _inherit = "medical.document.type"
 
-    document_type = fields.Selection(selection_add=[("zpl2", "ZPL2 Label")])
+    document_type = fields.Selection(
+        selection_add=[("zpl2", "ZPL2 Label")], ondelete={"zpl2": "cascade"}
+    )
     label_zpl2_id = fields.Many2one(
         "printing.label.zpl2", states={"current": [("readonly", True)]}
     )
