@@ -70,9 +70,7 @@ class MedicalCoverageAgreement(models.Model):
         readonly=True,
         tracking=True,
     )
-    parent_id = fields.Many2one(
-        "medical.coverage.agreement", copy=False, readonly=True
-    )
+    parent_id = fields.Many2one("medical.coverage.agreement", copy=False, readonly=True)
     child_ids = fields.One2many(
         "medical.coverage.agreement",
         inverse_name="parent_id",
@@ -86,9 +84,7 @@ class MedicalCoverageAgreement(models.Model):
         for record in self:
             record.child_count = len(record.child_ids)
 
-    @api.constrains(
-        "date_to", "date_from", "coverage_template_ids", "center_ids"
-    )
+    @api.constrains("date_to", "date_from", "coverage_template_ids", "center_ids")
     def _check_product_unicity(self):
         for rec in self:
             rec.item_ids._check_product()
@@ -99,20 +95,13 @@ class MedicalCoverageAgreement(models.Model):
             if not rec.is_template:
                 continue
             if rec.coverage_template_ids:
-                raise ValidationError(
-                    _("Coverage cannot be defined on templates")
-                )
+                raise ValidationError(_("Coverage cannot be defined on templates"))
             if rec.template_id:
-                raise ValidationError(
-                    _("Template cannot be defined on templates")
-                )
+                raise ValidationError(_("Template cannot be defined on templates"))
 
     @api.model
     def _get_internal_identifier(self, vals):
-        return (
-            self.env["ir.sequence"].next_by_code("medical.coverage.agreement")
-            or "/"
-        )
+        return self.env["ir.sequence"].next_by_code("medical.coverage.agreement") or "/"
 
     def toggle_active(self):
         res = super().toggle_active()
@@ -137,9 +126,7 @@ class MedicalCoverageAgreement(models.Model):
         if not set_items:
             return
         for item in template.item_ids:
-            if not self.item_ids.filtered(
-                lambda r: r.product_id == item.product_id
-            ):
+            if not self.item_ids.filtered(lambda r: r.product_id == item.product_id):
                 self.env["medical.coverage.agreement.item"].with_context(
                     default_coverage_agreement_id=self.id
                 ).create(item._copy_agreement_vals(self))
@@ -153,9 +140,7 @@ class MedicalCoverageAgreement(models.Model):
                 "nomenclature": self.env["product.nomenclature.product"],
             }
             if self.nomenclature_id:
-                item["nomenclature"] = self.env[
-                    "product.nomenclature.product"
-                ].search(
+                item["nomenclature"] = self.env["product.nomenclature.product"].search(
                     [
                         ("nomenclature_id", "=", self.nomenclature_id.id),
                         ("product_id", "=", d.product_id.id),
@@ -203,9 +188,7 @@ class MedicalCoverageAgreement(models.Model):
         for item in self.env["medical.coverage.agreement.item"].search(domain):
             if item.categ_id.id not in data:
                 categs |= item.categ_id
-                data[item.categ_id.id] = self.env[
-                    "medical.coverage.agreement.item"
-                ]
+                data[item.categ_id.id] = self.env["medical.coverage.agreement.item"]
             data[item.categ_id.id] |= item
 
         all_categs |= categs
@@ -214,9 +197,7 @@ class MedicalCoverageAgreement(models.Model):
             while ctg.parent_id and ctg.parent_id not in all_categs:
                 all_categs |= ctg.parent_id
                 if ctg.parent_id not in data:
-                    data[ctg.parent_id.id] = self.env[
-                        "medical.coverage.agreement.item"
-                    ]
+                    data[ctg.parent_id.id] = self.env["medical.coverage.agreement.item"]
                 ctg = ctg.parent_id
 
         for categ in all_categs.filtered(lambda r: r.level == 0):

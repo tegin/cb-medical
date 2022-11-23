@@ -14,9 +14,7 @@ class MedicalCoverageAgreementItem(models.Model):
     _rec_name = "product_id"
 
     def _default_coverage_percentage(self):
-        agreement_id = self.env.context.get(
-            "default_coverage_agreement_id", False
-        )
+        agreement_id = self.env.context.get("default_coverage_agreement_id", False)
         agreement = self.env["medical.coverage.agreement"].browse(agreement_id)
         if agreement:
             if agreement.principal_concept == "coverage":
@@ -88,12 +86,8 @@ class MedicalCoverageAgreementItem(models.Model):
         related="coverage_agreement_id.company_id",
         store=True,
     )
-    coverage_price = fields.Float(
-        string="Coverage price", compute="_compute_price"
-    )
-    private_price = fields.Float(
-        string="Private price", compute="_compute_price"
-    )
+    coverage_price = fields.Float(string="Coverage price", compute="_compute_price")
+    private_price = fields.Float(string="Private price", compute="_compute_price")
     private_sellable = fields.Float(
         string="Sellable to private", compute="_compute_price"
     )
@@ -123,19 +117,15 @@ class MedicalCoverageAgreementItem(models.Model):
     @api.depends("total_price", "coverage_percentage")
     def _compute_price(self):
         for rec in self:
-            rec.coverage_price = (
-                rec.coverage_percentage * rec.total_price
-            ) / 100
+            rec.coverage_price = (rec.coverage_percentage * rec.total_price) / 100
             rec.private_price = (
                 (100 - rec.coverage_percentage) * rec.total_price
             ) / 100
             rec.private_sellable = rec.private_price > 0 or (
-                rec.coverage_percentage < 100
-                and rec.product_tmpl_id.include_zero_sales
+                rec.coverage_percentage < 100 and rec.product_tmpl_id.include_zero_sales
             )
             rec.coverage_sellable = rec.coverage_price > 0 or (
-                rec.coverage_percentage > 0
-                and rec.product_tmpl_id.include_zero_sales
+                rec.coverage_percentage > 0 and rec.product_tmpl_id.include_zero_sales
             )
 
     @api.constrains("product_id", "coverage_agreement_id", "active")
@@ -154,9 +144,7 @@ class MedicalCoverageAgreementItem(models.Model):
                 ],
                 limit=1,
             ):
-                raise ValidationError(
-                    _("Product must be unique for an agreement")
-                )
+                raise ValidationError(_("Product must be unique for an agreement"))
             aggr = rec.coverage_agreement_id
             domain = [
                 ("product_id", "=", rec.product_id.id),
@@ -176,9 +164,7 @@ class MedicalCoverageAgreementItem(models.Model):
                 ("coverage_agreement_id.date_to", ">=", aggr.date_from),
             ]
             if aggr.date_to:
-                domain += [
-                    ("coverage_agreement_id.date_from", "<=", aggr.date_to)
-                ]
+                domain += [("coverage_agreement_id.date_from", "<=", aggr.date_to)]
             repeated = self.search(domain, limit=1)
             if repeated:
                 raise ValidationError(

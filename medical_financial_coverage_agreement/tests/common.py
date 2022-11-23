@@ -5,20 +5,14 @@ class AgrementSavepointCase(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.medical_user_group = cls.env.ref(
-            "medical_base.group_medical_configurator"
-        )
-        cls.medical_user = cls._create_user(
-            "medical_user", cls.medical_user_group.id
-        )
+        cls.medical_user_group = cls.env.ref("medical_base.group_medical_configurator")
+        cls.medical_user = cls._create_user("medical_user", cls.medical_user_group.id)
         cls.patient_model = cls.env["medical.patient"]
         cls.coverage_model = cls.env["medical.coverage"]
         cls.coverage_template_model = cls.env["medical.coverage.template"]
         cls.payor_model = cls.env["res.partner"]
         cls.coverage_agreement_model = cls.env["medical.coverage.agreement"]
-        cls.coverage_agreement_model_item = cls.env[
-            "medical.coverage.agreement.item"
-        ]
+        cls.coverage_agreement_model_item = cls.env["medical.coverage.agreement.item"]
         cls.center_model = cls.env["res.partner"]
         cls.product_model = cls.env["product.product"]
         cls.type_model = cls.env["workflow.type"]
@@ -56,9 +50,7 @@ class AgrementSavepointCase(SavepointCase):
 
     @classmethod
     def _create_patient(cls):
-        return cls.patient_model.create(
-            {"name": "Test patient", "gender": "female"}
-        )
+        return cls.patient_model.create({"name": "Test patient", "gender": "female"})
 
     @classmethod
     def _create_payor(cls):
@@ -89,9 +81,7 @@ class AgrementSavepointCase(SavepointCase):
     @classmethod
     def _create_coverage_agreement_item(cls, coverage_agreement, product):
         return cls.coverage_agreement_model_item.create(
-            cls._create_coverage_agreement_item_vals(
-                coverage_agreement, product
-            )
+            cls._create_coverage_agreement_item_vals(coverage_agreement, product)
         )
 
     @classmethod
@@ -106,9 +96,7 @@ class AgrementSavepointCase(SavepointCase):
 
     @classmethod
     def _create_center(cls):
-        return cls.center_model.create(
-            {"name": "Test location", "is_center": True}
-        )
+        return cls.center_model.create({"name": "Test location", "is_center": True})
 
     @classmethod
     def _create_product(cls, name):
@@ -131,9 +119,7 @@ class AgrementSavepointCase(SavepointCase):
                 "model_ids": [
                     (
                         4,
-                        cls.env.ref(
-                            "medical_administration.model_medical_patient"
-                        ).id,
+                        cls.env.ref("medical_administration.model_medical_patient").id,
                     )
                 ],
             }
@@ -162,9 +148,7 @@ class AgrementSavepointCase(SavepointCase):
 
     @classmethod
     def _create_plan(cls):
-        return cls.plan_model.create(
-            {"name": "Test plan", "type_id": cls.type_1.id}
-        )
+        return cls.plan_model.create({"name": "Test plan", "type_id": cls.type_1.id})
 
     @classmethod
     def _create_coverage_agreement(cls, coverage_template):
