@@ -13,13 +13,10 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
             else max(self.tree_height(child) for child in item["childs"]) + 1
         )
 
-    def generate_sub_tree(
-        self, workbook, sheet, level, item, i, th, private=False
-    ):
+    def generate_sub_tree(self, workbook, sheet, level, item, i, th, private=False):
         bold = workbook.add_format({"bold": True})
         name = (
-            "%s - %s"
-            % (item["category"].display_name, item["category"].description)
+            "%s - %s" % (item["category"].display_name, item["category"].description)
             if item["category"].description
             else item["category"].display_name
         )
@@ -28,8 +25,7 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
         bold = workbook.add_format({"bold": False})
         for child in item["data"]:
             nomenclature = (
-                "%s [%s]"
-                % (child["nomenclature"].code, child["product"].default_code)
+                "%s [%s]" % (child["nomenclature"].code, child["product"].default_code)
                 if child["nomenclature"]
                 else (child["product"].default_code or "")
             )
@@ -38,20 +34,14 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
             sheet.write(
                 i,
                 th + 3,
-                str(
-                    child["item"][
-                        "coverage_price" if not private else "private_price"
-                    ]
-                )
+                str(child["item"]["coverage_price" if not private else "private_price"])
                 + " €",
                 bold,
             )
             i += 1
 
         for child in item["childs"]:
-            sheet, i = self.generate_sub_tree(
-                workbook, sheet, level + 1, child, i, th
-            )
+            sheet, i = self.generate_sub_tree(workbook, sheet, level + 1, child, i, th)
         return sheet, i
 
     def generate_xlsx_report(self, workbook, data, agreements):
@@ -59,9 +49,7 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
         for agreement in agreements:
             report_name = agreement.name
             sheet = workbook.add_worksheet(report_name[:31])
-            items = agreement._agreement_report_data(
-                print_coverage=not private
-            )
+            items = agreement._agreement_report_data(print_coverage=not private)
             i = 0
             if items:
                 th = max(self.tree_height(item) for item in items)
