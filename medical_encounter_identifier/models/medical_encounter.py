@@ -1,6 +1,7 @@
 from odoo import _, api, fields, models
-from odoo.addons.base.models.ir_sequence import _update_nogap
 from odoo.exceptions import ValidationError
+
+from odoo.addons.base.models.ir_sequence import _update_nogap
 
 
 class MedicalEncounter(models.Model):
@@ -15,9 +16,7 @@ class MedicalEncounter(models.Model):
     location_id = fields.Many2one(required=False, default=False, invisible=1)
 
     internal_identifier_prefix = fields.Char(readonly=True, copy=False)
-    internal_identifier_value = fields.Integer(
-        default=0, readonly=True, copy=False
-    )
+    internal_identifier_value = fields.Integer(default=0, readonly=True, copy=False)
     internal_identifier_suffix = fields.Char(readonly=True, copy=False)
     internal_identifier_dc = fields.Char(readonly=True, copy=False)
 
