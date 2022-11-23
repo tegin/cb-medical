@@ -14,7 +14,7 @@ class MedicalIcd10pcsBodyPart(models.Model):
     body_system_id = fields.Many2one("medical.icd10pcs.body.system", required=True)
     section_id = fields.Many2one(
         "medical.icd10pcs.section",
-        realated="body_system_id.section_id",
+        related="body_system_id.section_id",
         readonly=True,
         store=True,
     )
