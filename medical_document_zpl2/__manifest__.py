@@ -4,8 +4,8 @@
 
 {
     "name": "Medical documents",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
     "depends": [
         "medical_document",
         "printer_zpl2",
