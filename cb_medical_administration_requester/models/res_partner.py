@@ -1,6 +1,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import logging
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import AccessError
+
+_logger = logging.getLogger(__name__)
 
 
 class ResPartner(models.Model):
@@ -8,47 +12,29 @@ class ResPartner(models.Model):
 
     college_number = fields.Char()
     is_requester = fields.Boolean()
-    requester_identifier = fields.Char(readonly=True)
-
-    @api.model
-    def _get_medical_identifiers(self):
-        res = super(ResPartner, self)._get_medical_identifiers()
-        res.append(
-            (
-                "is_medical",
-                "is_requester",
-                "requester_identifier",
-                self._get_requester_identifier,
-            )
-        )
-        res.append(
-            (
-                "is_medical",
-                "is_practitioner",
-                "requester_identifier",
-                self._get_requester_identifier,
-            )
-        )
-        res.append(
-            (
-                "is_medical",
-                "is_practitioner",
-                "is_requester",
-                self._get_requester_practitioner,
-            )
-        )
-        return res
-
-    @api.model
-    def _get_requester_practitioner(self, vals):
-        return True
-
-    @api.model
-    def _get_requester_identifier(self, vals):
-        return self.env["ir.sequence"].next_by_code("medical.requester") or "/"
 
     @api.model
     def default_medical_fields(self):
         result = super(ResPartner, self).default_medical_fields()
         result.append("is_requester")
         return result
+
+    def _check_medical(self, mode="write"):
+        super()._check_medical(mode=mode)
+        if (
+            self.is_requester
+            and mode != "read"
+            and not self.env.user.has_group("medical_base.group_medical_configurator")
+        ):
+            _logger.info(
+                "Access Denied by ACLs for operation: %s, uid: %s, model: %s",
+                "write",
+                self._uid,
+                self._name,
+            )
+            raise AccessError(
+                _(
+                    "You are not allowed to %(mode)s medical Contacts (res.partner) records.",
+                    mode=mode,
+                )
+            )
