@@ -24,17 +24,10 @@ class MedicalDiagnosticReport(models.Model):
     def _generate_serializer(self):
         result = super(MedicalDiagnosticReport, self)._generate_serializer()
         if self.with_department:
-            result.update(
-                {"medical_department_header": self.medical_department_header}
-            )
+            result.update({"medical_department_header": self.medical_department_header})
         if self.image_ids:
             result.update(
-                {
-                    "images": [
-                        image._generate_serializer()
-                        for image in self.image_ids
-                    ]
-                }
+                {"images": [image._generate_serializer() for image in self.image_ids]}
             )
         if self.signature_id:
             result.update({"signature_id": self.signature_id.id})
@@ -107,12 +100,8 @@ class MedicalDiagnosticReportImage(models.Model):
     _default_file_type = "diagnostic_report_image"
 
     sequence = fields.Integer(default=20)
-    diagnostic_report_id = fields.Many2one(
-        "medical.diagnostic.report", required=True
-    )
-    file_id = fields.Many2one(
-        "storage.file", required=True, ondelete="cascade"
-    )
+    diagnostic_report_id = fields.Many2one("medical.diagnostic.report", required=True)
+    file_id = fields.Many2one("storage.file", required=True, ondelete="cascade")
     description = fields.Text()
 
     @api.model
