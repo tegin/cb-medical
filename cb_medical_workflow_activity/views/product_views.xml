@@ -11,7 +11,7 @@
                     type="object"
                     class="oe_stat_button"
                     icon="fa-medkit"
-                    groups="medical_workflow.group_workflow_activity_definition_manager"
+                    groups="medical_base.group_medical_configurator"
                     attrs="{'invisible': ['|', ('type','!=','service'),('activity_tmpl_definition_ids','!=', False)]}"
                     string="View Activity"
                 >
@@ -22,7 +22,7 @@
                     type="object"
                     class="oe_stat_button"
                     icon="fa-medkit"
-                    groups="medical_workflow.group_workflow_activity_definition_manager"
+                    groups="medical_base.group_medical_configurator"
                     attrs="{'invisible': ['|', ('type','!=','service'),('activity_tmpl_definition_ids','=', False)]}"
                     string="Create Activity"
                 />
@@ -40,7 +40,7 @@
                     type="object"
                     class="oe_stat_button"
                     icon="fa-archive"
-                    groups="medical_workflow.group_workflow_activity_definition_manager"
+                    groups="medical_base.group_medical_configurator"
                     attrs="{'invisible': ['|', ('type','!=','service'),('activity_definition_ids','!=', False)]}"
                     string="Activity"
                 >
@@ -51,7 +51,7 @@
                     type="object"
                     class="oe_stat_button"
                     icon="fa-archive"
-                    groups="medical_workflow.group_workflow_activity_definition_manager"
+                    groups="medical_base.group_medical_configurator"
                     attrs="{'invisible': ['|', ('type','!=','service'),('activity_definition_ids','=', False)]}"
                     string="Activity"
                 />
