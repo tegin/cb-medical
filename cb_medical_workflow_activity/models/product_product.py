@@ -12,12 +12,10 @@ class ProductProduct(models.Model):
     )
 
     def _get_activity_vals(self):
-        workflow = self.env.ref("medical_workflow.medical_workflow")
         model = self.env.ref(
             "medical_clinical_procedure.model_medical_procedure_request"
         )
         return {
-            "type_id": workflow.id,
             "name": self.name,
             "model_id": model.id,
             "service_id": self.id,

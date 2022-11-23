@@ -4,8 +4,8 @@
 
 {
     "name": "CB Medical Workflow Activity",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
     "depends": ["medical_clinical_procedure"],
     "data": ["views/product_views.xml"],
     "website": "https://github.com/tegin/cb-medical",
