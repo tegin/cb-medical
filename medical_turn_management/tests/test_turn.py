@@ -49,9 +49,7 @@ class TestTurn(TransactionCase):
         )
         self.assertTrue(turns)
         for turn in turns:
-            self.assertEqual(
-                fields.Datetime.from_string(turn.date).weekday(), 0
-            )
+            self.assertEqual(fields.Datetime.from_string(turn.date).weekday(), 0)
         self.assertFalse(
             self.env["medical.turn"].search(
                 [
@@ -88,9 +86,7 @@ class TestTurn(TransactionCase):
         )
         self.assertTrue(turns)
         for turn in turns:
-            self.assertEqual(
-                fields.Datetime.from_string(turn.date).weekday(), 0
-            )
+            self.assertEqual(fields.Datetime.from_string(turn.date).weekday(), 0)
         self.assertFalse(
             self.env["medical.turn"].search(
                 [
@@ -106,12 +102,8 @@ class TestTurn(TransactionCase):
         )
         self.assertTrue(turns)
         for turn in turns:
-            self.assertEqual(
-                fields.Datetime.from_string(turn.date).weekday(), 1
-            )
-            self.assertRegex(
-                turn.display_name, "^%s.*$" % self.specialty_02.name
-            )
+            self.assertEqual(fields.Datetime.from_string(turn.date).weekday(), 1)
+            self.assertRegex(turn.display_name, "^%s.*$" % self.specialty_02.name)
 
         self.assertFalse(
             self.env["medical.turn"].search(
