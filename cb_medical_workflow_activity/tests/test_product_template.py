@@ -31,9 +31,7 @@ class TestProductActivity(TransactionCase):
 
     def test_activity_views(self):
         action = self.product.generate_activity()
-        activity = self.env["workflow.activity.definition"].browse(
-            action["res_id"]
-        )
+        activity = self.env["workflow.activity.definition"].browse(action["res_id"])
         self.assertTrue(activity)
         self.assertEqual(activity, self.product._generate_activity())
         self.assertEqual(activity.id, self.product.get_activity()["res_id"])
