@@ -11,7 +11,7 @@ class MedicalEncounter(models.Model):
         "res.partner",
         domain=[("is_center", "=", True)],
         required=True,
-        track_visibility=True,
+        tracking=True,
     )
     location_id = fields.Many2one(required=False, default=False, invisible=1)
 
