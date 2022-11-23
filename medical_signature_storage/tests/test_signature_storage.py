@@ -15,9 +15,7 @@ class TestSignStorage(TransactionCase):
     def test_signature(self):
         self.assertFalse(self.user_id.current_signature_id)
         self.assertFalse(
-            self.env["res.users.signature"].search(
-                [("user_id", "=", self.user_id.id)]
-            )
+            self.env["res.users.signature"].search([("user_id", "=", self.user_id.id)])
         )
         action = self.user_id.update_signature()
         file = tools.file_open(
