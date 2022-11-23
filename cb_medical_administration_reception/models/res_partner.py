@@ -1,9 +1,12 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+import logging
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import AccessError, ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class ResPartner(models.Model):
@@ -11,7 +14,6 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     is_reception = fields.Boolean(default=False)
-    reception_identifier = fields.Char(readonly=True)  # FHIR Field: identifier
     reception_count = fields.Integer(compute="_compute_reception_count")
 
     @api.depends("location_ids")
@@ -34,24 +36,28 @@ class ResPartner(models.Model):
             raise ValidationError(_("Center must be fullfilled on receptions"))
 
     @api.model
-    def _get_medical_identifiers(self):
-        res = super(ResPartner, self)._get_medical_identifiers()
-        res.append(
-            (
-                "is_medical",
-                "is_reception",
-                "reception_identifier",
-                self._get_reception_identifier,
-            )
-        )
-        return res
-
-    @api.model
-    def _get_reception_identifier(self, vals):
-        return self.env["ir.sequence"].next_by_code("medical.reception") or "/"
-
-    @api.model
     def default_medical_fields(self):
         result = super(ResPartner, self).default_medical_fields()
         result.append("is_reception")
         return result
+
+    def _check_medical(self, mode="write"):
+        super()._check_medical(mode=mode)
+
+        if (
+            self.is_reception
+            and mode != "read"
+            and not self.env.user.has_group("medical_base.group_medical_configurator")
+        ):
+            _logger.info(
+                "Access Denied by ACLs for operation: %s, uid: %s, model: %s",
+                "write",
+                self._uid,
+                self._name,
+            )
+            raise AccessError(
+                _(
+                    "You are not allowed to %(mode)s medical Contacts (res.partner) records.",
+                    mode=mode,
+                )
+            )
