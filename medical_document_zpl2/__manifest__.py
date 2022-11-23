@@ -15,7 +15,7 @@
         "views/medical_document_type_views.xml",
         "views/medical_document_reference_views.xml",
     ],
-    "website": "https://github.com/OCA/cb-addons",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
