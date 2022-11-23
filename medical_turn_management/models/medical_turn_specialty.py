@@ -4,8 +4,9 @@
 from datetime import datetime, time, timedelta
 
 from dateutil import tz
-from odoo import fields, models
 from pytz import utc
+
+from odoo import fields, models
 
 
 class MedicalTurnSpecialty(models.Model):
@@ -78,9 +79,7 @@ class MedicalTurnSpecialtyRule(models.Model):
             datetime.combine(date, time(0, 0, 0, 0, tzinfo=None))
             + timedelta(hours=self.start_hour)
         ).replace(tzinfo=tz.gettz(utz))
-        return self.env["medical.turn"].create(
-            self._generate_record_vals(rule_date)
-        )
+        return self.env["medical.turn"].create(self._generate_record_vals(rule_date))
 
     def _generate_record_vals(self, rule_date):
         return {

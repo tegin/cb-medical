@@ -35,9 +35,7 @@ class MedicalTurn(models.Model):
         tracking=True,
         default=lambda r: fields.Datetime.now(),
     )
-    duration = fields.Float(
-        "Duration (in hours)", tracking=True, required=True
-    )
+    duration = fields.Float("Duration (in hours)", tracking=True, required=True)
 
     @api.depends("practitioner_id", "center_ids", "specialty_id")
     def _compute_display_name(self):
