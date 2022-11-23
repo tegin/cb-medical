@@ -23,9 +23,7 @@ class MedicalDiagnosticReportTemplate(models.Model):
         result = super()._generate_report_vals(encounter=encounter, **kwargs)
         result.update(
             {
-                "with_department": True
-                if self.medical_department_id
-                else False,
+                "with_department": True if self.medical_department_id else False,
                 "medical_department_header": self.medical_department_header
                 if self.with_department_report_header
                 else False,
