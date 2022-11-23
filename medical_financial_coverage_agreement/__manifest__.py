@@ -15,7 +15,7 @@
         "report_xlsx",
         "report_context",
     ],
-    "website": "https://github.com/OCA/vertical-medical",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "data": [
         "wizards/medical_agreement_expand.xml",

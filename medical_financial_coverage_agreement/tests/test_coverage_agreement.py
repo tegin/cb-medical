@@ -7,6 +7,7 @@ from datetime import timedelta
 from io import BytesIO
 
 import pandas
+
 from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests.common import Form
@@ -142,9 +143,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         )
         self.assertEqual(item_1.coverage_price, 100)
         self.assertEqual(item_1.private_price, 100)
-        wiz = self.env["medical.agreement.change.prices"].create(
-            {"difference": 50.0}
-        )
+        wiz = self.env["medical.agreement.change.prices"].create({"difference": 50.0})
         wiz.with_context(active_ids=[coverage_agreement.id]).change_prices()
         item_1.refresh()
         self.assertEqual(item_1.coverage_price, 150)
@@ -410,9 +409,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
                 "coverage_template_ids": [(4, temp_01.id)],
             }
         )
-        agr.company_id = self.env["res.company"].create(
-            {"name": "Demo company"}
-        )
+        agr.company_id = self.env["res.company"].create({"name": "Demo company"})
         with self.assertRaises(ValidationError):
             self.env["medical.coverage.agreement.join"].with_context(
                 active_model=(agr | agr2)._name,
@@ -420,21 +417,15 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
             ).create({}).run()
 
     def test_template_constrain_01(self):
-        temp_01 = self._create_coverage_agreement(
-            self.env["medical.coverage.template"]
-        )
+        temp_01 = self._create_coverage_agreement(self.env["medical.coverage.template"])
         temp_01.is_template = True
         with self.assertRaises(ValidationError):
             temp_01.coverage_template_ids = self.coverage_template_1
 
     def test_template_constrain_02(self):
-        temp_01 = self._create_coverage_agreement(
-            self.env["medical.coverage.template"]
-        )
+        temp_01 = self._create_coverage_agreement(self.env["medical.coverage.template"])
         temp_01.is_template = True
-        temp_02 = self._create_coverage_agreement(
-            self.env["medical.coverage.template"]
-        )
+        temp_02 = self._create_coverage_agreement(self.env["medical.coverage.template"])
         temp_02.is_template = True
         with self.assertRaises(ValidationError):
             self.env["medical.coverage.agreement.template"].create(
@@ -446,9 +437,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
             ).run()
 
     def test_template_wizard(self):
-        temp_01 = self._create_coverage_agreement(
-            self.env["medical.coverage.template"]
-        )
+        temp_01 = self._create_coverage_agreement(self.env["medical.coverage.template"])
         temp_01.is_template = True
         self._create_coverage_agreement_item(temp_01, self.product_1)
         self._create_coverage_agreement_item(temp_01, self.product_2)
@@ -467,9 +456,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         self.assertEqual(aggr.template_id, temp_01)
 
     def test_template_wizard_no_items(self):
-        temp_01 = self._create_coverage_agreement(
-            self.env["medical.coverage.template"]
-        )
+        temp_01 = self._create_coverage_agreement(self.env["medical.coverage.template"])
         temp_01.is_template = True
         self._create_coverage_agreement_item(temp_01, self.product_1)
         self._create_coverage_agreement_item(temp_01, self.product_2)
@@ -483,9 +470,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         self.assertEqual(aggr.template_id, temp_01)
 
     def test_agreement_line_onchange(self):
-        aggr_01 = self._create_coverage_agreement(
-            self.env["medical.coverage.template"]
-        )
+        aggr_01 = self._create_coverage_agreement(self.env["medical.coverage.template"])
         aggr_01.principal_concept = "private"
         self.product_1.agreement_comment = "MY COMMENT"
         with Form(
@@ -498,12 +483,8 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
             self.assertEqual(item.item_comment, "MY COMMENT")
 
     def test_agreement_line_onchange_template(self):
-        aggr_01 = self._create_coverage_agreement(
-            self.env["medical.coverage.template"]
-        )
-        temp_01 = self._create_coverage_agreement(
-            self.env["medical.coverage.template"]
-        )
+        aggr_01 = self._create_coverage_agreement(self.env["medical.coverage.template"])
+        temp_01 = self._create_coverage_agreement(self.env["medical.coverage.template"])
         temp_01.is_template = True
         self._create_coverage_agreement_item(temp_01, self.product_1)
         self.env["medical.coverage.agreement.template"].create(
@@ -523,17 +504,13 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
             self.assertEqual(item.plan_definition_id, self.plan_1)
 
     def test_agreement_line_constrain(self):
-        aggr_01 = self._create_coverage_agreement(
-            self.env["medical.coverage.template"]
-        )
+        aggr_01 = self._create_coverage_agreement(self.env["medical.coverage.template"])
         self._create_coverage_agreement_item(aggr_01, self.product_1)
         with self.assertRaises(ValidationError):
             self._create_coverage_agreement_item(aggr_01, self.product_1)
 
     def test_search(self):
-        aggr_01 = self._create_coverage_agreement(
-            self.env["medical.coverage.template"]
-        )
+        aggr_01 = self._create_coverage_agreement(self.env["medical.coverage.template"])
         self.product_1.default_code = "DEMO DEFAULT CODE"
         self.product_1.name = "DEMO DEFAULT NAME"
         self._create_coverage_agreement_item(aggr_01, self.product_1)
