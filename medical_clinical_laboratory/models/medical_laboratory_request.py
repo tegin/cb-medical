@@ -39,7 +39,7 @@ class MedicalLaboratoryRequest(models.Model):
 
     def action_view_request_parameters(self):
         return {
-            "view": "medical_clinical_laboratory." "medical_laboratory_request_action",
+            "view": "medical_clinical_laboratory.medical_laboratory_request_action",
             "view_form": "medical.procedure.request.view.form",
         }
 
@@ -63,11 +63,9 @@ class MedicalLaboratoryRequest(models.Model):
 
     def action_view_laboratory_events(self):
         self.ensure_one()
-        action = self.env.ref(
+        result = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_clinical_laboratory.medical_laboratory_event_action"
         )
-        result = action.read()[0]
-
         result["context"] = {
             "default_patient_id": self.patient_id.id,
             "default_performer_id": self.performer_id.id,
