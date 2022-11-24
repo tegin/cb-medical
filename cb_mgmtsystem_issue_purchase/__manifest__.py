@@ -4,9 +4,9 @@
 {
     "name": "Cb Management system Issue Purchase",
     "summary": """Cb Management system Issue Purchase""",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
-    "author": "Creu Blanca",
+    "author": "CreuBlanca",
     "website": "https://github.com/tegin/cb-medical",
     "depends": ["cb_mgmtsystem_issue", "purchase_third_party"],
     "data": ["views/purchase_order.xml"],
