@@ -1,12 +1,14 @@
 <?xml version="1.0" ?>
 <odoo>
-    <report
-        id="items_xslx"
-        model="medical.coverage.agreement.item"
-        string="Export to XLSX"
-        report_type="xlsx"
-        name="medical_financial_coverage_agreement.items_xslx"
-        file="medical_coverage_agreement_item"
-        attachment_use="False"
-    />
+
+    <record id="items_xslx" model="ir.actions.report">
+        <field name="name">Export to XLSX</field>
+        <field name="model">medical.coverage.agreement.item</field>
+        <field name="report_type">xlsx</field>
+        <field
+            name="report_name"
+        >medical_financial_coverage_agreement.items_xslx</field>
+        <field name="report_file">medical_coverage_agreement_item</field>
+        <field name="attachment_use" eval="False" />
+    </record>
 </odoo>

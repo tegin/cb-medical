@@ -48,7 +48,6 @@ class MedicalCoverageAgreement(models.Model):
         comodel_name="medical.coverage.agreement.item",
         inverse_name="coverage_agreement_id",
         string="Agreement items",
-        ondelete="cascade",
         copy=True,
     )
     currency_id = fields.Many2one(
@@ -101,7 +100,10 @@ class MedicalCoverageAgreement(models.Model):
 
     @api.model
     def _get_internal_identifier(self, vals):
-        return self.env["ir.sequence"].next_by_code("medical.coverage.agreement") or "/"
+        return (
+            self.env["ir.sequence"].sudo().next_by_code("medical.coverage.agreement")
+            or "/"
+        )
 
     def toggle_active(self):
         res = super().toggle_active()
@@ -111,11 +113,10 @@ class MedicalCoverageAgreement(models.Model):
         return res
 
     def action_search_item(self):
-        action = self.env.ref(
+        result = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_financial_coverage_agreement."
             "medical_coverage_agreement_item_action"
         )
-        result = action.read()[0]
         result["context"] = {"default_coverage_agreement_id": self.id}
         result["domain"] = [("coverage_agreement_id", "=", self.id)]
         return result

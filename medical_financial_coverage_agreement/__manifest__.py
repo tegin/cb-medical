@@ -4,8 +4,8 @@
 
 {
     "name": "Medical Financial Coverage Agreement",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
     "category": "Medical",
     "depends": [
         "medical_financial_coverage",
@@ -16,10 +16,11 @@
         "report_context",
     ],
     "website": "https://github.com/tegin/cb-medical",
+    "external_dependencies": {"python": ["pandas", "openpyxl"]},
     "license": "AGPL-3",
     "data": [
+        "security/ir.model.access.csv",
         "wizards/medical_agreement_expand.xml",
-        "security/medical_security.xml",
         "wizards/medical_coverage_agreement_join.xml",
         "reports/items_export_xslx.xml",
         "reports/agreement_report.xml",
@@ -36,7 +37,6 @@
         "views/product_views.xml",
         "views/workflow_plan_definition_views.xml",
         "views/product_category_views.xml",
-        "security/ir.model.access.csv",
     ],
     "installable": True,
     "auto_install": False,
