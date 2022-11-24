@@ -26,24 +26,8 @@
                 <attribute name="string">Laboratory Event</attribute>
             </xpath>
             <group name="inheritance" position="inside">
-                <field
-                    name="laboratory_request_id"
-                    options="{'no_open': True, 'no_create': True}"
-                />
+                <field name="laboratory_request_id" />
             </group>
-        </field>
-    </record>
-    <record id="medical_laboratory_event_view_form_request" model="ir.ui.view">
-        <field name="name">medical.laboratory.event.view.form</field>
-        <field name="model">medical.laboratory.event</field>
-        <field name="inherit_id" ref="medical_laboratory_event_view_form" />
-        <field name="groups_id" eval="[(4, ref('group_medical_laboratory_list'))]" />
-        <field name="arch" type="xml">
-            <field name="laboratory_request_id" position="attributes">
-                <attribute
-                    name="options"
-                >{'no_open': False, 'no_create': True}</attribute>
-            </field>
         </field>
     </record>
     <record id="medical_laboratory_event_view_search" model="ir.ui.view">
@@ -121,7 +105,7 @@
     <menuitem
         id="medical_laboratory_event"
         name="Laboratory events"
-        parent="medical_clinical.medical_clinical_event"
+        parent="medical_base.medical_clinical_event"
         sequence="10"
         action="medical_laboratory_event_action"
     />
