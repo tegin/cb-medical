@@ -14,11 +14,7 @@
         />
         <field name="arch" type="xml">
             <notebook position="inside">
-                <page
-                    name="coverage_agreements"
-                    string="Agreements"
-                    groups="medical_financial_coverage_agreement.group_medical_agreement_list"
-                >
+                <page name="coverage_agreements" string="Agreements">
                     <field
                         name="agreement_ids"
                         nolabel="1"

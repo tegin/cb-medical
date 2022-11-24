@@ -24,12 +24,16 @@
             </form>
         </field>
     </record>
-    <act_window
+
+    <record
         id="medical_coverage_agreement_join_act_window"
-        name="Medical Coverage Agreement Join"
-        binding_model="medical.coverage.agreement"
-        res_model="medical.coverage.agreement.join"
-        view_mode="form"
-        target="new"
-    />
+        model="ir.actions.act_window"
+    >
+        <field name="name">Medical Coverage Agreement Join</field>
+       <field name="binding_model_id" ref="model_medical_coverage_agreement" />
+       <field name="binding_view_types">form</field>
+        <field name="res_model">medical.coverage.agreement.join</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 </odoo>

@@ -6,7 +6,13 @@ class AgrementSavepointCase(SavepointCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.medical_user_group = cls.env.ref("medical_base.group_medical_configurator")
-        cls.medical_user = cls._create_user("medical_user", cls.medical_user_group.id)
+        cls.medical_financial_group = cls.env.ref(
+            "medical_base.group_medical_financial"
+        )
+        cls.medical_user = cls._create_user(
+            "group_medical_user", cls.medical_user_group.id
+        )
+        cls.medical_user.groups_id |= cls.medical_financial_group
         cls.patient_model = cls.env["medical.patient"]
         cls.coverage_model = cls.env["medical.coverage"]
         cls.coverage_template_model = cls.env["medical.coverage.template"]
@@ -15,7 +21,7 @@ class AgrementSavepointCase(SavepointCase):
         cls.coverage_agreement_model_item = cls.env["medical.coverage.agreement.item"]
         cls.center_model = cls.env["res.partner"]
         cls.product_model = cls.env["product.product"]
-        cls.type_model = cls.env["workflow.type"]
+        # cls.type_model = cls.env["workflow.type"]
         cls.act_def_model = cls.env["workflow.activity.definition"]
         cls.action_model = cls.env["workflow.plan.definition.action"]
         cls.plan_model = cls.env["workflow.plan.definition"]
@@ -27,7 +33,7 @@ class AgrementSavepointCase(SavepointCase):
         cls.center_1 = cls._create_center()
         cls.product_1 = cls._create_product("test 1")
         cls.product_2 = cls._create_product("test 2")
-        cls.type_1 = cls._create_type()
+        # cls.type_1 = cls._create_type()
         cls.act_def_1 = cls._create_act_def()
         cls.plan_1 = cls._create_plan()
         cls.action_1 = cls._create_action()
@@ -109,28 +115,10 @@ class AgrementSavepointCase(SavepointCase):
         )
 
     @classmethod
-    def _create_type(cls):
-        return cls.type_model.create(
-            {
-                "name": "Test type",
-                "model_id": cls.env.ref(
-                    "medical_administration.model_medical_patient"
-                ).id,
-                "model_ids": [
-                    (
-                        4,
-                        cls.env.ref("medical_administration.model_medical_patient").id,
-                    )
-                ],
-            }
-        )
-
-    @classmethod
     def _create_act_def(cls):
         return cls.act_def_model.create(
             {
                 "name": "Test activity",
-                "model_id": cls.type_1.model_id.id,
                 "service_id": cls.product_1.id,
             }
         )
@@ -142,13 +130,16 @@ class AgrementSavepointCase(SavepointCase):
                 "name": "Test action",
                 "direct_plan_definition_id": cls.plan_1.id,
                 "activity_definition_id": cls.act_def_1.id,
-                "type_id": cls.type_1.id,
             }
         )
 
     @classmethod
     def _create_plan(cls):
-        return cls.plan_model.create({"name": "Test plan", "type_id": cls.type_1.id})
+        return cls.plan_model.create(
+            {
+                "name": "Test plan",
+            }
+        )
 
     @classmethod
     def _create_coverage_agreement(cls, coverage_template):

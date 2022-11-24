@@ -11,7 +11,6 @@
                     type="action"
                     class="oe_stat_button"
                     icon="fa-hand-holding-usd"
-                    groups="medical_financial_coverage_agreement.group_medical_agreement_list"
                     string="View Agreements"
                 />
             </xpath>
