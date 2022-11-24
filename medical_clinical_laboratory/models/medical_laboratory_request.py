@@ -32,18 +32,14 @@ class MedicalLaboratoryRequest(models.Model):
             rec.laboratory_event_count = len(rec.laboratory_event_ids.ids)
 
     def _get_internal_identifier(self, vals):
-        return (
-            self.env["ir.sequence"].next_by_code("medical.laboratory.request")
-            or "/"
-        )
+        return self.env["ir.sequence"].next_by_code("medical.laboratory.request") or "/"
 
     def _get_parent_field_name(self):
         return "laboratory_request_id"
 
     def action_view_request_parameters(self):
         return {
-            "view": "medical_clinical_laboratory."
-            "medical_laboratory_request_action",
+            "view": "medical_clinical_laboratory." "medical_laboratory_request_action",
             "view_form": "medical.procedure.request.view.form",
         }
 
@@ -63,9 +59,7 @@ class MedicalLaboratoryRequest(models.Model):
 
     def generate_event(self, vals=False):
         self.ensure_one()
-        return self.env["medical.laboratory.event"].create(
-            self._get_event_values(vals)
-        )
+        return self.env["medical.laboratory.event"].create(self._get_event_values(vals))
 
     def action_view_laboratory_events(self):
         self.ensure_one()
@@ -80,9 +74,7 @@ class MedicalLaboratoryRequest(models.Model):
             "default_laboratory_request_id": self.id,
             "default_name": self.name,
         }
-        result["domain"] = (
-            "[('laboratory_request_id', '=', " + str(self.id) + ")]"
-        )
+        result["domain"] = "[('laboratory_request_id', '=', " + str(self.id) + ")]"
         if len(self.laboratory_event_ids) == 1:
             res = self.env.ref("medical.laboratory.event.view.form", False)
             result["views"] = [(res and res.id or False, "form")]
