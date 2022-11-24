@@ -36,9 +36,7 @@ class TestNonconformityEncounter(TransactionCase):
             )
         )
         wizard.flush()
-        self.assertEqual(
-            wizard.partner_id, self.encounter.patient_id.partner_id
-        )
+        self.assertEqual(wizard.partner_id, self.encounter.patient_id.partner_id)
         action = wizard.create_quality_issue()
         issue = self.env[action["res_model"]].browse(action["res_id"])
         self.assertTrue(issue)

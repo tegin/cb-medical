@@ -10,7 +10,5 @@ class MgmtsystemNonconformityOrigin(models.Model):
 
     from_encounter = fields.Boolean()
 
-    responsible_user_id = fields.Many2one(
-        "res.users", string="Default Responsible"
-    )
+    responsible_user_id = fields.Many2one("res.users", string="Default Responsible")
     manager_user_id = fields.Many2one("res.users", string="Default Manager")
