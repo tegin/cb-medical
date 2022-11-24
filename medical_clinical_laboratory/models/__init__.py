@@ -4,3 +4,4 @@
 from . import medical_laboratory_event
 from . import medical_laboratory_request
 from . import medical_request
+from . import workfow_activity_definition
