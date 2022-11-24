@@ -14,7 +14,7 @@
         />
         <field name="arch" type="xml">
             <field name="internal_identifier" position="before">
-                <field name="flag" widget="icon" />
+                <field name="flag" />
                 <field name="level" invisible="1" />
             </field>
             <xpath expr="//tree" position="attributes">
@@ -34,7 +34,7 @@
         />
         <field name="arch" type="xml">
             <field name="internal_identifier" position="before">
-                <field name="flag" widget="icon" />
+                <field name="flag" />
             </field>
         </field>
     </record>
