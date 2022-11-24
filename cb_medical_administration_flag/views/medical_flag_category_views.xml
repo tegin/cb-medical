@@ -14,7 +14,7 @@
         />
         <field name="arch" type="xml">
             <field name="name" position="before">
-                <field name="flag" widget="icon" />
+                <field name="flag" />
             </field>
         </field>
     </record>
@@ -28,7 +28,7 @@
         <field name="arch" type="xml">
             <field name="description" position="before">
                 <group>
-                    <field name="flag" widget="icon" />
+                    <field name="flag" />
                     <field name="icon" />
                     <field name="level" />
                 </group>
