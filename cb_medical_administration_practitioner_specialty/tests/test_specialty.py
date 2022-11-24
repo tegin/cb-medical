@@ -18,7 +18,7 @@ class TestMedicalCommission(SavepointCase):
         cls.ict = cls.env.ref("medical_administration_practitioner.ict")
 
     def test_create_practitioner_doctor(self):
-        practitoner = self.env["res.partner"].create(
+        practitioner = self.env["res.partner"].create(
             {
                 "name": "Doctor",
                 "is_practitioner": True,
@@ -26,19 +26,21 @@ class TestMedicalCommission(SavepointCase):
                 "specialty_id": self.specialty.id,
             }
         )
-        self.assertEqual(practitoner.practitioner_identifier, "TRA021")
-        self.assertEqual(practitoner.specialty_id.id, practitoner.specialty_ids.ids[0])
+        self.assertEqual(practitioner.ref, "TRA021")
         self.assertEqual(
-            practitoner.practitioner_role_id.id,
-            practitoner.practitioner_role_ids.ids[0],
+            practitioner.specialty_id.id, practitioner.specialty_ids.ids[0]
+        )
+        self.assertEqual(
+            practitioner.practitioner_role_id.id,
+            practitioner.practitioner_role_ids.ids[0],
         )
         self.specialty._compute_seq_number_next()
         self.assertEqual(self.specialty.sequence_number_next, 22)
 
-        self.assertEqual(self.specialty, practitoner.specialty_ids)
+        self.assertEqual(self.specialty, practitioner.specialty_ids)
 
     def test_create_practitioner_doctor_search(self):
-        practitoner = self.env["res.partner"].create(
+        practitioner = self.env["res.partner"].create(
             {
                 "name": "Doctor",
                 "is_practitioner": True,
@@ -46,27 +48,26 @@ class TestMedicalCommission(SavepointCase):
                 "specialty_ids": [(4, self.specialty.id)],
             }
         )
-        self.assertEqual(self.specialty, practitoner.specialty_id)
+        self.assertEqual(self.specialty, practitioner.specialty_id)
         pracs = self.env["res.partner"].search(
             [("specialty_id", "=", self.specialty.id)]
         )
-        self.assertEqual(pracs, practitoner)
+        self.assertEqual(pracs, practitioner)
 
     def test_create_practitioner_it(self):
-        practitoner = self.env["res.partner"].create(
+        practitioner = self.env["res.partner"].create(
             {
                 "name": "Doctor",
                 "is_practitioner": True,
                 "practitioner_role_ids": [(4, self.ict.id)],
             }
         )
-        self.assertNotEqual(practitoner.practitioner_identifier, "TRA021")
-        self.assertRegex(practitoner.practitioner_identifier, r"^PRA.*$")
-        self.assertEqual(self.ict, practitoner.practitioner_role_id)
-        self.assertEqual(self.ict, practitoner.practitioner_role_ids)
+        self.assertFalse(practitioner.ref)
+        self.assertEqual(self.ict, practitioner.practitioner_role_id)
+        self.assertEqual(self.ict, practitioner.practitioner_role_ids)
 
     def test_constrain_01(self):
-        practitoner = self.env["res.partner"].create(
+        practitioner = self.env["res.partner"].create(
             {
                 "name": "Doctor",
                 "is_practitioner": True,
@@ -75,4 +76,34 @@ class TestMedicalCommission(SavepointCase):
             }
         )
         with self.assertRaises(ValidationError):
-            practitoner.practitioner_role_ids |= self.ict
+            practitioner.practitioner_role_ids |= self.ict
+
+    def test_write_new_ref(self):
+        practitioner = self.env["res.partner"].create(
+            {
+                "name": "Doctor",
+            }
+        )
+        self.assertFalse(practitioner.ref)
+        practitioner.write(
+            {
+                "is_practitioner": True,
+                "practitioner_role_id": self.doctor.id,
+                "specialty_id": self.specialty.id,
+            }
+        )
+        self.assertTrue(practitioner.ref)
+        self.assertEqual(practitioner.ref, "TRA021")
+
+    def test_write_keep_ref(self):
+        practitioner = self.env["res.partner"].create(
+            {"name": "Doctor", "ref": "MY_REF"}
+        )
+        practitioner.write(
+            {
+                "is_practitioner": True,
+                "practitioner_role_id": self.doctor.id,
+                "specialty_id": self.specialty.id,
+            }
+        )
+        self.assertNotEqual(practitioner.ref, "TRA021")
