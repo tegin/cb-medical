@@ -59,11 +59,43 @@ class ResPartner(models.Model):
             if len(record.practitioner_role_ids) > 1:
                 raise ValidationError(_("Only one role is allowed"))
 
-    @api.model
-    def _get_practitioner_identifier(self, vals):
-        if vals.get("practitioner_role_id", False):
-            role = self.env["medical.role"].browse(vals["practitioner_role_id"])
-            if role.specialty_required:
-                specialty = self.env["medical.specialty"].browse(vals["specialty_id"])
-                return specialty.sequence_id._next()
-        return super(ResPartner, self)._get_practitioner_identifier(vals)
+    def _get_practitioner_specialty_identifier(
+        self, practitioner_role_id=False, specialty_id=False
+    ):
+        role = (
+            self.env["medical.role"].browse(practitioner_role_id)
+            or self.practitioner_role_id
+        )
+        if role.specialty_required:
+            specialty = (
+                self.env["medical.specialty"].browse(specialty_id) or self.specialty_id
+            )
+            return specialty.sequence_id._next()
+        return False
+
+    @api.model_create_multi
+    def create(self, mvals):
+        for vals in mvals:
+            self._fill_ref_field(vals)
+        return super().create(mvals)
+
+    def write(self, vals):
+        result = super().write(vals)
+        if vals.get("is_practitioner"):
+            for record in self:
+                if not record.ref:
+                    record.ref = record._get_practitioner_specialty_identifier()
+        return result
+
+    def _fill_ref_field(self, vals):
+        defaults = self.default_get(
+            ["ref", "is_practitioner", "practitioner_role_id", "specialty_id"]
+        )
+        if vals.get("ref", defaults.get("ref", False)) != defaults.get(
+            "ref", False
+        ) or not vals.get("is_practitioner", defaults.get("is_practitioner")):
+            return
+        vals["ref"] = self._get_practitioner_specialty_identifier(
+            vals.get("practitioner_role_id", defaults.get("practitioner_role_id")),
+            vals.get("specialty_id", defaults.get("specialty_id")),
+        )
