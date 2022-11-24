@@ -11,9 +11,7 @@ class ResPartner(models.Model):
         "mgmtsystem.quality.issue",
         inverse_name="partner_id",
     )
-    quality_issue_count = fields.Integer(
-        compute="_compute_quality_issue_count"
-    )
+    quality_issue_count = fields.Integer(compute="_compute_quality_issue_count")
 
     @api.depends("quality_issue_ids")
     def _compute_quality_issue_count(self):

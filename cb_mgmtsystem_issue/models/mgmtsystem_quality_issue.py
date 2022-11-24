@@ -34,9 +34,7 @@ class MgmtsystemQualityIssue(models.Model):
         track_visibility="onchange",
     )
 
-    origin_ids = fields.Many2many(
-        "mgmtsystem.nonconformity.origin", required=True
-    )
+    origin_ids = fields.Many2many("mgmtsystem.nonconformity.origin", required=True)
 
     state = fields.Selection(
         selection=[
@@ -49,9 +47,7 @@ class MgmtsystemQualityIssue(models.Model):
         track_visibility="onchange",
     )
 
-    non_conformity_id = fields.Many2one(
-        "mgmtsystem.nonconformity", readonly=True
-    )
+    non_conformity_id = fields.Many2one("mgmtsystem.nonconformity", readonly=True)
 
     @api.model
     def create(self, vals):
@@ -60,9 +56,7 @@ class MgmtsystemQualityIssue(models.Model):
             vals["ref"] = sequence.next_by_id()
         return super().create(vals)
 
-    def _message_auto_subscribe_followers(
-        self, updated_values, default_subtype_ids
-    ):
+    def _message_auto_subscribe_followers(self, updated_values, default_subtype_ids):
         result = super()._message_auto_subscribe_followers(
             updated_values, default_subtype_ids
         )

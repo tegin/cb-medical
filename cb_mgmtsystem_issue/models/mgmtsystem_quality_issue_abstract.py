@@ -14,9 +14,7 @@ class MgmtsystemQualityIssue(models.AbstractModel):
         inverse_name="res_id",
         domain=lambda r: [("res_model", "=", r._name)],
     )
-    quality_issue_count = fields.Integer(
-        compute="_compute_quality_issue_count"
-    )
+    quality_issue_count = fields.Integer(compute="_compute_quality_issue_count")
 
     @api.depends("quality_issue_ids")
     def _compute_quality_issue_count(self):
@@ -45,6 +43,4 @@ class MgmtsystemQualityIssue(models.AbstractModel):
         """Hook function to be overridden if necessary"""
         if hasattr(self, "partner_id"):
             return self.partner_id
-        raise Exception(
-            _("Partner cannot be found for this model (%s)") % self._name
-        )
+        raise Exception(_("Partner cannot be found for this model (%s)") % self._name)

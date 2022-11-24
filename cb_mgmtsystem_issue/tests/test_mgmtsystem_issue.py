@@ -58,9 +58,7 @@ class TestMgmtsystemIssue(TransactionCase):
         self.assertTrue(related_action)
         self.assertEqual(
             self.partner_id,
-            self.env[related_action["res_model"]].browse(
-                related_action["res_id"]
-            ),
+            self.env[related_action["res_model"]].browse(related_action["res_id"]),
         )
         self.assertEqual(self.issue.partner_id, non_conformity.partner_id)
         self.assertEqual(self.issue.origin_ids, non_conformity.origin_ids)
@@ -70,9 +68,7 @@ class TestMgmtsystemIssue(TransactionCase):
         self.assertTrue(related_action)
         self.assertEqual(
             self.partner_id,
-            self.env[related_action["res_model"]].browse(
-                related_action["res_id"]
-            ),
+            self.env[related_action["res_model"]].browse(related_action["res_id"]),
         )
         self.assertTrue(self.issue.access_related_item())
 
@@ -126,7 +122,5 @@ class TestMgmtsystemIssue(TransactionCase):
         self.assertTrue(related_action)
         self.assertEqual(
             self.partner_id,
-            self.env[related_action["res_model"]].browse(
-                related_action["res_id"]
-            ),
+            self.env[related_action["res_model"]].browse(related_action["res_id"]),
         )

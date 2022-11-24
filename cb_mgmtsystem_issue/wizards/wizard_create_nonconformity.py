@@ -53,8 +53,7 @@ class WizardCreateNonconformity(models.TransientModel):
         issue.message_post(
             message_type="notification",
             subtype="mail.mt_comment",
-            body=_("A new quality issue has been created by %s")
-            % self.env.user.name,
+            body=_("A new quality issue has been created by %s") % self.env.user.name,
         )
         return {
             "type": "ir.actions.act_window",
