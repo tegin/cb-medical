@@ -62,12 +62,8 @@ class ResPartner(models.Model):
     @api.model
     def _get_practitioner_identifier(self, vals):
         if vals.get("practitioner_role_id", False):
-            role = self.env["medical.role"].browse(
-                vals["practitioner_role_id"]
-            )
+            role = self.env["medical.role"].browse(vals["practitioner_role_id"])
             if role.specialty_required:
-                specialty = self.env["medical.specialty"].browse(
-                    vals["specialty_id"]
-                )
+                specialty = self.env["medical.specialty"].browse(vals["specialty_id"])
                 return specialty.sequence_id._next()
         return super(ResPartner, self)._get_practitioner_identifier(vals)
