@@ -29,12 +29,14 @@
             </form>
         </field>
     </record>
-    <act_window
-        id="medical_agreement_change_prices_action"
-        name="Change prices"
-        binding_model="medical.coverage.agreement.item"
-        res_model="medical.agreement.change.prices"
-        view_mode="form"
-        target="new"
-    />
+
+    <record id="medical_agreement_change_prices_action" model="ir.actions.act_window">
+        <field name="name">Change prices</field>
+        <field name="binding_model_id" ref="model_medical_coverage_agreement_item" />
+       <field name="binding_view_types">form</field>
+        <field name="res_model">medical.agreement.change.prices</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
 </odoo>

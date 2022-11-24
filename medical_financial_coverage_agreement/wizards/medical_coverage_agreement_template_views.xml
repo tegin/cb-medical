@@ -31,11 +31,13 @@
             </form>
         </field>
     </record>
-    <act_window
+    <record
         id="set_medical_coverage_agreement_template_action"
-        name="Change prices"
-        res_model="medical.coverage.agreement.template"
-        view_mode="form"
-        target="new"
-    />
+        model="ir.actions.act_window"
+    >
+        <field name="name">Change prices</field>
+        <field name="res_model">medical.coverage.agreement.template</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 </odoo>

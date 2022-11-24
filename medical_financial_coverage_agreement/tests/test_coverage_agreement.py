@@ -29,7 +29,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         coverage_agreement = self.coverage_agreement_model.with_user(
             self.medical_user
         ).create(coverage_agreement_vals)
-        self.assertNotEquals(coverage_agreement, False)
+        self.assertNotEqual(coverage_agreement, False)
         item_1 = self._create_coverage_agreement_item(
             coverage_agreement, self.product_1
         )
@@ -131,7 +131,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         coverage_agreement = self.coverage_agreement_model.create(
             coverage_agreement_vals
         )
-        self.assertNotEquals(coverage_agreement, False)
+        self.assertNotEqual(coverage_agreement, False)
         item_1 = self.coverage_agreement_model_item.create(
             {
                 "coverage_agreement_id": coverage_agreement.id,
@@ -161,7 +161,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         coverage_agreement = self.coverage_agreement_model.create(
             coverage_agreement_vals
         )
-        self.assertNotEquals(coverage_agreement, False)
+        self.assertNotEqual(coverage_agreement, False)
         item_1 = self.coverage_agreement_model_item.create(
             {
                 "coverage_agreement_id": coverage_agreement.id,
@@ -211,7 +211,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         coverage_agreement = self.coverage_agreement_model.create(
             coverage_agreement_vals
         )
-        self.assertNotEquals(coverage_agreement, False)
+        self.assertNotEqual(coverage_agreement, False)
         item = self.coverage_agreement_model_item.create(
             {
                 "coverage_agreement_id": coverage_agreement.id,
@@ -301,7 +301,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         report_name = "medical_financial_coverage_agreement.items_xslx"
         report = report_object._get_report_from_name(report_name)
 
-        rep = report.render(item.ids)
+        rep = report._render(item.ids)
         sheet = pandas.read_excel(BytesIO(rep[0]), engine="openpyxl")
         self.assertEqual(sheet[sheet.columns[1]][0], item.product_id.name)
 
@@ -329,7 +329,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
 
         rep = report.with_context(
             active_model="medical.coverage.agreement", xlsx_private=True
-        ).render(coverage_agreement.ids)
+        )._render(coverage_agreement.ids)
         sheet = pandas.read_excel(BytesIO(rep[0]), engine="openpyxl")
         self.assertEqual(
             sheet.columns[0],
