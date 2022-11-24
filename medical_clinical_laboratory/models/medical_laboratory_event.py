@@ -22,10 +22,7 @@ class MedicalLaboratoryEvent(models.Model):
     )  # FHIR Field: BasedOn
 
     def _get_internal_identifier(self, vals):
-        return (
-            self.env["ir.sequence"].next_by_code("medical.laboratory.event")
-            or "/"
-        )
+        return self.env["ir.sequence"].next_by_code("medical.laboratory.event") or "/"
 
     @api.constrains("laboratory_request_id", "patient_id")
     def _check_patient_medication(self):
