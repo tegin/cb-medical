@@ -52,7 +52,7 @@ class WizardCreateNonconformity(models.TransientModel):
         issue.message_subscribe(partners)
         issue.message_post(
             message_type="notification",
-            subtype="mail.mt_comment",
+            subtype_xmlid="mail.mt_comment",
             body=_("A new quality issue has been created by %s") % self.env.user.name,
         )
         return {

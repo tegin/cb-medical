@@ -20,10 +20,14 @@ class MgmtsystemQualityIssue(models.Model):
     active = fields.Boolean(default=True)
 
     responsible_user_id = fields.Many2one(
-        "res.users", "Responsible", track_visibility="onchange"
+        "res.users",
+        "Responsible",
+        tracking=True,
     )
     manager_user_id = fields.Many2one(
-        "res.users", "Manager", track_visibility="onchange"
+        "res.users",
+        "Manager",
+        tracking=True,
     )
 
     user_id = fields.Many2one(
@@ -31,7 +35,7 @@ class MgmtsystemQualityIssue(models.Model):
         "Filled in by",
         required=True,
         default=lambda self: self.env.user,
-        track_visibility="onchange",
+        tracking=True,
     )
 
     origin_ids = fields.Many2many("mgmtsystem.nonconformity.origin", required=True)
@@ -44,7 +48,7 @@ class MgmtsystemQualityIssue(models.Model):
         ],
         default="pending",
         readonly=True,
-        track_visibility="onchange",
+        tracking=True,
     )
 
     non_conformity_id = fields.Many2one("mgmtsystem.nonconformity", readonly=True)
@@ -90,9 +94,7 @@ class MgmtsystemQualityIssue(models.Model):
         vals = self._create_non_conformity_vals()
         non_conformity = self.env["mgmtsystem.nonconformity"].create(vals)
         message = _("Generated from issue %s") % self.ref
-        non_conformity.message_post(
-            body=message, subtype_id=self.env.ref("mail.mt_note").id
-        )
+        non_conformity.message_post(body=message, subtype_xmlid="mail.mt_note")
         action = {
             "type": "ir.actions.act_window",
             "name": self.name,
@@ -137,7 +139,7 @@ class MgmtsystemQualityIssue(models.Model):
         for rec in self:
             rec.message_post(
                 message_type="notification",
-                subtype="mail.mt_comment",
+                subtype_xmlid="mail.mt_comment",
                 body=_("Quality issue reassigned to %s.") % user.name,
             )
 

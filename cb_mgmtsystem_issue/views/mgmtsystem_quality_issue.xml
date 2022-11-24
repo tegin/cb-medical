@@ -97,7 +97,7 @@
                 <field name="name" />
                 <field name="partner_id" />
                 <field name="origin_ids" />
-                <field
+                <filter
                     name="user_id"
                     string="User"
                     domain="['|','|',('user_id','=',uid),('responsible_user_id','=',uid),('manager_user_id','=',uid)]"

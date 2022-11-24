@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_mgmtsystem_quality_issue,access_mgmtsystem_quality_issue,model_mgmtsystem_quality_issue,base.group_user,1,1,1,1
+access_mgmtsystem_quality_issue,access_mgmtsystem_quality_issue,model_mgmtsystem_quality_issue,base.group_user,1,1,1,0
+access_wizard_create_nonconformity,access_wizard_create_nonconformity,model_wizard_create_nonconformity,base.group_user,1,1,1,0
