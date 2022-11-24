@@ -7,7 +7,7 @@
     "version": "13.0.1.0.0",
     "author": "Eficent, Creu Blanca",
     "category": "Medical",
-    "website": "https://github.com/tegin/cb-addons",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "depends": ["medical_administration_practitioner_specialty"],
     "data": [

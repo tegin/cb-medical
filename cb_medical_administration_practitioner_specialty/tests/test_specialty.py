@@ -27,9 +27,7 @@ class TestMedicalCommission(SavepointCase):
             }
         )
         self.assertEqual(practitoner.practitioner_identifier, "TRA021")
-        self.assertEqual(
-            practitoner.specialty_id.id, practitoner.specialty_ids.ids[0]
-        )
+        self.assertEqual(practitoner.specialty_id.id, practitoner.specialty_ids.ids[0])
         self.assertEqual(
             practitoner.practitioner_role_id.id,
             practitoner.practitioner_role_ids.ids[0],
