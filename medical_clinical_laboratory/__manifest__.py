@@ -16,7 +16,7 @@
         "views/medical_laboratory_event_view.xml",
         "views/medical_laboratory_request_view.xml",
     ],
-    "website": "https://github.com/OCA/cb-addons",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
