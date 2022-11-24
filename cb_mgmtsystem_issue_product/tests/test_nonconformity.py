@@ -18,9 +18,7 @@ class TestNonconformityProduct(TransactionCase):
     def test_non_conformity(self):
         wizard = (
             self.env["wizard.create.nonconformity"]
-            .with_context(
-                active_id=self.product.id, active_model=self.product._name
-            )
+            .with_context(active_id=self.product.id, active_model=self.product._name)
             .create(
                 {
                     "name": "Title",
