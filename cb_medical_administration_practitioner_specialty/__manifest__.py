@@ -4,8 +4,8 @@
 
 {
     "name": "Medical Administration Practitioner Specialty",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
     "category": "Medical",
     "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
