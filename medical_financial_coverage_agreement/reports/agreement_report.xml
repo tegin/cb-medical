@@ -122,18 +122,22 @@
             <attribute name="t-value">False</attribute>
         </xpath>
     </template>
-    <report
-        id="action_agreement_report_private"
-        string="Agreement Report Private"
-        model="medical.coverage.agreement"
-        report_type="qweb-pdf"
-        name="medical_financial_coverage_agreement.report_agreement_template_private"
-    />
-    <report
-        id="action_agreement_report"
-        string="Agreement Report Coverage"
-        model="medical.coverage.agreement"
-        report_type="qweb-pdf"
-        name="medical_financial_coverage_agreement.report_agreement_template"
-    />
+
+    <record id="action_agreement_report_private" model="ir.actions.report">
+        <field name="name">Agreement Report Private</field>
+        <field name="model">medical.coverage.agreement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >medical_financial_coverage_agreement.report_agreement_template</field>
+    </record>
+
+    <record id="action_agreement_report" model="ir.actions.report">
+        <field name="name">Agreement Report Coverage</field>
+        <field name="model">medical.coverage.agreement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >medical_financial_coverage_agreement.report_agreement_template</field>
+    </record>
 </odoo>
