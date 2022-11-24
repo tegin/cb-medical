@@ -13,7 +13,7 @@
         <field name="arch" type="xml">
             <xpath expr="//tree" position="attributes">
                 <attribute name="string">Laboratory requests</attribute>
-                <attribute name="decoration-muted">state=='cancelled'</attribute>
+                <attribute name="decoration-muted">fhir_state=='cancelled'</attribute>
             </xpath>
         </field>
     </record>
@@ -30,10 +30,9 @@
                 <button
                     type="object"
                     name="action_view_laboratory_events"
-                    groups="medical_clinical_laboratory.group_medical_laboratory_list"
                     class="oe_stat_button"
                     icon="fa-microscope"
-                    attrs="{'invisible': [('state','=','draft')]}"
+                    attrs="{'invisible': [('fhir_state','=','draft')]}"
                 >
                     <field
                         name="laboratory_event_count"
@@ -53,35 +52,39 @@
                 <field name="internal_identifier" />
                 <field name="patient_id" />
                 <field name="name" />
-                <field name="state" />
+                <field name="fhir_state" />
                 <field name="priority" />
                 <field name="performer_id" />
                 <field name="order_by_id" />
                 <field name="intent" />
                 <newline />
-                <filter domain="[('state', '=', 'draft')]" help="Draft" name="Draft" />
                 <filter
-                    domain="[('state', '=', 'active')]"
+                    domain="[('fhir_state', '=', 'draft')]"
+                    help="Draft"
+                    name="Draft"
+                />
+                <filter
+                    domain="[('fhir_state', '=', 'active')]"
                     help="Active"
                     name="Active"
                 />
                 <filter
-                    domain="[('state', '=', 'completed')]"
+                    domain="[('fhir_state', '=', 'completed')]"
                     help="Completed"
                     name="Completed"
                 />
                 <filter
-                    domain="[('state', '=', 'suspended')]"
+                    domain="[('fhir_state', '=', 'suspended')]"
                     help="Suspended"
                     name="Suspended"
                 />
                 <filter
-                    domain="[('state', '=', 'entered-in-error')]"
+                    domain="[('fhir_state', '=', 'entered-in-error')]"
                     help="Error"
                     name="Error"
                 />
                 <filter
-                    domain="[('state', '=', 'cancelled')]"
+                    domain="[('fhir_state', '=', 'cancelled')]"
                     help="Cancelled"
                     name="Cancelled"
                 />
@@ -119,7 +122,7 @@
     <menuitem
         id="medical_laboratory_request"
         name="Laboratory Requests"
-        parent="medical_clinical.medical_clinical_request"
+        parent="medical_base.medical_clinical_request"
         sequence="10"
         action="medical_laboratory_request_action"
     />

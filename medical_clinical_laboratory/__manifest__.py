@@ -4,14 +4,11 @@
 
 {
     "name": "Medical Laboratory",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
-    "depends": ["medical_workflow", "medical_clinical"],
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
+    "depends": ["medical_workflow", "medical_base"],
     "data": [
-        "security/medical_security.xml",
         "security/ir.model.access.csv",
-        "data/ir_sequence_data.xml",
-        "data/medical_workflow.xml",
         "views/medical_request_views.xml",
         "views/medical_laboratory_event_view.xml",
         "views/medical_laboratory_request_view.xml",
