@@ -9,6 +9,7 @@
     "depends": ["medical_workflow", "medical_base"],
     "data": [
         "security/ir.model.access.csv",
+        "data/ir_sequence_data.xml",
         "views/medical_request_views.xml",
         "views/medical_laboratory_event_view.xml",
         "views/medical_laboratory_request_view.xml",
