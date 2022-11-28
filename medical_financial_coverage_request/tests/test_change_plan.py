@@ -87,8 +87,7 @@ class TestCB(TransactionCase):
                 "name": "Activity",
                 "service_id": self.product_02.id,
                 "model_id": self.browse_ref(
-                    "medical_clinical_procedure."
-                    "model_medical_procedure_request"
+                    "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
                 "type_id": self.type.id,
             }
@@ -98,8 +97,7 @@ class TestCB(TransactionCase):
                 "name": "Activity2",
                 "service_id": self.product_03.id,
                 "model_id": self.browse_ref(
-                    "medical_clinical_procedure."
-                    "model_medical_procedure_request"
+                    "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
                 "type_id": self.type.id,
             }
@@ -144,9 +142,7 @@ class TestCB(TransactionCase):
                 "name": "Action3",
             }
         )
-        self.agreement_line = self.env[
-            "medical.coverage.agreement.item"
-        ].create(
+        self.agreement_line = self.env["medical.coverage.agreement.item"].create(
             {
                 "product_id": self.product_01.id,
                 "coverage_agreement_id": self.agreement.id,
@@ -160,9 +156,7 @@ class TestCB(TransactionCase):
                 ).id,
             }
         )
-        self.agreement_line2 = self.env[
-            "medical.coverage.agreement.item"
-        ].create(
+        self.agreement_line2 = self.env["medical.coverage.agreement.item"].create(
             {
                 "product_id": self.product_03.id,
                 "coverage_agreement_id": self.agreement.id,
@@ -176,9 +170,7 @@ class TestCB(TransactionCase):
                 ).id,
             }
         )
-        self.agreement_line3 = self.env[
-            "medical.coverage.agreement.item"
-        ].create(
+        self.agreement_line3 = self.env["medical.coverage.agreement.item"].create(
             {
                 "product_id": self.product_04.id,
                 "coverage_agreement_id": self.agreement.id,
@@ -197,9 +189,7 @@ class TestCB(TransactionCase):
         return self.env["medical.patient"].create({"name": name})
 
     def create_product(self, name):
-        return self.env["product.product"].create(
-            {"type": "service", "name": name}
-        )
+        return self.env["product.product"].create({"type": "service", "name": name})
 
     def create_practitioner(self, name):
         return self.env["res.partner"].create(

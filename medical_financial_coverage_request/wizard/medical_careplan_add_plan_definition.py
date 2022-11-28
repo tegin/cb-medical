@@ -44,8 +44,7 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         readonly=True,
     )
     authorization_required = fields.Boolean(
-        related="agreement_line_id.authorization_method_id."
-        "authorization_required",
+        related="agreement_line_id.authorization_method_id." "authorization_required",
         readonly=True,
     )
     authorization_number = fields.Char()
@@ -73,10 +72,7 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
     )
 
     def _get_careplan_date(self):
-        return (
-            self.careplan_id.encounter_id.create_date
-            or self.careplan_id.create_date
-        )
+        return self.careplan_id.encounter_id.create_date or self.careplan_id.create_date
 
     @api.depends("coverage_template_id", "center_id")
     def _compute_agreements(self):
@@ -103,9 +99,7 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         values["coverage_agreement_item_id"] = self.agreement_line_id.id
         values["authorization_method_id"] = self.authorization_method_id.id
         values["authorization_number"] = self.authorization_number
-        values[
-            "authorization_number_extra_1"
-        ] = self.authorization_number_extra_1
+        values["authorization_number_extra_1"] = self.authorization_number_extra_1
         values[
             "coverage_agreement_id"
         ] = self.agreement_line_id.coverage_agreement_id.id

@@ -18,9 +18,9 @@ class MedicalPatient(models.Model):
     @api.depends("request_group_ids")
     def _compute_last_coverage(self):
         for rec in self:
-            requests = rec.request_group_ids.filtered(
-                lambda r: r.coverage_id
-            ).sorted("id", reverse=True)
+            requests = rec.request_group_ids.filtered(lambda r: r.coverage_id).sorted(
+                "id", reverse=True
+            )
             if requests:
                 rec.last_coverage_id = requests[0].coverage_id
             else:

@@ -9,9 +9,7 @@ from odoo.exceptions import ValidationError
 class PlanDefinition(models.Model):
     _inherit = "workflow.plan.definition"
 
-    is_billable = fields.Boolean(
-        string="Is billable?", default=True, tracking=True
-    )
+    is_billable = fields.Boolean(string="Is billable?", default=True, tracking=True)
     third_party_bill = fields.Boolean(
         string="Will be payed to the third party?", default=False
     )
@@ -30,9 +28,9 @@ class PlanDefinition(models.Model):
         if not values.get("is_billable", False):
             return values
         if vals.get("coverage_agreement_item_id", False):
-            agreement_item_id = self.env[
-                "medical.coverage.agreement.item"
-            ].browse(vals.get("coverage_agreement_item_id"))
+            agreement_item_id = self.env["medical.coverage.agreement.item"].browse(
+                vals.get("coverage_agreement_item_id")
+            )
             values[
                 "authorization_method_id"
             ] = agreement_item_id.authorization_method_id.id
@@ -62,21 +60,14 @@ class PlanDefinition(models.Model):
         for plan in self:
             if plan.third_party_bill:
                 if plan.is_breakdown:
-                    raise ValidationError(
-                        _("Third party plans cannot be broken")
-                    )
+                    raise ValidationError(_("Third party plans cannot be broken"))
                 if not plan.is_billable:
-                    raise ValidationError(
-                        _("Third party plans must be billable")
-                    )
+                    raise ValidationError(_("Third party plans must be billable"))
                 if len(plan.direct_action_ids.ids) > 1:
                     raise ValidationError(
                         _("Only one action is allowed for third party plans")
                     )
-                if (
-                    plan.direct_action_ids
-                    and plan.direct_action_ids.is_billable
-                ):
+                if plan.direct_action_ids and plan.direct_action_ids.is_billable:
                     raise ValidationError(
                         _("Action cannot be billable on third party plans")
                     )
