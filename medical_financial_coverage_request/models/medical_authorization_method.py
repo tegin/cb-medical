@@ -14,9 +14,7 @@ class MedicalAuthorizationMethod(models.Model):
     description = fields.Char()
     method_information = fields.Text()
     vat_required = fields.Boolean(tracking=True, required=True, default=False)
-    subscriber_id_required = fields.Boolean(
-        tracking=True, required=True, default=False
-    )
+    subscriber_id_required = fields.Boolean(tracking=True, required=True, default=False)
     subscriber_magnetic_str_required = fields.Boolean(
         tracking=True, required=True, default=False
     )
