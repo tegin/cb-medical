@@ -5,14 +5,12 @@ from odoo.tests.common import TransactionCase
 class TestRecursion(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.type = self.browse_ref("medical_workflow.medical_workflow")
         self.activity = self.env["workflow.activity.definition"].create(
             {
                 "name": "Activity",
                 "model_id": self.browse_ref(
                     "medical_clinical_request_group." "model_medical_request_group"
                 ).id,
-                "type_id": self.type.id,
             }
         )
 
@@ -21,7 +19,6 @@ class TestRecursion(TransactionCase):
             "name": "Plan",
             "is_billable": True,
             "third_party_bill": True,
-            "type_id": self.type.id,
             "is_breakdown": False,
             "direct_action_ids": [
                 (
