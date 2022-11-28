@@ -7,7 +7,7 @@
     "summary": "Medical financial coverage request",
     "version": "13.0.1.0.0",
     "author": "Creu Blanca, Eficent",
-    "website": "https://github.com/tegin/cb_addons",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "depends": [
         "medical_clinical_request_group",

@@ -12,9 +12,7 @@ class TestCoverage(TransactionCase):
         self.patient = self.env["medical.patient"].create({"name": "Patient"})
 
     def test_write_sequence(self):
-        center = self.env["res.partner"].create(
-            {"name": "Center", "is_center": True}
-        )
+        center = self.env["res.partner"].create({"name": "Center", "is_center": True})
         self.assertFalse(center.encounter_sequence_id)
         with self.assertRaises(ValidationError):
             self.env["medical.encounter"].create(

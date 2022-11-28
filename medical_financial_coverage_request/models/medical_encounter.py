@@ -56,9 +56,7 @@ class MedicalEncounter(models.Model):
                 patient.flush()
         if isinstance(center, int):
             center = self.env["res.partner"].browse(center)
-        return self.create(
-            self._create_encounter_vals(patient, center, **kwargs)
-        )
+        return self.create(self._create_encounter_vals(patient, center, **kwargs))
 
     def _create_encounter_vals(self, patient, center, **kwargs):
         return {"patient_id": patient.id, "center_id": center.id}

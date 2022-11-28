@@ -39,9 +39,7 @@ class MedicalRequest(models.AbstractModel):
     )
     parent_id = fields.Integer(index=True)
     parent_model = fields.Char(index=True)
-    is_billable = fields.Boolean(
-        string="Is billable?", default=False, tracking=True
-    )
+    is_billable = fields.Boolean(string="Is billable?", default=False, tracking=True)
     is_breakdown = fields.Boolean(default=False, tracking=True)
     third_party_bill = fields.Boolean(default=False, tracking=True)
     center_id = fields.Many2one(
@@ -73,9 +71,7 @@ class MedicalRequest(models.AbstractModel):
         self.ensure_one()
         plan = coverage_agreement_item_id.plan_definition_id
         if not self.active:
-            raise ValidationError(
-                _("Element is inactive, your cannot change plan")
-            )
+            raise ValidationError(_("Element is inactive, your cannot change plan"))
         if self.plan_definition_id == plan:
             self.update_plan_definition(plan, coverage_agreement_item_id)
             return
@@ -83,9 +79,7 @@ class MedicalRequest(models.AbstractModel):
 
     def change_authorization(self, method, **kwargs):
         self.ensure_one()
-        vals = self.coverage_agreement_item_id._check_authorization(
-            method, **kwargs
-        )
+        vals = self.coverage_agreement_item_id._check_authorization(method, **kwargs)
         vals.update(self._change_authorization_vals(method, vals, **kwargs))
         self._change_authorization(vals, **kwargs)
 

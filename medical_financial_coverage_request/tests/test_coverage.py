@@ -10,9 +10,7 @@ class TestCoverage(TransactionCase):
     def setUp(self):
         super().setUp()
         self.patient = self.env["medical.patient"].create({"name": "Patient"})
-        self.payor = self.env["res.partner"].create(
-            {"name": "Payor", "is_payor": True}
-        )
+        self.payor = self.env["res.partner"].create({"name": "Payor", "is_payor": True})
         self.template = self.env["medical.coverage.template"].create(
             {"name": "Template", "payor_id": self.payor.id}
         )

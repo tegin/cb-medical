@@ -9,9 +9,7 @@ class TestWizard(TransactionCase):
     def setUp(self):
         super(TestWizard, self).setUp()
         self.patient = self.env["medical.patient"].create({"name": "Patient"})
-        self.payor = self.env["res.partner"].create(
-            {"name": "Payor", "is_payor": True}
-        )
+        self.payor = self.env["res.partner"].create({"name": "Payor", "is_payor": True})
         self.template = self.env["medical.coverage.template"].create(
             {"name": "Template", "payor_id": self.payor.id}
         )
@@ -75,17 +73,13 @@ class TestWizard(TransactionCase):
         )
         self.plan_definition = self.env["workflow.plan.definition"].create(
             {
-                "type_id": self.browse_ref(
-                    "medical_workflow.medical_workflow"
-                ).id,
+                "type_id": self.browse_ref("medical_workflow.medical_workflow").id,
                 "name": "Plan",
             }
         )
         self.activity = self.env["workflow.activity.definition"].create(
             {
-                "type_id": self.browse_ref(
-                    "medical_workflow.medical_workflow"
-                ).id,
+                "type_id": self.browse_ref("medical_workflow.medical_workflow").id,
                 "name": "Activity",
                 "service_id": self.product.id,
                 "quantity": 1,
