@@ -83,8 +83,7 @@ class TestCB(TransactionCase):
                 "name": "Activity",
                 "service_id": self.product_02.id,
                 "model_id": self.browse_ref(
-                    "medical_clinical_procedure."
-                    "model_medical_procedure_request"
+                    "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
                 "type_id": self.type.id,
             }
@@ -113,9 +112,7 @@ class TestCB(TransactionCase):
         return self.env["medical.patient"].create({"name": name})
 
     def create_product(self, name):
-        return self.env["product.product"].create(
-            {"type": "service", "name": name}
-        )
+        return self.env["product.product"].create({"type": "service", "name": name})
 
     def create_practitioner(self, name):
         return self.env["res.partner"].create(
@@ -123,9 +120,7 @@ class TestCB(TransactionCase):
                 "name": name,
                 "is_practitioner": True,
                 "agent": True,
-                "commission": self.browse_ref(
-                    "cb_medical_commission.commission_01"
-                ).id,
+                "commission": self.browse_ref("cb_medical_commission.commission_01").id,
             }
         )
 
