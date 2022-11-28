@@ -13,13 +13,10 @@ class MedicalAuthorizationMethod(models.Model):
     name = fields.Char(required=True)
     description = fields.Char()
     method_information = fields.Text()
-    vat_required = fields.Boolean(tracking=True, required=True, default=False)
-    subscriber_id_required = fields.Boolean(tracking=True, required=True, default=False)
-    subscriber_magnetic_str_required = fields.Boolean(
-        tracking=True, required=True, default=False
-    )
+    vat_required = fields.Boolean(required=True, default=False)
+    subscriber_id_required = fields.Boolean(required=True, default=False)
+    subscriber_magnetic_str_required = fields.Boolean(required=True, default=False)
     authorization_required = fields.Boolean(
-        tracking=True,
         required=True,
         default=False,
     )
@@ -31,7 +28,6 @@ class MedicalAuthorizationMethod(models.Model):
         [("none", "None"), ("web", "Web"), ("ws", "Web service")],
         default="none",
         required=True,
-        tracking=True,
     )
     integration_information = fields.Char()
     authorization_web_id = fields.Many2one("medical.authorization.web")

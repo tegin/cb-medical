@@ -10,7 +10,7 @@ class MedicalRequestGroupChangePlan(models.TransientModel):
     _description = "medical.request.group.change.plan"
 
     request_group_id = fields.Many2one(
-        "medical.request.group", requierd=True, readonly=True
+        "medical.request.group", required=True, readonly=True
     )
     careplan_id = fields.Many2one(
         "medical.careplan",
