@@ -10,7 +10,9 @@ from odoo import fields, models
 class MedicalAuthorizationFormat(models.Model):
     _name = "medical.authorization.format"
     _description = "Authorization format"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
+    active = fields.Boolean(default=True)
     code = fields.Char(required=True)
     name = fields.Char(required=True)
     authorization_format = fields.Char(tracking=True)

@@ -73,13 +73,12 @@ class TestCB(TransactionCase):
         )
 
         self.product_04 = self.create_product("MR complex")
-        self.type = self.browse_ref("medical_workflow.medical_workflow")
         self.plan_definition = self.env["workflow.plan.definition"].create(
-            {"name": "Plan", "type_id": self.type.id, "is_billable": True}
+            {"name": "Plan", "is_billable": True}
         )
 
         self.plan_definition2 = self.env["workflow.plan.definition"].create(
-            {"name": "Plan2", "type_id": self.type.id, "is_billable": True}
+            {"name": "Plan2", "is_billable": True}
         )
 
         self.activity = self.env["workflow.activity.definition"].create(
@@ -89,7 +88,6 @@ class TestCB(TransactionCase):
                 "model_id": self.browse_ref(
                     "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
-                "type_id": self.type.id,
             }
         )
         self.activity2 = self.env["workflow.activity.definition"].create(
@@ -99,7 +97,6 @@ class TestCB(TransactionCase):
                 "model_id": self.browse_ref(
                     "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
-                "type_id": self.type.id,
             }
         )
         self.env["workflow.plan.definition.action"].create(

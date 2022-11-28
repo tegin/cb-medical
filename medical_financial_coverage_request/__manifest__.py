@@ -5,8 +5,8 @@
 {
     "name": "Medical Coverage Request",
     "summary": "Medical financial coverage request",
-    "version": "13.0.1.0.0",
-    "author": "Creu Blanca, Eficent",
+    "version": "14.0.1.0.0",
+    "author": "CreuBlanca, Eficent",
     "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "depends": [
@@ -23,7 +23,6 @@
         "views/medical_authorization_web.xml",
         "data/medical_authorization_method_data.xml",
         "data/medical_authorization_format_data.xml",
-        "security/medical_security.xml",
         "security/ir.model.access.csv",
         "views/medical_authorization_method_view.xml",
         "wizard/medical_careplan_add_plan_definition_views.xml",

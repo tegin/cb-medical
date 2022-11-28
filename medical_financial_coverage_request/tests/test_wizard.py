@@ -73,13 +73,11 @@ class TestWizard(TransactionCase):
         )
         self.plan_definition = self.env["workflow.plan.definition"].create(
             {
-                "type_id": self.browse_ref("medical_workflow.medical_workflow").id,
                 "name": "Plan",
             }
         )
         self.activity = self.env["workflow.activity.definition"].create(
             {
-                "type_id": self.browse_ref("medical_workflow.medical_workflow").id,
                 "name": "Activity",
                 "service_id": self.product.id,
                 "quantity": 1,

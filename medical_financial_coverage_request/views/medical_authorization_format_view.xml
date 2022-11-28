@@ -40,6 +40,7 @@
         <field name="model">medical.authorization.format</field>
         <field name="arch" type="xml">
             <search string="Authorization format">
+                <field name="name" />
                 <filter
                     string="Archived"
                     name="inactive"

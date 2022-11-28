@@ -14,6 +14,8 @@ class MedicalRequest(models.AbstractModel):
         tracking=True,
         required=False,
         domain="[('patient_id', '=', patient_id)]",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     coverage_agreement_item_id = fields.Many2one(
         "medical.coverage.agreement.item", readonly=True, ondelete="restrict"
@@ -26,8 +28,13 @@ class MedicalRequest(models.AbstractModel):
         tracking=True,
         readonly=True,
         ondelete="restrict",
+        states={"draft": [("readonly", False)]},
     )
-    authorization_number = fields.Char(tracking=True)
+    authorization_number = fields.Char(
+        tracking=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
     authorization_number_extra_1 = fields.Char(tracking=True)
     authorization_status = fields.Selection(
         [
@@ -47,6 +54,8 @@ class MedicalRequest(models.AbstractModel):
         domain=[("is_center", "=", True)],
         required=True,
         tracking=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     active = fields.Boolean(default=True)
 
