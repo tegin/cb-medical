@@ -9,17 +9,13 @@ class MedicalCoverageAgreementItem(models.Model):
     _inherit = "medical.coverage.agreement.item"
 
     def _default_authorization_method(self):
-        agreement_id = self.env.context.get(
-            "default_coverage_agreement_id", False
-        )
+        agreement_id = self.env.context.get("default_coverage_agreement_id", False)
         agreement = self.env["medical.coverage.agreement"].browse(agreement_id)
         if agreement:
             return agreement.authorization_method_id
 
     def _default_authorization_format(self):
-        agreement_id = self.env.context.get(
-            "default_coverage_agreement_id", False
-        )
+        agreement_id = self.env.context.get("default_coverage_agreement_id", False)
         agreement = self.env["medical.coverage.agreement"].browse(agreement_id)
         if agreement:
             return agreement.authorization_format_id
@@ -80,9 +76,7 @@ class MedicalCoverageAgreementItem(models.Model):
         res["authorization_format_id"] = self.authorization_format_id.id
         return res
 
-    def get_item(
-        self, product, coverage_template, center, date=False, plan=False
-    ):
+    def get_item(self, product, coverage_template, center, date=False, plan=False):
         if not date:
             date = fields.Date.today()
         if isinstance(product, int):

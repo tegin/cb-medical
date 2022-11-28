@@ -9,12 +9,8 @@ class TestAgreementTemplate(SavepointCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.ref("base.main_company")
-        cls.product_01 = cls.env["product.product"].create(
-            {"name": "Product 01"}
-        )
-        cls.product_02 = cls.env["product.product"].create(
-            {"name": "Product 02"}
-        )
+        cls.product_01 = cls.env["product.product"].create({"name": "Product 01"})
+        cls.product_02 = cls.env["product.product"].create({"name": "Product 02"})
         cls.products = cls.product_01 | cls.product_02
         cls.template = cls.env["medical.coverage.agreement"].create(
             {
@@ -68,9 +64,7 @@ class TestAgreementTemplate(SavepointCase):
 
     def test_constrain_02(self):
         with self.assertRaises(ValidationError):
-            self.template.write(
-                {"coverage_template_ids": [(4, self.coverage.id)]}
-            )
+            self.template.write({"coverage_template_ids": [(4, self.coverage.id)]})
 
     def test_copy_agreement_without_items(self):
         agreement = self.env["medical.coverage.agreement"].create(

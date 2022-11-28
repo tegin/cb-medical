@@ -1,4 +1,5 @@
 from mock import patch
+
 from odoo.exceptions import ValidationError
 from odoo.tests.common import SavepointCase
 
@@ -14,9 +15,7 @@ class TestEncounterCreate(SavepointCase):
                 "encounter_sequence_prefix": "1",
             }
         )
-        cls.patient = cls.env["medical.patient"].create(
-            {"name": "Demo Patient"}
-        )
+        cls.patient = cls.env["medical.patient"].create({"name": "Demo Patient"})
 
     def test_create_encounter_constrain_01(self):
         with self.assertRaises(ValidationError):
@@ -81,9 +80,7 @@ class TestEncounterCreate(SavepointCase):
         self.assertEqual(self.patient.name, "New patient")
 
     def test_create_encounter_write_patient_assert(self):
-        with patch.object(
-            type(self.env["medical.patient"]), "write"
-        ) as patient_write:
+        with patch.object(type(self.env["medical.patient"]), "write") as patient_write:
             self.env["medical.encounter"].create_encounter(
                 patient_vals={"name": "New patient"},
                 patient=self.patient,
@@ -92,9 +89,7 @@ class TestEncounterCreate(SavepointCase):
             patient_write.assert_called()
 
     def test_create_encounter_no_write_patient(self):
-        with patch.object(
-            type(self.env["medical.patient"]), "write"
-        ) as patient_write:
+        with patch.object(type(self.env["medical.patient"]), "write") as patient_write:
             encounter_action = self.env["medical.encounter"].create_encounter(
                 patient_vals={"name": self.patient.name},
                 patient=self.patient,

@@ -15,9 +15,7 @@ class MedicalAuthorizationFormat(models.Model):
     name = fields.Char(required=True)
     authorization_format = fields.Char(tracking=True)
     authorization_information = fields.Text()
-    always_authorized = fields.Boolean(
-        default=False, tracking=True, required=True
-    )
+    always_authorized = fields.Boolean(default=False, tracking=True, required=True)
     requires_authorization_extra_1 = fields.Boolean()
     authorization_extra_1_format = fields.Char(tracking=True)
     authorization_extra_1_information = fields.Text()
