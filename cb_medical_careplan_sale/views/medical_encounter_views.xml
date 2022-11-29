@@ -17,7 +17,7 @@
                     name="%(medical_encounter_add_careplan_action)s"
                     type="action"
                     string="Create careplan"
-                    groups="medical_clinical_careplan.group_medical_careplan_manager"
+                    groups="medical_base.group_medical_financial"
                     states="arrived,in-progress,onleave"
                 />
                 <button
@@ -40,7 +40,6 @@
                     name="action_view_sale_order"
                     class="oe_stat_button"
                     icon="fa-file-invoice-dollar"
-                    attrs="{'readonly':[('is_editable', '=', False)]}"
                 >
                     <field
                         name="sale_order_count"
@@ -55,7 +54,6 @@
                     groups="account.group_account_user"
                     class="oe_stat_button"
                     icon="fa-file-invoice-dollar"
-                    attrs="{'readonly':[('is_editable', '=', False)]}"
                 >
                     <field name="invoice_count" widget="statinfo" string="Invoices" />
                     <field name="invoice_line_ids" invisible="1" />

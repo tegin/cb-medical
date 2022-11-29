@@ -57,6 +57,8 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertTrue(encounter_02.sale_order_ids)
         sale_orders = encounter.sale_order_ids | encounter_02.sale_order_ids
         sale_orders.action_confirm()
+        for line in sale_orders.mapped("order_line"):
+            line.qty_delivered = line.product_uom_qty
         invoices = sale_orders.with_context(
             active_model=sale_orders._name
         )._create_invoices()
@@ -85,6 +87,8 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertTrue(encounter_02.sale_order_ids)
         sale_orders = encounter.sale_order_ids | encounter_02.sale_order_ids
         sale_orders.action_confirm()
+        for line in sale_orders.mapped("order_line"):
+            line.qty_delivered = line.product_uom_qty
         invoices = sale_orders.with_context(
             active_model=sale_orders._name
         )._create_invoices()
@@ -182,6 +186,8 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertEqual(sale_order.patient_name, "Patient 01")
         self.assertEqual(encounter.invoice_count, 0)
         sale_order.action_confirm()
+        for line in sale_order.mapped("order_line"):
+            line.qty_delivered = line.product_uom_qty
         sale_order.with_context(active_model=sale_order._name)._create_invoices()
         self.assertEqual(encounter.invoice_count, 1)
         action = encounter.action_view_invoice()
@@ -215,6 +221,8 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertEqual(sale_order.amount_total, 100)
         self.assertEqual(sale_order.order_line.discount, 0)
         sale_order.action_confirm()
+        for line in sale_order.mapped("order_line"):
+            line.qty_delivered = line.product_uom_qty
         sale_order.with_context(active_model=sale_order._name)._create_invoices()
         self.assertEqual(encounter.invoice_count, 1)
         action = encounter.action_view_invoice()
@@ -566,6 +574,8 @@ class TestCBSale(common.MedicalSavePointCase):
         sale_orders = encounter.sale_order_ids
         for sale_order in sale_orders:
             sale_order.action_confirm()
+            for line in sale_order.mapped("order_line"):
+                line.qty_delivered = line.product_uom_qty
             sale_order.with_context(active_model=sale_order._name)._create_invoices()
         self.assertEqual(encounter.invoice_count, 2)
 
