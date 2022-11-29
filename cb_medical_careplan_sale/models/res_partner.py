@@ -2,8 +2,12 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
+import logging
+
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import AccessError, ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class ResPartner(models.Model):
@@ -12,7 +16,6 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     is_sub_payor = fields.Boolean(default=False)
-    sub_payor_identifier = fields.Char(readonly=True)  # FHIR Field: identifier
     payor_id = fields.Many2one(
         "res.partner", string="Payor", domain=[("is_payor", "=", True)]
     )
@@ -33,24 +36,27 @@ class ResPartner(models.Model):
                 raise ValidationError(_("Payor is required on subpayors"))
 
     @api.model
-    def _get_medical_identifiers(self):
-        res = super(ResPartner, self)._get_medical_identifiers()
-        res.append(
-            (
-                "is_medical",
-                "is_sub_payor",
-                "sub_payor_identifier",
-                self._get_sub_payor_identifier,
-            )
-        )
-        return res
-
-    @api.model
-    def _get_sub_payor_identifier(self, vals):
-        return self.env["ir.sequence"].next_by_code("medical.sub.payor") or "/"
-
-    @api.model
     def default_medical_fields(self):
         result = super(ResPartner, self).default_medical_fields()
         result.append("is_sub_payor")
         return result
+
+    def _check_medical(self, mode="write"):
+        super()._check_medical(mode=mode)
+        if (
+            self.is_sub_payor
+            and mode != "read"
+            and not self.env.user.has_group("medical_base.group_medical_finance")
+        ):
+            _logger.info(
+                "Access Denied by ACLs for operation: %s, uid: %s, model: %s",
+                "write",
+                self._uid,
+                self._name,
+            )
+            raise AccessError(
+                _(
+                    "You are not allowed to %(mode)s medical Contacts (res.partner) records.",
+                    mode=mode,
+                )
+            )

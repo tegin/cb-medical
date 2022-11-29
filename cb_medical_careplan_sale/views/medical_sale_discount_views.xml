@@ -52,6 +52,7 @@
         <field name="model">medical.sale.discount</field>
         <field name="arch" type="xml">
             <search string="Medical discounts">
+                <field name="name" />
                 <filter
                     string="Archived"
                     name="inactive"

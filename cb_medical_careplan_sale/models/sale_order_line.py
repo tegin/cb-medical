@@ -16,7 +16,6 @@ class SaleOrderLine(models.Model):
     )
     authorization_method_id = fields.Many2one(
         "medical.authorization.method",
-        tracking=True,
         readonly=True,
         index=True,
     )
@@ -75,8 +74,8 @@ class SaleOrderLine(models.Model):
                 ).with_context(not_sale_share_values=True).write(shared_vals)
         return res
 
-    def _prepare_invoice_line(self):
-        res = super()._prepare_invoice_line()
+    def _prepare_invoice_line(self, **optional_values):
+        res = super()._prepare_invoice_line(**optional_values)
         if self.encounter_id:
             res["patient_name"] = self.patient_name
             res["subscriber_id"] = self.subscriber_id
