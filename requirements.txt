@@ -1,8 +1,10 @@
 # generated from manifests external_dependencies
 bokeh==2.3.1
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/cb_mgmtsystem_issue
+git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/cb_sale_report_invoice
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/product_nomenclature
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/remote_report_to_printer_label
+git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/sale_third_party
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/sequence_parser
 git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_administration_encounter
 git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_administration_encounter_careplan

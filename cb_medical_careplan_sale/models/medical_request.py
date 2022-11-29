@@ -25,11 +25,14 @@ class MedicalRequest(models.AbstractModel):
     sub_payor_id = fields.Many2one(
         "res.partner",
         domain="[('payor_id', '=', payor_id), ('is_sub_payor', '=', True)]",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     payor_id = fields.Many2one(
         "res.partner",
         related="coverage_id.coverage_template_id.payor_id",
         readonly=True,
+        states={"draft": [("readonly", False)]},
     )
     authorization_method_id = fields.Many2one(
         "medical.authorization.method", tracking=True, readonly=True
@@ -40,7 +43,12 @@ class MedicalRequest(models.AbstractModel):
         tracking=True,
         readonly=True,
     )
-    qty = fields.Integer(default=1, required=True)
+    qty = fields.Integer(
+        default=1,
+        required=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
 
     medical_sale_discount_id = fields.Many2one("medical.sale.discount", readonly=True)
     discount = fields.Float(readonly=True, digits="Discount")

@@ -103,13 +103,11 @@ class MedicalEncounter(models.Model):
                 **kwargs,
             )
             order = (
-                self.env["sale.order"]
-                .with_context(force_company=vals.get("company_id"))
-                .create(vals)
+                self.env["sale.order"].with_company(vals.get("company_id")).create(vals)
             )
             order.onchange_partner_id()
         order.ensure_one()
-        order.with_context(force_company=order.company_id.id).write(
+        order.with_company(order.company_id.id).write(
             {"order_line": [(0, 0, order_line) for order_line in order_lines]}
         )
         return order
@@ -170,6 +168,7 @@ class MedicalEncounter(models.Model):
             encounter._add_careplan(**careplan_kwargs)
         return encounter
 
+    # flake8: noqa: C901
     def _add_careplan(
         self,
         payor=False,
