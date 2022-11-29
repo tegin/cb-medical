@@ -4,17 +4,15 @@
 
 {
     "name": "Medical Careplan to sales",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
     "category": "Medical",
     "depends": [
         "sale_third_party",
         "medical_authorization",
-        "cb_medical_coverage_magnetic_str",
         "cb_sale_report_invoice",
     ],
     "data": [
-        "security/medical_security.xml",
         "security/ir.model.access.csv",
         "data/medical_invoice_group.xml",
         "data/medical_sub_payor_sequence.xml",

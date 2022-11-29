@@ -11,5 +11,4 @@ class MedicalAuthorizationMethod(models.Model):
     invoice_group_method_id = fields.Many2one(
         string="Invoice Group Method",
         comodel_name="invoice.group.method",
-        tracking=True,
     )

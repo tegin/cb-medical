@@ -22,3 +22,4 @@ from . import workflow_activity_definition
 from . import medical_sale_discount
 from . import account_move
 from . import medical_document_reference
+from . import medical_coverage

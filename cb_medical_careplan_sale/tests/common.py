@@ -204,23 +204,14 @@ class MedicalSavePointCase(SavepointCase):
         self.product_04 = self.create_product("Medical visit")
         self.product_05 = self.create_product("Extra product")
         self.lab_product = self.create_product("Laboratory Product")
-        self.type = self.env.ref("medical_workflow.medical_workflow")
-        self.type.model_ids = [
-            (
-                4,
-                self.env.ref(
-                    "medical_medication_request.model_medical_medication_request"
-                ).id,
-            )
-        ]
+
         self.plan_definition = self.env["workflow.plan.definition"].create(
-            {"name": "Plan", "type_id": self.type.id, "is_billable": True}
+            {"name": "Plan", "is_billable": True}
         )
         self.plan_definition.activate()
         self.plan_definition2 = self.env["workflow.plan.definition"].create(
             {
                 "name": "Plan2",
-                "type_id": self.type.id,
                 "is_billable": True,
                 "is_breakdown": False,
                 "third_party_bill": True,
@@ -230,7 +221,6 @@ class MedicalSavePointCase(SavepointCase):
         self.plan_definition3 = self.env["workflow.plan.definition"].create(
             {
                 "name": "Plan2",
-                "type_id": self.type.id,
                 "is_billable": True,
                 "is_breakdown": False,
                 "third_party_bill": False,
@@ -244,7 +234,6 @@ class MedicalSavePointCase(SavepointCase):
                 "model_id": self.env.ref(
                     "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
-                "type_id": self.type.id,
             }
         )
         self.activity.activate()
@@ -255,7 +244,6 @@ class MedicalSavePointCase(SavepointCase):
                 "model_id": self.env.ref(
                     "medical_medication_request." "model_medical_medication_request"
                 ).id,
-                "type_id": self.type.id,
             }
         )
         self.activity2.activate()
@@ -267,7 +255,6 @@ class MedicalSavePointCase(SavepointCase):
                     "medical_document.model_medical_document_reference"
                 ).id,
                 "document_type_id": self.document_type.id,
-                "type_id": self.type.id,
             }
         )
         self.activity3.activate()
@@ -279,7 +266,6 @@ class MedicalSavePointCase(SavepointCase):
                     "medical_document.model_medical_document_reference"
                 ).id,
                 "document_type_id": self.document_type.id,
-                "type_id": self.type.id,
             }
         )
         self.activity4.activate()
@@ -290,7 +276,6 @@ class MedicalSavePointCase(SavepointCase):
                 "model_id": self.env.ref(
                     "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
-                "type_id": self.type.id,
             }
         )
         self.activity5.activate()
@@ -301,7 +286,6 @@ class MedicalSavePointCase(SavepointCase):
                 "model_id": self.env.ref(
                     "medical_clinical_laboratory." "model_medical_laboratory_request"
                 ).id,
-                "type_id": self.type.id,
             }
         )
         self.lab_activity.activate()
@@ -422,8 +406,8 @@ class MedicalSavePointCase(SavepointCase):
         )
         self.practitioner_01 = self.create_practitioner("Practitioner 01")
         self.practitioner_02 = self.create_practitioner("Practitioner 02")
-        self.product_01.medical_commission = True
-        self.action.fixed_fee = 1
+        # self.product_01.medical_commission = True
+        # self.action.fixed_fee = 1
 
         self.sb_account = self.env["account.account"].create(
             {

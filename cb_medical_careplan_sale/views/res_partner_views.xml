@@ -24,7 +24,7 @@
         <field name="inherit_id" ref="base.view_partner_form" />
         <field
             name="groups_id"
-            eval="[(4, ref('medical_financial_coverage.group_medical_payor_display'))]"
+            eval="[(4, ref('medical_base.group_medical_financial'))]"
         />
         <field name="arch" type="xml">
             <xpath
@@ -36,10 +36,6 @@
             <xpath expr="//h1" position="before">
                 <h1>
                     <field name="is_sub_payor" invisible="1" />
-                    <field
-                        name="sub_payor_identifier"
-                        attrs="{'invisible': [('is_sub_payor','=',False)]}"
-                    />
                     <h1>
                         <field
                             name="payor_id"
@@ -61,20 +57,7 @@
             </div>
         </field>
     </record>
-    <record id="res_partner_view_edit_form" model="ir.ui.view">
-        <field name="name">res.partner.view.form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="cb_medical_careplan_sale.res_partner_view_form" />
-        <field
-            name="groups_id"
-            eval="[(4, ref('medical_financial_coverage.group_medical_payor_manager'))]"
-        />
-        <field name="arch" type="xml">
-            <field name="sub_payor_identifier" position="attributes">
-                <attribute name="readonly">0</attribute>
-            </field>
-        </field>
-    </record>
+
     <record id="res_partner_view_form_invoice" model="ir.ui.view">
         <field name="name">res.partner.view.form</field>
         <field name="model">res.partner</field>
