@@ -21,7 +21,7 @@
                     name="invoice_date_due"
                     force_save="1"
                     placeholder="Date"
-                    attrs="{'invisible': ['|', ('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')), ('invoice_payment_term_id', '=', False)]}"
+                    attrs="{'invisible': ['|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')), ('invoice_payment_term_id', '=', False)]}"
                     readonly="1"
                 />
             </xpath>

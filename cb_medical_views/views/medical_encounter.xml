@@ -5,14 +5,18 @@
     License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
 <odoo>
-    <act_window
-        id="encounter_find_by_barcode"
-        name="Find encounter"
-        res_model="barcode.action"
-        view_mode="form"
-        context="{'default_model': 'medical.encounter', 'default_method': 'find_encounter_by_barcode'}"
-        target="new"
-    />
+
+    <record id="encounter_find_by_barcode" model="ir.actions.act_window">
+        <field name="name">Find encounter</field>
+        <field name="res_model">barcode.action</field>
+        <field name="view_mode">form</field>
+        <field
+            name="context"
+        >{'default_model': 'medical.encounter', 'default_method': 'find_encounter_by_barcode'}</field>
+        <field name="target">new</field>
+    </record>
+
+
     <menuitem
         id="encounter_find_by_barcode_menu"
         name="Find encounter"
