@@ -5,9 +5,9 @@
     "name": "Cb Invoice Views",
     "summary": """
         Modify invoice views css""",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
-    "author": "Creu Blanca",
+    "author": "CreuBlanca",
     "website": "https://github.com/tegin/cb-medical",
     "depends": ["cb_medical_careplan_sale"],
     "data": ["views/theme_default_templates.xml"],
