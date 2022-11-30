@@ -22,8 +22,7 @@ class MedicalEncounter(models.Model):
             context.update(
                 {
                     "default_state": "warning",
-                    "default_status": _("Encounter %s cannot be found")
-                    % barcode,
+                    "default_status": _("Encounter %s cannot be found") % barcode,
                 }
             )
             result["context"] = json.dumps(context)
