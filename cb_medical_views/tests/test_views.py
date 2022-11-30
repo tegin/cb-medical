@@ -8,28 +8,24 @@ class TestCBSale(common.MedicalSavePointCase):
         encounter, careplan, group = self.create_careplan_and_group(
             self.agreement_line3
         )
-        encounter_search = self.env[
-            "medical.encounter"
-        ].find_encounter_by_barcode(encounter.internal_identifier)
+        encounter_search = self.env["medical.encounter"].find_encounter_by_barcode(
+            encounter.internal_identifier
+        )
         self.assertEqual(
             encounter,
-            self.env[encounter_search["res_model"]].browse(
-                encounter_search["res_id"]
-            ),
+            self.env[encounter_search["res_model"]].browse(encounter_search["res_id"]),
         )
 
     def test_search_encounter_02(self):
-        encounter, careplan, group = self.create_careplan_and_group(
-            self.agreement_line
-        )
+        encounter, careplan, group = self.create_careplan_and_group(self.agreement_line)
         documents = self.env["medical.document.reference"].search(
             [("encounter_id", "=", encounter.id)], limit=1
         )
         self.assertTrue(documents)
         for document in documents:
-            encounter_search = self.env[
-                "medical.encounter"
-            ].find_encounter_by_barcode(document.internal_identifier)
+            encounter_search = self.env["medical.encounter"].find_encounter_by_barcode(
+                document.internal_identifier
+            )
             self.assertEqual(
                 encounter,
                 self.env[encounter_search["res_model"]].browse(
@@ -41,9 +37,7 @@ class TestCBSale(common.MedicalSavePointCase):
         encounter, careplan, group = self.create_careplan_and_group(
             self.agreement_line3
         )
-        encounter_search = self.env[
-            "medical.encounter"
-        ].find_encounter_by_barcode(
+        encounter_search = self.env["medical.encounter"].find_encounter_by_barcode(
             encounter.internal_identifier + encounter.internal_identifier
         )
         self.assertEqual("barcode.action", encounter_search["res_model"])
@@ -75,9 +69,7 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertTrue(requests)
         request = requests[0]
         event = request.generate_event()
-        self.assertRegex(
-            event.display_name, "^.*%s.*$" % event.internal_identifier
-        )
+        self.assertRegex(event.display_name, "^.*%s.*$" % event.internal_identifier)
 
     def test_coverage_display(self):
         self.assertEqual(
@@ -92,6 +84,4 @@ class TestCBSale(common.MedicalSavePointCase):
     def test_coverage_template_display(self):
         display_name = self.coverage_template.display_name
         self.assertRegex(display_name, "^.*%s.*$" % self.payor.display_name)
-        self.assertRegex(
-            display_name, "^.*%s.*$" % self.coverage_template.display_name
-        )
+        self.assertRegex(display_name, "^.*%s.*$" % self.coverage_template.display_name)
