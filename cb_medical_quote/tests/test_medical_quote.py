@@ -16,9 +16,7 @@ class TestMedicalQuote(TransactionCase):
         self.coverage_template_model = self.env["medical.coverage.template"]
         self.payor_model = self.env["res.partner"]
         self.coverage_agreement_model = self.env["medical.coverage.agreement"]
-        self.coverage_agreement_model_item = self.env[
-            "medical.coverage.agreement.item"
-        ]
+        self.coverage_agreement_model_item = self.env["medical.coverage.agreement.item"]
         self.center_model = self.env["res.partner"]
         self.product_model = self.env["product.product"]
         self.type_model = self.env["workflow.type"]
@@ -89,9 +87,7 @@ class TestMedicalQuote(TransactionCase):
         )
 
     def _create_patient(self):
-        return self.patient_model.create(
-            {"name": "Test patient", "gender": "female"}
-        )
+        return self.patient_model.create({"name": "Test patient", "gender": "female"})
 
     def _create_payor(self):
         return self.payor_model.create(
@@ -123,9 +119,7 @@ class TestMedicalQuote(TransactionCase):
         return coverage
 
     def _create_center(self):
-        return self.center_model.create(
-            {"name": "Test location", "is_center": True}
-        )
+        return self.center_model.create({"name": "Test location", "is_center": True})
 
     def _create_product(self, name):
         return self.product_model.create({"name": name, "type": "service"})
@@ -168,9 +162,7 @@ class TestMedicalQuote(TransactionCase):
         )
 
     def _create_plan(self):
-        return self.plan_model.create(
-            {"name": "Test plan", "type_id": self.type_1.id}
-        )
+        return self.plan_model.create({"name": "Test plan", "type_id": self.type_1.id})
 
     def test_onchange_medical_quote(self):
         comment_template = self.env["base.comment.template"].create(
@@ -283,9 +275,7 @@ class TestMedicalQuote(TransactionCase):
         wizard.generate_quote()
         self.assertTrue(self.coverage_agreement.quote_ids)
 
-        self.assertEqual(
-            len(self.coverage_agreement.quote_ids[0].quote_line_ids), 1
-        )
+        self.assertEqual(len(self.coverage_agreement.quote_ids[0].quote_line_ids), 1)
         self.assertEqual(
             self.coverage_agreement.quote_ids[0].quote_line_ids[0].product_id,
             self.coverage_agreement.item_ids[0].product_id,
