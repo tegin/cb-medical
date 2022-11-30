@@ -10,6 +10,4 @@ class MedicalQuoteLayoutCategory(models.Model):
     sequence = fields.Integer("Sequence", required=True, default=10)
     subtotal = fields.Boolean("Add subtotal", default=True)
     pagebreak = fields.Boolean("Add pagebreak")
-    quote_id = fields.Many2one(
-        "medical.quote", string="Quote", ondelete="cascade"
-    )
+    quote_id = fields.Many2one("medical.quote", string="Quote", ondelete="cascade")
