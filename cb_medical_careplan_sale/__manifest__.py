@@ -33,6 +33,7 @@
         "views/medical_authorization_method_view.xml",
         "views/sale_order_views.xml",
         "views/medical_sale_discount_views.xml",
+        "views/theme_default_templates.xml",
     ],
     "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",

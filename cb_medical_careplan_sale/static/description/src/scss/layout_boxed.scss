@@ -1,0 +1,35 @@
+.o_report_layout_boxed {
+    table {
+        tbody {
+            tr {
+                td {
+                    background-color: transparent;
+                    color: #000;
+                }
+                &.is-subtotal,
+                td.o_price_total {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+    /*Total table*/
+    .row > div > table,
+    div#total table {
+        tr {
+            &:last-child td {
+                background-color: transparent;
+                color: #000;
+            }
+        }
+    }
+
+    address {
+        font-size: 120%;
+    }
+}
+.o_boxed_footer,
+.o_boxed_header,
+.o_report_layout_boxed {
+    font-size: 14px;
+}
