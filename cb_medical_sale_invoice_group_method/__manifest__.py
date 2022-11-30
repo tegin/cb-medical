@@ -31,7 +31,7 @@
         "views/medical_preinvoice_group_views.xml",
         "report/medical_preinvoice_group.xml",
     ],
-    "website": "https://github.com/OCA/vertical-medical",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
