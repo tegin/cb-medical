@@ -8,6 +8,4 @@ class MedicalCoverageAgreement(models.Model):
 
     _inherit = "medical.coverage.agreement"
 
-    quote_ids = fields.One2many(
-        "medical.quote", inverse_name="origin_agreement_id"
-    )
+    quote_ids = fields.One2many("medical.quote", inverse_name="origin_agreement_id")

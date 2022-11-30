@@ -32,9 +32,7 @@ class WizardCreateQuoteAgreement(models.TransientModel):
         rec["agreement_id"] = agreement_id
         agreement = self.env["medical.coverage.agreement"].browse(agreement_id)
         rec["possible_center_ids"] = [(6, 0, agreement.center_ids.ids)]
-        rec["possible_template_ids"] = [
-            (6, 0, agreement.coverage_template_ids.ids)
-        ]
+        rec["possible_template_ids"] = [(6, 0, agreement.coverage_template_ids.ids)]
         return rec
 
     def generate_quote(self):

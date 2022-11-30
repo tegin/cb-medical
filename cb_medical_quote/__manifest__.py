@@ -22,7 +22,7 @@
         "reports/medical_quote_report.xml",
         "data/mail_data.xml",
     ],
-    "website": "https://github.com/Eficent/cb-addons",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
