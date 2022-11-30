@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from odoo import fields
+
 from odoo.addons.cb_medical_careplan_sale.tests import common
 
 
@@ -34,9 +35,7 @@ class TestCBInvoicing(common.MedicalSavePointCase):
             )
             encounters |= encounter
             self.assertTrue(group.procedure_request_ids)
-            self.assertTrue(
-                group.is_sellable_insurance or group.is_sellable_private
-            )
+            self.assertTrue(group.is_sellable_insurance or group.is_sellable_private)
             self.assertEqual(method, group.invoice_group_method_id)
             self.assertFalse(
                 self.env["medical.request.group"].search(
@@ -103,9 +102,7 @@ class TestCBInvoicing(common.MedicalSavePointCase):
                 self.agreement_line3
             )
             self.assertTrue(group.procedure_request_ids)
-            self.assertTrue(
-                group.is_sellable_insurance or group.is_sellable_private
-            )
+            self.assertTrue(group.is_sellable_insurance or group.is_sellable_private)
             self.assertFalse(group.third_party_bill)
             encounter.create_sale_order()
             self.assertTrue(encounter.sale_order_ids)
@@ -137,9 +134,7 @@ class TestCBInvoicing(common.MedicalSavePointCase):
                 self.agreement_line3
             )
             self.assertTrue(group.procedure_request_ids)
-            self.assertTrue(
-                group.is_sellable_insurance or group.is_sellable_private
-            )
+            self.assertTrue(group.is_sellable_insurance or group.is_sellable_private)
             self.assertFalse(group.third_party_bill)
             encounter.create_sale_order()
             sale_order = encounter.sale_order_ids
@@ -176,9 +171,7 @@ class TestCBInvoicing(common.MedicalSavePointCase):
             .invoice_sales_by_group()
         )
         self.assertTrue(action.get("res_id", False))
-        invoice = self.env[action["res_model"]].browse(
-            action.get("res_id", False)
-        )
+        invoice = self.env[action["res_model"]].browse(action.get("res_id", False))
         invoice.post()
         for line in invoice.invoice_line_ids:
             self.assertEqual(line.name, nomenclature_product.name)
@@ -186,9 +179,7 @@ class TestCBInvoicing(common.MedicalSavePointCase):
             self.assertTrue(sale_order.invoice_status == "invoiced")
 
     def test_preinvoice_no_invoice(self):
-        method = self.browse_ref(
-            "cb_medical_careplan_sale.no_invoice_preinvoice"
-        )
+        method = self.browse_ref("cb_medical_careplan_sale.no_invoice_preinvoice")
         self.plan_definition2.third_party_bill = False
         self.plan_definition.is_billable = True
         self.agreement.invoice_group_method_id = method
@@ -201,9 +192,7 @@ class TestCBInvoicing(common.MedicalSavePointCase):
             )
             encounters |= encounter
             self.assertTrue(group.procedure_request_ids)
-            self.assertTrue(
-                group.is_sellable_insurance or group.is_sellable_private
-            )
+            self.assertTrue(group.is_sellable_insurance or group.is_sellable_private)
             self.assertFalse(group.third_party_bill)
             encounter.create_sale_order()
             self.assertTrue(encounter.sale_order_ids)
@@ -260,9 +249,7 @@ class TestCBInvoicing(common.MedicalSavePointCase):
         )
         self.assertTrue(preinvoices)
         invoice_obj = self.env["account.move"]
-        self.assertFalse(
-            invoice_obj.search([("partner_id", "=", self.payor.id)])
-        )
+        self.assertFalse(invoice_obj.search([("partner_id", "=", self.payor.id)]))
         for preinvoice in preinvoices:
             self.assertFalse(preinvoice.validated_line_ids)
             preinvoice.start()
