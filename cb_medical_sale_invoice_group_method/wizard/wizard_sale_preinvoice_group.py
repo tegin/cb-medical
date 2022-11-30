@@ -9,9 +9,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
     _name = "wizard.sale.preinvoice.group"
     _description = "wizard.sale.preinvoice.group"
 
-    company_ids = fields.Many2many(
-        comodel_name="res.company", string="Companies"
-    )
+    company_ids = fields.Many2many(comodel_name="res.company", string="Companies")
     payor_ids = fields.Many2many(
         comodel_name="res.partner",
         domain=[("is_payor", "=", True)],
@@ -34,8 +32,7 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
         for sale_order in sale_orders:
             for line in sale_order.order_line.filtered(
                 lambda r: (
-                    not r.preinvoice_group_id
-                    and r.invoice_group_method_id in groups
+                    not r.preinvoice_group_id and r.invoice_group_method_id in groups
                 )
                 and r.qty_invoiced < r.product_uom_qty
             ):
@@ -51,33 +48,24 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
                     agreements[company][cov_id] = {}
                 if partner_id not in agreements[company][cov_id]:
                     agreements[company][cov_id][partner_id] = {}
-                if (
-                    partner_invoice_id
-                    not in agreements[company][cov_id][partner_id]
-                ):
-                    agreements[company][cov_id][partner_id][
-                        partner_invoice_id
-                    ] = {}
+                if partner_invoice_id not in agreements[company][cov_id][partner_id]:
+                    agreements[company][cov_id][partner_id][partner_invoice_id] = {}
                 if (
                     group
-                    not in agreements[company][cov_id][partner_id][
-                        partner_invoice_id
-                    ]
+                    not in agreements[company][cov_id][partner_id][partner_invoice_id]
                 ):
-                    agreements[company][cov_id][partner_id][
-                        partner_invoice_id
-                    ][group] = {}
+                    agreements[company][cov_id][partner_id][partner_invoice_id][
+                        group
+                    ] = {}
                 if (
                     template
-                    not in agreements[company][cov_id][partner_id][
-                        partner_invoice_id
-                    ][group]
+                    not in agreements[company][cov_id][partner_id][partner_invoice_id][
+                        group
+                    ]
                 ):
-                    agreements[company][cov_id][partner_id][
-                        partner_invoice_id
-                    ][group][template] = self.env[
-                        "sale.preinvoice.group"
-                    ].create(
+                    agreements[company][cov_id][partner_id][partner_invoice_id][group][
+                        template
+                    ] = self.env["sale.preinvoice.group"].create(
                         {
                             "agreement_id": cov_id,
                             "company_id": company.id,
@@ -90,9 +78,9 @@ class WizardSalePreinvoiceGroup(models.TransientModel):
                     )
                 line.sequence = 999999
                 line.is_validated = False
-                line.preinvoice_group_id = agreements[company][cov_id][
-                    partner_id
-                ][partner_invoice_id][group][template]
+                line.preinvoice_group_id = agreements[company][cov_id][partner_id][
+                    partner_invoice_id
+                ][group][template]
         action = self.env.ref(
             "cb_medical_sale_invoice_group_method.sale_preinvoice_group_action"
         )

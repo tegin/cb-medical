@@ -12,10 +12,7 @@ class MedicalCoverageAgreementItem(models.Model):
 
     def _check_authorization(self, method, **kwargs):
         vals = super()._check_authorization(method, **kwargs)
-        if (
-            method.force_item_authorization_method
-            and self.invoice_group_method_id
-        ):
+        if method.force_item_authorization_method and self.invoice_group_method_id:
             vals["invoice_group_method_id"] = self.invoice_group_method_id.id
         if "invoice_group_method_id" not in vals:
             vals["invoice_group_method_id"] = (

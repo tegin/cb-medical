@@ -16,9 +16,7 @@ class InvoiceSalesByGroup(models.TransientModel):
         required=True,
     )
     customer_ids = fields.Many2many(comodel_name="res.partner")
-    company_ids = fields.Many2many(
-        comodel_name="res.company", string="Companies"
-    )
+    company_ids = fields.Many2many(comodel_name="res.company", string="Companies")
 
     def invoice_sales_by_group(self):
         domain = [
@@ -39,9 +37,7 @@ class InvoiceSalesByGroup(models.TransientModel):
             )
             if not sales:
                 continue
-            invoices |= sales.with_context(
-                active_model=sales._name
-            )._create_invoices()
+            invoices |= sales.with_context(active_model=sales._name)._create_invoices()
         if not invoices:
             return
         action = self.env.ref("account.action_move_out_invoice_type")

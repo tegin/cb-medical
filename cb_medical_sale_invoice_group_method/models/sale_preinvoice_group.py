@@ -17,9 +17,7 @@ class SalePreinvoiceGroup(models.Model):
         required=False,
         readonly=True,
     )
-    coverage_template_id = fields.Many2one(
-        "medical.coverage.template", readonly=True
-    )
+    coverage_template_id = fields.Many2one("medical.coverage.template", readonly=True)
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
@@ -76,10 +74,7 @@ class SalePreinvoiceGroup(models.Model):
 
     @api.model
     def _get_internal_identifier(self, vals):
-        return (
-            self.env["ir.sequence"].next_by_code("medical.preinvoice.group")
-            or "/"
-        )
+        return self.env["ir.sequence"].next_by_code("medical.preinvoice.group") or "/"
 
     @api.depends("line_ids")
     def _compute_lines(self):
@@ -137,10 +132,7 @@ class SalePreinvoiceGroup(models.Model):
         self.ensure_one()
         for line in self.non_validated_line_ids:
             line.preinvoice_group_id = False
-        if (
-            self.validated_line_ids
-            and not self.invoice_group_method_id.no_invoice
-        ):
+        if self.validated_line_ids and not self.invoice_group_method_id.no_invoice:
             self.move_id = self.env["account.move"].search(
                 self.invoice_domain(), limit=1
             )
@@ -152,11 +144,7 @@ class SalePreinvoiceGroup(models.Model):
                 )
             else:
                 self.move_id.write(
-                    {
-                        "ref": ",".join(
-                            [self.move_id.ref, self.internal_identifier]
-                        )
-                    }
+                    {"ref": ",".join([self.move_id.ref, self.internal_identifier])}
                 )
             seq = len(self.move_id.invoice_line_ids) + 1
             data = []
@@ -184,10 +172,7 @@ class SalePreinvoiceGroup(models.Model):
 
     def _show_lines(self, encounter, processed_lines):
         show_lines = (
-            _(
-                "The following lines have been processed from "
-                "Encounter %s:\n"
-            )
+            _("The following lines have been processed from " "Encounter %s:\n")
             % encounter.display_name
         )
         for line in processed_lines:
@@ -216,8 +201,7 @@ class SalePreinvoiceGroup(models.Model):
             status_state = "warning"
         else:
             processed_lines = self.line_ids.filtered(
-                lambda r: r.encounter_id.id == encounter_id.id
-                and not r.is_validated
+                lambda r: r.encounter_id.id == encounter_id.id and not r.is_validated
             )
             if not processed_lines:
                 status = (
