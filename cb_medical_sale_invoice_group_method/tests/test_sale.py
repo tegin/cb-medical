@@ -38,9 +38,7 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertEqual(careplan.state, "draft")
         self.assertFalse(medication_requests.filtered(lambda r: r.is_billable))
         self.assertTrue(
-            groups.filtered(
-                lambda r: r.child_model == "medical.medication.request"
-            )
+            groups.filtered(lambda r: r.child_model == "medical.medication.request")
         )
         self.assertTrue(
             groups.filtered(
@@ -104,9 +102,7 @@ class TestCBSale(common.MedicalSavePointCase):
                 lambda r: r.preinvoice_status == "to preinvoice"
                 and any(
                     line.invoice_group_method_id
-                    == self.browse_ref(
-                        "cb_medical_careplan_sale.by_preinvoicing"
-                    )
+                    == self.browse_ref("cb_medical_careplan_sale.by_preinvoicing")
                     for line in r.order_line
                 )
             )
@@ -164,17 +160,13 @@ class TestCBSale(common.MedicalSavePointCase):
         )
         self.assertTrue(preinvoices)
         invoice_obj = self.env["account.move"]
-        self.assertFalse(
-            invoice_obj.search([("partner_id", "=", self.payor.id)])
-        )
+        self.assertFalse(invoice_obj.search([("partner_id", "=", self.payor.id)]))
         # Test barcodes
         for preinvoice in preinvoices:
             self.assertFalse(preinvoice.validated_line_ids)
             preinvoice.start()
 
-            result = preinvoice.scan_barcode_preinvoice(
-                encounter.internal_identifier
-            )
+            result = preinvoice.scan_barcode_preinvoice(encounter.internal_identifier)
             self.assertEqual(result["context"]["default_state"], "waiting")
             result = preinvoice.scan_barcode_preinvoice("No Barcode")
             self.assertEqual(result["context"]["default_state"], "warning")
