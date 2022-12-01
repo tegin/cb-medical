@@ -17,12 +17,6 @@
                 <field name="agreement_ids" invisible="1" />
                 <field name="medical_quote_ids" invisible="1" />
             </field>
-            <label for="planned_revenue" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </label>
-            <xpath expr="//field[@name='planned_revenue']/.." position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
             <xpath expr="//button[@name='action_set_lost']" position="after">
                 <button
                     name="send_email_from_lead"
