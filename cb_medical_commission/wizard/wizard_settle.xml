@@ -38,13 +38,13 @@
             </form>
         </field>
     </record>
-    <act_window
-        id="action_agents_no_invoice_settlement"
-        name="Settle commissions"
-        res_model="sale.commission.no.invoice.make.settle"
-        view_mode="form"
-        target="new"
-    />
+    <record id="action_agents_no_invoice_settlement" model="ir.actions.act_window">
+        <field name="name">Settle commissions</field>
+        <field name="res_model">sale.commission.no.invoice.make.settle</field>
+        <field name="view_mode">form</field>
+
+        <field name="target">new</field>
+    </record>
     <menuitem
         id="menu_agents_no_invoice_settlement"
         parent="sale_commission.menu_sale_commissions_management"

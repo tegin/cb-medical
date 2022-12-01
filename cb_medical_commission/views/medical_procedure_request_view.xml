@@ -17,11 +17,11 @@
                 <field name="medical_commission" invisible="1" />
                 <field
                     name="variable_fee"
-                    attrs="{'invisible':[('medical_commission', '=', False)], 'readonly': [('is_editable', '=', False)]}"
+                    attrs="{'invisible':[('medical_commission', '=', False)]}"
                 />
                 <field
                     name="fixed_fee"
-                    attrs="{'invisible':[('medical_commission', '=', False)], 'readonly': [('is_editable', '=', False)]}"
+                    attrs="{'invisible':[('medical_commission', '=', False)]}"
                 />
             </field>
         </field>
