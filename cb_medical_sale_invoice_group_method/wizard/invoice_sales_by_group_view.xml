@@ -55,13 +55,13 @@
             </form>
         </field>
     </record>
-    <act_window
-        id="action_invoice_by_group"
-        name="Sales to Invoice by group"
-        res_model="invoice.sales.by.group"
-        view_mode="form"
-        target="new"
-    />
+    <record id="action_invoice_by_group" model="ir.actions.act_window">
+        <field name="name">Sales to Invoice by group</field>
+        <field name="res_model">invoice.sales.by.group</field>
+        <field name="view_mode">form</field>
+
+        <field name="target">new</field>
+    </record>
     <menuitem
         action="action_invoice_by_group"
         id="menu_invoice_by_group"

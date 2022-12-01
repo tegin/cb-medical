@@ -55,7 +55,7 @@ class SalePreinvoiceGroup(models.Model):
     invoice_group_method_id = fields.Many2one(
         string="Invoice Group Method",
         comodel_name="invoice.group.method",
-        track_visibility="onchange",
+        tracking=True,
     )
     state = fields.Selection(
         string="Status",
@@ -106,7 +106,7 @@ class SalePreinvoiceGroup(models.Model):
         if self.partner_invoice_id:
             partner_id = self.partner_invoice_id.id
         return [
-            ("type", "=", "out_invoice"),
+            ("move_type", "=", "out_invoice"),
             ("invoice_group_method_id", "=", self.invoice_group_method_id.id),
             ("partner_id", "=", partner_id),
             ("agreement_id", "=", self.agreement_id.id or False),

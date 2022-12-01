@@ -71,6 +71,8 @@ class TestCBInvoicing(common.MedicalSavePointCase):
                 self.assertFalse(sale_order.third_party_order)
         for encounter in encounters:
             encounter.sale_order_ids.action_confirm()
+            for line in encounter.sale_order_ids.mapped("order_line"):
+                line.qty_delivered = line.product_uom_qty
             encounter.sale_order_ids.with_context(
                 active_model=encounter.sale_order_ids._name
             )._create_invoices()
@@ -95,7 +97,6 @@ class TestCBInvoicing(common.MedicalSavePointCase):
         self.plan_definition.is_billable = True
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
-        self.company.sale_merge_draft_invoice = True
         sale_orders = self.env["sale.order"]
         for _ in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
@@ -140,6 +141,8 @@ class TestCBInvoicing(common.MedicalSavePointCase):
             sale_order = encounter.sale_order_ids
             self.assertFalse(sale_order.third_party_order)
             sale_order.action_confirm()
+            for line in sale_order.mapped("order_line"):
+                line.qty_delivered = line.product_uom_qty
             self.assertTrue(encounter.sale_order_ids)
             sale_order = encounter.sale_order_ids
             self.assertFalse(sale_order.third_party_order)
@@ -172,7 +175,7 @@ class TestCBInvoicing(common.MedicalSavePointCase):
         )
         self.assertTrue(action.get("res_id", False))
         invoice = self.env[action["res_model"]].browse(action.get("res_id", False))
-        invoice.post()
+        invoice._post()
         for line in invoice.invoice_line_ids:
             self.assertEqual(line.name, nomenclature_product.name)
         for sale_order in sale_orders:
