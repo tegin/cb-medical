@@ -15,9 +15,7 @@ class SaleCommissionMakeSettle(models.TransientModel):
         settlement_line_obj = self.env["sale.commission.settlement.line"]
         settlement_ids = []
         if not self.agent_ids:
-            self.agent_ids = self.env["res.partner"].search(
-                [("agent", "=", True)]
-            )
+            self.agent_ids = self.env["res.partner"].search([("agent", "=", True)])
         date_to = self.date_to
         for agent in self.agent_ids:
             date_to_agent = self._get_period_start(agent, date_to)

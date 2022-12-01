@@ -1,7 +1,9 @@
 from datetime import timedelta
 
 from dateutil.relativedelta import relativedelta
+
 from odoo import fields
+
 from odoo.addons.cb_medical_careplan_sale.tests import common
 
 
@@ -12,25 +14,19 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         cls.practitioner_01.write(
             {
                 "agent": True,
-                "commission_id": cls.env.ref(
-                    "cb_medical_commission.commission_01"
-                ).id,
+                "commission_id": cls.env.ref("cb_medical_commission.commission_01").id,
             }
         )
         cls.practitioner_02.write(
             {
                 "agent": True,
-                "commission_id": cls.env.ref(
-                    "cb_medical_commission.commission_01"
-                ).id,
+                "commission_id": cls.env.ref("cb_medical_commission.commission_01").id,
             }
         )
 
     def test_practitioner_conditions(self):
         self.plan_definition2.write({"third_party_bill": False})
-        self.plan_definition2.action_ids.write(
-            {"variable_fee": 0, "fixed_fee": 10}
-        )
+        self.plan_definition2.action_ids.write({"variable_fee": 0, "fixed_fee": 10})
         self.assertNotEqual(
             self.plan_definition2.action_ids.activity_definition_id.service_id,
             self.agreement_line3.product_id,
@@ -139,9 +135,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertEqual(careplan.state, "draft")
         self.assertFalse(medication_requests.filtered(lambda r: r.is_billable))
         self.assertTrue(
-            groups.filtered(
-                lambda r: r.child_model == "medical.medication.request"
-            )
+            groups.filtered(lambda r: r.child_model == "medical.medication.request")
         )
         self.assertTrue(
             groups.filtered(
@@ -222,9 +216,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 lambda r: r.preinvoice_status == "to preinvoice"
                 and any(
                     line.invoice_group_method_id
-                    == self.browse_ref(
-                        "cb_medical_careplan_sale.by_preinvoicing"
-                    )
+                    == self.browse_ref("cb_medical_careplan_sale.by_preinvoicing")
                     for line in r.order_line
                 )
             )
@@ -282,16 +274,12 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         )
         self.assertTrue(preinvoices)
         invoice_obj = self.env["account.move"]
-        self.assertFalse(
-            invoice_obj.search([("partner_id", "=", self.payor.id)])
-        )
+        self.assertFalse(invoice_obj.search([("partner_id", "=", self.payor.id)]))
         # Test barcodes
         for preinvoice in preinvoices:
             self.assertFalse(preinvoice.validated_line_ids)
             preinvoice.start()
-            result = preinvoice.scan_barcode_preinvoice(
-                encounter.internal_identifier
-            )
+            result = preinvoice.scan_barcode_preinvoice(encounter.internal_identifier)
             self.assertEqual(result["context"]["default_state"], "waiting")
             preinvoice.close_sorting()
             preinvoice.close()
@@ -360,9 +348,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 self.agreement_line3
             )
             self.assertTrue(group.procedure_request_ids)
-            self.assertTrue(
-                group.is_sellable_insurance or group.is_sellable_private
-            )
+            self.assertTrue(group.is_sellable_insurance or group.is_sellable_private)
             self.assertFalse(group.third_party_bill)
             encounter.create_sale_order()
             encounter.sale_order_ids.action_confirm()
@@ -376,12 +362,8 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         for line in sale_orders.mapped("order_line"):
             self.assertEqual(line.qty_to_invoice, 0)
         for encounter in encounters:
-            self.assertTrue(
-                encounter.mapped("careplan_ids.procedure_request_ids")
-            )
-            for request in encounter.mapped(
-                "careplan_ids.procedure_request_ids"
-            ):
+            self.assertTrue(encounter.mapped("careplan_ids.procedure_request_ids"))
+            for request in encounter.mapped("careplan_ids.procedure_request_ids"):
                 request.draft2active()
                 self.assertEqual(request.center_id, encounter.center_id)
                 procedure = request.generate_event()
@@ -405,9 +387,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         )
         self.assertTrue(settlements)
         for encounter in encounters:
-            for request in encounter.careplan_ids.mapped(
-                "procedure_request_ids"
-            ):
+            for request in encounter.careplan_ids.mapped("procedure_request_ids"):
                 procedure = request.procedure_ids
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 0)
@@ -439,9 +419,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 self.agreement_line3
             )
             self.assertTrue(group.procedure_request_ids)
-            self.assertTrue(
-                group.is_sellable_insurance or group.is_sellable_private
-            )
+            self.assertTrue(group.is_sellable_insurance or group.is_sellable_private)
             self.assertFalse(group.third_party_bill)
             encounter.create_sale_order()
             encounter.sale_order_ids.action_confirm()
@@ -478,18 +456,14 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             .invoice_sales_by_group()
         )
         self.assertTrue(action.get("res_id", False))
-        invoice = self.env[action["res_model"]].browse(
-            action.get("res_id", False)
-        )
+        invoice = self.env[action["res_model"]].browse(action.get("res_id", False))
         invoice.post()
         for line in invoice.invoice_line_ids:
             self.assertEqual(line.name, nomenclature_product.name)
         for sale_order in sale_orders:
             self.assertTrue(sale_order.invoice_status == "invoiced")
         for encounter in encounters:
-            for request in encounter.careplan_ids.mapped(
-                "procedure_request_ids"
-            ):
+            for request in encounter.careplan_ids.mapped("procedure_request_ids"):
                 request.draft2active()
                 self.assertEqual(request.center_id, encounter.center_id)
                 procedure = request.generate_event()
@@ -506,9 +480,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         )
         self.assertTrue(settlements)
         for encounter in encounters:
-            for request in encounter.careplan_ids.mapped(
-                "procedure_request_ids"
-            ):
+            for request in encounter.careplan_ids.mapped("procedure_request_ids"):
                 procedure = request.procedure_ids
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 1)
@@ -542,9 +514,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 ).id,
             }
         )
-        encounter, careplan, group = self.create_careplan_and_group(
-            self.agreement_line
-        )
+        encounter, careplan, group = self.create_careplan_and_group(self.agreement_line)
         lab_req = group.laboratory_request_ids
         event = lab_req.generate_event(
             {
@@ -589,9 +559,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             sum(
                 a.amount
                 for a in encounter.sale_order_ids.mapped("order_line")
-                .filtered(
-                    lambda r: r.medical_model == "medical.laboratory.event"
-                )
+                .filtered(lambda r: r.medical_model == "medical.laboratory.event")
                 .mapped("agent_ids")
             ),
             0,
@@ -604,9 +572,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 "cb_medical_careplan_sale.by_preinvoicing"
             ):
                 continue
-            sale_order.with_context(
-                active_model=sale_order._name
-            )._create_invoices()
+            sale_order.with_context(active_model=sale_order._name)._create_invoices()
         self.assertEqual(encounter.invoice_count, 2)
         self.assertGreater(
             sum(

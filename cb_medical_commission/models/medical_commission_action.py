@@ -57,9 +57,7 @@ class MedicalCommissionAction(models.AbstractModel):
                 )
             for inv_line in line.invoice_lines:
                 if (
-                    not inv_line.agent_ids.filtered(
-                        lambda r: self.check_agents(r)
-                    )
+                    not inv_line.agent_ids.filtered(lambda r: self.check_agents(r))
                     and agent
                     and agent.agent
                 ):

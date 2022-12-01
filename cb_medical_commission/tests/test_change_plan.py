@@ -88,8 +88,7 @@ class TestCB(TransactionCase):
                 "name": "Activity",
                 "service_id": self.product_02.id,
                 "model_id": self.browse_ref(
-                    "medical_clinical_procedure."
-                    "model_medical_procedure_request"
+                    "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
                 "type_id": self.type.id,
             }
@@ -99,8 +98,7 @@ class TestCB(TransactionCase):
                 "name": "Activity2",
                 "service_id": self.product_03.id,
                 "model_id": self.browse_ref(
-                    "medical_clinical_procedure."
-                    "model_medical_procedure_request"
+                    "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
                 "type_id": self.type.id,
             }
@@ -147,9 +145,7 @@ class TestCB(TransactionCase):
                 "name": "Action3",
             }
         )
-        self.agreement_line = self.env[
-            "medical.coverage.agreement.item"
-        ].create(
+        self.agreement_line = self.env["medical.coverage.agreement.item"].create(
             {
                 "product_id": self.product_01.id,
                 "coverage_agreement_id": self.agreement.id,
@@ -163,9 +159,7 @@ class TestCB(TransactionCase):
                 ).id,
             }
         )
-        self.agreement_line2 = self.env[
-            "medical.coverage.agreement.item"
-        ].create(
+        self.agreement_line2 = self.env["medical.coverage.agreement.item"].create(
             {
                 "product_id": self.product_03.id,
                 "coverage_agreement_id": self.agreement.id,
@@ -179,9 +173,7 @@ class TestCB(TransactionCase):
                 ).id,
             }
         )
-        self.agreement_line3 = self.env[
-            "medical.coverage.agreement.item"
-        ].create(
+        self.agreement_line3 = self.env["medical.coverage.agreement.item"].create(
             {
                 "product_id": self.product_04.id,
                 "coverage_agreement_id": self.agreement.id,
@@ -200,9 +192,7 @@ class TestCB(TransactionCase):
         return self.env["medical.patient"].create({"name": name})
 
     def create_product(self, name):
-        return self.env["product.product"].create(
-            {"type": "service", "name": name}
-        )
+        return self.env["product.product"].create({"type": "service", "name": name})
 
     def create_practitioner(self, name):
         return self.env["res.partner"].create(
@@ -210,9 +200,7 @@ class TestCB(TransactionCase):
                 "name": name,
                 "is_practitioner": True,
                 "agent_id": True,
-                "commission": self.browse_ref(
-                    "cb_medical_commission.commission_01"
-                ).id,
+                "commission": self.browse_ref("cb_medical_commission.commission_01").id,
             }
         )
 
@@ -246,13 +234,9 @@ class TestCB(TransactionCase):
         self.plan_definition.is_billable = True
         encounter, careplan, group = self.create_careplan_and_group()
         group.refresh()
-        requests = group.procedure_request_ids.filtered(
-            lambda r: r.state == "draft"
-        )
+        requests = group.procedure_request_ids.filtered(lambda r: r.state == "draft")
         self.assertTrue(requests)
-        request = requests.filtered(
-            lambda r: r.activity_definition_id == self.activity
-        )
+        request = requests.filtered(lambda r: r.activity_definition_id == self.activity)
         self.assertTrue(request)
         self.assertEqual(request.variable_fee, 0.1)
         self.assertEqual(request.fixed_fee, 0)

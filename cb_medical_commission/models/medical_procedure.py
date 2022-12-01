@@ -11,9 +11,7 @@ class MedicalProcedure(models.Model):
     variable_fee = fields.Float(
         string="Variable fee (%)", store=True, compute="_compute_fees"
     )
-    fixed_fee = fields.Float(
-        string="Fixed fee", store=True, compute="_compute_fees"
-    )
+    fixed_fee = fields.Float(string="Fixed fee", store=True, compute="_compute_fees")
     practitioner_condition_id = fields.Many2one(
         "medical.practitioner.condition", readonly=True
     )
