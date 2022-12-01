@@ -16,7 +16,7 @@
                     name="practitoner_condition"
                     string="Practitioner conditions"
                     attrs="{'invisible': ['|', ('is_practitioner', '=', False), ('agent', '=', False)]}"
-                    groups="medical_administration_practitioner.group_medical_practitioner_manager"
+                    groups="medical_base.group_medical_configurator"
                 >
                     <field name="practitioner_condition_ids" nolabel="1" />
                 </page>
@@ -29,7 +29,7 @@
         <field name="inherit_id" ref="cb_medical_commission.res_partner_view_form" />
         <field
             name="groups_id"
-            eval="[(4, ref('sales_team.group_sale_salesman')), (4, ref('medical_administration_practitioner.group_medical_practitioner_manager'))]"
+            eval="[(4, ref('sales_team.group_sale_salesman')), (4, ref('medical_base.group_medical_configurator'))]"
         />
         <field name="arch" type="xml">
             <field name="practitioner_condition_ids" position="attributes">
