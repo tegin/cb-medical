@@ -36,6 +36,7 @@
         <field name="model">medical.quote.layout_category</field>
         <field name="arch" type="xml">
             <search string="Search Name">
+                <field name='name' />
                 <filter
                     string="Total"
                     domain="[('subtotal','=','True')]"

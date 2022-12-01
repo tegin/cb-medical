@@ -21,7 +21,7 @@ class MedicalQuote(models.Model):
         string="Status",
         default="draft",
         required=True,
-        track_visibility="always",
+        tracking=True,
     )
     quote_date = fields.Date(
         "Date",
@@ -172,8 +172,10 @@ class MedicalQuote(models.Model):
                 self.payor_id = False
             if payors:
                 self.payor_id = payors[0]
+        #        else:
+        #            return {"domain": {"coverage_template_id": [], "payor_id": []}}
         else:
-            return {"domain": {"coverage_template_id": [], "payor_id": []}}
+            self.patient_name = False
 
     @api.onchange("payor_id")
     def _onchange_payor_id(self):
@@ -183,21 +185,13 @@ class MedicalQuote(models.Model):
                 self.coverage_template_id = False
             if len(templates) == 1:
                 self.coverage_template_id = templates[0]
-            return {"domain": {"coverage_template_id": [("id", "in", templates.ids)]}}
         else:
-            return {"domain": {"coverage_template_id": []}}
+            self.coverage_template_id = False
 
     @api.onchange("add_agreement_line_id")
     def _onchange_add_agreement_line_id(self):
         if self.add_agreement_line_id:
             self.add_quantity = 1.0
-
-    @api.onchange("coverage_template_id")
-    def _onchange_coverage_template_id(self):
-        if self.coverage_template_id:
-            self.payor_id = self.coverage_template_id.payor_id
-        else:
-            return {"domain": {"payor_id": [("is_payor", "=", True)]}}
 
     @api.model
     def _search_agreement_items(self):
@@ -288,8 +282,8 @@ class MedicalQuote(models.Model):
 
     def _get_name(self, vals):
         if "company_id" in vals:
-            name = self.env["ir.sequence"].with_context(
-                force_company=vals["company_id"]
+            name = self.env["ir.sequence"].with_company(
+                vals["company_id"]
             ).next_by_code("medical.quote") or _("New")
         else:
             name = self.env["ir.sequence"].next_by_code("medical.quote") or _("New")
