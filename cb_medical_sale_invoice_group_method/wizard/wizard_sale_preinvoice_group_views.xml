@@ -37,13 +37,12 @@
             </form>
         </field>
     </record>
-    <act_window
-        id="action_wizard_sale_preinvoice_group"
-        name="Generate preinvoices"
-        res_model="wizard.sale.preinvoice.group"
-        view_mode="form"
-        target="new"
-    />
+    <record id="action_wizard_sale_preinvoice_group" model="ir.actions.act_window">
+        <field name="name">Generate preinvoices </field>
+        <field name="res_model">wizard.sale.preinvoice.group</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
     <menuitem
         action="action_wizard_sale_preinvoice_group"
         id="menu_wizard_sale_preinvoice_group"
