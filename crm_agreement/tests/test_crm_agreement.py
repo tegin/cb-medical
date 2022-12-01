@@ -171,13 +171,11 @@ class TestCrmAgreement(TransactionCase):
             }
         )
         lead.partner_id = self.contact
-        lead._onchange_partner_id_values(lead.partner_id.id)
         self.assertIn(agreement.id, lead.agreement_ids.ids)
         payor2 = self.env["res.partner"].create(
             {"name": "Payor2", "is_medical": True, "is_payor": True}
         )
         lead.partner_id = payor2
-        lead._onchange_partner_id()
         self.assertNotIn(agreement, lead.agreement_ids)
 
     def test_lead_add_agreement(self):
