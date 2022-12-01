@@ -1,5 +1,6 @@
-from odoo.addons.cb_medical_careplan_sale.tests import common
 from odoo.exceptions import UserError
+
+from odoo.addons.cb_medical_careplan_sale.tests import common
 
 
 class TestCBMedicalCommission(common.MedicalSavePointCase):
@@ -9,17 +10,13 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         cls.practitioner_01.write(
             {
                 "agent": True,
-                "commission_id": cls.env.ref(
-                    "cb_medical_commission.commission_01"
-                ).id,
+                "commission_id": cls.env.ref("cb_medical_commission.commission_01").id,
             }
         )
         cls.practitioner_02.write(
             {
                 "agent": True,
-                "commission_id": cls.env.ref(
-                    "cb_medical_commission.commission_01"
-                ).id,
+                "commission_id": cls.env.ref("cb_medical_commission.commission_01").id,
             }
         )
         cls.def_third_party_product = cls.create_product("THIRD PARTY PRODUCT")
@@ -101,24 +98,18 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             self.assertEqual(request.center_id, encounter.center_id)
             procedure = request.generate_event()
             procedure.performer_id = self.practitioner_02
-        self.practitioner_02.third_party_sequence_id = self.env[
-            "ir.sequence"
-        ].create({"name": "sequence"})
-        self.assertTrue(
-            group.is_sellable_insurance or group.is_sellable_private
+        self.practitioner_02.third_party_sequence_id = self.env["ir.sequence"].create(
+            {"name": "sequence"}
         )
+        self.assertTrue(group.is_sellable_insurance or group.is_sellable_private)
         self.assertTrue(group.third_party_bill)
         encounter.create_sale_order()
         self.assertGreater(encounter.sale_order_count, 0)
         self.assertTrue(encounter.sale_order_ids)
         sale_order = encounter.sale_order_ids
         self.assertTrue(sale_order.third_party_order)
-        self.assertEqual(
-            sale_order.third_party_partner_id, self.practitioner_02
-        )
-        self.assertTrue(
-            sale_order.third_party_partner_id, self.practitioner_02
-        )
+        self.assertEqual(sale_order.third_party_partner_id, self.practitioner_02)
+        self.assertTrue(sale_order.third_party_partner_id, self.practitioner_02)
         encounter.sale_order_ids.action_confirm()
         with self.assertRaises(UserError):
             encounter.sale_order_ids.with_context(
@@ -138,24 +129,18 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             self.assertEqual(request.center_id, encounter.center_id)
             procedure = request.generate_event()
             procedure.performer_id = self.practitioner_02
-        self.practitioner_02.third_party_sequence_id = self.env[
-            "ir.sequence"
-        ].create({"name": "sequence"})
-        self.assertTrue(
-            group.is_sellable_insurance or group.is_sellable_private
+        self.practitioner_02.third_party_sequence_id = self.env["ir.sequence"].create(
+            {"name": "sequence"}
         )
+        self.assertTrue(group.is_sellable_insurance or group.is_sellable_private)
         self.assertTrue(group.third_party_bill)
         encounter.create_sale_order()
         self.assertGreater(encounter.sale_order_count, 0)
         self.assertTrue(encounter.sale_order_ids)
         sale_order = encounter.sale_order_ids
         self.assertTrue(sale_order.third_party_order)
-        self.assertEqual(
-            sale_order.third_party_partner_id, self.practitioner_02
-        )
-        self.assertTrue(
-            sale_order.third_party_partner_id, self.practitioner_02
-        )
+        self.assertEqual(sale_order.third_party_partner_id, self.practitioner_02)
+        self.assertTrue(sale_order.third_party_partner_id, self.practitioner_02)
         encounter.sale_order_ids.action_confirm()
         self.assertTrue(encounter.sale_order_ids.third_party_order_ids)
         encounter.sale_order_ids.third_party_order_ids.action_confirm()
@@ -164,9 +149,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             line.qty_delivered = line.product_uom_qty
         preinvoice_obj = self.env["sale.preinvoice.group"]
         self.assertFalse(
-            preinvoice_obj.search(
-                [("partner_id", "=", self.practitioner_02.id)]
-            )
+            preinvoice_obj.search([("partner_id", "=", self.practitioner_02.id)])
         )
         self.env["wizard.sale.preinvoice.group"].create(
             {
@@ -175,9 +158,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             }
         ).run()
         self.assertTrue(
-            preinvoice_obj.search(
-                [("partner_id", "=", self.practitioner_02.id)]
-            )
+            preinvoice_obj.search([("partner_id", "=", self.practitioner_02.id)])
         )
         preinvoices = preinvoice_obj.search(
             [
@@ -189,9 +170,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         for preinvoice in preinvoices:
             self.assertFalse(preinvoice.validated_line_ids)
             preinvoice.start()
-            result = preinvoice.scan_barcode_preinvoice(
-                encounter.internal_identifier
-            )
+            result = preinvoice.scan_barcode_preinvoice(encounter.internal_identifier)
             self.assertEqual(result["context"]["default_state"], "waiting")
             preinvoice.close_sorting()
             preinvoice.close()
@@ -208,21 +187,15 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             self.assertEqual(request.center_id, encounter.center_id)
             procedure = request.generate_event()
             procedure.performer_id = self.practitioner_02
-        self.assertTrue(
-            group.is_sellable_insurance or group.is_sellable_private
-        )
+        self.assertTrue(group.is_sellable_insurance or group.is_sellable_private)
         self.assertTrue(group.third_party_bill)
         encounter.create_sale_order()
         self.assertGreater(encounter.sale_order_count, 0)
         self.assertTrue(encounter.sale_order_ids)
         sale_order = encounter.sale_order_ids
         self.assertTrue(sale_order.third_party_order)
-        self.assertEqual(
-            sale_order.third_party_partner_id, self.practitioner_02
-        )
-        self.assertTrue(
-            sale_order.third_party_partner_id, self.practitioner_02
-        )
+        self.assertEqual(sale_order.third_party_partner_id, self.practitioner_02)
+        self.assertTrue(sale_order.third_party_partner_id, self.practitioner_02)
         encounter.sale_order_ids.action_confirm()
         encounter.sale_order_ids.third_party_order_ids.action_confirm()
         for line in encounter.sale_order_ids.third_party_order_ids.order_line:
@@ -243,9 +216,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             }
         ).run()
         self.assertTrue(
-            preinvoice_obj.search(
-                [("partner_id", "=", self.practitioner_02.id)]
-            )
+            preinvoice_obj.search([("partner_id", "=", self.practitioner_02.id)])
         )
         preinvoices = preinvoice_obj.search(
             [
@@ -257,9 +228,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         for preinvoice in preinvoices:
             self.assertFalse(preinvoice.validated_line_ids)
             preinvoice.start()
-            result = preinvoice.scan_barcode_preinvoice(
-                encounter.internal_identifier
-            )
+            result = preinvoice.scan_barcode_preinvoice(encounter.internal_identifier)
             self.assertEqual(result["context"]["default_state"], "waiting")
             preinvoice.close_sorting()
             preinvoice.close()

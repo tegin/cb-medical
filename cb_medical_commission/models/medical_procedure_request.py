@@ -28,9 +28,7 @@ class MedicalProcedureRequest(models.Model):
             self.request_group_id.service_id, self.service_id, self.center_id
         )
         if practitioner_condition_id:
-            res.update(
-                {"practitioner_condition_id": practitioner_condition_id.id}
-            )
+            res.update({"practitioner_condition_id": practitioner_condition_id.id})
         return res
 
     def generate_event(self, *args, **kwargs):

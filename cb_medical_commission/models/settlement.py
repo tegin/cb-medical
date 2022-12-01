@@ -28,9 +28,7 @@ class SettlementLine(models.Model):
 
     @api.constrains("settlement_id", "agent_line", "agent_sale_line")
     def _check_company(self):
-        super(
-            SettlementLine, self.filtered(lambda r: r.agent_line)
-        )._check_company()
+        super(SettlementLine, self.filtered(lambda r: r.agent_line))._check_company()
         for rec in self.filtered(lambda r: r.agent_sale_line):
             if rec.agent_sale_line.company_id != rec.company_id:
                 raise UserError(_("Company must be the same"))
