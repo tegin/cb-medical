@@ -121,12 +121,8 @@ class TestCrmAgreement(TransactionCase):
         self.assertFalse(agreement.lead_ids)
         lead_action = agreement.view_leads()
         self.assertFalse(lead_action.get("res_id", False))
-        self.assertFalse(
-            self.env["crm.lead"].search(lead_action.get("domain", []))
-        )
-        obj = self.env["crm.lead"].with_context(
-            **lead_action.get("context", {})
-        )
+        self.assertFalse(self.env["crm.lead"].search(lead_action.get("domain", [])))
+        obj = self.env["crm.lead"].with_context(**lead_action.get("context", {}))
 
         lead = obj.create({"name": "Test LEAD"})
         self.assertIn(agreement, lead.agreement_ids)
@@ -135,9 +131,7 @@ class TestCrmAgreement(TransactionCase):
         self.assertIn(lead, agreement.lead_ids)
         lead_action = agreement.view_leads()
         self.assertEqual(lead_action.get("res_id", False), lead.id)
-        self.assertIn(
-            lead, self.env["crm.lead"].search(lead_action.get("domain", []))
-        )
+        self.assertIn(lead, self.env["crm.lead"].search(lead_action.get("domain", [])))
         lead2 = (
             self.env["crm.lead"]
             .with_context(**lead_action.get("context", {}))
@@ -212,14 +206,10 @@ class TestCrmAgreement(TransactionCase):
         self.assertIn(lead, agreement.lead_ids)
         self.assertIn(agreement, lead.agreement_ids)
 
-        agreements_count_before = len(
-            self.env["medical.coverage.agreement"].search([])
-        )
+        agreements_count_before = len(self.env["medical.coverage.agreement"].search([]))
         wizard.generate_new()
         lead.refresh()
-        agreements_count_after = len(
-            self.env["medical.coverage.agreement"].search([])
-        )
+        agreements_count_after = len(self.env["medical.coverage.agreement"].search([]))
         self.assertEqual(agreements_count_before + 1, agreements_count_after)
 
     def test_view_quote(self):
@@ -254,9 +244,7 @@ class TestCrmAgreement(TransactionCase):
         quote = self.env[action.get("res_model")].browse(action.get("res_id"))
         self.assertEqual("medical.quote", quote._name)
         self.assertEqual(lead.id, action["context"]["default_lead_id"])
-        self.assertEqual(
-            lead.partner_id.id, action["context"]["default_payor_id"]
-        )
+        self.assertEqual(lead.partner_id.id, action["context"]["default_payor_id"])
 
     def test_send_email(self):
         lead = self.env["crm.lead"].create(
