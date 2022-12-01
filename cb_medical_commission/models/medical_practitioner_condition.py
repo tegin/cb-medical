@@ -6,15 +6,9 @@ class MedicalPractitionerCondition(models.Model):
     _name = "medical.practitioner.condition"
     _description = "Practitioner condition"
 
-    practitioner_id = fields.Many2one(
-        "res.partner", required=True, readonly=True
-    )
-    center_ids = fields.Many2many(
-        "res.partner", domain=[("is_center", "=", True)]
-    )
-    service_id = fields.Many2one(
-        "product.product", domain=[("type", "=", "service")]
-    )
+    practitioner_id = fields.Many2one("res.partner", required=True, readonly=True)
+    center_ids = fields.Many2many("res.partner", domain=[("is_center", "=", True)])
+    service_id = fields.Many2one("product.product", domain=[("type", "=", "service")])
     procedure_service_id = fields.Many2one(
         "product.product", domain=[("activity_definition_ids", "!=", False)]
     )
@@ -37,9 +31,7 @@ class MedicalPractitionerCondition(models.Model):
                 ("id", "!=", rec.id),
             ]
             for center in rec.center_ids.ids or [False]:
-                if self.search(
-                    domain + [("center_ids", "=", center)], limit=1
-                ):
+                if self.search(domain + [("center_ids", "=", center)], limit=1):
                     raise ValidationError(
                         _(
                             "Only one condition is allowed for practitioner, "
@@ -85,9 +77,7 @@ class MedicalPractitionerCondition(models.Model):
                 and center in r.center_ids
             ),
             lambda r: (
-                not r.service_id
-                and not r.procedure_service_id
-                and not r.center_ids
+                not r.service_id and not r.procedure_service_id and not r.center_ids
             ),
         ]
 

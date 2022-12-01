@@ -41,10 +41,8 @@ class SaleOrderLine(models.Model):
                         "agent_id": x.agent_id.id,
                         "commission_id": x.commission_id.id,
                         "procedure_id": x.procedure_id.id or False,
-                        "laboratory_request_id": x.laboratory_request_id.id
-                        or False,
-                        "laboratory_event_id": x.laboratory_event_id.id
-                        or False,
+                        "laboratory_request_id": x.laboratory_request_id.id or False,
+                        "laboratory_event_id": x.laboratory_event_id.id or False,
                     },
                 )
                 for x in self.agent_ids
@@ -62,9 +60,7 @@ class SaleOrderLineAgent(models.Model):
     laboratory_request_id = fields.Many2one(
         "medical.laboratory.request", string="Laboratory Request"
     )
-    parent_agent_line_id = fields.Many2one(
-        "sale.order.line.agent", readonly=True
-    )
+    parent_agent_line_id = fields.Many2one("sale.order.line.agent", readonly=True)
     child_agent_line_ids = fields.One2many(
         "sale.order.line.agent",
         inverse_name="parent_agent_line_id",
@@ -79,9 +75,7 @@ class SaleOrderLineAgent(models.Model):
         column2="settlement_id",
         copy=False,
     )
-    settled = fields.Boolean(
-        compute="_compute_settled", store=True, copy=False
-    )
+    settled = fields.Boolean(compute="_compute_settled", store=True, copy=False)
     invoice_group_method_id = fields.Many2one(
         "invoice.group.method",
         related="object_id.invoice_group_method_id",
@@ -137,15 +131,10 @@ class SaleOrderLineAgent(models.Model):
                 line.object_id.order_id.third_party_order
                 or not line.invoice_group_method_id.no_invoice
                 or line.object_id.order_id.state not in ("sale", "done")
-                or any(
-                    x.settlement_id.state != "cancel"
-                    for x in line.agent_sale_line
-                )
+                or any(x.settlement_id.state != "cancel" for x in line.agent_sale_line)
             )
 
-    @api.depends(
-        "child_agent_line_ids", "is_cancel", "object_id.order_id.state"
-    )
+    @api.depends("child_agent_line_ids", "is_cancel", "object_id.order_id.state")
     def _compute_can_cancel(self):
         for rec in self:
             rec.can_cancel = (
@@ -160,9 +149,7 @@ class SaleOrderLineAgent(models.Model):
             if record.is_cancel and not record.parent_agent_line_id:
                 raise ValidationError(_("Cancelled lines must have a parent."))
 
-    @api.depends(
-        "object_id.price_subtotal", "is_cancel", "parent_agent_line_id.amount"
-    )
+    @api.depends("object_id.price_subtotal", "is_cancel", "parent_agent_line_id.amount")
     def _compute_amount(self):
         res = super(
             SaleOrderLineAgent, self.filtered(lambda r: not r.is_cancel)
