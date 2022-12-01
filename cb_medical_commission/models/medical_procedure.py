@@ -9,11 +9,22 @@ class MedicalProcedure(models.Model):
     _inherit = "medical.procedure"
 
     variable_fee = fields.Float(
-        string="Variable fee (%)", store=True, compute="_compute_fees"
+        string="Variable fee (%)",
+        store=True,
+        compute="_compute_fees",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
-    fixed_fee = fields.Float(string="Fixed fee", store=True, compute="_compute_fees")
+    fixed_fee = fields.Float(
+        string="Fixed fee",
+        store=True,
+        compute="_compute_fees",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
     practitioner_condition_id = fields.Many2one(
-        "medical.practitioner.condition", readonly=True
+        "medical.practitioner.condition",
+        readonly=True,
     )
     service_id = fields.Many2one(
         related="procedure_request_id.request_group_id.service_id",

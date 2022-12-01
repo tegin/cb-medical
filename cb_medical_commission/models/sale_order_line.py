@@ -23,15 +23,15 @@ class SaleOrderLine(models.Model):
         string="Laboratory Events",
     )
     laboratory_request_ids = fields.Many2many(
-        "medical.laboratory.event",
+        "medical.laboratory.request",
         relation="sale_order_line_commission_medical_laboratory_request",
         column1="sale_order_line_id",
         column2="laboratory_request_id",
         string="Laboratory requests",
     )
 
-    def _prepare_invoice_line(self):
-        vals = super()._prepare_invoice_line()
+    def _prepare_invoice_line(self, **optional_values):
+        vals = super()._prepare_invoice_line(**optional_values)
         if self.encounter_id:
             vals["agent_ids"] = [
                 (
