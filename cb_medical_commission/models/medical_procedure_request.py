@@ -8,8 +8,18 @@ from odoo import fields, models
 class MedicalProcedureRequest(models.Model):
     _inherit = "medical.procedure.request"
 
-    variable_fee = fields.Float(string="Variable fee (%)", default="0.0")
-    fixed_fee = fields.Float(string="Fixed fee", default="0.0")
+    variable_fee = fields.Float(
+        string="Variable fee (%)",
+        default="0.0",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+    fixed_fee = fields.Float(
+        string="Fixed fee",
+        default="0.0",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
     medical_commission = fields.Boolean(
         related="service_id.medical_commission", readonly=True
     )

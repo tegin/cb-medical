@@ -5,8 +5,8 @@
 {
     "name": "Medical Commission",
     "summary": "Add Commissions",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
     "category": "Medical",
     "depends": [
         "sale_commission_formula",
