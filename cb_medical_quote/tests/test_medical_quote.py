@@ -5,9 +5,7 @@ from odoo.tests.common import TransactionCase
 class TestMedicalQuote(TransactionCase):
     def setUp(self):
         super(TestMedicalQuote, self).setUp()
-        self.medical_user_group = self.env.ref(
-            "medical_base.group_medical_configurator"
-        )
+        self.medical_user_group = self.env.ref("medical_base.group_medical_reception")
         self.medical_user = self._create_user(
             "medical_user", self.medical_user_group.id
         )
@@ -19,7 +17,7 @@ class TestMedicalQuote(TransactionCase):
         self.coverage_agreement_model_item = self.env["medical.coverage.agreement.item"]
         self.center_model = self.env["res.partner"]
         self.product_model = self.env["product.product"]
-        self.type_model = self.env["workflow.type"]
+        # self.type_model = self.env["workflow.type"]
         self.act_def_model = self.env["workflow.activity.definition"]
         self.action_model = self.env["workflow.plan.definition.action"]
         self.plan_model = self.env["workflow.plan.definition"]
@@ -31,7 +29,7 @@ class TestMedicalQuote(TransactionCase):
         self.center_1 = self._create_center()
         self.product_1 = self._create_product("test 1")
         self.product_2 = self._create_product("test 2")
-        self.type_1 = self._create_type()
+        # self.type_1 = self._create_type()
         self.act_def_1 = self._create_act_def()
         self.plan_1 = self._create_plan()
         self.action_1 = self._create_action()
@@ -98,8 +96,10 @@ class TestMedicalQuote(TransactionCase):
             }
         )
 
-    def _create_coverage_template(self, state=False):
-        vals = {"name": "test coverage template", "payor_id": self.payor_1.id}
+    def _create_coverage_template(self, state=False, payor=False):
+        if not payor:
+            payor = self.payor_1.id
+        vals = {"name": "test coverage template", "payor_id": payor}
         if state:
             vals.update({"state": state})
         coverage_template = self.coverage_template_model.create(vals)
@@ -124,29 +124,10 @@ class TestMedicalQuote(TransactionCase):
     def _create_product(self, name):
         return self.product_model.create({"name": name, "type": "service"})
 
-    def _create_type(self):
-        return self.type_model.create(
-            {
-                "name": "Test type",
-                "model_id": self.browse_ref(
-                    "medical_administration.model_medical_patient"
-                ).id,
-                "model_ids": [
-                    (
-                        4,
-                        self.browse_ref(
-                            "medical_administration.model_medical_patient"
-                        ).id,
-                    )
-                ],
-            }
-        )
-
     def _create_act_def(self):
         return self.act_def_model.create(
             {
                 "name": "Test activity",
-                "model_id": self.type_1.model_id.id,
                 "service_id": self.product_1.id,
             }
         )
@@ -157,22 +138,25 @@ class TestMedicalQuote(TransactionCase):
                 "name": "Test action",
                 "direct_plan_definition_id": self.plan_1.id,
                 "activity_definition_id": self.act_def_1.id,
-                "type_id": self.type_1.id,
             }
         )
 
     def _create_plan(self):
-        return self.plan_model.create({"name": "Test plan", "type_id": self.type_1.id})
+        return self.plan_model.create(
+            {
+                "name": "Test plan",
+            }
+        )
 
     def test_onchange_medical_quote(self):
         comment_template = self.env["base.comment.template"].create(
             {"name": "Comment", "text": "Text"}
         )
-        coverage_template_2 = self._create_coverage_template()
         payor_2 = self._create_payor()
+        coverage_template_2 = self._create_coverage_template(payor=payor_2.id)
         quote = self.env["medical.quote"].create(
             {
-                "payor_id": payor_2.id,
+                "payor_id": self.payor_1.id,
                 "is_private": True,
                 "center_id": self.center_1.id,
                 "coverage_template_id": self.coverage_template_1.id,
@@ -192,8 +176,8 @@ class TestMedicalQuote(TransactionCase):
             f.patient_id = self.patient_2
             self.assertFalse(f.coverage_template_id)
 
-            f.coverage_template_id = coverage_template_2
-            self.assertEqual(f.payor_id, self.payor_1)
+            f.payor_id = payor_2
+            self.assertEqual(f.coverage_template_id, coverage_template_2)
 
     def test_quote_states(self):
         quote = self.env["medical.quote"].create(

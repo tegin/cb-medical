@@ -45,7 +45,7 @@
                         type="object"
                         states="draft"
                         class="btn-primary"
-                        groups="cb_medical_quote.group_medical_quote_manager"
+                        groups="medical_base.group_medical_reception"
                     />
                     <button
                         name="button_confirm"
@@ -53,14 +53,14 @@
                         type="object"
                         states="sent"
                         class="btn-primary"
-                        groups="cb_medical_quote.group_medical_quote_manager"
+                        groups="medical_base.group_medical_reception"
                     />
                     <button
                         name="button_cancel"
                         string="Cancel"
                         type="object"
                         states="draft,confirm,sent"
-                        groups="cb_medical_quote.group_medical_quote_manager"
+                        groups="medical_base.group_medical_reception"
                     />
                     <button
                         name="button_draft"
@@ -68,7 +68,7 @@
                         type="object"
                         states="cancel"
                         class="btn-primary"
-                        groups="cb_medical_quote.group_medical_quote_manager"
+                        groups="medical_base.group_medical_reception"
                     />
                     <button
                         name="send_quote_by_email"
@@ -76,7 +76,7 @@
                         type="object"
                         class="btn-primary"
                         states="draft,confirm,sent"
-                        groups="cb_medical_quote.group_medical_quote_manager"
+                        groups="medical_base.group_medical_reception"
                     />
                     <field
                         name="state"
@@ -102,7 +102,11 @@
                             />
                         </group>
                         <group>
-                            <field name="payor_id" options="{'no_create': True}" />
+                            <field
+                                name="payor_id"
+                                options="{'no_create': True}"
+                                domain="[('is_payor', '=', True)]"
+                            />
                             <field
                                 name="coverage_template_id"
                                 options="{'no_create': True}"
