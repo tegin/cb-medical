@@ -26,12 +26,8 @@ class CrmLead(models.Model):
     is_payor = fields.Boolean(
         related="partner_id.commercial_partner_id.is_payor", readonly=True
     )
-    medical_quote_ids = fields.One2many(
-        "medical.quote", inverse_name="lead_id"
-    )
-    medical_quote_count = fields.Integer(
-        compute="_compute_medical_quote_count"
-    )
+    medical_quote_ids = fields.One2many("medical.quote", inverse_name="lead_id")
+    medical_quote_count = fields.Integer(compute="_compute_medical_quote_count")
 
     @api.depends("medical_quote_ids")
     def _compute_medical_quote_count(self):
@@ -46,8 +42,7 @@ class CrmLead(models.Model):
     def view_agreements(self):
         self.ensure_one()
         action = self.env.ref(
-            "medical_financial_coverage_agreement."
-            "medical_coverage_agreement_action"
+            "medical_financial_coverage_agreement." "medical_coverage_agreement_action"
         ).read()[0]
         action["context"] = ast.literal_eval(action["context"])
         action["context"]["lead_id"] = self.id
@@ -114,9 +109,7 @@ class CrmLead(models.Model):
         except ValueError:
             template_id = False
         try:
-            compose_form_id = self.env.ref(
-                "mail.email_compose_message_wizard_form"
-            ).id
+            compose_form_id = self.env.ref("mail.email_compose_message_wizard_form").id
         except ValueError:
             compose_form_id = False
 

@@ -11,8 +11,7 @@ class CrmLeadAddAgreement(models.TransientModel):
     lead_id = fields.Many2one("crm.lead", required=True)
     coverage_template_ids = fields.One2many(
         comodel_name="medical.coverage.template",
-        related="lead_id.partner_id.commercial_partner_id"
-        ".coverage_template_ids",
+        related="lead_id.partner_id.commercial_partner_id" ".coverage_template_ids",
         readonly=True,
     )
     agreement_id = fields.Many2one("medical.coverage.agreement", required=True)
