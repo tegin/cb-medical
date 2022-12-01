@@ -15,7 +15,7 @@ class SaleOrderLine(models.Model):
     preinvoice_status = fields.Selection(
         related="preinvoice_group_id.state", readonly=True
     )
-    is_validated = fields.Boolean(track_visibility=True)
+    is_validated = fields.Boolean()
     sequence = fields.Integer(string="Sequence", default="999999")
 
     def validate_line(self):

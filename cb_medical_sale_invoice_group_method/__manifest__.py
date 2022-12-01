@@ -4,8 +4,8 @@
 
 {
     "name": "Medical Sale Invoice Group Method",
-    "version": "13.0.1.0.1",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.1",
+    "author": "Eficent, CreuBlanca",
     "category": "Medical",
     "depends": [
         "medical_base",
