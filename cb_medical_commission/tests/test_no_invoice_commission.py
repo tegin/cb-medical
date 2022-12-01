@@ -1,4 +1,5 @@
 from dateutil.relativedelta import relativedelta
+
 from odoo import fields
 from odoo.tests.common import TransactionCase
 
