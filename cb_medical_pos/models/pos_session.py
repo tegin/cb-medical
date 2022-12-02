@@ -104,8 +104,8 @@ class PosSession(models.Model):
         ) in inter_company_tp_receivables.items():
             for partner, amounts in invoice_receivables.items():
                 commercial_partner = partner.commercial_partner_id
-                partner_account_id = commercial_partner.with_context(
-                    force_company=company
+                partner_account_id = commercial_partner.with_company(
+                    company
                 ).property_third_party_customer_account_id.id
                 inter_company_receivable_vals[company][partner_account_id].append(
                     self._get_invoice_receivable_vals(
@@ -119,8 +119,8 @@ class PosSession(models.Model):
         third_party_receivables = data["third_party_receivables"]
         for partner, amounts in third_party_receivables.items():
             commercial_partner = partner.commercial_partner_id
-            partner_account_id = commercial_partner.with_context(
-                force_company=self.company_id.id
+            partner_account_id = commercial_partner.with_company(
+                self.company_id.id
             ).property_third_party_customer_account_id.id
             inter_company_receivable_vals[self.company_id.id][
                 partner_account_id
@@ -164,19 +164,19 @@ class PosSession(models.Model):
             # Combine invoice receivable lines
             third_party_receivables[key] = self._update_amounts(
                 third_party_receivables[key],
-                {"amount": order._get_amount_receivable()},
+                {"amount": order.amount_paid},
                 order.date_order,
             )
         else:
             company_id = order.account_move.company_id.id
             inter_company_tp_receivables[company_id][key] = self._update_amounts(
                 inter_company_tp_receivables[company_id][key],
-                {"amount": order._get_amount_receivable()},
+                {"amount": order.amount_paid},
                 order.date_order,
             )
             inter_company_amounts[company_id] = self._update_amounts(
                 inter_company_amounts[company_id],
-                {"amount": order._get_amount_receivable()},
+                {"amount": order.amount_paid},
                 order.date_order,
             )
         data.update({"inter_company_amounts": inter_company_amounts})

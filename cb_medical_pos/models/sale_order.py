@@ -27,8 +27,8 @@ class SaleOrder(models.Model):
 
     def create_third_party_move(self):
         res = super().create_third_party_move()
-        self.account_id = self.partner_id.with_context(
-            force_company=self.company_id.id
+        self.account_id = self.partner_id.with_company(
+            self.company_id.id
         ).property_third_party_customer_account_id
         return res
 
@@ -43,8 +43,8 @@ class SaleOrderLine(models.Model):
         "sale.order.line", default=False, readonly=True, copy=False
     )
 
-    def _prepare_invoice_line(self):
-        res = super()._prepare_invoice_line()
+    def _prepare_invoice_line(self, **optional_values):
+        res = super()._prepare_invoice_line(**optional_values)
         if self.down_payment_line_id:
             res["down_payment_line_id"] = self.down_payment_line_id.id
         return res
