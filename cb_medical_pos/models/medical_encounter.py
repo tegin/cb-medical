@@ -49,12 +49,12 @@ class MedicalEncounter(models.Model):
             )
             record.pending_private_amount = (
                 sum(
-                    inv.filtered(lambda r: r.type == "out_invoice").mapped(
+                    inv.filtered(lambda r: r.move_type == "out_invoice").mapped(
                         "amount_total"
                     )
                 )
                 - sum(
-                    inv.filtered(lambda r: r.type != "out_invoice").mapped(
+                    inv.filtered(lambda r: r.move_type != "out_invoice").mapped(
                         "amount_total"
                     )
                 )
@@ -88,7 +88,7 @@ class MedicalEncounter(models.Model):
                     _("Company is required in order to create Sale Orders")
                 )
             vals["company_id"] = self.company_id.id or self._context.get("company_id")
-        partner_obj = partner.with_context(force_company=vals["company_id"])
+        partner_obj = partner.with_company(vals["company_id"])
         if "payment_term_id" not in vals:
             term = partner_obj.property_payment_term_id
             if term:
@@ -164,7 +164,7 @@ class MedicalEncounter(models.Model):
             amount = invoice.amount_total
             if amount < 0:
                 invoice.action_switch_invoice_into_refund_credit_note()
-            invoice.post()
+            invoice._post()
             # Invoice has been created
             if amount == 0:
                 return
@@ -292,7 +292,9 @@ class MedicalEncounter(models.Model):
                     inverse_line = self.env["sale.order.line"].create(
                         self.down_payment_inverse_vals(order, line)
                     )
-                    inverse_line.change_company_id()
+                    for line in inverse_line:
+                        line._compute_tax_id()
+                    # inverse_line.change_company_id()
             # We want to avoid making negative invoices, so we will generate a
             # down_payment if it is negative
             if (
@@ -313,7 +315,7 @@ class MedicalEncounter(models.Model):
                 )
                 line = (
                     self.env["sale.order.line"]
-                    .with_context(force_company=order.company_id.id)
+                    .with_company(order.company_id.id)
                     .create(
                         self.fix_negative_sale_order_line_vals(
                             new_order,
@@ -322,11 +324,15 @@ class MedicalEncounter(models.Model):
                         )
                     )
                 )
-                line.change_company_id()
+                for line2 in line:
+                    line2._compute_tax_id()
+                # line.change_company_id()
                 inverse_line = self.env["sale.order.line"].create(
                     self.down_payment_inverse_vals(order, line)
                 )
-                inverse_line.change_company_id()
+                for line in inverse_line:
+                    line._compute_tax_id()
+                # inverse_line.change_company_id()
         return order
 
     def fix_negative_sale_order_vals(self):
