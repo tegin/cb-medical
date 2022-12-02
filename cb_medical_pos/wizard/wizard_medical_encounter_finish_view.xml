@@ -12,7 +12,7 @@
                     <field name="payment_method_ids" invisible="1" />
                     <field
                         name="dont_pay"
-                        groups="cb_medical_pos.group_dont_pay_encounter"
+                        groups="medical_base.group_medical_reception"
                     />
                     <field name="amount" />
                     <field name="currency_id" invisible="1" />

@@ -107,19 +107,24 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
         order = self.env["sale.order"].create(self.sale_order_vals())
         line = (
             self.env["sale.order.line"]
-            .with_context(force_company=order.company_id.id)
+            .with_company(order.company_id.id)
             .create(self.sale_order_line_vals(order))
         )
-        line.change_company_id()
-        order.with_context(force_company=order.company_id.id).action_confirm()
+        for line2 in line:
+            line2._compute_tax_id()
+        # line._compute_tax_id()
+        order.with_company(order.company_id.id).action_confirm()
         for line in order.order_line:
             line.qty_delivered = line.product_uom_qty
         patient_journal = order.company_id.patient_journal_id.id
-        invoice_ids = order.with_context(
-            force_company=order.company_id.id,
-            active_model=order._name,
-            default_journal_id=patient_journal,
-        )._create_invoices(final=True)
+        invoice_ids = (
+            order.with_company(order.company_id.id)
+            .with_context(
+                active_model=order._name,
+                default_journal_id=patient_journal,
+            )
+            ._create_invoices(final=True)
+        )
         invoice = self.env["account.move"].browse(invoice_ids).id
         invoice.ensure_one()
         invoice.action_post()

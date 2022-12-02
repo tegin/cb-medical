@@ -2,6 +2,7 @@
 bokeh==2.3.1
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/cb_mgmtsystem_issue
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/cb_sale_report_invoice
+git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/pos_inter_company
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/product_nomenclature
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/remote_report_to_printer_label
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/sale_commission_cancel
