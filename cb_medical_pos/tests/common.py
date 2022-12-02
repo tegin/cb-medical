@@ -22,9 +22,7 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
         pos_vals = (
             cls.env["pos.config"]
             .with_context(company_id=cls.company.id)
-            .default_get(
-                ["stock_location_id", "invoice_journal_id", "pricelist_id"]
-            )
+            .default_get(["stock_location_id", "invoice_journal_id", "pricelist_id"])
         )
         pos_vals.update(
             {

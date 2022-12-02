@@ -16,9 +16,7 @@ class MedicalEncounter(models.Model):
         readonly=1,
         tracking=True,
     )
-    pos_payment_ids = fields.One2many(
-        "pos.payment", inverse_name="encounter_id"
-    )
+    pos_payment_ids = fields.One2many("pos.payment", inverse_name="encounter_id")
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
@@ -89,9 +87,7 @@ class MedicalEncounter(models.Model):
                 raise ValidationError(
                     _("Company is required in order to create Sale Orders")
                 )
-            vals["company_id"] = self.company_id.id or self._context.get(
-                "company_id"
-            )
+            vals["company_id"] = self.company_id.id or self._context.get("company_id")
         partner_obj = partner.with_context(force_company=vals["company_id"])
         if "payment_term_id" not in vals:
             term = partner_obj.property_payment_term_id
@@ -145,9 +141,7 @@ class MedicalEncounter(models.Model):
     def finish_sale_order(self, sale_order):
         if not self._context.get("pos_session_id", False):
             raise ValidationError(
-                _(
-                    "Payment journal is necessary in order to finish sale orders"
-                )
+                _("Payment journal is necessary in order to finish sale orders")
             )
         if sale_order.state == "draft":
             sale_order.action_confirm()
@@ -188,10 +182,7 @@ class MedicalEncounter(models.Model):
         ):
             if not self._context.get("payment_method_id", False):
                 raise ValidationError(
-                    _(
-                        "Payment method is necessary in order to "
-                        "finish sale orders"
-                    )
+                    _("Payment method is necessary in order to " "finish sale orders")
                 )
             payment_method_id = self._context.get("payment_method_id", False)
             pos_session_id = self._context.get("pos_session_id", False)
@@ -200,9 +191,7 @@ class MedicalEncounter(models.Model):
             cash_vals["session_id"] = pos_session_id
             process = (
                 self.env[model]
-                .with_context(
-                    active_ids=[pos_session_id], active_model="pos.session"
-                )
+                .with_context(active_ids=[pos_session_id], active_model="pos.session")
                 .create(cash_vals)
             )
             process.with_context(default_encounter_id=self.id).run()
@@ -236,9 +225,7 @@ class MedicalEncounter(models.Model):
                     line.write(
                         {
                             "name": extra_line._get_invoice_name(),
-                            "down_payment_line_id": extra_line.invoice_lines[
-                                0
-                            ].id,
+                            "down_payment_line_id": extra_line.invoice_lines[0].id,
                         }
                     )
             for sale_order in sale_orders:
@@ -266,9 +253,7 @@ class MedicalEncounter(models.Model):
 
     def get_sale_order_lines(self):
         values = super().get_sale_order_lines()
-        down_payments = self.sale_order_ids.filtered(
-            lambda r: r.is_down_payment
-        )
+        down_payments = self.sale_order_ids.filtered(lambda r: r.is_down_payment)
         if down_payments:
             key = (
                 self.env["medical.coverage.agreement"],
