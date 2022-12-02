@@ -29,7 +29,7 @@
         "views/pos_session_views.xml",
         "views/report_invoice.xml",
     ],
-    "website": "https://github.com/OCA/cb-addons",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,

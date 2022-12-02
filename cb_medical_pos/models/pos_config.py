@@ -8,9 +8,7 @@ from odoo import api, fields, models
 class PosConfig(models.Model):
     _inherit = "pos.config"
 
-    session_sequence_id = fields.Many2one(
-        "ir.sequence", "Sequence for sessions"
-    )
+    session_sequence_id = fields.Many2one("ir.sequence", "Sequence for sessions")
     session_sequence_prefix = fields.Char()
     requires_approval = fields.Boolean(default=True)
 
