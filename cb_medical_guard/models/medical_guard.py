@@ -53,9 +53,7 @@ class MedicalGuard(models.Model):
         states={"draft": [("readonly", False)]},
     )
     plan_guard_id = fields.Many2one("medical.guard.plan", readonly=True)
-    invoice_line_ids = fields.One2many(
-        "account.move.line", inverse_name="guard_id"
-    )
+    invoice_line_ids = fields.One2many("account.move.line", inverse_name="guard_id")
 
     @api.depends("internal_identifier")
     def name_get(self):
@@ -98,8 +96,7 @@ class MedicalGuard(models.Model):
                         (
                             "code",
                             "=",
-                            partner.lang
-                            or self.env.context.get("lang", "en_US"),
+                            partner.lang or self.env.context.get("lang", "en_US"),
                         )
                     ]
                 )
@@ -129,16 +126,12 @@ class MedicalGuard(models.Model):
             medical_guards = groupby(
                 self.sorted(
                     key=lambda x: [
-                        x._fields[grouping_key].convert_to_write(
-                            x[grouping_key], x
-                        )
+                        x._fields[grouping_key].convert_to_write(x[grouping_key], x)
                         for grouping_key in invoice_grouping_keys
                     ],
                 ),
                 key=lambda x: [
-                    x._fields[grouping_key].convert_to_write(
-                        x[grouping_key], x
-                    )
+                    x._fields[grouping_key].convert_to_write(x[grouping_key], x)
                     for grouping_key in invoice_grouping_keys
                 ],
             )

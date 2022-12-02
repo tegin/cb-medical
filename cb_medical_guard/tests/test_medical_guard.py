@@ -143,19 +143,13 @@ class TestMedicalGuard(TransactionCase):
         )
 
     def test_apply_weekday_plan(self):
-        self.check_apply_plan(
-            "weekday", Date.from_string(Date.today()).weekday(), 7, 0
-        )
+        self.check_apply_plan("weekday", Date.from_string(Date.today()).weekday(), 7, 0)
 
     def test_apply_month_plan(self):
-        self.check_apply_plan(
-            "month", Date.from_string(Date.today()).month, 12, 1
-        )
+        self.check_apply_plan("month", Date.from_string(Date.today()).month, 12, 1)
 
     def test_apply_monthday_plan(self):
-        self.check_apply_plan(
-            "monthday", Date.from_string(Date.today()).day, 25, 1
-        )
+        self.check_apply_plan("monthday", Date.from_string(Date.today()).day, 25, 1)
 
     def test_completion(self):
         guard = self.env["medical.guard"].create(
