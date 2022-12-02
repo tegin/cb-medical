@@ -17,9 +17,7 @@ class MedicalGuardPlanApply(models.TransientModel):
             [("date", ">=", self.start_date), ("date", "<=", self.end_date)]
         )
         if guards:
-            raise ValidationError(
-                _("Guards already exists, plan cannot be applied")
-            )
+            raise ValidationError(_("Guards already exists, plan cannot be applied"))
         plans = self.env["medical.guard.plan"].search([])
         start = fields.Date.from_string(self.start_date)
         end = fields.Date.from_string(self.end_date)
