@@ -36,13 +36,13 @@
             </form>
         </field>
     </record>
-    <act_window
-        id="medical_guard_plan_apply_action"
-        name="Apply Guard plans"
-        res_model="medical.guard.plan.apply"
-        view_mode="form"
-        target="new"
-    />
+    <record id="medical_guard_plan_apply_action" model="ir.actions.act_window">
+        <field name="name">Apply Guard plans</field>
+        <field name="res_model">medical.guard.plan.apply</field>
+        <field name="view_mode">form</field>
+
+        <field name="target">new</field>
+    </record>
     <menuitem
         id="medical_guard_plan_apply_menu"
         parent="cb_medical_guard.medical_guard_root"
