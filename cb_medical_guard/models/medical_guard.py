@@ -13,13 +13,13 @@ class MedicalGuard(models.Model):
 
     date = fields.Datetime(
         required=True,
-        track_visibility="onchange",
+        tracking=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
     delay = fields.Integer(
         required=True,
-        track_visibility="onchange",
+        tracking=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -32,14 +32,14 @@ class MedicalGuard(models.Model):
     practitioner_id = fields.Many2one(
         "res.partner",
         domain=[("is_practitioner", "=", True)],
-        track_visibility="onchange",
+        tracking=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
     location_id = fields.Many2one(
         "res.partner",
         domain=[("is_center", "=", True), ("guard_journal_id", "!=", False)],
-        track_visibility="onchange",
+        tracking=True,
         readonly=True,
         required=True,
         states={"draft": [("readonly", False)]},
@@ -48,7 +48,7 @@ class MedicalGuard(models.Model):
         "product.product",
         required=True,
         domain=[("type", "=", "service")],
-        track_visibility="onchange",
+        tracking=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -79,8 +79,10 @@ class MedicalGuard(models.Model):
         journal = self[0].location_id.guard_journal_id
         move_type = "in_invoice" if journal.type == "purchase" else "in_refund"
         move_form = Form(
-            self.env["account.move"].with_context(
-                default_type=move_type, force_company=journal.company_id.id
+            self.env["account.move"]
+            .with_company(journal.company_id.id)
+            .with_context(
+                default_move_type=move_type,
             )
         )
         partner = self._get_invoice_partner()
