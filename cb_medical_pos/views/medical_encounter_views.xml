@@ -26,7 +26,7 @@
                     string="Add Amount"
                     class="oe_highlight"
                     context="{'default_encounter_id': active_id}"
-                    groups="medical_administration_encounter.group_medical_encounter_manager"
+                    groups="medical_base.group_medical_reception"
                     attrs="{'invisible': [('state','not in',['arrived', 'in-progress'])]}"
                 />
                 <button
@@ -34,7 +34,7 @@
                     type="object"
                     string="Close"
                     class="oe_highlight"
-                    groups="medical_administration_encounter.group_medical_encounter_manager"
+                    groups="medical_base.group_medical_reception"
                     attrs="{'invisible': [('state','not in',['arrived', 'in-progress'])]}"
                 />
                 <button
@@ -42,7 +42,7 @@
                     type="action"
                     string="Finish"
                     class="oe_highlight"
-                    groups="medical_administration_encounter.group_medical_encounter_manager"
+                    groups="medical_base.group_medical_reception"
                     context="{'default_encounter_id': active_id}"
                     attrs="{'invisible': [('state','!=','onleave')]}"
                 />
