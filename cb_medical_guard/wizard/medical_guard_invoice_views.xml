@@ -36,13 +36,13 @@
             </form>
         </field>
     </record>
-    <act_window
-        id="medical_guard_invoice_action"
-        name="Invoice guards"
-        res_model="medical.guard.invoice"
-        view_mode="form"
-        target="new"
-    />
+    <record id="medical_guard_invoice_action" model="ir.actions.act_window">
+        <field name="name">Invoice guards</field>
+        <field name="res_model">medical.guard.invoice</field>
+        <field name="view_mode">form</field>
+
+        <field name="target">new</field>
+    </record>
     <menuitem
         id="medical_guard_invoice_menu"
         parent="cb_medical_guard.medical_guard_root"
