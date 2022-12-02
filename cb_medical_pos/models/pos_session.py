@@ -39,25 +39,20 @@ class PosSession(models.Model):
 
     @api.model
     def get_internal_identifier(self, vals):
-        config_id = vals.get("config_id") or self.env.context.get(
-            "default_config_id"
-        )
+        config_id = vals.get("config_id") or self.env.context.get("default_config_id")
         if config_id:
             pos_config = self.env["pos.config"].browse(config_id)
             if pos_config.session_sequence_id:
                 return pos_config.session_sequence_id.next_by_id()
-        return (
-            self.env["ir.sequence"].next_by_code("pos.session.identifier")
-            or "/"
-        )
+        return self.env["ir.sequence"].next_by_code("pos.session.identifier") or "/"
 
     @api.model
     def create(self, vals):
         if vals.get("internal_identifier", "/") == "/":
             vals["internal_identifier"] = self.get_internal_identifier(vals)
-        return super(
-            PosSession, self.with_context(ignore_balance_start=True)
-        ).create(vals)
+        return super(PosSession, self.with_context(ignore_balance_start=True)).create(
+            vals
+        )
 
     def action_view_encounters(self):
         self.ensure_one()
@@ -88,9 +83,7 @@ class PosSession(models.Model):
             return {"amount": 0.0, "amount_converted": 0.0}
 
         third_party_receivables = defaultdict(amounts)
-        inter_company_tp_receivables = defaultdict(
-            lambda: defaultdict(amounts)
-        )
+        inter_company_tp_receivables = defaultdict(lambda: defaultdict(amounts))
 
         data.update(
             {
@@ -101,9 +94,7 @@ class PosSession(models.Model):
 
     def _create_invoice_receivable_lines(self, data):
         result = super()._create_invoice_receivable_lines(data)
-        inter_company_tp_receivables = result[
-            "inter_company_third_party_receivables"
-        ]
+        inter_company_tp_receivables = result["inter_company_third_party_receivables"]
         invoice_receivable_lines = data["invoice_receivable_lines"]
         MoveLine = data.get("MoveLine")
         inter_company_receivable_vals = defaultdict(lambda: defaultdict(list))
@@ -116,9 +107,7 @@ class PosSession(models.Model):
                 partner_account_id = commercial_partner.with_context(
                     force_company=company
                 ).property_third_party_customer_account_id.id
-                inter_company_receivable_vals[company][
-                    partner_account_id
-                ].append(
+                inter_company_receivable_vals[company][partner_account_id].append(
                     self._get_invoice_receivable_vals(
                         partner_account_id,
                         amounts["amount"],
@@ -169,9 +158,7 @@ class PosSession(models.Model):
 
         key = order.partner_id
         third_party_receivables = data["third_party_receivables"]
-        inter_company_tp_receivables = data[
-            "inter_company_third_party_receivables"
-        ]
+        inter_company_tp_receivables = data["inter_company_third_party_receivables"]
         inter_company_amounts = data["inter_company_amounts"]
         if order.account_move.company_id == self.company_id:
             # Combine invoice receivable lines
@@ -182,9 +169,7 @@ class PosSession(models.Model):
             )
         else:
             company_id = order.account_move.company_id.id
-            inter_company_tp_receivables[company_id][
-                key
-            ] = self._update_amounts(
+            inter_company_tp_receivables[company_id][key] = self._update_amounts(
                 inter_company_tp_receivables[company_id][key],
                 {"amount": order._get_amount_receivable()},
                 order.date_order,

@@ -18,9 +18,7 @@ class CashSaleOrderOut(models.TransientModel):
         return first(session.payment_method_ids)
 
     session_id = fields.Many2one("pos.session", required=True)
-    sale_order_id = fields.Many2one(
-        "sale.order", string="Sale Order", required=True
-    )
+    sale_order_id = fields.Many2one("sale.order", string="Sale Order", required=True)
     name = fields.Char(related="sale_order_id.name", readonly=True)
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -73,9 +71,7 @@ class CashSaleOrderOut(models.TransientModel):
         }
 
     def run(self):
-        if not float_is_zero(
-            self.amount, precision_rounding=self.currency_id.rounding
-        ):
+        if not float_is_zero(self.amount, precision_rounding=self.currency_id.rounding):
             order = self.env["pos.order"].create(self._run_order_vals())
             order.add_payment(
                 {

@@ -22,9 +22,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         pos_vals = (
             cls.env["pos.config"]
             .with_context(company_id=cls.company.id)
-            .default_get(
-                ["stock_location_id", "invoice_journal_id", "pricelist_id"]
-            )
+            .default_get(["stock_location_id", "invoice_journal_id", "pricelist_id"])
         )
         pos_vals.update(
             {
@@ -104,14 +102,10 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertTrue(encounter.sale_order_ids)
         self.assertGreater(self.session.encounter_count, 0)
         self.assertGreater(self.session.sale_order_count, 0)
-        self.assertEqual(
-            self.session.action_view_encounters()["res_id"], encounter.id
-        )
+        self.assertEqual(self.session.action_view_encounters()["res_id"], encounter.id)
         self.assertGreater(encounter.pending_private_amount, 0)
         lines = len(
-            self.env["pos.payment"].search(
-                [("session_id", "=", self.session.id)]
-            )
+            self.env["pos.payment"].search([("session_id", "=", self.session.id)])
         )
         self.env["wizard.medical.encounter.finish"].create(
             {
@@ -126,11 +120,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         for line in invoice.invoice_line_ids:
             self.assertNotEqual(line.name, "/")
         self.assertGreater(
-            len(
-                self.env["pos.payment"].search(
-                    [("session_id", "=", self.session.id)]
-                )
-            ),
+            len(self.env["pos.payment"].search([("session_id", "=", self.session.id)])),
             lines,
         )
         self.assertEqual(encounter.pending_private_amount, 0)
@@ -228,9 +218,9 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             self.assertEqual(request.center_id, encounter.center_id)
             procedure = request.generate_event()
             procedure.performer_id = self.practitioner_02
-        self.practitioner_02.third_party_sequence_id = self.env[
-            "ir.sequence"
-        ].create({"name": "sequence"})
+        self.practitioner_02.third_party_sequence_id = self.env["ir.sequence"].create(
+            {"name": "sequence"}
+        )
         self.env["wizard.medical.encounter.close"].create(
             {"encounter_id": encounter.id, "pos_session_id": self.session.id}
         ).run()
@@ -260,8 +250,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         )
         self.assertTrue(
             payments.filtered(
-                lambda r: r.pos_order_id.account_move
-                in extra_order.invoice_ids
+                lambda r: r.pos_order_id.account_move in extra_order.invoice_ids
             )
         )
         self.assertEqual(
@@ -269,8 +258,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             sum(
                 p.amount
                 for p in payments.filtered(
-                    lambda r: r.pos_order_id.account_move
-                    in extra_order.invoice_ids
+                    lambda r: r.pos_order_id.account_move in extra_order.invoice_ids
                 )
             ),
         )
@@ -303,12 +291,10 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             self.assertEqual(request.center_id, encounter.center_id)
             procedure = request.generate_event()
             procedure.performer_id = self.practitioner_02
-        self.practitioner_02.third_party_sequence_id = self.env[
-            "ir.sequence"
-        ].create({"name": "sequence"})
-        self.assertTrue(
-            group.is_sellable_insurance or group.is_sellable_private
+        self.practitioner_02.third_party_sequence_id = self.env["ir.sequence"].create(
+            {"name": "sequence"}
         )
+        self.assertTrue(group.is_sellable_insurance or group.is_sellable_private)
         self.assertTrue(group.third_party_bill)
         self.env["wizard.medical.encounter.close"].create(
             {"encounter_id": encounter.id, "pos_session_id": self.session.id}
@@ -317,9 +303,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertTrue(encounter.sale_order_ids)
         sale_order = encounter.sale_order_ids
         self.assertTrue(sale_order.third_party_order)
-        self.assertEqual(
-            sale_order.third_party_partner_id, self.practitioner_02
-        )
+        self.assertEqual(sale_order.third_party_partner_id, self.practitioner_02)
         self.assertGreater(encounter.pending_private_amount, 0)
         self.assertGreater(sum(encounter.sale_order_ids.mapped("residual")), 0)
         self.env["wizard.medical.encounter.finish"].create(
@@ -345,9 +329,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         payments = self.env["pos.payment"].search(
             [("session_id", "=", self.session.id)]
         )
-        accounts = self.session.mapped(
-            "payment_method_ids.receivable_account_id"
-        )
+        accounts = self.session.mapped("payment_method_ids.receivable_account_id")
         self.assertEqual(
             sum(payments.mapped("amount")),
             sum(
