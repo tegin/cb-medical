@@ -1,6 +1,7 @@
 from datetime import date, datetime, timedelta
 
 import pytz
+
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
@@ -110,9 +111,7 @@ class MedicalGuardPlan(models.Model):
             )
         return {
             "date": fields.Datetime.to_string(
-                (datetime_date + timedelta(hours=self.start_time)).astimezone(
-                    tz=None
-                )
+                (datetime_date + timedelta(hours=self.start_time)).astimezone(tz=None)
             ),
             "delay": self.delay,
             "location_id": self.location_id.id,

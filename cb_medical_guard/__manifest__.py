@@ -5,7 +5,7 @@
     "name": "CB Medical Guard",
     "version": "13.0.1.0.0",
     "category": "CB",
-    "website": "https://creublanca.es",
+    "website": "https://github.com/tegin/cb-medical",
     "author": "Creu Blanca, Eficent",
     "license": "AGPL-3",
     "installable": True,
