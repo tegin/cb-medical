@@ -47,7 +47,5 @@ class MedicalEncounter(models.AbstractModel):
     def inprogress2onleave_values(self):
         res = super().inprogress2onleave_values()
         if self._context.get("cancel_reason_id", False):
-            res["cancel_reason_id"] = self._context.get(
-                "cancel_reason_id", False
-            )
+            res["cancel_reason_id"] = self._context.get("cancel_reason_id", False)
         return res
