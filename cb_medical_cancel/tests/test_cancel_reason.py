@@ -27,7 +27,7 @@ class TestCancelReason(TransactionCase):
 
     def test_constrains_02(self):
         with self.assertRaises(ValidationError):
-            self.careplan.write({"state": "cancelled"})
+            self.careplan.write({"fhir_state": "cancelled"})
 
     def test_cancel_process_failure(self):
         with self.assertRaises(ValidationError):
@@ -42,7 +42,7 @@ class TestCancelReason(TransactionCase):
             }
         ).run()
         self.careplan.refresh()
-        self.assertEqual(self.careplan.state, "cancelled")
+        self.assertEqual(self.careplan.fhir_state, "cancelled")
 
     def test_cancel_encounter(self):
         encounter = self.env["medical.encounter"].create(
@@ -62,7 +62,7 @@ class TestCancelReason(TransactionCase):
         )
         laboratory_request.flush()
         self.careplan.encounter_id = encounter.id
-        self.assertEqual(self.careplan.state, "draft")
+        self.assertEqual(self.careplan.fhir_state, "draft")
         self.pos_config = self.env["pos.config"].create({"name": "PoS config"})
         session = self.env["pos.session"].create(
             {"config_id": self.pos_config.id, "user_id": self.env.uid}
@@ -81,11 +81,11 @@ class TestCancelReason(TransactionCase):
         self.assertEqual(encounter.state, "finished")
         self.assertTrue(encounter.cancel_reason_id)
         self.assertEqual(encounter.cancel_reason_id, self.reason)
-        self.assertEqual(self.careplan.state, "cancelled")
-        self.assertEqual(self.careplan.laboratory_request_ids.state, "cancelled")
+        self.assertEqual(self.careplan.fhir_state, "cancelled")
+        self.assertEqual(self.careplan.laboratory_request_ids.fhir_state, "cancelled")
         with self.assertRaises(ValidationError):
             encounter.state = "cancelled"
             encounter.cancel(self.reason, session, "Cancel reason")
         self.careplan.reactive()
-        self.assertEqual(self.careplan.state, "active")
+        self.assertEqual(self.careplan.fhir_state, "active")
         self.assertFalse(self.careplan.cancel_reason_id)
