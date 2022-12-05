@@ -29,7 +29,7 @@ class MedicalEncounter(models.AbstractModel):
                     ("encounter_id", "=", self.id),
                     ("parent_id", "=", False),
                     ("parent_model", "=", False),
-                    ("state", "!=", "cancelled"),
+                    ("fhir_state", "!=", "cancelled"),
                 ]
             )
             childs.with_context(
