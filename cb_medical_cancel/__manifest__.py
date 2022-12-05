@@ -25,7 +25,7 @@
         "views/medical_request_group_view.xml",
         "views/medical_encounter_view.xml",
     ],
-    "website": "https://github.com/eficent/cb-addons",
+    "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
