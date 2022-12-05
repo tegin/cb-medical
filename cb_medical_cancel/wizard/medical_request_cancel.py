@@ -5,9 +5,7 @@ class MedicalCareplanCancel(models.AbstractModel):
     _name = "medical.request.cancel"
     _description = "medical.request.cancel"
 
-    request_id = fields.Many2one(
-        "medical.request", required=True, readonly=True
-    )
+    request_id = fields.Many2one("medical.request", required=True, readonly=True)
     cancel_reason_id = fields.Many2one("medical.cancel.reason", required=True)
     cancel_reason = fields.Text(string="Description")
 

@@ -82,9 +82,7 @@ class TestCancelReason(TransactionCase):
         self.assertTrue(encounter.cancel_reason_id)
         self.assertEqual(encounter.cancel_reason_id, self.reason)
         self.assertEqual(self.careplan.state, "cancelled")
-        self.assertEqual(
-            self.careplan.laboratory_request_ids.state, "cancelled"
-        )
+        self.assertEqual(self.careplan.laboratory_request_ids.state, "cancelled")
         with self.assertRaises(ValidationError):
             encounter.state = "cancelled"
             encounter.cancel(self.reason, session, "Cancel reason")
