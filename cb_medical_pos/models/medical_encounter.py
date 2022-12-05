@@ -116,7 +116,7 @@ class MedicalEncounter(models.Model):
 
     def inprogress2onleave(self):
         if self.laboratory_request_ids.filtered(
-            lambda r: not r.laboratory_event_ids and r.state != "cancelled"
+            lambda r: not r.laboratory_event_ids and r.fhir_state != "cancelled"
         ):
             raise ValidationError(_("Laboratory requests are not fulfilled."))
         self.create_sale_order()
