@@ -4,12 +4,11 @@
 
 {
     "name": "Medical Cancel",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
     "category": "Medical",
     "depends": ["cb_medical_pos"],
     "data": [
-        "security/medical_security.xml",
         "security/ir.model.access.csv",
         "wizard/medical_request_cancel_views.xml",
         "wizard/medical_careplan_cancel_views.xml",

@@ -7,14 +7,14 @@ class MedicalRequest(models.AbstractModel):
 
     cancel_reason_id = fields.Many2one("medical.cancel.reason", string="Cancel reason")
 
-    @api.constrains("state", "cancel_reason_id")
+    @api.constrains("fhir_state", "cancel_reason_id")
     def check_cancel_reason_state(self):
         for rec in self:
-            if rec.state == "cancelled" and not rec.cancel_reason_id:
+            if rec.fhir_state == "cancelled" and not rec.cancel_reason_id:
                 raise ValidationError(
                     _("A cancellation reason is required for cancelled requests")
                 )
-            if rec.state != "cancelled" and rec.cancel_reason_id:
+            if rec.fhir_state != "cancelled" and rec.cancel_reason_id:
                 raise ValidationError(
                     _("A cancellation reason is only allowed on cancelled " "requests")
                 )
@@ -28,7 +28,7 @@ class MedicalRequest(models.AbstractModel):
 
     def _check_cancellable(self):
         return not self.filtered(
-            lambda r: (r.state in ["completed", "entered-in-error", "cancelled"])
+            lambda r: (r.fhir_state in ["completed", "entered-in-error", "cancelled"])
             and (
                 not r.authorization_method_id.check_required
                 or r.authorization_status != "authorized"
@@ -56,7 +56,7 @@ class MedicalRequest(models.AbstractModel):
 
     @api.model
     def cancellation_domain(self):
-        return [("state", "!=", "cancelled")]
+        return [("fhir_state", "!=", "cancelled")]
 
     def cancel(self):
         if not self.check_cancellable():
@@ -78,7 +78,7 @@ class MedicalRequest(models.AbstractModel):
         cancel_reason = self.env.context.get("cancel_reason", False)
         if not self.env.context.get("cancel_child", False) and cancel_reason:
             for r in self:
-                r.message_post(subtype=False, body=cancel_reason)
+                r.message_post(subtype_id=False, body=cancel_reason)
         return res
 
     def reactive_values(self):
