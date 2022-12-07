@@ -1,5 +1,6 @@
-from odoo.addons.cb_medical_pos.tests import common
 from odoo.exceptions import ValidationError
+
+from odoo.addons.cb_medical_pos.tests import common
 
 
 class TestCBMedicalCommission(common.MedicalSavePointCase):
