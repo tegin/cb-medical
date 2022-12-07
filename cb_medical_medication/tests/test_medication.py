@@ -5,9 +5,7 @@ from odoo.tests.common import TransactionCase
 class TestMedication(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.category = self.env["product.category"].create(
-            {"name": "Category"}
-        )
+        self.category = self.env["product.category"].create({"name": "Category"})
         self.service = self.env["product.product"].create(
             {"name": "Service", "type": "service"}
         )

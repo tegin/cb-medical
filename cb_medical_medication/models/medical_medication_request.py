@@ -22,9 +22,7 @@ class MedicalMedicationRequest(models.Model):
         if self.env.context.get("location_id", False):
             res["location_id"] = self.env.context.get("location_id")
         if self.env.context.get("stock_location_id", False):
-            res["stock_location_id"] = self.env.context.get(
-                "stock_location_id"
-            )
+            res["stock_location_id"] = self.env.context.get("stock_location_id")
         return res
 
     def _add_medication_item(self, item):
@@ -41,7 +39,5 @@ class MedicalMedicationRequest(models.Model):
         ).generate_event()
         administration.preparation2in_progress()
         if not self.env.context.get("no_complete_administration", False):
-            administration.with_context(
-                no_post_move=True
-            ).in_progress2completed()
+            administration.with_context(no_post_move=True).in_progress2completed()
         return administration

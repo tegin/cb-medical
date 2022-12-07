@@ -6,9 +6,7 @@ class MedicalMedicationItem(models.Model):
     _name = "medical.medication.item"
     _description = "medical.medication.item"
 
-    encounter_id = fields.Many2one(
-        "medical.encounter", readonly=True, required=True
-    )
+    encounter_id = fields.Many2one("medical.encounter", readonly=True, required=True)
     product_id = fields.Many2one(
         "product.product",
         required=True,
@@ -41,9 +39,7 @@ class MedicalMedicationItem(models.Model):
 
     def _to_medication_request(self, data):
         product = self.product_id.categ_id.category_product_id
-        if data.get(product.id, {}).get(
-            self.location_id.location_type_id.id, False
-        ):
+        if data.get(product.id, {}).get(self.location_id.location_type_id.id, False):
             request = data.get(product.id, {}).get(
                 self.location_id.location_type_id.id, False
             )
