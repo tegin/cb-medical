@@ -5,9 +5,7 @@ class MedicalCareplanMedication(models.TransientModel):
     _name = "medical.encounter.medication"
     _description = "medical.encounter.medication"
 
-    medical_id = fields.Many2one(
-        "medical.encounter", required=True, readonly=True
-    )
+    medical_id = fields.Many2one("medical.encounter", required=True, readonly=True)
     product_id = fields.Many2one(
         "product.product",
         required=True,
@@ -23,6 +21,4 @@ class MedicalCareplanMedication(models.TransientModel):
     )
 
     def run(self):
-        return self.medical_id.add_medication(
-            self.location_id, self.product_id
-        )
+        return self.medical_id.add_medication(self.location_id, self.product_id)
