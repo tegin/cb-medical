@@ -31,9 +31,9 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertTrue(group.procedure_request_ids.is_blocking)
         for request in group.procedure_request_ids:
             request.draft2active()
-            self.assertEqual(request.state, "active")
+            self.assertEqual(request.fhir_state, "active")
             request.active2completed()
-            self.assertEqual(request.state, "completed")
+            self.assertEqual(request.fhir_state, "completed")
         self.env["wizard.medical.encounter.close"].create(
             {"encounter_id": encounter.id, "pos_session_id": self.session.id}
         ).run()
