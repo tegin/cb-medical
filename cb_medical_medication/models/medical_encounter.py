@@ -40,16 +40,12 @@ class MedicalEncounter(models.Model):
             product, factor, picking_type=bom.picking_type_id
         )
         for bom_line, line_data in lines:
-            self._add_medication(
-                location, bom_line.product_id, line_data["qty"]
-            )
+            self._add_medication(location, bom_line.product_id, line_data["qty"])
         self._add_medication(location, product, qty, is_phantom=True)
 
     def inprogress2onleave(self):
         data = {}
-        for item in self.medication_item_ids.filtered(
-            lambda r: not r.is_phantom
-        ):
+        for item in self.medication_item_ids.filtered(lambda r: not r.is_phantom):
             product, loc_type, request = item._to_medication_request(data)
             if not data.get(product, False):
                 data[product] = {}

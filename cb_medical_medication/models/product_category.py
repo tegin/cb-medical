@@ -17,6 +17,4 @@ class ProductCategory(models.Model):
     def _check_category_product(self):
         for rec in self.filtered(lambda r: r.category_product_id):
             if rec.category_product_id.type != "service":
-                raise ValidationError(
-                    _("Category product must be always a service")
-                )
+                raise ValidationError(_("Category product must be always a service"))

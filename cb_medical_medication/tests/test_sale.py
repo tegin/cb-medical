@@ -1,5 +1,6 @@
-from odoo.addons.cb_medical_pos.tests import common
 from odoo.tests.common import Form
+
+from odoo.addons.cb_medical_pos.tests import common
 
 
 class TestCBMedicalCommission(common.MedicalSavePointCase):
@@ -20,9 +21,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
 
     def test_careplan_sale_medication(self):
         self.action.is_billable = False
-        encounter, careplan, group = self.create_careplan_and_group(
-            self.agreement_line
-        )
+        encounter, careplan, group = self.create_careplan_and_group(self.agreement_line)
         groups = self.env["medical.request.group"].search(
             [("careplan_id", "=", careplan.id)]
         )
@@ -33,9 +32,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertEqual(careplan.state, "draft")
         self.assertFalse(medication_requests.filtered(lambda r: r.is_billable))
         self.assertTrue(
-            groups.filtered(
-                lambda r: r.child_model == "medical.medication.request"
-            )
+            groups.filtered(lambda r: r.child_model == "medical.medication.request")
         )
         self.assertTrue(
             groups.filtered(
@@ -67,22 +64,16 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             }
         ).run()
         self.assertTrue(medication_requests)
-        self.assertFalse(
-            medication_requests.mapped("medication_administration_ids")
-        )
+        self.assertFalse(medication_requests.mapped("medication_administration_ids"))
         self.env["wizard.medical.encounter.close"].create(
             {"encounter_id": encounter.id, "pos_session_id": self.session.id}
         ).run()
         self.assertTrue(encounter.sale_order_ids)
         self.assertGreater(self.session.encounter_count, 0)
         self.assertGreater(self.session.sale_order_count, 0)
-        self.assertEqual(
-            self.session.action_view_encounters()["res_id"], encounter.id
-        )
+        self.assertEqual(self.session.action_view_encounters()["res_id"], encounter.id)
         medication_requests.refresh()
-        self.assertTrue(
-            medication_requests.mapped("medication_administration_ids")
-        )
+        self.assertTrue(medication_requests.mapped("medication_administration_ids"))
         self.env["wizard.medical.encounter.finish"].create(
             {
                 "encounter_id": encounter.id,
@@ -91,16 +82,12 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             }
         ).run()
         self.assertTrue(
-            self.env["stock.picking"].search(
-                [("encounter_id", "=", encounter.id)]
-            )
+            self.env["stock.picking"].search([("encounter_id", "=", encounter.id)])
         )
 
     def test_onchange_medication(self):
         self.action.is_billable = False
-        encounter, careplan, group = self.create_careplan_and_group(
-            self.agreement_line
-        )
+        encounter, careplan, group = self.create_careplan_and_group(self.agreement_line)
         with Form(
             self.env["medical.medication.item"].with_context(
                 default_encounter_id=encounter.id,
@@ -121,9 +108,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 "product_id": self.product_03.id,
                 "product_tmpl_id": self.product_03.product_tmpl_id.id,
                 "type": "phantom",
-                "bom_line_ids": [
-                    (0, 0, {"product_id": self.product_extra.id})
-                ],
+                "bom_line_ids": [(0, 0, {"product_id": self.product_extra.id})],
             }
         )
         self.env["medical.encounter.medication"].create(
@@ -136,7 +121,5 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertEqual(2, len(encounter.medication_item_ids))
         self.assertEqual(
             1,
-            len(
-                encounter.medication_item_ids.filtered(lambda r: r.is_phantom)
-            ),
+            len(encounter.medication_item_ids.filtered(lambda r: r.is_phantom)),
         )
