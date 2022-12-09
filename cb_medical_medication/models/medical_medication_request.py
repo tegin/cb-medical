@@ -9,7 +9,7 @@ class MedicalMedicationRequest(models.Model):
     _inherit = "medical.medication.request"
 
     location_type_id = fields.Many2one(
-        "medical.location.type", readonly=True, track_visibility="onchange"
+        "medical.location.type", readonly=True, tracking=True
     )
 
     def _get_event_values(self):

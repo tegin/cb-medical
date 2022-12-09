@@ -4,16 +4,11 @@
 
 {
     "name": "CB Medical sequence configuration",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
-    "depends": [
-        "mrp",
-        "cb_medical_block_request",
-        "stock_move_line_auto_fill",
-    ],
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
+    "depends": ["mrp", "cb_medical_block_request", "stock_move_line_auto_fill"],
     "data": [
         "data/location_type_data.xml",
-        "security/medical_security.xml",
         "security/ir.model.access.csv",
         "wizard/medical_encounter_medication_views.xml",
         "views/product_category_views.xml",

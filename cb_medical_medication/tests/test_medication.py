@@ -31,7 +31,7 @@ class TestMedication(TransactionCase):
         search = (
             self.env["product.product"]
             .with_context(search_on_supplier=True)
-            .name_search("SUPPROD")
+            ._name_search("SUPPROD")
         )
         self.assertTrue(search)
         self.assertEqual(self.product.id, search[0][0])

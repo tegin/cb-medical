@@ -10,7 +10,7 @@
         <field name="category_id" ref="base.module_category_hidden" />
         <field
             name="implied_ids"
-            eval="[(4, ref('medical_administration_encounter.group_medical_encounter_display'))]"
+            eval="[(4, ref('medical_base.group_medical_configurator'))]"
         />
     </record>
     <record id="medical_base.group_medical_configurator" model="res.groups">
