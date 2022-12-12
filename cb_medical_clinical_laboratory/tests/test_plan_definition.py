@@ -10,17 +10,8 @@ class TestPlanDefinition(TransactionCase):
         self.product = self.env["product.product"].create(
             {"type": "service", "name": "SERVICE"}
         )
-        self.type = self.browse_ref("medical_workflow.medical_workflow")
-        self.type.model_ids = [
-            (
-                4,
-                self.browse_ref(
-                    "medical_clinical_laboratory.model_medical_laboratory_request"
-                ).id,
-            )
-        ]
         self.plan_definition = self.env["workflow.plan.definition"].create(
-            {"name": "Plan", "type_id": self.type.id, "is_billable": True}
+            {"name": "Plan", "is_billable": True}
         )
         self.plan_definition.activate()
         self.activity = self.env["workflow.activity.definition"].create(
@@ -30,7 +21,6 @@ class TestPlanDefinition(TransactionCase):
                 "model_id": self.browse_ref(
                     "medical_clinical_laboratory." "model_medical_laboratory_request"
                 ).id,
-                "type_id": self.type.id,
             }
         )
         self.activity2 = self.env["workflow.activity.definition"].create(
@@ -40,7 +30,6 @@ class TestPlanDefinition(TransactionCase):
                 "model_id": self.browse_ref(
                     "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
-                "type_id": self.type.id,
             }
         )
         self.activity.activate()

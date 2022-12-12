@@ -4,11 +4,10 @@
 
 {
     "name": "Medical Clinical Laboratory",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
     "depends": ["cb_medical_medication"],
     "data": [
-        "security/medical_security.xml",
         "security/ir.model.access.csv",
         "views/medical_coverage_template_views.xml",
         "views/medical_laboratory_event_view.xml",
