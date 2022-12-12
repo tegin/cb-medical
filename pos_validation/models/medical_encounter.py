@@ -23,29 +23,18 @@ class MedicalEncounter(models.Model):
     )
     has_preinvoicing = fields.Boolean(compute="_compute_validation_values")
     is_preinvoiced = fields.Boolean(default=False, track_visibility=True)
-    commission_issue_accepted = fields.Boolean(
-        default=False, track_visibility=True
-    )
+    commission_issue_accepted = fields.Boolean(default=False, track_visibility=True)
     has_patient_invoice = fields.Boolean(compute="_compute_validation_values")
-    unauthorized_elements = fields.Boolean(
-        compute="_compute_validation_values"
-    )
-    missing_authorization_number = fields.Boolean(
-        compute="_compute_validation_values"
-    )
-    missing_subscriber_id = fields.Boolean(
-        compute="_compute_validation_values"
-    )
+    unauthorized_elements = fields.Boolean(compute="_compute_validation_values")
+    missing_authorization_number = fields.Boolean(compute="_compute_validation_values")
+    missing_subscriber_id = fields.Boolean(compute="_compute_validation_values")
     missing_practitioner = fields.Boolean(compute="_compute_validation_values")
     commission_issue = fields.Boolean(compute="_compute_validation_values")
 
     @api.constrains("validation_status", "state")
     def _check_validation_status_state(self):
         for record in self:
-            if (
-                record.validation_status != "none"
-                and record.state != "finished"
-            ):
+            if record.validation_status != "none" and record.state != "finished":
                 raise ValidationError(
                     _("Validation status is not consistent for %s")
                     % record.internal_identifier
@@ -88,9 +77,7 @@ class MedicalEncounter(models.Model):
                 )
             )
             rec.unauthorized_elements = bool(
-                lines.filtered(
-                    lambda r: r.authorization_status != "authorized"
-                )
+                lines.filtered(lambda r: r.authorization_status != "authorized")
             )
             rec.missing_authorization_number = bool(
                 lines.filtered(
@@ -160,10 +147,7 @@ class MedicalEncounter(models.Model):
             )
         if self.commission_issue and not self.commission_issue_accepted:
             raise ValidationError(
-                _(
-                    "There is an issue related to commission amounts. "
-                    "Check it please"
-                )
+                _("There is an issue related to commission amounts. " "Check it please")
             )
 
     def _admin_validation_values(self):
@@ -175,22 +159,18 @@ class MedicalEncounter(models.Model):
         for sale_order in self.sale_order_ids.filtered(
             lambda r: r.coverage_agreement_id
         ):
-            sale_order.with_context(
-                no_third_party_number=True
-            ).action_confirm()
+            sale_order.with_context(no_third_party_number=True).action_confirm()
             for line in sale_order.order_line:
                 line.write({"qty_delivered": line.product_uom_qty})
             # We assume that private SO are already confirmed
-            self.with_context(
-                mail_auto_subscribe_no_notify=True
-            ).create_invoice(sale_order)
+            self.with_context(mail_auto_subscribe_no_notify=True).create_invoice(
+                sale_order
+            )
         # Third party orders should be confirmed
         for sale_order in self.sale_order_ids.filtered(
             lambda r: r.third_party_order
         ).mapped("third_party_order_ids"):
-            sale_order.with_context(
-                no_third_party_number=True
-            ).action_confirm()
+            sale_order.with_context(no_third_party_number=True).action_confirm()
             for line in sale_order.order_line:
                 line.write({"qty_delivered": line.product_uom_qty})
         self.write(self._admin_validation_values())
