@@ -48,7 +48,6 @@ class TestPosValidation(common.MedicalSavePointCase):
         self.plan_definition.is_billable = True
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
-        self.company.sale_merge_draft_invoice = True
         for _ in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
                 self.agreement_line3
@@ -179,7 +178,6 @@ class TestPosValidation(common.MedicalSavePointCase):
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
         self.agreement_line3.authorization_method_id = self.method
-        self.company.sale_merge_draft_invoice = True
         encounter, careplan, group = self.create_careplan_and_group(
             self.agreement_line3
         )
@@ -251,7 +249,6 @@ class TestPosValidation(common.MedicalSavePointCase):
         self.plan_definition.is_billable = True
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
-        self.company.sale_merge_draft_invoice = True
         for _ in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
                 self.agreement_line3
@@ -317,7 +314,6 @@ class TestPosValidation(common.MedicalSavePointCase):
         self.plan_definition.is_billable = True
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
-        self.company.sale_merge_draft_invoice = True
         sale_orders = self.env["sale.order"]
         for _ in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
@@ -399,7 +395,6 @@ class TestPosValidation(common.MedicalSavePointCase):
                 "code": "nomenclature_code",
             }
         )
-        self.company.sale_merge_draft_invoice = True
         sale_orders = self.env["sale.order"]
         for _i in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(
@@ -455,7 +450,7 @@ class TestPosValidation(common.MedicalSavePointCase):
         )
         self.assertTrue(action.get("res_id", False))
         invoice = self.env["account.move"].browse(action.get("res_id", False))
-        invoice.post()
+        invoice._post()
         for line in invoice.invoice_line_ids:
             self.assertEqual(line.name, nomenclature_product.name)
         for sale_order in sale_orders:
@@ -493,7 +488,6 @@ class TestPosValidation(common.MedicalSavePointCase):
         self.plan_definition.is_billable = True
         self.agreement.invoice_group_method_id = method
         self.agreement_line3.coverage_percentage = 100
-        self.company.sale_merge_draft_invoice = True
         sale_orders = self.env["sale.order"]
         for _i in range(1, 10):
             encounter, careplan, group = self.create_careplan_and_group(

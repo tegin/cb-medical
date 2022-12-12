@@ -4,10 +4,10 @@
 
 {
     "name": "PoS Validation",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "category": "Reporting",
     "website": "https://github.com/tegin/cb-medical",
-    "author": "Creu Blanca, Eficent",
+    "author": "CreuBlanca, Eficent",
     "license": "AGPL-3",
     "installable": True,
     "application": False,
@@ -22,10 +22,11 @@
         "web_history_back",
     ],
     "data": [
+        "security/security.xml",
+        "security/ir.model.access.csv",
         "wizards/medical_encounter_validation_add_service.xml",
         "wizards/sale_order_line_cancel.xml",
         "data/medical_invoice_group.xml",
-        "security/security.xml",
         "views/medical_encounter_view.xml",
         "views/administration_menu.xml",
         "views/pos_session_views.xml",
