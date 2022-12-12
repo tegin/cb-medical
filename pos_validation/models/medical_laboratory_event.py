@@ -15,9 +15,7 @@ class MedicalLaboratoryEvent(models.Model):
             )
             vals["coverage_agreement_item_id"] = (
                 self.env["medical.coverage.agreement.item"]
-                .get_item(
-                    self.service_id, cov, self.laboratory_request_id.center_id
-                )
+                .get_item(self.service_id, cov, self.laboratory_request_id.center_id)
                 .id
             )
         return vals
@@ -41,8 +39,7 @@ class MedicalLaboratoryEvent(models.Model):
                 order = self.encounter_id.sale_order_ids.filtered(
                     lambda r: (
                         (
-                            old_order.coverage_agreement_id
-                            == r.coverage_agreement_id
+                            old_order.coverage_agreement_id == r.coverage_agreement_id
                             and old_order.coverage_agreement_id
                             and r.coverage_id == old_order.coverage_id
                         )
@@ -58,15 +55,11 @@ class MedicalLaboratoryEvent(models.Model):
                             and r.third_party_partner_id
                             == old_order.third_party_partner_id
                         )
-                        or (
-                            not old_order.third_party_order
-                            and not r.third_party_order
-                        )
+                        or (not old_order.third_party_order and not r.third_party_order)
                     )
                     and r.state == "draft"
                     and r.partner_id == old_order.partner_id
-                    and r.invoice_group_method_id
-                    == sale_line.invoice_group_method_id
+                    and r.invoice_group_method_id == sale_line.invoice_group_method_id
                 )
                 if not order:
                     vals = self.encounter_id._get_sale_order_vals(
