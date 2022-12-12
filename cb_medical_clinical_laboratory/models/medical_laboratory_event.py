@@ -15,8 +15,7 @@ class MedicalLaboratoryEvent(models.Model):
         "medical.laboratory.service",
         readonly=True,
         states={
-            "preparation": [("readonly", False)],
-            "in-progress": [("readonly", False)],
+            "draft": [("readonly", False)],
         },
     )
     laboratory_service_ids = fields.Many2many(
