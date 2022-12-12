@@ -53,17 +53,13 @@ class SalerOrderLine(models.Model):
         for record in self:
             invoiced_agent_ids = self.env["account.invoice.line.agent"]
             if record.medical_model:
-                request = self.env[record.medical_model].browse(
-                    record.medical_res_id
-                )
+                request = self.env[record.medical_model].browse(record.medical_res_id)
                 if request._name == "medical.laboratory.event":
                     invoiced_agent_ids = request.invoice_agent_ids
                 elif request._name == "medical.procedure.request":
                     invoiced_agent_ids = request.mapped(
                         "invoice_agent_ids"
-                    ) | request.mapped(
-                        "laboratory_event_ids.invoice_agent_ids"
-                    )
+                    ) | request.mapped("laboratory_event_ids.invoice_agent_ids")
                 elif request._name == "medical.laboratory.request":
                     invoiced_agent_ids = request.mapped(
                         "procedure_ids.invoice_agent_ids"
@@ -75,9 +71,7 @@ class SalerOrderLine(models.Model):
                             "procedure_request_ids.procedure_ids.invoice_agent_ids"
                         )
                         | lab_req.mapped("invoice_agent_ids")
-                        | lab_req.mapped(
-                            "laboratory_event_ids.invoice_agent_ids"
-                        )
+                        | lab_req.mapped("laboratory_event_ids.invoice_agent_ids")
                     )
             record.invoiced_agent_ids = invoiced_agent_ids
 
@@ -131,15 +125,11 @@ class SalerOrderLine(models.Model):
             )
         for rec in self:
             if rec.order_id.state != "draft":
-                raise UserError(
-                    _("Only on draft orders you can cancel an element")
-                )
+                raise UserError(_("Only on draft orders you can cancel an element"))
             request = False
             if rec.medical_model:
                 request = (
-                    self.env[rec.medical_model]
-                    .browse(rec.medical_res_id)
-                    .exists()
+                    self.env[rec.medical_model].browse(rec.medical_res_id).exists()
                 )
             if not request:
                 raise UserError(_("This is not a medical line"))
@@ -152,16 +142,10 @@ class SalerOrderLine(models.Model):
     def change_plan(self, service):
         self.ensure_one()
         if self.order_id.state != "draft":
-            raise UserError(
-                _("Change of plan can only be applied to draft orders")
-            )
-        request = (
-            self.env[self.medical_model].browse(self.medical_res_id).exists()
-        )
+            raise UserError(_("Change of plan can only be applied to draft orders"))
+        request = self.env[self.medical_model].browse(self.medical_res_id).exists()
         if not request:
-            raise UserError(
-                _("Change of plan can only be applied to request groups")
-            )
+            raise UserError(_("Change of plan can only be applied to request groups"))
         request.with_context(validation_change=True).change_plan_definition(
             self.env["medical.coverage.agreement.item"].get_item(
                 service, request.coverage_template_id, request.center_id

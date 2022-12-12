@@ -18,16 +18,12 @@ class MedicalEncounterValidationAddService(models.TransientModel):
         default="reuse",
     )
     careplan_id = fields.Many2one("medical.careplan", required=False)
-    patient_id = fields.Many2one(
-        related="encounter_id.patient_id", readonly=True
-    )
+    patient_id = fields.Many2one(related="encounter_id.patient_id", readonly=True)
     payor_id = fields.Many2one("res.partner", domain=[("is_payor", "=", True)])
     coverage_template_id = fields.Many2one(related=False, readonly=False)
     sub_payor_id = fields.Many2one("res.partner")
     sub_payor_required = fields.Boolean()
-    center_id = fields.Many2one(
-        related="encounter_id.center_id", readonly=True
-    )
+    center_id = fields.Many2one(related="encounter_id.center_id", readonly=True)
     subscriber_id = fields.Char()
     is_phantom = fields.Boolean()
 
@@ -67,9 +63,7 @@ class MedicalEncounterValidationAddService(models.TransientModel):
             self.coverage_template_id = self.payor_id.coverage_template_ids
         return {
             "domain": {
-                "coverage_template_id": [
-                    ("payor_id", "=", self.payor_id.id or False)
-                ]
+                "coverage_template_id": [("payor_id", "=", self.payor_id.id or False)]
             }
         }
 
