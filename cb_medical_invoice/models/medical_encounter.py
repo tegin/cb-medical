@@ -52,9 +52,7 @@ class MedicalEncounter(models.Model):
                 # This should never happen, but we leave it JIC.
                 if il.move_id.type == "out_refund":
                     default_data["quantity"] = -1 * il.quantity
-                invoice_line_vals.append(
-                    (0, 0, il.copy_data(default=default_data)[0])
-                )
+                invoice_line_vals.append((0, 0, il.copy_data(default=default_data)[0]))
             invoice_new_partner.write(
                 {
                     "invoice_line_ids": invoice_line_vals,
@@ -90,9 +88,7 @@ class MedicalEncounter(models.Model):
                     "move_id": invoice_refund.id,
                     "sale_line_ids": [(4, id) for id in il.sale_line_ids.ids],
                 }
-                invoice_line_vals.append(
-                    (0, 0, il.copy_data(default=default_data)[0])
-                )
+                invoice_line_vals.append((0, 0, il.copy_data(default=default_data)[0]))
 
             invoice_refund.write({"invoice_line_ids": invoice_line_vals})
             invoice_refund.sudo().post()
@@ -106,24 +102,19 @@ class MedicalEncounter(models.Model):
                 )
                 != 0
             ):
-                raise ValidationError(
-                    _("Amount of both invoices must be the same")
-                )
+                raise ValidationError(_("Amount of both invoices must be the same"))
             move_vals = self._change_invoice_partner_move_vals(
                 invoice_refund, invoice_new_partner
             )
             move = self.env["account.move"].sudo().create(move_vals)
             move.sudo().post()
             ref_iml = invoice_refund.line_ids.filtered(
-                lambda r: r.account_id.user_type_id.type
-                in ("receivable", "payable")
+                lambda r: r.account_id.user_type_id.type in ("receivable", "payable")
             )
             ref_move_iml = move.line_ids.filtered(
                 lambda r: (r.partner_id == invoice_refund.partner_id)
             )
-            self.env[
-                "account.reconciliation.widget"
-            ].sudo().process_move_lines(
+            self.env["account.reconciliation.widget"].sudo().process_move_lines(
                 [
                     {
                         "mv_line_ids": ref_iml.ids + ref_move_iml.ids,
@@ -134,15 +125,12 @@ class MedicalEncounter(models.Model):
                 ]
             )
             inv_iml = invoice_new_partner.line_ids.filtered(
-                lambda r: r.account_id.user_type_id.type
-                in ("receivable", "payable")
+                lambda r: r.account_id.user_type_id.type in ("receivable", "payable")
             )
             inv_move_iml = move.line_ids.filtered(
                 lambda r: r.partner_id == invoice_new_partner.partner_id
             )
-            self.env[
-                "account.reconciliation.widget"
-            ].sudo().process_move_lines(
+            self.env["account.reconciliation.widget"].sudo().process_move_lines(
                 [
                     {
                         "mv_line_ids": inv_iml.ids + inv_move_iml.ids,
@@ -168,9 +156,7 @@ class MedicalEncounter(models.Model):
     def _change_invoice_partner_move_vals(self, refund, inv):
         return {
             "journal_id": refund.company_id.change_partner_journal_id.id,
-            "ref": _(
-                "Reconciliation of credit reinvoiced to another " "customer"
-            ),
+            "ref": _("Reconciliation of credit reinvoiced to another " "customer"),
             "company_id": refund.company_id.id,
             "line_ids": [
                 (0, 0, self._change_invoice_partner_iml_vals(refund)),
@@ -183,8 +169,7 @@ class MedicalEncounter(models.Model):
         vals = {
             "name": "",
             "account_id": invoice.line_ids.filtered(
-                lambda r: r.account_id.user_type_id.type
-                in ("receivable", "payable")
+                lambda r: r.account_id.user_type_id.type in ("receivable", "payable")
             )
             .mapped("account_id")
             .id,
