@@ -1,6 +1,7 @@
-from odoo.addons.cb_medical_pos.tests import common
 from odoo.exceptions import ValidationError
 from odoo.tests.common import Form
+
+from odoo.addons.cb_medical_pos.tests import common
 
 
 class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
@@ -12,17 +13,13 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
         cls.practitioner_01.write(
             {
                 "agent": True,
-                "commission_id": cls.env.ref(
-                    "cb_medical_commission.commission_01"
-                ).id,
+                "commission_id": cls.env.ref("cb_medical_commission.commission_01").id,
             }
         )
         cls.practitioner_02.write(
             {
                 "agent": True,
-                "commission_id": cls.env.ref(
-                    "cb_medical_commission.commission_01"
-                ).id,
+                "commission_id": cls.env.ref("cb_medical_commission.commission_01").id,
             }
         )
         cls.lab_service = cls.env["medical.laboratory.service"].create(
@@ -85,9 +82,7 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
         event._onchange_laboratory_service()
         self.assertFalse(event.is_sellable_private)
         self.assertFalse(event.is_sellable_insurance)
-        self.assertEqual(
-            event.laboratory_code, self.lab_service.laboratory_code
-        )
+        self.assertEqual(event.laboratory_code, self.lab_service.laboratory_code)
         event.write(
             {
                 "laboratory_service_id": self.lab_service_2.id,
@@ -327,9 +322,7 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
         event._onchange_laboratory_service()
         self.assertFalse(event.is_sellable_private)
         self.assertFalse(event.is_sellable_insurance)
-        self.assertEqual(
-            event.laboratory_code, self.lab_service.laboratory_code
-        )
+        self.assertEqual(event.laboratory_code, self.lab_service.laboratory_code)
         self.env["wizard.medical.encounter.close"].create(
             {"encounter_id": self.enc.id, "pos_session_id": self.session.id}
         ).run()
@@ -344,9 +337,7 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
             sum(
                 a.amount
                 for a in self.enc.sale_order_ids.mapped("order_line")
-                .filtered(
-                    lambda r: r.medical_model == "medical.laboratory.event"
-                )
+                .filtered(lambda r: r.medical_model == "medical.laboratory.event")
                 .mapped("agent_ids")
             ),
             0,
@@ -436,9 +427,7 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
         self.assertEqual(event.name, self.lab_service_2.name)
         self.assertTrue(event.is_sellable_private)
         self.assertTrue(event.is_sellable_insurance)
-        self.assertEqual(
-            event.laboratory_code, self.lab_service_2.laboratory_code
-        )
+        self.assertEqual(event.laboratory_code, self.lab_service_2.laboratory_code)
         self.env["wizard.medical.encounter.close"].create(
             {"encounter_id": self.enc.id, "pos_session_id": self.session.id}
         ).run()
@@ -455,9 +444,7 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
             sum(
                 a.amount
                 for a in self.enc.sale_order_ids.mapped("order_line")
-                .filtered(
-                    lambda r: r.medical_model == "medical.laboratory.event"
-                )
+                .filtered(lambda r: r.medical_model == "medical.laboratory.event")
                 .mapped("agent_ids")
             ),
             0,

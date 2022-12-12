@@ -27,9 +27,7 @@ class TestLaboratoryService(TransactionCase):
         )
         res = [
             s[0]
-            for s in self.env["medical.laboratory.service"].name_search(
-                "INTERNAL_CODE"
-            )
+            for s in self.env["medical.laboratory.service"].name_search("INTERNAL_CODE")
         ]
         self.assertIn(self.lab_service.id, res)
         self.assertEqual(self.lab_service.display_name, "[INTERNAL_CODE] name")

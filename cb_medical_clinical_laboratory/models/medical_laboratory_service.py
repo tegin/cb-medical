@@ -42,11 +42,7 @@ class MedicalLaboratoryService(models.Model):
             if isinstance(arg, (list, tuple)):
                 if arg[0] == "name" or arg[0] == "display_name":
                     index = args.index(arg)
-                    args = (
-                        args[:index]
-                        + ["|", ("code", arg[1], arg[2])]
-                        + args[index:]
-                    )
+                    args = args[:index] + ["|", ("code", arg[1], arg[2])] + args[index:]
                     break
         return super().search(
             args, offset=offset, limit=limit, order=order, count=count
@@ -87,9 +83,7 @@ class MedicalLaboratoryServicePrice(models.Model):
     _name = "medical.laboratory.service.price"
     _description = "Laboratory service price list"
 
-    laboratory_service_id = fields.Many2one(
-        "medical.laboratory.service", required=True
-    )
+    laboratory_service_id = fields.Many2one("medical.laboratory.service", required=True)
     laboratory_code = fields.Char(required=True, string="Coverage code")
     amount = fields.Float(required=True)
     cost = fields.Float()
