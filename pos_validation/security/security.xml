@@ -5,18 +5,18 @@
     License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
 <odoo>
-    <record id="group_medical_encounter_validation" model="res.groups">
-        <field name="name">Encounter Validation</field>
+    <record id="group_medical_receptionist_manager" model="res.groups">
+        <field name="name">Receptionist Manager</field>
         <field name="category_id" ref="base.module_category_hidden" />
         <field
             name="implied_ids"
-            eval="[(4, ref('medical_administration_encounter.group_medical_encounter_manager'))]"
+            eval="[(4, ref('medical_base.group_medical_reception'))]"
         />
     </record>
-    <record id="medical_base.group_medical_configurator" model="res.groups">
+    <record id="medical_base.group_medical_admin" model="res.groups">
         <field
             name="implied_ids"
-            eval="[(4, ref('group_medical_encounter_validation'))]"
+            eval="[(4, ref('group_medical_receptionist_manager'))]"
         />
     </record>
 </odoo>

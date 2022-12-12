@@ -118,7 +118,7 @@ class SalerOrderLine(models.Model):
 
     def medical_cancel(self, cancel_reason):
         if not self.env.user.has_group(
-            "pos_validation.group_medical_encounter_validation"
+            "pos_validation.group_medical_receptionist_manager"
         ):
             raise UserError(
                 _("This can only be executed if you can validate encounters")

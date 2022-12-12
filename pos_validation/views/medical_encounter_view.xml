@@ -19,7 +19,7 @@
             >
                 <attribute
                     name="groups"
-                >pos_validation.group_medical_encounter_validation</attribute>
+                >pos_validation.group_medical_receptionist_manager</attribute>
             </xpath>
             <field name="location_id" position="after">
                 <field name="validation_status" />
@@ -32,7 +32,7 @@
         <field name="inherit_id" ref="pos_validation.medical_encounter_view_form" />
         <field
             name="groups_id"
-            eval="[(4, ref('pos_validation.group_medical_encounter_validation'))]"
+            eval="[(4, ref('pos_validation.group_medical_receptionist_manager'))]"
         />
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="after">

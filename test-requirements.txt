@@ -7,3 +7,4 @@ git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_te
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/account_journal_inter_company
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/pos_close_approval
 git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/pos_multiple_sessions
+git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/safe_box
