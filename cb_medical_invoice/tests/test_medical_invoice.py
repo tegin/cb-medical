@@ -3,9 +3,7 @@ from odoo.addons.cb_medical_pos.tests import common
 
 class TestPosValidation(common.MedicalSavePointCase):
     def test_change_partner(self):
-        self.company.change_partner_journal_id = self.env[
-            "account.journal"
-        ].create(
+        self.company.change_partner_journal_id = self.env["account.journal"].create(
             {
                 "name": "Change patient Journal",
                 "code": "CHANGE",
@@ -29,16 +27,12 @@ class TestPosValidation(common.MedicalSavePointCase):
                 "payment_method_id": self.payment_method_id.id,
             }
         ).run()
-        self.assertEqual(
-            1, len(encounter.sale_order_ids.mapped("invoice_ids"))
-        )
+        self.assertEqual(1, len(encounter.sale_order_ids.mapped("invoice_ids")))
         partner = self.env["res.partner"].create({"name": "New Partner"})
         self.env["medical.encounter.change.partner"].create(
             {"encounter_id": encounter.id, "partner_id": partner.id}
         ).run()
-        self.assertEqual(
-            3, len(encounter.sale_order_ids.mapped("invoice_ids"))
-        )
+        self.assertEqual(3, len(encounter.sale_order_ids.mapped("invoice_ids")))
         self.assertTrue(
             encounter.sale_order_ids.mapped("invoice_ids").filtered(
                 lambda r: r.partner_id == partner
@@ -48,9 +42,7 @@ class TestPosValidation(common.MedicalSavePointCase):
         self.env["medical.encounter.change.partner"].create(
             {"encounter_id": encounter.id, "partner_id": partner_2.id}
         ).run()
-        self.assertEqual(
-            5, len(encounter.sale_order_ids.mapped("invoice_ids"))
-        )
+        self.assertEqual(5, len(encounter.sale_order_ids.mapped("invoice_ids")))
         self.assertEqual(
             2,
             len(

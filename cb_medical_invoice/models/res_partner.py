@@ -28,8 +28,7 @@ class ResPartner(models.Model):
                     .sudo()
                     .create(
                         {
-                            "name": record.name
-                            + " Self invoice refund sequence",
+                            "name": record.name + " Self invoice refund sequence",
                             "implementation": "no_gap",
                             "number_increment": 1,
                             "padding": 4,
