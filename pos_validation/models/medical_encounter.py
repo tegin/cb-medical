@@ -16,14 +16,14 @@ class MedicalEncounter(models.Model):
         ],
         default="none",
         readonly=True,
-        track_visibility=True,
+        tracking=True,
     )
     sale_order_line_ids = fields.One2many(
         "sale.order.line", inverse_name="encounter_id"
     )
     has_preinvoicing = fields.Boolean(compute="_compute_validation_values")
-    is_preinvoiced = fields.Boolean(default=False, track_visibility=True)
-    commission_issue_accepted = fields.Boolean(default=False, track_visibility=True)
+    is_preinvoiced = fields.Boolean(default=False, tracking=True)
+    commission_issue_accepted = fields.Boolean(default=False, tracking=True)
     has_patient_invoice = fields.Boolean(compute="_compute_validation_values")
     unauthorized_elements = fields.Boolean(compute="_compute_validation_values")
     missing_authorization_number = fields.Boolean(compute="_compute_validation_values")
@@ -188,7 +188,7 @@ class MedicalEncounter(models.Model):
             active_model=sale_order._name
         )._create_invoices()
         self.post_process_invoice(invoice, sale_order.invoice_group_method_id)
-        invoice.post()
+        invoice._post()
         return invoice
 
     def post_process_invoice(self, invoice, group):
