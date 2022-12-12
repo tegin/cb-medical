@@ -28,8 +28,7 @@ class TestPlanDefinition(TransactionCase):
                 "name": "Activity",
                 "service_id": self.product.id,
                 "model_id": self.browse_ref(
-                    "medical_clinical_laboratory."
-                    "model_medical_laboratory_request"
+                    "medical_clinical_laboratory." "model_medical_laboratory_request"
                 ).id,
                 "type_id": self.type.id,
             }
@@ -39,8 +38,7 @@ class TestPlanDefinition(TransactionCase):
                 "name": "Activity2",
                 "service_id": self.product.id,
                 "model_id": self.browse_ref(
-                    "medical_clinical_procedure."
-                    "model_medical_procedure_request"
+                    "medical_clinical_procedure." "model_medical_procedure_request"
                 ).id,
                 "type_id": self.type.id,
             }

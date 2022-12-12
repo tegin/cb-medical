@@ -30,8 +30,7 @@ class MedicalLaboratoryEvent(models.Model):
         if self.filtered(
             lambda r: (
                 r.laboratory_service_id
-                and r.laboratory_service_id.laboratory_code
-                != r.laboratory_code
+                and r.laboratory_service_id.laboratory_code != r.laboratory_code
             )
         ):
             raise ValidationError(_("Code must be the same"))
@@ -41,9 +40,7 @@ class MedicalLaboratoryEvent(models.Model):
         for rec in self:
             rec.laboratory_code = rec.laboratory_service_id.laboratory_code
             rec.name = rec.laboratory_service_id.name
-            cov = (
-                rec.laboratory_request_id.careplan_id.coverage_id.coverage_template_id
-            )
+            cov = rec.laboratory_request_id.careplan_id.coverage_id.coverage_template_id
             price = rec.laboratory_service_id.service_price_ids.filtered(
                 lambda r: r.laboratory_code == cov.laboratory_code
             )
@@ -64,12 +61,8 @@ class MedicalLaboratoryEvent(models.Model):
                 rec.coverage_agreement_id = cai.coverage_agreement_id
                 if cai.coverage_percentage > 0:
                     rec.is_sellable_insurance = True
-                    rec.coverage_amount = (
-                        price.amount * cai.coverage_percentage / 100
-                    )
-                    rec.coverage_cost = (
-                        price.cost * cai.coverage_percentage / 100
-                    )
+                    rec.coverage_amount = price.amount * cai.coverage_percentage / 100
+                    rec.coverage_cost = price.cost * cai.coverage_percentage / 100
                 else:
                     rec.is_sellable_insurance = False
                     rec.coverage_cost = 0
