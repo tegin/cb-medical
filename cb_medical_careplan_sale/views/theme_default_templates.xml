@@ -3,7 +3,7 @@
     <template id="report_assets_common" inherit_id="web.report_assets_common">
         <xpath expr="." position="inside">
             <link
-                href="/cb_invoice_views/static/src/scss/layout_boxed.scss"
+                href="/cb_medical_careplan_sale/static/src/scss/layout_boxed.scss"
                 rel="stylesheet"
                 type="text/scss"
             />
