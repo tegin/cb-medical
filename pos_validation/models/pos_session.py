@@ -110,7 +110,7 @@ class PosSession(models.Model):
                 "default_method": "open_validation_encounter",
                 "default_session_id": self.id,
                 "default_status": _("Encounter %s cannot be found") % barcode,
-                "default_status_state": 1,
+                "default_state": "warning",
             }
             return result
         action = self.env.ref(
