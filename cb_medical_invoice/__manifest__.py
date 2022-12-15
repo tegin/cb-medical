@@ -4,16 +4,19 @@
 
 {
     "name": "CB Medical Invoice",
-    "version": "13.0.1.0.0",
-    "author": "Eficent, Creu Blanca",
-    "depends": ["pos_validation", "account_invoice_supplier_self_invoice"],
+    "version": "14.0.1.0.0",
+    "author": "Eficent, CreuBlanca",
+    "depends": [
+        "pos_validation",
+        "account_invoice_supplier_self_invoice",
+        "account_move_change_company",
+        "account_reconciliation_widget",
+    ],
     "data": [
-        "security/medical_security.xml",
+        "security/ir.model.access.csv",
         "wizard/medical_encounter_change_partner_views.xml",
         "views/medical_encounter_views.xml",
-        "views/report_self_invoice.xml",
         "views/res_company_views.xml",
-        "views/res_partner_views.xml",
     ],
     "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",

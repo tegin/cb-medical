@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_medical_encounter_change_partner,access_medical_encounter_change_partner,model_medical_encounter_change_partner,medical_base.group_medical_reception,1,1,1,0

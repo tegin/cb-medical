@@ -6,17 +6,25 @@ class AccountMove(models.Model):
 
     encounter_final_invoice = fields.Boolean(readonly=True)
 
-    def post(self):
-        res = super().post()
+    def _post(self, soft=True):
+        # Set today for invoice date in self invoices
+        self.filtered(
+            lambda inv: inv.is_purchase_document(False)
+            and inv.set_self_invoice
+            and not inv.invoice_date
+        ).invoice_date = fields.Date.today()
+        res = super()._post(soft=soft)
         for invoice in self:
-            partner = invoice.partner_id
+            partner = invoice.with_company(
+                invoice.company_id or self.env.company,
+            ).partner_id
             if (
                 partner.self_invoice
-                and invoice.type in "in_refund"
+                and invoice.is_purchase_document(False)
                 and invoice.set_self_invoice
+                and not invoice.self_invoice_number
             ):
-                sequence = partner.self_invoice_refund_sequence_id
-                invoice.self_invoice_number = sequence.with_context(
-                    ir_sequence_date=invoice.date
-                ).next_by_id()
+                self_invoice_number = partner._get_self_invoice_number(invoice.date)
+                invoice.ref = self_invoice_number
+                invoice.self_invoice_number = self_invoice_number
         return res
