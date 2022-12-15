@@ -29,7 +29,7 @@
         <field name="target">new</field>
         <field
             name="groups_id"
-            eval="[(4,ref('cb_medical_invoice.group_medical_encounter_change_invoice_partner'))]"
+            eval="[(4,ref('medical_base.group_medical_reception'))]"
         />
         <field
             name="binding_model_id"
