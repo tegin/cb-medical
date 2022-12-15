@@ -2,6 +2,11 @@ from odoo.addons.cb_medical_pos.tests import common
 
 
 class TestPosValidation(common.MedicalSavePointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company.self_invoice_prefix = "SI"
+
     def test_change_partner(self):
         self.company.change_partner_journal_id = self.env["account.journal"].create(
             {
@@ -61,23 +66,38 @@ class TestPosValidation(common.MedicalSavePointCase):
         partner = self.env["res.partner"].create({"name": "New Partner"})
         self.assertFalse(partner.self_invoice)
         self.assertFalse(partner.self_invoice_refund_sequence_id)
-        partner.set_self_invoice()
-        self.assertTrue(partner.self_invoice)
-        self.assertTrue(partner.self_invoice_refund_sequence_id)
-        sequence_1 = partner.self_invoice_refund_sequence_id
-        partner.set_self_invoice()
-        sequence_2 = partner.self_invoice_refund_sequence_id
-        self.assertTrue(partner.self_invoice_refund_sequence_id)
-        self.assertEqual(sequence_1, sequence_2)
-
-    def test_invoice_validate(self):
-        partner = self.env["res.partner"].create({"name": "New Partner"})
-        partner.set_self_invoice()
+        partner.self_invoice = True
+        self.assertFalse(partner.self_invoice_refund_sequence_id)
         invoice = self.env["account.move"].create(
             {
                 "partner_id": partner.id,
                 "set_self_invoice": True,
-                "type": "in_refund",
+                "move_type": "in_refund",
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "Test",
+                            "product_id": self.product_01.id,
+                            "price_unit": 100.0,
+                            "account_id": self.bank_account.id,
+                        },
+                    )
+                ],
+            }
+        )
+        invoice._post()
+        self.assertTrue(partner.self_invoice_refund_sequence_id)
+
+    def test_invoice_validate(self):
+        partner = self.env["res.partner"].create({"name": "New Partner"})
+        partner.self_invoice = True
+        invoice = self.env["account.move"].create(
+            {
+                "partner_id": partner.id,
+                "set_self_invoice": True,
+                "move_type": "in_refund",
                 "line_ids": [
                     (
                         0,
@@ -93,6 +113,6 @@ class TestPosValidation(common.MedicalSavePointCase):
             }
         )
         self.assertFalse(invoice.self_invoice_number)
-        invoice.post()
+        invoice._post()
         self.assertEqual(invoice.state, "posted")
         self.assertTrue(invoice.self_invoice_number)

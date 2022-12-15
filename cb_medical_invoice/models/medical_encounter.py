@@ -28,10 +28,10 @@ class MedicalEncounter(models.Model):
             final_sos = sos
         if final_inv and final_inv.partner_id != partner:
             invoice_new_partner = Form(
-                self.env["account.move"].with_context(
-                    default_company_id=final_inv.company_id.id,
-                    force_company=final_inv.company_id.id,
-                    default_type="out_invoice",
+                self.env["account.move"]
+                .with_company(final_inv.company_id.id)
+                .with_context(
+                    default_move_type="out_invoice",
                     default_invoice_origin=final_inv.name,
                     default_ref=_("New partner of: %s, %s")
                     % (final_inv.name, _("Change invoice partner")),
@@ -50,7 +50,7 @@ class MedicalEncounter(models.Model):
                     "sale_line_ids": [(4, id) for id in il.sale_line_ids.ids],
                 }
                 # This should never happen, but we leave it JIC.
-                if il.move_id.type == "out_refund":
+                if il.move_id.move_type == "out_refund":
                     default_data["quantity"] = -1 * il.quantity
                 invoice_line_vals.append((0, 0, il.copy_data(default=default_data)[0]))
             invoice_new_partner.write(
@@ -62,14 +62,14 @@ class MedicalEncounter(models.Model):
             if invoice_new_partner.amount_total_signed < 0.0:
                 for il in invoice_new_partner.invoice_line_ids:
                     il.quantity *= -1
-                invoice_new_partner.type = "out_refund"
-            invoice_new_partner.sudo().post()
+                invoice_new_partner.move_type = "out_refund"
+            invoice_new_partner.sudo()._post()
             inv_res |= invoice_new_partner
             invoice_refund = Form(
-                self.env["account.move"].with_context(
-                    default_comnpany_id=final_inv.company_id.id,
-                    force_company=final_inv.company_id.id,
-                    default_type="out_refund",
+                self.env["account.move"]
+                .with_company(final_inv.company_id.id)
+                .with_context(
+                    default_move_type="out_refund",
                     default_invoice_origin=final_inv.name,
                     default_ref=_("Reversal of: %s, %s")
                     % (final_inv.name, _("Change invoice partner")),
@@ -91,7 +91,7 @@ class MedicalEncounter(models.Model):
                 invoice_line_vals.append((0, 0, il.copy_data(default=default_data)[0]))
 
             invoice_refund.write({"invoice_line_ids": invoice_line_vals})
-            invoice_refund.sudo().post()
+            invoice_refund.sudo()._post()
             inv_res |= invoice_refund
             final_inv.write({"encounter_final_invoice": False})
             if (
@@ -107,7 +107,7 @@ class MedicalEncounter(models.Model):
                 invoice_refund, invoice_new_partner
             )
             move = self.env["account.move"].sudo().create(move_vals)
-            move.sudo().post()
+            move.sudo()._post()
             ref_iml = invoice_refund.line_ids.filtered(
                 lambda r: r.account_id.user_type_id.type in ("receivable", "payable")
             )
@@ -180,7 +180,7 @@ class MedicalEncounter(models.Model):
             if invoice.currency_id != invoice.company_id.currency_id
             else False,
         }
-        if invoice.type in ["out_invoice", "in_refund"]:
+        if invoice.move_type in ["out_invoice", "in_refund"]:
             vals["credit"] = invoice.amount_total
         else:
             vals["debit"] = invoice.amount_total
