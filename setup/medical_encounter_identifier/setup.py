@@ -11,6 +11,7 @@ setuptools.setup(
             "medical_medication_request": "git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_medication_request",
             "medical_diagnostic_report": "git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_diagnostic_report",
             "sequence_parser": "git+https://github.com/tegin/cb-addons.git@14.0#subdirectory=setup/sequence_parser",
+            "medical_administration_center": "git+https://github.com/tegin/medical-fhir.git@14.0#subdirectory=setup/medical_administration_center",
         }
     },
 )
