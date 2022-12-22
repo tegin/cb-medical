@@ -15,7 +15,6 @@
         "medical_administration_encounter_careplan",
         "medical_document",
         "medical_clinical_laboratory",
-        "medical_administration_center",
         "medical_financial_coverage_agreement",
         "medical_encounter_identifier",
     ],
