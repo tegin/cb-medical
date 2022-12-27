@@ -43,7 +43,7 @@
         <xpath expr="//div[@t-if='o.invoice_origin']" position="attributes">
             <attribute
                 name="t-if"
-            >o.invoice_origin and o.type == 'out_refund'</attribute>
+            >o.invoice_origin and o.move_type == 'out_refund'</attribute>
         </xpath>
         <xpath expr="//div[@t-if='o.partner_id.ref']" position="attributes">
             <attribute name="t-if">o.is_medical and not o.encounter_id</attribute>
