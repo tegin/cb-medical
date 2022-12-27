@@ -14,7 +14,7 @@ odoo.define("diagnostic_report.DiagnosticReportController", function (require) {
             if (clipboardData && clipboardData.items && clipboardData.items.length) {
                 var item = clipboardData.items[0];
                 if (item.kind === "file" && item.type.indexOf("image/") !== -1) {
-                    event.preventDefault();
+                    e.stopPropagation();
                     var file = item.getAsFile();
                     self._generateImage(file, e);
                 }
