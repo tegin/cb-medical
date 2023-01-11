@@ -5,6 +5,7 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
     _name = "report.medical_financial_coverage_agreement.mca_xlsx"
     _inherit = "report.report_xlsx.abstract"
     _description = "Report CB Medical Financial Coverage Agreement"
+    _private_report = False
 
     def tree_height(self, item):
         return (
@@ -13,7 +14,7 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
             else max(self.tree_height(child) for child in item["childs"]) + 1
         )
 
-    def generate_sub_tree(self, workbook, sheet, level, item, i, th, private=False):
+    def generate_sub_tree(self, workbook, sheet, level, item, i, th):
         bold = workbook.add_format({"bold": True})
         name = (
             "%s - %s" % (item["category"].display_name, item["category"].description)
@@ -34,7 +35,13 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
             sheet.write(
                 i,
                 th + 3,
-                str(child["item"]["coverage_price" if not private else "private_price"])
+                str(
+                    child["item"][
+                        "coverage_price"
+                        if not self._private_report
+                        else "private_price"
+                    ]
+                )
                 + " €",
                 bold,
             )
@@ -45,7 +52,7 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
         return sheet, i
 
     def generate_xlsx_report(self, workbook, data, agreements):
-        private = self.env.context.get("xlsx_private", False)
+        private = self._private_report
         for agreement in agreements:
             report_name = agreement.name
             sheet = workbook.add_worksheet(report_name[:31])
@@ -56,5 +63,5 @@ class MedicalCoverageAgreementXlsx(models.AbstractModel):
                 for item in items:
                     level = 0
                     sheet, i = self.generate_sub_tree(
-                        workbook, sheet, level, item, i, th, private
+                        workbook, sheet, level, item, i, th
                     )
