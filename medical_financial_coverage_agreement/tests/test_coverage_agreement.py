@@ -327,9 +327,9 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         report_name = "medical_financial_coverage_agreement.mca_xlsx_private"
         report = report_object._get_report_from_name(report_name)
 
-        rep = report.with_context(
-            active_model="medical.coverage.agreement", xlsx_private=True
-        )._render(coverage_agreement.ids)
+        rep = report.with_context(active_model="medical.coverage.agreement")._render(
+            coverage_agreement.ids
+        )
         sheet = pandas.read_excel(BytesIO(rep[0]), engine="openpyxl")
         self.assertEqual(
             sheet.columns[0],
