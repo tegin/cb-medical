@@ -23,8 +23,9 @@ class ProductProduct(models.Model):
         }
 
     def get_activity(self):
-        action = self.env.ref("medical_workflow.workflow_activity_definition_action")
-        result = action.read()[0]
+        result = self.env["ir.actions.act_window"]._for_xml_id(
+            "medical_workflow.workflow_activity_definition_action"
+        )
         result["domain"] = [("service_id", "=", self.id)]
         if len(self.activity_definition_ids) == 1:
             result["views"] = [(False, "form")]
