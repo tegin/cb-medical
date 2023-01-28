@@ -19,10 +19,9 @@ class MedicalEncounter(models.Model):
             center=center,
             **kwargs,
         )
-        action = self.env.ref(
+        result = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_administration_encounter.medical_encounter_action"
         )
-        result = action.read()[0]
         result["views"] = [(False, "form")]
         result["res_id"] = encounter.id
         return result

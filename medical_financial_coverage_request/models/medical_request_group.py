@@ -34,11 +34,10 @@ class MedicalRequestGroup(models.Model):
 
     def check_authorization_action(self):
         self.ensure_one()
-        action = self.env.ref(
+        result = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_financial_coverage_request."
             "medical_request_group_check_authorization_action"
         )
-        result = action.read()[0]
         ctx = safe_eval(result["context"]) or {}
         ctx.update(self._get_authorization_context())
         result["context"] = ctx
