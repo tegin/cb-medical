@@ -219,8 +219,9 @@ class SalePreinvoiceGroup(models.Model):
                 status = self._show_lines(encounter_id, processed_lines)
                 status_state = "waiting"
                 self._compute_lines()
-        action = self.env.ref("barcode_action.barcode_action_action")
-        result = action.read()[0]
+        result = self.env["ir.actions.act_window"]._for_xml_id(
+            "barcode_action.barcode_action_action"
+        )
         result["context"] = {
             "default_model": self._name,
             "default_method": "scan_barcode_preinvoice",
