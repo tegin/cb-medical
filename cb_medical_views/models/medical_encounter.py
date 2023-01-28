@@ -16,8 +16,9 @@ class MedicalEncounter(models.Model):
             if document:
                 encounter = document.encounter_id
         if not encounter:
-            action = self.env.ref("cb_medical_views.encounter_find_by_barcode")
-            result = action.read()[0]
+            result = self.env["ir.actions.act_window"]._for_xml_id(
+                "cb_medical_views.encounter_find_by_barcode"
+            )
             context = safe_eval(result["context"])
             context.update(
                 {
@@ -27,10 +28,9 @@ class MedicalEncounter(models.Model):
             )
             result["context"] = json.dumps(context)
             return result
-        action = self.env.ref(
+        result = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_administration_encounter.medical_encounter_action"
         )
-        result = action.read()[0]
         res = self.env.ref("medical_encounter.medical_encounter_form", False)
         result["views"] = [(res and res.id or False, "form")]
         result["res_id"] = encounter.id
