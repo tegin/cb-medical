@@ -21,7 +21,10 @@
     <record id="res_partner_view_form" model="ir.ui.view">
         <field name="name">res.partner.view.form</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form" />
+        <field
+            name="inherit_id"
+            ref="medical_financial_coverage.res_partner_view_form"
+        />
         <field
             name="groups_id"
             eval="[(4, ref('medical_base.group_medical_financial'))]"
@@ -33,18 +36,14 @@
             >
                 <field name="is_sub_payor" invisible="1" />
             </xpath>
-            <xpath expr="//h1" position="before">
-                <h1>
-                    <field name="is_sub_payor" invisible="1" />
-                    <h1>
-                        <field
-                            name="payor_id"
-                            attrs="{'invisible': [('is_sub_payor','=',False)], 'required': [('is_sub_payor', '=', True)]}"
-                            readonly="1"
-                        />
-                    </h1>
-                </h1>
-            </xpath>
+            <field name="is_payor" position="after">
+                <field name="is_sub_payor" invisible="1" />
+                <field
+                    name="payor_id"
+                    attrs="{'invisible': [('is_sub_payor','=',False)], 'required': [('is_sub_payor', '=', True)]}"
+                    readonly="1"
+                />
+            </field>
             <div name="button_box" position="inside">
                 <button
                     type="action"
