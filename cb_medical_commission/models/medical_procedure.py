@@ -57,7 +57,7 @@ class MedicalProcedure(models.Model):
         "fixed_fee",
     )
     def _launch_recompute_commission(self):
-        for rec in self:
+        for rec in self.sudo():
             rec.compute_commission(rec.procedure_request_id)
 
     @api.onchange("performer_id", "service_id", "procedure_service_id")
