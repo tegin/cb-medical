@@ -112,8 +112,9 @@ class MedicalEncounter(models.Model):
     def close_view(self):
         actions = [{"type": "ir.actions.client", "tag": "history_back"}]
         if self.env.context.get("from_barcode_reader", False):
-            action = self.env.ref("barcode_action.barcode_action_action")
-            result = action.read()[0]
+            result = self.env["ir.actions.act_window"]._for_xml_id(
+                "barcode_action.barcode_action_action"
+            )
             result["context"] = {
                 "default_model": "pos.session",
                 "default_res_id": self.pos_session_id.id,

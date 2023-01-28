@@ -103,8 +103,9 @@ class PosSession(models.Model):
             ]
         )
         if not encounter:
-            action = self.env.ref("barcode_action.barcode_action_action")
-            result = action.read()[0]
+            result = self.env["ir.actions.act_window"]._for_xml_id(
+                "barcode_action.barcode_action_action"
+            )
             result["context"] = {
                 "default_model": "pos.session",
                 "default_method": "open_validation_encounter",
@@ -113,10 +114,9 @@ class PosSession(models.Model):
                 "default_state": "warning",
             }
             return result
-        action = self.env.ref(
+        result = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_administration_encounter.medical_encounter_action"
         )
-        result = action.read()[0]
         res = self.env.ref("medical_encounter.medical_encounter_form", False)
         if isinstance(result["context"], str):
             result["context"] = ast.literal_eval(result["context"])
@@ -127,10 +127,9 @@ class PosSession(models.Model):
 
     def action_view_non_validated_encounters(self):
         self.ensure_one()
-        action = self.env.ref(
+        result = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_administration_encounter.medical_encounter_action"
         )
-        result = action.read()[0]
         result["domain"] = [
             ("pos_session_id", "=", self.id),
             ("validation_status", "!=", "finished"),

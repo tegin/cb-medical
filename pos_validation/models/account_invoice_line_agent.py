@@ -19,6 +19,8 @@ class AccountInvoiceLineAgent(models.Model):
             return
         if len(invoices) == 1:
             return invoices.get_formview_action()
-        action = self.env.ref("account.action_move_in_invoice_type").read()[0]
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "account.action_move_in_invoice_type"
+        )
         action["domain"] = [("id", "in", self.ids)]
         return action
