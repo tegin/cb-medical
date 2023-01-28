@@ -148,8 +148,7 @@ class MedicalEncounter(models.Model):
 
     def action_view_sale_order(self):
         self.ensure_one()
-        action = self.env["ir.actions.act_window"]._for_xml_id("sale.action_orders")
-        result = action.read()[0]
+        result = self.env["ir.actions.act_window"]._for_xml_id("sale.action_orders")
         result["domain"] = "[('encounter_id', '=', " + str(self.id) + ")]"
         if len(self.sale_order_ids) == 1:
             result["views"] = [(False, "form")]
@@ -253,8 +252,9 @@ class MedicalEncounter(models.Model):
 
     def action_view_invoice(self):
         self.ensure_one()
-        action = self.env.ref("account.action_move_out_invoice_type")
-        result = action.read()[0]
+        result = self.env["ir.actions.act_window"]._for_xml_id(
+            "account.action_move_out_invoice_type"
+        )
         invoices = (
             self.env["account.move.line"]
             .search([("encounter_id", "=", self.id)])
