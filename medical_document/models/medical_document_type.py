@@ -121,8 +121,9 @@ class MedicalDocumentType(models.Model):
 
     def generate_activity_definition(self):
         activites = self._generate_activity_definition()
-        action = self.env.ref("medical_workflow.workflow_activity_definition_action")
-        result = action.read()[0]
+        result = self.env["ir.actions.act_window"]._for_xml_id(
+            "medical_workflow.workflow_activity_definition_action"
+        )
         if len(activites) > 1:
             result["domain"] = "[('id', 'in', " + str(activites.ids) + ")]"
         elif len(activites) == 1:
@@ -153,6 +154,8 @@ class MedicalDocumentTypeLang(models.Model):
         return {"text": self.text, "lang": self.lang}
 
     def preview(self):
-        return self.env.ref(
-            "medical_document.action_report_document_report_type"
-        ).report_action(self)
+        return (
+            self.env["ir.actions.report"]
+            ._for_xml_id("medical_document.action_report_document_report_type")
+            .report_action(self)
+        )
