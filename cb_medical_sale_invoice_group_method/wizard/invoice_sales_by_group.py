@@ -40,8 +40,9 @@ class InvoiceSalesByGroup(models.TransientModel):
             invoices |= sales.with_context(active_model=sales._name)._create_invoices()
         if not invoices:
             return
-        action = self.env.ref("account.action_move_out_invoice_type")
-        result = action.read()[0]
+        result = self.env["ir.actions.act_window"]._for_xml_id(
+            "account.action_move_out_invoice_type"
+        )
         result["domain"] = [("id", "in", invoices.ids)]
         if len(invoices) == 1:
             res = self.env.ref("account.move.form", False)
