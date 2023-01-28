@@ -130,9 +130,9 @@ class MedicalEncounter(models.Model):
 
     def medical_encounter_close_action(self):
         self.ensure_one()
-        action = self.env.ref(
+        action = self.env["ir.actions.act_window"]._for_xml_id(
             "cb_medical_pos.wizard_medical_encounter_close_action"
-        ).read()[0]
+        )
         action["context"] = {
             "default_encounter_id": self.id,
         }

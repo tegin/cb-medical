@@ -56,10 +56,9 @@ class PosSession(models.Model):
 
     def action_view_encounters(self):
         self.ensure_one()
-        action = self.env.ref(
+        result = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_administration_encounter.medical_encounter_action"
         )
-        result = action.read()[0]
         result["domain"] = [("pos_session_id", "=", self.id)]
         if len(self.encounter_ids) == 1:
             result["views"] = [(False, "form")]
@@ -68,8 +67,7 @@ class PosSession(models.Model):
 
     def action_view_sale_orders(self):
         self.ensure_one()
-        action = self.env.ref("sale.action_orders")
-        result = action.read()[0]
+        result = self.env["ir.actions.act_window"]._for_xml_id("sale.action_orders")
         result["domain"] = [("pos_session_id", "=", self.id)]
         if len(self.sale_order_ids) == 1:
             result["views"] = [(False, "form")]
