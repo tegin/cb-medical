@@ -44,7 +44,9 @@ class MedicalCoverageAgreement(models.Model):
 
     def view_leads(self):
         self.ensure_one()
-        action = self.env.ref("crm.crm_lead_opportunities").read()[0]
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "crm.crm_lead_opportunities"
+        )
         action["domain"] = [("agreement_ids", "=", self.id)]
         action["context"] = {
             "default_type": "opportunity",

@@ -41,9 +41,9 @@ class CrmLead(models.Model):
 
     def view_agreements(self):
         self.ensure_one()
-        action = self.env.ref(
-            "medical_financial_coverage_agreement." "medical_coverage_agreement_action"
-        ).read()[0]
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "medical_financial_coverage_agreement.medical_coverage_agreement_action"
+        )
         action["context"] = ast.literal_eval(action["context"])
         action["context"]["lead_id"] = self.id
         action["domain"] = [("id", "in", self.agreement_ids.ids)]
@@ -54,7 +54,9 @@ class CrmLead(models.Model):
 
     def view_medical_quotes(self):
         self.ensure_one()
-        action = self.env.ref("cb_medical_quote.action_quotes").read()[0]
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "cb_medical_quote.action_quotes"
+        )
         action["context"] = ast.literal_eval(action["context"])
         action["context"].update(
             {
@@ -91,7 +93,9 @@ class CrmLead(models.Model):
         }
 
     def generate_quote(self):
-        action = self.env.ref("cb_medical_quote.action_quotes").read()[0]
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "cb_medical_quote.action_quotes"
+        )
         action.update(
             {
                 "view_mode": "form",
