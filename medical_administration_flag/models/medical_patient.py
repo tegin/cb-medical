@@ -14,8 +14,9 @@ class MedicalPatient(models.Model):
 
     def action_view_flags(self):
         self.ensure_one()
-        action = self.env.ref("medical_administration_flag.medical_flag_action")
-        result = action.read()[0]
+        result = self.env["ir.actions.act_window"]._for_xml_id(
+            "medical_administration_flag.medical_flag_action"
+        )
         result["context"] = {"default_patient_id": self.id}
         result["domain"] = "[('patient_id', '=', " + str(self.id) + ")]"
         if len(self.medical_flag_ids) == 1:
