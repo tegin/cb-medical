@@ -148,7 +148,7 @@ class MedicalEncounter(models.Model):
 
     def action_view_sale_order(self):
         self.ensure_one()
-        action = self.env.ref("sale.action_orders")
+        action = self.env["ir.actions.act_window"]._for_xml_id("sale.action_orders")
         result = action.read()[0]
         result["domain"] = "[('encounter_id', '=', " + str(self.id) + ")]"
         if len(self.sale_order_ids) == 1:
