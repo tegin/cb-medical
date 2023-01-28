@@ -15,10 +15,9 @@ class MedicalRequestGroup(models.Model):
             or not self.authorization_checked
         ):
             return result
-        action = self.env.ref(
+        new_result = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_authorization."
             "medical_request_group_uncheck_authorization_act_window"
         )
-        new_result = action.read()[0]
         new_result["context"] = result["context"]
         return new_result
