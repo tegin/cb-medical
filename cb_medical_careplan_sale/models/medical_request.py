@@ -76,7 +76,7 @@ class MedicalRequest(models.AbstractModel):
         for rec in self:
             ca = rec.coverage_agreement_id
             rec.is_sellable_private = bool(
-                rec.state not in ["cancelled"]
+                rec.fhir_state not in ["cancelled"]
                 and rec.is_billable
                 and len(
                     rec.sale_order_line_ids.filtered(
@@ -89,7 +89,7 @@ class MedicalRequest(models.AbstractModel):
                 and rec.check_sellable(False, rec.coverage_agreement_item_id)
             )
             rec.is_sellable_insurance = bool(
-                rec.state not in ["cancelled"]
+                rec.fhir_state not in ["cancelled"]
                 and rec.is_billable
                 and len(
                     rec.sale_order_line_ids.filtered(
@@ -202,7 +202,7 @@ class MedicalRequest(models.AbstractModel):
         query = []
         fieldname = self._get_parent_field_name()
         request_models = self._get_request_models()
-        for request in self.filtered(lambda r: r.state not in ["cancelled"]):
+        for request in self.filtered(lambda r: r.fhir_state not in ["cancelled"]):
             if request.is_sellable_insurance:
                 query.append(request._get_sale_order_query_vals(True))
             if request.is_sellable_private:
@@ -213,7 +213,7 @@ class MedicalRequest(models.AbstractModel):
                         (fieldname, "=", request.id),
                         ("parent_id", "=", request.id),
                         ("parent_model", "=", request._name),
-                        ("state", "!=", "cancelled"),
+                        ("fhir_state", "!=", "cancelled"),
                     ]
                 )
                 query += childs.get_sale_order_query()
