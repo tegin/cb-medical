@@ -15,7 +15,7 @@ class MedicalRequest(models.AbstractModel):
         fieldname = self._get_parent_field_name()
         request_models = self._get_request_models()
         states = self._blocking_states()
-        if self.filtered(lambda r: r.is_blocking and r.state in states):
+        if self.filtered(lambda r: r.is_blocking and r.fhir_state in states):
             raise ValidationError(_("A request is blocking"))
         for request in self:
             query = [
