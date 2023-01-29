@@ -64,7 +64,7 @@ class LaboratoryEvent(models.Model):
 
     def get_sale_order_query(self):
         query = []
-        for request in self.filtered(lambda r: r.state not in ["aborted"]):
+        for request in self.filtered(lambda r: r.fhir_state not in ["aborted"]):
             if request.is_sellable_insurance and request.coverage_amount > 0:
                 query.append(request._get_sale_order_query_vals(True))
             if request.is_sellable_private and request.private_amount > 0:
