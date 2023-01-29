@@ -46,7 +46,7 @@ class MedicalCommissionAction(models.AbstractModel):
     def check_commission(self):
         # We First check that all the line have been created
         agent = self._get_agent()
-        for line in self.get_sale_order_lines():
+        for line in self.sudo().get_sale_order_lines():
             if (
                 not line.agent_ids.filtered(lambda r: self.check_agents(r))
                 and agent
