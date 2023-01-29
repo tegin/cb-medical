@@ -113,7 +113,7 @@ class MedicalEncounterAddCareplan(models.TransientModel):
                     )
                     or (not r.sub_payor_id and not vals.get("sub_payor_id", False))
                 )
-                and r.state in self.get_careplan_states()
+                and r.fhir_state in self.get_careplan_states()
             )
         )
         if cp:
