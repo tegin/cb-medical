@@ -95,7 +95,7 @@ class MedicalEncounter(models.Model):
                     lambda r: (
                         r.procedure_service_id.medical_commission
                         and not r.performer_id
-                        and r.state not in ["aborted"]
+                        and r.fhir_state not in ["aborted"]
                     )
                 )
             )
