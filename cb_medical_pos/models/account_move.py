@@ -13,5 +13,5 @@ class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     down_payment_line_id = fields.Many2one(
-        "account.move.line", default=False, readonly=True, copy=False
+        "account.move.line", default=False, readonly=True, copy=False, index=True
     )

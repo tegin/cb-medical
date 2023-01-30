@@ -37,10 +37,14 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     down_payment_line_id = fields.Many2one(
-        "account.move.line", default=False, readonly=True, copy=False
+        "account.move.line",
+        default=False,
+        readonly=True,
+        copy=False,
+        index=True,
     )
     down_payment_sale_line_id = fields.Many2one(
-        "sale.order.line", default=False, readonly=True, copy=False
+        "sale.order.line", default=False, readonly=True, copy=False, index=True
     )
 
     def _prepare_invoice_line(self, **optional_values):
