@@ -64,6 +64,6 @@ class MedicalEncounter(models.Model):
         return super().onleave2finished()
 
     def process_medication_request(self):
-        self.env["stock.immediate.transfer"].create(
+        self.env["stock.immediate.transfer"].sudo().create(
             {"pick_ids": [(6, 0, self.picking_ids.ids)]}
         ).process()
