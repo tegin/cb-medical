@@ -516,14 +516,14 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         self._create_coverage_agreement_item(aggr_01, self.product_1)
         self.assertEqual(
             aggr_01.item_ids.name_get(),
-            self.coverage_agreement_model_item._name_search(
+            self.coverage_agreement_model_item.name_search(
                 "DEMO DEFAULT CODE",
                 [("coverage_agreement_id", "=", aggr_01.id)],
             ),
         )
         self.assertEqual(
             aggr_01.item_ids.name_get(),
-            self.coverage_agreement_model_item._name_search(
+            self.coverage_agreement_model_item.name_search(
                 "DEMO DEFAULT NAME",
                 [("coverage_agreement_id", "=", aggr_01.id)],
             ),
