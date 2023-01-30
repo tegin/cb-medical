@@ -213,9 +213,8 @@ class MedicalCoverageAgreementItem(models.Model):
                 ("product_id.name", operator, name),
                 ("product_id.default_code", operator, name),
             ]
-        items = self._search(
+        return self._search(
             expression.AND([domain, args]),
             limit=limit,
             access_rights_uid=name_get_uid,
         )
-        return self.browse(items).name_get()
