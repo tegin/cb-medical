@@ -130,6 +130,7 @@ class SalePreinvoiceGroup(models.Model):
 
     def close(self):
         self.ensure_one()
+        self = self.with_company(self.company_id.id)
         for line in self.non_validated_line_ids:
             line.preinvoice_group_id = False
         if self.validated_line_ids and not self.invoice_group_method_id.no_invoice:
