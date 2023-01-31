@@ -68,7 +68,7 @@ class MedicalRequest(models.AbstractModel):
                     )
                     order = (
                         self.env["sale.order"]
-                        .with_context(force_company=vals.get("company_id"))
+                        .with_company(vals.get("company_id"))
                         .create(vals)
                     )
                     order.onchange_partner_id()
