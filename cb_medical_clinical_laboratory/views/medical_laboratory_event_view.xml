@@ -43,6 +43,7 @@
                 <field name="is_sellable_private" invisible="1" />
                 <field name="private_cost" />
                 <field name="coverage_cost" />
+                <field name="fhir_state" invisible="1" />
                 <field name="state" invisible="1" />
                 <field name="coverage_agreement_id" invisible="1" />
             </tree>
