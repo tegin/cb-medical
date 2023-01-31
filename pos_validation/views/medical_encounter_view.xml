@@ -249,6 +249,11 @@
                                                     readonly="1"
                                                 />
                                                 <field name="fixed_fee" readonly="1" />
+                                                <field name="state" invisible="1" />
+                                                <field
+                                                    name="fhir_state"
+                                                    invisible="1"
+                                                />
                                             </tree>
                                         </field>
                                     </page>
