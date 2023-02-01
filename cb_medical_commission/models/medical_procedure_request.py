@@ -43,7 +43,7 @@ class MedicalProcedureRequest(models.Model):
 
     def generate_event(self, *args, **kwargs):
         res = super().generate_event(*args, **kwargs)
-        res.compute_commission(res.procedure_request_id)
+        res.sudo().compute_commission(res.procedure_request_id)
         return res
 
     def _update_related_activity_vals(self, vals, parent, plan, action):
