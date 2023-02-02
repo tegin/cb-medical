@@ -154,8 +154,6 @@ class MedicalDocumentTypeLang(models.Model):
         return {"text": self.text, "lang": self.lang}
 
     def preview(self):
-        return (
-            self.env["ir.actions.report"]
-            ._for_xml_id("medical_document.action_report_document_report_type")
-            .report_action(self)
-        )
+        return self.env.ref(
+            "medical_document.action_report_document_report_type"
+        ).report_action(self)
