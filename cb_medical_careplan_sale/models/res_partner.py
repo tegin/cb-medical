@@ -46,7 +46,7 @@ class ResPartner(models.Model):
         if (
             self.is_sub_payor
             and mode != "read"
-            and not self.env.user.has_group("medical_base.group_medical_finance")
+            and not self.env.user.has_group("medical_base.group_medical_financial")
         ):
             _logger.info(
                 "Access Denied by ACLs for operation: %s, uid: %s, model: %s",
