@@ -31,7 +31,7 @@
     >
         <field name="name">Medical Coverage Agreement Join</field>
        <field name="binding_model_id" ref="model_medical_coverage_agreement" />
-       <field name="binding_view_types">form</field>
+       <field name="binding_view_types">list</field>
         <field name="res_model">medical.coverage.agreement.join</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
