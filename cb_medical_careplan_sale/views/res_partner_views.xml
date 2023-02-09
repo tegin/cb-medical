@@ -36,14 +36,17 @@
             >
                 <field name="is_sub_payor" invisible="1" />
             </xpath>
-            <field name="is_payor" position="after">
+            <xpath
+                expr="//group[@name='medical_config']//field[@name='is_payor']"
+                position="after"
+            >
                 <field name="is_sub_payor" invisible="1" />
                 <field
                     name="payor_id"
                     attrs="{'invisible': [('is_sub_payor','=',False)], 'required': [('is_sub_payor', '=', True)]}"
                     readonly="1"
                 />
-            </field>
+            </xpath>
             <div name="button_box" position="inside">
                 <button
                     type="action"
