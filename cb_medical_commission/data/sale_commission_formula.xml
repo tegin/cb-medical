@@ -12,9 +12,9 @@
             <field name="active">True</field>
             <field name="formula">result = 0
 result = 0
-procedures = self.procedure_id.filtered(lambda r: r.state != 'aborted')
-events = self.laboratory_event_id.filtered(lambda r: r.state != 'aborted')
-requests = self.laboratory_request_id.filtered(lambda r: r.state != 'cancelled')
+procedures = self.procedure_id.filtered(lambda r: r.fhir_state != 'aborted')
+events = self.laboratory_event_id.filtered(lambda r: r.fhir_state != 'aborted')
+requests = self.laboratory_request_id.filtered(lambda r: r.fhir_state != 'cancelled')
 if line._name == 'sale.order.line':
     if procedures:
         variable_fee = sum(procedures.mapped('variable_fee'))
