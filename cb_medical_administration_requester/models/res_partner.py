@@ -36,4 +36,4 @@ class ResPartner(models.Model):
             )
 
     def _check_medical_requester(self):
-        return self.env.user.has_group("medical_base.group_medical_configurator")
+        return self._check_medical_practitioner()
