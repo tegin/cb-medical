@@ -21,11 +21,7 @@ class ResPartner(models.Model):
 
     def _check_medical(self, mode="write"):
         super()._check_medical(mode=mode)
-        if (
-            self.is_requester
-            and mode != "read"
-            and not self.env.user.has_group("medical_base.group_medical_configurator")
-        ):
+        if self.is_requester and mode != "read" and not self._check_medical_requester():
             _logger.info(
                 "Access Denied by ACLs for operation: %s, uid: %s, model: %s",
                 "write",
@@ -38,3 +34,6 @@ class ResPartner(models.Model):
                     mode=mode,
                 )
             )
+
+    def _check_medical_requester(self):
+        return self.env.user.has_group("medical_base.group_medical_configurator")
