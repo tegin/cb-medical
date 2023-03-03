@@ -18,7 +18,7 @@
     ],
     "data": [
         # "data/ir_sequence_data.xml",
-        # "security/medical_security.xml",
+        "security/security.xml",
         "views/res_partner_views.xml",
         "views/medical_menu.xml",
         "wizard/medical_careplan_add_plan_definition_views.xml",
