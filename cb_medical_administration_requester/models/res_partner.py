@@ -36,4 +36,6 @@ class ResPartner(models.Model):
             )
 
     def _check_medical_requester(self):
-        return self._check_medical_practitioner()
+        return self._check_medical_practitioner() or self.env.user.has_group(
+            "cb_medical_administration_requester.edit_requester"
+        )
