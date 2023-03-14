@@ -110,7 +110,6 @@ class MedicalEncounter(models.Model):
         return res
 
     def close_view(self):
-        actions = [{"type": "ir.actions.client", "tag": "history_back"}]
         if self.env.context.get("from_barcode_reader", False):
             result = self.env["ir.actions.act_window"]._for_xml_id(
                 "barcode_action.barcode_action_action"
@@ -119,9 +118,10 @@ class MedicalEncounter(models.Model):
                 "default_model": "pos.session",
                 "default_res_id": self.pos_session_id.id,
                 "default_method": "open_validation_encounter",
+                "refresh_view": True,
             }
-            actions.append(result)
-        return {"type": "ir.actions.act_multi", "actions": actions}
+            return result
+        return {"type": "ir.actions.client", "tag": "history_back"}
 
     def toggle_is_preinvoiced(self):
         for record in self:

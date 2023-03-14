@@ -30,5 +30,6 @@
         "views/medical_encounter_view.xml",
         "views/administration_menu.xml",
         "views/pos_session_views.xml",
+        "templates/templates.xml",
     ],
 }
