@@ -106,14 +106,19 @@ class PosSession(models.Model):
             result = self.env["ir.actions.act_window"]._for_xml_id(
                 "barcode_action.barcode_action_action"
             )
-            result["context"] = {
-                "default_model": "pos.session",
-                "default_method": "open_validation_encounter",
-                "default_session_id": self.id,
-                "default_status": _("Encounter %s cannot be found") % barcode,
-                "default_state": "warning",
-            }
+            result["context"] = self.env.context.copy()
+            result["context"].update(
+                {
+                    "default_model": "pos.session",
+                    "default_method": "open_validation_encounter",
+                    "default_session_id": self.id,
+                    "default_status": _("Encounter %s cannot be found") % barcode,
+                    "default_state": "warning",
+                }
+            )
             return result
+        if self.env.context.get("refresh_view", False):
+            return {"type": "ir.actions.act_client_load_new", "res_id": encounter.id}
         result = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_administration_encounter.medical_encounter_action"
         )
