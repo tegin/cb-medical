@@ -34,6 +34,7 @@
                     name="payor"
                     string="Payor"
                     attrs="{'invisible': [('is_payor','=', False)]}"
+                    groups="medical_base.group_medical_financial"
                 >
                     <group string="Integration" name="integration">
                         <field name="authorization_web_id" />
