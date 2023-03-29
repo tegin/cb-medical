@@ -3,11 +3,25 @@ odoo.define("diagnostic_report.DiagnosticReportController", function (require) {
     "use strict";
 
     var FormController = require("web.FormController");
+    var core = require("web.core");
+    var _t = core._t;
 
     var DiagnosticReportController = FormController.extend({
         custom_events: _.extend({}, FormController.prototype.custom_events, {
             paste_file: "_onPaste",
         }),
+
+        _getActionMenuItems: function () {
+            const props = this._super(...arguments);
+
+            if (props && props.items && props.items.other) {
+                props.items.other.push({
+                    description: _t("Duplicate"),
+                    callback: () => this._onDuplicateRecord(this),
+                });
+            }
+            return props;
+        },
         _onPaste: function (e) {
             var clipboardData = e.data.clipboardData;
             var self = this;
