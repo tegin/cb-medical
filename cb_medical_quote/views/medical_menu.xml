@@ -9,7 +9,7 @@
         id="menu_medical_quote"
         name="Quotes"
         action="action_quotes"
-        parent="medical_base.medical_root_financial"
+        parent="medical_base.medical_root_administration"
         sequence="10"
         groups="medical_base.group_medical_user"
     />
