@@ -31,6 +31,9 @@
             >
                 <field name="encounter_id" optional="hide" />
             </xpath>
+            <xpath expr="//form" position="attributes">
+                <attribute name="duplicate">0</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>
