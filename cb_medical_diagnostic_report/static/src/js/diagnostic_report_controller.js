@@ -79,7 +79,10 @@ odoo.define("diagnostic_report.DiagnosticReportController", function (require) {
                     datas: base64js.fromByteArray(new Uint8Array(reader.result)),
                 },
             }).then(function () {
-                self.trigger_up("reload");
+                self.trigger_up("reload", {
+                    keepChanges: true,
+                    fieldNames: ["image_ids"],
+                });
             });
         },
         _isImage: function (item) {
