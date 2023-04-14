@@ -24,7 +24,6 @@
             <field name="vat" position="after">
                 <field
                     name="college_number"
-                    readonly="1"
                     attrs="{'invisible': [('is_requester','=',False), ('is_practitioner', '=', False)]}"
                 />
             </field>
