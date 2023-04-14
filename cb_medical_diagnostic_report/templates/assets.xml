@@ -18,6 +18,11 @@
                 type="text/javascript"
                 src="/cb_medical_diagnostic_report/static/src/js/diagnostic_report_view.js"
             />
+            <link
+                rel="stylesheet"
+                type="text/scss"
+                href="/cb_medical_diagnostic_report/static/src/scss/diagnostic_report_view.scss"
+            />
         </xpath>
     </template>
     <template

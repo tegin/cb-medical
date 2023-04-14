@@ -1,0 +1,21 @@
+.o_diagnostic_report_paste_image_parent {
+    border-style: dashed;
+    border: 1;
+    border-color: $gray-200;
+    padding: 2rem;
+    .o_diagnostic_report_paste_image_clicked {
+        display: none;
+    }
+    .o_diagnostic_report_paste_image_clicked {
+        font-weight: bold;
+    }
+    &.selected {
+        border-color: $gray-600;
+        .o_diagnostic_report_paste_image_unclicked {
+            display: none;
+        }
+        .o_diagnostic_report_paste_image_clicked {
+            display: unset;
+        }
+    }
+}

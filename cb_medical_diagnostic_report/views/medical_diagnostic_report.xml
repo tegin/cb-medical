@@ -16,6 +16,19 @@
                 <attribute name="create">false</attribute>
                 <attribute name="js_class">diagnostic_report</attribute>
             </xpath>
+            <notebook position="before">
+                <div
+                    class="o_diagnostic_report_paste_image o_diagnostic_report_paste_image_parent"
+                    attrs="{'invisible': [('fhir_state', '!=', 'registered')]}"
+                >
+                    <span
+                        class="o_diagnostic_report_paste_image_unclicked o_diagnostic_report_paste_image"
+                    >Click here in order to paste an image</span>
+                    <span
+                        class="o_diagnostic_report_paste_image_clicked o_diagnostic_report_paste_image"
+                    >Paste the image</span>
+                </div>
+            </notebook>
             <xpath expr="//form/header" position="inside">
                 <button
                     name="copy_action"
