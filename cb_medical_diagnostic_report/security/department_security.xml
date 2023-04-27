@@ -3,7 +3,7 @@
     Copyright 2021 Creu Blanca
     # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
-<odoo>
+<odoo noupdate="1">
     <record model="ir.rule" id="storage_file_diagnostic_report_image_rule">
         <field name="name">Storage File for diagnostic_report_image</field>
         <field name="model_id" ref="model_storage_file" />
@@ -19,32 +19,28 @@
             eval="[(4, ref('medical_base.group_medical_assistance_user'))]"
         />
     </record>
+    <record
+        id="medical_diagnostic_report.diagnostic_report_template_rule_doctor_general"
+        model="ir.rule"
+    >
+        <field
+            name="domain_force"
+        >[('template_type', '=', 'general'),('medical_department_id.user_ids' ,'=', user.id)]</field>
+
+    </record>
     <record model="ir.rule" id="manage_diagnostic_template_own_department_rule">
         <field name="name">Manage diagnostic report templates of own department</field>
         <field name="model_id" ref="model_medical_diagnostic_report_template" />
         <field
             name="domain_force"
-        >[('medical_department_id.user_ids' ,'=', user.id)]</field>
-        <field name="perm_read" eval="0" />
+        >[('template_type', '=', 'general'),('medical_department_id.user_ids' ,'=', user.id)]</field>
+        <field name="perm_read" eval="1" />
         <field name="perm_create" eval="1" />
         <field name="perm_write" eval="1" />
         <field name="perm_unlink" eval="0" />
         <field
             name="groups"
             eval="[(4, ref('medical_base.group_medical_doctor_manager'))]"
-        />
-    </record>
-    <record model="ir.rule" id="manage_diagnostic_template_all_department_rule">
-        <field name="name">Manage all diagnostic report templates</field>
-        <field name="model_id" ref="model_medical_diagnostic_report_template" />
-        <field name="domain_force">[(1 ,'=',1)]</field>
-        <field name="perm_read" eval="0" />
-        <field name="perm_create" eval="1" />
-        <field name="perm_write" eval="1" />
-        <field name="perm_unlink" eval="0" />
-        <field
-            name="groups"
-            eval="[(4, ref('medical_base.group_medical_configurator'))]"
         />
     </record>
     <record model="ir.rule" id="manage_diagnostic_report_own_department_rule">
