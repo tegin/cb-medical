@@ -47,6 +47,10 @@
             name="parent_id"
             ref="medical_diagnostic_report.medical_report_configuration"
         />
+        <field
+            name="groups_id"
+            eval="[(4, ref('medical_base.group_medical_configurator'))]"
+        />
         <field name="action" ref="medical_report_category_act_window" />
         <field name="sequence" eval="16" />
     </record>

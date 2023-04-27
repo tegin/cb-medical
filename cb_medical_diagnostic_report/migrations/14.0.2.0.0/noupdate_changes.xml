@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2021 Creu Blanca
+    # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record
+        id="medical_diagnostic_report.diagnostic_report_template_rule_doctor_general"
+        model="ir.rule"
+    >
+        <field
+            name="domain_force"
+        >[('template_type', '=', 'general'),('medical_department_id.user_ids' ,'=', user.id)]</field>
+
+    </record>
+</odoo>
