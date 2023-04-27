@@ -9,6 +9,8 @@ class MedicalEncounterCreateDiagnosticReport(models.TransientModel):
     _inherit = "medical.encounter.create.diagnostic.report"
 
     template_id = fields.Many2one(
-        domain="['|',('medical_department_id','=',False),"
-        "('medical_department_id.user_ids','=',uid)]"
+        domain="['|','&', ('template_type','=','general'), "
+        "'|', ('medical_department_id','=',False), "
+        "('medical_department_id.user_ids','=',uid),"
+        "'&', ('create_uid','=',uid), ('template_type', '=', 'user')]"
     )

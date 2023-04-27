@@ -4,7 +4,7 @@
 {
     "name": "Cb Medical Diagnostic Report",
     "summary": """Allows the creation of medical diagnostic reports""",
-    "version": "14.0.1.0.0",
+    "version": "14.0.2.0.0",
     "license": "AGPL-3",
     "author": "CreuBlanca",
     "website": "https://github.com/tegin/cb-medical",

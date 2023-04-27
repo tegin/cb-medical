@@ -11,7 +11,15 @@
         />
         <field name="arch" type="xml">
             <field name="with_conclusion" position="after">
-                <field name="report_category_id" />
+                <field
+                    name="report_category_id"
+                    attrs="{'invisible': [('template_type', '!=', 'general')], 'required': [('template_type', '=', 'general')]}"
+                />
+                <field
+                    name="user_report_category_id"
+                    attrs="{'invisible': [('template_type', '!=', 'user')], 'required': [('template_type', '=', 'user')]}"
+                    domain="['|', ('medical_department_id', '=', False), ('medical_department_id.user_ids','=',uid)]"
+                />
                 <field name="medical_department_id" />
                 <field name="with_department_report_header" invisible="1" />
             </field>
