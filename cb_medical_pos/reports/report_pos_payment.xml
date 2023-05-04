@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="report_pos_payment_view_pivot" model="ir.ui.view">
+        <field name="name">report.pos.payment.form</field>
+        <field name="model">report.pos.payment</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="config_id" type="row" />
+                <field name="date" type="col" interval="year" />
+                <field name="amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+    <record id="report_pos_payment_view_search" model="ir.ui.view">
+        <field name="name">report.pos.payment.form</field>
+        <field name="model">report.pos.payment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="config_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <separator />
+                <filter name="filter_date" date="date" />
+            </search>
+        </field>
+    </record>
+    <record id="report_pos_payment_action" model="ir.actions.act_window">
+        <field name="name">Point Of Sale Payment Analysis</field>
+        <field name="res_model">report.pos.payment</field>
+        <field name="view_mode">pivot</field>
+    </record>
+
+    <record model="ir.ui.menu" id="report_pos_payment_meu">
+        <field name="name">Payments</field>
+        <field name="parent_id" ref="point_of_sale.menu_point_rep" />
+        <field name="action" ref="report_pos_payment_action" />
+        <field name="sequence" eval="30" />
+    </record>
+</odoo>
