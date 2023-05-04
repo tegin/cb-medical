@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -34,7 +34,7 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
     partner_invoice_id = fields.Many2one(
         comodel_name="res.partner",
         string="Partner invoice",
-        domain=[("customer", "=", True)],
+        domain=[("customer_rank", ">", 0)],
     )
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -66,11 +66,6 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
         readonly=True,
         required=True,
     )
-
-    @api.onchange("pos_session_id")
-    def _onchange_pos_session_id(self):
-        for record in self:
-            record.account_bank_statement_id = False
 
     def sale_order_vals(self):
         vals = {

@@ -27,6 +27,7 @@
         "views/sale_order_views.xml",
         "views/pos_session_views.xml",
         "views/report_invoice.xml",
+        "reports/report_pos_payment.xml",
     ],
     "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
