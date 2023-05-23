@@ -1,7 +1,7 @@
 # Copyright 2021 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class MedicalDiagnosticReportTemplate(models.Model):
@@ -34,3 +34,11 @@ class MedicalDiagnosticReportTemplate(models.Model):
             }
         )
         return result
+
+    @api.model_create_multi
+    def create(self, mvals):
+        for vals in mvals:
+            vals["report_category_id"] = vals.get(
+                "user_report_category_id"
+            ) or vals.get("report_category_id")
+        return super().create(mvals)

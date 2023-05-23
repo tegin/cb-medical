@@ -32,6 +32,11 @@
                     <field name="medical_department_header" />
                 </page>
             </xpath>
+            <field name="template_type" position="attributes">
+              <attribute
+                    name="groups"
+                >medical_base.group_medical_configurator,medical_base.group_medical_doctor_manager</attribute>
+            </field>
         </field>
     </record>
 </odoo>
