@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+<!--
+    <record model="ir.ui.view" id="medical_clinical_impression_form_view">
+        <field name="name">medical.clinical.impression.form (in cb_medical_clinical_impression)</field>
+        <field name="model">medical.clinical.impression</field>
+        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="arch" type="xml">
+        </field>
+    </record>
+
+-->
+
+    <record
+        id="medical_impression_generate_report_act_server"
+        model="ir.actions.server"
+    >
+        <field name="name">Generate report</field>
+        <field
+            name="model_id"
+            ref="medical_clinical_impression.model_medical_clinical_impression"
+        />
+        <field
+            name="binding_model_id"
+            ref="medical_clinical_impression.model_medical_clinical_impression"
+        />
+        <field name="state">code</field>
+        <field
+            name="code"
+        >action = records.action_create_clinical_impression_report()</field>
+    </record>
+
+
+
+</odoo>
