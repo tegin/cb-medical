@@ -51,3 +51,8 @@ class SaleOrder(models.Model):
         if self.invoice_group_method_id:
             res["invoice_group_method_id"] = self.invoice_group_method_id.id
         return res
+
+    def _get_invoice_grouping_keys(self):
+        result = super()._get_invoice_grouping_keys()
+        result.append("agreement_id")
+        return result
