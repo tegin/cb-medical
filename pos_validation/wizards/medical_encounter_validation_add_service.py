@@ -105,4 +105,6 @@ class MedicalEncounterValidationAddService(models.TransientModel):
         for el in query:
             values[el[1:]].append(el[0])
         self.encounter_id.generate_sale_orders(values)
+        self.encounter_id.refresh()
+        self.encounter_id.recompute_commissions()
         return
