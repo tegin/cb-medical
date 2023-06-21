@@ -181,7 +181,7 @@ class TestMedicalProductRequest(TransactionCase):
         self.assertEqual(request.rate_quantity, 3.5)
         self.assertEqual(
             request.rate_uom_id.id,
-            self.env.ref("cb_medical_product_request.product_uom_week").id,
+            self.env.ref("medical_product_request.product_uom_week").id,
         )
 
         # Specific Rate: Every 2 days -> Rate: 3.5 times/week
@@ -190,16 +190,16 @@ class TestMedicalProductRequest(TransactionCase):
         self.assertEqual(request.rate_quantity, 3.5)
         self.assertEqual(
             request.rate_uom_id.id,
-            self.env.ref("cb_medical_product_request.product_uom_week").id,
+            self.env.ref("medical_product_request.product_uom_week").id,
         )
 
         # Specific Rate: Every 1 week -> Rate: 1 times /week
         request.specific_rate = 1
         request.specific_rate_uom_id = self.env.ref(
-            "cb_medical_product_request.product_uom_week"
+            "medical_product_request.product_uom_week"
         ).id
         self.assertEqual(request.rate_quantity, 1)
         self.assertEqual(
             request.rate_uom_id.id,
-            self.env.ref("cb_medical_product_request.product_uom_week").id,
+            self.env.ref("medical_product_request.product_uom_week").id,
         )

@@ -6,6 +6,8 @@ import logging
 from odoo import api, fields, models
 from odoo.osv.expression import get_unaccent_wrapper
 
+from ..fields import UnaccentedChar
+
 _logger = logging.getLogger(__name__)
 
 
@@ -26,6 +28,19 @@ class MedicalProductTemplate(models.Model):
     product_tmpl_commercial_count = fields.Integer(
         compute="_compute_product_tmpl_commercial_ids"
     )
+    unaccented_name = UnaccentedChar(
+        related="name", store=True, index=True, string="Unnacented name"
+    )
+    cima_ref = fields.Char()
+    can_drive = fields.Boolean(default=True)
+    in_patient = fields.Boolean(compute="_compute_in_patient", store=True)
+
+    @api.depends("product_tmpl_commercial_ids.in_patient")
+    def _compute_in_patient(self):
+        for record in self:
+            record.in_patient = any(
+                record.product_tmpl_commercial_ids.mapped("in_patient")
+            )
 
     @api.depends("product_tmpl_commercial_ids")
     def _compute_product_tmpl_commercial_ids(self):
@@ -34,14 +49,12 @@ class MedicalProductTemplate(models.Model):
 
     def action_view_product_tmpl_commercial_ids(self):
         action = self.env.ref(
-            "cb_medical_product_request."
-            "medical_product_template_commercial_act_window"
+            "l10n_es_medical_cima." "medical_product_template_commercial_act_window"
         ).read()[0]
         action["domain"] = [("product_tmpl_id", "=", self.id)]
         if len(self.product_tmpl_commercial_ids) == 1:
             view = (
-                "cb_medical_product_request."
-                "medical_product_template_commercial_form_view"
+                "l10n_es_medical_cima." "medical_product_template_commercial_form_view"
             )
             form_view = [(self.env.ref(view).id, "form")]
             if "views" in action:
@@ -81,7 +94,7 @@ class MedicalProductTemplate(models.Model):
             table=self._table,
             from_str=from_str,
             where=where_str,
-            rec_name=unaccent('"{}"."{}"'.format(self._table, self._rec_name)),
+            rec_name='"{}"."{}"'.format(self._table, "unaccented_name"),
             percent=unaccent("%s"),
             operator=operator,
             order=",".join(
@@ -90,10 +103,9 @@ class MedicalProductTemplate(models.Model):
                     for order in self._order.split(",")
                 ]
             ),
-            laboratory_product_name=unaccent(
-                '"medical_product_template_commercial"."laboratory_product_name"'
-            ),
-            product_code=unaccent('"medical_product_product_commercial"."code"'),
+            laboratory_product_name='"medical_product_template_commercial".'
+            '"unaccented_laboratory_product_name"',
+            product_code='"medical_product_product_commercial"."unaccented_code"',
         )
         where_clause_params += [
             name,
@@ -128,7 +140,7 @@ class MedicalProductTemplate(models.Model):
             self.env.cr.execute(query, where_clause_params)
             ids = [row[0] for row in self.env.cr.fetchall()]
             if ids:
-                return models.lazy_name_get(self.browse(ids))
+                return ids
             else:
                 return []
         return super()._name_search(
@@ -149,6 +161,13 @@ class MedicalProductProduct(models.Model):
     )
 
     product_commercial_count = fields.Integer(compute="_compute_product_commercial_ids")
+    cima_ref = fields.Char()
+    active = fields.Boolean(compute="_compute_active", store=True)
+
+    @api.depends("product_commercial_ids.active")
+    def _compute_active(self):
+        for record in self:
+            record.active = any(record.product_commercial_ids.mapped("active"))
 
     @api.depends("product_commercial_ids")
     def _compute_product_commercial_ids(self):
@@ -157,14 +176,12 @@ class MedicalProductProduct(models.Model):
 
     def action_view_product_commercial_ids(self):
         action = self.env.ref(
-            "cb_medical_product_request."
-            "medical_product_product_commercial_act_window"
+            "l10n_es_medical_cima." "medical_product_product_commercial_act_window"
         ).read()[0]
         action["domain"] = [("medical_product_id", "=", self.id)]
         if len(self.product_commercial_ids) == 1:
             view = (
-                "cb_medical_product_request."
-                "medical_product_product_commercial_form_view"
+                "l10n_es_medical_cima." "medical_product_product_commercial_form_view"
             )
             form_view = [(self.env.ref(view).id, "form")]
             if "views" in action:

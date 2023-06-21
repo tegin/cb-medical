@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="cb_medical_product_request.spanish_prescription">
+    <template id="l10n_es_medical_cima.spanish_prescription">
         <t t-call="web.html_container">
             <t
                 t-set="docs"
@@ -18,7 +18,7 @@
                 </t>
                 <t t-set="partner" t-value="company.partner_id" />
                 <t
-                    t-call="cb_medical_product_request.spanish_prescription_base"
+                    t-call="l10n_es_medical_cima.spanish_prescription_base"
                     t-lang="lang"
                 />
             </t>

@@ -20,6 +20,12 @@ class MedicalProductRequestOrder(models.Model):
         domain=[("is_center", "=", True)],
         compute="_compute_center_id",
     )
+    in_patient = fields.Boolean(compute="_compute_in_patient")
+
+    @api.depends("category")
+    def _compute_in_patient(self):
+        for record in self:
+            record.in_patient = record.category == "inpatient"
 
     def _complete_change_state(self):
         res = super()._complete_change_state()

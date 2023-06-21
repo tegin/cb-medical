@@ -11,10 +11,4 @@
         <field name="header_spacing">10</field>
         <field name="dpi">72</field>
     </record>
-    <record id="product_uom_week" model="uom.uom">
-        <field name="name">Week</field>
-        <field name="category_id" ref="uom.uom_categ_wtime" />
-        <field name="factor_inv" eval="7.0" />
-        <field name="uom_type">bigger</field>
-    </record>
 </odoo>

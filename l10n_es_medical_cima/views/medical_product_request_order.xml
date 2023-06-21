@@ -18,26 +18,7 @@
                     attrs="{'readonly':[('state', '!=', 'draft')], 'invisible': [('category', '=', 'inpatient')]}"
                 />
                 <field name="center_id" />
-            </field>
-            <field name="duration" position="before">
-                <field
-                    name="specific_rate"
-                    string="Every"
-                    attrs="{'invisible': [('product_type', '!=', 'medication')], 'required': [('product_type', '==', 'medication')]}"
-                />
-                <field
-                    name="specific_rate_uom_id"
-                    string="Uom"
-                    attrs="{'invisible': [('product_type', '!=', 'medication')], 'required': [('product_type', '==', 'medication')]}"
-                    domain="[('measure_type', '=', 'working_time')]"
-                    options="{'no_create': True, 'no_open': True}"
-                />
-            </field>
-            <field name="rate_quantity" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="rate_uom_id" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <field name="in_patient" invisible="1" />
             </field>
             <field name="duration_uom_id" position="after">
                 <field
@@ -57,6 +38,20 @@
                 <attribute name="attrs">
                     {'column_invisible': [('parent.category', '=', 'discharge')]}</attribute>
             </field>
+            <xpath
+                expr="//field[@name='product_request_ids']/tree/field[@name='medical_product_template_id']"
+                position="after"
+            >
+                <field name="in_patient" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//field[@name='product_request_ids']/tree/field[@name='medical_product_template_id']"
+                position="attributes"
+            >
+                <attribute
+                    name="domain"
+                >[('in_patient', 'in', [False, in_patient])]</attribute>
+            </xpath>
         </field>
     </record>
     <!--  <record model="ir.ui.view" id="medical_product_request_order_search_view">

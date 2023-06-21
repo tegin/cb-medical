@@ -15,6 +15,7 @@
         "medical_encounter_identifier",
         "cb_medical_administration_requester",
         "web_domain_field",
+        "queue_job",
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -27,6 +28,7 @@
         "views/res_config_settings_views.xml",
         "templates/assets.xml",
         "data/data.xml",
+        "data/cron.xml",
         "reports/spanish_prescription.xml",
         "reports/spanish_prescription_template.xml",
     ],
