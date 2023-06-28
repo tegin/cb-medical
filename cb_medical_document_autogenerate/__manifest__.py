@@ -13,7 +13,8 @@
         "medical_document",
     ],
     "data": [
-        "views/medical_document_template.xml",
+        "views/medical_patient.xml",
+        "views/medical_document_type.xml",
         "views/medical_document_reference.xml",
     ],
     "demo": [],
