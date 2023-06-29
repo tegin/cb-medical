@@ -13,6 +13,13 @@
             <notebook position="inside">
                 <page name="medical_documents" string="Medical documents">
                     <field name="medical_document_ids" />
+                    <button
+                        name="%(medical_patient_add_document_act_window)d"
+                        string="Add document"
+                        type="action"
+                        class="btn-primary"
+                        context="{'default_patient_id': active_id}"
+                    />
                 </page>
                 <page name="administrative_documents" string="Administrative documents">
                     <field name="administrative_document_ids" />

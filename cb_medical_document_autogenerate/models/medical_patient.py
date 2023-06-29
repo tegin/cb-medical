@@ -1,7 +1,8 @@
 # Copyright 2023 CreuBlanca
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import ValidationError
 
 
 class MedicalPatient(models.Model):
@@ -30,15 +31,19 @@ class MedicalPatient(models.Model):
         readonly=True,
     )
 
-    def _add_scanned_document(self, data=b"", document_type_id=False, **vals):
-        storage_file = self.env["storage.file"].create({"data": data})
+    def _add_scanned_document(self, data=b"", document_type=False, **vals):
+        if not document_type:
+            raise ValidationError(_("Document type is required"))
+        storage_file = self.env["storage.file"].create(
+            {"data": data, "storage_id": document_type.storage_backend_id.id}
+        )
         new_vals = vals.copy()
         new_vals.update(
             {
                 "storage_file_id": storage_file.id,
                 "fhir_state": "current",
                 "patient_id": self.id,
-                "document_type_id": document_type_id,
+                "document_type_id": document_type.id,
             }
         )
         return self.env["document.reference"].create(new_vals)
