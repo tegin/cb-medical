@@ -20,6 +20,6 @@
         "views/medical_document_type.xml",
         "views/medical_document_reference.xml",
     ],
-    "demo": [],
+    "demo": ["demo/document_action.xml"],
     "post_init_hook": "post_init_hook",
 }
