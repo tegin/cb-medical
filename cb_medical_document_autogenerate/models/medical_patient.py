@@ -31,11 +31,15 @@ class MedicalPatient(models.Model):
         readonly=True,
     )
 
-    def _add_scanned_document(self, data=b"", document_type=False, **vals):
+    def _add_scanned_document(self, filename="", data=b"", document_type=False, **vals):
         if not document_type:
             raise ValidationError(_("Document type is required"))
         storage_file = self.env["storage.file"].create(
-            {"data": data, "storage_id": document_type.storage_backend_id.id}
+            {
+                "data": data,
+                "backend_id": document_type.storage_backend_id.id,
+                "name": filename,
+            }
         )
         new_vals = vals.copy()
         new_vals.update(
@@ -46,4 +50,4 @@ class MedicalPatient(models.Model):
                 "document_type_id": document_type.id,
             }
         )
-        return self.env["document.reference"].create(new_vals)
+        return self.env["medical.document.reference"].create(new_vals)

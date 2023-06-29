@@ -14,6 +14,7 @@
         "storage_file",
     ],
     "data": [
+        "security/ir.model.access.csv",
         "wizards/medical_patient_add_document.xml",
         "views/medical_patient.xml",
         "views/medical_document_type.xml",

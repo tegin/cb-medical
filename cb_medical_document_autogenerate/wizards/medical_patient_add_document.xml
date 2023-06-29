@@ -14,7 +14,8 @@
                 <group>
                     <field name="patient_id" invisible="1" />
                     <field name="document_type_id" />
-                    <field name="data" />
+                    <field name="filename" invisible="1" />
+                    <field name="data" filename="filename" />
                 </group>
                 <footer>
                     <button name="doit" string="OK" class="btn-primary" type="object" />
