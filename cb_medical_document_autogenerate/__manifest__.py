@@ -11,6 +11,7 @@
     "website": "https://github.com/tegin/cb-medical",
     "depends": [
         "medical_document",
+        "storage_file",
     ],
     "data": [
         "views/medical_patient.xml",

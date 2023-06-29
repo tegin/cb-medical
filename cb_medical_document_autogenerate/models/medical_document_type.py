@@ -14,3 +14,4 @@ class MedicalDocumentType(models.Model):
         ],
         default="administrative",
     )
+    storage_backend_id = fields.Many2one("storage.backend")
