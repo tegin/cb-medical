@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -24,6 +25,55 @@ class TestTurn(TransactionCase):
                 ],
             }
         )
+        self.practitioner_01 = self.env["res.partner"].create(
+            {
+                "name": "Practitioner 01",
+                "is_medical": True,
+                "is_practitioner": True,
+                "turn_specialty_ids": [(4, self.specialty_01.id)],
+            }
+        )
+        self.practitioner_02 = self.env["res.partner"].create(
+            {
+                "name": "Practitioner 02",
+                "is_medical": True,
+                "is_practitioner": True,
+                "turn_specialty_ids": [
+                    (4, self.specialty_01.id),
+                    (4, self.specialty_02.id),
+                ],
+            }
+        )
+        self.partner = self.env["res.partner"].create({"name": "Demo partner"})
+
+    def test_constrain_partner(self):
+        self.env["wzd.medical.turn"].create(
+            {
+                "turn_specialty_ids": [(4, self.specialty_01.id)],
+                "start_date": "2020-01-01",
+                "end_date": "2020-01-31",
+            }
+        ).doit()
+        turns = self.env["medical.turn"].search(
+            [("specialty_id", "in", [self.specialty_01.id])]
+        )
+        with self.assertRaises(ValidationError):
+            turns.write({"practitioner_id": self.partner.id})
+
+    def test_constrain_practitioner_specialty(self):
+        self.env["wzd.medical.turn"].create(
+            {
+                "turn_specialty_ids": [(4, self.specialty_02.id)],
+                "start_date": "2020-01-01",
+                "end_date": "2020-01-31",
+            }
+        ).doit()
+        turns = self.env["medical.turn"].search(
+            [("specialty_id", "in", [self.specialty_02.id])]
+        )
+        turns.write({"practitioner_id": self.practitioner_02.id})
+        with self.assertRaises(ValidationError):
+            turns.write({"practitioner_id": self.practitioner_01.id})
 
     def test_generation_filtered(self):
         self.assertFalse(
