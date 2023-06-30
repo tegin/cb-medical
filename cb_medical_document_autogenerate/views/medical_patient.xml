@@ -10,9 +10,12 @@
         <field name="model">medical.patient</field>
         <field name="inherit_id" ref="medical_base.medical_patient_his_form" />
         <field name="arch" type="xml">
+
             <notebook position="inside">
                 <page name="medical_documents" string="Medical documents">
                     <field name="medical_document_ids" />
+
+
                     <button
                         name="%(medical_patient_add_document_act_window)d"
                         string="Add document"
