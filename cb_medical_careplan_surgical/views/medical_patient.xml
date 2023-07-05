@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="medical_patient_form_view">
+        <field
+            name="name"
+        >medical.patient.form (in cb_medical_careplan_surgical)</field>
+        <field name="model">medical.patient</field>
+        <field name="inherit_id" ref="medical_base.medical_patient_his_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='administration_data']" position="after">
+                <page string="Surgical Encounter">
+                    <field name="surgical_encounter_ids" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>
