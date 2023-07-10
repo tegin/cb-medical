@@ -12,12 +12,24 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[@name='administration_data']" position="after">
                 <page string="Surgical Encounter">
-                    <field name="surgical_encounter_ids" />
+                    <field name="surgical_encounter_ids">
+                        <tree>
+                            <field name="internal_identifier" />
+                            <field name="patient_id" invisible="1" />
+                            <field name="medical_process_description" />
+                            <field name="center_id" />
+                            <field name="priority_id" />
+                            <field name="state" />
+                            <button
+                                type="action"
+                                name="%(medical_clinical_impression.create_impression_from_encounter_act_window)s"
+                                class="oe_link"
+                                icon="fa-stethoscope"
+                            />
+                        </tree>
+                    </field>
                 </page>
             </xpath>
         </field>
     </record>
-
-
-
 </odoo>
