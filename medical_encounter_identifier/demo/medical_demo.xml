@@ -3,4 +3,36 @@
     <record id="medical_administration_center.partner_center_1" model="res.partner">
         <field name="encounter_sequence_prefix">1</field>
     </record>
+
+    <record
+        id="medical_administration_encounter.encounter_01_patient_01"
+        model="medical.encounter"
+    >
+        <field name="center_id" ref="medical_administration_center.partner_center_1" />
+    </record>
+    <record
+        id="medical_administration_encounter.encounter_02_patient_01"
+        model="medical.encounter"
+    >
+        <field name="center_id" ref="medical_administration_center.partner_center_1" />
+    </record>
+    <record
+        id="medical_administration_encounter.encounter_03_patient_01"
+        model="medical.encounter"
+    >
+        <field name="center_id" ref="medical_administration_center.partner_center_1" />
+    </record>
+
+    <record
+        id="medical_administration_encounter.encounter_01_patient_02"
+        model="medical.encounter"
+    >
+        <field name="center_id" ref="medical_administration_center.partner_center_1" />
+    </record>
+    <record
+        id="medical_administration_encounter.encounter_02_patient_02"
+        model="medical.encounter"
+    >
+        <field name="center_id" ref="medical_administration_center.partner_center_1" />
+    </record>
 </odoo>
