@@ -24,7 +24,7 @@
                                 type="action"
                                 name="%(medical_clinical_impression.create_impression_from_encounter_act_window)s"
                                 class="oe_link"
-                                icon="fa-stethoscope"
+                                icon="fa-plus-square-o"
                             />
                         </tree>
                     </field>
