@@ -61,4 +61,56 @@
             </xpath>
         </field>
     </record>
+        <record id="medical_encounter_his_form_view" model="ir.ui.view">
+        <field name="name">medical.encounter.view.form</field>
+        <field name="model">medical.encounter</field>
+        <field
+            name="inherit_id"
+            ref="medical_administration_encounter.medical_encounter_his_form_view"
+        />
+        <field
+            name="groups_id"
+            eval="[(4, ref('sales_team.group_sale_salesman')), (4, ref('account.group_account_invoice'))]"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                            <button
+                    type="object"
+                    name="action_view_sale_order"
+                    class="oe_stat_button"
+                    icon="fa-file-invoice-dollar"
+                >
+                    <field
+                        name="sale_order_count"
+                        widget="statinfo"
+                        string="Sale Orders"
+                    />
+                    <field name='sale_order_ids' invisible="1" />
+                </button>
+
+            </xpath>
+                <xpath expr="//header" position="inside">
+                <button
+                    name="%(medical_encounter_add_careplan_action)s"
+                    type="action"
+                    string="Create careplan"
+                    groups="medical_base.group_medical_financial"
+                    states="arrived,in-progress,onleave"
+                />
+                <button
+                    name="create_sale_order"
+                    type="object"
+                    string="Create Sales Orders"
+                    class="oe_highlight"
+                />
+                <button
+                    name="create_sale_order"
+                    type="object"
+                    string="Create new Sales Orders"
+                    attrs="{'invisible': [('state', 'not in', ['completed'])]}"
+                    class="oe_highlight"
+                />
+            </xpath>
+        </field>
+    </record>
 </odoo>

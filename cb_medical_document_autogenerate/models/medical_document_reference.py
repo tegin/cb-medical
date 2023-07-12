@@ -36,4 +36,3 @@ class MedicalDocumentReference(models.Model):
             "type": "ir.actions.act_url",
             "url": self.storage_file_id.url,
         }
-
