@@ -12,7 +12,10 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[@name='administration_data']" position="after">
                 <page string="Surgical Encounter">
-                    <field name="surgical_encounter_ids">
+                    <field
+                        name="surgical_encounter_ids"
+                        options="{'record_action': 'medical_impresion_tree_view_action'}"
+                    >
                         <tree>
                             <field name="internal_identifier" />
                             <field name="patient_id" invisible="1" />
