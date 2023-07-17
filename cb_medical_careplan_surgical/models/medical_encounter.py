@@ -11,6 +11,13 @@ class MedicalEncounter(models.Model):
     # Make it selection? Or just text of whatever?
     medical_process_description = fields.Text(string="Medical Process Description")
 
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+        readonly=0,
+        tracking=True,
+    )
+
     def medical_impresion_tree_view_action(self):
         self.ensure_one()
         view_id = self.env.ref(

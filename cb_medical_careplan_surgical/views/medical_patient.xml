@@ -23,12 +23,81 @@
                             <field name="center_id" />
                             <field name="priority_id" />
                             <field name="state" />
+
+
+                            <button
+                                string="Arrived"
+                                type="object"
+                                name="planned2arrived"
+                                class="btn-sm btn-primary"
+                                groups="medical_base.group_medical_reception"
+                                attrs="{'invisible': [('state','!=','planned')]}"
+                            />
+                            <button
+                                string="Cancel"
+                                type="object"
+                                name="planned2cancelled"
+                                class="btn-sm btn-primary"
+                                groups="medical_base.group_medical_reception"
+                                attrs="{'invisible': [('state','!=','planned')]}"
+                            />
+                            <button
+                                string="In-Progress"
+                                type="object"
+                                name="arrived2inprogress"
+                                class="btn-sm btn-primary"
+                                groups="medical_base.group_medical_reception"
+                                attrs="{'invisible': [('state','!=','arrived')]}"
+                            />
+                            <button
+                                string="Cancel"
+                                type="object"
+                                name="arrived2cancelled"
+                                class="btn-sm btn-primary"
+                                groups="medical_base.group_medical_reception"
+                                attrs="{'invisible': [('state','!=','arrived')]}"
+                            />
+                            <button
+                                string="On Leave"
+                                type="object"
+                                name="inprogress2onleave"
+                                class="btn-sm btn-primary"
+                                groups="medical_base.group_medical_reception"
+                                attrs="{'invisible': [('state','!=','in-progress')]}"
+                            />
+                            <button
+                                string="Cancel"
+                                type="object"
+                                name="inprogress2cancelled"
+                                groups="medical_base.group_medical_reception"
+                                class="btn-sm btn-primary"
+                                attrs="{'invisible': [('state','!=','in-progress')]}"
+                            />
+                            <button
+                                string="Finish"
+                                type="object"
+                                name="onleave2finished"
+                                groups="medical_base.group_medical_reception"
+                                class="btn-sm btn-primary"
+                                attrs="{'invisible': [('state','!=','onleave')]}"
+                            />
+                            <button
+                                string="Cancel"
+                                type="object"
+                                name="onleave2cancelled"
+                                groups="medical_base.group_medical_reception"
+                                class="btn-sm btn-primary"
+                                attrs="{'invisible': [('state','!=','onleave')]}"
+                            />
                             <button
                                 type="action"
                                 name="%(medical_clinical_impression.create_impression_from_encounter_act_window)s"
-                                class="oe_link"
+                                string="Impression"
+                                class="btn-sm btn-secondary"
                                 icon="fa-plus-square-o"
+                                attrs="{'invisible': [('state','in',['onleave','cancelled'])]}"
                             />
+
                         </tree>
                     </field>
                 </page>
