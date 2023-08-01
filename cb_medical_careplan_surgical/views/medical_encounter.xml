@@ -14,9 +14,12 @@
         />
         <field name="arch" type="xml">
             <xpath expr="//div[@class='oe_title']/h1" position="after">
-                <h3>
-                    <field name="medical_process_description" />
-                </h3>
+                <p attrs="{'invisible': [('is_surgery_process', '=', False)]}">
+                    <strong>
+                        <field name="medical_process_description" />
+                        <field name="is_surgery_process" invisible="1"/>
+                    </strong>
+                </p>
             </xpath>
 
             <notebook position="before">
