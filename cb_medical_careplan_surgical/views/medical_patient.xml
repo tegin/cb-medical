@@ -89,14 +89,6 @@
                                 class="btn-sm btn-primary"
                                 attrs="{'invisible': [('state','!=','onleave')]}"
                             />
-                            <button
-                                type="action"
-                                name="%(medical_clinical_impression.create_impression_from_encounter_act_window)s"
-                                string="Impression"
-                                class="btn-sm btn-secondary"
-                                icon="fa-plus-square-o"
-                                attrs="{'invisible': [('state','in',['onleave','cancelled'])]}"
-                            />
 
                         </tree>
                     </field>

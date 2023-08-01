@@ -2,6 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import _, fields, models
+from odoo.osv import expression
+from odoo.tools.safe_eval import safe_eval
 
 
 class MedicalEncounter(models.Model):
@@ -18,7 +20,7 @@ class MedicalEncounter(models.Model):
         tracking=True,
     )
 
-    def medical_impresion_tree_view_action(self):
+    def medical_impresion_tree_view_action_old(self):
         self.ensure_one()
         view_id = self.env.ref(
             "medical_clinical_impression.medical_clinical_impression_tree_view"
@@ -36,3 +38,25 @@ class MedicalEncounter(models.Model):
             "context": ctx,
             "domain": [("encounter_id", "=", self.id)],
         }
+
+    def medical_impresion_tree_view_action(self):
+        result = self.env["ir.actions.act_window"]._for_xml_id(
+            "medical_clinical_impression."
+            "medical_clinical_impression_act_window"
+        )
+        ctx_dict = {}
+        ctx_dict["default_encounter_id"] = self.id
+        ctx_dict["search_default_filter_not_cancelled"] = True
+        ctx_dict["active_id"] = self.patient_id.id
+        domain = expression.AND(
+            [
+                safe_eval(result["domain"], ctx_dict),
+                [
+                    ("encounter_id", "=", self.id),
+                    ("patient_id", "=", self.patient_id.id),
+                ],
+            ]
+        )
+        result["domain"] = domain
+        result["context"] = ctx_dict
+        return result
