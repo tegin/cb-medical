@@ -42,22 +42,6 @@
                                 attrs="{'invisible': [('state','!=','planned')]}"
                             />
                             <button
-                                string="In-Progress"
-                                type="object"
-                                name="arrived2inprogress"
-                                class="btn-sm btn-primary"
-                                groups="medical_base.group_medical_reception"
-                                attrs="{'invisible': [('state','!=','arrived')]}"
-                            />
-                            <button
-                                string="Cancel"
-                                type="object"
-                                name="arrived2cancelled"
-                                class="btn-sm btn-primary"
-                                groups="medical_base.group_medical_reception"
-                                attrs="{'invisible': [('state','!=','arrived')]}"
-                            />
-                            <button
                                 string="On Leave"
                                 type="object"
                                 name="inprogress2onleave"
