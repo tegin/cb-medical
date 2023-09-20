@@ -285,6 +285,8 @@ class MedicalEncounter(models.Model):
             invoice_group_method=invoice_group_method,
             **kwargs,
         )
+        order.order_line._compute_tax_id()
+        # Ensure that the taxes are defined
         if not agreement and not third_party_partner:
             orders = self.sale_order_ids.filtered(lambda r: r.is_down_payment)
             for pay in orders:
