@@ -189,7 +189,7 @@ class MedicalEncounter(models.Model):
             active_model=sale_order._name
         )._create_invoices()
         self.post_process_invoice(invoice, sale_order.invoice_group_method_id)
-        invoice._post()
+        invoice.action_post()
         return invoice
 
     def post_process_invoice(self, invoice, group):

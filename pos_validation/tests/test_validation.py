@@ -450,7 +450,7 @@ class TestPosValidation(common.MedicalSavePointCase):
         )
         self.assertTrue(action.get("res_id", False))
         invoice = self.env["account.move"].browse(action.get("res_id", False))
-        invoice._post()
+        invoice.action_post()
         for line in invoice.invoice_line_ids:
             self.assertEqual(line.name, nomenclature_product.name)
         for sale_order in sale_orders:
