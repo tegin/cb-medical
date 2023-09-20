@@ -63,7 +63,7 @@ class MedicalEncounter(models.Model):
                 for il in invoice_new_partner.invoice_line_ids:
                     il.quantity *= -1
                 invoice_new_partner.move_type = "out_refund"
-            invoice_new_partner.sudo()._post()
+            invoice_new_partner.sudo().action_post()
             inv_res |= invoice_new_partner
             invoice_refund = Form(
                 self.env["account.move"]
@@ -91,7 +91,7 @@ class MedicalEncounter(models.Model):
                 invoice_line_vals.append((0, 0, il.copy_data(default=default_data)[0]))
 
             invoice_refund.write({"invoice_line_ids": invoice_line_vals})
-            invoice_refund.sudo()._post()
+            invoice_refund.sudo().action_post()
             inv_res |= invoice_refund
             final_inv.write({"encounter_final_invoice": False})
             if (
@@ -107,7 +107,7 @@ class MedicalEncounter(models.Model):
                 invoice_refund, invoice_new_partner
             )
             move = self.env["account.move"].sudo().create(move_vals)
-            move.sudo()._post()
+            move.sudo().action_post()
             ref_iml = invoice_refund.line_ids.filtered(
                 lambda r: r.account_id.user_type_id.type in ("receivable", "payable")
             )
