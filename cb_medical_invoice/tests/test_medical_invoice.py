@@ -87,7 +87,7 @@ class TestPosValidation(common.MedicalSavePointCase):
                 ],
             }
         )
-        invoice._post()
+        invoice.action_post()
         self.assertTrue(partner.self_invoice_refund_sequence_id)
 
     def test_invoice_validate(self):
@@ -113,6 +113,6 @@ class TestPosValidation(common.MedicalSavePointCase):
             }
         )
         self.assertFalse(invoice.self_invoice_number)
-        invoice._post()
+        invoice.action_post()
         self.assertEqual(invoice.state, "posted")
         self.assertTrue(invoice.self_invoice_number)
