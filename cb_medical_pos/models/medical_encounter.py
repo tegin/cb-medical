@@ -164,7 +164,7 @@ class MedicalEncounter(models.Model):
             amount = invoice.amount_total
             if amount < 0:
                 invoice.action_switch_invoice_into_refund_credit_note()
-            invoice._post()
+            invoice.action_post()
             # Invoice has been created
             if amount == 0:
                 return
