@@ -285,6 +285,7 @@ class MedicalEncounter(models.Model):
             invoice_group_method=invoice_group_method,
             **kwargs,
         )
+        order.flush()
         order.order_line._compute_tax_id()
         # Ensure that the taxes are defined
         if not agreement and not third_party_partner:
