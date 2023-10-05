@@ -286,6 +286,7 @@ class MedicalEncounter(models.Model):
             **kwargs,
         )
         order.flush()
+        order.refresh()
         order.order_line._compute_tax_id()
         # Ensure that the taxes are defined
         if not agreement and not third_party_partner:
