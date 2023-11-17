@@ -9,7 +9,7 @@
         <field name="name">medical.document.template.view.tree</field>
         <field name="model">medical.document.template</field>
         <field name="arch" type="xml">
-            <tree string="Document templates">
+            <tree>
                 <field name="sequence" />
                 <field name="document_type_id" invisible="1" />
                 <field name="lang_ids" widget="many2many_tags" />
