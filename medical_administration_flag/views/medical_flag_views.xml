@@ -9,7 +9,7 @@
         <field name="name">medical.flag.view.tree</field>
         <field name="model">medical.flag</field>
         <field name="arch" type="xml">
-            <tree string="Medical Flags">
+            <tree>
                 <field name="internal_identifier" />
                 <field name="name" />
                 <field name="patient_id" />

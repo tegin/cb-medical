@@ -48,8 +48,8 @@ msgstr "Render"
 #. module: medical_document_zpl2
 #: code:addons/medical_document_zpl2/models/printing_label_zpl2.py:12
 #, python-format
-msgid "This label cannot be used on {model}"
-msgstr "Esta etiqueta no se puede utilizar en {modelo}"
+msgid "This label cannot be used on %s"
+msgstr "Esta etiqueta no se puede utilizar en %s"
 
 #. module: medical_document_zpl2
 #: model:ir.model,name:medical_document_zpl2.model_printing_label_zpl2

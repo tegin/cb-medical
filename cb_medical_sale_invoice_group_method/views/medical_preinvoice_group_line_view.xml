@@ -9,7 +9,7 @@
         <field name="name">medical.preinvoice.group.line.tree</field>
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
-            <tree string="sale order lines">
+            <tree>
                 <button
                     type="object"
                     name="invalidate_line"

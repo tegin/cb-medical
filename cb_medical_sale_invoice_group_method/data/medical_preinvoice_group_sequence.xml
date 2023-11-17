@@ -4,13 +4,11 @@
     Copyright 2017 Creu Blanca
     License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-<odoo>
-    <data noupdate="1">
-        <record id="preinvoice_group_seq" model="ir.sequence">
-            <field name="name">Medical Preinvoice Group</field>
-            <field name="code">medical.preinvoice.group</field>
-            <field name="prefix">PG</field>
-            <field name="padding">8</field>
-        </record>
-    </data>
+<odoo noupdate="1">
+    <record id="preinvoice_group_seq" model="ir.sequence">
+        <field name="name">Medical Preinvoice Group</field>
+        <field name="code">medical.preinvoice.group</field>
+        <field name="prefix">PG</field>
+        <field name="padding">8</field>
+    </record>
 </odoo>

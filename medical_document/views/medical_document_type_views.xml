@@ -10,7 +10,7 @@
         <field name="model">medical.document.type.lang</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree string="Document types Language" create="false">
+            <tree create="false">
                 <field name="lang" />
             </tree>
         </field>
@@ -41,7 +41,7 @@
         <field name="model">medical.document.type</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree string="Document types">
+            <tree>
                 <field name="internal_identifier" />
                 <field name="name" />
                 <field name="state" />

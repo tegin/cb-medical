@@ -9,7 +9,7 @@
         <field name="name">view.medical.preinvoice.group.tree</field>
         <field name="model">sale.preinvoice.group</field>
         <field name="arch" type="xml">
-            <tree string="Pre-invoice groups" create="0">
+            <tree create="0">
                 <field name="internal_identifier" />
                 <field name="company_id" />
                 <field name="agreement_id" />
