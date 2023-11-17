@@ -39,7 +39,7 @@
         <field name="name">medical.sale.discount.search</field>
         <field name="model">medical.sale.discount</field>
         <field name="arch" type="xml">
-            <tree string="Medical discounts">
+            <tree>
                 <field name="name" />
                 <field name="description" />
                 <field name="percentage" />
