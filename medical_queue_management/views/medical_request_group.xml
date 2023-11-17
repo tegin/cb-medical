@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+<!--
+    <record model="ir.ui.view" id="medical_request_group_form_view">
+        <field name="name">medical.request.group.form (in medical_queue_management)</field>
+        <field name="model">medical.request.group</field>
+        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field name="arch" type="xml">
+        </field>
+    </record>
+-->
+
+
+</odoo>

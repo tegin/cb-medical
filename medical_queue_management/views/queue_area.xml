@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="queue_area_form_view">
+        <field name="name">queue.area.form (in medical_queue_management)</field>
+        <field name="model">queue.area</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <notebook>
+                        <page name="location_map" string="Locations">
+                            <field name="location_ids" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter" />
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="queue_area_search_view">
+        <field name="name">queue.area.search (in medical_queue_management)</field>
+        <field name="model">queue.area</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="queue_area_tree_view">
+        <field name="name">queue.area.tree (in medical_queue_management)</field>
+        <field name="model">queue.area</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="queue_area_act_window">
+        <field name="name">Area</field> <!-- TODO -->
+        <field name="res_model">queue.area</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="queue_area_menu">
+        <field name="name">Area</field>
+        <field name="parent_id" ref="queue_management.queue_config_root_menu" />
+        <field name="action" ref="queue_area_act_window" />
+        <field name="sequence" eval="90" />
+    </record>
+
+</odoo>
