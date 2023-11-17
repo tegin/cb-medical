@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="workflow_plan_definition_form_view">
+        <field
+            name="name"
+        >workflow.plan.definition.form (in medical_queue_management)</field>
+        <field name="model">workflow.plan.definition</field>
+        <field
+            name="inherit_id"
+            ref="medical_financial_coverage_request.workflow_plan_definition_form"
+        />
+        <field name="arch" type="xml">
+            <field name="performer_required" position="after">
+                <field name="generate_queue_task" />
+                <field name="queue_area_id" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

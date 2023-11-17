@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+acl_queue_area_planner,queue.area Planner,model_queue_area,queue_management.group_queue_planner,1,0,0,0
+acl_queue_area_processor,queue.area Processor,model_queue_area,queue_management.group_queue_processor,1,0,0,0
+acl_queue_area_admin,queue.area Administrator,model_queue_area,queue_management.group_queue_admin,1,1,1,0
+
+
+acl_queue_location_area_planner,queue.location.area Planner,model_queue_location_area,queue_management.group_queue_planner,1,0,0,0
+acl_queue_location_area_processor,queue.location.area Processor,model_queue_location_area,queue_management.group_queue_processor,1,0,0,0
+acl_queue_location_area_admin,queue.location.area Administrator,model_queue_location_area,queue_management.group_queue_admin,1,1,1,1
+
+acl_partner_location_area_planner,partner.location.area Planner,model_res_partner_queue_location,queue_management.group_queue_planner,1,0,0,0
+acl_partner_location_area_processor,partner.location.area Processor,model_res_partner_queue_location,queue_management.group_queue_processor,1,0,0,0
+acl_partner_location_area_admin,partner.location.area Administrator,model_res_partner_queue_location,queue_management.group_queue_admin,1,1,1,1

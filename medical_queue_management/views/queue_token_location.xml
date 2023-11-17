@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 Dixmit
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="queue_token_location_location_tree_view">
+        <field
+            name="name"
+        >queue.token.location.tree (in medical_queue_management)</field>
+        <field name="model">queue.token.location</field>
+        <field
+            name="inherit_id"
+            ref="queue_management.queue_token_location_location_tree_view"
+        />
+        <field name="arch" type="xml">
+            <button name="action_back_to_draft" position="after">
+                <button
+                    name="view_encounter"
+                    string="Encounter"
+                    type="object"
+                    attrs="{'invisible': [('request_group_count', '=', 0)]}"
+                />
+                <field name="request_group_count" invisible="1" />
+            </button>
+        </field>
+    </record>
+
+
+
+</odoo>
