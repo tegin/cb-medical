@@ -104,6 +104,7 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
             "coverage_agreement_id"
         ] = self.agreement_line_id.coverage_agreement_id.id
         values["plan_definition_id"] = self.plan_definition_id.id
+        values["encounter_id"] = self.careplan_id.encounter_id.id
         values["center_id"] = self.center_id.id
         if self.performer_required:
             values["performer_id"] = self.performer_id.id
