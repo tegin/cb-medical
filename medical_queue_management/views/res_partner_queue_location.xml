@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="res_partner_queue_location_form_view">
+        <field
+            name="name"
+        >res.partner.queue.location.form (in medical_queue_management)</field>
+        <field name="model">res.partner.queue.location</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <group>
+                        <field name="practitioner_id" />
+                        <field name="center_id" />
+                        <field name="location_id" />
+                        <field name="group_id" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter" />
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="res_partner_queue_location_tree_view">
+        <field
+            name="name"
+        >res.partner.queue.location.tree (in medical_queue_management)</field>
+        <field name="model">res.partner.queue.location</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="center_id" />
+                <field
+                    name="location_id"
+                    attrs="{'required': [('group_id', '=', False)],'readonly': [('group_id', '!=', False)]}"
+                />
+                <field
+                    name="group_id"
+                    attrs="{'required': [('location_id', '=', False)],'readonly': [('location_id', '!=', False)]}"
+                />
+            </tree>
+        </field>
+    </record>
+
+</odoo>
