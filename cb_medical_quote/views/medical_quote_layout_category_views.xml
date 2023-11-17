@@ -23,7 +23,7 @@
         <field name="name">medical.quote.report.configuration.form.view</field>
         <field name="model">medical.quote.layout_category</field>
         <field name="arch" type="xml">
-            <tree string="Medical Quote Report Configuration">
+            <tree>
                 <field name="name" />
                 <field name="subtotal" widget="checkbox" />
                 <field name="pagebreak" widget="checkbox" />

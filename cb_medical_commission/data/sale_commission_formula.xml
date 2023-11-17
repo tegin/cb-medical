@@ -4,8 +4,7 @@
     Copyright 2017 Creu Blanca
     License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-<odoo>
-    <data noupdate="0">
+<odoo noupdate="0">
         <record id="commission_01" model="sale.commission">
             <field name="name">Cálculo de honorarios</field>
             <field name="commission_type">formula</field>
@@ -39,5 +38,4 @@ if line._name == 'account.move.line':
         result += (variable_fee/100 * line.price_subtotal) + fixed_fee * line.quantity
             </field>
         </record>
-    </data>
 </odoo>
