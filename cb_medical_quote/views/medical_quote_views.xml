@@ -9,11 +9,7 @@
         <field name="name">medical.quote.form</field>
         <field name="model">medical.quote</field>
         <field name="arch" type="xml">
-            <tree
-                string="Medical Quotes"
-                decoration-info="state=='draft'"
-                decoration-muted="(state=='cancel')"
-            >
+            <tree decoration-info="state=='draft'" decoration-muted="(state=='cancel')">
                 <field name="name" />
                 <field name="quote_date" />
                 <field name="validity_date" />
@@ -298,7 +294,7 @@
         <field name="name">medical.quote.line.tree</field>
         <field name="model">medical.quote.line</field>
         <field name="arch" type="xml">
-            <tree string="Medical Quote Lines" editable="bottom">
+            <tree editable="bottom">
                 <field name="sequence" widget="handle" />
                 <field name="plan_definition_id" />
                 <field name="product_id" />
