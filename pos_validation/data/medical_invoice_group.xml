@@ -4,14 +4,12 @@
     Copyright 2017 Creu Blanca
     License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
-<odoo>
-    <data noupdate="0">
-        <record
-            model="invoice.group.method"
-            id="cb_medical_careplan_sale.by_patient"
-            forcecreate="True"
-        >
-            <field name="invoice_at_validation" eval="True" />
-        </record>
-    </data>
+<odoo noupdate="0">
+    <record
+        model="invoice.group.method"
+        id="cb_medical_careplan_sale.by_patient"
+        forcecreate="True"
+    >
+        <field name="invoice_at_validation" eval="True" />
+    </record>
 </odoo>
