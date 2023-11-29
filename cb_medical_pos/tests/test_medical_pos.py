@@ -67,7 +67,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         careplan._onchange_encounter()
         careplan = careplan.create(careplan._convert_to_write(careplan._cache))
         self.assertEqual(careplan.center_id, encounter.center_id)
-        invoice = (
+        order = (
             self.env["wizard.medical.encounter.add.amount"]
             .create(
                 {
@@ -79,9 +79,8 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             )
             ._run()
         )
-        self.assertEqual(invoice.journal_id, self.company.patient_journal_id)
-        for line in invoice.invoice_line_ids:
-            self.assertNotEqual(line.name, "/")
+        self.assertFalse(order.lines)
+        self.assertTrue(order.payment_ids)
         wizard = self.env["medical.careplan.add.plan.definition"].create(
             {
                 "careplan_id": careplan.id,
@@ -90,7 +89,6 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         )
         self.action.is_billable = False
         wizard.run()
-        self.assertTrue(self.session.action_view_sale_orders()["res_id"])
         groups = self.env["medical.request.group"].search(
             [("careplan_id", "=", careplan.id)]
         )
@@ -114,6 +112,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 "payment_method_id": self.payment_method_id.id,
             }
         ).run()
+        self.assertFalse(encounter.sale_order_ids.filtered(lambda r: r.is_down_payment))
         invoice = encounter.sale_order_ids.filtered(
             lambda r: not r.coverage_agreement_id and not r.is_down_payment
         ).mapped("invoice_ids")
@@ -125,17 +124,15 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         )
         self.assertEqual(encounter.pending_private_amount, 0)
         self.session.action_pos_session_closing_control()
-        self.assertTrue(
-            self.env["pos.payment"]
-            .search([("session_id", "=", self.session.id)])
-            .mapped("pos_order_id.account_move")
-        )
         # self.assertTrue(self.session.sale_order_line_ids)
         # self.assertTrue(self.session.request_group_ids)
         # self.assertTrue(self.session.down_payment_ids)
         self.session.action_pos_session_approve()
+        encounter.reconcile_payments()
         invoices = encounter.sale_order_ids.invoice_ids
         self.assertTrue(invoices)
+        invoices.invalidate_cache()
+        invoices.refresh()
         for invoice in invoices:
             self.assertEqual(0, invoice.amount_residual)
 
@@ -225,9 +222,6 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             {"encounter_id": encounter.id, "pos_session_id": self.session.id}
         ).run()
         self.assertEqual(encounter.pending_private_amount, 0)
-        extra_order = encounter.sale_order_ids.filtered(
-            lambda r: r.is_down_payment and r.state == "draft"
-        )
         self.env["wizard.medical.encounter.finish"].create(
             {
                 "encounter_id": encounter.id,
@@ -243,40 +237,19 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         payments = self.env["pos.payment"].search(
             [("session_id", "=", self.session.id)]
         )
-        self.assertFalse(
-            payments.filtered(
-                lambda r: r.pos_order_id.account_move in sale_order.invoice_ids
-            )
-        )
-        self.assertTrue(
-            payments.filtered(
-                lambda r: r.pos_order_id.account_move in extra_order.invoice_ids
-            )
-        )
-        self.assertEqual(
-            -100,
-            sum(
-                p.amount
-                for p in payments.filtered(
-                    lambda r: r.pos_order_id.account_move in extra_order.invoice_ids
-                )
-            ),
-        )
         sale_order = encounter.sale_order_ids.filtered(
             lambda r: not r.is_down_payment and r.third_party_partner_id
         )
         self.assertTrue(sale_order)
-        payments = payments.filtered(
-            lambda r: r.pos_order_id.sale_order_id in sale_order
-        )
-        self.assertTrue(payments)
         self.assertEqual(100, sum(p.amount for p in payments))
         self.assertEqual(sum(s.amount_total for s in sale_order), 100)
         self.session.action_pos_session_approve()
-        invoices = encounter.sale_order_ids.invoice_ids
-        self.assertTrue(invoices)
-        for invoice in invoices:
-            self.assertEqual(0, invoice.amount_residual)
+        encounter.reconcile_payments()
+        self.assertFalse(encounter.sale_order_ids.invoice_ids)
+        move_lines = encounter.mapped("pos_payment_ids.pos_order_id.deposit_line_id")
+        self.assertTrue(move_lines)
+        for move_line in move_lines:
+            self.assertEqual(0, move_line.amount_residual)
 
     def test_third_party(self):
         self.plan_definition.is_breakdown = True
@@ -305,7 +278,6 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertTrue(sale_order.third_party_order)
         self.assertEqual(sale_order.third_party_partner_id, self.practitioner_02)
         self.assertGreater(encounter.pending_private_amount, 0)
-        self.assertGreater(sum(encounter.sale_order_ids.mapped("residual")), 0)
         self.env["wizard.medical.encounter.finish"].create(
             {
                 "encounter_id": encounter.id,
@@ -316,7 +288,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertFalse(sale_order.invoice_ids)
         self.assertEqual(encounter.pending_private_amount, 0)
         self.session.action_pos_session_approve()
-
+        encounter.reconcile_payments()
         invoices = encounter.sale_order_ids.invoice_ids
         self.assertFalse(invoices)
         moves = encounter.sale_order_ids.third_party_move_id
@@ -338,4 +310,3 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 ).mapped("balance")
             ),
         )
-        self.assertEqual(sum(encounter.sale_order_ids.mapped("residual")), 0)

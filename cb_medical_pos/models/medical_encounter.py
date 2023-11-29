@@ -2,9 +2,11 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
+from collections import defaultdict
+
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
-from odoo.tools import float_compare
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools import float_compare, float_is_zero
 
 
 class MedicalEncounter(models.Model):
@@ -32,6 +34,7 @@ class MedicalEncounter(models.Model):
     laboratory_request_ids = fields.One2many(
         "medical.laboratory.request", inverse_name="encounter_id"
     )
+    reconcile_move_id = fields.Many2one("account.move")
 
     @api.depends(
         "sale_order_ids.coverage_agreement_id",
@@ -150,9 +153,7 @@ class MedicalEncounter(models.Model):
             return
         for line in sale_order.order_line:
             line.qty_delivered = line.product_uom_qty
-        cash_vals = {}
         if not sale_order.third_party_order:
-            model = "pos.box.cash.invoice.out"
             patient_journal = sale_order.company_id.patient_journal_id.id
             invoice = sale_order.with_context(
                 default_journal_id=patient_journal,
@@ -165,36 +166,6 @@ class MedicalEncounter(models.Model):
             if amount < 0:
                 invoice.action_switch_invoice_into_refund_credit_note()
             invoice.action_post()
-            # Invoice has been created
-            if amount == 0:
-                return
-            cash_vals.update({"move_id": invoice.id, "amount": amount})
-        else:
-            model = "cash.sale.order.out"
-            cash_vals.update(
-                {
-                    "sale_order_id": sale_order.id,
-                    "amount": sale_order.amount_total,
-                }
-            )
-        if cash_vals["amount"] != 0 and not self._context.get(
-            "encounter_finish_dont_pay", False
-        ):
-            if not self._context.get("payment_method_id", False):
-                raise ValidationError(
-                    _("Payment method is necessary in order to " "finish sale orders")
-                )
-            payment_method_id = self._context.get("payment_method_id", False)
-            pos_session_id = self._context.get("pos_session_id", False)
-            cash_vals["payment_method_id"] = payment_method_id
-            # We are going to pay the invoice / third party sale.order
-            cash_vals["session_id"] = pos_session_id
-            process = (
-                self.env[model]
-                .with_context(active_ids=[pos_session_id], active_model="pos.session")
-                .create(cash_vals)
-            )
-            process.with_context(default_encounter_id=self.id).run()
 
     def onleave2finished_values(self):
         res = super().onleave2finished_values()
@@ -230,7 +201,191 @@ class MedicalEncounter(models.Model):
                     )
             for sale_order in sale_orders:
                 res.finish_sale_order(sale_order)
+            res._pay_missing(sale_orders)
         return super().onleave2finished()
+
+    def _pay_missing(self, sale_orders):
+        self.ensure_one()
+        payments = self.pos_payment_ids.filtered(lambda r: r.pos_order_id.is_deposit)
+        to_pay = (
+            sum(
+                sale_orders.filtered(lambda r: r.third_party_order).mapped(
+                    "amount_total"
+                )
+            )
+            + sum(
+                sale_orders.filtered(
+                    lambda r: not r.third_party_order
+                ).invoice_ids.mapped("amount_total")
+            )
+            - sum(payments.mapped("amount"))
+        )
+        if not float_is_zero(
+            to_pay, precision_rounding=self.company_id.currency_id.rounding
+        ):
+            payment_method_id = self._context.get("payment_method_id", False)
+            pos_session_id = self._context.get("pos_session_id", False)
+            self.env["wizard.medical.encounter.add.amount"].create(
+                {
+                    "encounter_id": self.id,
+                    "amount": to_pay,
+                    "pos_session_id": pos_session_id,
+                    "payment_method_id": payment_method_id,
+                }
+            ).run()
+
+    def reconcile_payments(self):
+        """
+        This function will be called on pos_validation, however,
+        we define it here as we need it now
+        """
+        self.ensure_one()
+        if self.state != "finished" or self.reconcile_move_id:
+            return
+        payments = self.pos_payment_ids.filtered(lambda r: r.pos_order_id.is_deposit)
+        if not payments:
+            return
+        if payments.filtered(lambda r: not r.pos_order_id.deposit_line_id):
+            return
+        sale_orders = self.sale_order_ids.filtered(
+            lambda r: not r.coverage_agreement_id
+            and not r.is_down_payment
+            and not r.source_third_party_order_id
+        )
+        invoiced_amount = sum(
+            sale_orders.filtered(lambda r: r.third_party_order).mapped("amount_total")
+        ) + sum(
+            sale_orders.filtered(lambda r: not r.third_party_order).invoice_ids.mapped(
+                "amount_total"
+            )
+        )
+        if not float_is_zero(
+            invoiced_amount - sum(payments.mapped("amount")),
+            precision_rounding=self.currency_id.rounding,
+        ):
+            raise ValidationError(
+                _("Something weird happened and the moves are not aligned")
+            )
+        company_payments = payments.filtered(lambda r: r.company_id == self.company_id)
+        other_company_payments = payments - company_payments
+        to_reconcile = defaultdict(lambda: self.env["account.move.line"])
+        MoveLine = self.env["account.move.line"].with_context(check_move_validity=False)
+        move = (
+            self.env["account.move"]
+            .with_company(self.company_id.id)
+            .with_context(default_journal_id=self.company_id.deposit_journal_id.id)
+            .create(
+                {
+                    "journal_id": self.company_id.deposit_journal_id.id,
+                    "date": fields.Date.context_today(self),
+                    "ref": _("Cancel deposit for %s") % self.name,
+                }
+            )
+        )
+        for company in other_company_payments.mapped("company_id"):
+            inter_company_payments = other_company_payments.filtered(
+                lambda r: r.company_id == company
+            )
+            for line in inter_company_payments.mapped("pos_order_id.deposit_line_id"):
+                to_reconcile[line.account_id.id] |= line
+            amount = sum(inter_company_payments.mapped("amount"))
+            if float_is_zero(amount, precision_rounding=self.currency_id.rounding):
+                continue
+            inter_company = self.env["res.inter.company"].search(
+                [
+                    ("company_id", "=", self.company_id.id),
+                    ("related_company_id", "=", company.id),
+                ],
+                limit=1,
+            )
+            if not inter_company:
+                raise UserError(
+                    _("Intercompany relation not found between %s and %s")
+                    % (
+                        self.company_id.display_name,
+                        company.display_name,
+                    )
+                )
+            related_journal = inter_company.related_journal_id
+            inter_company_move = (
+                self.env["account.move"]
+                .with_company(company.id)
+                .with_context(default_journal_id=related_journal.id)
+                .create(
+                    {
+                        "journal_id": related_journal.id,
+                        "date": fields.Date.context_today(self),
+                        "ref": _("Intercompany for %s") % self.name,
+                    }
+                )
+            )
+            for line in inter_company_payments.mapped("pos_order_id.deposit_line_id"):
+                new_line = MoveLine.create(
+                    self._pos_session_counterpart_line_vals(
+                        line, move=inter_company_move
+                    )
+                )
+                to_reconcile[line.account_id.id] |= new_line
+            MoveLine.create(
+                self._pos_session_line_vals(
+                    inter_company_move,
+                    amount=amount,
+                    account_id=related_journal.default_account_id.id,
+                    name=_("Counterpart intercompany move"),
+                )
+            )
+            MoveLine.create(
+                self._pos_session_line_vals(
+                    move,
+                    amount=-amount,
+                    account_id=inter_company.journal_id.default_account_id.id,
+                    name=_("Counterpart intercompany move from %s") % company.name,
+                )
+            )
+            inter_company_move.action_post()
+        for line in company_payments.mapped("pos_order_id.deposit_line_id"):
+            new_line = MoveLine.create(
+                self._pos_session_counterpart_line_vals(line, move=move)
+            )
+            to_reconcile[line.account_id.id] |= new_line
+            to_reconcile[line.account_id.id] |= line
+        for order in sale_orders:
+            if order.third_party_order:
+                sale_move = order.third_party_move_id
+            else:
+                sale_move = order.invoice_ids
+            for line in sale_move.line_ids.filtered(
+                lambda r: r.account_id.internal_type == "receivable"
+            ):
+                new_line = MoveLine.create(
+                    self._pos_session_counterpart_line_vals(line, move=move)
+                )
+                to_reconcile[line.account_id.id] |= new_line
+                to_reconcile[line.account_id.id] |= line
+        move.action_post()
+        for _account, lines in to_reconcile.items():
+            lines.filtered(lambda aml: not aml.reconciled).reconcile()
+
+    def _pos_session_line_vals(self, move, amount=0, **kwargs):
+        return {
+            "debit": amount if amount > 0 else 0,
+            "credit": -amount if amount < 0 else 0,
+            "encounter_id": self.id,
+            **kwargs,
+            "move_id": move.id,
+        }
+
+    def _pos_session_counterpart_line_vals(self, line, move, name=None):
+        if name is None:
+            name = _("Deposit counterpart")
+        return {
+            "move_id": move.id,
+            "encounter_id": self.id,
+            "account_id": line.account_id.id,
+            "debit": line.credit,
+            "credit": line.debit,
+            "name": name,
+        }
 
     def down_payment_inverse_vals(self, order, line):
         vals = {
