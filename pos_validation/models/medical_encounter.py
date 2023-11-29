@@ -157,6 +157,15 @@ class MedicalEncounter(models.Model):
     def admin_validate(self):
         self.ensure_one()
         self.check_validation()
+        if self.pos_payment_ids.filtered(
+            lambda r: r.pos_order_id.session_id.state != "closed"
+        ):
+            raise ValidationError(
+                _(
+                    "Some payments have not been processed. Wait until they are processed"
+                )
+            )
+        self.reconcile_payments()
         for sale_order in self.sale_order_ids.filtered(
             lambda r: r.coverage_agreement_id
         ):
