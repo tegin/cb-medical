@@ -92,9 +92,38 @@ class PosSession(models.Model):
 
     def _create_invoice_receivable_lines(self, data):
         result = super()._create_invoice_receivable_lines(data)
-        inter_company_tp_receivables = result["inter_company_third_party_receivables"]
-        invoice_receivable_lines = data["invoice_receivable_lines"]
         MoveLine = data.get("MoveLine")
+        invoice_receivable_lines = data["invoice_receivable_lines"]
+        for order in self.order_ids.filtered(lambda r: r.is_deposit and not r.lines):
+            amount = order._get_rounded_amount(order.amount_total)
+            if self.is_in_company_currency:
+                amount_converted = amount
+            else:
+                amount_converted = self._amount_converter(
+                    amount, order.date_order, True
+                )
+            receivable_line = MoveLine.create(
+                self._get_invoice_receivable_vals(
+                    self.company_id.deposit_account_id.id,
+                    amount,
+                    amount_converted,
+                    partner=order.partner_id.commercial_partner_id,
+                )
+            )
+            order.deposit_line_id = receivable_line
+            if not receivable_line.reconciled:
+                account_id = receivable_line.account_id.id
+                key = (
+                    receivable_line.partner_id.id,
+                    account_id,
+                )
+                if account_id not in invoice_receivable_lines:
+                    invoice_receivable_lines[key] = receivable_line
+                else:
+                    invoice_receivable_lines[key] |= receivable_line
+        # TODO: Remove all this once we have changed to the new method everything
+        inter_company_tp_receivables = result["inter_company_third_party_receivables"]
+
         inter_company_receivable_vals = defaultdict(lambda: defaultdict(list))
         for (
             company,

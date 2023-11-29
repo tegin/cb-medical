@@ -41,11 +41,28 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
         cls.env["ir.config_parameter"].set_param(
             "cb.default_third_party_product", cls.def_third_party_product.id
         )
+        cls.company.deposit_account_id = cls.env["account.account"].create(
+            {
+                "company_id": cls.company.id,
+                "code": "DepositAcc",
+                "name": "Deposit account",
+                "user_type_id": cls.env.ref("account.data_account_type_receivable").id,
+                "reconcile": True,
+            }
+        )
         cls.company.patient_journal_id = cls.env["account.journal"].create(
             {
                 "name": "Sale Journal",
                 "code": "SALES",
                 "company_id": cls.company.id,
                 "type": "sale",
+            }
+        )
+        cls.company.deposit_journal_id = cls.env["account.journal"].create(
+            {
+                "name": "Deposit Journal",
+                "code": "DEPOSIT",
+                "company_id": cls.company.id,
+                "type": "general",
             }
         )

@@ -8,3 +8,6 @@ class PosOrder(models.Model):
     _inherit = "pos.order"
 
     sale_order_id = fields.Many2one("sale.order")
+    encounter_id = fields.Many2one("medical.encounter")
+    is_deposit = fields.Boolean()
+    deposit_line_id = fields.Many2one("account.move.line")
