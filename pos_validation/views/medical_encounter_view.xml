@@ -35,6 +35,10 @@
             eval="[(4, ref('pos_validation.group_medical_receptionist_manager'))]"
         />
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='reconcile_payments']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <xpath expr="//div[@name='button_box']" position="after">
                 <flagbox
                     attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
