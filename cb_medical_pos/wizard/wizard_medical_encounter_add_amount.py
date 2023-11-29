@@ -4,26 +4,12 @@
 
 from odoo import _, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools import float_is_zero
 
 
 class WizardMedicalEncounterAddAmount(models.TransientModel):
     _name = "wizard.medical.encounter.add.amount"
     _description = "wizard.medical.encounter.add.amount"
-
-    def _default_product(self):
-        product_id = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("sale.default_deposit_product_id")
-        )
-        if not product_id:
-            raise ValidationError(
-                _(
-                    "Please define a default deposit product for advance "
-                    "payments in the system configuration parameters."
-                )
-            )
-        return self.env["product.product"].browse(int(product_id))
 
     pos_session_id = fields.Many2one(
         comodel_name="pos.session",
@@ -55,9 +41,6 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
         comodel_name="res.currency",
         related="pos_session_id.currency_id",
         readonly=True,
-    )
-    product_id = fields.Many2one(
-        comodel_name="product.product", default=_default_product
     )
     amount = fields.Monetary(currency_field="currency_id")
     encounter_id = fields.Many2one(
@@ -96,6 +79,37 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
     def _run(self):
         self.ensure_one()
         if self.amount == 0:
+            raise ValidationError(_("Amount cannot be zero"))
+        if not self.encounter_id.company_id:
+            self.encounter_id.company_id = self.company_id
+        order = self.env["pos.order"].create(self._run_order_vals())
+        order.add_payment(
+            {
+                "pos_order_id": order.id,
+                "amount": order._get_rounded_amount(self.amount),
+                "payment_method_id": self.payment_method_id.id,
+                "encounter_id": self.encounter_id.id,
+            }
+        )
+        order.action_pos_order_paid()
+        return order
+
+    def _run_order_vals(self):
+        return {
+            "amount_total": self.amount,
+            "currency_id": self.currency_id.id,
+            "partner_id": self.encounter_id.patient_id.partner_id.id,
+            "session_id": self.pos_session_id.id,
+            "encounter_id": self.encounter_id.id,
+            "amount_tax": 0,
+            "amount_paid": self.amount,
+            "amount_return": 0,
+            "is_deposit": True,
+        }
+
+    def _run_old(self):
+        self.ensure_one()
+        if float_is_zero(self.amount, precision_rounding=self.currency_id.rounding):
             raise ValidationError(_("Amount cannot be zero"))
         if not self.encounter_id.company_id:
             self.encounter_id.company_id = self.company_id
