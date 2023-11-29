@@ -10,7 +10,6 @@
                     <field name="payment_method_id" options="{'no_create': True}" />
                     <field name="partner_invoice_id" />
                     <field name="amount" />
-                    <field name="product_id" invisible="1" />
                     <field name="encounter_id" invisible="1" />
                     <field name="currency_id" invisible="1" />
                     <field name="company_id" invisible="1" />

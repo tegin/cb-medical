@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class SaleOrder(models.Model):
@@ -13,17 +13,7 @@ class SaleOrder(models.Model):
     )
     is_down_payment = fields.Boolean(default=False)
     account_id = fields.Many2one(comodel_name="account.account", readonly=True)
-    residual = fields.Monetary(
-        currency_field="currency_id", compute="_compute_residual"
-    )
     pos_order_ids = fields.One2many("pos.order", inverse_name="sale_order_id")
-
-    @api.depends("amount_total", "pos_order_ids", "pos_order_ids.payment_ids")
-    def _compute_residual(self):
-        for record in self:
-            record.residual = record.amount_total - sum(
-                record.pos_order_ids.mapped("payment_ids.amount")
-            )
 
     def create_third_party_move(self):
         res = super().create_third_party_move()

@@ -17,6 +17,14 @@
                             domain="[('company_id', '=', active_id)]"
                             context="{'default_company_id': active_id}"
                         />
+                        <field
+                            name="deposit_account_id"
+                            context="{'default_company_id': active_id}"
+                        />
+                        <field
+                            name="deposit_journal_id"
+                            context="{'default_company_id': active_id}"
+                        />
                     </group>
                 </page>
             </notebook>

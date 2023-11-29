@@ -11,6 +11,14 @@
             <button name="create_sale_order" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
+            <button name="create_sale_order" position="after">
+                <button
+                    name="reconcile_payments"
+                    type="object"
+                    string="Reconcile Payments"
+                    attrs="{'invisible': ['|', ('state', '!=', 'finished'), ('reconcile_move_id', '=', False)]}"
+                />
+            </button>
             <button name="inprogress2onleave" position="attributes">
                 <attribute name="attrs">{}</attribute>
                 <attribute name="invisible">1</attribute>
@@ -19,6 +27,7 @@
                 <attribute name="attrs">{}</attribute>
                 <attribute name="invisible">1</attribute>
             </button>
+
             <button name="onleave2finished" position="after">
                 <button
                     name="%(cb_medical_pos.wizard_medical_encounter_add_amount_action)d"
@@ -59,6 +68,7 @@
                     name="pos_session_id"
                     options="{'no_create': True, 'no_open': True}"
                 />
+                <field name="reconcile_move_id" invisible="1" />
             </field>
         </field>
     </record>
