@@ -1,3 +1,5 @@
+from odoo.exceptions import UserError, ValidationError
+
 from ..tests import common
 
 
@@ -13,30 +15,6 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 "encounter_sequence_prefix": "9",
             }
         )
-        cls.payment_method_id = cls.env["pos.payment.method"].create(
-            {
-                "name": "Payment method test",
-                "receivable_account_id": cls.bank_account.id,
-            }
-        )
-        pos_vals = (
-            cls.env["pos.config"]
-            .with_context(company_id=cls.company.id)
-            .default_get(["stock_location_id", "invoice_journal_id", "pricelist_id"])
-        )
-        pos_vals.update(
-            {
-                "name": "Config",
-                "payment_method_ids": cls.payment_method_id,
-                "requires_approval": True,
-                "company_id": cls.company.id,
-                "crm_team_id": False,
-            }
-        )
-        cls.pos_config = cls.env["pos.config"].create(pos_vals)
-        cls.pos_config.open_session_cb()
-        cls.session = cls.pos_config.current_session_id
-        cls.session.action_pos_session_open()
         cls.def_third_party_product = cls.create_product("THIRD PARTY PRODUCT")
         cls.env["ir.config_parameter"].set_param(
             "cb.default_third_party_product", cls.def_third_party_product.id
@@ -51,6 +29,178 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         session = self.pos_config.current_session_id
         self.assertNotEqual(session, self.session)
         self.assertRegex(session.internal_identifier, r"^MYSEQ.*$")
+
+    def test_careplan_sale_multicompany(self):
+        """
+        We will create several encounters with two payments, one
+        for one company and one for the other
+        We will review that the expected moves are created at the end.
+        """
+        self.create_inter_company(self.company, self.company_2)
+        encounters = self.env["medical.encounter"]
+        for _i in range(0, 10):
+            encounter = self.env["medical.encounter"].create(
+                {"patient_id": self.patient_01.id, "center_id": self.center.id}
+            )
+            careplan = self.env["medical.careplan"].new(
+                {
+                    "patient_id": self.patient_01.id,
+                    "encounter_id": encounter.id,
+                    "coverage_id": self.coverage_01.id,
+                    "sub_payor_id": self.sub_payor.id,
+                }
+            )
+            careplan._onchange_encounter()
+            careplan = careplan.create(careplan._convert_to_write(careplan._cache))
+            self.assertEqual(careplan.center_id, encounter.center_id)
+            order = (
+                self.env["wizard.medical.encounter.add.amount"]
+                .create(
+                    {
+                        "encounter_id": encounter.id,
+                        "amount": 10,
+                        "payment_method_id": self.payment_method_id.id,
+                        "pos_session_id": self.session.id,
+                    }
+                )
+                ._run()
+            )
+            self.assertFalse(order.lines)
+            self.assertTrue(order.payment_ids)
+            wizard = self.env["medical.careplan.add.plan.definition"].create(
+                {
+                    "careplan_id": careplan.id,
+                    "agreement_line_id": self.agreement_line.id,
+                }
+            )
+            self.action.is_billable = False
+            wizard.run()
+            groups = self.env["medical.request.group"].search(
+                [("careplan_id", "=", careplan.id)]
+            )
+            self.assertTrue(groups)
+            action = encounter.medical_encounter_close_action()
+            self.env[action["res_model"]].with_context(**action["context"]).create(
+                {"pos_session_id": self.session.id}
+            ).run()
+            self.assertTrue(encounter.sale_order_ids)
+            self.assertGreater(self.session.encounter_count, 0)
+            self.assertGreater(self.session.sale_order_count, 0)
+            self.assertEqual(
+                self.session.action_view_encounters()["res_id"], encounter.id
+            )
+            self.assertGreater(encounter.pending_private_amount, 0)
+            self.env["wizard.medical.encounter.finish"].create(
+                {
+                    "encounter_id": encounter.id,
+                    "pos_session_id": self.session_2.id,
+                    "payment_method_id": self.payment_method_2.id,
+                }
+            ).run()
+            self.assertEqual(encounter.pending_private_amount, 0)
+            encounters |= encounter
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
+        for encounter in encounters:
+            encounter.reconcile_payments()
+            self.assertFalse(encounter.reconcile_move_id)
+
+        self.session_2.action_pos_session_closing_control()
+        self.session_2.action_pos_session_approve()
+        for encounter in encounters:
+            encounter.reconcile_payments()
+            self.assertTrue(encounter.reconcile_move_id)
+            invoices = encounter.sale_order_ids.invoice_ids
+            for invoice in invoices:
+                self.assertEqual(0, invoice.amount_residual)
+
+    def test_careplan_no_amount(self):
+        """
+        We want to check that an error is raised when no inter-company configuration is made
+        """
+        encounter = self.env["medical.encounter"].create(
+            {"patient_id": self.patient_01.id, "center_id": self.center.id}
+        )
+        with self.assertRaises(ValidationError):
+            self.env["wizard.medical.encounter.add.amount"].create(
+                {
+                    "encounter_id": encounter.id,
+                    "amount": 0,
+                    "payment_method_id": self.payment_method_id.id,
+                    "pos_session_id": self.session.id,
+                }
+            )._run()
+
+    def test_careplan_sale_multicompany_not_configured(self):
+        """
+        We want to check that an error is raised when no inter-company configuration is made
+        """
+        encounter = self.env["medical.encounter"].create(
+            {"patient_id": self.patient_01.id, "center_id": self.center.id}
+        )
+        careplan = self.env["medical.careplan"].new(
+            {
+                "patient_id": self.patient_01.id,
+                "encounter_id": encounter.id,
+                "coverage_id": self.coverage_01.id,
+                "sub_payor_id": self.sub_payor.id,
+            }
+        )
+        careplan._onchange_encounter()
+        careplan = careplan.create(careplan._convert_to_write(careplan._cache))
+        self.assertEqual(careplan.center_id, encounter.center_id)
+        order = (
+            self.env["wizard.medical.encounter.add.amount"]
+            .create(
+                {
+                    "encounter_id": encounter.id,
+                    "amount": 10,
+                    "payment_method_id": self.payment_method_id.id,
+                    "pos_session_id": self.session.id,
+                }
+            )
+            ._run()
+        )
+        self.assertFalse(order.lines)
+        self.assertTrue(order.payment_ids)
+        wizard = self.env["medical.careplan.add.plan.definition"].create(
+            {
+                "careplan_id": careplan.id,
+                "agreement_line_id": self.agreement_line.id,
+            }
+        )
+        self.action.is_billable = False
+        wizard.run()
+        groups = self.env["medical.request.group"].search(
+            [("careplan_id", "=", careplan.id)]
+        )
+        self.assertTrue(groups)
+        action = encounter.medical_encounter_close_action()
+        self.env[action["res_model"]].with_context(**action["context"]).create(
+            {"pos_session_id": self.session.id}
+        ).run()
+        self.assertTrue(encounter.sale_order_ids)
+        self.assertGreater(self.session.encounter_count, 0)
+        self.assertGreater(self.session.sale_order_count, 0)
+        self.assertEqual(self.session.action_view_encounters()["res_id"], encounter.id)
+        self.assertGreater(encounter.pending_private_amount, 0)
+        self.env["wizard.medical.encounter.finish"].create(
+            {
+                "encounter_id": encounter.id,
+                "pos_session_id": self.session_2.id,
+                "payment_method_id": self.payment_method_2.id,
+            }
+        ).run()
+        self.assertEqual(encounter.pending_private_amount, 0)
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
+        encounter.reconcile_payments()
+        self.assertFalse(encounter.reconcile_move_id)
+
+        self.session_2.action_pos_session_closing_control()
+        self.session_2.action_pos_session_approve()
+        with self.assertRaises(UserError):
+            encounter.reconcile_payments()
 
     def test_careplan_sale(self):
         encounter = self.env["medical.encounter"].create(
