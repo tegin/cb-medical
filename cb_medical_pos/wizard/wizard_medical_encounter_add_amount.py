@@ -4,7 +4,6 @@
 
 from odoo import _, fields, models
 from odoo.exceptions import ValidationError
-from odoo.tools import float_is_zero
 
 
 class WizardMedicalEncounterAddAmount(models.TransientModel):
@@ -63,16 +62,6 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
             vals["partner_invoice_id"] = self.partner_invoice_id.id
         return vals
 
-    def sale_order_line_vals(self, order):
-        return {
-            "order_id": order.id,
-            "product_id": self.product_id.id,
-            "name": self.product_id.name,
-            "product_uom_qty": 1,
-            "product_uom": self.product_id.uom_id.id,
-            "price_unit": self.amount,
-        }
-
     def run(self):
         self._run()
 
@@ -106,50 +95,3 @@ class WizardMedicalEncounterAddAmount(models.TransientModel):
             "amount_return": 0,
             "is_deposit": True,
         }
-
-    def _run_old(self):
-        self.ensure_one()
-        if float_is_zero(self.amount, precision_rounding=self.currency_id.rounding):
-            raise ValidationError(_("Amount cannot be zero"))
-        if not self.encounter_id.company_id:
-            self.encounter_id.company_id = self.company_id
-        order = self.env["sale.order"].create(self.sale_order_vals())
-        line = (
-            self.env["sale.order.line"]
-            .with_company(order.company_id.id)
-            .create(self.sale_order_line_vals(order))
-        )
-        for line2 in line:
-            line2._compute_tax_id()
-        # line._compute_tax_id()
-        order.with_company(order.company_id.id).action_confirm()
-        for line in order.order_line:
-            line.qty_delivered = line.product_uom_qty
-        patient_journal = order.company_id.patient_journal_id.id
-        invoice_ids = (
-            order.with_company(order.company_id.id)
-            .with_context(
-                active_model=order._name,
-                default_journal_id=patient_journal,
-            )
-            ._create_invoices(final=True)
-        )
-        invoice = self.env["account.move"].browse(invoice_ids).id
-        invoice.ensure_one()
-        invoice.action_post()
-        process = (
-            self.env["pos.box.cash.invoice.out"]
-            .with_context(
-                active_ids=self.pos_session_id.ids, active_model="pos.session"
-            )
-            .create(
-                {
-                    "payment_method_id": self.payment_method_id.id,
-                    "move_id": invoice.id,
-                    "amount": self.amount,
-                    "session_id": self.pos_session_id.id,
-                }
-            )
-        )
-        process.with_context(default_encounter_id=self.encounter_id.id).run()
-        return invoice

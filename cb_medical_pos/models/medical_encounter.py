@@ -329,7 +329,7 @@ class MedicalEncounter(models.Model):
             MoveLine.create(
                 self._pos_session_line_vals(
                     inter_company_move,
-                    amount=amount,
+                    amount=-amount,
                     account_id=related_journal.default_account_id.id,
                     name=_("Counterpart intercompany move"),
                 )
@@ -337,7 +337,7 @@ class MedicalEncounter(models.Model):
             MoveLine.create(
                 self._pos_session_line_vals(
                     move,
-                    amount=-amount,
+                    amount=amount,
                     account_id=inter_company.journal_id.default_account_id.id,
                     name=_("Counterpart intercompany move from %s") % company.name,
                 )
@@ -365,6 +365,7 @@ class MedicalEncounter(models.Model):
         move.action_post()
         for _account, lines in to_reconcile.items():
             lines.filtered(lambda aml: not aml.reconciled).reconcile()
+        self.reconcile_move_id = move
 
     def _pos_session_line_vals(self, move, amount=0, **kwargs):
         return {
