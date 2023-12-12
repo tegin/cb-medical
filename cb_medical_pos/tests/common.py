@@ -5,7 +5,6 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.company_2 = cls.env["res.company"].create({"name": "New company"})
         cls.company_2 = cls.env["res.company"].create(
             {
                 "name": "New Company",
