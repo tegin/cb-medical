@@ -53,3 +53,15 @@ class MedicalEncounter(models.Model):
                 lambda r: r.patient_id != self.patient_id
             ):
                 raise ValidationError(_("Patient inconsistency"))
+
+    def refresh_laboratory_events(self):
+        self.ensure_one()
+        self.laboratory_sample_ids.mapped("laboratory_event_ids")._check_requests()
+
+    def inprogress2onleave(self):
+        self.refresh_laboratory_events()
+        if self.laboratory_sample_ids.mapped("laboratory_event_ids").filtered(
+            lambda r: not r.laboratory_request_id and r.fhir_state != "cancelled"
+        ):
+            raise ValidationError(_("Some Laboratory events are not assigned."))
+        return super().inprogress2onleave()

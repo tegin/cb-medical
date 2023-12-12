@@ -21,8 +21,14 @@ class MedicalLaboratoryEvent(models.Model):
     )
     # TODO: Remove this on the future
     cost = fields.Float(compute="_compute_is_sellable", store=True)
+    name = fields.Char(compute="_compute_name", store=True)
     private_cost = fields.Float(compute="_compute_is_sellable", store=True)
     coverage_cost = fields.Float(compute="_compute_is_sellable", store=True)
+
+    @api.depends("service_id")
+    def _compute_name(self):
+        for record in self:
+            record.name = record.service_id.name
 
     @api.depends("performer_id", "service_id")
     def _compute_laboratory_code(self):
