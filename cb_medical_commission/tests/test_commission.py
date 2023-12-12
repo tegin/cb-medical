@@ -596,6 +596,8 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             sale_order.action_confirm()
             if sale_order.invoice_group_method_id == group:
                 continue
+            for line in sale_order.mapped("order_line"):
+                line.qty_delivered = line.product_uom_qty
             sale_order.with_context(active_model=sale_order._name)._create_invoices()
             sale_order.flush()
         encounter.refresh()
