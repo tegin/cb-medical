@@ -124,10 +124,10 @@ class MedicalEncounter(models.Model):
             raise ValidationError(_("Laboratory requests are not fulfilled."))
         self.create_sale_order()
         res = super().inprogress2onleave()
-        sos = self.sale_order_ids.filtered(
-            lambda r: not r.coverage_agreement_id and r.state == "draft"
-        )
-        if not sos or all(so.amount_total == 0 for so in sos):
+        if float_is_zero(
+            self.pending_private_amount,
+            precision_rounding=self.company_id.currency_id.rounding,
+        ):
             self.onleave2finished()
         return res
 
