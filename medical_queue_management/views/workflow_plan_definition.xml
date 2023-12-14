@@ -14,7 +14,10 @@
         <field name="arch" type="xml">
             <field name="performer_required" position="after">
                 <field name="generate_queue_task" />
-                <field name="queue_area_id" />
+                <field
+                    name="queue_area_id"
+                    groups="queue_management.group_queue_admin"
+                />
             </field>
         </field>
     </record>
