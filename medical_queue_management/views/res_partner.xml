@@ -12,7 +12,11 @@
         />
         <field name="arch" type="xml">
             <notebook position="inside">
-                <page name="practitioner_queue_location" string="Queue Location">
+                <page
+                    name="practitioner_queue_location"
+                    string="Queue Location"
+                    groups="queue_management.group_queue_admin"
+                >
                     <field name="queue_location_ids" />
                 </page>
             </notebook>
