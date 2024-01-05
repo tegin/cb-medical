@@ -256,7 +256,7 @@ class MedicalEncounter(models.Model):
             sale_orders.filtered(lambda r: r.third_party_order).mapped("amount_total")
         ) + sum(
             sale_orders.filtered(lambda r: not r.third_party_order).invoice_ids.mapped(
-                "amount_total"
+                "amount_total_signed"
             )
         )
         if not float_is_zero(
