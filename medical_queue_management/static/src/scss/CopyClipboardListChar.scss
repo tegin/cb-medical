@@ -1,0 +1,24 @@
+.o_clipboard_list_view {
+    position: relative;
+    width: 100% !important;
+    border-radius: 5px;
+    border: 1px solid $primary;
+    font-size: $font-size-sm;
+    color: $o-brand-primary;
+    font-weight: $badge-font-weight;
+    text-align: center;
+    padding-right: 10px;
+    word-break: break-word;
+    .o_clipboard_button {
+        @include o-position-absolute($top: 0, $right: 0);
+        &.o_btn_text_copy {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        &.o_btn_char_copy {
+            padding-top: 0px;
+            height: 100%;
+        }
+    }
+}
