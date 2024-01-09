@@ -13,6 +13,11 @@
             ref="queue_management.queue_token_location_location_tree_view"
         />
         <field name="arch" type="xml">
+            <field name="token_id" position="after">
+                <field name="encounter_identifier" widget="CopyClipboardListChar" />
+                <field name="patient_id" />
+                <field name="payor_id" />
+            </field>
             <button name="action_back_to_draft" position="after">
                 <button
                     name="view_encounter"

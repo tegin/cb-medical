@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="medical_queue_management.CopyClipboardListChar">
+        <div>
+            <div class="o_clipboard_list_view">
+                <span t-esc="widget.value" />
+                <button
+                    class="btn btn-sm btn-primary o_clipboard_button o_btn_char_copy"
+                    data-original-title=""
+                    title=""
+                >
+                    <span class="fa fa-clipboard" />
+                </button>
+            </div>
+        </div>
+    </t>
+</templates>
