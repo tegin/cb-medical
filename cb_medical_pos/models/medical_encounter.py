@@ -206,20 +206,7 @@ class MedicalEncounter(models.Model):
 
     def _pay_missing(self, sale_orders):
         self.ensure_one()
-        payments = self.pos_payment_ids.filtered(lambda r: r.pos_order_id.is_deposit)
-        to_pay = (
-            sum(
-                sale_orders.filtered(lambda r: r.third_party_order).mapped(
-                    "amount_total"
-                )
-            )
-            + sum(
-                sale_orders.filtered(
-                    lambda r: not r.third_party_order
-                ).invoice_ids.mapped("amount_total")
-            )
-            - sum(payments.mapped("amount"))
-        )
+        to_pay = self.pending_private_amount
         if not float_is_zero(
             to_pay, precision_rounding=self.company_id.currency_id.rounding
         ):
