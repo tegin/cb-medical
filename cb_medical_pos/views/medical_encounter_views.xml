@@ -8,6 +8,21 @@
             ref="cb_medical_careplan_sale.medical_encounter_view_form"
         />
         <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    type="action"
+                    name="%(cb_medical_pos.action_encounter_show_payments)s"
+                    class="oe_stat_button"
+                    attrs="{'invisible': [('pos_payment_count', '=', 0)]}"
+                    icon="fa-dollar"
+                >
+                    <field
+                        name="pos_payment_count"
+                        widget="statinfo"
+                        string="Payments"
+                    />
+                </button>
+            </xpath>
             <button name="create_sale_order" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
