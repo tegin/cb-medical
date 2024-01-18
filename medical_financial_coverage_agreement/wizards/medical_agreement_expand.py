@@ -9,7 +9,7 @@ from odoo import fields, models
 class MedicalAgreementExpand(models.TransientModel):
 
     _name = "medical.agreement.expand"
-    _description = "TODO"
+    _description = "Expand Agreement"
 
     agreement_id = fields.Many2one("medical.coverage.agreement", required=True)
     name = fields.Char(required=True)

@@ -26,22 +26,11 @@
             <form position="attributes">
                 <attribute name="string">Laboratory Request</attribute>
             </form>
-            <xpath expr="//div[@name='button_box']" position="inside">
-                <button
-                    type="object"
-                    name="action_view_laboratory_events"
-                    class="oe_stat_button"
-                    icon="fa-microscope"
-                    attrs="{'invisible': [('fhir_state','=','draft')]}"
-                >
-                    <field
-                        name="laboratory_event_count"
-                        widget="statinfo"
-                        string="Laboratory Events"
-                    />
-                    <field name='laboratory_event_ids' invisible="1" />
-                </button>
-            </xpath>
+            <notebook position="inside">
+                <page name="sample" string="Samples">
+                    <field name="laboratory_sample_ids" />
+                </page>
+            </notebook>
         </field>
     </record>
     <record id="medical_laboratory_request_view_search" model="ir.ui.view">

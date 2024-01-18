@@ -35,6 +35,9 @@ class MedicalEncounter(models.Model):
         "medical.laboratory.request", inverse_name="encounter_id"
     )
     reconcile_move_id = fields.Many2one("account.move")
+    laboratory_sample_ids = fields.One2many(
+        "medical.laboratory.sample", inverse_name="encounter_id"
+    )
 
     @api.depends(
         "sale_order_ids.coverage_agreement_id",
@@ -118,10 +121,11 @@ class MedicalEncounter(models.Model):
         return res
 
     def inprogress2onleave(self):
-        if self.laboratory_request_ids.filtered(
+        if self.laboratory_sample_ids.filtered(
             lambda r: not r.laboratory_event_ids and r.fhir_state != "cancelled"
         ):
             raise ValidationError(_("Laboratory requests are not fulfilled."))
+        # TODO: Calculate the right request for each laboratory event
         self.create_sale_order()
         res = super().inprogress2onleave()
         if float_is_zero(

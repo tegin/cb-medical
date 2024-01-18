@@ -15,7 +15,6 @@
         <field name="arch" type="xml">
             <field name="performer_id" position="after">
                 <field name="delay" />
-                <field name="laboratory_service_id" />
                 <field name="laboratory_code" invisible="1" readonly="0" />
             </field>
         </field>
@@ -35,7 +34,7 @@
                 <field name="encounter_id" invisible="1" readonly="0" />
                 <field name="service_id" invisible="1" />
                 <field name="performer_id" invisible="1" />
-                <field name="laboratory_service_id" />
+                <field name="service_id" />
                 <field name="laboratory_code" invisible="1" readonly="0" />
                 <field name="private_amount" sum="Private Amount" />
                 <field name="coverage_amount" sum="Coverage Amount" />
