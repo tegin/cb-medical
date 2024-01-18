@@ -257,7 +257,12 @@ class MedicalEncounter(models.Model):
         )
         invoices = (
             self.env["account.move.line"]
-            .search([("encounter_id", "=", self.id)])
+            .search(
+                [
+                    ("encounter_id", "=", self.id),
+                    ("move_id.move_type", "in", ["out_invoice", "out_refund"]),
+                ]
+            )
             .mapped("move_id")
         )
         result["domain"] = [("id", "in", invoices.ids)]
