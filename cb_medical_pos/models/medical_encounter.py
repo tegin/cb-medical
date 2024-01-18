@@ -19,6 +19,7 @@ class MedicalEncounter(models.Model):
         tracking=True,
     )
     pos_payment_ids = fields.One2many("pos.payment", inverse_name="encounter_id")
+    pos_payment_count = fields.Integer(compute="_compute_pos_payment_count")
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
@@ -35,6 +36,11 @@ class MedicalEncounter(models.Model):
         "medical.laboratory.request", inverse_name="encounter_id"
     )
     reconcile_move_id = fields.Many2one("account.move")
+
+    @api.depends("pos_payment_ids")
+    def _compute_pos_payment_count(self):
+        for record in self:
+            record.pos_payment_count = len(record.pos_payment_ids)
 
     @api.depends(
         "sale_order_ids.coverage_agreement_id",
