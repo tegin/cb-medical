@@ -32,4 +32,11 @@
             </field>
         </field>
     </record>
+
+    <record id="action_encounter_show_payments" model="ir.actions.act_window">
+        <field name="name">Payments</field>
+        <field name="res_model">pos.payment</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('encounter_id', '=', active_id)]</field>
+    </record>
 </odoo>
