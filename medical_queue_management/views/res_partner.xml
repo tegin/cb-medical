@@ -10,6 +10,10 @@
             name="inherit_id"
             ref="medical_administration_practitioner.res_partner_view_form"
         />
+        <field
+            name="groups_id"
+            eval="[(6, 0, [ref('queue_management.group_queue_admin')])]"
+        />
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page
