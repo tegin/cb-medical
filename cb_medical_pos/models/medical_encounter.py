@@ -349,6 +349,7 @@ class MedicalEncounter(models.Model):
                 sale_move = order.invoice_ids
             for line in sale_move.line_ids.filtered(
                 lambda r: r.account_id.internal_type == "receivable"
+                and not r.reconciled
             ):
                 new_line = MoveLine.create(
                     self._pos_session_counterpart_line_vals(line, move=move)
