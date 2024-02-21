@@ -31,6 +31,9 @@ class MedicalRequestGroup(models.Model):
             return self._clean_queue_token()
         if not self.plan_definition_id.generate_queue_task:
             return self._clean_queue_token()
+        if self.plan_definition_action_id:
+            # We should only create the task for parent requests
+            return self._clean_queue_token()
         return getattr(
             self, "_review_queue_token_%s" % self.plan_definition_id.generate_queue_task
         )()
