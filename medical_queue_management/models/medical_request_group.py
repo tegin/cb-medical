@@ -10,10 +10,14 @@ class MedicalRequestGroup(models.Model):
     _inherit = "medical.request.group"
 
     queue_token_location_id = fields.Many2one("queue.token.location", readonly=True)
-
-    @api.constrains(
-        "performer_id", "center_id", "encounter_id", "plan_definition_id", "fhir_state"
+    generate_queue_task = fields.Selection(
+        selection=lambda r: r.env["workflow.plan.definition"]
+        ._fields["generate_queue_task"]
+        .selection
     )
+    queue_area_id = fields.Many2one("queue.area")
+
+    @api.constrains("performer_id", "center_id", "encounter_id", "fhir_state")
     def _check_queue_token(self):
         for record in self:
             record._review_queue_token()
@@ -29,14 +33,9 @@ class MedicalRequestGroup(models.Model):
     def _review_queue_token(self):
         if self.fhir_state == "cancelled":
             return self._clean_queue_token()
-        if not self.plan_definition_id.generate_queue_task:
+        if not self.generate_queue_task:
             return self._clean_queue_token()
-        if self.plan_definition_action_id:
-            # We should only create the task for parent requests
-            return self._clean_queue_token()
-        return getattr(
-            self, "_review_queue_token_%s" % self.plan_definition_id.generate_queue_task
-        )()
+        return getattr(self, "_review_queue_token_%s" % self.generate_queue_task)()
 
     def _review_queue_token_performer(self):
         location_area = self.performer_id.queue_location_ids.filtered(
@@ -53,7 +52,7 @@ class MedicalRequestGroup(models.Model):
         )
 
     def _review_queue_token_area(self):
-        area = self.plan_definition_id.queue_area_id
+        area = self.queue_area_id
         location_area = area.location_ids.filtered(
             lambda r: r.center_id == self.center_id
         )

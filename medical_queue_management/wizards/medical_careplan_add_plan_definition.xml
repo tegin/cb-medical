@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="medical_careplan_add_plan_definition_form_view">
+        <field name="model">medical.careplan.add.plan.definition</field>
+        <field
+            name="inherit_id"
+            ref="medical_clinical_careplan.medical_add_plan_definition_form"
+        />
+        <field name="priority" eval="99" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/group" position="inside">
+                <field name="send_to_queue" />
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>
