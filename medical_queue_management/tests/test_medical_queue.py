@@ -423,6 +423,25 @@ class TestMedicalQueue(SavepointCase):
         self.assertTrue(encounter.queue_token_id)
         self.assertTrue(group.queue_token_location_id)
 
+    def test_queue_token_performer_location_matching_dont_send(self):
+        self.plan_definition.write(
+            {
+                "generate_queue_task": "performer",
+                "performer_required": True,
+            }
+        )
+        self.env["res.partner.queue.location"].create(
+            {
+                "practitioner_id": self.performer.id,
+                "center_id": self.center.id,
+                "location_id": self.queue_location.id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group(
+            extra_vals={"performer_id": self.performer.id, "send_to_queue": False}
+        )
+        self.assertFalse(encounter.queue_token_id)
+
     def test_queue_token_change_performer_different_location(self):
         self.plan_definition.write(
             {

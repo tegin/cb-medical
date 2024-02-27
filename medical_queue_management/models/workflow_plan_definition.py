@@ -25,3 +25,18 @@ class WorkflowPlanDefinition(models.Model):
                         "Performer must be required in order to generate task by performer"
                     )
                 )
+
+    def _get_request_group_vals(self, vals):
+        result = super()._get_request_group_vals(vals)
+        if (
+            self.generate_queue_task
+            and not vals.get("plan_definition_action_id")
+            and not self.env.context.get("do_not_generate_queue_task", False)
+        ):
+            result.update(
+                {
+                    "generate_queue_task": self.generate_queue_task,
+                    "queue_area_id": self.queue_area_id.id,
+                }
+            )
+        return result
