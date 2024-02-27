@@ -26,6 +26,18 @@ class MedicalEncounter(models.Model):
         result["res_id"] = encounter.id
         return result
 
+    def _create_encounter_patient_vals_write(self, patient, patient_vals):
+        new_patient_vals = {}
+        for field in patient_vals:
+            if field not in patient._fields:
+                continue
+            original_patient_value = patient[field]
+            if isinstance(original_patient_value, models.Model):
+                original_patient_value = original_patient_value.id
+            if patient_vals[field] != original_patient_value:
+                new_patient_vals[field] = patient_vals[field]
+        return new_patient_vals
+
     @api.model
     def _create_encounter(
         self, patient=False, patient_vals=False, center=False, **kwargs
@@ -41,15 +53,9 @@ class MedicalEncounter(models.Model):
         else:
             if isinstance(patient, int):
                 patient = self.env["medical.patient"].browse(patient)
-            new_patient_vals = {}
-            for field in patient_vals:
-                if field not in patient._fields:
-                    continue
-                original_patient_value = patient[field]
-                if isinstance(original_patient_value, models.Model):
-                    original_patient_value = original_patient_value.id
-                if patient_vals[field] != original_patient_value:
-                    new_patient_vals[field] = patient_vals[field]
+            new_patient_vals = self._create_encounter_patient_vals_write(
+                patient, patient_vals
+            )
             if new_patient_vals:
                 patient.write(new_patient_vals)
                 patient.flush()
