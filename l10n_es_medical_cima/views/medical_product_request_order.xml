@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="medical_product_request_order_form_view">
+        <field
+            name="name"
+        >medical.product.request.order.form (in cb_medical_product_request)</field>
+        <field name="model">medical.product.request.order</field>
+        <field
+            name="inherit_id"
+            ref="medical_product_request.medical_product_request_order_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="requester_id" position="before">
+                <field
+                    name="expected_dispensation_date"
+                    attrs="{'readonly':[('state', '!=', 'draft')], 'invisible': [('category', '=', 'inpatient')]}"
+                />
+                <field name="center_id" />
+                <field name="in_patient" invisible="1" />
+            </field>
+            <field name="duration_uom_id" position="after">
+                <field
+                    name="pharmacist_information"
+                    attrs="{'column_invisible': [('parent.category', '!=', 'discharge')]}"
+                />
+                <field
+                    name="diagnostic"
+                    attrs="{'column_invisible': [('parent.category', '!=', 'discharge')]}"
+                />
+                <field
+                    name="patient_information"
+                    attrs="{'column_invisible': [('parent.category', '!=', 'discharge')]}"
+                />
+            </field>
+            <field name="observations" position="attributes">
+                <attribute name="attrs">
+                    {'column_invisible': [('parent.category', '=', 'discharge')]}</attribute>
+            </field>
+            <xpath
+                expr="//field[@name='product_request_ids']/tree/field[@name='medical_product_template_id']"
+                position="after"
+            >
+                <field name="in_patient" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//field[@name='product_request_ids']/tree/field[@name='medical_product_template_id']"
+                position="attributes"
+            >
+                <attribute
+                    name="domain"
+                >[('in_patient', 'in', [False, in_patient])]</attribute>
+            </xpath>
+        </field>
+    </record>
+    <!--  <record model="ir.ui.view" id="medical_product_request_order_search_view">
+        <field name="name">medical.product.request.order.search (in cb_medical_product_request)</field>
+        <field name="model">medical.product.request.order</field>
+        <field name="inherit_id" ref=""/>
+        <field name="arch" type="xml">
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_product_request_order_tree_view">
+        <field name="name">medical.product.request.order.tree (in cb_medical_product_request)</field>
+        <field name="model">medical.product.request.order</field>
+        <field name="inherit_id" ref=""/>
+        <field name="arch" type="xml">
+        </field>
+    </record> -->
+</odoo>

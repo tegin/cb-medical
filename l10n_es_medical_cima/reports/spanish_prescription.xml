@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="spanish_prescription_report" model="ir.actions.report">
+        <field name="name">Prescription</field>
+        <field name="model">medical.product.request.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_es_medical_cima.spanish_prescription</field>
+        <field name="report_file">l10n_es_medical_cima.spanish_prescription</field>
+        <field
+            name="binding_model_id"
+            ref="medical_product_request.model_medical_product_request_order"
+        />
+        <!-- TODO: change for cb_medical -->
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paper_format" />
+    </record>
+</odoo>

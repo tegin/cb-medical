@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="cima_log" model="medical.cima.log">
+        <field name="date" eval="DateTime.now().date()" />
+        <field name="url">https://cima.aemps.es/cima/rest/</field>
+    </record>
+    <record forcecreate="True" id="ir_cron_update_medication" model="ir.cron">
+        <field name="name">Update medication (CIMA)</field>
+        <field eval="True" name="active" />
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field eval="False" name="doall" />
+        <field eval="False" name="active" />
+        <field name="model_id" ref="model_medical_cima_log" />
+        <field name="code">model.cron_update_medication()</field>
+        <field
+            name="nextcall"
+            eval="(DateTime.now().replace(hour=1,minute=0).strftime('%Y-%m-%d %H:%M:%S'))"
+        />
+    </record>
+    <record model="queue.job.channel" id="channel_cima_update">
+        <field name="name">cima</field>
+        <field name="parent_id" ref="queue_job.channel_root" />
+    </record>
+    <record id="job_function_update_medication_registry" model="queue.job.function">
+        <field name="model_id" ref="model_medical_cima_log" />
+        <field name="method">_update_medication_registry</field>
+        <field name="channel_id" ref="channel_cima_update" />
+    </record>
+</odoo>

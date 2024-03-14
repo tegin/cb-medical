@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="l10n_es_medical_cima.spanish_prescription">
+        <t t-call="web.html_container">
+            <t
+                t-set="docs"
+                t-value="docs.browse(docs.env.context.get('active_ids'))"
+                t-if="not docs"
+            />
+            <t t-foreach="docs" t-as="o">
+                <t
+                    t-set="lang"
+                    t-value="docs.env.context.get('force_lang') or docs.env.context.get('lang')"
+                />
+                <t t-set="doc" t-value="o.with_context(lang=lang)" t-if="lang" />
+                <t t-if="not company">
+                    <t t-set="company" t-value="res_company" />
+                </t>
+                <t t-set="partner" t-value="company.partner_id" />
+                <t
+                    t-call="l10n_es_medical_cima.spanish_prescription_base"
+                    t-lang="lang"
+                />
+            </t>
+        </t>
+    </template>
+    <template id="spanish_prescription_base">
+        <!-- The total height of each table is 485pz -->
+        <t t-call="web.basic_layout">
+            <div t-foreach="doc.product_request_ids" t-as="prod_request">
+                <div
+                    t-if="prod_request.state!='active' and prod_request.state!='completed'"
+                    class="o_watermark_prescription"
+                >
+                    <p t-field="prod_request.state" />
+                </div>
+                <table
+                    style="font-size:10px;table-layout:fixed;"
+                    class="table o_prescription_table"
+                >
+                    <tbody>
+                        <tr style="height:95px;max-height:95px;font-size:1rem;">
+                            <td
+                                rowspan="8"
+                                style="width:3%;max-width:3%;"
+                                class="o_vertical_col_prescription"
+                            >
+                                <div>EJEMPLAR DEL FARMACÉUTICO</div>
+                            </td>
+                            <td style="width:37%;max-width:37%;text-align:center;">
+                                <div>
+                                    <img
+                                        t-if="company.logo"
+                                        t-att-src="image_data_uri(company.logo)"
+                                        style="max-height: 30px;;"
+                                        alt="Logo"
+                                    />
+                                </div>
+                                <div style="padding-top:12px;">
+                                    <h3>RECETA MÉDICA</h3>
+                                </div>
+                            </td>
+                            <td
+                                colspan="2"
+                                style="width:62%;max-width:62%;vertical-align:middle;"
+                            >
+                                <div style="text-align:center;" t-if="doc.center_id">
+                                    <div style="overflow:hidden">
+                                        <span t-field="doc.center_id.name" />
+                                    </div>
+                                    <div style="overflow:hidden">
+                                     <span t-field="doc.center_id.street" />,
+                                     <span t-field="doc.center_id.zip" />
+                                     <span t-field="doc.center_id.city" />
+                                </div>
+                                    <div style="overflow:hidden">
+                                        <span
+                                            t-if="doc.center_id.phone"
+                                        >Teléfono:</span>
+                                        <span
+                                            t-if="doc.center_id.phone"
+                                            t-field="doc.center_id.phone"
+                                        />
+                                    </div>
+                                    <div style="font-size:8px;text-align:right">
+                                      <span t-field="prod_request.id" />-
+                                      <span t-esc="o.env.user.id" />-
+                                      <span
+                                            t-esc="int(datetime.datetime.now().timestamp())"
+                                        />
+                                  </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height:55px;max-height:55px">
+                            <td rowspan="4" style="width:37%;max-width:37%;">
+                                <div>
+                                    <strong>Indicación</strong>
+                                </div>
+                                <br />
+                                <!-- TODO: put a t-if, if not put template -->
+                                <div
+                                    t-field="prod_request.medical_product_id.name_product"
+                                    style="font-size:12px;"
+                                />
+                                <br />
+                                <div>
+                                    <strong> Núm. envases/ unidades:</strong>
+                                    <span
+                                        t-field="prod_request.quantity_to_dispense"
+                                        style="font-size:12px;"
+                                    />
+                                </div>
+                            </td>
+                            <td style="width:23%;max-width:23%;text-align:center;">
+                                <div>
+                                    <strong>Duración del tratamiento</strong>
+                                </div>
+                                <div style="font-size:12px;">
+                                    <span t-field="prod_request.duration" />
+                                    <span t-field="prod_request.duration_uom_id" />
+                                </div>
+                            </td>
+                            <td rowspan="2" style="width:39%;max-width:39%">
+                                <div>
+                                    <strong>Paciente</strong>
+                                </div>
+                                <div style="font-size:12px;overflow:hidden">
+                                <span t-field="doc.patient_id.name" />
+                                <br />
+                                DNI/NIE: <span t-field="doc.patient_id.birth_date" />
+                                <br />
+                                Fecha nacimiento:<span t-field="doc.patient_id.vat" />
+                            </div>
+                            </td>
+                        </tr>
+                        <tr style="height:55px;max-height:55px;text-align:center;">
+                            <td rowspan="2">
+                                <div>
+                                    <strong>Posología (Unidades y pauta)</strong>
+                                </div>
+                                <div
+                                    style="font-size:12px;"
+                                    t-if="prod_request.medical_product_template_id.product_type == 'medication'"
+                                >
+                                <span t-field="prod_request.dose_quantity" />
+                                <span t-field="prod_request.dose_uom_id" />
+                                <br />
+                                Cada <span t-field="prod_request.specific_rate" />
+                                <span t-field="prod_request.specific_rate_uom_id" />
+                            </div>
+                            </td>
+                        </tr>
+                        <tr style="height:15px;max-height:15px">
+                            <td rowspan="3">
+                                <div>
+                                    <strong>Prescriptor</strong>
+                                </div>
+                                <div style="font-size:12px;overflow:hidden;">
+                                 <span t-field="doc.requester_id.name" />
+                                 <br />
+                                 Núm. Colegiado: <span
+                                        t-field="doc.requester_id.partner_id.college_number"
+                                        t-if="doc.requester_id.partner_id"
+                                    />
+                             </div>
+                                <div>
+                                    <strong>Fecha de la prescripción:</strong>
+                                </div>
+                                <div style="font-size:12px;">
+                                    <span t-field="doc.validation_date" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height:55px;max-height:55px;text-align:center;">
+                            <td>
+                                <div>
+                                    <strong>Núm. orden dispensación</strong>
+                                </div>
+                                <div style="font-size:12px;">
+                                    <span
+                                        t-field="prod_request.dispensation_order_number"
+                                    />
+                                </div>
+                                <div>
+                                    <strong>Fecha prevista dispensación</strong>
+                                </div>
+                                <div style="font-size:12px;">
+                                    <span
+                                        t-field="prod_request.expected_dispensation_date"
+                                    />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height:20px;max-height:20px">
+                            <td rowspan="2">
+                                <div>
+                                    <strong>Sustituyo por:</strong>
+                                </div>
+                                <div style="padding-top:35px;" class="row">
+                                    <div class="col-6">
+                                        <strong>Justificar causa:</strong>
+                                        <br />
+                                        <input type="checkbox"> Urgencia</input>
+                                        <br />
+                                        <input
+                                            type="checkbox"
+                                        > Desabastecimiento</input>
+                                        <br />
+                                        <input
+                                            type="checkbox"
+                                        > Otros ______________</input>
+                                    </div>
+                                    <div
+                                        style="text-align:left;padding-left:1px;"
+                                        class="col-6"
+                                    >
+                                        <strong>Firma del farmacéutico:</strong>
+                                    </div>
+                                </div>
+                            </td>
+                            <td rowspan="2">
+                                <div style="text-align:center;">
+                                    <strong>Información al farmacéutico</strong>
+                                </div>
+                                <div
+                                    style="font-size:12px;max-height:105px;overflow:hidden;"
+                                    t-field="prod_request.pharmacist_information"
+                                />
+                            </td>
+                        </tr>
+                        <tr style="height:110px;max-height:110px">
+                            <td>
+                            <strong>Farmacia</strong>
+                            (NIF/CIF, datos de identificación, fecha de dispensación)
+                        </td>
+                        </tr>
+                        <tr style="height:60px;max-height:60px;font-size:7px;">
+                            <td style="vertical-align:middle;">
+                               La validez de esta receta expira a los 10 días naturales de la fecha prevista para
+                                dispensación o en su defecto de la fecha de prescripción. La medicación prescrita no
+                                superará los tres meses de tratamiento. La receta es válida para una única
+                                dispensación en la farmacia.
+                           </td>
+                            <td style="vertical-align:middle;">
+                                <div
+                                    style="font-size:16px;text-align:center;"
+                                    t-field="prod_request.internal_identifier"
+                                />
+                            </td>
+                            <td style="vertical-align:middle;">
+                                En cumplimiento del art. 5 de la Ley Orgánica 15/99, se informa de que estos datos serán
+                                incorporados a un fichero para la gestión y control de la prestación farmacéutica, cuyo órgano
+                                responsable es CRUZ BLANCA. Puede ejercer sus derechos de acceso, rectificación,
+                                cancelación y oposición ante el responsable.
+                           </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div
+                    t-if="prod_request.state!='active' and prod_request.state!='completed'"
+                    class="o_watermark_prescription"
+                >
+                    <p t-field="prod_request.state" />
+                </div>
+                <hr style="border-style: dotted; " />
+                <table
+                    style="font-size:10px;table-layout:fixed;"
+                    class="table o_prescription_table"
+                >
+                    <tbody>
+                        <tr style="height:95px;font-size:1rem;">
+                            <td
+                                rowspan="8"
+                                style="width:3%;"
+                                class="o_vertical_col_prescription"
+                            >
+                                <div>INFORMACIÓN AL PACIENTE</div>
+                            </td>
+                            <td style="width:37%;text-align:center;">
+                                <div>
+                                    <img
+                                        t-if="company.logo"
+                                        t-att-src="image_data_uri(company.logo)"
+                                        style="max-height: 30px;;"
+                                        alt="Logo"
+                                    />
+                                </div>
+                                <div style="padding-top:12px;">
+                                    <h3>RECETA MÉDICA</h3>
+                                </div>
+                            </td>
+                            <td colspan="2" style="width:62%;vertical-align:middle;">
+                                <div style="text-align:center;" t-if="doc.center_id">
+                                    <div>
+                                        <span t-field="doc.center_id.name" />
+                                    </div>
+                                    <div>
+                                     <span t-field="doc.center_id.street" />,
+                                     <span t-field="doc.center_id.zip" />
+                                     <span t-field="doc.center_id.city" />
+                                </div>
+                                    <div>
+                                        <span
+                                            t-if="doc.center_id.phone"
+                                        >Teléfono:</span>
+                                        <span
+                                            t-if="doc.center_id.phone"
+                                            t-field="doc.center_id.phone"
+                                        />
+                                    </div>
+                                    <div style="font-size:8px;text-align:right">
+                                      <span t-field="prod_request.id" />-
+                                      <span t-esc="o.env.user.id" />-
+                                      <span
+                                            t-esc="int(datetime.datetime.now().timestamp())"
+                                        />
+                                </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height:55px;max-height:55px">
+                            <td rowspan="4" style="width:37%;max-width:37%;">
+                                <div>
+                                    <strong>Indicación</strong>
+                                </div>
+                                <br />
+                                <div
+                                    t-field="prod_request.medical_product_id.name_product"
+                                    style="font-size:12px;"
+                                />
+                                <br />
+                                <div>
+                                    <strong> Núm. envases/ unidades:</strong>
+                                    <span
+                                        t-field="prod_request.quantity_to_dispense"
+                                        style="font-size:12px;"
+                                    />
+                                </div>
+                            </td>
+                            <td style="width:23%;max-width:23%;text-align:center;">
+                                <div>
+                                    <strong>Duración del tratamiento</strong>
+                                </div>
+                                <div style="font-size:12px;">
+                                    <span t-field="prod_request.duration" />
+                                    <span t-field="prod_request.duration_uom_id" />
+                                </div>
+                            </td>
+                            <td rowspan="2" style="width:39%;max-width:39%">
+                                <div>
+                                    <strong>Paciente</strong>
+                                </div>
+                                <div style="font-size:12px;overflow:hidden">
+                                <span t-field="doc.patient_id.name" />
+                                <br />
+                                DNI/NIE: <span t-field="doc.patient_id.birth_date" />
+                                <br />
+                                Fecha nacimiento:<span t-field="doc.patient_id.vat" />
+                            </div>
+                            </td>
+                        </tr>
+                        <tr style="height:55px;max-height:55px;text-align:center;">
+                            <td rowspan="2">
+                                <div>
+                                    <strong>Posología (Unidades y pauta)</strong>
+                                </div>
+                                <div
+                                    style="font-size:12px;"
+                                    t-if="prod_request.medical_product_template_id.product_type == 'medication'"
+                                >
+                                <span t-field="prod_request.dose_quantity" />
+                                <span t-field="prod_request.dose_uom_id" />
+                                <br />
+                                Cada <span t-field="prod_request.specific_rate" />
+                                <span t-field="prod_request.specific_rate_uom_id" />
+                            </div>
+                            </td>
+                        </tr>
+                        <tr style="height:15px;max-height:15px">
+                            <td rowspan="3">
+                                <div>
+                                    <strong>Prescriptor</strong>
+                                </div>
+                                <div style="font-size:12px;overflow:hidden;">
+                                 <span t-field="doc.requester_id.name" />
+                                 <br />
+                                 Núm. Colegiado: <span
+                                        t-field="doc.requester_id.partner_id.college_number"
+                                        t-if="doc.requester_id.partner_id"
+                                    />
+                             </div>
+                                <div>
+                                    <strong>Fecha de la prescripción:</strong>
+                                </div>
+                                <div style="font-size:12px;">
+                                    <span t-field="doc.validation_date" />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height:55px;max-height:55px;text-align:center;">
+                            <td>
+                                <div>
+                                    <strong>Núm. orden dispensación</strong>
+                                </div>
+                                <div style="font-size:12px;">
+                                    <span
+                                        t-field="prod_request.dispensation_order_number"
+                                    />
+                                </div>
+                                <div>
+                                    <strong>Fecha prevista dispensación</strong>
+                                </div>
+                                <div style="font-size:12px;">
+                                    <span
+                                        t-field="prod_request.expected_dispensation_date"
+                                    />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height:50px">
+                            <td colspan="2">
+                                <strong>Diagnóstico/s</strong>
+                                <div
+                                    style="font-size:12px;max-height:30px;overflow:hidden;line-height:120%"
+                                    t-field="prod_request.diagnostic"
+                                />
+                            </td>
+                        </tr>
+                        <tr style="height:80px">
+                            <td colspan="3">
+                                <strong>Instrucciones al paciente</strong>
+                                <div
+                                    style="font-size:12px;max-height:65px;overflow:hidden;line-height:140%;"
+                                    t-field="prod_request.patient_information"
+                                />
+                            </td>
+                        </tr>
+                        <tr style="height:60px;font-size:7px;">
+                            <td
+                                style="vertical-align:middle;"
+                            >El paciente conservará este documento de información
+                            durante el período de validez del tratamiento.
+                         </td>
+                            <td style="vertical-align:middle;">
+                                <div
+                                    style="font-size:16px;text-align:center;"
+                                    t-field="prod_request.internal_identifier"
+                                />
+                            </td>
+                            <td
+                                style="vertical-align:middle;"
+                            >En cumplimiento del art. 5 de la Ley Orgánica 15/99, se informa de que estos datos serán
+                            incorporados a un fichero para la gestión y control de la prestación farmacéutica, cuyo órgano
+                            responsable es CRUZ BLANCA. Puede ejercer sus derechos de acceso, rectificación,
+                            cancelación y oposición ante el responsable.
+                          </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

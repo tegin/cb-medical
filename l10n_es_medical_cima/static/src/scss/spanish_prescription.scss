@@ -1,0 +1,27 @@
+.o_prescription_table {
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 0.2rem;
+    }
+}
+
+.o_vertical_col_prescription {
+    background-color: #d4d4d4;
+    div {
+        position: fixed;
+        -webkit-transform: rotate(-90deg) translate(-340px, -3px);
+        -webkit-transform-origin: top left;
+        font-size: 0.9rem;
+    }
+}
+
+.o_watermark_prescription {
+    position: absolute;
+    opacity: 0.3;
+    font-size: 6em;
+    text-align: center;
+    -webkit-transform: rotate(325deg) translate(40px, 200px);
+}
