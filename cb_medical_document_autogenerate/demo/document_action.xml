@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_type_medical" model="medical.document.type">
+        <field name="name">Medical Document Type</field>
+        <field
+            name="report_action_id"
+            ref="medical_document.action_report_document_report_type"
+        />
+        <field
+            name="storage_backend_id"
+            ref="storage_backend.default_storage_backend"
+        />
+        <field name="kind">medical</field>
+        <field name="state">current</field>
+    </record>
+
+    <record id="document_type_administrative" model="medical.document.type">
+        <field name="name">Administrative Document Type</field>
+        <field
+            name="report_action_id"
+            ref="medical_document.action_report_document_report_type"
+        />
+        <field
+            name="storage_backend_id"
+            ref="storage_backend.default_storage_backend"
+        />
+        <field name="kind">administrative</field>
+        <field name="state">current</field>
+    </record>
+</odoo>

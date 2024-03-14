@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="medical_document_type_form_view">
+        <field
+            name="name"
+        >medical.document.type.form (in cb_medical_document_autogenerate)</field>
+        <field name="model">medical.document.type</field>
+        <field
+            name="inherit_id"
+            ref="medical_document.medical_document_type_view_form"
+        />
+        <field name="arch" type="xml">
+            <field name="report_action_id" position="after">
+                <field name="storage_backend_id" />
+                <field name="kind" />
+            </field>
+        </field>
+    </record>
+<!--
+    <record model="ir.ui.view" id="medical_document_type_search_view">
+        <field name="name">medical.document.type.search (in cb_medical_document_autogenerate)</field>
+        <field name="model">medical.document.type</field>
+        <field name="inherit_id" ref="TODO othermodule.search_view"/>
+        <field name="arch" type="xml">
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_document_type_tree_view">
+        <field name="name">medical.document.type.tree (in cb_medical_document_autogenerate)</field>
+        <field name="model">medical.document.type</field>
+        <field name="inherit_id" ref="TODO othermodule.tree_view"/>
+        <field name="arch" type="xml">
+        </field>
+    </record>
+-->
+</odoo>
