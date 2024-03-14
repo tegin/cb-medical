@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="medical_encounter_form_view">
+        <field
+            name="name"
+        >medical.encounter.form (in cb_medical_careplan_surgical)</field>
+        <field name="model">medical.encounter</field>
+        <field
+            name="inherit_id"
+            ref="medical_administration_encounter.medical_encounter_his_form_view"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']/h1" position="after">
+                <p attrs="{'invisible': [('is_surgery_process', '=', False)]}">
+                    <strong>
+                        <field name="medical_process_description" />
+                        <field name="is_surgery_process" invisible="1"/>
+                    </strong>
+                </p>
+            </xpath>
+
+            <notebook position="before">
+                <group>
+                    <field name="company_id" string="Company" />
+                </group>
+            </notebook>
+
+        </field>
+    </record>
+
+
+
+</odoo>

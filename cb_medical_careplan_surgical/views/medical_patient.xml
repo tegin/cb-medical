@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="medical_patient_form_view">
+        <field
+            name="name"
+        >medical.patient.form (in cb_medical_careplan_surgical)</field>
+        <field name="model">medical.patient</field>
+        <field name="inherit_id" ref="medical_base.medical_patient_his_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='administration_data']" position="after">
+                <page string="Surgical Encounter">
+                    <field
+                        name="surgical_encounter_ids"
+                        options="{'record_action': 'medical_impresion_tree_view_action'}"
+                    >
+                        <tree>
+                            <field name="internal_identifier" />
+                            <field name="patient_id" invisible="1" />
+                            <field name="medical_process_description" />
+                            <field name="center_id" />
+                            <field name="priority_id" />
+                            <field name="state" />
+
+
+                            <button
+                                string="Arrived"
+                                type="object"
+                                name="planned2arrived"
+                                class="btn-sm btn-primary"
+                                groups="medical_base.group_medical_reception"
+                                attrs="{'invisible': [('state','!=','planned')]}"
+                            />
+                            <button
+                                string="Cancel"
+                                type="object"
+                                name="planned2cancelled"
+                                class="btn-sm btn-primary"
+                                groups="medical_base.group_medical_reception"
+                                attrs="{'invisible': [('state','!=','planned')]}"
+                            />
+                            <button
+                                string="On Leave"
+                                type="object"
+                                name="inprogress2onleave"
+                                class="btn-sm btn-primary"
+                                groups="medical_base.group_medical_reception"
+                                attrs="{'invisible': [('state','!=','in-progress')]}"
+                            />
+                            <button
+                                string="Cancel"
+                                type="object"
+                                name="inprogress2cancelled"
+                                groups="medical_base.group_medical_reception"
+                                class="btn-sm btn-primary"
+                                attrs="{'invisible': [('state','!=','in-progress')]}"
+                            />
+                            <button
+                                string="Finish"
+                                type="object"
+                                name="onleave2finished"
+                                groups="medical_base.group_medical_reception"
+                                class="btn-sm btn-primary"
+                                attrs="{'invisible': [('state','!=','onleave')]}"
+                            />
+                            <button
+                                string="Cancel"
+                                type="object"
+                                name="onleave2cancelled"
+                                groups="medical_base.group_medical_reception"
+                                class="btn-sm btn-primary"
+                                attrs="{'invisible': [('state','!=','onleave')]}"
+                            />
+
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
