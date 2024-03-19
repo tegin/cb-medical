@@ -23,13 +23,11 @@ class MedicalClinicalImpression(models.Model):
             ]
         )
         for impression in to_validate:
-            impression.with_user(
-                impression.write_uid.id
-            ).validate_clinical_impression(auto_validated=True)
+            impression.with_user(impression.write_uid.id).validate_clinical_impression(
+                auto_validated=True
+            )
 
-    def _validate_clinical_impression_fields(
-        self, auto_validated=False, **kwargs
-    ):
+    def _validate_clinical_impression_fields(self, auto_validated=False, **kwargs):
         result = super()._validate_clinical_impression_fields(**kwargs)
         if auto_validated:
             result["auto_validated"] = True
@@ -49,9 +47,9 @@ class MedicalClinicalImpression(models.Model):
             "encounter_id": encounter.id,
             "patient_name": encounter.patient_id.name,
             "vat": encounter.patient_id.vat,
-            "patient_age": self.env[
-                "medical.diagnostic.report.template"
-            ]._compute_age(encounter.patient_id),
+            "patient_age": self.env["medical.diagnostic.report.template"]._compute_age(
+                encounter.patient_id
+            ),
             "composition": self._get_report_composition(),
             "name": self[0].specialty_id.name,
             "lang": self.env.context.get("lang") or self.env.user.lang,
