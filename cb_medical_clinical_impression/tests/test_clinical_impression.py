@@ -32,19 +32,17 @@ class TestAutomaticValidation(SavepointCase):
         impression = self.patient.medical_impression_ids
         self.assertEqual(impression.fhir_state, "in_progress")
 
-        self.env[
-            "medical.clinical.impression"
-        ]._cron_validate_clinical_impression(5)
+        self.env["medical.clinical.impression"]._cron_validate_clinical_impression(5)
 
         self.assertEqual(impression.fhir_state, "in_progress")
         with freeze_time(datetime.now() + timedelta(hours=2)):
-            self.env[
-                "medical.clinical.impression"
-            ]._cron_validate_clinical_impression(5)
+            self.env["medical.clinical.impression"]._cron_validate_clinical_impression(
+                5
+            )
         self.assertEqual(impression.fhir_state, "in_progress")
         with freeze_time(datetime.now() + timedelta(hours=6)):
-            self.env[
-                "medical.clinical.impression"
-            ]._cron_validate_clinical_impression(5)
+            self.env["medical.clinical.impression"]._cron_validate_clinical_impression(
+                5
+            )
         self.assertEqual(impression.fhir_state, "completed")
         self.assertTrue(impression.auto_validated)
