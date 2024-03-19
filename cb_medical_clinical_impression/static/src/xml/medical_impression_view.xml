@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+ <t
+        t-name="cb_medical_clinical_impression.MedicalImpressionControlPanel"
+        t-inherit="medical_clinical_impression.MedicalImpressionControlPanel"
+        t-inherit-mode="extension"
+        owl="1"
+    >
+        <xpath
+            expr="//div[contains(@class, 'o_control_panel')]/div[@id='o_impression_control_panel_alerts']"
+            position="inside"
+        >
+            <div
+                class="col alert alert-info  mb-0 p-0"
+                role="warning"
+                style="white-space: pre-wrap;"
+                t-if="props.info"
+            >
+                <div class="row m-0 ">
+                    <div class="col-10 text-center">
+                        <span t-esc="props.info.routine_medication || '' " />
+                    </div>
+
+                    <div class="col-2">
+                        <button
+                            class="btn btn-secundary
+                         btn-sm d-flex justify-content-end p-0 mt-2"
+                            style="white-space: nowrap;"
+                            t-on-click="onEditRoutineMedication"
+                        >
+                            <i class="fas fa-edit" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col alert alert-info mb-0 p-0" role="infor" t-if="props.info">
+                <div class="row m-0">
+                    <table class="col text-center">
+                        <tbody>
+                            <tr
+                                t-foreach="props.info.medications"
+                                t-as="medication"
+                                t-key="medication.id"
+                            >
+                                <td>
+                                    <span t-esc="medication.product" />
+                                </td>
+                                <td>
+                                    <span t-esc="medication.rate_quantity" />
+                                </td>
+                                <td>
+                                    <span t-esc="medication.rate" />
+                                </td>
+                                <td>
+                                    <span t-esc="medication.end_date" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </xpath>
+    </t>
+
+
+    <div t-name="cb_medical_clinical_impression.RoutineMedicationDialog">
+        <textarea
+            class="form-control"
+            name="routine_medication"
+            id="routine_medication"
+            style="white-space: nowrap;min-height: 120px"
+            required="required"
+        >
+            <t t-esc="routine_medication" />
+        </textarea>
+    </div>
+
+    <div
+        t-name="cb_medical_clinical_impression.ImpressionComponent"
+        t-inherit="medical_clinical_impression.ImpressionComponent"
+        t-inherit-mode="extension"
+        owl="1"
+    >
+        <xpath expr="//div[hasclass('o_impression_header_buttons')]" position="inside">
+
+                    <button
+                class="btn btn-primary btn-sm"
+                style="white-space: nowrap;"
+                t-on-click="generateDiagnosticReport"
+                t-if="state.data.data.fhir_state == 'completed'"
+            >
+                       <i class="fas fa-file-medical" />  Diagnostic Report
+
+                    </button>
+
+        </xpath>
+
+    </div>
+
+</templates>
