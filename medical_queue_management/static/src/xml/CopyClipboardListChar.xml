@@ -4,7 +4,7 @@
     <t t-name="medical_queue_management.CopyClipboardListChar">
         <div>
             <div class="o_clipboard_list_view">
-                <span t-esc="widget.value" />
+                <span t-esc="widget.getValue()" />
                 <button
                     class="btn btn-sm btn-primary o_clipboard_button o_btn_char_copy"
                     data-original-title=""

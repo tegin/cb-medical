@@ -1,7 +1,8 @@
 # Copyright 2023 Dixmit
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class QueueTokenLocation(models.Model):
@@ -19,6 +20,7 @@ class QueueTokenLocation(models.Model):
     encounter_identifier = fields.Char(related="encounter_id.internal_identifier")
     request_group_count = fields.Integer(compute="_compute_request_group_count")
     payor_id = fields.Many2one("res.partner", compute="_compute_payor")
+    info = fields.Text()
 
     @api.depends("request_group_ids")
     def _compute_payor(self):
@@ -56,3 +58,59 @@ class QueueTokenLocation(models.Model):
             if view_mode == "form"
         ]
         return action
+
+    def action_kanban_call(self):
+        self.ensure_one()
+        if self.state != "in-progress":
+            raise ValidationError(_("State must be in-progress"))
+        self.with_context(location_id=self.location_id.id).action_call()
+        return {"type": "ir.actions.act_view_reload"}
+
+    def action_kanban_leave(self):
+        self.ensure_one()
+        if self.state != "in-progress":
+            raise ValidationError(_("State must be in-progress"))
+        self.with_context(location_id=self.location_id.id).action_leave()
+        return {"type": "ir.actions.act_view_reload"}
+
+    def action_kanban_back_to_draft(self):
+        self.ensure_one()
+        if self.state != "in-progress":
+            raise ValidationError(_("State must be in-progress"))
+        self.with_context(location_id=self.location_id.id).action_back_to_draft()
+        return {"type": "ir.actions.act_view_reload"}
+
+    def action_kanban_cancel(self):
+        self.ensure_one()
+        self.with_context(location_id=self.location_id.id).action_cancel()
+        return {"type": "ir.actions.act_view_reload"}
+
+    def action_kanban_assign(self):
+        self.ensure_one()
+        if self.location_id:
+            self.with_context(location_id=self.location_id.id).action_assign()
+            self.with_context(location_id=self.location_id.id).action_call()
+            return {"type": "ir.actions.act_view_reload"}
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "medical_queue_management.queue_token_location_kanban_assign_act_window"
+        )
+        action["context"] = {"default_token_location_id": self.id}
+        return action
+
+    def edit_info_action(self):
+        self.ensure_one()
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "medical_queue_management.queue_token_location_edit_info"
+        )
+        action["res_id"] = self.id
+        return action
+
+    def force_save(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_multi",
+            "actions": [
+                {"type": "ir.actions.act_window_close"},
+                {"type": "ir.actions.act_view_reload"},
+            ],
+        }

@@ -30,6 +30,169 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="queue_token_location_kanban_view">
+        <field
+            name="name"
+        >queue.token.location.tree (in medical_queue_management)</field>
+        <field name="model">queue.token.location</field>
+        <field name="arch" type="xml">
+            <kanban create="0" class="o_kanban_dashboard o_kanban_queue_token_location">
+                <field name="state" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div
+                            t-attf-class="#{!selection_mode ? 'oe_kanban_queue_token_location_' + record.state.raw_value : ''} oe_kanban_queue_location"
+                        >
+                            <div class="row">
+                                <div class="col-8">
+                                    <field name="token_id" />
+                                </div>
+                                <div class="col-4">
+                                    <field
+                                        name="location_id"
+                                        t-if="record.state.raw_value != 'draft'"
+                                    />
+                                </div>
+                            </div>
+
+                            <field
+                                name="encounter_id"
+                                widget="CopyClipboardListChar"
+                                t-if="record.encounter_id.raw_value"
+                            />
+                            <div class="font-weight-bolder">
+                                <field name="patient_id" />
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <field name="info" />
+                                </div>
+                                <div class="col-2">
+                                    <button
+                                        name="edit_info_action"
+                                        type="object"
+                                        class="btn btn-secondary fa fa-pencil"
+                                        title="Edit"
+                                    />
+                                </div>
+                            </div>
+
+                            <field
+                                name="location_id"
+                                t-if="record.location_id.raw_value and !record.group_id.raw_value"
+                            />
+                            <field name="group_id" t-if="record.group_id.raw_value" />
+                            <div class="row pl-2 pr-2">
+                                <div
+                                    class="col p-1"
+                                    t-if="record.state.raw_value == 'draft'"
+                                >
+                                    <button
+                                        class="btn btn-primary btn-fill"
+                                        type="object"
+                                        name="action_kanban_assign"
+                                    >Assign</button>
+                                </div>
+                                <div
+                                    class="col p-1"
+                                    t-if="record.state.raw_value == 'in-progress'"
+                                >
+                                    <button
+                                        class="btn btn-primary btn-fill"
+                                        type="object"
+                                        name="action_kanban_call"
+                                    >Call</button>
+                                </div>
+                                <div
+                                    class="col p-1"
+                                    t-if="record.state.raw_value == 'in-progress'"
+                                >
+                                    <button
+                                        class="btn btn-secondary btn-fill"
+                                        type="object"
+                                        name="action_kanban_leave"
+                                    >Leave</button>
+                                </div>
+                                <div
+                                    class="col p-1"
+                                    t-if="record.state.raw_value == 'in-progress'"
+                                >
+                                    <button
+                                        class="btn btn-secondary text-info btn-fill"
+                                        type="object"
+                                        name="action_kanban_back_to_draft"
+                                    >Back to draft</button>
+                                </div>
+                                <div
+                                    class="col p-1"
+                                    t-if="record.state.raw_value == 'in-progress' or record.state.raw_value == 'draft'"
+                                >
+                                    <button
+                                        class="btn btn-secondary text-danger btn-fill"
+                                        type="object"
+                                        name="action_kanban_cancel"
+                                    >Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="queue_token_location_edit_info_form_view">
+        <field
+            name="name"
+        >queue.token.location.tree (in medical_queue_management)</field>
+        <field name="model">queue.token.location</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="info" />
+                </sheet>
+                <footer>
+                    <button
+                        name="force_save"
+                        string="Save"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="queue_token_location_edit_info">
+        <field name="name">Edit Info Locations</field>
+        <field name="res_model">queue.token.location</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="domain">[('encounter_id', '!=', False)]</field>
+        <field name="context">{}</field>
+    </record>
+    <record model="ir.actions.act_window.view" id="queue_token_location_edit_info_form">
+        <field name="act_window_id" ref="queue_token_location_edit_info" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="queue_token_location_edit_info_form_view" />
+    </record>
+
+    <!-- View Location for users -->
+    <record model="ir.actions.act_window" id="queue_token_location_act_window">
+        <field name="name">My Token Locations</field>
+        <field name="res_model">queue.token.location</field>
+        <field name="view_mode">kanban</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="queue_location_menu">
+        <field name="name">My Token Locations</field>
+        <field name="parent_id" ref="queue_management.queue_root_menu" />
+        <field name="action" ref="queue_token_location_act_window" />
+        <field name="sequence" eval="33" />
+    </record>
 
 
 </odoo>
