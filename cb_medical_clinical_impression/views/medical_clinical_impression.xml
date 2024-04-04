@@ -2,16 +2,56 @@
 <!-- Copyright 2023 CreuBlanca
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-<!--
-    <record model="ir.ui.view" id="medical_clinical_impression_form_view">
-        <field name="name">medical.clinical.impression.form (in cb_medical_clinical_impression)</field>
+    <record model="ir.ui.view" id="medical_impression_view">
+        <field
+            name="name"
+        >medical.clinical.impression.form (in cb_medical_clinical_impression)</field>
         <field name="model">medical.clinical.impression</field>
-        <field name="inherit_id" ref="TODO othermodule.form_view"/>
+        <field
+            name="inherit_id"
+            ref="medical_clinical_impression.medical_impression_view"
+        />
         <field name="arch" type="xml">
+            <field name="procedure_external_request_count" position="after">
+                <field name="observation_ids" />
+                <field name="observation_data" />
+            </field>
         </field>
     </record>
-
--->
+    <record model="ir.ui.view" id="medical_clinical_impression_form_view">
+        <field
+            name="name"
+        >medical.clinical.impression.form (in cb_medical_clinical_impression)</field>
+        <field name="model">medical.clinical.impression</field>
+        <field
+            name="inherit_id"
+            ref="medical_clinical_impression.medical_clinical_impression_form_view"
+        />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="observation" string="Observations">
+                    <field name="observation_ids">
+                        <tree>
+                            <field name="patient_id" force_save="1" />
+                            <field name="concept_id" force_save="1" />
+                            <field name="name" force_save="1" />
+                            <field name="uom_id" force_save="1" />
+                            <field name="reference_range_high" force_save="1" />
+                            <field name="reference_range_low" force_save="1" />
+                            <field name="selection_options" force_save="1" />
+                            <field name="value_type" force_save="1" />
+                            <field name="blocked" force_save="1" />
+                            <field name="sequence" force_save="1" />
+                            <field name="state" force_save="1" />
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+            <field name="encounter_id" position="before">
+                <field name="template_id" />
+            </field>
+        </field>
+    </record>
 
     <record
         id="medical_impression_generate_report_act_server"

@@ -13,8 +13,11 @@
         "medical_clinical_impression",
         "medical_product_request",
         "cb_medical_diagnostic_report",
+        "base_sparse_field",
     ],
     "data": [
+        "security/ir.model.access.csv",
+        "views/medical_clinical_impression_template.xml",
         "templates/assets.xml",
         "templates/report.xml",
         "views/medical_patient.xml",

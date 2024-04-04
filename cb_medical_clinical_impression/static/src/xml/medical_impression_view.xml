@@ -76,6 +76,111 @@
             <t t-esc="routine_medication" />
         </textarea>
     </div>
+    <div t-name="cb_medical_clinical_impression.ObservationsComponent" owl="1">
+
+        <t
+            t-foreach="props.state.data.data.observation_data"
+            t-as="value_id"
+            t-key="value_id"
+        >
+            <t
+                t-set="value"
+                t-value="props.state.data.data.observation_data[value_id]"
+            />
+            <ObservationComponent
+                value="value"
+                value_id="value_id"
+                state="props.state"
+            />
+        </t>
+    </div>
+
+    <div
+        class="row"
+        t-name="cb_medical_clinical_impression.ObservationComponent"
+        owl="1"
+    >
+        <div class="col-3"><span t-esc="props.value.name" /></div>
+        <div class="col-3">
+            <t t-if="props.state.edit and props.state.data.data.state == 'draft'">
+                <input
+                    class="o_field_char o_field_widget o_input"
+                    t-if="props.value.value_type == 'str'"
+                    t-att-value="props.value.value_str or ''"
+                    t-on-change="_onValueInput()"
+                />
+                <input
+                    class="o_field_int o_field_widget o_input"
+                    t-if="props.value.value_type == 'int'"
+                    step="1"
+                    type="number"
+                    t-att-value="props.value.value_int or 0"
+                    t-on-change="_onValueIntInput()"
+                />
+                <input
+                    class="o_field_int o_field_widget o_input"
+                    t-if="props.value.value_type == 'float'"
+                    type="number"
+                    t-att-value="props.value.value_float or 0"
+                    t-on-change="_onValueFloatInput()"
+                />
+                <select class="o_input" t-if="props.value.value_type== 'selection'">
+                    <option
+                        t-foreach="getSelectionOptions()"
+                        t-as="value"
+                        t-esc="value"
+                        t-att-id="value"
+                        t-key="value_index"
+                    />
+                </select>
+                <div
+                    class="custom-control custom-checkbox o_field_boolean o_field_widget"
+                    t-if="props.value.value_type == 'bool'"
+                >
+                    <input
+                        t-attf-id="observation_value_{{props.state.data.data.id}}_{{props.value_id}}"
+                        type="checkbox"
+                        class="custom-control-input"
+                        t-on-change="_onValueBoolInput()"
+                        t-att-checked="props.value.value_bool"
+                    />
+                    <label
+                        t-attf-for="observation_value_{{props.state.data.data.id}}_{{props.value_id}}"
+                        class="custom-control-label"
+                    >​</label>
+                </div>
+                <div
+                    class="o_field_date o_field_widget o_input"
+                    t-if="props.value.value_type== 'date'"
+                    t-ref="date_component"
+                />
+            </t>
+            <t t-else="">
+                <span
+                    t-esc="formattedValue(props.value)"
+                    t-if="props.value.value_type != 'bool'"
+                />
+                <div
+                    class="custom-control custom-checkbox o_field_boolean o_field_widget"
+                    t-if="props.value.value_type == 'bool'"
+                >
+                    <input
+                        t-attf-id="observation_value_{{props.state.data.data.id}}_{{props.value_id}}"
+                        type="checkbox"
+                        class="custom-control-input"
+                        disabled="1"
+                        t-att-checked="props.value.value_bool"
+                    />
+                    <label
+                        t-attf-for="observation_value_{{props.state.data.data.id}}_{{props.value_id}}"
+                        class="custom-control-label"
+                    >​</label>
+                </div>
+
+            </t>
+        </div>
+        <div class="col-1"><span t-esc="value.uom" t-if="value.uom" /></div>
+    </div>
 
     <div
         t-name="cb_medical_clinical_impression.ImpressionComponent"
@@ -96,7 +201,22 @@
                     </button>
 
         </xpath>
+        <xpath expr="//div[hasclass('o_impression_internal_notes')]" position="after">
+
+            <div class="col-12 o_impression_internal_notes pt-2">
+                <i
+                    t-if="state.data.data.observation_ids || state.edit"
+                >Observations: </i>
+                <ObservationsComponent state="state" />
+                <!--<FieldAdapter
+                    Component="FieldX2Many"
+                    widgetArgs="['observation_ids', state.data, {mode: 'edit', viewType: 'medical_impression', attrs: {'placeholder': 'Observations', options: {}, 'views': props.data.fieldsInfo[props.data.viewType].observation_ids.views, 'mode': props.data.fieldsInfo[props.data.viewType].observation_ids.mode}}]"
+                    t-if="state.edit"
+                />-->
+            </div>
+        </xpath>
 
     </div>
+
 
 </templates>
