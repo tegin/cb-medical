@@ -571,3 +571,142 @@ class TestMedicalQueue(SavepointCase):
         )
         self.assertFalse(encounter.queue_token_id)
         self.assertFalse(group.queue_token_location_id)
+
+    def test_kanban_group(self):
+        self.queue_location.group_ids = self.queue_location_group
+        self.plan_definition.write(
+            {
+                "generate_queue_task": "area",
+                "queue_area_id": self.queue_area.id,
+            }
+        )
+        self.env["queue.location.area"].create(
+            {
+                "area_id": self.queue_area.id,
+                "center_id": self.center.id,
+                "group_id": self.queue_location_group.id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group()
+        self.assertTrue(encounter.queue_token_id)
+        self.assertTrue(group.queue_token_location_id)
+        self.assertEqual(group.queue_token_location_id.state, "draft")
+        token_location = group.queue_token_location_id
+        action = token_location.action_kanban_assign()
+        self.assertTrue(isinstance(action, dict))
+        self.env[action["res_model"]].with_context(**action["context"]).create(
+            {"location_id": self.queue_location.id}
+        ).assign()
+        self.assertEqual(token_location.state, "in-progress")
+        self.assertTrue(token_location.expected_location_id)
+        token_location.action_kanban_back_to_draft()
+        self.assertEqual(token_location.state, "draft")
+        action = token_location.action_kanban_assign()
+        self.assertTrue(isinstance(action, dict))
+        self.env[action["res_model"]].with_context(**action["context"]).create(
+            {"location_id": self.queue_location.id}
+        ).assign()
+        self.assertEqual(token_location.state, "in-progress")
+        token_location.expected_location_id = False
+        token_location.action_kanban_call()
+        self.assertTrue(token_location.expected_location_id)
+        token_location.action_kanban_leave()
+        self.assertEqual(token_location.state, "done")
+
+    def test_kanban_location(self):
+        self.plan_definition.write(
+            {
+                "generate_queue_task": "area",
+                "queue_area_id": self.queue_area.id,
+            }
+        )
+        self.env["queue.location.area"].create(
+            {
+                "area_id": self.queue_area.id,
+                "center_id": self.center.id,
+                "location_id": self.queue_location.id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group()
+        self.assertTrue(encounter.queue_token_id)
+        self.assertTrue(group.queue_token_location_id)
+        self.assertEqual(group.queue_token_location_id.state, "draft")
+        token_location = group.queue_token_location_id
+        token_location.action_kanban_assign()
+        self.assertEqual(token_location.state, "in-progress")
+        self.assertTrue(token_location.expected_location_id)
+        token_location.action_kanban_back_to_draft()
+        self.assertEqual(token_location.state, "draft")
+        token_location.action_kanban_assign()
+        self.assertEqual(token_location.state, "in-progress")
+        token_location.expected_location_id = False
+        token_location.action_kanban_call()
+        self.assertTrue(token_location.expected_location_id)
+        token_location.action_kanban_leave()
+        self.assertEqual(token_location.state, "done")
+
+    def test_kanban_call_exception(self):
+        self.plan_definition.write(
+            {
+                "generate_queue_task": "area",
+                "queue_area_id": self.queue_area.id,
+            }
+        )
+        self.env["queue.location.area"].create(
+            {
+                "area_id": self.queue_area.id,
+                "center_id": self.center.id,
+                "location_id": self.queue_location.id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group()
+        self.assertTrue(encounter.queue_token_id)
+        self.assertTrue(group.queue_token_location_id)
+        self.assertEqual(group.queue_token_location_id.state, "draft")
+        token_location = group.queue_token_location_id
+        with self.assertRaises(ValidationError):
+            token_location.action_kanban_call()
+
+    def test_kanban_leave_exception(self):
+        self.plan_definition.write(
+            {
+                "generate_queue_task": "area",
+                "queue_area_id": self.queue_area.id,
+            }
+        )
+        self.env["queue.location.area"].create(
+            {
+                "area_id": self.queue_area.id,
+                "center_id": self.center.id,
+                "location_id": self.queue_location.id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group()
+        self.assertTrue(encounter.queue_token_id)
+        self.assertTrue(group.queue_token_location_id)
+        self.assertEqual(group.queue_token_location_id.state, "draft")
+        token_location = group.queue_token_location_id
+        with self.assertRaises(ValidationError):
+            token_location.action_kanban_leave()
+
+    def test_kanban_back_to_draft_exception(self):
+        self.plan_definition.write(
+            {
+                "generate_queue_task": "area",
+                "queue_area_id": self.queue_area.id,
+            }
+        )
+        self.env["queue.location.area"].create(
+            {
+                "area_id": self.queue_area.id,
+                "center_id": self.center.id,
+                "location_id": self.queue_location.id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group()
+        self.assertTrue(encounter.queue_token_id)
+        self.assertTrue(group.queue_token_location_id)
+        self.assertEqual(group.queue_token_location_id.state, "draft")
+        token_location = group.queue_token_location_id
+        with self.assertRaises(ValidationError):
+            token_location.action_kanban_back_to_draft()
