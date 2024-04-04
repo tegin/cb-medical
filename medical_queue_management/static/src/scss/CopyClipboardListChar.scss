@@ -22,3 +22,31 @@
         }
     }
 }
+.o_kanban_view {
+    &.o_kanban_dashboard {
+        &.o_kanban_queue_token_location {
+            .o_kanban_record {
+                min-width: 400px;
+            }
+        }
+    }
+    .oe_kanban_queue_location {
+        &.oe_kanban_queue_token_location_draft::after {
+            background-color: $yellow;
+        }
+        &.oe_kanban_queue_token_location_in-progress::after {
+            background-color: $cyan;
+        }
+        &.oe_kanban_queue_token_location_done::after {
+            background-color: $green;
+        }
+        &.oe_kanban_queue_token_location_cancelled {
+            background-color: $red;
+        }
+    }
+    .btn {
+        &.btn-fill {
+            width: 100%;
+        }
+    }
+}

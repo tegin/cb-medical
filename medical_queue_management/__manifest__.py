@@ -9,9 +9,15 @@
     "license": "AGPL-3",
     "author": "CreuBlanca",
     "website": "https://github.com/tegin/cb-medical",
-    "depends": ["queue_management", "cb_medical_careplan_sale"],
+    "depends": [
+        "queue_management_display",
+        "cb_medical_careplan_sale",
+        "web_ir_actions_act_view_reload",
+        "web_ir_actions_act_multi",
+    ],
     "data": [
         "wizards/medical_careplan_add_plan_definition.xml",
+        "wizards/queue_token_location_kanban_assign.xml",
         "views/queue_token_location.xml",
         "views/queue_token.xml",
         "views/res_partner_queue_location.xml",
