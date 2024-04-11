@@ -16,6 +16,7 @@
         "web_ir_actions_act_multi",
     ],
     "data": [
+        "views/queue_location_group.xml",
         "wizards/medical_careplan_add_plan_definition.xml",
         "wizards/queue_token_location_kanban_assign.xml",
         "views/queue_token_location.xml",
