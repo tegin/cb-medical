@@ -38,6 +38,8 @@
         <field name="arch" type="xml">
             <kanban create="0" class="o_kanban_dashboard o_kanban_queue_token_location">
                 <field name="state" />
+                <field name="group_id" />
+                <field name="color" />
                 <templates>
                     <t t-name="kanban-box">
                         <div
@@ -64,6 +66,24 @@
                                 <field name="patient_id" />
                             </div>
                             <div class="row">
+                                <div class="col-6 text-muted">
+                                    <field name="create_date" />
+                                </div>
+                                <div class="col-6">
+                                    <field
+                                        name="location_id"
+                                        t-if="record.location_id.raw_value and !record.group_id.raw_value"
+                                    />
+                                    <div
+                                        class="px-2"
+                                        t-attf-style="border-radius: 3px; #{record.color.raw_value? 'color: white; background-color: ' + record.color.raw_value: ''} "
+                                        t-if="record.group_id.raw_value"
+                                    >
+                                        <field name="group_id" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-10">
                                     <field name="info" />
                                 </div>
@@ -76,12 +96,6 @@
                                     />
                                 </div>
                             </div>
-
-                            <field
-                                name="location_id"
-                                t-if="record.location_id.raw_value and !record.group_id.raw_value"
-                            />
-                            <field name="group_id" t-if="record.group_id.raw_value" />
                             <div class="row pl-2 pr-2">
                                 <div
                                     class="col p-1"
@@ -111,6 +125,7 @@
                                         class="btn btn-secondary btn-fill"
                                         type="object"
                                         name="action_kanban_leave"
+                                        confirm="Did the patient leave the clinic?"
                                     >Leave</button>
                                 </div>
                                 <div
@@ -131,6 +146,7 @@
                                         class="btn btn-secondary text-danger btn-fill"
                                         type="object"
                                         name="action_kanban_cancel"
+                                        confirm="Do you want to remove this record?"
                                     >Cancel</button>
                                 </div>
                             </div>
