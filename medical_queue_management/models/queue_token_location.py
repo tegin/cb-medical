@@ -21,6 +21,7 @@ class QueueTokenLocation(models.Model):
     request_group_count = fields.Integer(compute="_compute_request_group_count")
     payor_id = fields.Many2one("res.partner", compute="_compute_payor")
     info = fields.Text()
+    color = fields.Char(related="group_id.color")
 
     @api.depends("request_group_ids")
     def _compute_payor(self):
@@ -89,7 +90,9 @@ class QueueTokenLocation(models.Model):
         self.ensure_one()
         if self.location_id:
             self.with_context(location_id=self.location_id.id).action_assign()
-            self.with_context(location_id=self.location_id.id).action_call()
+            self.with_context(location_id=self.location_id.id).with_context(
+                ignore_expected_location=True
+            ).action_call()
             return {"type": "ir.actions.act_view_reload"}
         action = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_queue_management.queue_token_location_kanban_assign_act_window"

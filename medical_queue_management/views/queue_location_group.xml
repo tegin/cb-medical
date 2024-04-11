@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 Dixmit
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="queue_location_group_form_view">
+        <field name="model">queue.location.group</field>
+        <field
+            name="inherit_id"
+            ref="queue_management.queue_location_group_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="color" widget="color" />
+            </field>
+        </field>
+    </record>
+
+
+
+</odoo>
