@@ -17,7 +17,8 @@ class QueueTokenLocationKanbanAssign(models.TransientModel):
             location_id=self.location_id.id
         ).action_assign()
         self.token_location_id.with_context(
-            location_id=self.location_id.id
+            location_id=self.location_id.id,
+            ignore_expected_location=True,
         ).action_call()
         return {
             "type": "ir.actions.act_multi",
