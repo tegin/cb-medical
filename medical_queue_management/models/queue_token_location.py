@@ -64,7 +64,9 @@ class QueueTokenLocation(models.Model):
         self.ensure_one()
         if self.state != "in-progress":
             raise ValidationError(_("State must be in-progress"))
-        self.with_context(location_id=self.location_id.id).action_call()
+        self.with_context(
+            location_id=self.location_id.id, ignore_expected_location=True
+        ).action_call()
         return {"type": "ir.actions.act_view_reload"}
 
     def action_kanban_leave(self):
@@ -90,8 +92,8 @@ class QueueTokenLocation(models.Model):
         self.ensure_one()
         if self.location_id:
             self.with_context(location_id=self.location_id.id).action_assign()
-            self.with_context(location_id=self.location_id.id).with_context(
-                ignore_expected_location=True
+            self.with_context(
+                location_id=self.location_id.id, ignore_expected_location=True
             ).action_call()
             return {"type": "ir.actions.act_view_reload"}
         action = self.env["ir.actions.act_window"]._for_xml_id(
