@@ -40,34 +40,39 @@
                 <field name="state" />
                 <field name="group_id" />
                 <field name="color" />
+                <field name="create_date" />
+                <field name="patient_id" />
                 <templates>
                     <t t-name="kanban-box">
                         <div
                             t-attf-class="#{!selection_mode ? 'oe_kanban_queue_token_location_' + record.state.raw_value : ''} oe_kanban_queue_location"
                         >
                             <div class="row">
-                                <div class="col-8">
-                                    <field name="token_id" />
-                                </div>
-                                <div class="col-4">
+                                <div class="col-4 font-weight-bolder">
                                     <field
                                         name="location_id"
                                         t-if="record.state.raw_value != 'draft'"
                                     />
                                 </div>
+                                <div class="col-5 text-muted">
+                                    <field name="create_date" />
+                                </div>
+                                <div class="col-3">
+                                    <field name="token_id" />
+                                </div>
                             </div>
-
-                            <field
-                                name="encounter_id"
-                                widget="CopyClipboardListChar"
-                                t-if="record.encounter_id.raw_value"
-                            />
                             <div class="font-weight-bolder">
-                                <field name="patient_id" />
+                                <h4><field name="patient_id" /></h4>
                             </div>
                             <div class="row">
-                                <div class="col-6 text-muted">
-                                    <field name="create_date" />
+                                <div class="col-6">
+
+                                  <field
+                                        name="encounter_id"
+                                        widget="CopyClipboardChar"
+                                        t-if="record.encounter_id.raw_value"
+                                        class="o_mail_activity"
+                                    />
                                 </div>
                                 <div class="col-6">
                                     <field
@@ -76,7 +81,7 @@
                                     />
                                     <div
                                         class="px-2"
-                                        t-attf-style="border-radius: 3px; #{record.color.raw_value? 'color: white; background-color: ' + record.color.raw_value: ''} "
+                                        t-attf-style="text-align:center;border-radius: 3px; #{record.color.raw_value? 'color: white; background-color: ' + record.color.raw_value: ''} "
                                         t-if="record.group_id.raw_value"
                                     >
                                         <field name="group_id" />
@@ -105,6 +110,7 @@
                                         class="btn btn-primary btn-fill"
                                         type="object"
                                         name="action_kanban_assign"
+                                        context="{'ignore_expected_location': 1}"
                                     >Assign</button>
                                 </div>
                                 <div
@@ -115,6 +121,7 @@
                                         class="btn btn-primary btn-fill"
                                         type="object"
                                         name="action_kanban_call"
+                                        context="{'ignore_expected_location': 1}"
                                     >Call</button>
                                 </div>
                                 <div
