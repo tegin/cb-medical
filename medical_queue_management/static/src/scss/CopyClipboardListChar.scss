@@ -26,7 +26,7 @@
     &.o_kanban_dashboard {
         &.o_kanban_queue_token_location {
             .o_kanban_record {
-                min-width: 400px;
+                min-width: 450px;
             }
         }
     }
@@ -42,6 +42,36 @@
         }
         &.oe_kanban_queue_token_location_cancelled {
             background-color: $red;
+        }
+        .oe_kanban_queue_token_location_data {
+            width: calc(100% - 30px);
+        }
+        .oe_kanban_queue_token_location_actions {
+            width: 30px;
+            height: 100%;
+            top: 0px;
+            right: 0px;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            text-align: center;
+            align-items: center;
+
+            .oe_kanban_queue_token_location_actions_item {
+                width: 100%;
+                padding: 5px;
+                flex-grow: 1;
+                display: flex;
+                align-items: center;
+                &.btn {
+                    border-radius: 0px;
+                }
+                .oe_kanban_queue_token_location_actions_item_icon {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
         }
     }
     .btn {

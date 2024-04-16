@@ -42,120 +42,145 @@
                 <field name="color" />
                 <field name="create_date" />
                 <field name="patient_id" />
+                <field name="encounter_id" />
+                <field name="action_id" />
+                <field name="action_data" />
                 <templates>
                     <t t-name="kanban-box">
                         <div
                             t-attf-class="#{!selection_mode ? 'oe_kanban_queue_token_location_' + record.state.raw_value : ''} oe_kanban_queue_location"
                         >
-                            <div class="row">
-                                <div class="col-4 font-weight-bolder">
+                            <div class="oe_kanban_queue_token_location_data">
+                                <div class="row">
+                                    <div class="col-4 font-weight-bolder">
+                                        <field
+                                            name="location_id"
+                                            t-if="record.state.raw_value != 'draft'"
+                                        />
+                                    </div>
+                                    <div class="col-5 text-muted">
+                                        <field name="create_date" />
+                                    </div>
+                                    <div class="col-3">
+                                        <field name="token_id" />
+                                    </div>
+                                </div>
+                                <div class="font-weight-bolder">
+                                    <h4><field name="patient_id" /></h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
                                     <field
-                                        name="location_id"
-                                        t-if="record.state.raw_value != 'draft'"
-                                    />
+                                            name="encounter_identifier"
+                                            widget="CopyClipboardChar"
+                                            t-if="record.encounter_identifier.raw_value"
+                                            class="o_mail_activity"
+                                        />
+                                    </div>
+                                    <div class="col-6">
+                                        <field
+                                            name="location_id"
+                                            t-if="record.location_id.raw_value and !record.group_id.raw_value"
+                                        />
+                                        <div
+                                            class="px-2"
+                                            t-attf-style="text-align:center;border-radius: 3px; #{record.color.raw_value? 'color: white; background-color: ' + record.color.raw_value: ''} "
+                                            t-if="record.group_id.raw_value"
+                                        >
+                                            <field name="group_id" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-5 text-muted">
-                                    <field name="create_date" />
+                                <div class="row">
+                                    <div class="col-10">
+                                        <field name="info" />
+                                    </div>
+                                    <div class="col-2">
+                                        <button
+                                            name="edit_info_action"
+                                            type="object"
+                                            class="btn btn-secondary fa fa-pencil"
+                                            title="Edit"
+                                        />
+                                    </div>
                                 </div>
-                                <div class="col-3">
-                                    <field name="token_id" />
-                                </div>
-                            </div>
-                            <div class="font-weight-bolder">
-                                <h4><field name="patient_id" /></h4>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-
-                                  <field
-                                        name="encounter_id"
-                                        widget="CopyClipboardChar"
-                                        t-if="record.encounter_id.raw_value"
-                                        class="o_mail_activity"
-                                    />
-                                </div>
-                                <div class="col-6">
-                                    <field
-                                        name="location_id"
-                                        t-if="record.location_id.raw_value and !record.group_id.raw_value"
-                                    />
+                                <div class="row pl-2 pr-2">
                                     <div
-                                        class="px-2"
-                                        t-attf-style="text-align:center;border-radius: 3px; #{record.color.raw_value? 'color: white; background-color: ' + record.color.raw_value: ''} "
-                                        t-if="record.group_id.raw_value"
+                                        class="col p-1"
+                                        t-if="record.state.raw_value == 'draft'"
                                     >
-                                        <field name="group_id" />
+                                        <button
+                                            class="btn btn-primary btn-fill"
+                                            type="object"
+                                            name="action_kanban_assign"
+                                            context="{'ignore_expected_location': 1}"
+                                        >Assign</button>
+                                    </div>
+                                    <div
+                                        class="col p-1"
+                                        t-if="record.state.raw_value == 'in-progress'"
+                                    >
+                                        <button
+                                            class="btn btn-primary btn-fill"
+                                            type="object"
+                                            name="action_kanban_call"
+                                            context="{'ignore_expected_location': 1}"
+                                        >Call</button>
+                                    </div>
+                                    <div
+                                        class="col p-1"
+                                        t-if="record.state.raw_value == 'in-progress'"
+                                    >
+                                        <button
+                                            class="btn btn-secondary btn-fill"
+                                            type="object"
+                                            name="action_kanban_leave"
+                                            confirm="Did the patient leave the clinic?"
+                                        >Leave</button>
+                                    </div>
+                                    <div
+                                        class="col p-1"
+                                        t-if="record.state.raw_value == 'in-progress'"
+                                    >
+                                        <button
+                                            class="btn btn-secondary text-info btn-fill"
+                                            type="object"
+                                            name="action_kanban_back_to_draft"
+                                        >Back to draft</button>
+                                    </div>
+                                    <div
+                                        class="col p-1"
+                                        t-if="record.state.raw_value == 'in-progress' or record.state.raw_value == 'draft'"
+                                    >
+                                        <button
+                                            class="btn btn-secondary text-danger btn-fill"
+                                            type="object"
+                                            name="action_kanban_cancel"
+                                            confirm="Do you want to remove this record?"
+                                        >Cancel</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-10">
-                                    <field name="info" />
-                                </div>
-                                <div class="col-2">
-                                    <button
-                                        name="edit_info_action"
-                                        type="object"
-                                        class="btn btn-secondary fa fa-pencil"
-                                        title="Edit"
-                                    />
-                                </div>
-                            </div>
-                            <div class="row pl-2 pr-2">
-                                <div
-                                    class="col p-1"
-                                    t-if="record.state.raw_value == 'draft'"
+                            <div class="oe_kanban_queue_token_location_actions">
+
+                                <t
+                                    t-foreach="JSON.parse(record.action_data.raw_value)"
+                                    t-as="action"
                                 >
                                     <button
-                                        class="btn btn-primary btn-fill"
+                                        class="btn oe_kanban_queue_token_location_actions_item"
+                                        t-att-style="action.id === record.action_id.raw_value? 'background-color: '+action.color: ''"
                                         type="object"
-                                        name="action_kanban_assign"
-                                        context="{'ignore_expected_location': 1}"
-                                    >Assign</button>
-                                </div>
-                                <div
-                                    class="col p-1"
-                                    t-if="record.state.raw_value == 'in-progress'"
-                                >
-                                    <button
-                                        class="btn btn-primary btn-fill"
-                                        type="object"
-                                        name="action_kanban_call"
-                                        context="{'ignore_expected_location': 1}"
-                                    >Call</button>
-                                </div>
-                                <div
-                                    class="col p-1"
-                                    t-if="record.state.raw_value == 'in-progress'"
-                                >
-                                    <button
-                                        class="btn btn-secondary btn-fill"
-                                        type="object"
-                                        name="action_kanban_leave"
-                                        confirm="Did the patient leave the clinic?"
-                                    >Leave</button>
-                                </div>
-                                <div
-                                    class="col p-1"
-                                    t-if="record.state.raw_value == 'in-progress'"
-                                >
-                                    <button
-                                        class="btn btn-secondary text-info btn-fill"
-                                        type="object"
-                                        name="action_kanban_back_to_draft"
-                                    >Back to draft</button>
-                                </div>
-                                <div
-                                    class="col p-1"
-                                    t-if="record.state.raw_value == 'in-progress' or record.state.raw_value == 'draft'"
-                                >
-                                    <button
-                                        class="btn btn-secondary text-danger btn-fill"
-                                        type="object"
-                                        name="action_kanban_cancel"
-                                        confirm="Do you want to remove this record?"
-                                    >Cancel</button>
-                                </div>
+                                        name="assign_location_action"
+                                        t-attf-data-context="{'action_id': #{action.id}}"
+                                        t-att-tytle="action.name"
+                                    >
+                                        <i
+                                            t-attf-class="oe_kanban_queue_token_location_actions_item_icon fa #{action.icon}"
+                                            t-att-style="action.id === record.action_id.raw_value? 'color: white': ''"
+                                        />
+                                    </button>
+                                </t>
                             </div>
                         </div>
                     </t>
