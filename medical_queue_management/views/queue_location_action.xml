@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 Dixmit
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="queue_location_action_form_view">
+        <field name="model">queue.location.action</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!-- TODO -->
+                </header>
+                <sheet>
+                    <!-- TODO -->
+                    <group>
+                        <field name="name" />
+                        <field name="icon" />
+                        <field name="color" widget="color" />
+                        <field name="sequence" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter" />
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="queue_location_action_search_view">
+        <field name="model">queue.location.action</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="queue_location_action_tree_view">
+        <field name="model">queue.location.action</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="icon" />
+                <field name="color" widget="color" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="queue_location_action_act_window">
+        <field name="name">Queue Location Action</field> <!-- TODO -->
+        <field name="res_model">queue.location.action</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="queue_location_action_menu">
+        <field name="name">Location Actions</field>
+        <field
+            name="parent_id"
+            ref="queue_management.queue_config_root_menu"
+        /> <!-- TODO -->
+        <field name="action" ref="queue_location_action_act_window" />
+        <field name="sequence" eval="16" /> <!-- TODO -->
+    </record>
+
+</odoo>

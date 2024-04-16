@@ -1,6 +1,8 @@
 # Copyright 2023 Dixmit
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import json
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -22,6 +24,16 @@ class QueueTokenLocation(models.Model):
     payor_id = fields.Many2one("res.partner", compute="_compute_payor")
     info = fields.Text()
     color = fields.Char(related="group_id.color")
+    action_data = fields.Char(compute="_compute_action_data")
+    action_id = fields.Many2one("queue.location.action", readonly=True)
+
+    @api.depends("location_id")
+    def _compute_action_data(self):
+        for record in self:
+            actions = record.location_id.action_ids
+            if record.action_id not in actions:
+                actions |= record.action_id
+            record.action_data = json.dumps(actions.read(["name", "icon", "color"]))
 
     @api.depends("request_group_ids")
     def _compute_payor(self):
@@ -119,3 +131,11 @@ class QueueTokenLocation(models.Model):
                 {"type": "ir.actions.act_view_reload"},
             ],
         }
+
+    def assign_location_action(self):
+        self.ensure_one()
+        action = self.env["queue.location.action"].browse(
+            self.env.context.get("action_id")
+        )
+        if action and action in self.location_id.action_ids:
+            self.action_id = action
