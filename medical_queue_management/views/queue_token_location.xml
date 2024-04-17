@@ -173,7 +173,7 @@
                                         type="object"
                                         name="assign_location_action"
                                         t-attf-data-context="{'action_id': #{action.id}}"
-                                        t-att-tytle="action.name"
+                                        t-att-title="action.name"
                                     >
                                         <i
                                             t-attf-class="oe_kanban_queue_token_location_actions_item_icon fa #{action.icon}"
