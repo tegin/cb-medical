@@ -45,6 +45,9 @@
                 <field name="encounter_id" />
                 <field name="action_id" />
                 <field name="action_data" />
+                <field name="info" />
+                <field name="allows_flag" />
+                <field name="flagged" />
                 <templates>
                     <t t-name="kanban-box">
                         <div
@@ -58,10 +61,18 @@
                                             t-if="record.state.raw_value != 'draft'"
                                         />
                                     </div>
+                                    <div class="col-1">
+                                        <button
+                                            t-attf-class="p-0 btn fa #{record.flagged.raw_value? 'fa-star': 'fa-star-o'}"
+                                            type="object"
+                                            name="toggle_flagged"
+                                            t-if="record.allows_flag.raw_value"
+                                        />
+                                    </div>
                                     <div class="col-5 text-muted">
                                         <field name="create_date" />
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <field name="token_id" />
                                     </div>
                                 </div>
@@ -92,14 +103,15 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-10">
-                                        <field name="info" />
-                                    </div>
-                                    <div class="col-2">
-                                        <button
+                                    <div class="col">
+                                        <span
+                                            style="white-space: pre-line"
+                                            t-esc="record.info.raw_value"
+                                            t-if="record.info.raw_value"
+                                        /><button
                                             name="edit_info_action"
                                             type="object"
-                                            class="btn btn-secondary fa fa-pencil"
+                                            class="btn p-0 fa fa-pencil"
                                             title="Edit"
                                         />
                                     </div>
