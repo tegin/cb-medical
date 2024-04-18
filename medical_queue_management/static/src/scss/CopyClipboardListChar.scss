@@ -66,6 +66,7 @@
                 align-items: center;
                 &.btn {
                     border-radius: 0px;
+                    min-height: 15px;
                 }
                 .oe_kanban_queue_token_location_actions_item_icon {
                     width: 100%;
