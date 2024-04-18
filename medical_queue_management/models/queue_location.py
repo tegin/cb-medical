@@ -9,3 +9,4 @@ class QueueLocation(models.Model):
     _inherit = "queue.location"
 
     action_ids = fields.Many2many("queue.location.action")
+    allows_flag = fields.Boolean()
