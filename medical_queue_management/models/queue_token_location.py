@@ -25,7 +25,9 @@ class QueueTokenLocation(models.Model):
     info = fields.Text()
     color = fields.Char(related="group_id.color")
     action_data = fields.Char(compute="_compute_action_data")
+    allows_flag = fields.Boolean(related="location_id.allows_flag")
     action_id = fields.Many2one("queue.location.action", readonly=True)
+    flagged = fields.Boolean()
 
     @api.depends("location_id")
     def _compute_action_data(self):
@@ -139,3 +141,7 @@ class QueueTokenLocation(models.Model):
         )
         if action and action in self.location_id.action_ids:
             self.action_id = action
+
+    def toggle_flagged(self):
+        for record in self:
+            record.flagged = not record.flagged
