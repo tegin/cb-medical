@@ -248,9 +248,9 @@ class MedicalEncounter(models.Model):
         invoiced_amount = sum(
             sale_orders.filtered(lambda r: r.third_party_order).mapped("amount_total")
         ) + sum(
-            sale_orders.filtered(lambda r: not r.third_party_order).invoice_ids.mapped(
-                "amount_residual_signed"
-            )
+            sale_orders.filtered(lambda r: not r.third_party_order)
+            .invoice_ids.filtered(lambda r: r.state == "posted")
+            .mapped("amount_residual_signed")
         )
         if not float_is_zero(
             invoiced_amount - sum(payments.mapped("amount")),
@@ -347,6 +347,8 @@ class MedicalEncounter(models.Model):
                 sale_move = order.third_party_move_id
             else:
                 sale_move = order.invoice_ids
+            if sale_move.state != "posted":
+                continue
             for line in sale_move.line_ids.filtered(
                 lambda r: r.account_id.internal_type == "receivable"
                 and not r.reconciled
