@@ -347,7 +347,8 @@ class MedicalEncounter(models.Model):
                 sale_move = order.third_party_move_id
             else:
                 sale_move = order.invoice_ids
-            if sale_move.state != "posted":
+            sale_move = sale_move.filtered(lambda r: r.state == "posted")
+            if not sale_move:
                 continue
             for line in sale_move.line_ids.filtered(
                 lambda r: r.account_id.internal_type == "receivable"
