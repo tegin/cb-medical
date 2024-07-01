@@ -139,6 +139,18 @@
                                             context="{'ignore_expected_location': 1}"
                                         >Call</button>
                                     </div>
+
+                                    <div
+                                        class="col p-1"
+                                        t-if="record.state.raw_value == 'in-progress'"
+                                    >
+                                        <button
+                                            class="btn btn-info btn-fill"
+                                            type="object"
+                                            name="action_kanban_assign"
+                                            context="{'ignore_expected_location': 1, 'default_do_not_call': 1}"
+                                        >Reassign</button>
+                                    </div>
                                     <div
                                         class="col p-1"
                                         t-if="record.state.raw_value == 'in-progress'"

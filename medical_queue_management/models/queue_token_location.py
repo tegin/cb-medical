@@ -104,7 +104,7 @@ class QueueTokenLocation(models.Model):
 
     def action_kanban_assign(self):
         self.ensure_one()
-        if self.location_id:
+        if self.location_id and self.state == "draft":
             self.with_context(location_id=self.location_id.id).action_assign()
             self.with_context(
                 location_id=self.location_id.id, ignore_expected_location=True

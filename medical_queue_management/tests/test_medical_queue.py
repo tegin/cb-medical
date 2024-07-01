@@ -222,6 +222,9 @@ class TestMedicalQueue(SavepointCase):
         cls.queue_location = cls.env["queue.location"].create(
             {"name": "Queue Location"}
         )
+        cls.queue_location_2 = cls.env["queue.location"].create(
+            {"name": "Queue Location 2"}
+        )
         cls.queue_location_group = cls.env["queue.location.group"].create(
             {"name": "Queue Location Group"}
         )
@@ -710,3 +713,45 @@ class TestMedicalQueue(SavepointCase):
         token_location = group.queue_token_location_id
         with self.assertRaises(ValidationError):
             token_location.action_kanban_back_to_draft()
+
+    def test_kanban_reassign(self):
+        self.queue_location.group_ids = self.queue_location_group
+        self.queue_location_2.group_ids = self.queue_location_group
+        self.plan_definition.write(
+            {
+                "generate_queue_task": "area",
+                "queue_area_id": self.queue_area.id,
+            }
+        )
+        self.env["queue.location.area"].create(
+            {
+                "area_id": self.queue_area.id,
+                "center_id": self.center.id,
+                "group_id": self.queue_location_group.id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group()
+        self.assertTrue(encounter.queue_token_id)
+        self.assertTrue(group.queue_token_location_id)
+        self.assertEqual(group.queue_token_location_id.state, "draft")
+        token_location = group.queue_token_location_id
+        action = token_location.action_kanban_assign()
+        self.assertTrue(isinstance(action, dict))
+        self.env[action["res_model"]].with_context(**action["context"]).create(
+            {"location_id": self.queue_location.id}
+        ).assign()
+        self.assertEqual(token_location.state, "in-progress")
+        self.assertTrue(token_location.expected_location_id)
+        self.assertEqual(self.queue_location, token_location.expected_location_id)
+        action = token_location.with_context(
+            default_do_not_call=True
+        ).action_kanban_assign()
+        self.assertTrue(isinstance(action, dict))
+        with self.assertRaises(ValidationError):
+            self.env[action["res_model"]].with_context(**action["context"]).create(
+                {"location_id": self.queue_location.id}
+            ).assign()
+        self.env[action["res_model"]].with_context(**action["context"]).create(
+            {"location_id": self.queue_location_2.id}
+        ).assign()
+        self.assertEqual(self.queue_location_2, token_location.expected_location_id)
