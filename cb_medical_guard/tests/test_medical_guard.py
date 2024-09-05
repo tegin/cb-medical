@@ -17,6 +17,8 @@ class TestMedicalGuard(TransactionCase):
                 "name": "Product",
                 "standard_price": 100,
                 "supplier_taxes_id": [],
+                "is_guard": True,
+                "is_invoiceable_guard": True,
             }
         )
         self.center = self.env["res.partner"].create(
