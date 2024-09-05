@@ -28,6 +28,8 @@ class MedicalGuardPlanApply(models.TransientModel):
             ("date", ">=", self.date_from),
             ("date", "<", date_to),
             ("state", "=", "completed"),
+            ("invoice_line_ids", "=", False),
+            ("product_id.is_invoiceable_guard", "=", True),
         ]
 
         return domain

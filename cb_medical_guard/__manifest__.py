@@ -3,7 +3,7 @@
 
 {
     "name": "CB Medical Guard",
-    "version": "14.0.1.0.0",
+    "version": "14.0.2.0.0",
     "category": "CB",
     "website": "https://github.com/tegin/cb-medical",
     "author": "CreuBlanca, Eficent",
@@ -13,6 +13,7 @@
     "summary": "CB medical location data",
     "depends": ["cb_medical_commission"],
     "data": [
+        "views/product_template.xml",
         "security/medical_security.xml",
         "security/ir.model.access.csv",
         "data/ir_sequence_data.xml",

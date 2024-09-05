@@ -47,13 +47,25 @@ class MedicalGuard(models.Model):
     product_id = fields.Many2one(
         "product.product",
         required=True,
-        domain=[("type", "=", "service")],
+        domain=[("type", "=", "service"), ("is_guard", "=", True)],
         tracking=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
     plan_guard_id = fields.Many2one("medical.guard.plan", readonly=True)
     invoice_line_ids = fields.One2many("account.move.line", inverse_name="guard_id")
+    invoiced = fields.Boolean(compute="_compute_invoiced")
+
+    @api.depends("invoice_line_ids")
+    def _compute_invoiced(self):
+        for record in self:
+            record.invoiced = len(self.invoice_line_ids) > 0
+
+    def action_show_invoice(self):
+        self.ensure_one()
+        if self.invoiced:
+            return self.invoice_line_ids.move_id.get_formview_action()
+        return False
 
     @api.depends("internal_identifier")
     def name_get(self):
