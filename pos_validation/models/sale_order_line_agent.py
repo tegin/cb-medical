@@ -1,0 +1,25 @@
+# Copyright 2021 Creu Blanca
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from odoo import models
+
+
+class SaleOrderLineAgent(models.Model):
+    _inherit = "sale.order.line.agent"
+
+    def action_settlement_invoice(self):
+        self.ensure_one()
+        invoices = (
+            self.agent_sale_line.mapped("settlement_id")
+            .filtered(lambda r: r.state != "cancel")
+            .mapped("invoice_line_ids.move_id")
+        )
+        if not invoices:
+            return
+        if len(invoices) == 1:
+            return invoices.get_formview_action()
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "account.action_move_in_invoice_type"
+        )
+        action["domain"] = [("id", "in", self.ids)]
+        return action

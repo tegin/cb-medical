@@ -11,3 +11,4 @@ from . import medical_laboratory_event
 from . import medical_laboratory_request
 from . import account_invoice_line_agent
 from . import ir_actions
+from . import sale_order_line_agent
