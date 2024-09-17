@@ -267,6 +267,18 @@
                                                 <field name="agent_id" />
                                                 <field name="procedure_id" />
                                                 <field name="amount" />
+
+                                                <field name="settled" />
+                                                <field
+                                                    name="agent_sale_line"
+                                                    invisible="1"
+                                                />
+                                                <button
+                                                    name="action_settlement_invoice"
+                                                    type="object"
+                                                    icon="fa-file-invoice-dollar"
+                                                    attrs="{'invisible': ['|', ('agent_sale_line', '=', False), ('settled', '=', False)]}"
+                                                />
                                             </tree>
                                         </field>
                                     </page>
@@ -284,6 +296,7 @@
                                                     name="action_settlement_invoice"
                                                     type="object"
                                                     icon="fa-file-invoice-dollar"
+                                                    attrs="{'invisible': [('settled', '=', False)]}"
                                                 />
                                             </tree>
                                         </field>
