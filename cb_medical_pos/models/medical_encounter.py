@@ -52,21 +52,12 @@ class MedicalEncounter(models.Model):
         for record in self:
             inv = record.sale_order_ids.filtered(
                 lambda r: not r.coverage_agreement_id and r.invoice_ids
-            ).mapped("invoice_ids")
+            )
             orders = record.sale_order_ids.filtered(
                 lambda r: not r.coverage_agreement_id and not r.invoice_ids
             )
             record.pending_private_amount = (
-                sum(
-                    inv.filtered(lambda r: r.move_type == "out_invoice").mapped(
-                        "amount_total"
-                    )
-                )
-                - sum(
-                    inv.filtered(lambda r: r.move_type != "out_invoice").mapped(
-                        "amount_total"
-                    )
-                )
+                sum(inv.mapped("amount_total"))
                 + sum(o.amount_total for o in orders)
                 - sum(record.mapped("pos_payment_ids.amount"))
             )
