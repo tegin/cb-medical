@@ -25,6 +25,7 @@ class MedicalEncounter(models.Model):
     is_preinvoiced = fields.Boolean(default=False, tracking=True)
     commission_issue_accepted = fields.Boolean(default=False, tracking=True)
     has_patient_invoice = fields.Boolean(compute="_compute_validation_values")
+    all_automatic = fields.Boolean(compute="_compute_validation_values")
     unauthorized_elements = fields.Boolean(compute="_compute_validation_values")
     missing_authorization_number = fields.Boolean(compute="_compute_validation_values")
     missing_subscriber_id = fields.Boolean(compute="_compute_validation_values")
@@ -57,6 +58,15 @@ class MedicalEncounter(models.Model):
             lines = rec.sale_order_ids.filtered(
                 lambda r: r.coverage_agreement_id
             ).mapped("order_line")
+            rec.all_automatic = not bool(
+                lines.filtered(
+                    lambda r: (
+                        r.authorization_method_id.integration_system != "ws"
+                        and r.coverage_agreement_id
+                    )
+                    or r.authorization_status != "authorized"
+                )
+            )
             rec.has_preinvoicing = bool(
                 lines.filtered(
                     lambda r: r.invoice_group_method_id.invoice_by_preinvoice
