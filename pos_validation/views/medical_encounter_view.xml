@@ -107,6 +107,13 @@
                         help="Patient invoice"
                         decoration-light="not has_patient_invoice"
                     />
+                    <flag
+                        icon="fa-check"
+                        help="All tests passed"
+                        decoration-danger="not all_automatic"
+                        decoration-success="all_automatic"
+                    />
+                    <field name="all_automatic" invisible="1" />
                     <field name="is_preinvoiced" invisible="1" />
                     <field name="has_preinvoicing" invisible="1" />
                     <field name="missing_authorization_number" invisible="1" />

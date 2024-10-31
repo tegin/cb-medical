@@ -632,6 +632,51 @@ class TestPosValidation(common.MedicalSavePointCase):
         encounter.sale_order_ids.mapped("order_line").medical_cancel(self.cancel_reason)
         self.assertFalse(encounter.sale_order_ids.mapped("order_line"))
 
+    def test_validation_ok_private(self):
+        self.plan_definition2.write({"third_party_bill": False})
+        self.agreement_line3.write({"coverage_percentage": 0})
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.close_encounter(encounter)
+        self.assertTrue(encounter.all_automatic)
+
+    def test_validation_no_ws(self):
+        self.plan_definition2.write({"third_party_bill": False})
+        self.agreement_line3.write({"coverage_percentage": 100})
+        self.agreement_line3.authorization_method_id.integration_system = "web"
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.close_encounter(encounter)
+        self.assertEqual(group.authorization_status, "authorized")
+        self.assertFalse(encounter.all_automatic)
+
+    def test_validation_ws_authorized(self):
+        self.plan_definition2.write({"third_party_bill": False})
+        self.agreement_line3.write({"coverage_percentage": 100})
+        self.agreement_line3.authorization_method_id.integration_system = "ws"
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.close_encounter(encounter)
+        self.assertEqual(group.authorization_status, "authorized")
+        self.assertEqual(group.authorization_method_id.integration_system, "ws")
+        self.assertTrue(encounter.all_automatic)
+
+    def test_validation_ws_not_authorized(self):
+        self.plan_definition2.write({"third_party_bill": False})
+        self.agreement_line3.write({"coverage_percentage": 100})
+        self.agreement_line3.authorization_method_id.integration_system = "ws"
+        self.agreement_line3.authorization_method_id.check_required = True
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.close_encounter(encounter)
+        self.assertNotEqual(group.authorization_status, "authorized")
+        self.assertEqual(group.authorization_method_id.integration_system, "ws")
+        self.assertFalse(encounter.all_automatic)
+
     def test_validation_no_invoices(self):
         self.session.action_pos_session_close()
         self.assertEqual(self.session.validation_status, "finished")
