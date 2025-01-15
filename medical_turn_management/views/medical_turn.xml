@@ -78,14 +78,14 @@
         <field name="name">medical.turn.tree (in medical_turn_management)</field>
         <field name="model">medical.turn</field>
         <field name="arch" type="xml">
-            <calendar_list
+            <!-- <calendar_list
                 date_start="date"
                 date_delay="duration"
                 color="specialty_id"
                 mode="day"
             >
                 <field name="display_name" />
-            </calendar_list>
+            </calendar_list> -->
         </field>
     </record>
     <record model="ir.ui.view" id="medical_turn_tree_view">

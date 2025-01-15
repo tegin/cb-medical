@@ -5,13 +5,13 @@
     "name": "Medical Turn Management",
     "summary": """
         Manage Profesional turn management""",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "CreuBlanca,Odoo Community Association (OCA)",
     "website": "https://github.com/tegin/cb-medical",
     "depends": [
-        "medical_administration_practitioner",
-        "web_view_calendar_list",
+        "medical_administration_practitioner_specialty",
+        # "web_view_calendar_list",
         "medical_base",
         "medical_administration_center",
         "mail",
