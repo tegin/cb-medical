@@ -13,7 +13,7 @@ class MedicalDocumentType(models.Model):
         [("action", "Report action")], required=True, default="action"
     )
 
-    name = fields.Char(string="Name", help="Name", translate=True)
+    name = fields.Char(help="Name", translate=True)
     state = fields.Selection(
         [
             ("draft", "Draft"),

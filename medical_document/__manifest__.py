@@ -4,7 +4,7 @@
 
 {
     "name": "Medical documents",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "Eficent, CreuBlanca",
     "depends": [
         "medical_workflow",
@@ -26,4 +26,7 @@
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
+    "external_dependencies": {
+        "python": ["mock"],
+    },
 }

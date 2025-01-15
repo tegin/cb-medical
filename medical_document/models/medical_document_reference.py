@@ -114,7 +114,9 @@ class MedicalDocumentReference(models.Model):
     def _render(self):
         return self.with_context(
             lang=self.lang
-        ).document_type_id.report_action_id._render(self.id)
+        ).document_type_id.report_action_id._render(
+            self.document_type_id.report_action_id.id, self.id
+        )
 
     def render_report(self):
         return base64.b64encode(self._render()[0])
