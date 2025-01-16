@@ -301,7 +301,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         report_name = "medical_financial_coverage_agreement.items_xslx"
         report = report_object._get_report_from_name(report_name)
 
-        rep = report._render(item.ids)
+        rep = report._render(report.id, item.ids)
         sheet = pandas.read_excel(BytesIO(rep[0]), engine="openpyxl")
         self.assertEqual(sheet[sheet.columns[1]][0], item.product_id.name)
 
@@ -328,7 +328,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         report = report_object._get_report_from_name(report_name)
 
         rep = report.with_context(active_model="medical.coverage.agreement")._render(
-            coverage_agreement.ids
+            report.id, coverage_agreement.ids
         )
         sheet = pandas.read_excel(BytesIO(rep[0]), engine="openpyxl")
         self.assertEqual(
