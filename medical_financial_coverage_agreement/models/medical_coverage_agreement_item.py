@@ -177,13 +177,10 @@ class MedicalCoverageAgreementItem(models.Model):
                         "- If you are trying to add a new product to an Agreement "
                         "that means there is a coverage template that "
                         "already has this product in another Agreement.\n\n"
-                        "Conflictive agreement: [%s] %s\n"
-                        "Conflictive product: %s"
-                    )
-                    % (
-                        repeated.coverage_agreement_id.internal_identifier,
-                        repeated.coverage_agreement_id.display_name,
-                        repeated.product_id.name,
+                        "Conflictive agreement: "
+                        "[%(repeated.coverage_agreement_id.internal_identifier)s] "
+                        "%(repeated.coverage_agreement_id.display_name)s\n"
+                        "Conflictive product: %(repeated.product_id.name)s"
                     )
                 )
 
