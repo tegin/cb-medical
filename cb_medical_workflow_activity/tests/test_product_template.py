@@ -22,7 +22,7 @@ class TestProductActivity(TransactionCase):
 
     def test_activity(self):
         activity = self.product._generate_activity()
-        self.product.refresh()
+        self.product.invalidate_recordset()
         self.assertTrue(activity)
         self.assertEqual(self.product, activity.service_id)
         self.assertEqual(self.product.activity_definition_ids, activity)
@@ -39,7 +39,10 @@ class TestProductActivity(TransactionCase):
     def test_multi_product_raise(self):
         self.product._generate_activity()
         product = self.env["product.product"].create(
-            {"product_tmpl_id": self.template.id}
+            {
+                "product_tmpl_id": self.template.id,
+                "product_template_attribute_value_ids": [(6, 0, [1])],
+            }
         )
         with self.assertRaises(ValidationError):
             product.generate_activity()
