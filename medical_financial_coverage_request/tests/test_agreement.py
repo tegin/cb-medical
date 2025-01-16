@@ -1,10 +1,10 @@
 from datetime import date, timedelta
 
 from odoo.exceptions import ValidationError
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestAgreementTemplate(SavepointCase):
+class TestAgreementTemplate(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

@@ -146,7 +146,7 @@ class TestCB(TransactionCase):
         self.env["medical.request.group.check.authorization"].with_context(
             default_request_group_id=group.id
         ).create({"authorization_number": "1234"}).run()
-        group.refresh()
+        group.invalidate_recordset()
         self.assertEqual(group.authorization_status, "authorized")
         wizard = (
             self.env["medical.request.group.check.authorization"]
@@ -156,7 +156,7 @@ class TestCB(TransactionCase):
         self.assertEqual(wizard.authorization_method_id, self.method)
         self.assertEqual(wizard.authorization_method_ids, self.method)
         wizard.run()
-        group.refresh()
+        group.invalidate_recordset()
         self.assertEqual(group.authorization_status, "pending")
 
     def test_check_authorization_without(self):
