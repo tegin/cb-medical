@@ -140,9 +140,7 @@ class MedicalDocumentTypeLang(models.Model):
     _rec_name = "lang"
 
     document_type_id = fields.Many2one("medical.document.type", required=True)
-    text = fields.Html(
-        render_engine="qweb", translate=False, prefetch=True, sanitize=False
-    )
+    text = fields.Html(translate=False, prefetch=True, sanitize=False)
     model = fields.Char(compute="_compute_model")
 
     _sql_constraints = [
