@@ -145,7 +145,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
         self.assertEqual(item_1.private_price, 100)
         wiz = self.env["medical.agreement.change.prices"].create({"difference": 50.0})
         wiz.with_context(active_ids=[coverage_agreement.id]).change_prices()
-        item_1.refresh()
+        item_1.invalidate_recordset()
         self.assertEqual(item_1.coverage_price, 150)
         self.assertEqual(item_1.private_price, 150)
 
@@ -187,7 +187,7 @@ class TestMedicalCoverageAgreement(common.AgrementSavepointCase):
             )
         )
         action = wiz.expand()
-        item_1.refresh()
+        item_1.invalidate_recordset()
         self.assertEqual(item_1.coverage_price, 100)
         self.assertEqual(item_1.private_price, 100)
         new_agreement = self.env[action["res_model"]].browse(action["res_id"])

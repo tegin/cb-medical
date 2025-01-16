@@ -1,3 +1,10 @@
-odoo-addon-medical-workflow@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_workflow
+# medical-fhir
+odoo-addon-medical-administration-center@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_administration_center
+odoo-addon-medical-administration-location@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_administration_location
 odoo-addon-medical-base@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_base
+odoo-addon-medical-financial-coverage@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_financial_coverage
+odoo-addon-medical-workflow@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_workflow
+
+# cb-addons
+odoo-addon-product-nomenclature@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/product_nomenclature
 odoo-addon-remote-report-to-printer-label@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/remote_report_to_printer_label
