@@ -18,6 +18,7 @@
                     name="center"
                     string="Center"
                     attrs="{'invisible': [('is_center', '!=', True)]}"
+                    groups="medical_base.group_medical_user,medical_base.group_medical_user"
                 >
                     <group>
                         <group>
