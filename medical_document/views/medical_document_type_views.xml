@@ -29,8 +29,12 @@
                     <h2>
                         <field name="lang" readonly="1" />
                     </h2>
-                    <field name="text" options="{'style-inline': true}" />
+                    <field
+                        name="text"
+                        options="{'style-inline': true, 'codeview': true, 'dynamic_placeholder': true}"
+                    />
                     <field name="document_type_id" invisible="1" />
+                    <field name="model" invisible="1" />
                     <notebook invisible="1" />
                 </sheet>
             </form>

@@ -102,4 +102,11 @@
         <field name="view_mode">tree,form</field>
         <field name="context">{}</field>
     </record>
+    <record model="ir.ui.menu" id="medical_document_reference_menu">
+        <field name="name">Documents</field>
+        <field name="parent_id" ref="medical_base.medical_clinical_request" />
+        <field name="action" ref="medical_document_reference_action" />
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
+        <field name="sequence" eval="10" />
+    </record>
 </odoo>

@@ -53,7 +53,7 @@ class MedicalDocumentTemplate(models.Model):
             if not lang_id:
                 lang_id = self.lang_ids[0]
             return self.env["mail.template"]._render_template(
-                lang_id.text, model, [res_id], post_process=post_process
+                lang_id.text, model, [res_id], post_process=post_process, engine="qweb"
             )[res_id]
         raise UserError(_("Function must be defined"))
 
@@ -65,7 +65,7 @@ class MedicalDocumentTemplateLang(models.Model):
     _rec_name = "lang"
 
     document_template_id = fields.Many2one("medical.document.template", required=True)
-    text = fields.Html(sanitize=True)
+    text = fields.Html(translate=False, prefetch=True, sanitize=False)
 
     _sql_constraints = [
         (
