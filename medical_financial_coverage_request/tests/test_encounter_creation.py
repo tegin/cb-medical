@@ -1,10 +1,10 @@
-from mock import patch
+from unittest.mock import patch
 
 from odoo.exceptions import ValidationError
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestEncounterCreate(SavepointCase):
+class TestEncounterCreate(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
