@@ -7,9 +7,8 @@
         <field name="model">res.partner</field>
         <field
             name="inherit_id"
-            ref="medical_administration_practitioner.res_partner_view_form"
+            ref="medical_administration_practitioner_specialty.res_partner_view_form"
         />
-        <field name="groups_id" eval="[(4, ref('medical_base.group_medical_user'))]" />
         <field name="arch" type="xml">
             <field name="practitioner_role_ids" position="after">
                 <field
@@ -17,6 +16,7 @@
                     widget="many2many_tags"
                     options="{'no_create': True}"
                     attrs="{'invisible': [('is_practitioner','=',False)]}"
+                    groups="medical_base.group_medical_configurator"
                 />
             </field>
         </field>
@@ -26,14 +26,14 @@
         <field name="model">res.partner</field>
         <field
             name="inherit_id"
-            ref="medical_administration_practitioner.res_partner_view_form"
-        />
-        <field
-            name="groups_id"
-            eval="[(4, ref('medical_base.group_medical_configurator'))]"
+            ref="medical_administration_practitioner_specialty.res_partner_view_form"
         />
         <field name="arch" type="xml">
-            <field name="turn_specialty_ids" position="attributes">
+            <field
+                name="turn_specialty_ids"
+                position="attributes"
+                groups="medical_base.group_medical_configurator"
+            >
                 <attribute name="readonly">0</attribute>
             </field>
         </field>
