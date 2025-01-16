@@ -1,7 +1,7 @@
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class AgrementSavepointCase(SavepointCase):
+class AgrementSavepointCase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
