@@ -42,7 +42,7 @@ class AgrementSavepointCase(SavepointCase):
     def _create_user(cls, name, group_ids):
         return (
             cls.env["res.users"]
-            .with_context({"no_reset_password": True})
+            .with_context(**{"no_reset_password": True})
             .create(
                 {
                     "name": name,

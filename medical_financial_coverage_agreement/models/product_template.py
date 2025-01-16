@@ -9,7 +9,7 @@ class ProductTemplate(models.Model):
 
     include_zero_sales = fields.Boolean(default=False)
 
-    agreement_comment = fields.Text("Agreement Comment")
+    agreement_comment = fields.Text()
 
     def write(self, vals):
         res = super().write(vals)

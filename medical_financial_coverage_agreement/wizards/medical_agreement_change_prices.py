@@ -24,6 +24,8 @@ class MedicalAgreementChangePrices(models.TransientModel):
                     (item.total_price * self.difference) / 100
                 )
             agreement.message_post(
-                body=_("Prices have been changed by a %s &#037 by %s")
-                % (self.difference, self.env.user.display_name)
+                body=_(
+                    "Prices have been changed by a %(self.difference)s &#037 by "
+                    "%(self.env.user.display_name)s"
+                )
             )
