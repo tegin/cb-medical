@@ -4,7 +4,7 @@
 
 {
     "name": "CB Medical sequence configuration",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "Eficent, CreuBlanca",
     "depends": [
         "medical_administration_encounter_careplan",
@@ -29,5 +29,5 @@
     "license": "AGPL-3",
     "installable": True,
     "auto_install": False,
-    "external_dependencies": {"python": ["numpy", "pandas", "bokeh==2.3.1"]},
+    "external_dependencies": {"python": ["numpy", "pandas", "bokeh==3.1.1"]},
 }
