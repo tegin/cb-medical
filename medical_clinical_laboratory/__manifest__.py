@@ -4,7 +4,7 @@
 
 {
     "name": "Medical Laboratory",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "Eficent, CreuBlanca",
     "depends": ["medical_workflow", "medical_base"],
     "data": [
