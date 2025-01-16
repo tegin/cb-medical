@@ -1,10 +1,10 @@
 from unittest.mock import patch
 
 from odoo.exceptions import ValidationError
-from odoo.tests.common import Form, SavepointCase
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestDocument(SavepointCase):
+class TestDocument(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
