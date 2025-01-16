@@ -19,11 +19,10 @@ class TestSignStorage(TransactionCase):
         )
         action = self.user_id.update_signature()
         file = tools.file_open(
-            "icon.png",
+            "addons/medical_signature_storage/static/description/icon.png",
             mode="rb",
-            subdir="addons/medical_signature_storage/static/description",
         ).read()
-        self.env[action["res_model"]].with_context(action["context"]).create(
+        self.env[action["res_model"]].with_context(**action["context"]).create(
             {"option": "signature", "signature": file}
         ).update_signature()
         self.assertTrue(self.user_id.current_signature_id)
@@ -33,7 +32,7 @@ class TestSignStorage(TransactionCase):
         )
         self.assertEqual(1, len(initial_signature))
         self.assertEqual(initial_signature, self.user_id.current_signature_id)
-        self.env[action["res_model"]].with_context(action["context"]).create(
+        self.env[action["res_model"]].with_context(**action["context"]).create(
             {
                 "option": "file",
                 "signature_file": file,
@@ -48,7 +47,7 @@ class TestSignStorage(TransactionCase):
         self.assertIn(initial_signature, historic_signatures)
         current_signature = historic_signatures - initial_signature
         self.assertEqual(current_signature, self.user_id.current_signature_id)
-        self.env[action["res_model"]].with_context(action["context"]).create(
+        self.env[action["res_model"]].with_context(**action["context"]).create(
             {"option": "clear"}
         ).update_signature()
         historic_signatures = self.env["res.users.signature"].search(
