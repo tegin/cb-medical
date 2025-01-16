@@ -1,3 +1,5 @@
 # generated from manifests external_dependencies
+bokeh==2.3.1
+numpy
 openpyxl
 pandas
