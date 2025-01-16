@@ -1,4 +1,4 @@
-from mock import patch
+from unittest.mock import patch
 
 from odoo.exceptions import ValidationError
 from odoo.tests.common import Form, SavepointCase
@@ -47,7 +47,7 @@ class TestDocument(SavepointCase):
                         0,
                         {
                             "lang": cls.lang_en.code,
-                            "text": "<p>%s</p><p>{{object.patient_id.name}}"
+                            "text": "<p>%s</p><p><t t-out='object.patient_id.name'/>"
                             "</p>" % cls.lang_en.code,
                         },
                     ),
@@ -56,7 +56,7 @@ class TestDocument(SavepointCase):
                         0,
                         {
                             "lang": cls.lang_es.code,
-                            "text": "<p>%s</p><p>{{object.patient_id.name}}"
+                            "text": "<p>%s</p><p><t t-out='object.patient_id.name'/>"
                             "</p>" % cls.lang_es.code,
                         },
                     ),
