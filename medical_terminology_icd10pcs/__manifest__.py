@@ -5,7 +5,7 @@
 {
     "name": "Medical ICD-10-PCS Codification",
     "summary": "Medical codification base",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "CreuBlanca, Eficent",
     "category": "Medical",
     "website": "https://github.com/tegin/cb-medical",
