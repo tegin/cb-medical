@@ -5,7 +5,7 @@
 {
     "name": "Medical Authorization",
     "summary": "Medical financial coverage request",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "CreuBlanca, Eficent",
     "website": "https://github.com/tegin/cb-medical",
     "license": "AGPL-3",
