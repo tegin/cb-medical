@@ -156,20 +156,20 @@ class TestCB(TransactionCase):
         self.env["medical.request.group.check.authorization"].with_context(
             default_request_group_id=group.id
         ).create({"authorization_number": "1234"}).run()
-        group.refresh()
+        group.invalidate_recordset()
         self.assertEqual(group.authorization_status, "pending")
         self.env["medical.request.group.check.authorization"].with_context(
             default_request_group_id=group.id
         ).create({"authorization_number": "1234a"}).run()
-        group.refresh()
+        group.invalidate_recordset()
         self.assertEqual(group.authorization_status, "pending")
         self.env["medical.request.group.check.authorization"].with_context(
             default_request_group_id=group.id
         ).create({"authorization_checked": True}).run()
-        group.refresh()
+        group.invalidate_recordset()
         self.assertEqual(group.authorization_status, "authorized")
         self.env["medical.request.group.check.authorization"].with_context(
             default_request_group_id=group.id
         ).create({"authorization_checked": False}).run()
-        group.refresh()
+        group.invalidate_recordset()
         self.assertEqual(group.authorization_status, "pending")
