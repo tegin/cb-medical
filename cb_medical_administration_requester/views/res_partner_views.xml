@@ -10,7 +10,6 @@
         <field name="name">res.partner.view.form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="medical_base.res_partner_view_form" />
-        <field name="groups_id" eval="[(4, ref('medical_base.group_medical_user'))]" />
         <field name="arch" type="xml">
             <xpath
                 expr="//field[@name='child_ids']//form//field[@name='parent_id']"
@@ -19,12 +18,13 @@
                 <field name="is_requester" invisible="1" />
             </xpath>
             <field name="is_medical" position="before">
-                <field name="is_requester" />
+                <field name="is_requester" groups="medical_base.group_medical_user" />
             </field>
             <field name="vat" position="after">
                 <field
                     name="college_number"
                     attrs="{'invisible': [('is_requester','=',False), ('is_practitioner', '=', False)]}"
+                    groups="medical_base.group_medical_user"
                 />
             </field>
         </field>
