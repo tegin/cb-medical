@@ -3,7 +3,7 @@
 
 {
     "name": "CB Medical Requester",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "category": "CB",
     "website": "https://github.com/tegin/cb-medical",
     "author": "CreuBlanca",
@@ -12,7 +12,7 @@
     "application": False,
     "summary": "CB medical location data",
     "depends": [
-        "medical_administration_practitioner",
+        "medical_base",
         "medical_workflow",
         "medical_clinical_careplan",
     ],
