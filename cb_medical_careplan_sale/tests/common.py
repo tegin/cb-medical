@@ -516,6 +516,7 @@ class MedicalSavePointCase(TransactionCase):
         )
         group.ensure_one()
         group.invalidate_recordset()
+        careplan.invalidate_recordset()
         self.assertEqual(group.center_id, encounter.center_id)
         return encounter, careplan, group
 
