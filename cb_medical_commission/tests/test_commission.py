@@ -194,7 +194,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             self.assertEqual(sale_order.patient_name, original_patient_name)
             sale_order.recompute_lines_agents()
             self.assertGreater(sale_order.commission_total, 0)
-            sale_order.flush()
+            sale_order.flush_recordset()
         preinvoice_obj = self.env["sale.preinvoice.group"]
         self.assertFalse(
             preinvoice_obj.search([("agreement_id", "=", self.agreement.id)])
@@ -296,7 +296,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         # Test invoice unlink
         for invoice in invoices:
             self.assertEqual(invoice.state, "draft")
-            invoice.line_ids.unlink()
+            invoice.invoice_line_ids.unlink()
         for sale_order in encounter.sale_order_ids:
             for line in sale_order.order_line:
                 self.assertFalse(line.preinvoice_group_id)
@@ -374,21 +374,23 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 self.assertEqual(request.center_id, encounter.center_id)
                 procedure = request.generate_event()
                 procedure.performer_id = self.practitioner_02
-            encounter.refresh()
+            encounter.invalidate_recordset()
             encounter.recompute_commissions()
-            encounter.refresh()
+            encounter.invalidate_recordset()
             for line in encounter.sale_order_ids.mapped("order_line"):
                 self.assertTrue(line.agent_ids)
+                self.assertFalse(line.agent_ids.settled)
         # Settle the payments
-        wizard = self.env["sale.commission.no.invoice.make.settle"].create(
+        wizard = self.env["commission.make.settle"].create(
             {
                 "date_to": (
                     fields.Datetime.from_string(fields.Datetime.now())
                     + relativedelta(months=1)
-                )
+                ),
+                "settlement_type": "sale_no_invoice",
             }
         )
-        settlements = self.env["sale.commission.settlement"].browse(
+        settlements = self.env["commission.settlement"].browse(
             wizard.action_settle()["domain"][0][2]
         )
         self.assertTrue(settlements)
@@ -437,7 +439,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
                 self.assertFalse(line.agent_ids)
             sale_orders |= sale_order
             encounters |= encounter
-            sale_order.flush()
+            sale_order.flush_recordset()
         action = (
             self.env["invoice.sales.by.group"]
             .create(
@@ -470,7 +472,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         for sale_order in sale_orders:
             self.assertTrue(sale_order.invoice_status == "invoiced")
         for encounter in encounters:
-            for request in encounter.careplan_ids.mapped("procedure_request_ids"):
+            for request in encounter.careplan_ids.procedure_request_ids:
                 request.draft2active()
                 self.assertEqual(request.center_id, encounter.center_id)
                 procedure = request.generate_event()
@@ -479,10 +481,13 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             for line in encounter.sale_order_ids.mapped("order_line"):
                 self.assertTrue(line.agent_ids)
         # Settle the payments
-        wizard = self.env["sale.commission.make.settle"].create(
-            {"date_to": fields.Datetime.now() + relativedelta(months=1)}
+        wizard = self.env["commission.make.settle"].create(
+            {
+                "date_to": fields.Datetime.now() + relativedelta(months=1),
+                "settlement_type": "sale_invoice",
+            }
         )
-        settlements = self.env["sale.commission.settlement"].browse(
+        settlements = self.env["commission.settlement"].browse(
             wizard.action_settle()["domain"][0][2]
         )
         self.assertTrue(settlements)
@@ -536,7 +541,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertEqual(event.performer_id, self.practitioner_01)
         encounter.create_sale_order()
         encounter.recompute_commissions()
-        encounter.refresh()
+        encounter.invalidate_recordset()
         self.assertTrue(
             encounter.sale_order_ids.mapped("order_line").filtered(
                 lambda r: r.medical_model == "medical.laboratory.event"

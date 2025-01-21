@@ -1,16 +1,21 @@
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo import api, fields, models
 
 
-class SettlementLine(models.Model):
-    _inherit = "sale.commission.settlement.line"
+class CommissionSettlement(models.Model):
+    _inherit = "commission.settlement"
 
-    agent_sale_line = fields.Many2many(
+    settlement_type = fields.Selection(
+        selection_add=[("sale_no_invoice", "Sales With No Invoices")],
+        ondelete={"sale_no_invoice": "set default"},
+    )
+
+
+class CommissionSettlementLine(models.Model):
+    _inherit = "commission.settlement.line"
+
+    sale_agent_line_id = fields.Many2one(
         comodel_name="sale.order.line.agent",
-        relation="settlement_agent_sale_line_rel",
-        column1="settlement_id",
-        column2="agent_sale_line_id",
-        required=True,
+        index=True,
     )
     settled_amount = fields.Float(
         related=False,
@@ -18,17 +23,9 @@ class SettlementLine(models.Model):
         store=True,
     )
 
-    @api.depends("agent_line.amount", "agent_sale_line.amount")
+    @api.depends("invoice_agent_line_id.amount", "sale_agent_line_id.amount")
     def _compute_settled_amount(self):
         for record in self:
-            record.settled_amount = sum(
-                record.agent_line.mapped("amount")
-                + record.agent_sale_line.mapped("amount")
+            record.settled_amount = (
+                record.invoice_agent_line_id.amount + record.sale_agent_line_id.amount
             )
-
-    @api.constrains("settlement_id", "agent_line", "agent_sale_line")
-    def _check_company(self):
-        super(SettlementLine, self.filtered(lambda r: r.agent_line))._check_company()
-        for rec in self.filtered(lambda r: r.agent_sale_line):
-            if rec.agent_sale_line.company_id != rec.company_id:
-                raise UserError(_("Company must be the same"))

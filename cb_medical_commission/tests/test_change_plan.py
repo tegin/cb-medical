@@ -230,7 +230,7 @@ class TestCB(TransactionCase):
         self.plan_definition.is_breakdown = False
         self.plan_definition.is_billable = True
         encounter, careplan, group = self.create_careplan_and_group()
-        group.refresh()
+        group.invalidate_recordset()
         requests = group.procedure_request_ids.filtered(
             lambda r: r.fhir_state == "draft"
         )

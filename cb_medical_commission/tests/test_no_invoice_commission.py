@@ -7,7 +7,7 @@ from odoo.tests.common import TransactionCase
 class TestNoInvoiceCommission(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.commission = self.env["sale.commission"].create(
+        self.commission = self.env["commission"].create(
             {
                 "name": "10% fixed commission (Net amount) - Invoice Based",
                 "fix_qty": 10.0,
@@ -61,10 +61,13 @@ class TestNoInvoiceCommission(TransactionCase):
         self.assertTrue(sale_order.order_line.agent_ids.settled)
         sale_order.action_confirm()
         self.assertFalse(sale_order.order_line.agent_ids.settled)
-        wizard = self.env["sale.commission.no.invoice.make.settle"].create(
-            {"date_to": fields.Datetime.now() + relativedelta(months=1)}
+        wizard = self.env["commission.make.settle"].create(
+            {
+                "date_to": fields.Datetime.now() + relativedelta(months=1),
+                "settlement_type": "sale_no_invoice",
+            }
         )
-        settlements = self.env["sale.commission.settlement"].browse(
+        settlements = self.env["commission.settlement"].browse(
             wizard.action_settle()["domain"][0][2]
         )
         self.assertTrue(settlements)
@@ -101,12 +104,13 @@ class TestNoInvoiceCommission(TransactionCase):
         self.assertTrue(sale_order.order_line.agent_ids.settled)
         sale_order.action_confirm()
         self.assertTrue(sale_order.order_line.agent_ids.settled)
-        wizard = self.env["sale.commission.no.invoice.make.settle"].create(
+        wizard = self.env["commission.make.settle"].create(
             {
                 "date_to": (
                     fields.Datetime.from_string(fields.Datetime.now())
                     + relativedelta(months=1)
-                )
+                ),
+                "settlement_type": "sale_no_invoice",
             }
         )
-        self.assertNotIn("domain", wizard.action_settle())
+        self.assertFalse(wizard.action_settle())

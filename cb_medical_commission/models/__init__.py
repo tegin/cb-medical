@@ -3,6 +3,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from . import account_move
+from . import commission
+from . import commission_mixin
 from . import medical_commission_action
 from . import medical_encounter
 from . import medical_event
