@@ -2,7 +2,7 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from mock import patch
+from unittest.mock import patch
 
 from odoo.exceptions import ValidationError
 from odoo.tests.common import Form
@@ -171,7 +171,7 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertTrue(encounter.sale_order_ids)
         sale_order = encounter.sale_order_ids
         self.assertEqual(encounter.sale_order_count, 1)
-        group.refresh()
+        group.invalidate_recordset()
         self.assertTrue(group.sale_order_line_ids)
         self.assertEqual(group.sale_order_line_count, 1)
         self.assertEqual(sale_order.patient_name, "Patient 01")
@@ -179,10 +179,10 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertEqual(sale_order.amount_total, 50)
         self.assertEqual(sale_order.order_line.discount, 50)
         sale_order.patient_name = "OTHER NAME"
-        sale_order.flush()
+        sale_order.flush_recordset()
         self.assertEqual(sale_order.order_line.patient_name, "OTHER NAME")
         sale_order.order_line.patient_name = "Patient 01"
-        sale_order.order_line.flush()
+        sale_order.order_line.flush_recordset()
         self.assertEqual(sale_order.patient_name, "Patient 01")
         self.assertEqual(encounter.invoice_count, 0)
         sale_order.action_confirm()
@@ -215,7 +215,7 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertTrue(encounter.sale_order_ids)
         sale_order = encounter.sale_order_ids
         self.assertEqual(encounter.sale_order_count, 1)
-        group.refresh()
+        group.invalidate_recordset()
         self.assertTrue(group.sale_order_line_ids)
         self.assertEqual(group.sale_order_line_count, 1)
         self.assertEqual(sale_order.amount_total, 100)
@@ -248,7 +248,7 @@ class TestCBSale(common.MedicalSavePointCase):
         encounter = self.env["medical.encounter"].browse(encounter_action["res_id"])
         self.assertTrue(encounter)
         self.assertTrue(encounter.careplan_ids)
-        encounter.careplan_ids.refresh()
+        encounter.careplan_ids.invalidate_recordset()
         self.assertTrue(encounter.careplan_ids.request_group_ids)
 
     def test_careplan_add_function_02(self):
@@ -266,7 +266,7 @@ class TestCBSale(common.MedicalSavePointCase):
         encounter = self.env["medical.encounter"].browse(encounter_action["res_id"])
         self.assertTrue(encounter)
         self.assertTrue(encounter.careplan_ids)
-        encounter.careplan_ids.refresh()
+        encounter.careplan_ids.invalidate_recordset()
         self.assertTrue(encounter.careplan_ids.request_group_ids)
 
     def test_careplan_add_function_sub_payor(self):
@@ -285,7 +285,7 @@ class TestCBSale(common.MedicalSavePointCase):
         encounter = self.env["medical.encounter"].browse(encounter_action["res_id"])
         self.assertTrue(encounter)
         self.assertTrue(encounter.careplan_ids)
-        encounter.careplan_ids.refresh()
+        encounter.careplan_ids.invalidate_recordset()
         self.assertEqual(encounter.careplan_ids.sub_payor_id, self.sub_payor)
         self.assertEqual(
             encounter.careplan_ids.request_group_ids.sub_payor_id,
@@ -311,7 +311,7 @@ class TestCBSale(common.MedicalSavePointCase):
         encounter = self.env["medical.encounter"].browse(encounter_action["res_id"])
         self.assertTrue(encounter)
         self.assertTrue(encounter.careplan_ids)
-        encounter.careplan_ids.refresh()
+        encounter.careplan_ids.invalidate_recordset()
         self.assertEqual(encounter.careplan_ids.sub_payor_id, self.sub_payor)
         self.assertEqual(
             encounter.careplan_ids.request_group_ids.order_by_id,
@@ -385,7 +385,7 @@ class TestCBSale(common.MedicalSavePointCase):
         encounter = self.env["medical.encounter"].browse(encounter_action["res_id"])
         self.assertTrue(encounter)
         self.assertTrue(encounter.careplan_ids)
-        encounter.careplan_ids.refresh()
+        encounter.careplan_ids.invalidate_recordset()
         with self.assertRaises(ValidationError):
             encounter.careplan_ids.request_group_ids.breakdown()
 
@@ -406,7 +406,7 @@ class TestCBSale(common.MedicalSavePointCase):
         self.assertTrue(encounter)
         self.assertTrue(encounter.careplan_ids)
         encounter.create_sale_order()
-        encounter.careplan_ids.refresh()
+        encounter.careplan_ids.invalidate_recordset()
         with self.assertRaises(ValidationError):
             encounter.careplan_ids.request_group_ids.breakdown()
 
@@ -426,7 +426,7 @@ class TestCBSale(common.MedicalSavePointCase):
         encounter = self.env["medical.encounter"].browse(encounter_action["res_id"])
         self.assertTrue(encounter)
         self.assertTrue(encounter.careplan_ids)
-        encounter.careplan_ids.refresh()
+        encounter.careplan_ids.invalidate_recordset()
         with self.assertRaises(ValidationError):
             encounter.careplan_ids.request_group_ids.breakdown()
 
@@ -460,7 +460,7 @@ class TestCBSale(common.MedicalSavePointCase):
         encounter = self.env["medical.encounter"].browse(encounter_action["res_id"])
         self.assertTrue(encounter)
         self.assertTrue(encounter.careplan_ids)
-        encounter.careplan_ids.refresh()
+        encounter.careplan_ids.invalidate_recordset()
         encounter.careplan_ids.request_group_ids.breakdown()
 
     def test_careplan_add_wizard(self):
@@ -549,7 +549,7 @@ class TestCBSale(common.MedicalSavePointCase):
             }
         )
         encounter.create_sale_order()
-        encounter.refresh()
+        encounter.invalidate_recordset()
         self.assertTrue(
             encounter.sale_order_ids.mapped("order_line").filtered(
                 lambda r: r.medical_model == "medical.laboratory.event"
@@ -616,6 +616,7 @@ class TestCBSale(common.MedicalSavePointCase):
         self.plan_definition.is_billable = True
         self.patient_01.lang = self.lang_en.code
         encounter, careplan, group = self.create_careplan_and_group(self.agreement_line)
+        careplan.invalidate_recordset()
         self.assertTrue(careplan.document_reference_ids)
         self.assertTrue(group.document_reference_ids)
         action = group.with_context(

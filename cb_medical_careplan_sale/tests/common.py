@@ -1,10 +1,10 @@
 # Copyright 2017 Creu Blanca
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class MedicalSavePointCase(SavepointCase):
+class MedicalSavePointCase(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -63,7 +63,7 @@ class MedicalSavePointCase(SavepointCase):
                 "company_id": self.company.id,
                 "code": "ThirdPartyCust",
                 "name": "Third party customer account",
-                "user_type_id": self.env.ref("account.data_account_type_receivable").id,
+                "account_type": "asset_receivable",
                 "reconcile": True,
             }
         )
@@ -72,7 +72,7 @@ class MedicalSavePointCase(SavepointCase):
                 "company_id": self.company.id,
                 "code": "ThirdPartySupp",
                 "name": "Third party supplier account",
-                "user_type_id": self.env.ref("account.data_account_type_payable").id,
+                "account_type": "liability_payable",
                 "reconcile": True,
             }
         )
@@ -415,7 +415,7 @@ class MedicalSavePointCase(SavepointCase):
                 "code": "5720SBC",
                 "company_id": self.company.id,
                 "currency_id": self.company.currency_id.id,
-                "user_type_id": self.env.ref("account.data_account_type_liquidity").id,
+                "account_type": "asset_cash",
             }
         )
         self.bank_account = self.env["account.account"].create(
@@ -424,7 +424,7 @@ class MedicalSavePointCase(SavepointCase):
                 "code": "5720BNK",
                 "company_id": self.company.id,
                 "currency_id": self.company.currency_id.id,
-                "user_type_id": self.env.ref("account.data_account_type_liquidity").id,
+                "account_type": "asset_cash",
             }
         )
         self.cash_account = self.env["account.account"].create(
@@ -433,7 +433,7 @@ class MedicalSavePointCase(SavepointCase):
                 "code": "572CSH",
                 "company_id": self.company.id,
                 "currency_id": self.company.currency_id.id,
-                "user_type_id": self.env.ref("account.data_account_type_liquidity").id,
+                "account_type": "asset_cash",
             }
         )
         self.reina = self.env["res.partner"].create(
@@ -515,7 +515,7 @@ class MedicalSavePointCase(SavepointCase):
             ]
         )
         group.ensure_one()
-        group.refresh()
+        group.invalidate_recordset()
         self.assertEqual(group.center_id, encounter.center_id)
         return encounter, careplan, group
 

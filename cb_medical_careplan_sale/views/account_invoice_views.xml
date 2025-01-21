@@ -14,7 +14,7 @@
                 <field name="authorization_number" />
             </xpath>
             <xpath
-                expr="//field[@name='line_ids']/tree/field[@name='product_id']"
+                expr="//field[@name='line_ids']/tree/field[@name='account_id']"
                 position="after"
             >
                 <field name="patient_name" />
@@ -28,7 +28,7 @@
                 <field name="encounter_id" />
             </xpath>
             <xpath
-                expr="//group[@id='other_tab_group']//field[@name='invoice_origin']"
+                expr="//group[@id='other_tab_group']//field[@name='ref']"
                 position="after"
             >
                 <field name="encounter_id" />

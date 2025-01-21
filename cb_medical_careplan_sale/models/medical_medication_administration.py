@@ -10,11 +10,12 @@ class MedicalMedicationAdministration(models.Model):
 
     amount = fields.Float()
 
-    @api.model
-    def create(self, vals):
-        if "amount" not in vals:
-            vals["amount"] = (
-                self.env["product.product"].browse(vals["product_id"]).list_price
-                * vals["qty"]
-            )
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, mvals):
+        for vals in mvals:
+            if "amount" not in vals:
+                vals["amount"] = (
+                    self.env["product.product"].browse(vals["product_id"]).list_price
+                    * vals["qty"]
+                )
+        return super().create(mvals)

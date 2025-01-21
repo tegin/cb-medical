@@ -42,7 +42,7 @@ class ResPartner(models.Model):
         return result
 
     def _check_medical(self, mode="write"):
-        super()._check_medical(mode=mode)
+        res = super()._check_medical(mode=mode)
         if (
             self.is_sub_payor
             and mode != "read"
@@ -60,3 +60,4 @@ class ResPartner(models.Model):
                     mode=mode,
                 )
             )
+        return res

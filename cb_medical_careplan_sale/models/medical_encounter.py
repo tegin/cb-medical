@@ -105,7 +105,6 @@ class MedicalEncounter(models.Model):
             order = (
                 self.env["sale.order"].with_company(vals.get("company_id")).create(vals)
             )
-            order.onchange_partner_id()
         order.ensure_one()
         order.with_company(order.company_id.id).write(
             {"order_line": [(0, 0, order_line) for order_line in order_lines]}
