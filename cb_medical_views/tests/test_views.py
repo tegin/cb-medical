@@ -77,7 +77,7 @@ class TestCBSale(common.MedicalSavePointCase):
         )
         self.coverage_01.name = "COVERAGE NAME"
         self.assertEqual(self.coverage_01.display_name, "COVERAGE NAME")
-        self.coverage_01.refresh()
+        self.coverage_01.invalidate_recordset()
         self.coverage_01.subscriber_id = "1234"
         self.assertEqual(self.coverage_01.display_name, "1234")
 

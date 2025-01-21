@@ -8,7 +8,7 @@
             <field name="user_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
-            <button name="preview_sale_order" position="attributes">
+            <button name="action_preview_sale_order" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
         </field>
