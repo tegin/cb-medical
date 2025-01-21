@@ -63,7 +63,7 @@
             </kanban>
         </field>
     </record>
-    <record model="ir.ui.view" id="medical_encounter_tree_hide_create">
+    <!-- <record model="ir.ui.view" id="medical_encounter_tree_hide_create">
         <field name="name">medical.encounter.tree.hide</field>
         <field name="model">medical.encounter</field>
         <field
@@ -75,8 +75,8 @@
                 <attribute name="create">false</attribute>
             </tree>
         </field>
-    </record>
-    <record model="ir.ui.view" id="medical_encounter_tree_show_create">
+    </record> -->
+    <!-- <record model="ir.ui.view" id="medical_encounter_tree_show_create">
         <field name="name">medical.encounter.tree.create</field>
         <field name="model">medical.encounter</field>
         <field
@@ -92,8 +92,8 @@
                 <attribute name="create">true</attribute>
             </tree>
         </field>
-    </record>
-    <record model="ir.ui.view" id="medical_encounter_form_hide_create">
+    </record> -->
+    <!-- <record model="ir.ui.view" id="medical_encounter_form_hide_create">
         <field name="name">medical.encounter.form.hide</field>
         <field name="model">medical.encounter</field>
         <field
@@ -105,8 +105,8 @@
                 <attribute name="create">false</attribute>
             </form>
         </field>
-    </record>
-    <record model="ir.ui.view" id="medical_encounter_form_show_create">
+    </record> -->
+    <!-- <record model="ir.ui.view" id="medical_encounter_form_show_create">
         <field name="name">medical.encounter.form.create</field>
         <field name="model">medical.encounter</field>
         <field name="inherit_id" ref="medical_encounter_form_hide_create" />
@@ -119,7 +119,7 @@
                 <attribute name="create">true</attribute>
             </form>
         </field>
-    </record>
+    </record> -->
     <record
         model="ir.actions.act_window"
         id="medical_administration_encounter.medical_encounter_action"
