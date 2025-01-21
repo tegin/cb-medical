@@ -4,7 +4,7 @@
 
 {
     "name": "CB Medical Quote",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "Eficent, CreuBlanca",
     "depends": ["cb_medical_careplan_sale", "base_comment_template"],
     "category": "Medical",

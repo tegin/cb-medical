@@ -11,6 +11,7 @@
                     name="group_description_quote"
                 >
                     <field
+                        colspan="2"
                         name="description_quote"
                         nolabel="1"
                         placeholder="This note will show up on medical quotes."

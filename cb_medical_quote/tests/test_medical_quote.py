@@ -150,7 +150,7 @@ class TestMedicalQuote(TransactionCase):
 
     def test_onchange_medical_quote(self):
         comment_template = self.env["base.comment.template"].create(
-            {"name": "Comment", "text": "Text"}
+            {"name": "Comment", "text": "Text", "models": ""}
         )
         payor_2 = self._create_payor()
         coverage_template_2 = self._create_coverage_template(payor=payor_2.id)
