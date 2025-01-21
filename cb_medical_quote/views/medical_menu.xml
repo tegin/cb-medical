@@ -14,13 +14,6 @@
         groups="medical_base.group_medical_user"
     />
     <menuitem
-        name="Document Comments"
-        id="menu_base_comment_template_medical_quote"
-        action="base_comment_template.action_base_comment_template"
-        groups="medical_base.group_medical_user"
-        parent="medical_base.medical_root_configuration"
-    />
-    <menuitem
         action="medical_quote_report_configuration_action"
         id="medical_quote_report_configuration"
         groups="medical_base.group_medical_user"
