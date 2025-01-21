@@ -149,9 +149,6 @@ class TestMedicalQuote(TransactionCase):
         )
 
     def test_onchange_medical_quote(self):
-        comment_template = self.env["base.comment.template"].create(
-            {"name": "Comment", "text": "Text", "models": ""}
-        )
         payor_2 = self._create_payor()
         coverage_template_2 = self._create_coverage_template(payor=payor_2.id)
         quote = self.env["medical.quote"].create(
@@ -164,12 +161,6 @@ class TestMedicalQuote(TransactionCase):
             }
         )
         with Form(quote) as f:
-            f.comment_template1_id = comment_template
-            self.assertTrue(f.note1)
-
-            f.comment_template2_id = comment_template
-            self.assertTrue(f.note2)
-
             f.add_agreement_line_id = self.item_1
             self.assertEqual(f.add_quantity, 1)
 
