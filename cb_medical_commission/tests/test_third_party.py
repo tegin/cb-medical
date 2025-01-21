@@ -70,7 +70,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
             [("careplan_id", "=", careplan.id)]
         )
         group.ensure_one()
-        group.refresh()
+        group.invalidate_recordset()
         self.assertEqual(group.center_id, encounter.center_id)
         self.assertEqual(group.performer_id, self.practitioner_01)
         self.assertEqual(len(group.procedure_request_ids.ids), 2)
@@ -112,8 +112,8 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertTrue(sale_order.third_party_partner_id, self.practitioner_02)
         encounter.sale_order_ids.action_confirm()
         with self.assertRaises(UserError):
-            encounter.sale_order_ids.with_context(
-                active_model=encounter.sale_order_ids._name
+            sale_order.with_context(
+                active_model=sale_order._name,
             )._create_invoices()
 
     def test_preinvoice_third_party(self):

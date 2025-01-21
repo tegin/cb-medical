@@ -24,7 +24,7 @@ class AccountMoveLine(models.Model):
     @api.depends("move_id.partner_id")
     def _compute_agent_ids(self):
         if self.env.context.get("original_compute_agent_ids"):
-            super(AccountMoveLine, self)._compute_agent_ids()
+            return super(AccountMoveLine, self)._compute_agent_ids()
         else:
             for record in self:
                 record.agent_ids = record.agent_ids

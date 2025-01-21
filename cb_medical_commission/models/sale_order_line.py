@@ -68,11 +68,9 @@ class SaleOrderLineAgent(models.Model):
     )
     is_cancel = fields.Boolean(default=False, required=True, readonly=True)
     can_cancel = fields.Boolean(compute="_compute_can_cancel", store=True)
-    agent_sale_line = fields.Many2many(
-        comodel_name="sale.commission.settlement.line",
-        relation="settlement_agent_sale_line_rel",
-        column1="agent_sale_line_id",
-        column2="settlement_id",
+    agent_sale_line = fields.One2many(
+        comodel_name="commission.settlement.line",
+        inverse_name="sale_agent_line_id",
         copy=False,
     )
     settled = fields.Boolean(compute="_compute_settled", store=True, copy=False)
@@ -83,9 +81,9 @@ class SaleOrderLineAgent(models.Model):
         store=True,
         readonly=True,
     )
-    date = fields.Datetime(
+    invoice_date = fields.Date(
         string="Date",
-        related="object_id.order_id.date_order",
+        compute="_compute_invoice_date",
         store=True,
         readonly=True,
     )
@@ -96,26 +94,25 @@ class SaleOrderLineAgent(models.Model):
         readonly=True,
         copy=False,
     )
+    amount = fields.Monetary(recursive=True)
 
-    @classmethod
-    def _build_model_attributes(cls, pool):
-        res = super()._build_model_attributes(pool)
-        constraints = []
-        for (key, definition, message) in cls._sql_constraints:
-            if key in ["unique_agent"]:
-                constraints.append(
-                    (
-                        key,
-                        "UNIQUE(object_id, agent_id, parent_agent_line_id, "
-                        "is_cancel, procedure_id, laboratory_event_id, "
-                        "laboratory_request_id)",
-                        message,
-                    )
-                )
-            else:
-                constraints.append((key, definition, message))
-        cls._sql_constraints = constraints
-        return res
+    _sql_constraints = [
+        (
+            "unique_agent",
+            "UNIQUE(object_id, agent_id, parent_agent_line_id, "
+            "is_cancel, procedure_id, laboratory_event_id, "
+            "laboratory_request_id)",
+            "You can only add one time each agent.",
+        )
+    ]
+
+    @api.depends("object_id.order_id.date_order")
+    def _compute_invoice_date(self):
+        for record in self:
+            record.invoice_date = record.object_id.order_id.date_order
+
+    def _skip_settlement(self):
+        return False
 
     @api.depends(
         "agent_sale_line",
