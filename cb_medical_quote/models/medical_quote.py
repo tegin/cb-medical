@@ -32,7 +32,7 @@ class MedicalQuote(models.Model):
     validity_date = fields.Date(
         "Expiry Date", readonly=True, states={"draft": [("readonly", False)]}
     )
-    confirmation_date = fields.Date("Confirmation Date", readonly=True)
+    confirmation_date = fields.Date(readonly=True)
     user_id = fields.Many2one(
         "res.users",
         string="Salesperson",
@@ -96,12 +96,11 @@ class MedicalQuote(models.Model):
         states={"draft": [("readonly", False)]},
     )
     add_quantity = fields.Float(
-        "Add Quantity",
         readonly=True,
         states={"draft": [("readonly", False)]},
         default=1,
     )
-    amount = fields.Float("Amount", compute="_compute_amount", store=True)
+    amount = fields.Float(compute="_compute_amount", store=True)
     currency_id = fields.Many2one(
         "res.currency", readonly=True, related="company_id.currency_id"
     )
@@ -385,7 +384,7 @@ class MedicalQuoteLine(models.Model):
         readonly=True,
     )
     description = fields.Text()
-    quantity = fields.Float("Quantity")
+    quantity = fields.Float()
     categ_id = fields.Many2one(
         comodel_name="product.category",
         string="Category",
@@ -417,8 +416,8 @@ class MedicalQuoteLine(models.Model):
         store=True,
     )
     is_private = fields.Boolean(related="quote_id.is_private", readonly=True)
-    price = fields.Float(string="Price")
-    amount = fields.Float(string="Amount", compute="_compute_amount", readonly=True)
+    price = fields.Float()
+    amount = fields.Float(compute="_compute_amount", readonly=True)
     layout_category_id = fields.Many2one(
         "medical.quote.layout_category", string="Section"
     )
