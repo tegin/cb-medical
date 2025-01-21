@@ -184,7 +184,7 @@ class TestCBSale(common.MedicalSavePointCase):
         # Test invoice unlink
         for invoice in invoices:
             self.assertEqual(invoice.state, "draft")
-            invoice.line_ids.unlink()
+            invoice.invoice_line_ids.unlink()
         for sale_order in encounter.sale_order_ids:
             for line in sale_order.order_line:
                 self.assertFalse(line.preinvoice_group_id)
