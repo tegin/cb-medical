@@ -147,7 +147,7 @@ class TestCBInvoicing(common.MedicalSavePointCase):
             sale_order = encounter.sale_order_ids
             self.assertFalse(sale_order.third_party_order)
             sale_orders |= sale_order
-            sale_order.flush()
+            sale_order.flush_recordset()
         action = (
             self.env["invoice.sales.by.group"]
             .create(

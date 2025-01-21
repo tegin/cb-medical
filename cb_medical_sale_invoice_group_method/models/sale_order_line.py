@@ -16,7 +16,7 @@ class SaleOrderLine(models.Model):
         related="preinvoice_group_id.state", readonly=True
     )
     is_validated = fields.Boolean()
-    sequence = fields.Integer(string="Sequence", default="999999")
+    sequence = fields.Integer(default="999999")
 
     def validate_line(self):
         self.ensure_one()
@@ -36,7 +36,8 @@ class SaleOrderLine(models.Model):
         "invoice_group_method_id.invoice_by_preinvoice",
         "invoice_group_method_id.no_invoice",
     )
-    def _get_to_invoice_qty(self):
+    # pylint: disable=W8110
+    def _compute_qty_to_invoice(self):
         for line in self:
             if line.invoice_group_method_id.no_invoice:
                 line.qty_to_invoice = 0
@@ -46,4 +47,4 @@ class SaleOrderLine(models.Model):
             ):
                 line.qty_to_invoice = 0
             else:
-                super(SaleOrderLine, line)._get_to_invoice_qty()
+                super(SaleOrderLine, line)._compute_qty_to_invoice()
