@@ -48,6 +48,7 @@
             <xpath expr="//field[@name='description_sale']/.." position="after">
                 <group string="Agreement Comment" name="group_agreement_comment">
                     <field
+                        colspan="2"
                         name="agreement_comment"
                         nolabel="1"
                         placeholder="This note will show up agreement items comments..."
