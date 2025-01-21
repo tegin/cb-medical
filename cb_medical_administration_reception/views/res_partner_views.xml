@@ -42,6 +42,7 @@
                     class="oe_stat_button"
                     icon="fa-registered"
                     attrs="{'invisible': [('is_center', '=', False)]}"
+                    groups="medical_base.group_medical_user"
                 >
                     <field
                         name="reception_count"
