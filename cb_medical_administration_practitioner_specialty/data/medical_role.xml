@@ -5,7 +5,7 @@
     License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
 <odoo>
-    <record model="medical.role" id="medical_administration_practitioner.doctor">
+    <record model="medical.role" id="medical_base.doctor">
         <field name="specialty_required" eval="True" />
     </record>
 </odoo>
