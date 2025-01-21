@@ -66,7 +66,6 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
         "res.partner", domain=[("is_practitioner", "=", True)]
     )
     performer_required = fields.Boolean(
-        default=False,
         related="agreement_line_id.plan_definition_id.performer_required",
         readonly=True,
     )
