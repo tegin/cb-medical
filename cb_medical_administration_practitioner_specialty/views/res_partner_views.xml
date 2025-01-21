@@ -8,10 +8,7 @@
     <record id="res_partner_view_form" model="ir.ui.view">
         <field name="name">res.partner.view.form</field>
         <field name="model">res.partner</field>
-        <field
-            name="inherit_id"
-            ref="medical_administration_practitioner.res_partner_view_form"
-        />
+        <field name="inherit_id" ref="medical_base.res_partner_view_form" />
         <field name="arch" type="xml">
             <field name="practitioner_role_ids" position="attributes">
                 <attribute name="invisible">True</attribute>

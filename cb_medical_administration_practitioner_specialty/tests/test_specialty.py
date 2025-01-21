@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo.exceptions import ValidationError
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestMedicalCommission(SavepointCase):
+class TestMedicalCommission(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -14,8 +14,8 @@ class TestMedicalCommission(SavepointCase):
             {"name": "Trauma", "description": "Traumatology", "code": "TRA"}
         )
         cls.specialty.sequence_number_next = 21
-        cls.doctor = cls.env.ref("medical_administration_practitioner.doctor")
-        cls.ict = cls.env.ref("medical_administration_practitioner.ict")
+        cls.doctor = cls.env.ref("medical_base.doctor")
+        cls.ict = cls.env.ref("medical_base.ict")
 
     def test_create_practitioner_doctor(self):
         practitioner = self.env["res.partner"].create(
