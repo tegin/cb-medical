@@ -23,5 +23,9 @@ odoo-addon-medical-workflow@git+https://github.com/tegin/medical-fhir.git@16.0#s
 odoo-addon-cb-sale-report-invoice@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/cb_sale_report_invoice
 odoo-addon-product-nomenclature@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/product_nomenclature
 odoo-addon-remote-report-to-printer-label@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/remote_report_to_printer_label
+odoo-addon-sale-commission-cancel@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sale_commission_cancel
 odoo-addon-sale-third-party@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sale_third_party
 odoo-addon-sequence-parser@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sequence_parser
+
+# TO REMOVE
+odoo-addon-commission-delegated-partner@git+https://github.com/dixmit/commission.git@16.0-mig-sale_commission_delegated_partner#subdirectory=setup/commission_delegated_partner
