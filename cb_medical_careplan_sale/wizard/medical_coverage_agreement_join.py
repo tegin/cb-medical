@@ -9,7 +9,7 @@ class MedicalCoverageAgreementJoin(models.TransientModel):
     _inherit = "medical.coverage.agreement.join"
 
     def check_possible_join(self):
-        super().check_possible_join()
+        res = super().check_possible_join()
         if len(self.agreement_ids.mapped("invoice_group_method_id")) > 1:
             raise ValidationError(_("Invoice group method must be the same"))
         if (
@@ -17,3 +17,4 @@ class MedicalCoverageAgreementJoin(models.TransientModel):
             and len(self.agreement_ids.mapped("invoice_group_method_id")) == 1
         ):
             raise ValidationError(_("Invoice group method must be the same"))
+        return res

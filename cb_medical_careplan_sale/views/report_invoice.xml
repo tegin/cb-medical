@@ -47,14 +47,15 @@
             <attribute name="t-if">o.is_medical and not o.encounter_id</attribute>
         </xpath>
     </template>
+    <!--
     <template
         id="report_invoice_document_inherit_medical_invoice"
-        inherit_id="sale.report_invoice_document_inherit_sale"
+        inherit_id="account.report_invoice_document"
     >
         <xpath expr="//address" position="before">
             <br />
             <br />
             <br />
         </xpath>
-    </template>
+    </template>-->
 </odoo>

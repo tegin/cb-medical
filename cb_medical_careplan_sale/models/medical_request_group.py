@@ -26,7 +26,7 @@ class MedicalRequestGroup(models.Model):
         "child_id",
     )
     def _compute_is_sellable(self):
-        super()._compute_is_sellable()
+        return super()._compute_is_sellable()
 
     def check_sellable(self, is_insurance, agreement_item):
         if self.child_model and self.child_id:

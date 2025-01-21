@@ -25,10 +25,6 @@
             name="inherit_id"
             ref="medical_financial_coverage.res_partner_view_form"
         />
-        <field
-            name="groups_id"
-            eval="[(4, ref('medical_base.group_medical_financial'))]"
-        />
         <field name="arch" type="xml">
             <xpath
                 expr="//field[@name='child_ids']//form//field[@name='parent_id']"
@@ -44,6 +40,7 @@
                 <field
                     name="payor_id"
                     attrs="{'invisible': [('is_sub_payor','=',False)], 'required': [('is_sub_payor', '=', True)]}"
+                    groups="medical_base.group_medical_financial"
                     readonly="1"
                 />
             </xpath>
@@ -55,6 +52,7 @@
                     class="oe_stat_button"
                     icon="fa-sitemap"
                     attrs="{'invisible': [('is_payor', '=', False)]}"
+                    groups="medical_base.group_medical_financial"
                 />
             </div>
         </field>
