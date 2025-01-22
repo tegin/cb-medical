@@ -114,11 +114,13 @@ class MedicalGuard(models.Model):
                         )
                     ]
                 )
-                line_form.name = _("%s at %s on %s") % (
-                    guard.product_id.name,
-                    guard.practitioner_id.name,
-                    guard.date.strftime(lang.date_format),
-                )
+                line_form.name = _(
+                    "%(product_name)s at %(practitioner_name)s on %(date)s"
+                ) % {
+                    "product_name": guard.product_id.name,
+                    "practitioner_name": guard.practitioner_id.name,
+                    "date": guard.date.strftime(lang.date_format),
+                }
                 line_form.guard_id = guard
         vals = move_form._values_to_save(all_fields=True)
         return vals
