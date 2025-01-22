@@ -95,11 +95,11 @@ class MedicalGuard(models.Model):
             .with_company(journal.company_id.id)
             .with_context(
                 default_move_type=move_type,
+                journal_id=journal.id,
             )
         )
         partner = self._get_invoice_partner()
         move_form.partner_id = partner
-        move_form.journal_id = journal
         for guard in self:
             with move_form.invoice_line_ids.new() as line_form:
                 line_form.product_id = guard.product_id

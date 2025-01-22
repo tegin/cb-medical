@@ -3,7 +3,7 @@
 
 {
     "name": "CB Medical Guard",
-    "version": "14.0.2.0.0",
+    "version": "16.0.1.0.0",
     "category": "CB",
     "website": "https://github.com/tegin/cb-medical",
     "author": "CreuBlanca, Eficent",

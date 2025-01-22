@@ -21,7 +21,7 @@
                 <field name="guard_id" invisible="1" />
             </xpath>
             <xpath
-                expr="//field[@name='line_ids']/tree/field[@name='discount']"
+                expr="//field[@name='line_ids']/tree/field[@name='tax_line_id']"
                 position="before"
             >
                 <field name="guard_id" invisible="1" />

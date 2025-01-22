@@ -169,11 +169,11 @@ class TestMedicalGuard(TransactionCase):
         guard.complete()
         self.assertEqual(guard.state, "completed")
         self.assertFalse(guard.invoice_line_ids)
-        guard.flush()
+        guard.flush_recordset()
 
         self.env["medical.guard.invoice"].create(
             {"date_from": Date.today(), "date_to": Date.today()}
         ).run()
-        guard.refresh()
+        guard.invalidate_recordset()
         self.assertTrue(guard.invoice_line_ids)
         self.assertEqual(guard.invoice_line_ids.move_id.amount_untaxed, 100)
