@@ -5,7 +5,6 @@
     License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 -->
 <odoo>
-
     <record id="encounter_find_by_barcode" model="ir.actions.act_window">
         <field name="name">Find encounter</field>
         <field name="res_model">barcode.action</field>
@@ -15,8 +14,6 @@
         >{'default_model': 'medical.encounter', 'default_method': 'find_encounter_by_barcode'}</field>
         <field name="target">new</field>
     </record>
-
-
     <menuitem
         id="encounter_find_by_barcode_menu"
         name="Find encounter"
@@ -63,63 +60,6 @@
             </kanban>
         </field>
     </record>
-    <!-- <record model="ir.ui.view" id="medical_encounter_tree_hide_create">
-        <field name="name">medical.encounter.tree.hide</field>
-        <field name="model">medical.encounter</field>
-        <field
-            name="inherit_id"
-            ref="medical_administration_encounter.medical_encounter_view_tree"
-        />
-        <field name="arch" type="xml">
-            <tree position="attributes">
-                <attribute name="create">false</attribute>
-            </tree>
-        </field>
-    </record> -->
-    <!-- <record model="ir.ui.view" id="medical_encounter_tree_show_create">
-        <field name="name">medical.encounter.tree.create</field>
-        <field name="model">medical.encounter</field>
-        <field
-            name="inherit_id"
-            ref="cb_medical_views.medical_encounter_tree_hide_create"
-        />
-        <field
-            name="groups_id"
-            eval="[(4, ref('cb_medical_views.group_can_create_encounters'))]"
-        />
-        <field name="arch" type="xml">
-            <tree position="attributes">
-                <attribute name="create">true</attribute>
-            </tree>
-        </field>
-    </record> -->
-    <!-- <record model="ir.ui.view" id="medical_encounter_form_hide_create">
-        <field name="name">medical.encounter.form.hide</field>
-        <field name="model">medical.encounter</field>
-        <field
-            name="inherit_id"
-            ref="medical_administration_encounter.medical_encounter_view_form"
-        />
-        <field name="arch" type="xml">
-            <form position="attributes">
-                <attribute name="create">false</attribute>
-            </form>
-        </field>
-    </record> -->
-    <!-- <record model="ir.ui.view" id="medical_encounter_form_show_create">
-        <field name="name">medical.encounter.form.create</field>
-        <field name="model">medical.encounter</field>
-        <field name="inherit_id" ref="medical_encounter_form_hide_create" />
-        <field
-            name="groups_id"
-            eval="[(4, ref('cb_medical_views.group_can_create_encounters'))]"
-        />
-        <field name="arch" type="xml">
-            <form position="attributes">
-                <attribute name="create">true</attribute>
-            </form>
-        </field>
-    </record> -->
     <record
         model="ir.actions.act_window"
         id="medical_administration_encounter.medical_encounter_action"
