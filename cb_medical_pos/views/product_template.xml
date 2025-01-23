@@ -6,14 +6,11 @@
         <field name="name">product.template.common.form</field>
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view" />
-        <field
-            name="groups_id"
-            eval="[(4, ref('medical_base.group_medical_configurator'))]"
-        />
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page
                     name="medical_center"
+                    groups="medical_base.group_medical_configurator"
                     string="Medical centers"
                     attrs="{'invisible': [('type', '!=', 'service')]}"
                 >

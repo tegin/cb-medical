@@ -2,9 +2,8 @@
 # Copyright 2017 Eficent Business and IT Consulting Services, S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from collections import defaultdict
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class PosSession(models.Model):
@@ -74,26 +73,26 @@ class PosSession(models.Model):
             result["res_id"] = self.sale_order_ids.id
         return result
 
-    def _accumulate_amount_preprocess_data(self, data):
-        super(PosSession, self)._accumulate_amount_preprocess_data(data)
+    def _get_deposit_receivable_vals(
+        self, account, amount, amount_converted, partner=False
+    ):
+        partial_vals = {
+            "account_id": account.id,
+            "move_id": self.move_id.id,
+            "name": _("From deposit"),
+            "partner_id": partner and partner.id,
+        }
+        return self._credit_amounts(partial_vals, amount, amount_converted)
 
-        def amounts():
-            return {"amount": 0.0, "amount_converted": 0.0}
-
-        third_party_receivables = defaultdict(amounts)
-        inter_company_tp_receivables = defaultdict(lambda: defaultdict(amounts))
-
-        data.update(
-            {
-                "third_party_receivables": third_party_receivables,
-                "inter_company_third_party_receivables": inter_company_tp_receivables,
-            }
-        )
+    def _accumulate_amounts(self, data):
+        result = super()._accumulate_amounts(data)
+        data["deposits"] = self.env["account.move.line"]
+        return result
 
     def _create_invoice_receivable_lines(self, data):
         result = super()._create_invoice_receivable_lines(data)
         MoveLine = data.get("MoveLine")
-        invoice_receivable_lines = data["invoice_receivable_lines"]
+        deposits = data["deposits"]
         for order in self.order_ids.filtered(lambda r: r.is_deposit and not r.lines):
             amount = order._get_rounded_amount(order.amount_total)
             if self.is_in_company_currency:
@@ -103,8 +102,8 @@ class PosSession(models.Model):
                     amount, order.date_order, True
                 )
             receivable_line = MoveLine.create(
-                self._get_invoice_receivable_vals(
-                    self.company_id.deposit_account_id.id,
+                self._get_deposit_receivable_vals(
+                    self.company_id.deposit_account_id,
                     amount,
                     amount_converted,
                     partner=order.partner_id.commercial_partner_id,
@@ -112,98 +111,5 @@ class PosSession(models.Model):
             )
             order.deposit_line_id = receivable_line
             if not receivable_line.reconciled:
-                account_id = receivable_line.account_id.id
-                key = (
-                    receivable_line.partner_id.id,
-                    account_id,
-                )
-                if account_id not in invoice_receivable_lines:
-                    invoice_receivable_lines[key] = receivable_line
-                else:
-                    invoice_receivable_lines[key] |= receivable_line
-        # TODO: Remove all this once we have changed to the new method everything
-        inter_company_tp_receivables = result["inter_company_third_party_receivables"]
-
-        inter_company_receivable_vals = defaultdict(lambda: defaultdict(list))
-        for (
-            company,
-            invoice_receivables,
-        ) in inter_company_tp_receivables.items():
-            for partner, amounts in invoice_receivables.items():
-                commercial_partner = partner.commercial_partner_id
-                partner_account_id = commercial_partner.with_company(
-                    company
-                ).property_third_party_customer_account_id.id
-                inter_company_receivable_vals[company][partner_account_id].append(
-                    self._get_invoice_receivable_vals(
-                        partner_account_id,
-                        amounts["amount"],
-                        amounts["amount_converted"],
-                        partner=commercial_partner,
-                        move=data.get("inter_company_move_map")[company],
-                    )
-                )
-        third_party_receivables = data["third_party_receivables"]
-        for partner, amounts in third_party_receivables.items():
-            commercial_partner = partner.commercial_partner_id
-            partner_account_id = commercial_partner.with_company(
-                self.company_id.id
-            ).property_third_party_customer_account_id.id
-            inter_company_receivable_vals[self.company_id.id][
-                partner_account_id
-            ].append(
-                self._get_invoice_receivable_vals(
-                    partner_account_id,
-                    amounts["amount"],
-                    amounts["amount_converted"],
-                    partner=commercial_partner,
-                )
-            )
-        for (
-            _company,
-            company_receivables,
-        ) in inter_company_receivable_vals.items():
-            for account_id, vals in company_receivables.items():
-                receivable_lines = MoveLine.create(vals)
-                for receivable_line in receivable_lines:
-                    if not receivable_line.reconciled:
-                        key = (
-                            receivable_line.partner_id.id,
-                            account_id,
-                        )
-                        if account_id not in invoice_receivable_lines:
-                            invoice_receivable_lines[key] = receivable_line
-                        else:
-                            invoice_receivable_lines[key] |= receivable_line
-
-        data.update({"invoice_receivable_lines": invoice_receivable_lines})
-        return data
-
-    def _pos_session_process_order(self, order, data):
-        if not order.is_invoiced or order.account_move.is_sale_document():
-            return super()._pos_session_process_order(order, data)
-
-        key = order.partner_id
-        third_party_receivables = data["third_party_receivables"]
-        inter_company_tp_receivables = data["inter_company_third_party_receivables"]
-        inter_company_amounts = data["inter_company_amounts"]
-        if order.account_move.company_id == self.company_id:
-            # Combine invoice receivable lines
-            third_party_receivables[key] = self._update_amounts(
-                third_party_receivables[key],
-                {"amount": order.amount_paid},
-                order.date_order,
-            )
-        else:
-            company_id = order.account_move.company_id.id
-            inter_company_tp_receivables[company_id][key] = self._update_amounts(
-                inter_company_tp_receivables[company_id][key],
-                {"amount": order.amount_paid},
-                order.date_order,
-            )
-            inter_company_amounts[company_id] = self._update_amounts(
-                inter_company_amounts[company_id],
-                {"amount": order.amount_paid},
-                order.date_order,
-            )
-        data.update({"inter_company_amounts": inter_company_amounts})
+                deposits |= receivable_line
+        return result

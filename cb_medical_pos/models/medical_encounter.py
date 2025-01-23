@@ -284,10 +284,11 @@ class MedicalEncounter(models.Model):
             )
             if not inter_company:
                 raise UserError(
-                    _("Intercompany relation not found between %s and %s")
-                    % (
-                        self.company_id.display_name,
-                        company.display_name,
+                    _(
+                        "Intercompany relation not found "
+                        "between %(company_1)s and %(company_2)s",
+                        company_1=self.company_id.display_name,
+                        company_2=company.display_name,
                     )
                 )
             related_journal = inter_company.related_journal_id
@@ -314,7 +315,7 @@ class MedicalEncounter(models.Model):
                 self._pos_session_line_vals(
                     inter_company_move,
                     amount=-amount,
-                    account_id=related_journal.default_account_id.id,
+                    account_id=inter_company.related_account_id.id,
                     name=_("Counterpart intercompany move"),
                 )
             )
@@ -322,7 +323,7 @@ class MedicalEncounter(models.Model):
                 self._pos_session_line_vals(
                     move,
                     amount=amount,
-                    account_id=inter_company.journal_id.default_account_id.id,
+                    account_id=inter_company.account_id.id,
                     name=_("Counterpart intercompany move from %s") % company.name,
                 )
             )
@@ -342,7 +343,7 @@ class MedicalEncounter(models.Model):
             if not sale_move:
                 continue
             for line in sale_move.line_ids.filtered(
-                lambda r: r.account_id.internal_type == "receivable"
+                lambda r: r.account_id.account_type == "asset_receivable"
                 and not r.reconciled
             ):
                 new_line = MoveLine.create(
@@ -429,8 +430,8 @@ class MedicalEncounter(models.Model):
             invoice_group_method=invoice_group_method,
             **kwargs,
         )
-        order.flush()
-        order.refresh()
+        order.flush_recordset()
+        order.invalidate_recordset()
         order.order_line._compute_tax_id()
         # Ensure that the taxes are defined
         if not agreement and not third_party_partner:
