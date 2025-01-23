@@ -196,7 +196,7 @@
                                         t-att-style="action.id === record.action_id.raw_value? 'background-color: '+action.color: ''"
                                         type="object"
                                         name="assign_location_action"
-                                        t-attf-data-context="{'action_id': #{action.id}}"
+                                        t-attf-context="{'action_id': #{action.id}}"
                                         t-att-title="action.name"
                                     >
                                         <i

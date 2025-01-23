@@ -19,7 +19,6 @@
                         <field name="sequence" />
                     </group>
                 </sheet>
-                <div class="oe_chatter" />
             </form>
         </field>
     </record>

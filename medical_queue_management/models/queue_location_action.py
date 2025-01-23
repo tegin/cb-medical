@@ -9,6 +9,7 @@ class QueueLocationAction(models.Model):
     _name = "queue.location.action"
     _description = "Queue Location Action"  # TODO
     _order = "sequence asc"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     sequence = fields.Integer()
     name = fields.Char()

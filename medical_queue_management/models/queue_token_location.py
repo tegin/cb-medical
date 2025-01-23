@@ -81,26 +81,26 @@ class QueueTokenLocation(models.Model):
         self.with_context(
             location_id=self.location_id.id, ignore_expected_location=True
         ).action_call()
-        return {"type": "ir.actions.act_view_reload"}
+        return {"type": "ir.actions.client", "tag": "soft_reload"}
 
     def action_kanban_leave(self):
         self.ensure_one()
         if self.state != "in-progress":
             raise ValidationError(_("State must be in-progress"))
         self.with_context(location_id=self.location_id.id).action_leave()
-        return {"type": "ir.actions.act_view_reload"}
+        return {"type": "ir.actions.client", "tag": "soft_reload"}
 
     def action_kanban_back_to_draft(self):
         self.ensure_one()
         if self.state != "in-progress":
             raise ValidationError(_("State must be in-progress"))
         self.with_context(location_id=self.location_id.id).action_back_to_draft()
-        return {"type": "ir.actions.act_view_reload"}
+        return {"type": "ir.actions.client", "tag": "soft_reload"}
 
     def action_kanban_cancel(self):
         self.ensure_one()
         self.with_context(location_id=self.location_id.id).action_cancel()
-        return {"type": "ir.actions.act_view_reload"}
+        return {"type": "ir.actions.client", "tag": "soft_reload"}
 
     def action_kanban_assign(self):
         self.ensure_one()
@@ -109,7 +109,7 @@ class QueueTokenLocation(models.Model):
             self.with_context(
                 location_id=self.location_id.id, ignore_expected_location=True
             ).action_call()
-            return {"type": "ir.actions.act_view_reload"}
+            return {"type": "ir.actions.client", "tag": "soft_reload"}
         action = self.env["ir.actions.act_window"]._for_xml_id(
             "medical_queue_management.queue_token_location_kanban_assign_act_window"
         )
@@ -130,7 +130,7 @@ class QueueTokenLocation(models.Model):
             "type": "ir.actions.act_multi",
             "actions": [
                 {"type": "ir.actions.act_window_close"},
-                {"type": "ir.actions.act_view_reload"},
+                {"type": "ir.actions.client", "tag": "soft_reload"},
             ],
         }
 

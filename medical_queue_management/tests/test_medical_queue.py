@@ -2,10 +2,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo.exceptions import ValidationError
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestMedicalQueue(SavepointCase):
+class TestMedicalQueue(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -401,7 +401,7 @@ class TestMedicalQueue(SavepointCase):
         token_location = group.queue_token_location_id
         group.cancel()
         self.assertFalse(group.queue_token_location_id)
-        token_location.refresh()
+        token_location.invalidate_recordset()
         self.assertEqual(token_location.state, "cancelled")
 
     def test_queue_token_performer_location_matching(self):

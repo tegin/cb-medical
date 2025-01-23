@@ -7,6 +7,7 @@ from odoo import fields, models
 class QueueTokenLocationKanbanAssign(models.TransientModel):
 
     _name = "queue.token.location.kanban.assign"
+    _description = "Queue Token Location Kanban Assign"
 
     token_location_id = fields.Many2one("queue.token.location", required=True)
     group_id = fields.Many2one(related="token_location_id.group_id")
@@ -33,6 +34,6 @@ class QueueTokenLocationKanbanAssign(models.TransientModel):
             "type": "ir.actions.act_multi",
             "actions": [
                 {"type": "ir.actions.act_window_close"},
-                {"type": "ir.actions.act_view_reload"},
+                {"type": "ir.actions.client", "tag": "soft_reload"},
             ],
         }
