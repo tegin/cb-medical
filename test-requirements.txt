@@ -25,11 +25,14 @@ odoo-addon-medical-administration-practitioner-specialty@git+https://github.com/
 odoo-addon-account-journal-inter-company@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/account_journal_inter_company
 odoo-addon-cb-sale-report-invoice@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/cb_sale_report_invoice
 odoo-addon-pos-close-approval@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/pos_close_approval
+odoo-addon-pos-safe-box@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/pos_safe_box
 odoo-addon-product-nomenclature@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/product_nomenclature
 odoo-addon-remote-report-to-printer-label@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/remote_report_to_printer_label
 odoo-addon-sale-commission-cancel@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sale_commission_cancel
 odoo-addon-sale-third-party@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sale_third_party
+odoo-addon-safe-box@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/safe_box
 odoo-addon-sequence-parser@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sequence_parser
+odoo-addon-web-history-back@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/web_history_back
 
 # TO REMOVE
 odoo-addon-commission-delegated-partner@git+https://github.com/dixmit/commission.git@16.0-mig-sale_commission_delegated_partner#subdirectory=setup/commission_delegated_partner

@@ -83,7 +83,7 @@ class TestPosValidation(common.MedicalSavePointCase):
                     ]
                 )
             )
-            encounter.refresh()
+            encounter.invalidate_recordset()
             self.env["wizard.medical.encounter.close"].create(
                 {
                     "encounter_id": encounter.id,
@@ -96,7 +96,8 @@ class TestPosValidation(common.MedicalSavePointCase):
                 self.assertFalse(sale_order.third_party_order)
                 for line in sale_order.order_line:
                     self.assertFalse(line.agent_ids)
-        self.session.action_pos_session_close()
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
         self.assertTrue(self.session.request_group_ids)
         self.assertEqual(
             self.session.encounter_ids,
@@ -106,7 +107,7 @@ class TestPosValidation(common.MedicalSavePointCase):
         )
         non_validated = len(self.session.encounter_ids)
         self.assertEqual(non_validated, self.session.encounter_non_validated_count)
-        self.session.refresh()
+        self.session.invalidate_recordset()
         self.assertEqual(len(self.session.invoice_ids), 0)
         self.assertFalse(self.session.down_payment_ids)
         for encounter in self.session.encounter_ids:
@@ -128,10 +129,10 @@ class TestPosValidation(common.MedicalSavePointCase):
                     self.env["medical.encounter"].browse(action["res_id"]),
                 )
             encounter_aux.with_context(from_barcode_reader=True).admin_validate()
-            encounter_aux.refresh()
+            encounter_aux.invalidate_recordset()
             non_validated -= 1
             self.assertEqual(non_validated, self.session.encounter_non_validated_count)
-            encounter_aux.sale_order_ids.refresh()
+            encounter_aux.sale_order_ids.invalidate_recordset()
             self.assertTrue(
                 encounter_aux.sale_order_ids.filtered(lambda r: r.invoice_ids)
             )
@@ -188,14 +189,22 @@ class TestPosValidation(common.MedicalSavePointCase):
             {"encounter_id": encounter.id, "pos_session_id": self.session.id}
         ).run()
         self.assertTrue(encounter.sale_order_ids)
-        self.session.action_pos_session_close()
+        self.session.rescue = True
+        self.session.cash_register_balance_end_real = (
+            self.session.cash_register_balance_end
+        )
+        self.session.cash_register_difference = 0.0
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
+        self.session.flush_recordset()
+        self.assertEqual(self.session.state, "closed")
         self.pos_config.write({"session_sequence_prefix": "POS"})
         self.assertTrue(self.pos_config.session_sequence_id)
         self.assertEqual(self.pos_config.session_sequence_id.prefix, "POS/%(range_y)s/")
         self.pos_config.write({"session_sequence_prefix": "PS"})
         self.assertTrue(self.pos_config.session_sequence_id)
         self.assertEqual(self.pos_config.session_sequence_id.prefix, "PS/%(range_y)s/")
-        self.pos_config.open_session_cb()
+        self.pos_config._action_to_open_ui()
         self.assertTrue(self.session.request_group_ids)
         self.assertFalse(encounter.is_preinvoiced)
         line = encounter.sale_order_ids.order_line
@@ -220,7 +229,7 @@ class TestPosValidation(common.MedicalSavePointCase):
         )
         action = (
             self.env["medical.request.group.check.authorization"]
-            .with_context(line.check_authorization_action()["context"])
+            .with_context(**line.check_authorization_action()["context"])
             .create({"authorization_number": "1234A"})
         )
         action.run()
@@ -230,7 +239,7 @@ class TestPosValidation(common.MedicalSavePointCase):
             encounter.admin_validate()
         action = (
             self.env["medical.request.group.check.authorization"]
-            .with_context(line.check_authorization_action()["context"])
+            .with_context(**line.check_authorization_action()["context"])
             .create({"authorization_number": "1234"})
         )
         action.run()
@@ -267,7 +276,15 @@ class TestPosValidation(common.MedicalSavePointCase):
             self.assertFalse(sale_order.third_party_order)
             for line in sale_order.order_line:
                 self.assertFalse(line.agent_ids)
-        self.session.action_pos_session_close()
+        self.session.rescue = True
+        self.session.cash_register_balance_end_real = (
+            self.session.cash_register_balance_end
+        )
+        self.session.cash_register_difference = 0.0
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
+        self.session.flush_recordset()
+        self.assertEqual(self.session.state, "closed")
         self.assertTrue(self.session.request_group_ids)
         self.assertEqual(
             self.session.encounter_ids,
@@ -334,7 +351,15 @@ class TestPosValidation(common.MedicalSavePointCase):
             for line in sale_order.order_line:
                 self.assertFalse(line.agent_ids)
             sale_orders |= sale_order
-        self.session.action_pos_session_close()
+        self.session.rescue = True
+        self.session.cash_register_balance_end_real = (
+            self.session.cash_register_balance_end
+        )
+        self.session.cash_register_difference = 0.0
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
+        self.session.flush_recordset()
+        self.assertEqual(self.session.state, "closed")
         self.assertTrue(self.session.request_group_ids)
         for encounter in self.session.encounter_ids:
             encounter_aux = self.env["medical.encounter"].browse(
@@ -352,21 +377,22 @@ class TestPosValidation(common.MedicalSavePointCase):
                 self.assertEqual(request.center_id, encounter.center_id)
                 procedure = request.generate_event()
                 procedure.performer_id = self.practitioner_02
-            encounter.refresh()
+            encounter.invalidate_recordset()
             encounter.recompute_commissions()
-            encounter.refresh()
+            encounter.invalidate_recordset()
             for line in encounter.sale_order_ids.mapped("order_line"):
                 self.assertTrue(line.agent_ids)
         # Settle the payments
-        wizard = self.env["sale.commission.no.invoice.make.settle"].create(
+        wizard = self.env["commission.make.settle"].create(
             {
                 "date_to": (
                     fields.Datetime.from_string(fields.Datetime.now())
                     + relativedelta(months=1)
-                )
+                ),
+                "settlement_type": "sale_no_invoice",
             }
         )
-        settlements = self.env["sale.commission.settlement"].browse(
+        settlements = self.env["commission.settlement"].browse(
             wizard.action_settle()["domain"][0][2]
         )
         self.assertTrue(settlements)
@@ -415,7 +441,15 @@ class TestPosValidation(common.MedicalSavePointCase):
             for line in sale_order.order_line:
                 self.assertFalse(line.agent_ids)
             sale_orders |= sale_order
-        self.session.action_pos_session_close()
+        self.session.rescue = True
+        self.session.cash_register_balance_end_real = (
+            self.session.cash_register_balance_end
+        )
+        self.session.cash_register_difference = 0.0
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
+        self.session.flush_recordset()
+        self.assertEqual(self.session.state, "closed")
         self.assertTrue(self.session.request_group_ids)
         for encounter in self.session.encounter_ids:
             encounter_aux = self.env["medical.encounter"].browse(
@@ -465,10 +499,13 @@ class TestPosValidation(common.MedicalSavePointCase):
             for line in encounter.sale_order_ids.mapped("order_line"):
                 self.assertTrue(line.agent_ids)
         # Settle the payments
-        wizard = self.env["sale.commission.make.settle"].create(
-            {"date_to": fields.Datetime.now() + relativedelta(months=1)}
+        wizard = self.env["commission.make.settle"].create(
+            {
+                "date_to": fields.Datetime.now() + relativedelta(months=1),
+                "settlement_type": "sale_invoice",
+            }
         )
-        settlements = self.env["sale.commission.settlement"].browse(
+        settlements = self.env["commission.settlement"].browse(
             wizard.action_settle()["domain"][0][2]
         )
         self.assertTrue(settlements)
@@ -508,7 +545,15 @@ class TestPosValidation(common.MedicalSavePointCase):
             for line in sale_order.order_line:
                 self.assertFalse(line.agent_ids)
             sale_orders |= sale_order
-        self.session.action_pos_session_close()
+        self.session.rescue = True
+        self.session.cash_register_balance_end_real = (
+            self.session.cash_register_balance_end
+        )
+        self.session.cash_register_difference = 0.0
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
+        self.session.flush_recordset()
+        self.assertEqual(self.session.state, "closed")
         self.assertTrue(self.session.request_group_ids)
         preinvoice_obj = self.env["sale.preinvoice.group"]
         self.assertFalse(
@@ -612,8 +657,15 @@ class TestPosValidation(common.MedicalSavePointCase):
             self.agreement_line3
         )
         self.close_encounter(encounter)
+        self.session.rescue = True
+        self.session.cash_register_balance_end_real = (
+            self.session.cash_register_balance_end
+        )
+        self.session.cash_register_difference = 0.0
         self.session.action_pos_session_closing_control()
         self.session.action_pos_session_approve()
+        self.session.flush_recordset()
+        self.assertEqual(self.session.state, "closed")
         self.assertEqual(self.session.validation_status, "in_progress")
         with self.assertRaises(UserError):
             encounter.sale_order_ids.mapped("order_line").medical_cancel(
@@ -627,8 +679,15 @@ class TestPosValidation(common.MedicalSavePointCase):
             self.agreement_line3
         )
         self.close_encounter(encounter)
+        self.session.rescue = True
+        self.session.cash_register_balance_end_real = (
+            self.session.cash_register_balance_end
+        )
+        self.session.cash_register_difference = 0.0
         self.session.action_pos_session_closing_control()
         self.session.action_pos_session_approve()
+        self.session.flush_recordset()
+        self.assertEqual(self.session.state, "closed")
         encounter.sale_order_ids.mapped("order_line").medical_cancel(self.cancel_reason)
         self.assertFalse(encounter.sale_order_ids.mapped("order_line"))
 
@@ -678,7 +737,15 @@ class TestPosValidation(common.MedicalSavePointCase):
         self.assertFalse(encounter.all_automatic)
 
     def test_validation_no_invoices(self):
-        self.session.action_pos_session_close()
+        self.session.rescue = True
+        self.session.cash_register_balance_end_real = (
+            self.session.cash_register_balance_end
+        )
+        self.session.cash_register_difference = 0.0
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
+        self.session.flush_recordset()
+        self.assertEqual(self.session.state, "closed")
         self.assertEqual(self.session.validation_status, "finished")
 
     def test_validation_add_service(self):
