@@ -18,7 +18,7 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
                 "code": "5720BNK",
                 "company_id": cls.company_2.id,
                 "currency_id": cls.company_2.currency_id.id,
-                "user_type_id": cls.env.ref("account.data_account_type_liquidity").id,
+                "account_type": "asset_cash",
             }
         )
         cls.payment_method_2 = cls.env["pos.payment.method"].create(
@@ -60,11 +60,10 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
                 "payment_method_ids": cls.payment_method_id,
                 "requires_approval": True,
                 "company_id": cls.company.id,
-                "crm_team_id": False,
             }
         )
         cls.pos_config = cls.env["pos.config"].create(pos_vals)
-        cls.pos_config.open_session_cb()
+        cls.pos_config._action_to_open_ui()
         cls.session = cls.pos_config.current_session_id
         cls.session.action_pos_session_open()
         pos_vals = (
@@ -85,7 +84,6 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
                 "payment_method_ids": cls.payment_method_2,
                 "requires_approval": True,
                 "company_id": cls.company_2.id,
-                "crm_team_id": False,
                 "journal_id": cls.env["account.journal"]
                 .create(
                     {
@@ -101,7 +99,7 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
         cls.pos_config_2 = (
             cls.env["pos.config"].with_company(cls.company_2.id).create(pos_vals)
         )
-        cls.pos_config_2.open_session_cb()
+        cls.pos_config_2._action_to_open_ui()
         cls.pos_config.current_session_id.action_pos_session_open()
         cls.session_2 = cls.pos_config_2.current_session_id
         cls.def_third_party_product = cls.create_product("THIRD PARTY PRODUCT")
@@ -113,14 +111,14 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
                 "company_id": cls.company.id,
                 "code": "DepositAcc",
                 "name": "Deposit account",
-                "user_type_id": cls.env.ref("account.data_account_type_receivable").id,
+                "account_type": "asset_receivable",
                 "reconcile": True,
             }
         )
         cls.company.patient_journal_id = cls.env["account.journal"].create(
             {
                 "name": "Sale Journal",
-                "code": "SALES",
+                "code": "PATS",
                 "company_id": cls.company.id,
                 "type": "sale",
             }
@@ -138,14 +136,14 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
                 "company_id": cls.company_2.id,
                 "code": "DepositAcc",
                 "name": "Deposit account",
-                "user_type_id": cls.env.ref("account.data_account_type_receivable").id,
+                "account_type": "asset_receivable",
                 "reconcile": True,
             }
         )
         cls.company_2.patient_journal_id = cls.env["account.journal"].create(
             {
                 "name": "Sale Journal",
-                "code": "SALES",
+                "code": "PAT2",
                 "company_id": cls.company_2.id,
                 "type": "sale",
             }
@@ -159,56 +157,59 @@ class MedicalSavePointCase(common.MedicalSavePointCase):
             }
         )
 
-    @classmethod
     def create_inter_company(
-        cls, company_1, company_2, journal_1=False, journal_2=False
+        self,
+        company_1,
+        company_2,
+        journal_1=False,
+        journal_2=False,
+        account_1=False,
+        account_2=False,
     ):
-        journal_obj = cls.env["account.journal"]
-        if not journal_1:
-            account = cls.env["account.account"].create(
+        journal_obj = self.env["account.journal"]
+        if not account_1:
+            account_1 = self.env["account.account"].create(
                 {
                     "name": "Intercompany to %s" % company_2.name,
-                    "code": "I;%s" % company_2.id,
+                    "code": "I%s" % company_2.id,
                     "company_id": company_1.id,
-                    "user_type_id": cls.env.ref(
-                        "account.data_account_type_liquidity"
-                    ).id,
+                    "account_type": "liability_current",
                 }
             )
+        if not journal_1:
             journal_1 = journal_obj.create(
                 {
                     "name": "Journal from %s to %s" % (company_1.name, company_2.name),
-                    "code": "I;{};{}".format(company_1.id, company_2.id),
+                    "code": "I{}{}".format(company_1.id, company_2.id),
                     "type": "general",
                     "company_id": company_1.id,
-                    "default_account_id": account.id,
+                }
+            )
+        if not account_2:
+            account_2 = self.env["account.account"].create(
+                {
+                    "name": "Intercompany to %s" % company_1.name,
+                    "code": "I%s" % company_1.id,
+                    "company_id": company_2.id,
+                    "account_type": "liability_current",
                 }
             )
         if not journal_2:
-            account = cls.env["account.account"].create(
-                {
-                    "name": "Intercompany to %s" % company_1.name,
-                    "code": "I;%s" % company_1.id,
-                    "company_id": company_2.id,
-                    "user_type_id": cls.env.ref(
-                        "account.data_account_type_liquidity"
-                    ).id,
-                }
-            )
             journal_2 = journal_obj.create(
                 {
                     "name": "Journal from %s to %s" % (company_2.name, company_1.name),
-                    "code": "I;{};{}".format(company_2.id, company_1.id),
+                    "code": "I{}{}".format(company_2.id, company_1.id),
                     "type": "general",
                     "company_id": company_2.id,
-                    "default_account_id": account.id,
                 }
             )
-        cls.env["res.inter.company"].create(
+        self.env["res.inter.company"].create(
             {
                 "company_id": company_1.id,
                 "related_company_id": company_2.id,
                 "journal_id": journal_1.id,
+                "account_id": account_1.id,
                 "related_journal_id": journal_2.id,
+                "related_account_id": account_2.id,
             }
         )

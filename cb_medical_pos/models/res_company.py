@@ -11,7 +11,7 @@ class ResCompany(models.Model):
     )
     deposit_account_id = fields.Many2one(
         "account.account",
-        domain="[('company_id', '=', id),('user_type_id.type', '=', 'receivable')]",
+        domain="[('company_id', '=', id),('account_type', '=', 'asset_receivable')]",
     )
     deposit_journal_id = fields.Many2one(
         "account.journal",

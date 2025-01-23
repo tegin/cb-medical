@@ -22,7 +22,9 @@ odoo-addon-medical-administration-practitioner-specialty@git+https://github.com/
 
 
 # cb-addons
+odoo-addon-account-journal-inter-company@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/account_journal_inter_company
 odoo-addon-cb-sale-report-invoice@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/cb_sale_report_invoice
+odoo-addon-pos-close-approval@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/pos_close_approval
 odoo-addon-product-nomenclature@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/product_nomenclature
 odoo-addon-remote-report-to-printer-label@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/remote_report_to_printer_label
 odoo-addon-sale-commission-cancel@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sale_commission_cancel

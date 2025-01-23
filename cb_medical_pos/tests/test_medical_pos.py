@@ -24,8 +24,8 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertNotRegex(self.session.internal_identifier, r"^MYSEQ.*$")
         self.session.action_pos_session_approve()
         self.pos_config.write({"session_sequence_prefix": "MYSEQ"})
-        self.pos_config.flush()
-        self.pos_config.open_session_cb()
+        self.pos_config.flush_recordset()
+        self.pos_config._action_to_open_ui()
         session = self.pos_config.current_session_id
         self.assertNotEqual(session, self.session)
         self.assertRegex(session.internal_identifier, r"^MYSEQ.*$")
@@ -281,8 +281,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         encounter.reconcile_payments()
         invoices = encounter.sale_order_ids.invoice_ids
         self.assertTrue(invoices)
-        invoices.invalidate_cache()
-        invoices.refresh()
+        invoices.invalidate_recordset()
         for invoice in invoices:
             self.assertEqual(0, invoice.amount_residual)
 
@@ -334,7 +333,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         group.ensure_one()
         self.assertEqual(group.center_id, encounter.center_id)
         self.assertEqual(group.performer_id, self.practitioner_01)
-        group.refresh()
+        group.invalidate_recordset()
         self.assertEqual(len(group.procedure_request_ids.ids), 2)
         self.assertTrue(
             group.procedure_request_ids.filtered(
