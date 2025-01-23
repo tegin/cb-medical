@@ -5,14 +5,13 @@
     "name": "Medical Queue Management",
     "summary": """
         Manage patients with queue""",
-    "version": "14.0.1.1.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "CreuBlanca",
     "website": "https://github.com/tegin/cb-medical",
     "depends": [
         "queue_management_display",
         "cb_medical_careplan_sale",
-        "web_ir_actions_act_view_reload",
         "web_ir_actions_act_multi",
     ],
     "data": [
@@ -31,8 +30,14 @@
         "views/workflow_plan_definition.xml",
         "views/medical_request_group.xml",
         "views/medical_encounter.xml",
-        "templates/templates.xml",
     ],
     "demo": [],
-    "qweb": ["static/src/xml/CopyClipboardListChar.xml"],
+    "qweb": [],
+    "assets": {
+        "web.assets_backend": [
+            "/medical_queue_management/static/src/**/*.js",
+            "/medical_queue_management/static/src/**/*.scss"
+            "/medical_queue_management/static/src/**/*.xml",
+        ],
+    },
 }

@@ -17,7 +17,7 @@ class ResPartnerQueueLocation(models.Model):
     _sql_constraints = [
         (
             "center_area_uniq",
-            "UNIQUE(practioner_id, center_id)",
+            "UNIQUE(practitioner_id, center_id)",
             "Center for each area must be unique!",
         ),
     ]

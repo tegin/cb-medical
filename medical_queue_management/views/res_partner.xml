@@ -6,14 +6,7 @@
     <record model="ir.ui.view" id="res_partner_form_view">
         <field name="name">res.partner.form (in medical_queue_management)</field>
         <field name="model">res.partner</field>
-        <field
-            name="inherit_id"
-            ref="medical_administration_practitioner.res_partner_view_form"
-        />
-        <field
-            name="groups_id"
-            eval="[(6, 0, [ref('queue_management.group_queue_admin')])]"
-        />
+        <field name="inherit_id" ref="medical_base.res_partner_view_form" />
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page

@@ -36,5 +36,9 @@ odoo-addon-safe-box@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory
 odoo-addon-sequence-parser@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sequence_parser
 odoo-addon-web-history-back@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/web_history_back
 
+# kiwi
+odoo-addon-queue-management-display@git+https://github.com/tegin/kiwi.git@16.0#subdirectory=setup/queue_management_display
+odoo-addon-queue-management@git+https://github.com/tegin/kiwi.git@16.0#subdirectory=setup/queue_management
+
 # TO REMOVE
 odoo-addon-commission-delegated-partner@git+https://github.com/dixmit/commission.git@16.0-mig-sale_commission_delegated_partner#subdirectory=setup/commission_delegated_partner
