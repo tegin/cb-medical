@@ -79,12 +79,12 @@ class PosSession(models.Model):
             )
             record.procedure_ids = record.sale_order_line_ids.mapped("procedure_ids")
 
-    def action_pos_session_close(self):
+    def action_pos_session_close(self, *args, **kwargs):
         #  Unfinished encounter should be taken of the session
         self.encounter_ids.filtered(lambda r: r.state != "finished").write(
             {"pos_session_id": False}
         )
-        res = super(PosSession, self).action_pos_session_close()
+        res = super(PosSession, self).action_pos_session_close(*args, **kwargs)
         self.write({"validation_status": "in_progress"})
         if not self.encounter_ids:
             self.action_validation_finish()

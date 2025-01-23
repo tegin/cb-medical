@@ -4,7 +4,7 @@
 
 {
     "name": "PoS Validation",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "category": "Reporting",
     "website": "https://github.com/tegin/cb-medical",
     "author": "CreuBlanca, Eficent",
@@ -16,7 +16,6 @@
         "pos_safe_box",
         "barcode_action",
         "cb_medical_cancel",
-        "web_flagbox",
         "web_ir_actions_act_multi",
         "cb_medical_clinical_laboratory",
         "web_history_back",
@@ -30,6 +29,11 @@
         "views/medical_encounter_view.xml",
         "views/administration_menu.xml",
         "views/pos_session_views.xml",
-        "templates/templates.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "pos_validation/static/src/js/action.esm.js",
+            "pos_validation/static/src/scss/flagbox.scss",
+        ]
+    },
 }

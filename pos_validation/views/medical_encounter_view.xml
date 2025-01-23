@@ -30,89 +30,134 @@
         <field name="name">medical.encounter.view.form</field>
         <field name="model">medical.encounter</field>
         <field name="inherit_id" ref="pos_validation.medical_encounter_view_form" />
-        <field
-            name="groups_id"
-            eval="[(4, ref('pos_validation.group_medical_receptionist_manager'))]"
-        />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='reconcile_payments']" position="attributes">
                 <attribute name="attrs">{}</attribute>
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//div[@name='button_box']" position="after">
-                <flagbox
+                <div
+                    class="oe_flag_box o_not_full"
                     attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                    groups="pos_validation.group_medical_receptionist_manager"
                 >
                     <button
                         icon="fa-archive"
                         name="toggle_is_preinvoiced"
                         type="object"
-                        help="Preinvoicing is generated. Documents must be stored"
-                        class="flag-warning"
+                        title="Preinvoicing is generated. Documents must be stored"
+                        class="flag flag-warning"
                         attrs="{'invisible': ['|', ('is_preinvoiced', '=', True), ('has_preinvoicing', '=', False)]}"
                     />
-                    <flag
-                        icon="fa-archive"
+                    <i
+                        class="flag flag-light"
                         name="preinvoicing"
-                        help="Preinvoicing is generated. Documents must be stored"
-                        decoration-light="True"
+                        title="Preinvoicing is generated. Documents must be stored"
                         attrs="{'invisible': [('is_preinvoiced', '=', False), ('has_preinvoicing', '=', True)]}"
-                    />
-                    <flag
-                        icon="fa-exclamation-triangle "
+                    >
+                        <div class="fa fa-fw o_button_icon fa-archive" />
+                    </i>
+                    <i
+                        class="flag flag-light"
                         name="unauthorized"
-                        help="Unauthorized elements"
-                        decoration-danger="unauthorized_elements"
-                        decoration-light="not unauthorized_elements"
-                    />
-                    <flag
-                        icon="fa-terminal"
+                        title="Unauthorized elements"
+                    >
+                        <div
+                            class="fa fa-fw  o_button_icon fa-exclamation-triangle"
+                            attrs="{'invisible': [('unauthorized_elements', '=', True)]}"
+                        />
+                        <div
+                            class="fa fa-fw  o_button_icon fa-exclamation-triangle flag-danger"
+                            attrs="{'invisible': [('unauthorized_elements', '=', False)]}"
+                        />
+                    </i>
+                    <i
+                        class="flag flag-light"
                         name="authorization_number"
-                        help="Missing authorization number"
-                        decoration-primary="missing_authorization_number"
-                        decoration-light="not missing_authorization_number"
-                    />
-                    <flag
-                        icon="fa-credit-card"
+                        title="Missing authorization number"
+                    >
+                        <div
+                            class="fa fa-fw  o_button_icon fa-terminal"
+                            attrs="{'invisible': [('missing_authorization_number', '=', True)]}"
+                        />
+                        <div
+                            class="fa fa-fw  o_button_icon fa-terminal flag-primary"
+                            attrs="{'invisible': [('missing_authorization_number', '=', False)]}"
+                        />
+                    </i>
+                    <i
+                        class="flag flag-light"
                         name="subscriber_id"
-                        help="Missing subscriber"
-                        decoration-info="missing_subscriber_id"
-                        decoration-light="not missing_subscriber_id"
-                    />
-                    <flag
-                        icon="fa-stethoscope"
+                        title="Missing subscriber"
+                    >
+                        <div
+                            class="fa fa-fw  o_button_icon fa-credit-card"
+                            attrs="{'invisible': [('missing_subscriber_id', '=', True)]}"
+                        />
+                        <div
+                            class="fa fa-fw  o_button_icon fa-credit-card flag-info"
+                            attrs="{'invisible': [('missing_subscriber_id', '=', False)]}"
+                        />
+                    </i>
+                    <i
+                        class="flag flag-light"
                         name="missing_practitioner"
-                        help="Missing practitioner"
-                        decoration-danger="missing_practitioner"
-                        decoration-light="not missing_practitioner"
-                    />
+                        title="Missing practitioner"
+                    >
+                        <div
+                            class="fa fa-fw  o_button_icon fa-stethoscope"
+                            attrs="{'invisible': [('missing_practitioner', '=', True)]}"
+                        />
+                        <div
+                            class="fa fa-fw  o_button_icon fa-stethoscope flag-danger"
+                            attrs="{'invisible': [('missing_practitioner', '=', False)]}"
+                        />
+                    </i>
                     <button
                         icon="fa-radiation"
                         name="toggle_commission_issue_accepted"
                         type="object"
-                        help="Something happens with the commissions (bigger than amount)"
-                        class="flag-danger"
+                        title="Something happens with the commissions (bigger than amount)"
+                        class="flag flag-danger"
                         attrs="{'invisible': ['|', ('commission_issue', '=', False), ('commission_issue_accepted', '=', True)]}"
                     />
-                    <flag
-                        icon="fa-radiation"
+                    <i
+                        class="flag flag-light"
                         name="commission_issue"
-                        help="Missing practitioner"
+                        title="Missing practitioner"
                         attrs="{'invisible': [('commission_issue', '=', True), ('commission_issue_accepted', '=', False)]}"
-                        decoration-light="True"
-                    />
-                    <emptyflag />
-                    <flag
-                        icon="fa-user"
-                        help="Patient invoice"
-                        decoration-light="not has_patient_invoice"
-                    />
-                    <flag
-                        icon="fa-check"
-                        help="All tests passed"
-                        decoration-danger="not all_automatic"
-                        decoration-success="all_automatic"
-                    />
+                    >
+                        <div class="fa fa-fw  o_button_icon fa-radiation" />
+                    </i>
+                    <i class="flag emptyflag" />
+                    <i
+                        class="flag flag-light"
+                        name="has_patient_invoice"
+                        title="Patient invoice"
+                    >
+                        <div
+                            class="fa fa-fw  o_button_icon fa-user"
+                            attrs="{'invisible': [('has_patient_invoice', '=', True)]}"
+                        />
+                        <div
+                            class="fa fa-fw  o_button_icon fa-user flag-primary"
+                            attrs="{'invisible': [('has_patient_invoice', '=', False)]}"
+                        />
+                    </i>
+                    <i
+                        class="flag flag-light"
+                        name="all_automatic"
+                        title="All tests passed"
+                    >
+                        <div
+                            class="fa fa-fw  o_button_icon fa-check flag-success"
+                            attrs="{'invisible': [('all_automatic', '=', True)]}"
+                        />
+                        <div
+                            class="fa fa-fw  o_button_icon fa-check flag-danger"
+                            attrs="{'invisible': [('all_automatic', '=', False)]}"
+                        />
+                    </i>
                     <field name="all_automatic" invisible="1" />
                     <field name="is_preinvoiced" invisible="1" />
                     <field name="has_preinvoicing" invisible="1" />
@@ -123,7 +168,7 @@
                     <field name="missing_practitioner" invisible="1" />
                     <field name="commission_issue" invisible="1" />
                     <field name="commission_issue_accepted" invisible="1" />
-                </flagbox>
+                </div>
             </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button
@@ -132,6 +177,7 @@
                     string="Add Service"
                     icon="fa-plus-circle"
                     attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                    groups="pos_validation.group_medical_receptionist_manager"
                 />
                 <field name="validation_status" invisible="1" />
                 <button
@@ -140,12 +186,14 @@
                     icon="fa-check"
                     string="Validate"
                     attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress'])]}"
+                    groups="pos_validation.group_medical_receptionist_manager"
                 />
                 <button
                     name="close_view"
                     type="object"
                     icon="fa-times"
                     string="Close"
+                    groups="pos_validation.group_medical_receptionist_manager"
                 />
             </xpath>
             <xpath expr="//notebook/page[1]" position="before">
@@ -153,6 +201,7 @@
                     name="sale_order"
                     string="Sale Orders"
                     context="{'validation_status': validation_status}"
+                    groups="pos_validation.group_medical_receptionist_manager"
                     attrs="{'invisible': [('validation_status', 'not in', ['draft', 'in_progress', 'finished'])]}"
                 >
                     <field name="sale_order_line_ids">
@@ -196,6 +245,7 @@
                                 name="check_authorization_action"
                                 type="object"
                                 icon="fa-cogs"
+                                title="Check Authorization"
                                 attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
                             />
                             <field name="authorization_status" string="State" />
@@ -206,6 +256,7 @@
                                 name="%(pos_validation.sale_order_line_cancel_act_window)s"
                                 type="action"
                                 icon="fa-times-circle"
+                                title="Cancel"
                                 attrs="{'invisible': ['|', ('is_private', '=', True), ('validation_status', 'not in', ['draft', 'in_progress'])]}"
                             />
                         </tree>
@@ -241,6 +292,7 @@
                                         name="check_authorization_action"
                                         type="object"
                                         icon="fa-cogs"
+                                        title="Check Authorization"
                                         attrs="{'invisible': ['|', ('is_private', '=', True), ('state', '!=', 'draft')]}"
                                     />
                                     <field name="authorization_method_id" />
@@ -284,6 +336,7 @@
                                                     name="action_settlement_invoice"
                                                     type="object"
                                                     icon="fa-file-invoice-dollar"
+                                                    title="Settlements"
                                                     attrs="{'invisible': ['|', ('agent_sale_line', '=', False), ('settled', '=', False)]}"
                                                 />
                                             </tree>
@@ -303,6 +356,7 @@
                                                     name="action_settlement_invoice"
                                                     type="object"
                                                     icon="fa-file-invoice-dollar"
+                                                    title="Settlements"
                                                     attrs="{'invisible': [('settled', '=', False)]}"
                                                 />
                                             </tree>

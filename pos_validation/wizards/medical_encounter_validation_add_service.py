@@ -97,7 +97,7 @@ class MedicalEncounterValidationAddService(models.TransientModel):
             self.with_context(on_validation=True),
         )._run()
         values = defaultdict(lambda: [])
-        self.careplan_id.refresh()
+        self.careplan_id.invalidate_recordset()
         res = self.careplan_id.request_group_ids - groups
         assert result in res
         self.post_process_request(res)
@@ -105,6 +105,6 @@ class MedicalEncounterValidationAddService(models.TransientModel):
         for el in query:
             values[el[1:]].append(el[0])
         self.encounter_id.generate_sale_orders(values)
-        self.encounter_id.refresh()
+        self.encounter_id.invalidate_recordset()
         self.encounter_id.recompute_commissions()
         return
