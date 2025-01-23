@@ -33,7 +33,7 @@ class MedicalEncounter(models.AbstractModel):
                 ]
             )
             childs.with_context(
-                {
+                **{
                     "cancel_reason_id": cancel_reason_id.id,
                     "cancel_reason": cancel_reason,
                 }
