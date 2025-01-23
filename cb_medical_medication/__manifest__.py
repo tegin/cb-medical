@@ -4,7 +4,7 @@
 
 {
     "name": "CB Medical sequence configuration",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "Eficent, CreuBlanca",
     "depends": ["mrp", "cb_medical_block_request", "stock_move_line_auto_fill"],
     "data": [

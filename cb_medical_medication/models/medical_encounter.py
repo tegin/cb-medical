@@ -32,7 +32,7 @@ class MedicalEncounter(models.Model):
         )
 
     def add_medication(self, location, product, qty=1):
-        bom = self.env["mrp.bom"].sudo()._bom_find(product=product)
+        bom = self.env["mrp.bom"].sudo()._bom_find(product)[product]
         if not bom or bom.type != "phantom":
             return self._add_medication(location, product, qty)
         factor = qty / bom.product_qty

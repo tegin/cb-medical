@@ -9,8 +9,9 @@ class MedicalRequestGroup(models.Model):
         if self.child_model == "medical.medication.request":
             request = self.env[self.child_model].browse(self.child_id)
             if request.location_type_id:
-                res["name"] = _("{} on {}").format(
-                    res["name"],
-                    request.location_type_id.name,
+                res["name"] = _(
+                    "%(name)s on %(request)s",
+                    name=res["name"],
+                    reques=request.location_type_id.name,
                 )
         return res
