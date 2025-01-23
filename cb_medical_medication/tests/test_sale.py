@@ -72,7 +72,7 @@ class TestCBMedicalCommission(common.MedicalSavePointCase):
         self.assertGreater(self.session.encounter_count, 0)
         self.assertGreater(self.session.sale_order_count, 0)
         self.assertEqual(self.session.action_view_encounters()["res_id"], encounter.id)
-        medication_requests.refresh()
+        medication_requests.invalidate_recordset()
         self.assertTrue(medication_requests.mapped("medication_administration_ids"))
         self.env["wizard.medical.encounter.finish"].create(
             {

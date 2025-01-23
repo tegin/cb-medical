@@ -3,26 +3,27 @@ from odoo.tests.common import TransactionCase
 
 
 class TestMedication(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.category = self.env["product.category"].create({"name": "Category"})
-        self.service = self.env["product.product"].create(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.category = cls.env["product.category"].create({"name": "Category"})
+        cls.service = cls.env["product.product"].create(
             {"name": "Service", "type": "service"}
         )
-        self.partner = self.env["res.partner"].create({"name": "supplier"})
-        self.product = self.env["product.product"].create(
+        cls.partner = cls.env["res.partner"].create({"name": "supplier"})
+        cls.product = cls.env["product.product"].create(
             {
                 "name": "Product",
                 "type": "product",
-                "categ_id": self.category.id,
+                "categ_id": cls.category.id,
             }
         )
-        self.env["product.supplierinfo"].create(
+        cls.env["product.supplierinfo"].create(
             {
-                "name": self.partner.id,
+                "partner_id": cls.partner.id,
                 "product_name": "SUPPROD",
-                "product_tmpl_id": self.product.product_tmpl_id.id,
-                "product_id": self.product.id,
+                "product_tmpl_id": cls.product.product_tmpl_id.id,
+                "product_id": cls.product.id,
             }
         )
 
