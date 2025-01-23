@@ -41,7 +41,7 @@ class TestCancelReason(TransactionCase):
                 "cancel_reason": "testing purposes",
             }
         ).run()
-        self.careplan.refresh()
+        self.careplan.invalidate_recordset()
         self.assertEqual(self.careplan.fhir_state, "cancelled")
 
     def test_cancel_encounter(self):
@@ -60,8 +60,9 @@ class TestCancelReason(TransactionCase):
                 "encounter_id": encounter.id,
             }
         )
-        laboratory_request.flush()
+        laboratory_request.flush_recordset()
         self.careplan.encounter_id = encounter.id
+        self.careplan.invalidate_recordset()
         self.assertEqual(self.careplan.fhir_state, "draft")
         self.pos_config = self.env["pos.config"].create({"name": "PoS config"})
         session = self.env["pos.session"].create(
@@ -75,9 +76,9 @@ class TestCancelReason(TransactionCase):
                 "pos_session_id": session.id,
             }
         )
-        wizard.flush()
+        wizard.flush_recordset()
         wizard.run()
-        encounter.refresh()
+        encounter.invalidate_recordset()
         self.assertEqual(encounter.state, "finished")
         self.assertTrue(encounter.cancel_reason_id)
         self.assertEqual(encounter.cancel_reason_id, self.reason)
