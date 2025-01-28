@@ -1,4 +1,4 @@
-/* global Uint8Array base64js*/
+/* global base64js*/
 odoo.define("diagnostic_report.DiagnosticReportController", function (require) {
     "use strict";
 
