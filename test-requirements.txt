@@ -11,6 +11,7 @@ odoo-addon-medical-clinical-careplan@git+https://github.com/tegin/medical-fhir.g
 odoo-addon-medical-clinical-procedure@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_clinical_procedure
 odoo-addon-medical-clinical-request-group@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_clinical_request_group
 odoo-addon-medical-diagnostic-report@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_diagnostic_report
+odoo-addon-medical-diagnostic-report-encounter@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_diagnostic_report_encounter
 odoo-addon-medical-financial-coverage@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_financial_coverage
 odoo-addon-medical-medication@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_medication
 odoo-addon-medical-medication-request@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_medication_request
