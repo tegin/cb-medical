@@ -217,7 +217,7 @@ class TestCBMedicalClinicalLaboratorySale(common.MedicalSavePointCase):
                 ).id,
             }
         )
-        lab_req.refresh()
+        lab_req.invalidate_recordset()
         self.assertEqual(lab_req.event_coverage_agreement_id, self.agreement)
         event.write(
             {

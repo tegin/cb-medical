@@ -16,6 +16,7 @@
             <field name="performer_id" position="after">
                 <field name="laboratory_service_ids" widget="many2many_tags" />
                 <field name="event_coverage_agreement_id" invisible="1" />
+                <field name="encounter_id" invisible="1" />
             </field>
             <notebook position="inside">
                 <page string="Events" id="event">
