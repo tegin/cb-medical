@@ -11,6 +11,7 @@
         />
         <field name="arch" type="xml">
             <field name="with_conclusion" position="after">
+            <field name="template_type" invisible="1" />
                 <field
                     name="report_category_id"
                     attrs="{'invisible': [('template_type', '!=', 'general')], 'required': [('template_type', '=', 'general')]}"

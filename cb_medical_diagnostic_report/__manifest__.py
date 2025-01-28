@@ -4,18 +4,16 @@
 {
     "name": "Cb Medical Diagnostic Report",
     "summary": """Allows the creation of medical diagnostic reports""",
-    "version": "14.0.2.0.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "CreuBlanca",
     "website": "https://github.com/tegin/cb-medical",
     "depends": [
-        "medical_diagnostic_report",
+        "medical_diagnostic_report_encounter",
         "medical_base",
         "medical_signature_storage",
         "sequence_parser",
         "medical_encounter_identifier",
-        "web_drop_target",
-        "web_tree_image_tooltip",
         "storage_file",
     ],
     "data": [
@@ -29,7 +27,17 @@
         "views/medical_report_category.xml",
         "reports/medical_diagnostic_report_template.xml",
         "wizards/medical_diagnostic_report_expand.xml",
-        "templates/assets.xml",
     ],
     "demo": ["demo/medical_diagnostic_report.xml"],
+    "assets": {
+        "web.assets_backend": [
+            "cb_medical_diagnostic_report/static/src/js/diagnostic_report_controller.js",
+            "cb_medical_diagnostic_report/static/src/js/diagnostic_report_renderer.js",
+            "cb_medical_diagnostic_report/static/src/js/diagnostic_report_view.js",
+            "cb_medical_diagnostic_report/static/src/scss/diagnostic_report_view.js",
+        ],
+        "web.report_assets_common": [
+            "cb_medical_diagnostic_report/static/src/scss/medical_report_layout.scss",
+        ],
+    },
 }

@@ -10,7 +10,7 @@ class MedicalDiagnosticReportTemplate(models.Model):
 
     report_category_id = fields.Many2one(required=True, auto_join=True)
     user_report_category_id = fields.Many2one(
-        related="report_category_id", readonly=False
+        string="User Report Category", related="report_category_id", readonly=False
     )
     medical_department_id = fields.Many2one(
         related="report_category_id.medical_department_id"
