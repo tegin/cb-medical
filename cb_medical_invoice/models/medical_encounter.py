@@ -33,8 +33,8 @@ class MedicalEncounter(models.Model):
                 .with_context(
                     default_move_type="out_invoice",
                     default_invoice_origin=final_inv.name,
-                    default_ref=_("New partner of: %s, %s")
-                    % (final_inv.name, _("Change invoice partner")),
+                    default_ref=_("New partner of: %(name)s, %(text)s")
+                    % {"name": final_inv.name, "text": _("Change invoice partner")},
                 )
             )
             invoice_new_partner.journal_id = final_inv.journal_id
@@ -71,8 +71,8 @@ class MedicalEncounter(models.Model):
                 .with_context(
                     default_move_type="out_refund",
                     default_invoice_origin=final_inv.name,
-                    default_ref=_("Reversal of: %s, %s")
-                    % (final_inv.name, _("Change invoice partner")),
+                    default_ref=_("Reversal of: %(name)s, %(text)s")
+                    % {"name": final_inv.name, "text": _("Change invoice partner")},
                 )
             )
             invoice_refund.partner_id = final_inv.partner_id
