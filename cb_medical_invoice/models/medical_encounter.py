@@ -1,6 +1,5 @@
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
-from odoo.tests.common import Form
 from odoo.tools.float_utils import float_compare
 
 
@@ -27,20 +26,19 @@ class MedicalEncounter(models.Model):
         if not final_sos:
             final_sos = sos
         if final_inv and final_inv.partner_id != partner:
-            invoice_new_partner = Form(
-                self.env["account.move"]
-                .with_company(final_inv.company_id.id)
-                .with_context(
-                    default_move_type="out_invoice",
-                    default_invoice_origin=final_inv.name,
-                    default_ref=_("New partner of: %(name)s, %(text)s")
+            invoice_new_partner = self.env["account.move"].create(
+                {
+                    "move_type": "out_invoice",
+                    "partner_id": partner.id,
+                    "company_id": final_inv.company_id.id,
+                    "journal_id": final_inv.journal_id.id,
+                    "currency_id": final_inv.currency_id.id,
+                    "invoice_origin": final_inv.name,
+                    "ref": _("New partner of: %(name)s, %(text)s")
                     % {"name": final_inv.name, "text": _("Change invoice partner")},
-                )
+                }
             )
-            invoice_new_partner.journal_id = final_inv.journal_id
-            invoice_new_partner.currency_id = final_inv.currency_id
-            invoice_new_partner.partner_id = partner
-            invoice_new_partner = invoice_new_partner.save()
+
             invoice_line_vals = []
             for il in final_inv.invoice_line_ids.filtered(
                 lambda r: not r.down_payment_line_id
@@ -65,21 +63,20 @@ class MedicalEncounter(models.Model):
                 invoice_new_partner.move_type = "out_refund"
             invoice_new_partner.sudo().action_post()
             inv_res |= invoice_new_partner
-            invoice_refund = Form(
-                self.env["account.move"]
-                .with_company(final_inv.company_id.id)
-                .with_context(
-                    default_move_type="out_refund",
-                    default_invoice_origin=final_inv.name,
-                    default_ref=_("Reversal of: %(name)s, %(text)s")
+
+            invoice_refund = self.env["account.move"].create(
+                {
+                    "move_type": "out_refund",
+                    "partner_id": final_inv.partner_id.id,
+                    "company_id": final_inv.company_id.id,
+                    "journal_id": final_inv.journal_id.id,
+                    "currency_id": final_inv.currency_id.id,
+                    "invoice_origin": final_inv.name,
+                    "ref": _("Reversal of: %(name)s, %(text)s")
                     % {"name": final_inv.name, "text": _("Change invoice partner")},
-                )
+                }
             )
-            invoice_refund.partner_id = final_inv.partner_id
-            invoice_refund.company_id = final_inv.company_id
-            invoice_refund.journal_id = final_inv.journal_id
-            invoice_refund.currency_id = final_inv.currency_id
-            invoice_refund = invoice_refund.save()
+
             invoice_line_vals = []
             for il in final_inv.invoice_line_ids.filtered(
                 lambda r: not r.down_payment_line_id
@@ -109,37 +106,27 @@ class MedicalEncounter(models.Model):
             move = self.env["account.move"].sudo().create(move_vals)
             move.sudo().action_post()
             ref_iml = invoice_refund.line_ids.filtered(
-                lambda r: r.account_id.user_type_id.type in ("receivable", "payable")
+                lambda r: r.account_id.account_type
+                in ("asset_receivable", "liability_payable")
             )
             ref_move_iml = move.line_ids.filtered(
                 lambda r: (r.partner_id == invoice_refund.partner_id)
             )
-            self.env["account.reconciliation.widget"].sudo().process_move_lines(
-                [
-                    {
-                        "mv_line_ids": ref_iml.ids + ref_move_iml.ids,
-                        "type": "partner",
-                        "id": invoice_refund.partner_id.id,
-                        "new_mv_line_dicts": [],
-                    }
-                ]
-            )
+
+            ref_iml.action_reconcile_manually()
+            ref_move_iml.action_reconcile_manually()
+
             inv_iml = invoice_new_partner.line_ids.filtered(
-                lambda r: r.account_id.user_type_id.type in ("receivable", "payable")
+                lambda r: r.account_id.account_type
+                in ("asset_receivable", "liability_payable")
             )
             inv_move_iml = move.line_ids.filtered(
                 lambda r: r.partner_id == invoice_new_partner.partner_id
             )
-            self.env["account.reconciliation.widget"].sudo().process_move_lines(
-                [
-                    {
-                        "mv_line_ids": inv_iml.ids + inv_move_iml.ids,
-                        "type": "partner",
-                        "id": invoice_new_partner.partner_id.id,
-                        "new_mv_line_dicts": [],
-                    }
-                ]
-            )
+
+            inv_iml.action_reconcile_manually()
+            inv_move_iml.action_reconcile_manually()
+
         for so in final_sos.filtered(lambda r: r.partner_id != partner):
             # TODO : Review what to do on third party invoices
             raise ValidationError(
@@ -169,16 +156,15 @@ class MedicalEncounter(models.Model):
         vals = {
             "name": "",
             "account_id": invoice.line_ids.filtered(
-                lambda r: r.account_id.user_type_id.type in ("receivable", "payable")
+                lambda r: r.account_id.account_type
+                in ("asset_receivable", "liability_payable")
             )
             .mapped("account_id")
             .id,
             "partner_id": invoice.partner_id.id,
             "credit": 0.0,
             "debit": 0.0,
-            "currency_id": invoice.currency_id.id
-            if invoice.currency_id != invoice.company_id.currency_id
-            else False,
+            "currency_id": invoice.currency_id.id,
         }
         if invoice.move_type in ["out_invoice", "in_refund"]:
             vals["credit"] = invoice.amount_total
