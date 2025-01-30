@@ -208,7 +208,7 @@ class TestCbMedicalDiagnosticReport(TransactionCase):
             mode="rb",
         ).read()
         self.assertFalse(self.report.image_ids)
-        self.report.add_image_attachment(name="icon.png", datas=image)
+        self.report.add_image_attachment(name="icon.png", datas=base64.b64encode(image))
         self.assertTrue(self.report.image_ids)
         self.report.registered2final_action()
         self.assertEqual(self.report.fhir_state, "final")

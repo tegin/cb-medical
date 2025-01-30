@@ -5,7 +5,7 @@
         model="ir.config_parameter"
         forcecreate="1"
     >
-        <field name="key">storage.diagnostic.report.image.backend_id</field>
-        <field name="value" ref="storage_backend.default_storage_backend" />
+        <field name="key">storage.diagnostic.report.image.backend_code</field>
+        <field name="value">odoofs</field>
     </record>
 </odoo>

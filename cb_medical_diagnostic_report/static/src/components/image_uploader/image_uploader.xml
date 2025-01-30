@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <t t-name="cb_medical_diagnostic_report.PasteImageField" owl="1">
+        <div
+            class="o_diagnostic_report_paste_image o_diagnostic_report_paste_image_parent"
+            t-on-paste="onPaste"
+            t-att-class="{'selected': state.isActive}"
+            t-on-click="toggleColor"
+            t-ref="pasteImageFieldElement"
+        >
+            <span
+                class="o_diagnostic_report_paste_image_unclicked o_diagnostic_report_paste_image"
+            >Click here in order to paste an image</span>
+            <span
+                class="o_diagnostic_report_paste_image_clicked o_diagnostic_report_paste_image"
+            >Paste the image</span>
+        </div>
+    </t>
+</templates>

@@ -34,7 +34,7 @@
                     >
                         <img
                             class="image"
-                            t-att-src="'data:%s;base64,%s' % (image.mimetype, to_text(image.data))"
+                            t-att-src="'data:%s;base64,%s' % (image.file.mimetype, image.file.attachment.datas.decode('utf-8'))"
                             style="border:auto; max-width:100%;"
                         />
                         <t t-if="image.description">
