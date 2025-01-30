@@ -16,7 +16,7 @@
                     <div class="col-3 mb4">
                         <img
                             t-if="company.logo"
-                            t-att-src="'data:image/png;base64,%s' % to_text(company.logo)"
+                            t-att-src="'data:image/png;base64,%s' % company.logo.decode('utf-8')"
                             style="max-height: 45px;"
                         />
                     </div>
