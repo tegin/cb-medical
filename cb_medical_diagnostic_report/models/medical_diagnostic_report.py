@@ -1,8 +1,12 @@
 # Copyright 2021 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+from odoo.addons.fs_file import fields as fs_fields
 
 
 class MedicalDiagnosticReport(models.Model):
@@ -47,8 +51,10 @@ class MedicalDiagnosticReport(models.Model):
     def _add_image_attachment_vals(self, name=None, datas=None, **kwargs):
         return {
             "diagnostic_report_id": self.id,
-            "data": datas,
-            "name": name,
+            "file": {
+                "filename": name,
+                "content": datas,
+            },
         }
 
     def add_image_attachment(self, name=None, datas=None, **kwargs):
@@ -73,29 +79,38 @@ class MedicalDiagnosticReport(models.Model):
 class MedicalDiagnosticReportImage(models.Model):
     _name = "medical.diagnostic.report.image"
     _description = "image for a diagnostic report"
-    _inherits = {"storage.file": "file_id"}
     _order = "sequence,id"
-    _default_file_type = "diagnostic_report_image"
 
     sequence = fields.Integer(default=20)
     diagnostic_report_id = fields.Many2one("medical.diagnostic.report", required=True)
-    file_id = fields.Many2one("storage.file", required=True, ondelete="cascade")
+    file = fs_fields.FSFile()
+    image = fields.Image(compute="_compute_image")
     description = fields.Text()
 
-    @api.model
-    def create(self, vals):
-        vals["file_type"] = self._default_file_type
-        if not vals.get("backend_id", False):
-            vals["backend_id"] = self._get_default_backend_id()
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, mvals):
+        return super(
+            MedicalDiagnosticReportImage,
+            self.with_context(storage_location=self._get_default_backend_code()),
+        ).create(mvals)
 
-    def _get_default_backend_id(self):
-        return self.env["storage.backend"]._get_backend_id_from_param(
-            self.env, "storage.diagnostic.report.image.backend_id"
+    def _get_default_backend_code(self):
+        return (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("storage.diagnostic.report.image.backend_code")
         )
 
     def _generate_serializer(self):
         return {
             "description": self.description,
-            "image_hash": self.checksum,
+            "image_hash": self.file.attachment.checksum,
         }
+
+    @api.depends("file")
+    def _compute_image(self):
+        for record in self:
+            if record.file:
+                record.image = base64.b64encode(record.file.getvalue())
+            else:
+                record.image = False

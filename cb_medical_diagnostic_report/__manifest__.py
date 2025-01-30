@@ -8,13 +8,14 @@
     "license": "AGPL-3",
     "author": "CreuBlanca",
     "website": "https://github.com/tegin/cb-medical",
+    "development_status": "Alpha",
     "depends": [
         "medical_diagnostic_report_encounter",
         "medical_base",
         "medical_signature_storage",
         "sequence_parser",
         "medical_encounter_identifier",
-        "storage_file",
+        "fs_file",
     ],
     "data": [
         "data/ir_parameter.xml",
@@ -31,10 +32,12 @@
     "demo": ["demo/medical_diagnostic_report.xml"],
     "assets": {
         "web.assets_backend": [
-            "cb_medical_diagnostic_report/static/src/js/diagnostic_report_controller.js",
-            "cb_medical_diagnostic_report/static/src/js/diagnostic_report_renderer.js",
-            "cb_medical_diagnostic_report/static/src/js/diagnostic_report_view.js",
-            "cb_medical_diagnostic_report/static/src/scss/diagnostic_report_view.js",
+            # "cb_medical_diagnostic_report/static/src/js/diagnostic_report_controller.js",
+            # "cb_medical_diagnostic_report/static/src/js/diagnostic_report_renderer.js",
+            # "cb_medical_diagnostic_report/static/src/js/diagnostic_report_view.js",
+            "cb_medical_diagnostic_report/static/src/scss/diagnostic_report_view.scss",
+            "cb_medical_diagnostic_report/static/src/components/**/*.esm.js",
+            "cb_medical_diagnostic_report/static/src/components/**/*.xml",
         ],
         "web.report_assets_common": [
             "cb_medical_diagnostic_report/static/src/scss/medical_report_layout.scss",

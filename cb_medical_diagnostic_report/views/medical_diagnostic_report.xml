@@ -17,17 +17,12 @@
                 <attribute name="js_class">diagnostic_report</attribute>
             </xpath>
             <notebook position="before">
-                <div
-                    class="o_diagnostic_report_paste_image o_diagnostic_report_paste_image_parent"
+                <field
+                    class="col-12"
+                    name="id"
+                    widget="paste_image"
                     attrs="{'invisible': [('fhir_state', '!=', 'registered')]}"
-                >
-                    <span
-                        class="o_diagnostic_report_paste_image_unclicked o_diagnostic_report_paste_image"
-                    >Click here in order to paste an image</span>
-                    <span
-                        class="o_diagnostic_report_paste_image_clicked o_diagnostic_report_paste_image"
-                    >Paste the image</span>
-                </div>
+                />
             </notebook>
             <xpath expr="//form/header" position="inside">
                 <button
@@ -46,20 +41,18 @@
                     <field name="image_ids">
                         <tree editable="bottom">
                             <field name="sequence" widget="handle" />
-                            <field name="data" widget="image" filename="name" />
-                            <field name="name" invisible="1" />
+                            <field name="file" widget="fs_file" />
+                            <field name="image" widget="image" />
                             <field name="description" />
-                            <field name="file_id" invisible="1" />
                         </tree>
                         <form>
                             <sheet>
                                 <group>
                                     <group>
-                                        <field name="data" widget="image" />
+                                        <field name="file" widget="fs_file" />
                                     </group>
                                     <group>
                                         <field name="description" />
-                                        <field name="file_id" invisible="1" />
                                     </group>
                                 </group>
                             </sheet>
