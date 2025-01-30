@@ -22,7 +22,9 @@ class MedicalCareplanAddPlanDefinition(models.TransientModel):
     agreement_ids = fields.Many2many(
         "medical.coverage.agreement", compute="_compute_agreements"
     )
-    agreement_line_id = fields.Many2one("medical.coverage.agreement.item")
+    agreement_line_id = fields.Many2one(
+        "medical.coverage.agreement.item",
+    )
     product_id = fields.Many2one(
         "product.product",
         related="agreement_line_id.product_id",

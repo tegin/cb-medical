@@ -21,6 +21,7 @@
                     name="agreement_line_id"
                     options="{'no_create': True}"
                     domain="[('coverage_agreement_id', 'in', agreement_ids),('plan_definition_id', '!=', False)]"
+                    required="1"
                 />
                 <field name="center_id" invisible="1" />
                 <field name="patient_id" invisible="1" />
