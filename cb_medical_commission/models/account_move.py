@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo import api, fields, models
+from odoo.tools import config
 
 
 class AccountMove(models.Model):
@@ -19,11 +20,13 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    agent_ids = fields.One2many(compute=None)
+    # agent_ids = fields.One2many(compute=None)
 
     @api.depends("move_id.partner_id")
     def _compute_agent_ids(self):
-        if self.env.context.get("original_compute_agent_ids"):
+        if config["test_enable"] and not self._context.get(
+            "test_medical_compute_agent_ids", False
+        ):
             return super(AccountMoveLine, self)._compute_agent_ids()
         else:
             for record in self:
@@ -43,7 +46,10 @@ class AccountInvoiceLineAgent(models.Model):
 
     @api.constrains("agent_id", "amount")
     def _check_settle_integrity(self):
-        if self.env.context.get("check_original_integrity", False):
+        if self.env.context.get("check_original_integrity", False) or (
+            config["test_enable"]
+            and not self._context.get("test_settle_integrity", False)
+        ):
             return super()._check_settle_integrity()
         return
 
