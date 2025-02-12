@@ -5,9 +5,9 @@
             expr="//table[@name='invoice_line_table']/tbody/t[@t-foreach='lines']"
             position="attributes"
         >
-            <attribute name="t-foreach">o.invoice_line_ids.filtered(lambda r:
-                not r.down_payment_line_id)
-            </attribute>
+            <attribute
+                name="t-foreach"
+            >o.invoice_line_ids.filtered(lambda r: not r.down_payment_line_id)</attribute>
         </xpath>
         <xpath expr="//div[@id='total']/div/table/t[1]" position="before">
             <tr class="border-black" style="border-bottom:1px solid #dddddd;">
@@ -32,6 +32,7 @@
             <t
                 t-foreach="o.invoice_line_ids.filtered(lambda r: r.down_payment_line_id)"
                 t-as="line"
+                t-key="line.id"
             >
                 <tr style="border-bottom:1px solid #dddddd;">
                     <td>
