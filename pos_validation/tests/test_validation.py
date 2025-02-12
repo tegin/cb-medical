@@ -510,7 +510,9 @@ class TestPosValidation(common.MedicalSavePointCase):
         )
         self.assertTrue(settlements)
         for encounter in self.session.encounter_ids:
-            for request in encounter.careplan_ids.mapped("procedure_request_ids"):
+            for request in encounter.careplan_ids.mapped(
+                "procedure_request_ids"
+            ).with_context(test_settle_integrity=True):
                 procedure = request.procedure_ids
                 self.assertEqual(len(procedure.sale_agent_ids), 1)
                 self.assertEqual(len(procedure.invoice_agent_ids), 1)
