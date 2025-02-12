@@ -22,7 +22,15 @@ class ActivityDefinition(models.Model):
         for rec in self.filtered(lambda r: r.service_id):
             if rec.service_id.type != "service":
                 raise ValidationError(_("Activite are only allowed for services"))
-            if self.search([("service_id", "=", rec.service_id.id)], limit=1):
+            if self.search(
+                [("service_id", "=", rec.service_id.id), ("id", "!=", rec.id)], limit=1
+            ):
                 raise ValidationError(_("Only one activity is allowed for service"))
-            if self.search([("service_tmpl_id", "=", rec.service_tmpl_id.id)], limit=1):
+            if self.search(
+                [
+                    ("service_tmpl_id", "=", rec.service_tmpl_id.id),
+                    ("id", "!=", rec.id),
+                ],
+                limit=1,
+            ):
                 raise ValidationError(_("Only one activity is allowed for service"))
