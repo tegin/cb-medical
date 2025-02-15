@@ -10,7 +10,7 @@ class MedicalSpecialty(models.Model):
     # (https://www.hl7.org/fhir/practitionerrole.html)
     _inherit = "medical.specialty"
 
-    code = fields.Char(required=True)
+    code = fields.Char(required=True, default="/")
     sequence_id = fields.Many2one("ir.sequence", string="Sequence", required=True)
     sequence_number_next = fields.Integer(
         string="Next Number",
@@ -22,8 +22,8 @@ class MedicalSpecialty(models.Model):
     @api.model
     def _sequence_vals(self, vals):
         return {
-            "code": vals["code"].upper(),
-            "prefix": vals["code"].upper(),
+            "code": vals.get("code", vals["name"]).upper(),
+            "prefix": vals.get("code", vals["name"]).upper(),
             "implementation": "no_gap",
             "name": vals["name"],
             "padding": 3,
