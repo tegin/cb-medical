@@ -83,7 +83,7 @@
                                     <div class="col-6">
                                     <field
                                             name="encounter_identifier"
-                                            widget="CopyClipboardChar"
+                                            widget="CopyClipboardText"
                                             t-if="record.encounter_identifier.raw_value"
                                             class="o_mail_activity"
                                         />
@@ -116,7 +116,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="row pl-2 pr-2">
+                                <div class="row px-3">
                                     <div
                                         class="col p-1"
                                         t-if="record.state.raw_value == 'draft'"
@@ -190,13 +190,14 @@
                                 <t
                                     t-foreach="JSON.parse(record.action_data.raw_value)"
                                     t-as="action"
+                                    t-key="action.id"
                                 >
                                     <button
                                         class="btn oe_kanban_queue_token_location_actions_item"
                                         t-att-style="action.id === record.action_id.raw_value? 'background-color: '+action.color: ''"
                                         type="object"
                                         name="assign_location_action"
-                                        t-attf-context="{'action_id': #{action.id}}"
+                                        t-attf-context="{'action_id': #{action.id} }"
                                         t-att-title="action.name"
                                     >
                                         <i
