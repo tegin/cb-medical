@@ -34,10 +34,6 @@
     "demo": [],
     "qweb": [],
     "assets": {
-        "web.assets_backend": [
-            "/medical_queue_management/static/src/**/*.js",
-            "/medical_queue_management/static/src/**/*.scss"
-            "/medical_queue_management/static/src/**/*.xml",
-        ],
+        "web.assets_backend": ["/medical_queue_management/static/src/**/*.scss"],
     },
 }
