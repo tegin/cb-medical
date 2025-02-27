@@ -13,5 +13,5 @@ class QueueLocationAction(models.Model):
 
     sequence = fields.Integer()
     name = fields.Char()
-    icon = fields.Char()
+    icon = fields.Char(string="Queue Icon")
     color = fields.Char()
