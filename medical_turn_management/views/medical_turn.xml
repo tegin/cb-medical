@@ -74,7 +74,7 @@
             </search>
         </field>
     </record>
-    <record model="ir.ui.view" id="medical_turn_calendar_list_view">
+    <!-- <record model="ir.ui.view" id="medical_turn_calendar_list_view">
         <field name="name">medical.turn.tree (in medical_turn_management)</field>
         <field name="model">medical.turn</field>
         <field name="arch" type="xml">
@@ -87,7 +87,7 @@
                 <field name="display_name" />
             </calendar_list>
         </field>
-    </record>
+    </record> -->
     <record model="ir.ui.view" id="medical_turn_tree_view">
         <field name="name">medical.turn.tree (in medical_turn_management)</field>
         <field name="model">medical.turn</field>
@@ -104,7 +104,7 @@
     <record model="ir.actions.act_window" id="medical_turn_act_window">
         <field name="name">Turns</field>
         <field name="res_model">medical.turn</field>
-        <field name="view_mode">calendar_list,tree,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="domain">[]</field>
         <field name="context">{'search_default_from_today':1}</field>
     </record>

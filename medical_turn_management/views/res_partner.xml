@@ -5,36 +5,17 @@
     <record model="ir.ui.view" id="res_partner_view_form">
         <field name="name">res.partner.form (in medical_turn_management)</field>
         <field name="model">res.partner</field>
-        <field
-            name="inherit_id"
-            ref="medical_administration_practitioner.res_partner_view_form"
-        />
-        <field name="groups_id" eval="[(4, ref('medical_base.group_medical_user'))]" />
+        <field name="inherit_id" ref="medical_base.res_partner_view_form" />
         <field name="arch" type="xml">
             <field name="practitioner_role_ids" position="after">
                 <field
                     name="turn_specialty_ids"
                     widget="many2many_tags"
                     options="{'no_create': True}"
-                    attrs="{'invisible': [('is_practitioner','=',False)]}"
+                    attrs="{'invisible': [('is_practitioner','=',False)], 'readonly': [('is_medical_configurator', '=', False)]}"
+                    groups="medical_base.group_medical_user"
                 />
-            </field>
-        </field>
-    </record>
-    <record model="ir.ui.view" id="res_partner_view_edit_form">
-        <field name="name">res.partner.form (in medical_turn_management)</field>
-        <field name="model">res.partner</field>
-        <field
-            name="inherit_id"
-            ref="medical_administration_practitioner.res_partner_view_form"
-        />
-        <field
-            name="groups_id"
-            eval="[(4, ref('medical_base.group_medical_configurator'))]"
-        />
-        <field name="arch" type="xml">
-            <field name="turn_specialty_ids" position="attributes">
-                <attribute name="readonly">0</attribute>
+                <field name="is_medical_configurator" invisible="1" />
             </field>
         </field>
     </record>

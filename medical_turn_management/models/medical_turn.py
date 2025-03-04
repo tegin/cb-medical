@@ -51,11 +51,11 @@ class MedicalTurn(models.Model):
                 )
             if record.specialty_id not in record.practitioner_id.turn_specialty_ids:
                 raise ValidationError(
-                    _("Specialty %s is not done by %s")
-                    % (
-                        record.specialty_id.display_name,
-                        record.practitioner_id.display_name,
-                    )
+                    _("Specialty %(specialty)s is not done by %(practitioner)s")
+                    % {
+                        "specialty": record.specialty_id.display_name,
+                        "practitioner": record.practitioner_id.display_name,
+                    }
                 )
 
     @api.depends("practitioner_id", "center_ids", "specialty_id")
