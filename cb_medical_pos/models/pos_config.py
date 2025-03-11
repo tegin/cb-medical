@@ -10,7 +10,7 @@ class PosConfig(models.Model):
 
     session_sequence_id = fields.Many2one("ir.sequence", "Sequence for sessions")
     session_sequence_prefix = fields.Char()
-    requires_approval = fields.Boolean(default=True)
+    requires_approval = fields.Boolean()
 
     @api.model
     def _compute_session_prefix(self, prefix):
