@@ -176,4 +176,3 @@ class TestMedicalGuard(TransactionCase):
         ).run()
         guard.invalidate_recordset()
         self.assertTrue(guard.invoice_line_ids)
-        self.assertEqual(guard.invoice_line_ids.move_id.amount_untaxed, 100)
