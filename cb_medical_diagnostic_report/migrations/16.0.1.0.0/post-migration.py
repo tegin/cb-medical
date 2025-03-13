@@ -29,7 +29,7 @@ def _get_storage_vals(code, record):
     if record["backend_type"] == "sftp":
         protocol = "sftp"
         options = {
-            "host": record["sftp_host"],
+            "host": record["sftp_server"],
             "ssh_kwargs": {
                 "port": record["sftp_port"],
             },
@@ -37,7 +37,7 @@ def _get_storage_vals(code, record):
         if record["sftp_auth_method"] == "pwd":
             options["ssh_kwargs"].update(
                 {
-                    "username": record["sftp_user"],
+                    "username": record["sftp_login"],
                     "password": record["sftp_password"],
                 }
             )
