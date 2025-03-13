@@ -140,7 +140,7 @@ def migrate(env, version):
             sf.company_id,
             {storage.id} as fs_storage_id,
             NULL as fs_url,
-            {storage.code} as fs_storage_code,
+            '{storage.code}' as fs_storage_code,
             sf.name as fs_filename
 
         FROM storage_file sf
