@@ -62,7 +62,7 @@ def _get_storage_vals(code, record):
         "name": record["name"],
         "code": code,
         "protocol": protocol,
-        "options": options,
+        "options": json.dumps(options, default=str),
         "directory_path": record["directory_path"],
     }
 
