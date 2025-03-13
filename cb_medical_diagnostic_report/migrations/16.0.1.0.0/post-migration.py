@@ -1,6 +1,7 @@
 # Copyright 2025 Dixmit
 # License AGPL-3.0 or later (https://www.gnuorg/licenses/agpl.html).
 
+import json
 import logging
 
 from openupgradelib import openupgrade
@@ -86,6 +87,9 @@ def migrate(env, version):
     for row in env.cr.fetchall():
         storage_backend_records.append(dict(zip(column_names, row)))
     record = storage_backend_records[0]
+    defaults = json.loads(record.pop("server_env_defaults"))
+    for key in defaults:
+        record[key.split("_env_default")[0]] = defaults[key]
     fs_storage = env["fs.storage"]
     code = slugify(record.get("name")).replace("-", "_")
     if fs_storage.search([("code", "=", code)]):
