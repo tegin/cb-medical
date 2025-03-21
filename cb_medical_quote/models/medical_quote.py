@@ -270,11 +270,12 @@ class MedicalQuote(models.Model):
             name = self.env["ir.sequence"].next_by_code("medical.quote") or _("New")
         return name
 
-    @api.model
-    def create(self, vals):
-        if vals.get("name", "/") == "/":
-            vals["name"] = self._get_name(vals)
-        return super(MedicalQuote, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("name", "/") == "/":
+                vals["name"] = self._get_name(vals)
+        return super().create(vals_list)
 
     def lines_layouted(self):
         """
