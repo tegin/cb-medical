@@ -8,7 +8,10 @@
     <record id="product_template_form_view_commission" model="ir.ui.view">
         <field name="name">product.template.common.form.commission</field>
         <field name="model">product.template</field>
-        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field
+            name="inherit_id"
+            ref="commission.product_template_form_view_commission"
+        />
         <field name="arch" type="xml">
             <label for="commission_free" position="after">
                 <div>
