@@ -45,12 +45,13 @@ class PosSession(models.Model):
                 return pos_config.session_sequence_id.next_by_id()
         return self.env["ir.sequence"].next_by_code("pos.session.identifier") or "/"
 
-    @api.model
-    def create(self, vals):
-        if vals.get("internal_identifier", "/") == "/":
-            vals["internal_identifier"] = self.get_internal_identifier(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("internal_identifier", "/") == "/":
+                vals["internal_identifier"] = self.get_internal_identifier(vals)
         return super(PosSession, self.with_context(ignore_balance_start=True)).create(
-            vals
+            vals_list
         )
 
     def action_view_encounters(self):
