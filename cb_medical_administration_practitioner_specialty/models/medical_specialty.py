@@ -31,12 +31,13 @@ class MedicalSpecialty(models.Model):
             "use_date_range": False,
         }
 
-    @api.model
-    def create(self, vals):
-        if "sequence_id" not in vals:
-            sequence = self.env["ir.sequence"].create(self._sequence_vals(vals))
-            vals["sequence_id"] = sequence.id
-        return super(MedicalSpecialty, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "sequence_id" not in vals:
+                sequence = self.env["ir.sequence"].create(self._sequence_vals(vals))
+                vals["sequence_id"] = sequence.id
+        return super().create(vals_list)
 
     # do not depend on 'sequence_id.date_range_ids', because
     # sequence_id._get_current_sequence() may invalidate it!
