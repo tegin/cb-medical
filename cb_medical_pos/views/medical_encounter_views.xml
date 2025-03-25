@@ -76,7 +76,7 @@
             <button name="onleave2finished" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
-            <field name="location_id" position="after">
+            <field name="priority_id" position="after">
                 <field
                     name="company_id"
                     groups="sales_team.group_sale_salesman,account.group_account_invoice"
