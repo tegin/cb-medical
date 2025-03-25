@@ -74,7 +74,7 @@
             <button name="onleave2finished" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
-            <field name="location_id" position="after">
+            <field name="priority_id" position="after">
                 <field
                     name="company_id"
                     options="{'no_create': True, 'no_open': True}"
