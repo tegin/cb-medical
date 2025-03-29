@@ -25,7 +25,7 @@ class ActivityDefinition(models.Model):
             res["center_id"] = (
                 self.env["medical.careplan"].browse(res["careplan_id"]).center_id.id
             )
-        if not self.env[self.model_id.model]._pass_performer(
+        if not self.env[self.sudo().model_id.model]._pass_performer(
             self, parent, plan, action
         ):
             res["performer_id"] = False
