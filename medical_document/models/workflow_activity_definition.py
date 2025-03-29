@@ -21,7 +21,7 @@ class ActivityDefinition(models.Model):
     def _compute_requires_document_template(self):
         for record in self:
             record.requires_document_template = bool(
-                record.model_id.model == "medical.document.reference"
+                record.sudo().model_id.model == "medical.document.reference"
             )
 
     def _get_medical_models(self):
@@ -29,13 +29,13 @@ class ActivityDefinition(models.Model):
 
     @api.onchange("model_id")
     def _onchange_model(self):
-        if self.model_id.model != "medical.document.reference":
+        if self.sudo().model_id.model != "medical.document.reference":
             self.document_type_id = False
 
     def _get_medical_values(self, vals, parent=False, plan=False, action=False):
         values = super(ActivityDefinition, self)._get_medical_values(
             vals, parent, plan, action
         )
-        if self.model_id.model == "medical.document.reference":
+        if self.sudo().model_id.model == "medical.document.reference":
             values["document_type_id"] = self.document_type_id.id
         return values
