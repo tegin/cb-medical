@@ -7,7 +7,7 @@ class PrintingLabelZpl2(models.Model):
     def render_label(self, record, page_count=1, **extra):
         res = ""
         for label in self:
-            if record._name != label.model_id.model:
+            if record._name != label.sudo().model_id.model:
                 raise exceptions.UserError(
                     _("This label cannot be used on %s") % record._name
                 )
