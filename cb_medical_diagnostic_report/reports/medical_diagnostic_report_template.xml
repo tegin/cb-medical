@@ -53,7 +53,7 @@
                 <p class="m-0" t-if="doc.signature_id.signature">
                     <img
                         class="image"
-                        t-att-src="'data:image/png;base64,%s' % to_text(doc.signature_id.signature)"
+                        t-att-src="'data:image/png;base64,%s' % doc.signature_id.signature.decode('utf-8')"
                         style="border:auto;"
                     />
                 </p>
