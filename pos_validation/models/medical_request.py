@@ -71,7 +71,7 @@ class MedicalRequest(models.AbstractModel):
                         .with_company(vals.get("company_id"))
                         .create(vals)
                     )
-                    order.onchange_partner_id()
+                    order._onchange_partner_id()
                 sale_line.order_id = order
         return res
 
