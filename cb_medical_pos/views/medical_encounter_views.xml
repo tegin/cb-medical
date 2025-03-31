@@ -13,6 +13,7 @@
                     type="action"
                     name="%(cb_medical_pos.action_encounter_show_payments)s"
                     class="oe_stat_button"
+                    groups="sales_team.group_sale_salesman,account.group_account_invoice"
                     attrs="{'invisible': [('pos_payment_count', '=', 0)]}"
                     icon="fa-dollar"
                 >
@@ -31,6 +32,7 @@
                     name="reconcile_payments"
                     type="object"
                     string="Reconcile Payments"
+                    groups="sales_team.group_sale_salesman,account.group_account_invoice"
                     attrs="{'invisible': ['|', ('state', '!=', 'finished'), ('reconcile_move_id', '=', False)]}"
                 />
             </button>
@@ -77,10 +79,12 @@
             <field name="location_id" position="after">
                 <field
                     name="company_id"
+                    groups="sales_team.group_sale_salesman,account.group_account_invoice"
                     options="{'no_create': True, 'no_open': True}"
                 />
                 <field
                     name="pos_session_id"
+                    groups="sales_team.group_sale_salesman,account.group_account_invoice"
                     options="{'no_create': True, 'no_open': True}"
                 />
                 <field name="reconcile_move_id" invisible="1" />
