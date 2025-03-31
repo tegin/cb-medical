@@ -167,6 +167,7 @@ class MedicalCoverageAgreementItem(models.Model):
                 domain += [("coverage_agreement_id.date_from", "<=", aggr.date_to)]
             repeated = self.search(domain, limit=1)
             if repeated:
+                agreement = repeated.coverage_agreement_id
                 raise ValidationError(
                     _(
                         "One of this actions cannot be completed:\n- If you are "
@@ -178,9 +179,12 @@ class MedicalCoverageAgreementItem(models.Model):
                         "that means there is a coverage template that "
                         "already has this product in another Agreement.\n\n"
                         "Conflictive agreement: "
-                        "[%(repeated.coverage_agreement_id.internal_identifier)s] "
-                        "%(repeated.coverage_agreement_id.display_name)s\n"
-                        "Conflictive product: %(repeated.product_id.name)s"
+                        "[%(conflictive_internal_identifier)s] "
+                        "%(conflictive_name)s\n"
+                        "Conflictive product: %(conflictive_product)s",
+                        conflictive_internal_identifier=agreement.internal_identifier,
+                        conflictive_name=agreement.display_name,
+                        conflictive_product=repeated.product_id.name,
                     )
                 )
 
