@@ -150,11 +150,11 @@
                         title="All tests passed"
                     >
                         <div
-                            class="fa fa-fw  o_button_icon fa-check flag-success"
+                            class="fa fa-fw  o_button_icon fa-check flag-danger"
                             attrs="{'invisible': [('all_automatic', '=', True)]}"
                         />
                         <div
-                            class="fa fa-fw  o_button_icon fa-check flag-danger"
+                            class="fa fa-fw  o_button_icon fa-check flag-success"
                             attrs="{'invisible': [('all_automatic', '=', False)]}"
                         />
                     </i>
