@@ -11,7 +11,7 @@ class AccountInvoiceLineAgent(models.Model):
     def action_settlement_invoice(self):
         self.ensure_one()
         invoices = (
-            self.agent_line.mapped("settlement_id")
+            self.settlement_line_ids.mapped("settlement_id")
             .filtered(lambda r: r.state != "cancel")
             .mapped("invoice_line_ids.move_id")
         )
