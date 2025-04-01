@@ -14,7 +14,7 @@
         />
         <field name="arch" type="xml">
             <field name="token_id" position="after">
-                <field name="encounter_identifier" widget="CopyClipboardListChar" />
+                <field name="encounter_identifier" widget="CopyClipboardButton" />
                 <field name="patient_id" />
                 <field name="payor_id" />
             </field>
