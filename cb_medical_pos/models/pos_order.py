@@ -11,3 +11,7 @@ class PosOrder(models.Model):
     encounter_id = fields.Many2one("medical.encounter")
     is_deposit = fields.Boolean()
     deposit_line_id = fields.Many2one("account.move.line")
+
+    def add_payment(self, data):
+        data.setdefault("encounter_id", self.encounter_id.id)
+        return super().add_payment(data)
