@@ -95,7 +95,7 @@ class MedicalGuard(models.Model):
             .with_company(journal.company_id.id)
             .with_context(
                 default_move_type=move_type,
-                journal_id=journal.id,
+                default_journal_id=journal.id,
             )
         )
         partner = self._get_invoice_partner()
