@@ -54,7 +54,7 @@
                     <img
                         class="image"
                         t-att-src="'data:image/png;base64,%s' % doc.signature_id.signature.decode('utf-8')"
-                        style="border:auto;"
+                        style="border:auto; max-width:100%;"
                     />
                 </p>
             </div>
