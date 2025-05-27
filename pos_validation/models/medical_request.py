@@ -76,11 +76,14 @@ class MedicalRequest(models.AbstractModel):
         return res
 
     def cancel(self):
-        lines = self.mapped("sale_order_line_ids")
-        if any(order.state != "draft" for order in lines.mapped("order_id")):
+        lines = self.sudo().sale_order_line_ids
+        # We want to use sudo for checking
+        if any(order.state != "draft" for order in lines.order_id):
             raise UserError(_("Cannot cancel validated lines"))
         res = super().cancel()
-        lines.unlink()
+        if lines:
+            # Unlink shouldn't use sudo for safety
+            self.sale_order_line_ids.unlink()
         return res
 
     def cancel_values(self):
