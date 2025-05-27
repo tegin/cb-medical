@@ -29,7 +29,7 @@
                     name="specific_rate_uom_id"
                     string="Uom"
                     attrs="{'invisible': [('product_type', '!=', 'medication')], 'required': [('product_type', '==', 'medication')]}"
-                    domain="[('measure_type', '=', 'working_time')]"
+                    domain="[('category_id', '=', %(uom.uom_categ_wtime)s)]"
                     options="{'no_create': True, 'no_open': True}"
                 />
             </field>
@@ -59,19 +59,4 @@
             </field>
         </field>
     </record>
-    <!--  <record model="ir.ui.view" id="medical_product_request_order_search_view">
-        <field name="name">medical.product.request.order.search (in cb_medical_product_request)</field>
-        <field name="model">medical.product.request.order</field>
-        <field name="inherit_id" ref=""/>
-        <field name="arch" type="xml">
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="medical_product_request_order_tree_view">
-        <field name="name">medical.product.request.order.tree (in cb_medical_product_request)</field>
-        <field name="model">medical.product.request.order</field>
-        <field name="inherit_id" ref=""/>
-        <field name="arch" type="xml">
-        </field>
-    </record> -->
 </odoo>

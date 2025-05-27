@@ -20,6 +20,7 @@ odoo-addon-medical-terminology-atc@git+https://github.com/tegin/medical-fhir.git
 odoo-addon-medical-terminology-sct@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_terminology_sct
 odoo-addon-medical-workflow@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_workflow
 odoo-addon-medical-administration-practitioner-specialty@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_administration_practitioner_specialty
+odoo-addon-medical-product-request@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_product_request
 
 
 # cb-addons
