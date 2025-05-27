@@ -37,8 +37,6 @@ class MedicalProductRequestOrder(models.Model):
             else:
                 param_obj = self.env["ir.config_parameter"].sudo()
                 param_id = int(
-                    param_obj.get_param(
-                        "cb.prescription_default_center_id", False
-                    )
+                    param_obj.get_param("cb.prescription_default_center_id", False)
                 )
                 rec.center_id = self.env["res.partner"].browse(param_id)

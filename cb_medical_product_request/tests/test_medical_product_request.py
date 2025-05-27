@@ -2,6 +2,7 @@
 import datetime
 
 import freezegun
+
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
@@ -36,9 +37,7 @@ class TestMedicalProductRequest(TransactionCase):
                 "uom_ids": [(4, self.tablet_uom.id)],
             }
         )
-        self.test_product_template = self.env[
-            "medical.product.template"
-        ].create(
+        self.test_product_template = self.env["medical.product.template"].create(
             {
                 "name": "Test name",
                 "product_type": "medication",
@@ -47,18 +46,14 @@ class TestMedicalProductRequest(TransactionCase):
                 "form_id": self.tablet_form.id,
             }
         )
-        self.test_product_30_tablets = self.env[
-            "medical.product.product"
-        ].create(
+        self.test_product_30_tablets = self.env["medical.product.product"].create(
             {
                 "product_tmpl_id": self.test_product_template.id,
                 "amount": 30,
                 "amount_uom_id": self.tablet_uom.id,
             }
         )
-        self.test_template_lab = self.env[
-            "medical.product.template.commercial"
-        ].create(
+        self.test_template_lab = self.env["medical.product.template.commercial"].create(
             {
                 "product_tmpl_id": self.test_product_template.id,
                 "laboratory": "Lab test",
@@ -83,9 +78,7 @@ class TestMedicalProductRequest(TransactionCase):
                 "patient_id": self.patient.id,
             }
         )
-        self.external_product_request = self.env[
-            "medical.product.request"
-        ].create(
+        self.external_product_request = self.env["medical.product.request"].create(
             {
                 "request_order_id": self.external_product_request_order.id,
                 "medical_product_template_id": self.test_product_template.id,
@@ -105,9 +98,7 @@ class TestMedicalProductRequest(TransactionCase):
                 "patient_id": self.patient.id,
             }
         )
-        self.internal_product_request = self.env[
-            "medical.product.request"
-        ].create(
+        self.internal_product_request = self.env["medical.product.request"].create(
             {
                 "request_order_id": self.internal_product_request_order.id,
                 "medical_product_template_id": self.test_product_template.id,
@@ -121,9 +112,7 @@ class TestMedicalProductRequest(TransactionCase):
         )
 
     def test_expected_dispensation_date_if_has_order_id(self):
-        self.assertFalse(
-            self.external_product_request.expected_dispensation_date
-        )
+        self.assertFalse(self.external_product_request.expected_dispensation_date)
         self.assertTrue(self.external_product_request_order)
         self.external_product_request_order.complete_action()
         self.assertEqual(
@@ -147,9 +136,7 @@ class TestMedicalProductRequest(TransactionCase):
         )
         request.complete_action()
         self.assertTrue(request.expected_dispensation_date)
-        self.assertEqual(
-            request.expected_dispensation_date, datetime.date(2022, 1, 1)
-        )
+        self.assertEqual(request.expected_dispensation_date, datetime.date(2022, 1, 1))
         # Without expected dispensation date
         request_2 = self.env["medical.product.request"].create(
             {
@@ -180,17 +167,13 @@ class TestMedicalProductRequest(TransactionCase):
                 "dose_quantity": 1,
                 "dose_uom_id": self.tablet_uom.id,
                 "specific_rate": 8,
-                "specific_rate_uom_id": self.env.ref(
-                    "uom.product_uom_hour"
-                ).id,
+                "specific_rate_uom_id": self.env.ref("uom.product_uom_hour").id,
                 "duration": 30,
                 "duration_uom_id": self.env.ref("uom.product_uom_day").id,
             }
         )
         self.assertEqual(request.rate_quantity, 3)
-        self.assertEqual(
-            request.rate_uom_id.id, self.env.ref("uom.product_uom_day").id
-        )
+        self.assertEqual(request.rate_uom_id.id, self.env.ref("uom.product_uom_day").id)
 
         # Specific Rate: Every 48 hours -> Rate: 3.5 times/week
         request.specific_rate = 48
