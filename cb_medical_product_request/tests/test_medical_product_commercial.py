@@ -82,9 +82,7 @@ class TestMedicalProductCommercial(TransactionCase):
             self.ibuprofen_30_tablets_cinfa.product_tmpl_commercial_domain,
             "%s" % self.ibuprofen_template.id,
         )
-        product_commercial_2 = self.env[
-            "medical.product.product.commercial"
-        ].create({"code": "1111"})
-        self.assertRegex(
-            product_commercial_2.product_tmpl_commercial_domain, "%s" % 0
+        product_commercial_2 = self.env["medical.product.product.commercial"].create(
+            {"code": "1111"}
         )
+        self.assertRegex(product_commercial_2.product_tmpl_commercial_domain, "%s" % 0)

@@ -30,9 +30,7 @@ class MedicalProductTemplate(models.Model):
     @api.depends("product_tmpl_commercial_ids")
     def _compute_product_tmpl_commercial_ids(self):
         for rec in self:
-            rec.product_tmpl_commercial_count = len(
-                rec.product_tmpl_commercial_ids
-            )
+            rec.product_tmpl_commercial_count = len(rec.product_tmpl_commercial_ids)
 
     def action_view_product_tmpl_commercial_ids(self):
         action = self.env.ref(
@@ -48,9 +46,7 @@ class MedicalProductTemplate(models.Model):
             form_view = [(self.env.ref(view).id, "form")]
             if "views" in action:
                 action["views"] = form_view + [
-                    (state, view)
-                    for state, view in action["views"]
-                    if view != "form"
+                    (state, view) for state, view in action["views"] if view != "form"
                 ]
             else:
                 action["views"] = form_view
@@ -65,9 +61,7 @@ class MedicalProductTemplate(models.Model):
             args
         ).get_sql()
         from_str = from_clause if from_clause else self._table
-        where_str = (
-            where_clause and (" WHERE %s AND " % where_clause) or " WHERE "
-        )
+        where_str = where_clause and (" WHERE %s AND " % where_clause) or " WHERE "
         query = """
                 SELECT DISTINCT {table}.id
                 FROM {from_str}
@@ -99,9 +93,7 @@ class MedicalProductTemplate(models.Model):
             laboratory_product_name=unaccent(
                 '"medical_product_template_commercial"."laboratory_product_name"'
             ),
-            product_code=unaccent(
-                '"medical_product_product_commercial"."code"'
-            ),
+            product_code=unaccent('"medical_product_product_commercial"."code"'),
         )
         where_clause_params += [
             name,
@@ -156,9 +148,7 @@ class MedicalProductProduct(models.Model):
         "medical.product.product.commercial", inverse_name="medical_product_id"
     )
 
-    product_commercial_count = fields.Integer(
-        compute="_compute_product_commercial_ids"
-    )
+    product_commercial_count = fields.Integer(compute="_compute_product_commercial_ids")
 
     @api.depends("product_commercial_ids")
     def _compute_product_commercial_ids(self):
@@ -179,9 +169,7 @@ class MedicalProductProduct(models.Model):
             form_view = [(self.env.ref(view).id, "form")]
             if "views" in action:
                 action["views"] = form_view + [
-                    (state, view)
-                    for state, view in action["views"]
-                    if view != "form"
+                    (state, view) for state, view in action["views"] if view != "form"
                 ]
             else:
                 action["views"] = form_view

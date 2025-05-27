@@ -2,6 +2,7 @@
 import datetime
 
 import freezegun
+
 from odoo.tests.common import TransactionCase
 
 
@@ -35,9 +36,7 @@ class TestMedicalProductRequestOrder(TransactionCase):
                 "uom_ids": [(4, self.tablet_uom.id)],
             }
         )
-        self.test_product_template = self.env[
-            "medical.product.template"
-        ].create(
+        self.test_product_template = self.env["medical.product.template"].create(
             {
                 "name": "Test name",
                 "product_type": "medication",
@@ -46,18 +45,14 @@ class TestMedicalProductRequestOrder(TransactionCase):
                 "form_id": self.tablet_form.id,
             }
         )
-        self.test_product_30_tablets = self.env[
-            "medical.product.product"
-        ].create(
+        self.test_product_30_tablets = self.env["medical.product.product"].create(
             {
                 "product_tmpl_id": self.test_product_template.id,
                 "amount": 30,
                 "amount_uom_id": self.tablet_uom.id,
             }
         )
-        self.test_template_lab = self.env[
-            "medical.product.template.commercial"
-        ].create(
+        self.test_template_lab = self.env["medical.product.template.commercial"].create(
             {
                 "product_tmpl_id": self.test_product_template.id,
                 "laboratory": "Lab test",
@@ -82,9 +77,7 @@ class TestMedicalProductRequestOrder(TransactionCase):
                 "patient_id": self.patient.id,
             }
         )
-        self.external_product_request = self.env[
-            "medical.product.request"
-        ].create(
+        self.external_product_request = self.env["medical.product.request"].create(
             {
                 "request_order_id": self.external_product_request_order.id,
                 "medical_product_template_id": self.test_product_template.id,
@@ -104,9 +97,7 @@ class TestMedicalProductRequestOrder(TransactionCase):
                 "patient_id": self.patient.id,
             }
         )
-        self.internal_product_request = self.env[
-            "medical.product.request"
-        ].create(
+        self.internal_product_request = self.env["medical.product.request"].create(
             {
                 "request_order_id": self.internal_product_request_order.id,
                 "medical_product_template_id": self.test_product_template.id,
@@ -124,9 +115,7 @@ class TestMedicalProductRequestOrder(TransactionCase):
         request.expected_dispensation_date = False
         with freezegun.freeze_time("2022-01-01"):
             request.complete_action()
-        self.assertEqual(
-            request.expected_dispensation_date, datetime.date(2022, 1, 1)
-        )
+        self.assertEqual(request.expected_dispensation_date, datetime.date(2022, 1, 1))
 
     def test_dispensation_date_request_with_date(self):
         request = self.env["medical.product.request.order"].create(
@@ -137,9 +126,7 @@ class TestMedicalProductRequestOrder(TransactionCase):
             }
         )
         request.complete_action()
-        self.assertEqual(
-            request.expected_dispensation_date, datetime.date(2022, 2, 1)
-        )
+        self.assertEqual(request.expected_dispensation_date, datetime.date(2022, 2, 1))
 
     def test_order_request_center_id(self):
         center_2 = self.env["res.partner"].create(
@@ -158,6 +145,4 @@ class TestMedicalProductRequestOrder(TransactionCase):
             self.encounter.center_id.id,
         )
         self.external_product_request_order.encounter_id = False
-        self.assertEqual(
-            self.external_product_request_order.center_id.id, center_2.id
-        )
+        self.assertEqual(self.external_product_request_order.center_id.id, center_2.id)

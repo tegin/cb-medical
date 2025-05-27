@@ -53,9 +53,7 @@ class MedicalProductRequest(models.Model):
     @api.depends("specific_rate", "specific_rate_uom_id")
     def _compute_rate_from_specific_rate(self):
         for rec in self:
-            if rec.specific_rate_uom_id == self.env.ref(
-                "uom.product_uom_hour"
-            ):
+            if rec.specific_rate_uom_id == self.env.ref("uom.product_uom_hour"):
                 if rec.specific_rate <= 24:
                     rate = 24 / rec.specific_rate
                     rate_uom_id = self.env.ref("uom.product_uom_day").id
@@ -64,9 +62,7 @@ class MedicalProductRequest(models.Model):
                     rate_uom_id = self.env.ref(
                         "cb_medical_product_request.product_uom_week"
                     ).id
-            elif rec.specific_rate_uom_id == self.env.ref(
-                "uom.product_uom_day"
-            ):
+            elif rec.specific_rate_uom_id == self.env.ref("uom.product_uom_day"):
                 rate = 7 / rec.specific_rate
                 rate_uom_id = self.env.ref(
                     "cb_medical_product_request.product_uom_week"

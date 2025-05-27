@@ -61,9 +61,7 @@ class MedicalProductTemplateCommercial(models.Model):
             form_view = [(self.env.ref(view).id, "form")]
             if "views" in action:
                 action["views"] = form_view + [
-                    (state, view)
-                    for state, view in action["views"]
-                    if view != "form"
+                    (state, view) for state, view in action["views"] if view != "form"
                 ]
             else:
                 action["views"] = form_view
@@ -83,9 +81,7 @@ class MedicalProductProductCommercial(models.Model):
 
     medical_product_id = fields.Many2one("medical.product.product")
 
-    medical_product_name = fields.Char(
-        related="medical_product_id.name_product"
-    )
+    medical_product_name = fields.Char(related="medical_product_id.name_product")
 
     product_tmpl_id = fields.Many2one(
         "medical.product.template",
@@ -96,9 +92,7 @@ class MedicalProductProductCommercial(models.Model):
     product_tmpl_commercial_domain = fields.Char(
         compute="_compute_product_tmpl_commercial_domain"
     )
-    product_tmpl_commercial_id = fields.Many2one(
-        "medical.product.template.commercial"
-    )
+    product_tmpl_commercial_id = fields.Many2one("medical.product.template.commercial")
 
     laboratory = fields.Char(related="product_tmpl_commercial_id.laboratory")
     laboratory_product_name = fields.Char(
