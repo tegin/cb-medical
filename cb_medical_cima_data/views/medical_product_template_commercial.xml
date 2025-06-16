@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="medical_product_template_commercial_form_view">
+        <field
+            name="name"
+        >medical.product.template.commercial.form (in cb_medical_cima_data)</field>
+        <field name="model">medical.product.template.commercial</field>
+        <field
+            name="inherit_id"
+            ref="cb_medical_product_request.medical_product_template_commercial_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="name_cima" colspan="2" readonly="1" />
+            </field>
+            <field name="name" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page name="docs" string="Documentation">
+                        <group>
+
+                            <field
+                                name="ft_pdf_link"
+                                widget="url"
+                                options="{'no_open': True}"
+                            />
+
+
+                            <field
+                                name="prospect_pdf_link"
+                                widget="url"
+                                options="{'no_open': True}"
+                            />
+
+
+                            <field
+                                name="ipe_pdf_link"
+                                widget="url"
+                                options="{'no_open': True}"
+                            />
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="medical_product_template_commercial_tree_view">
+        <field
+            name="name"
+        >medical.product.template.commercial.tree (in cb_medical_cima_data)</field>
+        <field name="model">medical.product.template.commercial</field>
+        <field
+            name="inherit_id"
+            ref="cb_medical_product_request.medical_product_template_commercial_tree_view"
+        />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="name_cima" />
+            </field>
+            <field name="name" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+
+
+</odoo>
