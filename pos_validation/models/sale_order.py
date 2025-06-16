@@ -114,6 +114,7 @@ class SalerOrderLine(models.Model):
             request = request.laboratory_request_id.request_group_id
         else:
             request = request.request_group_id
+            print("request", request)
         return request.check_authorization_action()
 
     def medical_cancel(self, cancel_reason):

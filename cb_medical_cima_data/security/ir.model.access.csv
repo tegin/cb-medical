@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+cb_medical_cima_data.access_medical_create_from_cima_wizard,access_medical_create_from_cima_wizard,cb_medical_product_request.model_medical_create_from_cima_wizard,base.group_user,1,1,1,1

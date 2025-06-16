@@ -15,8 +15,10 @@
         "medical_encounter_identifier",
         "cb_medical_administration_requester",
         "web_domain_field",
+        "queue_job",
     ],
     "data": [
+        "wizards/medical_create_from_cima_wizard.xml",
         "security/ir.model.access.csv",
         "views/medical_product_product.xml",
         "views/medical_product_template.xml",
@@ -25,6 +27,7 @@
         "views/medical_product_request.xml",
         "views/medical_product_request_order.xml",
         "views/res_config_settings_views.xml",
+        "data/cron.xml",
         "data/data.xml",
         "reports/spanish_prescription.xml",
         "reports/spanish_prescription_template.xml",
