@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="medical_product_product_form_view">
+        <field
+            name="name"
+        >medical.product.product.product.form (in cb_medical_cima_data)</field>
+        <field name="model">medical.product.product</field>
+        <field
+            name="inherit_id"
+            ref="cb_medical_product_request.medical_product_product_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="name_product" position="after">
+                <field name="name_product_cima" colspan="2" readonly="1" />
+            </field>
+            <field name="name_product" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="medical_product_product_tree_view">
+        <field
+            name="name"
+        >medical.product.product.product.tree (in cb_medical_cima_data)</field>
+        <field name="model">medical.product.product</field>
+        <field
+            name="inherit_id"
+            ref="medical_product_request.medical_product_product_tree_view"
+        />
+        <field name="arch" type="xml">
+            <field name="name_product" position="after">
+                <field name="name_product_cima" />
+            </field>
+            <field name="name_product" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>
