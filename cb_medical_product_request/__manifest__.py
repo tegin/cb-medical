@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Cb Medical Product Request",
+    "name": "Cb Medical Producasat Request",
     "summary": """
         This addon expands the medical_product_request fhir
         definition adapting it to the spanish prescription system""",
