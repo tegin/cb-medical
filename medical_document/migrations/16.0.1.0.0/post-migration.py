@@ -97,7 +97,7 @@ def _migrate_for(string):
     Replace mako for blocks
     Example: '% for line in lines' -> '<t t-foreach="lines" t-as="line">'
     """
-    pattern = rf"%\s?for\s+({_PY_VAR_PATTERN})\s+in\s+(.+?)\s?:\s*$"
+    pattern = rf"%\s?for\s+({_PY_VAR_PATTERN})\s+in\s+(.+?)\s?:\s*$"  # noqa: E231
     return re.sub(pattern, repl_for, string, flags=re.MULTILINE)
 
 
@@ -113,7 +113,7 @@ def _migrate_set(string):
     Replace mako variable assignments
     Example: '% set val = object.val -> '<t t-set="val" t-value="{{object.val}}">'
     """
-    pattern = rf"%\s?set\s+({_PY_VAR_PATTERN})\s+=\s+(.+?)\s?:*$"
+    pattern = rf"%\s?set\s+({_PY_VAR_PATTERN})\s+=\s+(.+?)\s?:*$"  # noqa: E231
     return re.sub(pattern, repl_set, string, flags=re.MULTILINE)
 
 

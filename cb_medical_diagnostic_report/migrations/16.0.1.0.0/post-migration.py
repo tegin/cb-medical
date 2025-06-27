@@ -146,5 +146,5 @@ def migrate(env, version):
         FROM storage_file sf
         INNER JOIN medical_diagnostic_report_image mdri ON mdri.file_id = sf.id
         WHERE sf.backend_id = {record["id"]}
-        """,
+        """,  # noqa: E202, E231, E241
     )
