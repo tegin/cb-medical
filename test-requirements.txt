@@ -1,45 +1,41 @@
 # medical-fhir
-odoo-addon-medical-administration-center@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_administration_center
-odoo-addon-medical-administration-encounter@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_administration_encounter
-odoo-addon-medical-administration-encounter-careplan@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_administration_encounter_careplan
-odoo-addon-medical-administration-location@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_administration_location
-odoo-addon-medical-administration-location-stock@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_administration_location_stock
-odoo-addon-medical-administration-practitioner-specialty@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_administration_practitioner_specialty
-odoo-addon-medical-base@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_base
-odoo-addon-medical-certify@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_certify
-odoo-addon-medical-clinical-careplan@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_clinical_careplan
-odoo-addon-medical-clinical-procedure@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_clinical_procedure
-odoo-addon-medical-clinical-request-group@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_clinical_request_group
-odoo-addon-medical-diagnostic-report@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_diagnostic_report
-odoo-addon-medical-diagnostic-report-encounter@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_diagnostic_report_encounter
-odoo-addon-medical-financial-coverage@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_financial_coverage
-odoo-addon-medical-medication@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_medication
-odoo-addon-medical-medication-request@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_medication_request
-odoo-addon-medical-terminology@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_terminology
-odoo-addon-medical-terminology-atc@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_terminology_atc
-odoo-addon-medical-terminology-sct@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_terminology_sct
-odoo-addon-medical-workflow@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_workflow
-odoo-addon-medical-administration-practitioner-specialty@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_administration_practitioner_specialty
-odoo-addon-medical-product-request@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=setup/medical_product_request
+odoo-addon-medical_administration_center@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_administration_center
+odoo-addon-medical_administration_encounter@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_administration_encounter
+odoo-addon-medical_administration_encounter_careplan@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_administration_encounter_careplan
+odoo-addon-medical_administration_location@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_administration_location
+odoo-addon-medical_administration_location_stock@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_administration_location_stock
+odoo-addon-medical_administration_practitioner_specialty@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_administration_practitioner_specialty
+odoo-addon-medical_base@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_base
+odoo-addon-medical_certify@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_certify
+odoo-addon-medical_clinical_careplan@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_clinical_careplan
+odoo-addon-medical_clinical_procedure@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_clinical_procedure
+odoo-addon-medical_clinical_request_group@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_clinical_request_group
+odoo-addon-medical_diagnostic_report@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_diagnostic_report
+odoo-addon-medical_diagnostic_report_encounter@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_diagnostic_report_encounter
+odoo-addon-medical_financial_coverage@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_financial_coverage
+odoo-addon-medical_medication@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_medication
+odoo-addon-medical_medication_request@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_medication_request
+odoo-addon-medical_product_request@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_product_request
+odoo-addon-medical_terminology@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_terminology
+odoo-addon-medical_terminology_atc@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_terminology_atc
+odoo-addon-medical_terminology_sct@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_terminology_sct
+odoo-addon-medical_workflow@git+https://github.com/tegin/medical-fhir.git@16.0#subdirectory=medical_workflow
 
 
 # cb-addons
-odoo-addon-account-journal-inter-company@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/account_journal_inter_company
-odoo-addon-cb-mgmtsystem-issue@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/cb_mgmtsystem_issue
-odoo-addon-cb-sale-report-invoice@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/cb_sale_report_invoice
-odoo-addon-pos-close-approval@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/pos_close_approval
-odoo-addon-pos-safe-box@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/pos_safe_box
-odoo-addon-product-nomenclature@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/product_nomenclature
-odoo-addon-remote-report-to-printer-label@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/remote_report_to_printer_label
-odoo-addon-sale-commission-cancel@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sale_commission_cancel
-odoo-addon-sale-third-party@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sale_third_party
-odoo-addon-safe-box@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/safe_box
-odoo-addon-sequence-parser@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/sequence_parser
-odoo-addon-web-history-back@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=setup/web_history_back
+odoo-addon-account_journal_inter_company@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=account_journal_inter_company
+odoo-addon-cb_mgmtsystem_issue@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=cb_mgmtsystem_issue
+odoo-addon-cb_sale_report_invoice@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=cb_sale_report_invoice
+odoo-addon-pos_close_approval@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=pos_close_approval
+odoo-addon-pos_safe_box@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=pos_safe_box
+odoo-addon-product_nomenclature@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=product_nomenclature
+odoo-addon-remote_report_to_printer-label@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=remote_report_to_printer_label
+odoo-addon-sale_commission_cancel@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=sale_commission_cancel
+odoo-addon-sale_third_party@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=sale_third_party
+odoo-addon-safe_box@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=safe_box
+odoo-addon-sequence_parser@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=sequence_parser
+odoo-addon-web_history_back@git+https://github.com/tegin/cb-addons.git@16.0#subdirectory=web_history_back
 
 # kiwi
-odoo-addon-queue-management-display@git+https://github.com/tegin/kiwi.git@16.0#subdirectory=setup/queue_management_display
-odoo-addon-queue-management@git+https://github.com/tegin/kiwi.git@16.0#subdirectory=setup/queue_management
-
-# TO REMOVE
-odoo-addon-commission-delegated-partner@git+https://github.com/dixmit/commission.git@16.0-mig-sale_commission_delegated_partner#subdirectory=setup/commission_delegated_partner
+odoo-addon-queue_management_display@git+https://github.com/tegin/kiwi.git@16.0#subdirectory=queue_management_display
+odoo-addon-queue_management@git+https://github.com/tegin/kiwi.git@16.0#subdirectory=queue_management
