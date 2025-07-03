@@ -17,7 +17,12 @@
                     <p
                         colspan="4"
                     >(keep empty for making the invoices of all the customers)</p>
-                    <field name="payor_ids" nolabel="1" options="{'no_create': True}" />
+                    <field
+                        name="payor_ids"
+                        nolabel="1"
+                        colspan="2"
+                        options="{'no_create': True}"
+                    />
                 </group>
                 <footer>
                     <button
