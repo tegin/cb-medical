@@ -17,7 +17,7 @@
                 <button
                     name="%(cb_medical_cancel.medical_careplan_cancel_action)s"
                     string="Cancel"
-                    states="draft,active"
+                    attrs="{'invisible': [('fhir_state', 'not in', ['draft', 'active'])]}"
                     type="action"
                 />
             </xpath>
