@@ -83,7 +83,7 @@ class MedicalRequest(models.AbstractModel):
         res = super().cancel()
         if lines:
             # Unlink shouldn't use sudo for safety
-            self.sale_order_line_ids.unlink()
+            self.sale_order_line_ids.sudo().unlink()
         return res
 
     def cancel_values(self):
