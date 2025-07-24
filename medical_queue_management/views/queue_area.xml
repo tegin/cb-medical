@@ -12,6 +12,7 @@
                 <sheet>
                     <group>
                         <field name="name" />
+                        <field name="alias" />
                     </group>
                     <notebook>
                         <page name="location_map" string="Locations">

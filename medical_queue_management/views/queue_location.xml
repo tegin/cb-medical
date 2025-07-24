@@ -11,6 +11,7 @@
         />
         <field name="arch" type="xml">
             <field name="multiple_token_management" position="after">
+                <field name="alias" />
                 <field name="allows_flag" />
                 <field name="action_ids" widget="many2many_tags" />
             </field>

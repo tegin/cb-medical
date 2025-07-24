@@ -9,3 +9,6 @@ class QueueLocationGroup(models.Model):
     _inherit = "queue.location.group"
 
     color = fields.Char()
+    alias = fields.Char(
+        help="Alias for the queue location group, used in the zpl labels.",
+    )
