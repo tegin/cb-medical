@@ -12,3 +12,6 @@ class QueueArea(models.Model):
     name = fields.Char(required=True)
     active = fields.Boolean(default=True)
     location_ids = fields.One2many("queue.location.area", inverse_name="area_id")
+    alias = fields.Char(
+        help="Alias for the queue location area",
+    )

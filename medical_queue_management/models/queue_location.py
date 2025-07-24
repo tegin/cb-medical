@@ -10,3 +10,6 @@ class QueueLocation(models.Model):
 
     action_ids = fields.Many2many("queue.location.action")
     allows_flag = fields.Boolean()
+    alias = fields.Char(
+        help="Alias for the queue location group, used in the zpl labels.",
+    )
