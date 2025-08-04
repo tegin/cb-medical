@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="group_account_portal_restricted_group" model="res.groups">
+        <field name="name">Account Portal Restricted Group</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+    </record>
+
+    <record id="account_portal_restricted_rule" model="ir.rule">
+        <field name="name">Account Portal Restricted Rule</field>
+        <field name="model_id" ref="account.model_account_move" />
+        <field
+            name="groups"
+            eval="[(4, ref('group_account_portal_restricted_group'))]"
+        />
+        <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+    </record>
+
+    <record id="commission_portal_restricted_rule" model="ir.rule">
+        <field name="name">Commission Portal Restricted Rule</field>
+        <field
+            name="model_id"
+            ref="account_commission.model_account_invoice_line_agent"
+        />
+        <field
+            name="groups"
+            eval="[(4, ref('group_account_portal_restricted_group'))]"
+        />
+        <field name="domain_force">[('agent_id', '=', user.partner_id.id)]</field>
+    </record>
+
+    <record model="ir.model.access" id="account_portal_restricted_access">
+        <field name="name">account.portal.restricted</field>
+        <field name="model_id" ref="account.model_account_move" />
+        <field name="group_id" ref="group_account_portal_restricted_group" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+
+    <record model="ir.model.access" id="commission_portal_restricted_access">
+        <field name="name">commission.portal.restricted</field>
+        <field name="model_id" ref="commission.model_commission_settlement" />
+        <field name="group_id" ref="group_account_portal_restricted_group" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+
+    <record model="ir.model.access" id="agent_portal_restricted_access">
+        <field name="name">agent.portal.restricted</field>
+        <field
+            name="model_id"
+            ref="account_commission.model_account_invoice_line_agent"
+        />
+        <field name="group_id" ref="group_account_portal_restricted_group" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+
+    <record model="ir.model.access" id="commission_line_portal_restricted_access">
+        <field name="name">commission.line.portal.restricted</field>
+        <field name="model_id" ref="commission.model_commission_settlement_line" />
+        <field name="group_id" ref="group_account_portal_restricted_group" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+</odoo>

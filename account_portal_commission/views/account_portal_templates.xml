@@ -1,0 +1,212 @@
+<odoo>
+
+    <template
+        id="portal_my_home_commission"
+        name="Show Commissions"
+        inherit_id="portal.portal_my_home"
+        customize_show="True"
+        priority="40"
+    >
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Commissions</t>
+                <t t-set="url" t-value="'/my/commissions'" />
+                <t t-set="placeholder_count" t-value="'commission_count'" />
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_invoices_restricted" name="My Invoices and Payments">
+        <t t-call="portal.portal_layout">
+        <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+        <t t-call="portal.portal_searchbar">
+            <t t-set="title">Invoices</t>
+        </t>
+        <t t-if="not invoices">
+            <p>There are currently no invoices and payments for your account.</p>
+        </t>
+        <t t-if="invoices" t-call="portal.portal_table">
+            <thead>
+                <tr class="active">
+                    <th>Invoices #</th>
+                    <th>Invoice Date</th>
+                    <th class='d-none d-md-table-cell'>Due Date</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-end">Amount Due</th>
+                </tr>
+            </thead>
+            <t
+                    t-set="total_amount_due"
+                    t-value="sum(invoice.amount_residual for invoice in invoices)"
+                />
+            <tbody>
+                <t t-foreach="invoices" t-as="invoice">
+                    <tr>
+                        <td>
+                            <a
+                                    t-att-href="invoice.get_portal_url()"
+                                    t-att-title="invoice.name"
+                                >
+                                <t t-esc="invoice.name" t-if="invoice.name != '/'" />
+                                <em t-else="">Draft Invoice</em>
+                            </a>
+                        </td>
+                        <td><span t-field="invoice.invoice_date" /></td>
+                        <td class='d-none d-md-table-cell'><span
+                                    t-field="invoice.invoice_date_due"
+                                /></td>
+                        <td class="tx_status text-center">
+                            <t
+                                    t-if="invoice.state == 'posted' and invoice.payment_state not in ('in_payment', 'paid', 'reversed')"
+                                >
+                                <span class="badge rounded-pill text-bg-info"><i
+                                            class="fa fa-fw fa-clock-o"
+                                            aria-label="Opened"
+                                            title="Opened"
+                                            role="img"
+                                        /><span
+                                            class="d-none d-md-inline"
+                                        > Waiting for Payment</span></span>
+                            </t>
+                            <t
+                                    t-if="invoice.state == 'posted' and invoice.payment_state in ('paid', 'in_payment')"
+                                >
+                                <span class="badge rounded-pill text-bg-success"><i
+                                            class="fa fa-fw fa-check"
+                                            aria-label="Paid"
+                                            title="Paid"
+                                            role="img"
+                                        /><span
+                                            class="d-none d-md-inline"
+                                        > Paid</span></span>
+                            </t>
+                            <t
+                                    t-if="invoice.state == 'posted' and invoice.payment_state == 'reversed'"
+                                >
+                                <span class="badge rounded-pill text-bg-success"><i
+                                            class="fa fa-fw fa-check"
+                                            aria-label="Reversed"
+                                            title="Reversed"
+                                            role="img"
+                                        /><span
+                                            class="d-none d-md-inline"
+                                        > Reversed</span></span>
+                            </t>
+                            <t t-if="invoice.state == 'cancel'">
+                                <span class="badge rounded-pill text-bg-warning"><i
+                                            class="fa fa-fw fa-remove"
+                                            aria-label="Cancelled"
+                                            title="Cancelled"
+                                            role="img"
+                                        /><span
+                                            class="d-none d-md-inline"
+                                        > Cancelled</span></span>
+                            </t>
+                        </td>
+                        <td class="text-end"><span
+                                    t-esc="-invoice.amount_residual if invoice.move_type == 'out_refund' else invoice.amount_residual"
+                                    t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'
+                                /></td>
+                    </tr>
+                </t>
+                <tr style="border-top: 2px solid black;">
+                    <td>
+                        <b>TOTAL AMOUNT DUE</b>
+                    </td>
+                    <td />
+                    <td />
+                    <td />
+                    <td class="text-end">
+                        <b><t
+                                    t-esc="total_amount_due"
+                                    t-options='{"widget": "monetary", "display_currency": invoices and invoices[0].currency_id or False}'
+                                /></b>
+                    </td>
+                </tr>
+            </tbody>
+        </t>
+        </t>
+  </template>
+
+  <template id="portal_my_commissions" name="My Commissions">
+    <t t-call="portal.portal_layout">
+        <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+        <t t-call="portal.portal_searchbar">
+            <t t-set="title">Commissions</t>
+        </t>
+        <div class="row o_portal_my_doc">
+            <!-- Unsettled Commissions -->
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="o_portal_doc_title">Unsettled Commissions</h5>
+                        <p class="o_portal_doc_value text-primary">
+                            <t
+                                    t-esc="unsettled_commissions"
+                                    t-options='{"widget": "monetary", "display_currency": currency_id}'
+                                />
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settled Commissions -->
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="o_portal_doc_title">Settled Commissions</h5>
+                        <p class="o_portal_doc_value text-success">
+                            <t
+                                    t-esc="settled_commissions"
+                                    t-options='{"widget": "monetary", "display_currency": currency_id}'
+                                />
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoiced Commissions -->
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="o_portal_doc_title">Invoiced Commissions</h5>
+                        <p class="o_portal_doc_value text-secondary">
+                            <t
+                                    t-esc="invoiced_settlement"
+                                    t-options='{"widget": "monetary", "display_currency": currency_id}'
+                                />
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paid Commissions -->
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="o_portal_doc_title">Paid Commissions</h5>
+                        <p class="o_portal_doc_value text-secondary">
+                            <t
+                                    t-esc="paid_settlement"
+                                    t-options='{"widget": "monetary", "display_currency": currency_id}'
+                                />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-none" id="search_encounters_wizard_view">
+            <t
+                    t-esc="env.ref('account_portal_commission.view_search_encounters_wizard').sudo().get_combined_arch()"
+                />
+        </div>
+        <section>
+            <button type="button" class="btn btn-secondary" id="search_encounters">
+                Search Commission State
+            </button>
+        </section>
+    </t>
+  </template>
+</odoo>

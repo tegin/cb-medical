@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="view_search_encounters_wizard">
+        <field name="name">search_encounters wizard</field>
+        <field name="model">search_encounters.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="o_auth_totp_enable_2FA container">
+                        <div class="mb-3 w-100">
+                            <div class="mt-2">
+                                <label
+                                    for="code"
+                                    class="px-0"
+                                >Internal Identifier</label>
+                                <div class="d-flex align-items-center">
+                                    <field
+                                        required="True"
+                                        name="code"
+                                        autocomplete="off"
+                                        class="o_field_highlight px-0 me-2"
+                                        placeholder="e.g. E123456"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+                <footer>
+                    <button
+                        type="object"
+                        name="search_encounter"
+                        class="btn btn-primary"
+                        string="Search"
+                        data-hotkey="q"
+                    />
+                    <button string="Cancel" special="cancel" data-hotkey="z" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
