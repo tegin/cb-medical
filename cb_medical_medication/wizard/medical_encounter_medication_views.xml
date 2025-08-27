@@ -19,20 +19,32 @@
                         context="{'search_on_supplier': True}"
                     />
                 </group>
-                <footer>
+
+                <div
+                    class="modal-footer justify-content-around justify-content-md-start flex-wrap gap-1 border-top p-0 pt-3"
+                    style="order:2"
+                >
                     <button
                         name="run"
                         string="Create"
                         type="object"
                         class="oe_highlight"
+                        data-hotkey="q"
                     />
-                    or
                     <button
                         name="action_cancel"
                         string="Cancel"
                         class="oe_link"
                         special="cancel"
+                        data-hotkey="z"
                     />
+                </div>
+                <footer>
+                    <style>
+                        .o_dialog footer.modal-footer {
+                        display: none !important;
+                        }
+                    </style>
                 </footer>
             </form>
         </field>
