@@ -3,10 +3,11 @@ from odoo.tests.common import TransactionCase
 
 
 class TestCancelReason(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.patient = self.env["medical.patient"].create({"name": "Patient"})
-        self.center = self.env["res.partner"].create(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.patient = cls.env["medical.patient"].create({"name": "Patient"})
+        cls.center = cls.env["res.partner"].create(
             {
                 "name": "center",
                 "is_center": True,
@@ -14,10 +15,21 @@ class TestCancelReason(TransactionCase):
                 "encounter_sequence_prefix": "C",
             }
         )
-        self.careplan = self.env["medical.careplan"].create(
-            {"patient_id": self.patient.id, "center_id": self.center.id}
+        cls.encounter = cls.env["medical.encounter"].create(
+            {
+                "name": "Test Encounter",
+                "patient_id": cls.patient.id,
+                "center_id": cls.center.id,
+            }
         )
-        self.reason = self.env["medical.cancel.reason"].create(
+        cls.careplan = cls.env["medical.careplan"].create(
+            {
+                "patient_id": cls.patient.id,
+                "center_id": cls.center.id,
+                "encounter_id": cls.encounter.id,
+            }
+        )
+        cls.reason = cls.env["medical.cancel.reason"].create(
             {"name": "Cancel reason", "description": "Cancel reason"}
         )
 
@@ -43,6 +55,35 @@ class TestCancelReason(TransactionCase):
         ).run()
         self.careplan.invalidate_recordset()
         self.assertEqual(self.careplan.fhir_state, "cancelled")
+
+    def test_cancel_document(self):
+        document = self.env["medical.document.reference"].create(
+            {
+                "patient_id": self.patient.id,
+                "encounter_id": self.careplan.encounter_id.id,
+                "careplan_id": self.careplan.id,
+                "center_id": self.center.id,
+                "parent_id": self.careplan.id,
+                "parent_model": self.careplan._name,
+                "document_type_id": self.env["medical.document.type"]
+                .create({"name": "Test Document Type"})
+                .id,
+                "text": "Test document",
+            }
+        )
+        self.assertTrue(document.encounter_id)
+        self.env["medical.careplan.cancel"].create(
+            {
+                "request_id": self.careplan.id,
+                "cancel_reason_id": self.reason.id,
+                "cancel_reason": "testing purposes",
+            }
+        ).run()
+        self.careplan.invalidate_recordset()
+        self.assertEqual(self.careplan.fhir_state, "cancelled")
+        self.assertNotEqual(document.fhir_state, "cancelled")
+        self.assertFalse(document.parent_id)
+        self.assertEqual(document.encounter_id, self.encounter)
 
     def test_cancel_encounter(self):
         encounter = self.env["medical.encounter"].create(
