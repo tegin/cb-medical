@@ -15,3 +15,6 @@ class QueueArea(models.Model):
     alias = fields.Char(
         help="Alias for the queue location area",
     )
+    alias_2 = fields.Char(
+        help="Alias 2 for the queue location area",
+    )

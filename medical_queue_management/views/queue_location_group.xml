@@ -12,6 +12,7 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="alias" />
+                <field name="alias_2" string="Extra Information Alias" />
                 <field name="color" widget="color" />
             </field>
         </field>

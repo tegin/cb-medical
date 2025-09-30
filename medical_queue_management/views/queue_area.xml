@@ -13,6 +13,7 @@
                     <group>
                         <field name="name" />
                         <field name="alias" />
+                        <field name="alias_2" string="Extra Information Alias" />
                     </group>
                     <notebook>
                         <page name="location_map" string="Locations">

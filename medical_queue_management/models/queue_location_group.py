@@ -12,3 +12,6 @@ class QueueLocationGroup(models.Model):
     alias = fields.Char(
         help="Alias for the queue location group, used in the zpl labels.",
     )
+    alias_2 = fields.Char(
+        help="Alias 2 for the queue location group, used in the zpl labels.",
+    )
