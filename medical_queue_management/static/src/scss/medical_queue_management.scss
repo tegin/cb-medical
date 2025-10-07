@@ -2,7 +2,9 @@
     &.o_kanban_dashboard {
         &.o_kanban_queue_token_location {
             .o_kanban_record {
-                min-width: 450px;
+                @media (min-width: 768px) {
+                    min-width: 450px;
+                }
             }
         }
     }
