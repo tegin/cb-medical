@@ -57,5 +57,21 @@
         &.btn-fill {
             width: 100%;
         }
+        &.btn-access-encounter-queue {
+            color: #ffffff;
+            background-color: #20c997;
+            border-color: #20c997;
+            &:hover {
+                background-color: darken(#20c997, 10%);
+                border-color: darken(#20c997, 10%);
+            }
+        }
     }
+}
+
+.o_web_client.o_touch_device .oe_kanban_queue_location .btn,
+.o_web_client.o_touch_device .oe_kanban_queue_location .btn.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
 }

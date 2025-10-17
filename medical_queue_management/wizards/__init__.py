@@ -1,2 +1,1 @@
 from . import medical_careplan_add_plan_definition
-from . import queue_token_location_kanban_assign

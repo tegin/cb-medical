@@ -19,7 +19,6 @@
         "views/queue_location_action.xml",
         "views/queue_location_group.xml",
         "wizards/medical_careplan_add_plan_definition.xml",
-        "wizards/queue_token_location_kanban_assign.xml",
         "views/queue_token_location.xml",
         "views/queue_token.xml",
         "views/res_partner_queue_location.xml",
@@ -32,8 +31,11 @@
         "views/medical_encounter.xml",
     ],
     "demo": [],
-    "qweb": [],
     "assets": {
-        "web.assets_backend": ["/medical_queue_management/static/src/**/*.scss"],
+        "web.assets_backend": [
+            "/medical_queue_management/static/src/**/*.scss",
+            "/medical_queue_management/static/src/**/*.esm.js",
+            "/medical_queue_management/static/src/**/*.xml",
+        ],
     },
 }
