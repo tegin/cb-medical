@@ -80,12 +80,22 @@
                                     <h4><field name="patient_id" /></h4>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6">
-                                    <field
+                                    <div class="col-3">
+                                        <field name="encounter_identifier" />
+                                    </div>
+                                    <div class="col-3 p-0">
+                                        <field
                                             name="encounter_identifier"
-                                            widget="CopyClipboardText"
+                                            widget="CopyClipboardButtonMin"
                                             t-if="record.encounter_identifier.raw_value"
-                                            class="o_mail_activity"
+                                        />
+                                        <button
+                                            name="view_patient"
+                                            type="object"
+                                            class="btn btn-sm btn-access-encounter-queue ms-1"
+                                            icon="fa-external-link"
+                                            title="View Patient"
+                                            t-if="record.encounter_id.raw_value"
                                         />
                                     </div>
                                     <div class="col-6">
@@ -126,7 +136,18 @@
                                             type="object"
                                             name="action_kanban_assign"
                                             context="{'ignore_expected_location': 1}"
+                                            t-if="!record.group_id.raw_value"
                                         >Assign</button>
+                                        <widget
+                                            name="queue_token_location_assign_group"
+                                            model="queue.location"
+                                            function="action_kanban_location_assign"
+                                            context="{'ignore_expected_location': 1}"
+                                            domain="[('group_ids', '=', group_id)]"
+                                            btnclass="btn btn-primary btn-fill"
+                                            t-if="record.group_id.raw_value"
+                                            title="Assign"
+                                        />
                                     </div>
                                     <div
                                         class="col p-1"
@@ -144,12 +165,17 @@
                                         class="col p-1"
                                         t-if="record.state.raw_value == 'in-progress'"
                                     >
-                                        <button
-                                            class="btn btn-info btn-fill"
-                                            type="object"
-                                            name="action_kanban_assign"
-                                            context="{'ignore_expected_location': 1, 'default_do_not_call': 1}"
-                                        >Reassign</button>
+
+                                        <widget
+                                            name="queue_token_location_assign_group"
+                                            model="queue.location"
+                                            function="action_kanban_location_assign"
+                                            context="{'ignore_expected_location': 1, 'do_not_call': 1}"
+                                            domain="[('group_ids', '=', group_id)]"
+                                            btnclass="btn btn-info btn-fill"
+                                            t-if="record.group_id.raw_value"
+                                            title="Reassign"
+                                        />
                                     </div>
                                     <div
                                         class="col p-1"

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<template>
+
+
+    <t t-name="medical_queue_management.QueueTokenLocationAssignDialog" owl="1">
+        <Dialog>
+            <div class="row">
+                <div
+                    class="col-lg-1 col-md-2 col-sm-3"
+                    t-foreach="props.data"
+                    t-as="item"
+                    t-key="item[0]"
+                >
+                    <button
+                        class="ratio btn btn-outline-primary m-1 btn-sm"
+                        t-on-click.prevent.stop="() => {this.assignFunction(item[0])}"
+                        t-esc="item[1]"
+                    />
+                </div>
+            </div>
+            <t t-set-slot="footer" owl="1">
+                <button
+                    class="btn btn-secondary"
+                    t-on-click="props.close"
+                    t-esc="props.cancelLabel"
+                />
+            </t>
+        </Dialog>
+    </t>
+
+
+    <t t-name="medical_queue_management.QueueTokenLocationAssignGroup" owl="1">
+        <button
+            t-att-class="props.class"
+            t-on-click.prevent.stop="onClick"
+            t-esc="props.title"
+        />
+    </t>
+
+</template>

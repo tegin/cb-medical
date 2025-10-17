@@ -110,11 +110,7 @@ class QueueTokenLocation(models.Model):
                 location_id=self.location_id.id, ignore_expected_location=True
             ).action_call()
             return {"type": "ir.actions.client", "tag": "soft_reload"}
-        action = self.env["ir.actions.act_window"]._for_xml_id(
-            "medical_queue_management.queue_token_location_kanban_assign_act_window"
-        )
-        action["context"] = {"default_token_location_id": self.id}
-        return action
+        return {}
 
     def edit_info_action(self):
         self.ensure_one()
@@ -122,6 +118,20 @@ class QueueTokenLocation(models.Model):
             "medical_queue_management.queue_token_location_edit_info"
         )
         action["res_id"] = self.id
+        return action
+
+    def view_patient(self):
+        self.ensure_one()
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "medical_base.medical_patient_his_window_action"
+        )
+        action["res_id"] = self.encounter_id.patient_id.id
+        action["view_mode"] = "form"
+        action["views"] = [
+            (view_id, view_mode)
+            for view_id, view_mode in action["views"]
+            if view_mode == "form"
+        ]
         return action
 
     def force_save(self):
@@ -145,3 +155,13 @@ class QueueTokenLocation(models.Model):
     def toggle_flagged(self):
         for record in self:
             record.flagged = not record.flagged
+
+    def action_kanban_location_assign(self, location_id):
+        if self.location_id.id != location_id and self.state == "in-progress":
+            self._action_back_to_draft(self.location_id)
+        self.with_context(location_id=location_id).action_assign()
+        if not self.env.context.get("do_not_call"):
+            self.with_context(
+                location_id=location_id,
+                ignore_expected_location=True,
+            ).action_call()

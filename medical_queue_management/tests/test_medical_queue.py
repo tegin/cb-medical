@@ -297,7 +297,7 @@ class TestMedicalQueue(TransactionCase):
         self.assertFalse(encounter.queue_token_id)
         self.assertFalse(group.queue_token_location_id)
 
-    def test_queue_token_area_location_matching(self):
+    def test_queue_token_area_location_matching_and_views(self):
         self.plan_definition.write(
             {
                 "generate_queue_task": "area",
@@ -326,6 +326,41 @@ class TestMedicalQueue(TransactionCase):
         self.assertEqual(
             encounter, self.env[action["res_model"]].browse(action["res_id"])
         )
+        action = group.queue_token_location_id.view_patient()
+        self.assertEqual(
+            encounter.patient_id, self.env[action["res_model"]].browse(action["res_id"])
+        )
+        action = group.queue_token_location_id.edit_info_action()
+        self.assertEqual(
+            group.queue_token_location_id,
+            self.env[action["res_model"]].browse(action["res_id"]),
+        )
+        action = group.queue_token_location_id.force_save()
+        self.assertEqual(action["type"], "ir.actions.act_multi")
+        self.assertEqual(len(action["actions"]), 2)
+
+    def test_queue_token_flagged(self):
+        self.plan_definition.write(
+            {
+                "generate_queue_task": "area",
+                "queue_area_id": self.queue_area.id,
+            }
+        )
+
+        self.env["queue.location.area"].create(
+            {
+                "area_id": self.queue_area.id,
+                "center_id": self.center.id,
+                "location_id": self.queue_location.id,
+            }
+        )
+        encounter, careplan, group = self.create_careplan_and_group()
+        token_location = group.queue_token_location_id
+        self.assertFalse(token_location.flagged)
+        token_location.toggle_flagged()
+        self.assertTrue(token_location.flagged)
+        token_location.toggle_flagged()
+        self.assertFalse(token_location.flagged)
 
     def test_queue_token_area_group_matching(self):
         self.plan_definition.write(
@@ -596,19 +631,13 @@ class TestMedicalQueue(TransactionCase):
         self.assertEqual(group.queue_token_location_id.state, "draft")
         token_location = group.queue_token_location_id
         action = token_location.action_kanban_assign()
-        self.assertTrue(isinstance(action, dict))
-        self.env[action["res_model"]].with_context(**action["context"]).create(
-            {"location_id": self.queue_location.id}
-        ).assign()
+        self.assertFalse(action)
+        token_location.action_kanban_location_assign(self.queue_location.id)
         self.assertEqual(token_location.state, "in-progress")
         self.assertTrue(token_location.expected_location_id)
         token_location.action_kanban_back_to_draft()
         self.assertEqual(token_location.state, "draft")
-        action = token_location.action_kanban_assign()
-        self.assertTrue(isinstance(action, dict))
-        self.env[action["res_model"]].with_context(**action["context"]).create(
-            {"location_id": self.queue_location.id}
-        ).assign()
+        token_location.action_kanban_location_assign(self.queue_location.id)
         self.assertEqual(token_location.state, "in-progress")
         token_location.expected_location_id = False
         token_location.action_kanban_call()
@@ -735,23 +764,17 @@ class TestMedicalQueue(TransactionCase):
         self.assertTrue(group.queue_token_location_id)
         self.assertEqual(group.queue_token_location_id.state, "draft")
         token_location = group.queue_token_location_id
-        action = token_location.action_kanban_assign()
-        self.assertTrue(isinstance(action, dict))
-        self.env[action["res_model"]].with_context(**action["context"]).create(
-            {"location_id": self.queue_location.id}
-        ).assign()
+        token_location.action_kanban_location_assign(self.queue_location.id)
         self.assertEqual(token_location.state, "in-progress")
         self.assertTrue(token_location.expected_location_id)
         self.assertEqual(self.queue_location, token_location.expected_location_id)
-        action = token_location.with_context(
-            default_do_not_call=True
-        ).action_kanban_assign()
-        self.assertTrue(isinstance(action, dict))
+        ctx = {"do_not_call": True}
         with self.assertRaises(ValidationError):
-            self.env[action["res_model"]].with_context(**action["context"]).create(
-                {"location_id": self.queue_location.id}
-            ).assign()
-        self.env[action["res_model"]].with_context(**action["context"]).create(
-            {"location_id": self.queue_location_2.id}
-        ).assign()
-        self.assertEqual(self.queue_location_2, token_location.expected_location_id)
+            token_location.with_context(**ctx).action_kanban_location_assign(
+                self.queue_location.id
+            )
+        token_location.with_context(**ctx).action_kanban_location_assign(
+            self.queue_location_2.id
+        )
+        # Expected location shouldn't change until call is made again
+        self.assertEqual(self.queue_location, token_location.expected_location_id)
