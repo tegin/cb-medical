@@ -13,13 +13,13 @@
                     <field name="user_id" invisible="1" />
                     <field name="option" />
                     <field name="user_id" invisible="1" />
-                    <h2 attrs="{'invisible': [('option', '!=', 'signature')]}">
-                        <field
-                            name="signature"
-                            widget="signature"
-                            attrs="{'required': [('option', '=', 'signature')]}"
-                        />
-                    </h2>
+                    <field
+                        name="signature"
+                        widget="medical_signature"
+                        options="{'default_font': 'NotoSans-Reg.ttf', 'full_name': 'full_name'}"
+                        attrs="{'required': [('option', '=', 'signature')]}"
+                    />
+                    <field name="full_name" invisible="1" />
                     <field
                         name="signature_file"
                         filename="signature_file_name"

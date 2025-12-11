@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t
+        t-name="medical_signature_storage.sign_svg_text"
+        name="SVG Signature Text"
+        owl="1"
+    >
+        <svg
+            t-att-width="width"
+            t-att-height="height"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+            <defs>
+                <style type="text/css">
+                    @font-face {
+                        font-family: "font";
+                        src: url(data:font/ttf;base64,<t
+                        t-esc="font"
+                    />) format("woff");
+                        font-weight: normal;
+                        font-style: normal;
+                    }
+                </style>
+            </defs>
+            <!-- adapt textLength to prevent distortion and left overflow with small words -->
+            <text
+                x="0"
+                t-att-y="0"
+                t-att-font-size="height * 1 / 10"
+                t-att-lengthAdjust="'spacing' + (type === 'signature' ? 'AndGlyphs' : '')"
+                t-attf-style="font-family:'font'; stroke: none; fill: black; white-space: pre"
+                text-anchor="left"
+            >
+                <tspan
+                    t-att-dy="height / 10"
+                    x="0"
+                    t-foreach="text"
+                    t-as="line"
+                    t-esc="line"
+                    t-key="line_index"
+                />
+            </text>
+
+        </svg>
+    </t>
+    <t
+        t-name="medical_signature_storage.MedicalNameAndSignature"
+        t-inherit="web.NameAndSignature"
+        t-inherit-mode="primary"
+        owl="1"
+    >
+        <xpath expr="//div[@class='o_web_sign_name_group']" position="after">
+            <div t-if="props.noInputName" class="o_web_sign_name_field_group">
+                <label
+                    class="col-form-label"
+                    t-att-for="'o_web_sign_name_input_' + htmlId"
+                >Full Name</label>
+                <textarea
+                    name="signer"
+                    t-att-id="'o_web_sign_name_input_' + htmlId"
+                    class="o_web_sign_name_input form-control"
+                    t-on-input="onInputSignName"
+                    t-att-value="props.signature.name"
+                    t-ref="signNameInput"
+                    placeholder="Type your name to sign"
+                    required=""
+                />
+            </div>
+        </xpath>
+    </t>
+</templates>

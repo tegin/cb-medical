@@ -1,7 +1,7 @@
 # Copyright 2021 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ResUsersUpdateSignature(models.TransientModel):
@@ -18,6 +18,15 @@ class ResUsersUpdateSignature(models.TransientModel):
     signature = fields.Binary()
     signature_file = fields.Binary()
     signature_file_name = fields.Char()
+    full_name = fields.Text(compute="_compute_full_name")
+
+    @api.depends("user_id")
+    def _compute_full_name(self):
+        for record in self:
+            record.full_name = record._get_full_name()
+
+    def _get_full_name(self):
+        return self.user_id.display_name
 
     def update_signature(self):
         self.ensure_one()
