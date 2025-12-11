@@ -35,7 +35,7 @@
                         <img
                             class="image"
                             t-att-src="'data:%s;base64,%s' % (image.file.mimetype, image.file.attachment.datas.decode('utf-8'))"
-                            style="border:auto; max-width:100%;"
+                            style="border:auto; max-width:50%;"
                         />
                         <t t-if="image.description">
                             <br />
@@ -54,7 +54,7 @@
                     <img
                         class="image"
                         t-att-src="'data:image/png;base64,%s' % doc.signature_id.signature.decode('utf-8')"
-                        style="border:auto; max-width:100%;"
+                        style="border:auto; max-width:50%;"
                     />
                 </p>
             </div>
