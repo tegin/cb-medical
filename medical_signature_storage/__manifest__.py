@@ -10,7 +10,7 @@
     "author": "CreuBlanca,Odoo Community Association (OCA)",
     "website": "https://github.com/tegin/cb-medical",
     "depends": [
-        # 'medical_diagnostic_report',
+        "user_digital_signature",
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -18,4 +18,10 @@
         "views/res_users_view.xml",
     ],
     "demo": [],
+    "assets": {
+        "web.assets_backend": [
+            "medical_signature_storage/static/src/**/*.xml",
+            "medical_signature_storage/static/src/**/*.esm.js",
+        ],
+    },
 }
