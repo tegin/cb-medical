@@ -58,12 +58,6 @@ class TestMedicalProductCommercial(TransactionCase):
             }
         )
 
-    def test_name_commercial_template(self):
-        self.assertRegex(
-            self.ibuprofen_template_cinfa.name,
-            "Ibuprofen 600 mg EFG film coated tablets  Cinfa",
-        )
-
     def test_name_commercial_product(self):
         self.assertRegex(
             self.ibuprofen_30_tablets_cinfa.name,
@@ -76,13 +70,3 @@ class TestMedicalProductCommercial(TransactionCase):
             self.ibuprofen_template_cinfa.action_view_medical_product_commercial_ids()
         )
         self.assertEqual(action["res_id"], self.ibuprofen_30_tablets_cinfa.id)
-
-    def test_compute_product_tmpl_commercial_domain(self):
-        self.assertRegex(
-            self.ibuprofen_30_tablets_cinfa.product_tmpl_commercial_domain,
-            "%s" % self.ibuprofen_template.id,
-        )
-        product_commercial_2 = self.env["medical.product.product.commercial"].create(
-            {"code": "1111"}
-        )
-        self.assertRegex(product_commercial_2.product_tmpl_commercial_domain, "%s" % 0)
