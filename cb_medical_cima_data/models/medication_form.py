@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class MedicalProductTemplate(models.Model):
+class MedicationForm(models.Model):
 
-    _inherit = "medical.product.template"
+    _inherit = "medication.form"
 
-    name_template_cima = fields.Char()
+    api_id = fields.Integer()

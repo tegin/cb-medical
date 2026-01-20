@@ -13,10 +13,10 @@
         "python": ["pandas"],
     },
     "data": [
-        "views/medical_product_template_commercial.xml",
+        # "views/medical_product_template_commercial.xml",
         "views/medical_product_template.xml",
         "views/medical_product_product.xml",
-        "views/medical_product_product_commercial.xml",
+        # "views/medical_product_product_commercial.xml",
         "security/ir.model.access.csv",
         "wizards/medical_create_from_cima_wizard.xml",
         "data/cron.xml",

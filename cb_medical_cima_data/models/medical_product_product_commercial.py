@@ -9,6 +9,3 @@ class MedicalProductProductCommercial(models.Model):
     _inherit = "medical.product.product.commercial"
 
     name_cima = fields.Char()
-
-    def name_get(self):
-        return [(rec.id, rec.name_cima or "") for rec in self]

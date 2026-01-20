@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class MedicalProductTemplate(models.Model):
+class MedicalAdministrationRoute(models.Model):
 
-    _inherit = "medical.product.template"
+    _inherit = "medical.administration.route"
 
-    name_template_cima = fields.Char()
+    api_id = fields.Integer()
