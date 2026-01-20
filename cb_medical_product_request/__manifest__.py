@@ -14,7 +14,6 @@
         "medical_product_request",
         "medical_encounter_identifier",
         "cb_medical_administration_requester",
-        "web_domain_field",
     ],
     "data": [
         "security/ir.model.access.csv",
