@@ -22,6 +22,3 @@ class MedicalProductTemplateCommercial(models.Model):
     )
 
     name_cima = fields.Char()
-
-    def name_get(self):
-        return [(rec.id, rec.name_cima or "") for rec in self]

@@ -10,6 +10,7 @@ import requests
 from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
+URL_CIMA = "https://cima.aemps.es/cima/rest"
 
 
 class MedicalCreateFromCimaWizard(models.TransientModel):
@@ -20,8 +21,34 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
 
     @api.model
     def create_from_cima(self, nregistro, override=False):
-        wizard = self.env["medical.create.from.cima.wizard"].create({"name": nregistro})
-        return wizard.doit(override=override)
+        medicamento = self.env["medical.product.template.commercial"].search(
+            [("code", "=", nregistro)], limit=1
+        )
+
+        if medicamento and medicamento.product_tmpl_id and not override:
+            return medicamento
+
+        df = self._get_presentations_cima(nregistro)
+        created_templates = []
+        if df.empty:
+            return
+
+        for _, row in df.iterrows():
+            product_template = self._create_or_get_product_template(
+                row, override=override
+            )
+            created_templates.append(product_template.id)
+
+            product = self._create_or_get_product_product(
+                row, product_template, override=override
+            )
+            template_commercial = self._create_or_get_template_commercial(
+                nregistro, row, product_template, override=override
+            )
+            self._create_or_get_product_commercial(
+                row, product, template_commercial, override=override
+            )
+        return template_commercial
 
     def _extract_amount(self, dcpf):
         """
@@ -190,10 +217,12 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
 
         return product
 
-    def _create_or_get_template_commercial(self, row, template, override=False):
+    def _create_or_get_template_commercial(
+        self, nregistro, row, template, override=False
+    ):
         commercial = self.env["medical.product.template.commercial"].search(
             [
-                ("code", "=", self.name),
+                ("code", "=", nregistro),
             ],
             limit=1,
         )
@@ -201,8 +230,8 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
         if not commercial:
             commercial = self.env["medical.product.template.commercial"].create(
                 {
-                    "code": self.name,
-                    "name_cima": row["nombre_medicamento"],
+                    "code": nregistro,
+                    "name": row["nombre_medicamento"],
                     "product_tmpl_id": template.id,
                     "laboratory": row["labtitular"],
                     "laboratory_product_name": row["lab_name"],
@@ -214,8 +243,8 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
         elif override:
             commercial.write(
                 {
-                    "code": self.name,
-                    "name_cima": row["nombre_medicamento"],
+                    "code": nregistro,
+                    "name": row["nombre_medicamento"],
                     "product_tmpl_id": template.id,
                     "laboratory": row["labtitular"],
                     "laboratory_product_name": row["lab_name"],
@@ -260,40 +289,7 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
     def doit(self, override=False):
         self.ensure_one()
 
-        medicamento = self.env["medical.product.template.commercial"].search(
-            [("code", "=", self.name)], limit=1
-        )
-
-        if medicamento and medicamento.product_tmpl_id and not override:
-            return {
-                "type": "ir.actions.act_window",
-                "name": "Medicamento Existente",
-                "res_model": "medical.product.template.commercial",
-                "view_mode": "form",
-                "res_id": medicamento.id,
-                "target": "current",
-            }
-
-        df = self._get_presentations_cima(self.name)
-        created_templates = []
-        if df.empty:
-            return
-
-        for _, row in df.iterrows():
-            product_template = self._create_or_get_product_template(
-                row, override=override
-            )
-            created_templates.append(product_template.id)
-
-            product = self._create_or_get_product_product(
-                row, product_template, override=override
-            )
-            template_commercial = self._create_or_get_template_commercial(
-                row, product_template, override=override
-            )
-            self._create_or_get_product_commercial(
-                row, product, template_commercial, override=override
-            )
+        template_commercial = self.create_from_cima_data(self.name, override=override)
 
         return {
             "type": "ir.actions.act_window",
@@ -305,9 +301,7 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
         }
 
     def _get_presentations_cima(self, nregistro):
-        url_medicamento = (
-            f"https://cima.aemps.es/cima/rest/medicamento?nregistro={nregistro}"
-        )
+        url_medicamento = f"{URL_CIMA}/medicamento?nregistro={nregistro}"
         response = requests.get(url_medicamento, timeout=30)
         if response.status_code != 200:
             _logger.warning("Code %s not found in CIMA  ", nregistro)
@@ -354,7 +348,7 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
         resultados = []
         for presentacion in data.get("presentaciones", []):
             cn = presentacion.get("cn")
-            url_pres = f"https://cima.aemps.es/cima/rest/presentaciones?cn={cn}"
+            url_pres = f"{URL_CIMA}/presentaciones?cn={cn}"
             resp_pres = requests.get(url_pres, timeout=30)
             if resp_pres.status_code != 200:
                 continue

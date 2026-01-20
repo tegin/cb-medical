@@ -6,6 +6,8 @@ import requests
 
 from odoo import api, models
 
+from ..wizards.medical_create_from_cima_wizard import URL_CIMA
+
 _logger = logging.getLogger(__name__)
 
 
@@ -36,7 +38,7 @@ class MedicalCimaCron(models.AbstractModel):
                 return
 
         date_param = date.strftime("%-d/%-m/%Y")
-        url_base = "https://cima.aemps.es/cima/rest/registroCambios"
+        url_base = f"{URL_CIMA}/registroCambios"
         codigos = set()
 
         # First request to know how many pages there are
@@ -66,7 +68,6 @@ class MedicalCimaCron(models.AbstractModel):
                 codigo = cambio.get("nregistro")
                 if codigo:
                     codigos.add(codigo)
-
         self._log("Request completed", f"{len(codigos)} codes retrieved")
         # Ejecutar jobs
         for codigo in codigos:
