@@ -1,7 +1,6 @@
 # Copyright 2022 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import json
 
 from odoo import api, fields, models
 
@@ -11,8 +10,9 @@ class MedicalProductTemplateCommercial(models.Model):
     _name = "medical.product.template.commercial"
     _description = "Medical Product Template Commercial"
     _inherit = ["mail.thread", "mail.activity.mixin"]
+    _rec_name = "name"
 
-    name = fields.Char(compute="_compute_name")
+    name = fields.Char(compute="_compute_name", store=True, readonly=False)
 
     product_tmpl_id = fields.Many2one("medical.product.template")
 
@@ -37,16 +37,20 @@ class MedicalProductTemplateCommercial(models.Model):
             rec.product_count = len(rec.product_ids)
 
     def _get_name_fields(self):
-        return ["product_tmpl_name", "laboratory"]
+        return ["product_tmpl_id.name", "laboratory"]
 
-    @api.depends(_get_name_fields)
+    @api.depends(lambda self: self._get_name_fields())
     def _compute_name(self):
         for rec in self:
-            name = ""
-            for field in rec._get_name_fields():
-                if getattr(rec, field):
-                    name += " %s" % getattr(rec, field)
-            rec.name = name
+            rec.name = rec._get_name()
+
+    def _get_name(self):
+        name = []
+        for field in self._get_name_fields():
+            value = self.mapped(field)[0]
+            if value:
+                name.append(value)
+        return " ".join(name)
 
     def action_view_medical_product_commercial_ids(self):
         action = self.env.ref(
@@ -88,42 +92,28 @@ class MedicalProductProductCommercial(models.Model):
         related="medical_product_id.product_tmpl_id",
         store=True,
     )
-
-    product_tmpl_commercial_domain = fields.Char(
-        compute="_compute_product_tmpl_commercial_domain"
-    )
     product_tmpl_commercial_id = fields.Many2one("medical.product.template.commercial")
 
-    laboratory = fields.Char(related="product_tmpl_commercial_id.laboratory")
     laboratory_product_name = fields.Char(
         related="product_tmpl_commercial_id.laboratory_product_name"
     )
 
-    @api.depends("medical_product_id")
-    def _compute_product_tmpl_commercial_domain(self):
-        for rec in self:
-            if rec.medical_product_id:
-                domain = json.dumps(
-                    [
-                        (
-                            "product_tmpl_id",
-                            "=",
-                            rec.medical_product_id.product_tmpl_id.id,
-                        )
-                    ]
-                )
-            else:
-                domain = json.dumps([("product_tmpl_id", "=", 0)])
-            rec.product_tmpl_commercial_domain = domain
-
     def _get_name_fields(self):
-        return ["code", "medical_product_name", "laboratory"]
+        return [
+            "code",
+            "medical_product_id.name_product",
+            "product_tmpl_commercial_id.laboratory",
+        ]
 
-    @api.depends(_get_name_fields)
+    @api.depends(lambda self: self._get_name_fields())
     def _compute_name(self):
         for rec in self:
-            name = ""
-            for field in rec._get_name_fields():
-                if getattr(rec, field):
-                    name += " %s" % getattr(rec, field)
-            rec.name = name
+            rec.name = rec._get_name()
+
+    def _get_name(self):
+        name = []
+        for field in self._get_name_fields():
+            value = self.mapped(field)[0]
+            if value:
+                name.append(value)
+        return " ".join(name)

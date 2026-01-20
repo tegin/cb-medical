@@ -126,11 +126,7 @@ class MedicalProductTemplate(models.Model):
                 query += " limit %s"
                 where_clause_params.append(limit)
             self.env.cr.execute(query, where_clause_params)
-            ids = [row[0] for row in self.env.cr.fetchall()]
-            if ids:
-                return models.lazy_name_get(self.browse(ids))
-            else:
-                return []
+            return [row[0] for row in self.env.cr.fetchall()]
         return super()._name_search(
             name,
             args,
