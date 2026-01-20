@@ -60,7 +60,7 @@ class TestMedicalProduct(TransactionCase):
         search_by_lab_name = self.env["medical.product.template"]._name_search(
             name="labn"
         )
-        self.assertEqual(search_by_lab_name[0][0], self.test_product_template.id)
+        self.assertEqual(search_by_lab_name[0], self.test_product_template.id)
         # TODO: test also search by code and name,
         #  for a reason it does not work the test, but the functional test yes
         # search_by_code = self.env[
