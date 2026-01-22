@@ -273,6 +273,7 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
                     "name_cima": row["nombre_presentacion"],
                     "medical_product_id": product.id,
                     "product_tmpl_commercial_id": template_commercial.id,
+                    "active": row.get("active", True),
                 }
             )
         elif override:
@@ -282,6 +283,7 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
                     "name_cima": row["nombre_presentacion"],
                     "medical_product_id": product.id,
                     "product_tmpl_commercial_id": template_commercial.id,
+                    "active": row.get("active", True),
                 }
             )
         return commercial
@@ -384,6 +386,7 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
                     "doc_tipo_1": doc_tipo_1,
                     "doc_tipo_2": doc_tipo_2,
                     "doc_tipo_3": doc_tipo_3,
+                    "active": detalle.get("comerc", True),
                 }
             )
 
