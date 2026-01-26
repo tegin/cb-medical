@@ -33,9 +33,9 @@
                         style="text-align:center"
                     >
                         <img
-                            class="image"
+                            class="image p-1"
                             t-att-src="'data:%s;base64,%s' % (image.file.mimetype, image.file.attachment.datas.decode('utf-8'))"
-                            style="border:auto; max-width:50%;"
+                            style="border:auto; max-width:100%;"
                         />
                         <t t-if="image.description">
                             <br />
