@@ -92,4 +92,5 @@ class MedicalRequestGroup(models.Model):
             "group_id": group and group.id,
             "location_id": location and location.id,
             "token_id": token.id,
+            "origin_request_group_id": self.id,
         }

@@ -13,6 +13,9 @@ class QueueTokenLocation(models.Model):
     request_group_ids = fields.One2many(
         "medical.request.group", inverse_name="queue_token_location_id"
     )
+    origin_request_group_id = fields.Many2one(
+        "medical.request.group",
+    )
     patient_id = fields.Many2one(
         "medical.patient", store=True, compute="_compute_encounter"
     )
