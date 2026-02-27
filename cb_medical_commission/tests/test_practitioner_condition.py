@@ -14,9 +14,10 @@ class TestPractitionerCondition(TransactionCase):
         service = self.env["product.product"].create(
             {"name": "Service", "type": "service"}
         )
-        self.env["medical.practitioner.condition"].create(
-            {"practitioner_id": practitioner.id}
-        )
+        with self.assertRaises(ValidationError):
+            self.env["medical.practitioner.condition"].create(
+                {"practitioner_id": practitioner.id}
+            )
         self.env["medical.practitioner.condition"].create(
             {"practitioner_id": practitioner.id, "service_id": service.id}
         )
@@ -52,9 +53,10 @@ class TestPractitionerCondition(TransactionCase):
         service = self.env["product.product"].create(
             {"name": "Service", "type": "service"}
         )
-        self.env["medical.practitioner.condition"].create(
-            {"practitioner_id": practitioner.id}
-        )
+        with self.assertRaises(ValidationError):
+            self.env["medical.practitioner.condition"].create(
+                {"practitioner_id": practitioner.id}
+            )
         self.env["medical.practitioner.condition"].create(
             {"practitioner_id": practitioner.id, "service_id": service.id}
         )
@@ -93,9 +95,10 @@ class TestPractitionerCondition(TransactionCase):
         center_02 = self.env["res.partner"].create(
             {"name": "Practitioner", "is_medical": True, "is_center": True}
         )
-        self.env["medical.practitioner.condition"].create(
-            {"practitioner_id": practitioner.id}
-        )
+        with self.assertRaises(ValidationError):
+            self.env["medical.practitioner.condition"].create(
+                {"practitioner_id": practitioner.id}
+            )
         self.env["medical.practitioner.condition"].create(
             {
                 "practitioner_id": practitioner.id,
@@ -124,9 +127,10 @@ class TestPractitionerCondition(TransactionCase):
         center_02 = self.env["res.partner"].create(
             {"name": "Practitioner", "is_medical": True, "is_center": True}
         )
-        self.env["medical.practitioner.condition"].create(
-            {"practitioner_id": practitioner.id}
-        )
+        with self.assertRaises(ValidationError):
+            self.env["medical.practitioner.condition"].create(
+                {"practitioner_id": practitioner.id}
+            )
         self.env["medical.practitioner.condition"].create(
             {
                 "practitioner_id": practitioner.id,

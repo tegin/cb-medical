@@ -19,6 +19,21 @@ class MedicalPractitionerCondition(models.Model):
     @api.constrains("practitioner_id", "service_id", "procedure_service_id")
     def check_condition(self):
         for rec in self.filtered(lambda r: r.active):
+            if (
+                not rec.center_ids
+                and not rec.service_id
+                and not rec.procedure_service_id
+                and not rec.variable_fee
+                and not rec.fixed_fee
+            ):
+                raise ValidationError(
+                    _(
+                        "At least one of the following fields must be set: "
+                        "center, service, procedure service, variable fee or fixed fee."
+                        "If you want to create a condition for paying nothing, "
+                        "please set the practitioner as no agent."
+                    )
+                )
             domain = [
                 ("practitioner_id", "=", rec.practitioner_id.id),
                 ("service_id", "=", rec.service_id.id or False),
