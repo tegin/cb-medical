@@ -86,11 +86,6 @@ class MedicalRequest(models.AbstractModel):
             self.sale_order_line_ids.unlink()
         return res
 
-    def cancel_values(self):
-        vals = super().cancel_values()
-        vals.update({"sale_order_line_ids": [(5,)]})
-        return vals
-
     def _check_cancellable(self):
         if all(
             order.state == "draft"
