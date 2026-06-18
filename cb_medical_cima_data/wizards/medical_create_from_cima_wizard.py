@@ -71,16 +71,16 @@ class MedicalCreateFromCimaWizard(models.TransientModel):
         }
         UOM_DOSIS = {"mg", "ml", "g", "mcg", "μg", "ppm", "l"}
         # Seacrh for all pairs of number + word
-        matches = re.findall(r"(\d+)\s+([a-záéíóúñ]+)", dcpf)
-
+        matches = re.findall(r"([\.\d]+)\s+([a-záéíóúñ]+)", dcpf)
         for amount, uom in reversed(matches):
-            if uom in VALID_UNITS:
+            amount = amount.replace(".", "")
+            if uom in VALID_UNITS and int(amount) > 0:
                 return int(amount), uom.capitalize()
 
         # Fallback: search for the last number that does not have a dosage unit
         tokens = re.findall(r"(\d+)(?:\s*([a-z/]+))?", dcpf)
         for amount, unit in reversed(tokens):
-            if unit and unit.lower() in UOM_DOSIS:
+            if unit and unit.lower() in UOM_DOSIS and int(amount) == 0:
                 continue
             return int(amount), "Unidad"
         return 1, "Unidad"
