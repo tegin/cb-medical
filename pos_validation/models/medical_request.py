@@ -80,11 +80,10 @@ class MedicalRequest(models.AbstractModel):
         # We want to use sudo for checking
         if any(order.state != "draft" for order in lines.order_id):
             raise UserError(_("Cannot cancel validated lines"))
-        res = super().cancel()
         if lines:
             # Unlink shouldn't use sudo for safety
             self.sale_order_line_ids.unlink()
-        return res
+        return super().cancel()
 
     def cancel_values(self):
         vals = super().cancel_values()
