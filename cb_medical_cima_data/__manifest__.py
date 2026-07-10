@@ -20,6 +20,7 @@
         "security/ir.model.access.csv",
         "wizards/medical_create_from_cima_wizard.xml",
         "data/cron.xml",
+        "data/queue.xml",
     ],
     "demo": [],
 }

@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 class MedicalCimaCron(models.AbstractModel):
     _name = "medical.cima.job"
     _description = "Job to update medications from CIMA"
+    _job_priority = 100
 
     @api.model
     def job_update_medicamento(self, codigo):
@@ -72,7 +73,7 @@ class MedicalCimaCron(models.AbstractModel):
         # Ejecutar jobs
         for codigo in codigos:
             self.env["medical.cima.job"].with_delay(
-                priority=10, description=f"Create medicament {codigo}"
+                priority=self._job_priority, description=f"Create medicament {codigo}"
             ).job_update_medicamento(codigo)
 
         self._log("Enqueued jobs ", f"{len(codigos)} medicaments")

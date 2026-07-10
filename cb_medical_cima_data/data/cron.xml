@@ -1,3 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
     <record id="ir_cron_actualizar_cima_diario" model="ir.cron">
         <field name="name">Update medications from CIMA</field>
