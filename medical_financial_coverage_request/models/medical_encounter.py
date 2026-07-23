@@ -38,7 +38,7 @@ class MedicalEncounter(models.Model):
                 field_obj.convert_to_write(patient[field], patient) or False
             )
             new_value = (
-                field_obj.convert_to_write(patient_vals[field], patient) or False
+                field_obj.convert_to_cache(patient_vals[field], patient) or False
             )
             if new_value != original_value:
                 new_patient_vals[field] = new_value
