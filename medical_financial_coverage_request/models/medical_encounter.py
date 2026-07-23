@@ -31,11 +31,17 @@ class MedicalEncounter(models.Model):
         for field in patient_vals:
             if field not in patient._fields:
                 continue
-            original_patient_value = patient[field]
-            if isinstance(original_patient_value, models.Model):
-                original_patient_value = original_patient_value.id
-            if patient_vals[field] != original_patient_value:
-                new_patient_vals[field] = patient_vals[field]
+            field_obj = patient._fields[field]
+            if not field_obj.store and not field_obj.inverse:
+                continue
+            original_value = (
+                field_obj.convert_to_write(patient[field], patient) or False
+            )
+            new_value = (
+                field_obj.convert_to_write(patient_vals[field], patient) or False
+            )
+            if new_value != original_value:
+                new_patient_vals[field] = new_value
         return new_patient_vals
 
     @api.model
