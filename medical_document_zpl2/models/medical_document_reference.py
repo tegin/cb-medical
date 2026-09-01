@@ -9,7 +9,7 @@ class MedicalDocumentReference(models.Model):
 
     def _render(self):
         if self.document_type == "zpl2":
-            return self.text.encode("utf-8"), "text"
+            return self.text.encode("utf-8"), "raw"
         return super()._render()
 
     def _get_printer_usage(self):
