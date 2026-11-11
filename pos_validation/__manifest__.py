@@ -4,7 +4,7 @@
 
 {
     "name": "PoS Validation",
-    "version": "16.0.1.0.0",
+    "version": "16.0.1.2.0",
     "category": "Reporting",
     "website": "https://github.com/tegin/cb-medical",
     "author": "CreuBlanca, Eficent",
@@ -26,7 +26,9 @@
         "wizards/medical_encounter_validation_add_service.xml",
         "wizards/sale_order_line_cancel.xml",
         "data/medical_invoice_group.xml",
+        "data/medical_encounter_actions_server.xml",
         "views/medical_encounter_view.xml",
+        "views/medical_encounter_search_views.xml",
         "views/administration_menu.xml",
         "views/pos_session_views.xml",
     ],

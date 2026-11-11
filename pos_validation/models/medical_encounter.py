@@ -25,7 +25,9 @@ class MedicalEncounter(models.Model):
     is_preinvoiced = fields.Boolean(default=False, tracking=True)
     commission_issue_accepted = fields.Boolean(default=False, tracking=True)
     has_patient_invoice = fields.Boolean(compute="_compute_validation_values")
-    all_automatic = fields.Boolean(compute="_compute_validation_values")
+    all_automatic = fields.Boolean(
+        compute="_compute_validation_values", store=True, compute_sudo=False
+    )
     unauthorized_elements = fields.Boolean(compute="_compute_validation_values")
     missing_authorization_number = fields.Boolean(compute="_compute_validation_values")
     missing_subscriber_id = fields.Boolean(compute="_compute_validation_values")
