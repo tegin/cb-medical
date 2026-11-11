@@ -1,7 +1,10 @@
+import logging
 import re
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class MedicalEncounter(models.Model):
@@ -25,7 +28,7 @@ class MedicalEncounter(models.Model):
     is_preinvoiced = fields.Boolean(default=False, tracking=True)
     commission_issue_accepted = fields.Boolean(default=False, tracking=True)
     has_patient_invoice = fields.Boolean(compute="_compute_validation_values")
-    all_automatic = fields.Boolean(compute="_compute_validation_values")
+    all_automatic = fields.Boolean(compute="_compute_validation_values", store=True)
     unauthorized_elements = fields.Boolean(compute="_compute_validation_values")
     missing_authorization_number = fields.Boolean(compute="_compute_validation_values")
     missing_subscriber_id = fields.Boolean(compute="_compute_validation_values")
@@ -199,6 +202,24 @@ class MedicalEncounter(models.Model):
         ):
             self.pos_session_id.action_validation_finish()
         return self.close_view()
+
+    def _admin_validate_with_limit(self, limit=None):
+        encounters = self.search(
+            [
+                ("validation_status", "in", ["draft", "in_progress"]),
+                ("all_automatic", "=", True),
+            ],
+            limit=limit,
+        )
+        for encounter in encounters:
+            try:
+                encounter.with_user(encounter.write_uid.id).admin_validate()
+            except (ValidationError, UserError) as error:
+                _logger.warning(
+                    "Could not auto-validate encounter %s: %s",
+                    encounter.internal_identifier,
+                    error,
+                )
 
     def create_invoice(self, sale_order):
         """Hook in order to add more functionality"""
