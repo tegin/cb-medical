@@ -702,6 +702,54 @@ class TestPosValidation(common.MedicalSavePointCase):
         self.close_encounter(encounter)
         self.assertTrue(encounter.all_automatic)
 
+    def test_admin_validate_with_limit(self):
+        self.plan_definition2.write({"third_party_bill": False})
+        self.agreement_line3.write({"coverage_percentage": 0})
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.close_encounter(encounter)
+        self.assertTrue(encounter.all_automatic)
+        self.session.rescue = True
+        self.session.cash_register_balance_end_real = (
+            self.session.cash_register_balance_end
+        )
+        self.session.cash_register_difference = 0.0
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
+        self.session.flush_recordset()
+        self.assertEqual(self.session.state, "closed")
+        self.assertNotEqual(encounter.validation_status, "finished")
+        self.env["medical.encounter"]._admin_validate_with_limit(1)
+        encounter.invalidate_recordset()
+        self.assertEqual(encounter.validation_status, "finished")
+
+    def test_admin_validate_with_limit_error(self):
+        method = self.browse_ref("cb_medical_careplan_sale.by_preinvoicing")
+        self.plan_definition2.write({"third_party_bill": False})
+        self.agreement.invoice_group_method_id = method
+        self.agreement_line3.write({"coverage_percentage": 100})
+        self.agreement_line3.authorization_method_id.integration_system = "ws"
+        encounter, careplan, group = self.create_careplan_and_group(
+            self.agreement_line3
+        )
+        self.close_encounter(encounter)
+        self.session.rescue = True
+        self.session.cash_register_balance_end_real = (
+            self.session.cash_register_balance_end
+        )
+        self.session.cash_register_difference = 0.0
+        self.session.action_pos_session_closing_control()
+        self.session.action_pos_session_approve()
+        self.session.flush_recordset()
+        self.assertEqual(self.session.state, "closed")
+        self.assertTrue(encounter.all_automatic)
+        self.assertTrue(encounter.has_preinvoicing)
+        self.assertFalse(encounter.is_preinvoiced)
+        self.env["medical.encounter"]._admin_validate_with_limit(1)
+        encounter.invalidate_recordset()
+        self.assertNotEqual(encounter.validation_status, "finished")
+
     def test_validation_no_ws(self):
         self.plan_definition2.write({"third_party_bill": False})
         self.agreement_line3.write({"coverage_percentage": 100})

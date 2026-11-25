@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Creu Blanca
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
+<odoo>
+    <record id="view_medical_encounter_search" model="ir.ui.view">
+        <field name="name">medical.encounter.search</field>
+        <field name="model">medical.encounter</field>
+        <field
+            name="inherit_id"
+            ref="medical_administration_encounter.view_medical_encounter_search"
+        />
+        <field name="arch" type="xml">
+            <filter name="encounters_today" position="after">
+                <separator />
+                <filter
+                    string="All Automatic"
+                    name="all_automatic"
+                    domain="[('all_automatic', '=', True)]"
+                />
+                <filter
+                    string="Not All Automatic"
+                    name="not_all_automatic"
+                    domain="[('all_automatic', '=', False)]"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>
