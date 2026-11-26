@@ -23,12 +23,12 @@
                 <field
                     name="specific_rate"
                     string="Every"
-                    attrs="{'invisible': [('product_type', '!=', 'medication')], 'required': [('product_type', '==', 'medication')]}"
+                    attrs="{'required': [('product_type', '==', 'medication')]}"
                 />
                 <field
                     name="specific_rate_uom_id"
                     string="Uom"
-                    attrs="{'invisible': [('product_type', '!=', 'medication')], 'required': [('product_type', '==', 'medication')]}"
+                    attrs="{'required': [('product_type', '==', 'medication')]}"
                     domain="[('category_id', '=', %(uom.uom_categ_wtime)s)]"
                     options="{'no_create': True, 'no_open': True}"
                 />
