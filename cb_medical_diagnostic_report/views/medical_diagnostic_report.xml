@@ -16,6 +16,9 @@
                 <attribute name="create">false</attribute>
                 <attribute name="js_class">diagnostic_report</attribute>
             </xpath>
+            <field name="name" position="after">
+              <field name="medical_department_id" />
+            </field>
             <notebook position="before">
                 <field
                     class="col-12"
